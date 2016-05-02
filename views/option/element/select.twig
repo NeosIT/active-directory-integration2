@@ -1,0 +1,43 @@
+{% macro create(optionName, permission, inputId) %}
+
+    {% set value = getOptionValue(optionName, 1) %}
+
+    {% set inline = getMetadata(optionName, 'INLINE')|join(' ') %}
+    {% set description = getMetadata(optionName, 'DESCRIPTION') %}
+    {% set elements = getMetadata(optionName, 'ELEMENTS') %}
+    {% set angularAttributes = getMetadata(optionName, 'ANGULAR_ATTRIBUTES') %}
+    {% set newNetwork = isOnNetworkDashboard() %}
+
+    {% if permission == 2 or permission == 1 %}
+        {% set  disabled = "disabled" %}
+    {% else %}
+        {% set disabled = "" %}
+    {% endif %}
+
+    {% if  newNetwork  %}
+        {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
+    {% else %}
+        {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
+    {% endif %}
+
+    <select id="{{ inputId }}" {{ inline }} ng-class="{ error: messages.{{ optionName }} != null }" ng-model="option.{{ optionName }}" {{ disabled }} {{ angularAttributes|raw }}>
+
+        {% for elementName, elementValue in elements %}
+
+            {% if value == elementValue %}
+                {% set selected = 'selected' %}
+            {% else %}
+                {% set selected = '' %}
+            {% endif %}
+
+            <option value="{{ elementValue }}" {{ selected }}>
+                {{ elementName }}
+            </option>
+
+        {% endfor %}
+
+    </select>
+    <p>{% import "option/element/description.twig" as descriptionElement %}
+    {{ descriptionElement.create(description) }}</p>
+
+{% endmacro %}

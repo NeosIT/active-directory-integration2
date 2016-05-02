@@ -1,0 +1,45 @@
+{% if status is defined %}
+    {% set logs = log  %}
+    {% for logLine in logs %}
+        {{logLine}}<br>
+    {% endfor %}
+    {% if status == true %}
+        <p style="color:green">
+        {{ message }}
+        </p>
+    {% else %}
+        <p style="color:red">
+        {{ message }}
+        </p>
+    {% endif %}
+{% endif %}
+
+<h1>{{ 'Test Active Directory authentication'|__ }}</h1>
+
+<span>{{ 'Please enter the username and password for the account you want to authenticate with. After submitting the request you will get the debug output.'|__ }}</span>
+<br>
+<span>{{ 'For this page feature of blocking user accounts with failed login attempts is disabled. You do not have to worry about locking an account.'|__ }}</span>
+<br>
+<span>{{ 'Please note that the entered password is not masked.'|__ }}</span>
+<br>
+
+<form method="post">
+    <table class="form-table">
+        <tr valign="top">
+            <th scope="row" class="nsp_short_form_table">{{ 'Username:'|__ }}</th>
+            <td class="nsp_short_form_table">
+                <input type="text" name="username"/>
+            </td>
+        </tr>
+        <tr valign="top">
+            <th scope="row" class="nsp_short_form_table">{{ 'Password (will be shown):'|__ }}</th>
+            <td class="nsp_short_form_table">
+                <input type="text" name="password"/>
+            </td>
+        </tr>
+    </table>
+
+    <input type="hidden" name="security" value="{{ nonce }}"/>
+    <input type="submit" class="button button-primary"
+           value="{{ status is defined ? 'Try to authenticate again'|__ : 'Try to authenticate'|__ }}"/>
+</form>

@@ -1,0 +1,25 @@
+{% macro create(optionName, isProfile, inputId) %}
+
+    {% set inline = getMetadata(optionName, 'INLINE')|join(' ') %}
+    {% set description = getMetadata(optionName, 'DESCRIPTION') %}
+    {% set elements = getMetadata(optionName, 'ELEMENTS') %}
+    {% set angularAttributes = getMetadata(optionName, 'ANGULAR_ATTRIBUTES') %}
+
+    <fieldset {{ inline }} >
+
+        {% for elementName, elementValue in elements %}
+
+            {% set elementId = inputId ~ '__' ~ loop.index %}
+
+            <input id="{{ elementId }}" name="{{ inputId }}" type="radio" {{ angularAttributes|raw }} ng-class="{ error: messages.{{ optionName }} != null }">
+
+            <label for="{{ elementId }}">{{ elementName }}</label>
+
+        {% endfor %}
+
+        {% import "option/element/description.twig" as descriptionElement %}
+        {{ descriptionElement.create(description) }}
+
+    </fieldset>
+
+{% endmacro %}

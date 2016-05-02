@@ -1,0 +1,168 @@
+.nsp_h1 {
+    font-size: 14pt;
+}
+
+.nsp_output {
+    border: 1px solid #eee;
+    background-color: #f9f9f9;
+    font-family: consolas, courier, monospace;
+    font-size: 10pt;
+    white-space: pre;
+}
+
+.nsp_debug {
+    color: #606060;
+}
+
+.nsp_info {
+    color: #000000;
+}
+
+.nsp_notice {
+    color: #0000A0;
+}
+
+.nsp_warn {
+    color: #f08000;
+}
+
+.nsp_error {
+    color: #f04020;
+}
+
+.nsp_fatal {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.nsp_success {
+    color: #24890d;
+}
+
+.nsp_short_form_table {
+    padding: 0px;
+}
+
+.nsp_dashicons {
+    vertical-align: middle;
+}
+
+.nsp-table td {
+    padding: 0px;
+}
+
+.nsp-table th {
+    padding: 0px;
+}
+
+.adi-form {
+    position: relative;
+}
+
+.block-ui {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: white;
+    opacity: 0.6;
+    padding-bottom: 6px;
+    margin-left: -4px;
+}
+
+.alertify .alert > *, .alertify .dialog > * {
+    text-align: left !important;
+}
+
+.adi-form .error {
+    border: 1px solid red;
+}
+
+.adi-form .error-msg {
+    color: red;
+}
+
+.adi2-description {
+    color: grey;
+}
+
+.adi2-permission-headline {
+    font-size: 15px;
+    margin-left: 87.5%;
+}
+
+.adi-form .adi-column {
+    text-align: center;
+    padding-bottom: 0;
+}
+
+.adi-form .adi-column-span {
+    text-align: center;
+    padding-bottom: 0;
+}
+
+.adi-form .adi-table {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.adi-form .adi-role-equivalent {
+ width: 550px;
+}
+.adi-form .adi-role-equivalent tr td {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.adi-form .adi-role-equivalent tr td:first-child,
+.adi-form .adi-role-equivalent tr td:nth-child(3){
+    width: 35%;
+}
+
+.adi-form .adi-role-equivalent tr td:nth-child(2),
+.adi-form .adi-role-equivalent tr td:nth-child(4){
+    text-align: center;
+    width: 15%;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.adi-form .adi-role-equivalent-headline {
+    font-weight: bold;
+    text-align: center;
+    padding-left: 0;
+}
+
+.adi-form .adi-role-equivalent-column {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.adi-form .adi-align-center {
+    text-align: center;
+}
+
+.adi-form .adi-attribute-mapping tr td:first-child,
+.adi-form .adi-attribute-mapping tr td:nth-child(2),
+.adi-form .adi-attribute-mapping tr td:nth-child(3)
+,.adi-form .adi-attribute-mapping tr td:nth-child(4){
+    width: 15%;
+}
+
+.adi-form .adi-zero-padding-left {
+    padding-left: 0;
+}
+
+.adi-form .adi-permission-selection {
+    width: 100%;
+}
+
+.adi-form .adi-permission-selection tr td:first-child {
+    width: 82.5%;
+}
+
+.adi-form .adi-permission-selection tr td:nth-child(2) {
+    width: 17.5%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+}

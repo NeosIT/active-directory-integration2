@@ -1,0 +1,33 @@
+{% macro create(optionName, permission, inputId) %}
+
+    {% set inline = getMetadata(optionName, 'INLINE')|join(' ') %}
+    {% set description = getMetadata(optionName, 'DESCRIPTION') %}
+    {% set angularAttributes = getMetadata(optionName, 'ANGULAR_ATTRIBUTES') %}
+    {% set authCode = '{{ authCode }}' %}
+    {% set newNetwork = isOnNetworkDashboard() %}
+
+
+    {% if  newNetwork  %}
+        {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
+    {% else %}
+
+        {% if permission == 2 or permission == 1 %}
+            {% set  disabled = "disabled" %}
+        {% else %}
+            {% set disabled = "" %}
+        {% endif %}
+
+        {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
+    {% endif %}
+
+    <code ng-hide="option.{{ optionName|raw }} == ''">
+        <span ng-bind="option.{{ optionName|raw }}" ></span>
+    </code>
+
+    &nbsp
+
+    <button id="{{ inputId }}" type="button" class="button button-secondary" ng-click="newAuthCode()" {{ angularAttributes|raw }}>Regenerate Auth Code</button>
+    <p>{% import "option/element/description.twig" as descriptionElement %}
+    {{ descriptionElement.create(description) }}</p>
+
+{% endmacro %}

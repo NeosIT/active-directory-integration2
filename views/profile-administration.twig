@@ -1,0 +1,88 @@
+<!-- get nonce -->
+<script type="application/javascript">
+    document['adi2'] = document['adi2'] || {};
+    document['adi2']['security'] = '{{ nonce }}';
+</script>
+
+{% set profileIDs = findAllProfileIds() %}
+
+<h1>{{ 'Administrate Profiles'|__ }}</h1>
+<div ng-app="profileAdministration" ng-controller="profileAdministrationController">
+<table class="form-table">
+    {# head with table titles#}
+    <tr>
+
+        <th scope="row">
+            <h3>{{ 'Name :'|__ }}</h3>
+        </th>
+
+        <td>
+            <h3>{{ 'Description :'|__ }}</h3>
+        </td>
+
+    </tr>
+
+    {% for profileID in profileIDs %}
+        {% set spanId = 'change_profile_span__' ~ profileID %}
+        {% set nameId = 'change_profile_name__' ~ profileID %}
+        {% set descriptionId = 'change_profile_description__' ~ profileID %}
+
+        <tr>
+
+            <th scope="row">
+                {{ findProfileName(profileID) }}
+            </th>
+
+            <td>
+                {{ findProfileDescription(profileID) }}
+
+                <div class="row-actions visible">
+                    <span class="edit">
+                        <a class="change_profile_link edit" target="{{ spanId }}">{{ 'Edit'|__ }}</a>
+                        |
+                    </span>
+                    <span class="delete">
+                        <a class="delete_profile_link delete" target="{{ profileID }}" message="{{ 'Do you want to delete this profile?'|__ }}">{{ 'Delete'|__ }}</a>
+                    </span>
+                </div>
+
+                <br>
+
+                <span id="{{ spanId }}" class="change_profile_span" style="display: none">
+                    <label for="{{ nameId }}">{{ 'New Name:'|__ }}</label>
+                    <input id="{{ nameId }}" type="text">
+                    <label for="{{ descriptionId }}">{{ 'New Description:'|__ }}</label>
+                    <input id="{{ descriptionId }}" type="text">
+                    <button class="change_profile_button button button-primary" target_id="{{ profileID }}"
+                            target_name="{{ nameId }}"
+                            target_description="{{ descriptionId }}">{{ 'Change'|__ }}</button>
+                </span>
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    {# head with table titles#}
+    <tr>
+
+        <th scope="row">
+            <span class="edit">
+                <a id="addProfileLink" class="edit">{{ 'Add'|__ }}</a>
+
+            </span>
+        </th>
+
+        <td>
+                <label for="addProfileName">{{ 'Name:'|__ }}</label>
+                <input id="addProfileName" type="text" ng-model="newProfileName">
+                <label for="addProfileDescription">{{ 'Description'|__ }}</label>
+                <input id="addProfileDescription" type="text" ng-model="newProfileDescription">
+                <button class="button-primary" ng-click="save()">{{ 'Save'|__ }}</button>
+        </td>
+
+    </tr>
+</table>
+
+</div>

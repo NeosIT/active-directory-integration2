@@ -1,0 +1,18 @@
+{% macro create(optionName, profileId) %}
+
+    {% set permission = getOptionPermission(profileId, optionName) %}
+
+    {% set optionDisabled = getMetadata(optionName, 'DISABLED') %}
+    {% set optionDisabledMessage = getMetadata(optionName, 'DISABLED_MESSAGE') %}
+
+    {% if optionDisabled %}
+
+        <span>{{ optionDisabledMessage|raw }}</span>
+
+    {% else %}
+
+        <span>{{ 'This option is managed by the profile.'|__ }}</span>
+
+    {% endif %}
+
+{% endmacro %}

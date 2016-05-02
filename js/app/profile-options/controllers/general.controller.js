@@ -1,0 +1,61 @@
+(function () {
+    app.controller('GeneralController', GeneralController);
+
+    GeneralController.$inject = ['$scope', 'DataService'];
+
+    /**
+     * Controller for the "General" tab of the profile configuration
+     * @author Christopher Klein <ckl@neos-it.de>
+     */
+    function GeneralController($scope, DataService) {
+        var vm = this;
+
+        $scope.$on('permissionItems', function (event, data) {
+            $scope.permissionOptions = data;
+        });
+
+        $scope.option = {
+            profile_name: ''
+        };
+
+        $scope.$watch(function () {
+            return $scope.option.profile_name;
+        }, function (newValue, oldValue, scope) {
+            $scope.$emit('change-profile-name', newValue);
+        });
+
+        $scope.$on('options', function (event, data) {
+            $scope.option = {
+                profile_name: $valueHelper.findValue('profile_name', data) ? $valueHelper.findValue('profile_name', data) : '',
+                is_active: $valueHelper.findValue('is_active', data) ? true : false,
+                show_menu_test_authentication: $valueHelper.findValue('show_menu_test_authentication', data) ? true : false,
+                show_menu_sync_to_ad: $valueHelper.findValue('show_menu_sync_to_ad', data) ? true : false,
+                show_menu_sync_to_wordpress: $valueHelper.findValue('show_menu_sync_to_wordpress', data) ? true : false,
+            };
+
+            $scope.permission = {
+                is_active: $valueHelper.findPermission('is_active', data),
+                show_menu_test_authentication: $valueHelper.findPermission('show_menu_test_authentication', data),
+                show_menu_sync_to_ad: $valueHelper.findPermission('show_menu_sync_to_ad', data),
+                show_menu_sync_to_wordpress: $valueHelper.findPermission('show_menu_sync_to_wordpress', data)
+            };
+        });
+
+        $scope.$on('validation', function (event, data) {
+            $scope.messages = {
+                is_active: $valueHelper.findMessage('is_active', data),
+                show_menu_test_authentication: $valueHelper.findMessage('show_menu_test_authentication', data),
+                show_menu_sync_to_ad: $valueHelper.findMessage('show_menu_sync_to_ad', data),
+                show_menu_sync_to_wordpress: $valueHelper.findMessage('show_menu_sync_to_wordpress', data)
+            };
+        });
+
+        $scope.getPreparedOptions = function () {
+            return DataService.cleanOptions($scope.option);
+        };
+
+        $scope.containsErrors = function () {
+            return (!$arrayUtil.containsOnlyNullValues($scope.messages));
+        };
+    }
+})();

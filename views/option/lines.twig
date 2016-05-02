@@ -1,0 +1,18 @@
+{# macro for generating#}
+{% macro create(optionGroupElements, isProfile) %}
+    {# #}
+    {% import "option/line.twig" as line %}
+    {% for optionName in optionGroupElements %}
+        {% set permission = getPermissionForOptionAndBlog(optionName) %}
+
+        {% if isProfile is empty %}
+
+            {%  if permission > 0 %}
+                {{ line.create(optionName, false, isProfile) }}
+            {% endif %}
+
+        {% else %}
+            {{ line.create(optionName, true, isProfile) }}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}

@@ -1,0 +1,10 @@
+{
+    "require-dev": {
+        "10up/wp_mock": "dev-master",
+        "mockery/mockery": "^0.9.4"
+    },
+    "require": {
+        "apache/log4php": "2.3.0",
+		"twig/twig": "1.18.0"
+    }
+}

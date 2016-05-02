@@ -1,0 +1,37 @@
+{% macro create(optionName, network, isProfile) %}
+
+    {% if network %}
+        {% set preparedId = 'profile' ~ isProfile ~ '__' ~ optionName %}
+    {% else %}
+        {% set preparedId = optionName %}
+    {% endif %}
+
+    {% set inputId = preparedId ~ '__value' %}
+    {% set permissionSelectionId = preparedId ~ '__permission' %}
+
+    {% set title = getMetadata(optionName, 'TITLE') %}
+    {% set type = getMetadata(optionName, 'TYPE') %}
+
+    {# render options input #}
+    {% if  optionName != "additional_user_attributes"%}
+        <tr valign="top">
+            {# write comment #}
+            <th scope="row" class="adi2_option_line" option_name="{{ optionName }}">{{ title }}</th>
+
+            {# write comment #}
+            <td style="line-height: 2">
+
+                {% import "option/element.twig" as element %}
+                {{ element.create(optionName, isProfile, inputId, permissionSelectionId, network) }}
+            </td>
+        </tr>
+    {% else  %}
+
+        {% set permission = getPermissionForOptionAndBlog(optionName) %}
+
+        {% import "option/attributes.twig" as attributes %}
+        {{ attributes.create(optionName, permission, inputId, permissionSelectionId, network) }}
+
+    {% endif %}
+
+{% endmacro %}

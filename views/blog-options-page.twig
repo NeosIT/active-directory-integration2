@@ -1,0 +1,24 @@
+<!-- get nonce -->
+<script type="application/javascript">
+    document['adi2'] = document['adi2'] || {};
+    document['adi2']['security'] = '{{ nonce }}';
+</script>
+<div ng-app="adi2-module">
+    <h1>{{ 'Active Directory Integration Blog Configuration'|__ }}</h1>
+
+    <div ng-controller="BlogController">
+        <form class="form adi-form" name="form">
+            {% import "option/page.twig" as page %}
+            {{ page.create('noprefix') }}
+        </form>
+    </div>
+</div>
+<!-- Including jQuery Dialog dependency -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<!--<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>-->
+
+<!-- setting up dialog message -->
+<div id="dialog-message" title="Reminder">
+    <p></p>
+</div>

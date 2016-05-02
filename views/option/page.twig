@@ -1,0 +1,26 @@
+{# create an option page for one blog or for one profile #}
+{% macro create(prefix, isProfile) %}
+
+    {% import "option/header.twig" as header %}
+    {% import "option/body.twig" as body %}
+
+    {% set grouping = getOptionsGrouping() %}
+
+    <div id="{{ 'optionPage__' ~ prefix }}" class="wrap">
+
+        {% if grouping|length > 1 %}
+
+            {{ header.create(prefix) }}
+
+            {{ body.create(prefix, isProfile) }}
+
+        {% else %}
+
+            <h3>{{ 'No options exists'|__ }}</h3>
+
+        {% endif %}
+
+    </div>
+
+
+{% endmacro %}

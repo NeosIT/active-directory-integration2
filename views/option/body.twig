@@ -1,0 +1,33 @@
+{# macro for generating tab bodies#}
+{% macro create(prefix, isProfile) %}
+
+    <div ng-controller="AjaxController">
+
+    {% import "option/group.twig" as group %}
+
+    {% set grouping = getOptionsGrouping() %}
+
+    {# Create all tab bodies #}
+    {% for tabName, optionGroups in grouping if isOptionGroupVisible(optionGroups) %}
+        {# Create a tab body #}
+        {% set tabId = 'tab_body_' ~ prefix ~ '__' ~ loop.index0 %}
+
+        {% if loop.first %}
+            {% set style = '' %}
+        {% else %}
+            {% set style = 'display: none' %}
+        {% endif %}
+
+        {% set tabId = 'tab_body_' ~ prefix ~ '__' ~ loop.index0 %}
+
+        <div id="{{ tabId }}" class="tab-body" style="{{ style }}" ng-controller="{{ optionGroups.angular_controller|raw }}">
+            {{ group.create(optionGroups, isProfile) }}
+
+            <button class="button button-primary"  ng-click="$parent.save()">Save</button>
+        </div>
+
+    {% endfor %}
+    </div>
+
+
+{% endmacro %}

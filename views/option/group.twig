@@ -1,0 +1,42 @@
+{# macro for generating option groups for a single tab body#}
+{% macro create(optionGroups, isProfile) %}
+
+    {% import "option/lines.twig" as lines %}
+
+    {% set newNetwork = isOnNetworkDashboard() %}
+
+    {# Add all option groups of the current tab #}
+    {% for optionGroupName, optionGroup in optionGroups %}
+
+        {# Display the optionGroupName if it is not empty#}
+        {% if optionGroupName and (optionGroupName != 'angular_controller' and optionGroupName != 'multisite_only') %}
+
+                <h2>{{ optionGroupName }}</h2>
+
+        {% endif %}
+
+        {# Add the description or the array of descriptions to this option group #}
+        {% if optionGroup.description is defined %}
+            {{ optionGroup.description|join('<br>')|raw }}
+            {% if optionGroupName is defined and newNetwork%}
+                <table class="adi-permission-selection">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>Manage Permissions</td>
+                    </tr>
+                </table>
+                {#<p class="adi2-permission-headline">Manage Permissions</p>#}
+            {% endif %}
+        {% endif %}
+
+        {# Do not add zero options#}
+        {% if optionGroup.options is defined %}
+            {# Add all option of this option group#}
+            <table class="form-table" style="width: 100%">
+                {{ lines.create(optionGroup.options, isProfile) }}
+            </table>
+        {% endif %}
+
+    {% endfor %}
+
+{% endmacro %}

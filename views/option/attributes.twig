@@ -1,0 +1,127 @@
+{% macro create(optionName, permission, inputId, permissionSelectionId, network) %}
+
+    {% set inline = getMetadata(optionName, 'INLINE')|join(' ') %}
+    {% set description = getMetadata(optionName, 'DESCRIPTION') %}
+    {% set optionDisabled = getMetadata(optionName, 'DISABLED') %}
+    {% set type = getMetadata(optionName, 'TYPE') %}
+    {% set angularAttributes = getMetadata(optionName, 'ANGULAR_ATTRIBUTES') %}
+    {% set newNetwork = isOnNetworkDashboard() %}
+
+    {% if newNetwork %}
+        {% set disabled = "" %}
+    {% else %}
+        {% if permission == 2 or permission == 1 %}
+            {% set  disabled = "disabled" %}
+        {% else %}
+            {% set disabled = "" %}
+        {% endif %}
+    {% endif %}
+
+    {% if  newNetwork %}
+        {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
+        <table style="width: 100%">
+            <tr>
+                <td style="width: 87%;"><p style="font-size: 15px; font-weight: bold">Attribute Mapping</p></td>
+                <td style="width: 13%; text-align: center">
+                <span>{% import "option/permissionSelection.twig" as permissionSelection %}
+                    {{ permissionSelection.create("additional_user_attributes", newNetwork, "additional_user_attributes__permission") }}
+                </span>
+                </td>
+            </tr>
+        </table>
+    {% else %}
+        {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
+    {% endif %}
+
+
+    <table style="width: 1200px" class="adi-attribute-mapping">
+        <tr>
+            <th style="width: 15%">AD Attribute</th>
+            <th style="width: 15%">Data Type</th>
+            <th style="width: 15%">Wordpress Attribute</th>
+            <th style="width: 15%">Description</th>
+            <th style="width: 10%">View in User Profile</th>
+            <th style="width: 10%">Sync to Ad</th>
+            <th style="width: 10%">Overwrite with empty value</th>
+            <th style="width: 10%">&nbsp;</th>
+        </tr>
+        <tr ng-repeat="(key, value) in option.additional_user_attributes.attributes track by key">
+            <td>
+                <selectize class="selectized" {{ disabled }} {{ angularAttributes|raw }} config='attributeConfig'
+                           options='ldapAttributes'
+                           ng-model="value.adAttribute" required="true">
+                </selectize>
+            </td>
+            <td>
+                <selectize class="selectized" config='dataTypeConfig'
+                           options='dataTypes'
+                           ng-model="value.dataType" required="true"
+                           style="width: 200px;" {{ disabled }} {{ angularAttributes|raw }}>
+                </selectize>
+            </td>
+            <td>
+                <input type="text" ng-model="value.wordpressAttribute" {{ disabled }}>
+            </td>
+            <td>
+                <input type="text" ng-model="value.description" {{ disabled }}>
+            </td>
+            <td class="adi-align-center">
+                <input type="checkbox" ng-model="value.viewInUserProfile" {{ disabled }}>
+            </td>
+            <td class="adi-align-center">
+                <input type="checkbox" ng-model="value.syncToAd" {{ disabled }}>
+            </td>
+            <td class="adi-align-center">
+                <input type="checkbox" ng-model="value.overwriteWithEmptyValue" {{ disabled }}>
+            </td>
+            <td>
+                <button class="button" ng-click="removeAttribute(key)"  {{ disabled }}>
+                    <span class="nsp_dashicons dashicons dashicons-no-alt"></span>
+                </button>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <selectize class="selectized" config='attributeConfig'
+                           options='ldapAttributes'
+                           ng-model="newAdAttribute" required="true"
+                           style="width: 200px" {{ disabled }} {{ angularAttributes|raw }}>
+                </selectize>
+            </td>
+            <td>
+
+                <selectize class="selectized" config='dataTypeConfig'
+                           options='dataTypes'
+                           ng-model="newDataType" required="true"
+                           style="width: 200px; z-index: 0;" {{ disabled }} {{ angularAttributes|raw }}>
+                </selectize>
+            </td>
+            <td>
+                <input type="text" ng-model="newWordpressAttribute" {{ disabled }}>
+            </td>
+            <td>
+                <input type="text" ng-model="newDescription" {{ disabled }}>
+            </td>
+            <td class="adi-align-center">
+                <input type="checkbox" ng-model="newViewInUserProfile"  {{ disabled }}>
+            </td>
+            <td class="adi-align-center">
+                <input type="checkbox" ng-model="newSyncToAd"  {{ disabled }}>
+            </td>
+            <td class="adi-align-center">
+                <input type="checkbox" ng-model="newOverwriteWithEmptyValue"  {{ disabled }}>
+            </td>
+            <td>
+                <button class="button button-primary"
+                        ng-click="addAttribute(newAdAttribute, newDataType, newWordpressAttribute, newDescription, newViewInUserProfile, newSyncToAd, newOverwriteWithEmptyValue)"
+                        {{ disabled }} >
+                    <span class="nsp_dashicons dashicons dashicons-plus"></span>
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
+{% endmacro %}

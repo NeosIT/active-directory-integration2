@@ -1,0 +1,14 @@
+{% macro create(optionName, profileId, permissionSelectId) %}
+
+    {% set isPermissionEnabled = isPermissionEnabled(optionName) %}
+    {% set name = "permission." ~ optionName %}
+    {% set itemValue = "{{ item.value }}" %}
+    {% set itemDescription = "{{ item.description }}" %}
+
+    {% if isPermissionEnabled %}
+        <select class="adi2-resize" ng-model="permission.{{ optionName }}">
+            <option ng-repeat="item in permissionOptions" value="{{ itemValue }}">{{ itemDescription }}</option>
+        </select>
+    {% endif %}
+    {#<input ng-model="permission.{{ optionName }}">#}
+{% endmacro %}

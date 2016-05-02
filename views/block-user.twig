@@ -1,0 +1,14 @@
+<script type="text/javascript">
+    var seconds = {{ timeLeft }};
+    var adiInterval = window.setInterval('adiCountdown()', 1000);
+
+    function adiCountdown() {
+        seconds--;
+        if (seconds > 0) {
+            document.getElementById('secondsLeft').innerHTML = seconds;
+        } else {
+            clearInterval(adiInterval);
+            location.reload();
+        }
+    }
+</script>

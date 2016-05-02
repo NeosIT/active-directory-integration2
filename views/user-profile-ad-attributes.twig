@@ -1,0 +1,62 @@
+{% if  renderData.attributes|length > 0 %}
+    <h3>{{ 'Additional Information provided by Active Directory Integration'|__ }}</h3>
+{% endif %}
+
+<table class="form-table">
+
+    {% for attribute in renderData.attributes %}
+
+        <tr>
+
+            {% if attribute.noAttribute %}
+
+                <th colspan="2">{{ attribute.description }}</th>
+
+            {% else %}
+
+                <th>
+                    <label for="{{ attribute.metaKey }}">{{ attribute.description }}</label>
+                </th>
+
+                <td>
+                    {% if attribute.outputType == 'textarea' %}
+                        <textarea name="{{ attribute.metaKey }}" id="{{ attribute.metaKey }}" cols="30"
+                                  rows="3">{{ attribute.value }}</textarea>
+                    {% elseif attribute.outputType == 'text' %}
+                        <input type="text" name="{{ attribute.metaKey }}" id="{{ attribute.metaKey }}"
+                               value="{{ attribute.value }}" class="regular-text code"/>
+                    {% else %}
+                        {{ attribute.value|nl2br }}
+                    {% endif %}
+
+                </td>
+
+            {% endif %}
+
+        </tr>
+
+    {% endfor %}
+
+    {% if renderData.adi_is_editable %}
+        {% if renderData.require_password %}
+            <tr>
+                <th>
+                    <label for="adi2_active_directory_password"
+                           class="adi2_active_directory_password">{{ 'Reenter password'|__ }}</label>
+                </th>
+                <td>
+                    <input type="password" name="adi2_active_directory_password" id="adi2_active_directory_password"
+                           class="regulat-text code"/>
+                    <p class="description">
+                        {{ 'If you want to save the changes in "Additional Information" back to the Active Directory you must enter your password.'|__ }}
+                    </p>
+                </td>
+            </tr>
+        {% endif %}
+    {% else %}
+        <tr>
+            <td colspan="2"><p class="notice notice-warning">Profile can not be edited or synchronized back to Active Directory: {{ renderData.adi_synchronization_error_message }}</p></td>
+        </tr>
+    {% endif %}
+
+</table>
