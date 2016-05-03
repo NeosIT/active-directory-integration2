@@ -40,22 +40,23 @@ class Adi_User_Manager
 	private $metaRepository;
 
 	/**
-	 * @param Multisite_Configuration_Service      $configuration
-	 * @param Ldap_Attribute_Service               $attributeService
-	 * @param Adi_User_Helper                      $userHelper
-	 * @param Ldap_Attribute_Repository            $attributeRepository
-	 * @param Adi_Role_Manager                     $roleManager
+	 * @param Multisite_Configuration_Service $configuration
+	 * @param Ldap_Attribute_Service $attributeService
+	 * @param Adi_User_Helper $userHelper
+	 * @param Ldap_Attribute_Repository $attributeRepository
+	 * @param Adi_Role_Manager $roleManager
 	 * @param Adi_User_Meta_Persistence_Repository $metaRepository
-	 * @param Adi_User_Persistence_Repository      $userRepository
+	 * @param Adi_User_Persistence_Repository $userRepository
 	 */
 	public function __construct(Multisite_Configuration_Service $configuration,
-		Ldap_Attribute_Service $attributeService,
-		Adi_User_Helper $userHelper,
-		Ldap_Attribute_Repository $attributeRepository,
-		Adi_Role_Manager $roleManager,
-		Adi_User_Meta_Persistence_Repository $metaRepository,
-		Adi_User_Persistence_Repository $userRepository
-	) {
+								Ldap_Attribute_Service $attributeService,
+								Adi_User_Helper $userHelper,
+								Ldap_Attribute_Repository $attributeRepository,
+								Adi_Role_Manager $roleManager,
+								Adi_User_Meta_Persistence_Repository $metaRepository,
+								Adi_User_Persistence_Repository $userRepository
+	)
+	{
 		$this->configuration = $configuration;
 		$this->attributeService = $attributeService;
 		$this->userHelper = $userHelper;
@@ -90,7 +91,7 @@ class Adi_User_Manager
 	 * <li>WordPress user_login = $sAMAccountName</li>
 	 * </ul>
 	 *
-	 * @param string      $sAMAccountName not empty
+	 * @param string $sAMAccountName not empty
 	 * @param string|null $userPrincipalName not empty
 	 *
 	 * @return WP_User
@@ -143,7 +144,7 @@ class Adi_User_Manager
 	 * The role mappings and LDAP attributes of the user will be automatically populated.
 	 *
 	 * @param Adi_Authentication_Credentials $credentials not null
-	 * @param Ldap_Attributes                $ldapAttributes
+	 * @param Ldap_Attributes $ldapAttributes
 	 *
 	 * @return Adi_User
 	 */
@@ -156,7 +157,7 @@ class Adi_User_Manager
 		$wpUser = $this->userRepository->findByObjectGuid($guid);
 
 		if (!$wpUser) {
-			$wpUser = $this->findByActiveDirectoryUsername($credentials->getSAMAccountName(), 
+			$wpUser = $this->findByActiveDirectoryUsername($credentials->getSAMAccountName(),
 				$credentials->getUserPrincipalName());
 		}
 
@@ -181,8 +182,8 @@ class Adi_User_Manager
 	 * Create a new {@see WP_User} and persist it.
 	 *
 	 * @param Adi_User $user
-	 * @param bool     $syncToWordPress
-	 * @param bool     $writeUserMeta
+	 * @param bool $syncToWordPress
+	 * @param bool $writeUserMeta
 	 *
 	 * @return WP_User|WP_Error WP_User if creation has been a success
 	 */
@@ -268,8 +269,8 @@ class Adi_User_Manager
 	 * Update user information of an existing user
 	 *
 	 * @param Adi_User $user
-	 * @param boolean  $syncToWordPress
-	 * @param boolean  $writeUserMeta
+	 * @param boolean $syncToWordPress
+	 * @param boolean $writeUserMeta
 	 *
 	 * @return WP_User|WP_Error Updated WordPress user or WP_Error if updating failed
 	 */
@@ -334,8 +335,8 @@ class Adi_User_Manager
 	/**
 	 * Check if the password should be updated and update it.
 	 *
-	 * @param int     $userId
-	 * @param string  $password
+	 * @param int $userId
+	 * @param string $password
 	 * @param boolean $syncToWordPress
 	 */
 	protected function updatePassword($userId, $password, $syncToWordPress)
@@ -407,9 +408,9 @@ class Adi_User_Manager
 	/**
 	 * Update the roles for the given $userId.
 	 *
-	 * @param integer          $userId
+	 * @param integer $userId
 	 * @param Adi_Role_Mapping $roleMapping
-	 * @param bool             $isNewUser
+	 * @param bool $isNewUser
 	 */
 	public function updateUserRoles($userId, Adi_Role_Mapping $roleMapping, $isNewUser = false)
 	{
@@ -428,7 +429,7 @@ class Adi_User_Manager
 	 * Update the user meta by the data from the Active Directory ($ldapAttributes)
 	 *
 	 * @param integer $userId
-	 * @param array   $ldapAttributes
+	 * @param array $ldapAttributes
 	 */
 	protected function updateUserMetaDataFromActiveDirectory($userId, $ldapAttributes)
 	{
@@ -482,7 +483,7 @@ class Adi_User_Manager
 		$host = &$this;
 
 		return Core_Util_ArrayUtil::filter(
-			function($value, $name) use ($whitelist, $host) {
+			function ($value, $name) use ($whitelist, $host) {
 				/* @var $attribute Ldap_Attribute */
 				$attribute = Core_Util_ArrayUtil::get($name, $whitelist, false);
 
@@ -501,8 +502,8 @@ class Adi_User_Manager
 	/**
 	 * Filter attributes from the given $attributeValues if their value is empty and $userMetaEmptyOverride is false.
 	 *
-	 * @param array   $ldapAttributes
-	 * @param array   $whitelist
+	 * @param array $ldapAttributes
+	 * @param array $whitelist
 	 * @param boolean $userMetaEmptyOverwrite
 	 *
 	 * @return array
@@ -513,7 +514,7 @@ class Adi_User_Manager
 		$host = &$this;
 
 		return Core_Util_ArrayUtil::filter(
-			function($value, $name) use ($whitelist, $userMetaEmptyOverwrite, $host) {
+			function ($value, $name) use ($whitelist, $userMetaEmptyOverwrite, $host) {
 				/* @var $attribute Ldap_Attribute */
 				$attribute = Core_Util_ArrayUtil::get($name, $whitelist, false);
 
@@ -537,7 +538,7 @@ class Adi_User_Manager
 	 * Update email address for user $userId.
 	 *
 	 * @param Adi_User $user
-	 * @param string   $email
+	 * @param string $email
 	 */
 	protected function updateEmail(Adi_User $user, $email)
 	{
@@ -565,7 +566,7 @@ class Adi_User_Manager
 	 * Check the settings to get the correct email for the user.
 	 *
 	 * @param WP_User $userData
-	 * @param string  $email
+	 * @param string $email
 	 *
 	 * @return bool|string
 	 */
@@ -661,7 +662,7 @@ class Adi_User_Manager
 	 * Disable the user for this plugin.
 	 *
 	 * @param integer $userId
-	 * @param string  $reason
+	 * @param string $reason
 	 */
 	public function disable($userId, $reason)
 	{
@@ -670,5 +671,36 @@ class Adi_User_Manager
 
 		// delete e-mail from user
 		$this->userRepository->updateEmail($userId, '');
+	}
+
+	/**
+	 * Migrate the adi_samaccountname user meta field to adi2_samaccountname.
+	 * The samaccountname is only migrated if there is no adi2_samaccountname field, otherwise any previous assignment of ADI would be overwritten.
+	 *
+	 * @return int    number of migrated users
+	 */
+	public function migratePreviousVersion()
+	{
+		$oldSamAccountNameProperty = 'adi_samaccountname';
+		$newSamAccountNameProperty = ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME;
+		$wpUsers = $this->userRepository->findByMetaKey($oldSamAccountNameProperty);
+
+		$migrated = 0;
+
+		foreach ($wpUsers as $wpUser) {
+			$userMeta = $this->userRepository->findUserMeta($wpUser->ID);
+
+			$hasOldSamAccountName = isset($userMeta[$oldSamAccountNameProperty]) && (sizeof($userMeta[$oldSamAccountNameProperty]) > 0);
+			$hasNewSamAccountName = isset($userMeta[$newSamAccountNameProperty]) && (sizeof($userMeta[$newSamAccountNameProperty]) > 0);
+
+			if ($hasOldSamAccountName && !$hasNewSamAccountName) {
+				$sAMAccountName = $userMeta[$oldSamAccountNameProperty][0];
+
+				$this->userRepository->updateSAMAccountName($wpUser->ID, $sAMAccountName);
+				$migrated++;
+			}
+		}
+
+		return $migrated;
 	}
 }

@@ -47,6 +47,10 @@ class Adi_Init
 			$profileId = $this->dc()->getProfileRepository()->insertDefaultProfile();
 			$optionsImporter->autoImport();
 
+			// ADI-255: Migrate the previous "adi_samaccountname" attribute of ADI 1.x on first run
+			$userManager = $this->dc()->getUserManager();
+			$userManager->migratePreviousVersion();
+
 			if (is_numeric($profileId)) {
 				$currentUser = wp_get_current_user();
 				$optionName = Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION;

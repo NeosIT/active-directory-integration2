@@ -120,6 +120,44 @@ class Ut_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
+	public function findByMetaKey_itIgnoresMetaValue_ifValueIsNull()
+	{
+		$sut = $this->sut();
+
+		$expected = array($expected = $this->createMock('WP_User'));
+
+		WP_Mock::wpFunction('get_users', array(
+			'args'   => array(array('meta_key' => 'key', 'fields' => 'all')),
+			'times'  => 1,
+			'return' => $expected,
+		));
+
+		$actual = $this->invokeMethod($sut, 'findByMetaKey', array('key'));
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findUserMeta_delegatesCallToWordPressFunction()
+	{
+		$sut = $this->sut();
+
+		$expected = array('first_name' => array('My first name'));
+
+		WP_Mock::wpFunction('get_user_meta', array(
+			'args'   => array(666),
+			'times'  => 1,
+			'return' => $expected,
+		));
+
+		$actual = $sut->findUserMeta(666);
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
+	 * @test
+	 */
 	public function updateMetaKey_delegatesCallToWordPressFunction()
 	{
 		$sut = $this->sut();

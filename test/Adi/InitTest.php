@@ -36,13 +36,17 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 
 	private function createActivationEnvironment($dc)
 	{
-		$fakeService = $this->createAnonymousMock(array('check', 'register', 'insertDefaultProfile', 'autoImport', 'persistValueSanitized', 'persistSanitized'));
+		$fakeService = $this->createAnonymousMock(array('check', 'register', 'insertDefaultProfile', 'autoImport', 'migratePreviousVersion', 'persistValueSanitized', 'persistSanitized'));
 		$dc->expects($this->once())
 			->method('getRequirements')
 			->willReturn($fakeService);
 
 		$dc->expects($this->any())
 			->method('getImportService')
+			->willReturn($fakeService);
+
+		$dc->expects($this->any())
+			->method('getUserManager')
 			->willReturn($fakeService);
 
 		$dc->expects($this->any())
@@ -119,6 +123,26 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 
 		$fakeService->expects($this->once())
 			->method('autoImport');
+
+		$sut->activation();
+	}
+
+	/**
+	 * @test
+	 */
+	public function activation_itMigratesAdi1xUsers()
+	{
+		$sut = $this->sut(array('dc'));
+		$dc = $this->mockDependencyContainer($sut);
+		$fakeService = $this->createActivationEnvironment($dc);
+
+		$fakeService->expects($this->once())
+			->method('check')
+			->with(true, true)
+			->willReturn(true);
+
+		$fakeService->expects($this->once())
+			->method('migratePreviousVersion');
 
 		$sut->activation();
 	}
