@@ -841,33 +841,33 @@ class adLDAP {
     */
     public function group_members($group, $recursive = NULL){
         if (!$this->_bind){ return (false); }
+        
+        if ($recursive===NULL){ $recursive=$this->_recursive_groups; } // Use the default option if they haven't set it 
 
-        if ($recursive===NULL){ $recursive=$this->_recursive_groups; } // Use the default option if they haven't set it
+		// Search the directory for the members of a group
+		$info=$this->group_info($group,array("member", "cn"));
+		$isNonPaginated = isset($info[0]["member"]) && ($info[0][1] === "member") && !isset($info[0][2]) /* member range not present */;
 
-        // Search the directory for the members of a group
-        $info=$this->group_info($group,array("member", "cn"));
-        $isNonPaginated = isset($info[0]["member"]) && ($info[0][1] === "member") && !isset($info[0][2]) /* member range not present */;
+		if ($isNonPaginated) {
+			$users=$info[0]["member"];
+		} else {
+			$firstRangeIndex = $info[0][1];
+			$users=$info[0][$firstRangeIndex];
+			$startRange = $info[0][$firstRangeIndex]["count"];
 
-        if ($isNonPaginated) {
-            $users=$info[0]["member"];
-        } else {
-            $firstRangeIndex = $info[0][1];
-            $users=$info[0][$firstRangeIndex];
-            $startRange = $info[0][$firstRangeIndex]["count"];
-
-            if (strpos($firstRangeIndex, "*") === false) {
-                while(true) {
-                    $info=$this->group_info($group,array("member;range=". $startRange . "-*", "cn"));
-                    $rangeIndex = $info[0][1];
-                    $users = array_merge($users, $info[0][$rangeIndex]);
-                    $startRange = $startRange + $info[0][$rangeIndex]["count"];
-                    if (strpos($rangeIndex, "*") !== false) {
-                        $users["count"] = count($users) - 1;
-                        break;
-                    }
-                }
-            }
-        }
+			if (strpos($firstRangeIndex, "*") === false) {
+				while(true) {
+					$info=$this->group_info($group,array("member;range=". $startRange . "-*", "cn"));
+					$rangeIndex = $info[0][1];
+					$users = array_merge($users, $info[0][$rangeIndex]);
+					$startRange = $startRange + $info[0][$rangeIndex]["count"];
+					if (strpos($rangeIndex, "*") !== false) {
+						$users["count"] = count($users) - 1;
+						break;
+					}
+				}
+			}
+		}
 
         if (!is_array($users)) {
             return (false);
