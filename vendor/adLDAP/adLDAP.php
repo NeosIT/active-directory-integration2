@@ -830,11 +830,11 @@ class adLDAP {
         return ($user_array);
     }
 
-
-
+    	
+    
     /**
     * Return a list of members in a group
-    *
+    * 
     * @param string $group The group to query
     * @param bool $recursive Recursively get group members
     * @return array
@@ -868,35 +868,35 @@ class adLDAP {
 				}
 			}
 		}
-
+		
         if (!is_array($users)) {
-            return (false);
+            return (false);   
         }
-
+		
         $user_array=array();
 
-        for ($i=0; $i<$users["count"]; $i++){
+        for ($i=0; $i<$users["count"]; $i++){ 
              $filter="(&(objectCategory=person)(distinguishedName=".$this->ldap_slashes($users[$i])."))";
              $fields = array("samaccountname", "distinguishedname", "objectClass");
              $sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
              $entries = ldap_get_entries($this->_conn, $sr);
 
-             // not a person, look for a group
-             if ($entries['count'] == 0 && $recursive == true) {
-                $filter="(&(objectCategory=group)(distinguishedName=".$this->ldap_slashes($users[$i])."))";
-                $fields = array("samaccountname");
-                $sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
-                $entries = ldap_get_entries($this->_conn, $sr);
+             // not a person, look for a group  
+             if ($entries['count'] == 0 && $recursive == true) {  
+                $filter="(&(objectCategory=group)(distinguishedName=".$this->ldap_slashes($users[$i])."))";  
+                $fields = array("samaccountname");  
+                $sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);  
+                $entries = ldap_get_entries($this->_conn, $sr);  
                 if (!isset($entries[0]['samaccountname'][0])) {
-                    continue;
+                    continue;  
                 }
-                $sub_users = $this->group_members($entries[0]['samaccountname'][0], $recursive);
+                $sub_users = $this->group_members($entries[0]['samaccountname'][0], $recursive);  
                 if (is_array($sub_users)) {
-                    $user_array = array_merge($user_array, $sub_users);
-                    $user_array = array_unique($user_array);
+                    $user_array = array_merge($user_array, $sub_users); 
+                    $user_array = array_unique($user_array);  
                 }
-                continue;
-             }
+                continue;  
+             } 
 
              if ($entries[0]['samaccountname'][0] === NULL && $entries[0]['distinguishedname'][0] !== NULL) {
                  $user_array[] = $entries[0]['distinguishedname'][0];
@@ -907,8 +907,8 @@ class adLDAP {
         }
         return ($user_array);
     }
-
-
+    
+    
     /**
     * Group Information.  Returns an array of information about a group.
     * The group name is case sensitive
