@@ -299,7 +299,7 @@ class Adi_Configuration_ImportService
 				$setting['overwrite'] ? 1 : 0,
 			);
 
-			$configurationString .= implode(";", $subsettings) . ";";
+			$configurationString .= implode(":", $subsettings) . ";";
 		}
 
 		$this->blogConfigurationRepository->persistSanitized($siteId,
