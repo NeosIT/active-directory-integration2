@@ -372,6 +372,18 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$noDefaultAttributeNameRule = new Multisite_Validator_Rule_NoDefaultAttributeName(
 				$noDefaultAttributeNameMessage);
 			$validator->addRule('additional_user_attributes', $noDefaultAttributeNameRule);
+			
+			$attributeMappingNullMessage = __('Ad Attribute / Data Type / WordPress Attribute cannot be empty!', ADI_I18N);
+			$attributeMappingNullRule = new Multisite_Validator_Rule_AttributeMappingNull($attributeMappingNullMessage);
+			$validator->addRule('additional_user_attributes', $attributeMappingNullRule);
+			
+			$metakeyConflictMessage = __('You cannot use the same WordPress Attribute multiple times.', ADI_I18N);
+			$metakeyConflictRule = new Multisite_Validator_Rule_WordPressMetakeyConflict($metakeyConflictMessage);
+			$validator->addRule('additional_user_attributes', $metakeyConflictRule);
+			
+			$adAttributeConflictMessage = __('You cannot use the same Ad Attribute multiple times.', ADI_I18N);
+			$adAttributeConflictRule = new Multisite_Validator_Rule_AdAttributeConflict($adAttributeConflictMessage);
+			$validator->addRule('additional_user_attributes', $adAttributeConflictRule);
 
 			$this->validator = $validator;
 		}

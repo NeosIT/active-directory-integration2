@@ -157,6 +157,46 @@ class Ldap_Attribute_Repository
 	}
 
 	/**
+	 * Checks $additionAttributesString for AdAttributenName conflicts.
+	 *
+	 * @param $additionAttributesString string with attributes configuration
+	 *
+	 * @return bool
+	 *
+	 */	
+	public static function checkAttributeNamesForConflict($additionAttributesString) { //TODO move logic to convertAttributeMapping
+
+		$adAttributeNameBuffer = array();
+
+		$customAttributes = explode(";", $additionAttributesString);
+
+		// collect previous custom attributes
+		foreach ($customAttributes as $line) {
+			if (empty($line)) {
+				continue;
+			}
+
+			$settings = explode(":", $line);
+			
+			if(sizeof($adAttributeNameBuffer) <= 0) {
+				$adAttributeNameBuffer[$settings[0]] = true;
+				continue;
+			}
+			
+			if(isset($adAttributeNameBuffer[$settings[0]]))
+			{
+				return true;
+			}
+
+			$adAttributeNameBuffer[$settings[0]] = true;
+			continue;			
+		}
+
+		return false;
+		
+	}
+
+	/**
 	 * Create all Ldap_Attribute objects which have been defined by the administrator
 	 *
 	 * @param array $attributes

@@ -13,11 +13,12 @@
         $scope.dataTypes = [];
 
         $scope.$on('dataTypes', function (event, data) {
-            $scope.dataTypes = vm.parseDataTypes(data);
+            $scope.dataTypes = $scope.dataTypes.concat(vm.parseDataTypes(data));
         });
 
         $scope.$on('ldapAttributes', function (event, data) {
             $scope.ldapAttributes = vm.parseLdapAttributes(data);
+            vm.parseAttributeStringToObjects($scope.optionsValues["additional_user_attributes"]);            
         });
 
         $scope.attributeConfig = {
@@ -34,7 +35,7 @@
 
         $scope.dataTypeConfig = {
             // disable creation of new items
-            create: true,
+            create: false,
             maxItems: 1,
             //// attribute used for displaying the item
             labelField: 'display_name',
@@ -56,8 +57,6 @@
             };
 
             $scope.newWordpressAttribute = "adi2_";
-
-            vm.parseAttributeStringToObjects($scope.optionsValues["additional_user_attributes"]);
 
         });
 
@@ -103,9 +102,12 @@
         vm.createAttributeDbString = function (objBuffer) {
             var stringBuffer = "";
             for (var i = 0; i < objBuffer.length; i++) {
-                if (objBuffer[i].adAttribute && objBuffer[i].wordpressAttribute) {
-                    stringBuffer += objBuffer[i].adAttribute + ":" + objBuffer[i].dataType + ":" + objBuffer[i].wordpressAttribute + ":" + objBuffer[i].description + ":" + objBuffer[i].viewInUserProfile + ":" + objBuffer[i].syncToAd + ":" + objBuffer[i].overwriteWithEmptyValue + ";";
+
+                if (typeof objBuffer[i].description == 'undefined') {
+                    objBuffer[i].description = "";
                 }
+                
+                stringBuffer += objBuffer[i].adAttribute + ":" + objBuffer[i].dataType + ":" + objBuffer[i].wordpressAttribute + ":" + objBuffer[i].description + ":" + objBuffer[i].viewInUserProfile + ":" + objBuffer[i].syncToAd + ":" + objBuffer[i].overwriteWithEmptyValue + ";";
             }
 
             return stringBuffer;
@@ -126,8 +128,7 @@
                     attribute[6] = vm.parseStringToBool(attribute[6]);
 
                     //check for custom attributes and add them to the list
-                    vm.addCustomItemToAttributes(attribute[0], $scope.optionsValues["ldapAttributes"]);
-                    vm.addCustomItemToDataTypes(attribute[1], $scope.optionsValues["dataTypes"]);
+                    vm.addCustomItemToAttributes(attribute[0]);
 
 
                     $scope.option.additional_user_attributes["attributes"].push({
