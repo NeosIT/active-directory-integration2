@@ -60,5 +60,4 @@ class Multisite_Validator_Rule_WordPressMetakeyConflict extends Core_Validator_R
 	{
 		return Ldap_Attribute_Repository::convertAttributeMapping($attributeString);
 	}
-
 }
