@@ -55,7 +55,7 @@ class Ut_Multisite_Validator_Rule_WordPressMetakeyConflictTest extends Ut_BasicT
 		$sut = $this->sut(null);
 
 		$actual = $sut->validate(
-			"testAdAttribute1:string:testWordpressAttribute1:testDescription:0:0:0;testAdAttribute1:string:testWordpressAttribute1:testDescription:0:0:0",
+			"testAdAttribute1:string:testWordpressAttribute1:testDescription:0:0:0;testAdAttribute2:string:testWordpressAttribute1:testDescription:0:0:0",
 			null
 		);
 
