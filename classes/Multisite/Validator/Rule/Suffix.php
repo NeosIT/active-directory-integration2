@@ -47,20 +47,6 @@ class Multisite_Validator_Rule_Suffix extends Core_Validator_Rule_Abstract
 	 */
 	public function validate($value, $data)
 	{
-		if ($this->isEmailList($value)) {
-			
-			$emails = explode(';', $value);
-			
-			foreach($emails as $email) {
-				
-				if ($email != "" && strpos($email, $this->suffix) === false || $email[0] != '@') {
-					return $this->getMsg();
-				}
-				
-				continue;
-			}
-			return true;
-		}
 		
 		if ($value != "" && strpos($value, $this->suffix) == false) {
 			return $this->getMsg();

@@ -359,36 +359,60 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$syncToWordPressSuffixRule = new Multisite_Validator_Rule_ConditionalSuffix($message, '@', array(
 				'sync_to_wordpress_enabled' => true,
 			));
-			$validator->addRule('sync_to_wordpress_user', $syncToWordPressSuffixRule);
+			$validator->addRule(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER, $syncToWordPressSuffixRule);
 
 			// conditional rule for our sync_to_ad_global_user value
 			$syncToActiveDirectorySuffixRule = new Multisite_Validator_Rule_ConditionalSuffix($message, '@', array(
 				'sync_to_ad_use_global_user' => true,
 			));
-			$validator->addRule('sync_to_ad_global_user', $syncToActiveDirectorySuffixRule);
+			$validator->addRule(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER, $syncToActiveDirectorySuffixRule);
 			
 			$accountSuffixMessage = __('Account Suffix does not match the required style. (e.g. "@company.local")',	ADI_I18N);
-			$accountSuffixRule = new Multisite_Validator_Rule_Suffix($accountSuffixMessage, '@');
-			$validator->addRule('account_suffix', $accountSuffixRule);
+			$accountSuffixRule = new Multisite_Validator_Rule_AccountSuffix($accountSuffixMessage, '@');
+			$validator->addRule(Adi_Configuration_Options::ACCOUNT_SUFFIX, $accountSuffixRule);
 
 			$noDefaultAttributeNameMessage = __('Cannot use default attribute names for custom attribute mapping.',
 				ADI_I18N);
 			$noDefaultAttributeNameRule = new Multisite_Validator_Rule_NoDefaultAttributeName(
 				$noDefaultAttributeNameMessage);
-			$validator->addRule('additional_user_attributes', $noDefaultAttributeNameRule);
+			$validator->addRule(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $noDefaultAttributeNameRule);
 			
 			$attributeMappingNullMessage = __('Ad Attribute / Data Type / WordPress Attribute cannot be empty!', ADI_I18N);
 			$attributeMappingNullRule = new Multisite_Validator_Rule_AttributeMappingNull($attributeMappingNullMessage);
-			$validator->addRule('additional_user_attributes', $attributeMappingNullRule);
+			$validator->addRule(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $attributeMappingNullRule);
 			
 			$metakeyConflictMessage = __('You cannot use the same WordPress Attribute multiple times.', ADI_I18N);
 			$metakeyConflictRule = new Multisite_Validator_Rule_WordPressMetakeyConflict($metakeyConflictMessage);
-			$validator->addRule('additional_user_attributes', $metakeyConflictRule);
+			$validator->addRule(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $metakeyConflictRule);
 			
 			$adAttributeConflictMessage = __('You cannot use the same Ad Attribute multiple times.', ADI_I18N);
 			$adAttributeConflictRule = new Multisite_Validator_Rule_AdAttributeConflict($adAttributeConflictMessage);
-			$validator->addRule('additional_user_attributes', $adAttributeConflictRule);
+			$validator->addRule(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $adAttributeConflictRule);
+			
+			$defaultEmailDomainMessage = __('Please remove the "@", it will be added automatically.', ADI_I18N);
+			$defaultEmailDomainRule = new Multisite_Validator_Rule_DefaultEmailDomain($defaultEmailDomainMessage);
+			$validator->addRule(Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN, $defaultEmailDomainRule);
 
+			$adminEmailMessage = __('Admin email does not match the required style. (e.g. "admin@company.local")',	ADI_I18N);
+			$adminEmailRule = new Multisite_Validator_Rule_AdminNotification($adminEmailMessage, '@');
+			$validator->addRule(Adi_Configuration_Options::ADMIN_EMAIL, $adminEmailRule);
+
+			$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', ADI_I18N);
+			$portRule = new Multisite_Validator_Rule_Port($portMessage);
+			$validator->addRule(Adi_Configuration_Options::PORT, $portRule);
+			
+			$networkTimeoutMessage = __('Network timeout has to be numeric and cannot be negative.', ADI_I18N);
+			$networkTimeoutRule = new Multisite_Validator_Rule_PositiveNumericOrZero($networkTimeoutMessage);
+			$validator->addRule(Adi_Configuration_Options::NETWORK_TIMEOUT, $networkTimeoutRule);
+			
+			$maxLoginAttempts = __('Maximum login attempts has to be numeric and cannot be negative.', ADI_I18N);
+			$maxLoginAttemptsRule = new Multisite_Validator_Rule_PositiveNumericOrZero($maxLoginAttempts);
+			$validator->addRule(Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS, $maxLoginAttemptsRule);
+
+			$blockTimeMessage = __('Blocking Time has to be numeric and cannot be negative.', ADI_I18N);
+			$blockTimeRule = new Multisite_Validator_Rule_PositiveNumericOrZero($blockTimeMessage);
+			$validator->addRule(Adi_Configuration_Options::BLOCK_TIME, $blockTimeRule);
+			
 			$this->validator = $validator;
 		}
 
