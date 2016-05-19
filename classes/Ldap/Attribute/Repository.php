@@ -163,9 +163,9 @@ class Ldap_Attribute_Repository
 	 *
 	 * @return bool
 	 *
-	 */	
+	 */
 	public static function checkAttributeNamesForConflict($additionAttributesString)
-	{ 
+	{
 		$adAttributeNameBuffer = array();
 		$customAttributes = explode(";", $additionAttributesString);
 
@@ -176,22 +176,20 @@ class Ldap_Attribute_Repository
 			}
 
 			$settings = explode(":", $line);
-			
-			if(sizeof($adAttributeNameBuffer) <= 0) {
+
+			if (sizeof($adAttributeNameBuffer) <= 0) {
 				$adAttributeNameBuffer[$settings[0]] = true;
 				continue;
 			}
-			
-			if(isset($adAttributeNameBuffer[$settings[0]]))
-			{
+
+			if (isset($adAttributeNameBuffer[$settings[0]])) {
 				return true;
 			}
 
 			$adAttributeNameBuffer[$settings[0]] = true;
-			continue;			
 		}
 
-		return false;		
+		return false;
 	}
 
 	/**

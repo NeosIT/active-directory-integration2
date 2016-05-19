@@ -16,7 +16,6 @@ if (class_exists('Ut_Multisite_Validator_Rule_PortTest')) {
  */
 class Ut_Multisite_Validator_Rule_PortTest extends Ut_BasicTest
 {
-
 	const VALIDATION_MESSAGE = 'Port has to be numeric and in the range from 0 - 65535.';
 
 	public function setUp()

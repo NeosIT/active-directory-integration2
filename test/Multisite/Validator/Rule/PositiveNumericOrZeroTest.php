@@ -16,7 +16,6 @@ if (class_exists('Ut_Multisite_Validator_Rule_PositiveNumericOrZeroTest')) {
  */
 class Ut_Multisite_Validator_Rule_PositiveNumericOrZeroTest extends Ut_BasicTest
 {
-
 	const VALIDATION_MESSAGE = 'Validation failed!';
 
 	public function setUp()

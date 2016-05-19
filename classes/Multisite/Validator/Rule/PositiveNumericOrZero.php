@@ -18,6 +18,14 @@ if (class_exists('Multisite_Validator_Rule_PositiveNumericOrZero')) {
  */
 class Multisite_Validator_Rule_PositiveNumericOrZero extends Multisite_Validator_Rule_Numeric
 {
+	/**
+	 * Validate the given data and check if it is zero or a position number.
+	 *
+	 * @param string $value
+	 * @param array  $data
+	 *
+	 * @return bool|mixed
+	 */
 	public function validate($value, $data)
 	{
 		$condition = parent::validate($value, $data) === true && !$this->isNegative($value);

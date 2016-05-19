@@ -85,5 +85,4 @@ class Ut_Multisite_Validator_Rule_AccountSuffixTest extends Ut_BasicTest
 
 		$this->assertTrue($actual);
 	}
-
 }

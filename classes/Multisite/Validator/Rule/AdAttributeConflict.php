@@ -28,7 +28,6 @@ class Multisite_Validator_Rule_AdAttributeConflict extends Core_Validator_Rule_A
 	 */
 	public function validate($value, $data)
 	{
-
 		$conflict = $this->checkAttributeNamesForConflict($value);
 
 		if ($conflict) {

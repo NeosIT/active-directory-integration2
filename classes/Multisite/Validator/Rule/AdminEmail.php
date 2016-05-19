@@ -29,31 +29,38 @@ class Multisite_Validator_Rule_AdminEmail extends Multisite_Validator_Rule_Suffi
 	 */
 	public function validate($value, $data)
 	{
-		if ($this->isEmailList($value)) {
+		if ($this->isList($value)) {
 			$emails = explode(';', $value);
 
 			foreach ($emails as $email) {
-
-				$isConflict = $email != "" && strpos($email, '@') === false || $email != "" && $email[0] == '@'
-					|| $email != "" && $email[strlen($email) - 1] == '@';
-
-				if ($isConflict) {
+				if ($this->isInvalid($email)) {
 					return $this->getMsg();
 				}
 
 				continue;
 			}
+
 			return true;
 		}
 
-		$isConflict = $value != "" && strpos($value, '@') === false || $value != "" && $value[0] == '@'
-			|| $value != ""
-			&& $value[strlen($value) - 1] == '@';
-
-		if ($isConflict) {
+		if ($this->isInvalid($value)) {
 			return $this->getMsg();
 		}
 
 		return true;
+	}
+
+	/**
+	 * Check if the given value is invalid.
+	 *
+	 * @param $email
+	 *
+	 * @return bool
+	 */
+	private function isInvalid($email)
+	{
+		return ($email != "" && strpos($email, '@') === false)
+		|| ($email != "" && $email[0] == '@')
+		|| ($email != "" && $email[strlen($email) - 1] == '@');
 	}
 }

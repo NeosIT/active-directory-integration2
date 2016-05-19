@@ -18,7 +18,6 @@ if (class_exists('Multisite_Validator_Rule_Numeric')) {
  */
 class Multisite_Validator_Rule_Numeric extends Core_Validator_Rule_Abstract
 {
-
 	/**
 	 * Validate the given data.
 	 *
@@ -36,6 +35,13 @@ class Multisite_Validator_Rule_Numeric extends Core_Validator_Rule_Abstract
 		return true;
 	}
 
+	/**
+	 * Check if the given value is a negative number.
+	 *
+	 * @param $value
+	 *
+	 * @return bool
+	 */
 	public function isNegative($value)
 	{
 		if ($value < 0) {
@@ -45,6 +51,13 @@ class Multisite_Validator_Rule_Numeric extends Core_Validator_Rule_Abstract
 		return false;
 	}
 
+	/**
+	 * Check if the given value is a positive number.
+	 *
+	 * @param $value
+	 *
+	 * @return bool
+	 */
 	public function isPositive($value)
 	{
 		if ($value > 0) {
@@ -54,6 +67,13 @@ class Multisite_Validator_Rule_Numeric extends Core_Validator_Rule_Abstract
 		return false;
 	}
 
+	/**
+	 * Check if the given value is a float.
+	 *
+	 * @param $value
+	 *
+	 * @return bool
+	 */
 	public function isFloat($value)
 	{
 		if (is_float($value)) {
@@ -63,6 +83,13 @@ class Multisite_Validator_Rule_Numeric extends Core_Validator_Rule_Abstract
 		return false;
 	}
 
+	/**
+	 * Check if the given value is a zero.
+	 *
+	 * @param $value
+	 *
+	 * @return bool
+	 */
 	public function isZero($value)
 	{
 		if ($value === 0) {

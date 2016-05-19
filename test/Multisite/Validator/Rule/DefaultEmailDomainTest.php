@@ -53,9 +53,9 @@ class Ut_Multisite_Validator_Rule_DefaultEmailDomainTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function validate_withoutConflict_returnTrue(
-	) //TODO Code anpassen damit als default email domain normales suffix angegeben werden kann (z.b. "@test.ad")
+	public function validate_withoutConflict_returnTrue()
 	{
+		// TODO Code anpassen damit als default email domain normales suffix angegeben werden kann (z.b. "@test.ad")
 		$sut = $this->sut();
 
 		$actual = $sut->validate('test.ad', array());

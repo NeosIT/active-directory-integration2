@@ -36,6 +36,13 @@ class Multisite_Validator_Rule_Port extends Multisite_Validator_Rule_Numeric
 		return true;
 	}
 
+	/**
+	 * Check if the given number is inside the port range.
+	 *
+	 * @param $value
+	 *
+	 * @return bool
+	 */
 	public function isInPortRange($value)
 	{
 		if ($value >= 0 && $value <= 65535) {
@@ -44,5 +51,4 @@ class Multisite_Validator_Rule_Port extends Multisite_Validator_Rule_Numeric
 
 		return false;
 	}
-
 }

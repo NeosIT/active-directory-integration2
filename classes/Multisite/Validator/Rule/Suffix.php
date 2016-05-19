@@ -47,19 +47,26 @@ class Multisite_Validator_Rule_Suffix extends Core_Validator_Rule_Abstract
 	 */
 	public function validate($value, $data)
 	{
-		
 		if ($value != "" && strpos($value, $this->suffix) == false) {
 			return $this->getMsg();
 		}
 
 		return true;
 	}
-	
-	public function isEmailList($value) {
+
+	/**
+	 * Check if the given value is a frontend list.
+	 *
+	 * @param $value
+	 *
+	 * @return bool
+	 */
+	public function isList($value)
+	{
 		if (strpos($value, ";") !== false) {
 			return true;
 		}
-		
+
 		return false;
 	}
 }

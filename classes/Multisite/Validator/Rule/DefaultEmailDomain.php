@@ -28,7 +28,6 @@ class Multisite_Validator_Rule_DefaultEmailDomain extends Core_Validator_Rule_Ab
 	 */
 	public function validate($value, $data)
 	{
-
 		$conflict = $value != "" && strpos($value, '@') !== false;
 
 		if ($conflict) {

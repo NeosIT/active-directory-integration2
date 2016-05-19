@@ -16,7 +16,6 @@ if (class_exists('Ut_Multisite_Validator_Rule_AdAttributeConflictTest')) {
  */
 class Ut_Multisite_Validator_Rule_AdAttributeConflictTest extends Ut_BasicTest
 {
-
 	const VALIDATION_MESSAGE = 'You cannot use the same Ad Attribute multiple times.';
 
 	public function setUp()
@@ -40,7 +39,7 @@ class Ut_Multisite_Validator_Rule_AdAttributeConflictTest extends Ut_BasicTest
 		return $this->getMockBuilder('Multisite_Validator_Rule_AdAttributeConflict')
 			->setConstructorArgs(
 				array(
-					self::VALIDATION_MESSAGE
+					self::VALIDATION_MESSAGE,
 				)
 			)
 			->setMethods($methods)

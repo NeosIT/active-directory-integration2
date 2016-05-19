@@ -16,7 +16,6 @@ if (class_exists('Ut_Multisite_Validator_Rule_NumericTest')) {
  */
 class Ut_Multisite_Validator_Rule_NumericTest extends Ut_BasicTest
 {
-
 	const VALIDATION_MESSAGE = 'Validation failed.';
 
 	public function setUp()
@@ -40,7 +39,7 @@ class Ut_Multisite_Validator_Rule_NumericTest extends Ut_BasicTest
 		return $this->getMockBuilder('Multisite_Validator_Rule_Numeric')
 			->setConstructorArgs(
 				array(
-					self::VALIDATION_MESSAGE
+					self::VALIDATION_MESSAGE,
 				)
 			)
 			->setMethods($methods)
