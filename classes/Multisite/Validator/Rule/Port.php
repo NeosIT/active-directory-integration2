@@ -8,7 +8,7 @@ if (class_exists('Multisite_Validator_Rule_Port')) {
 }
 
 /**
- * Multisite_Validator_Rule_Port validates if the value is numeric.
+ * Multisite_Validator_Rule_Port validates if the value is numeric and in port range.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -41,7 +41,7 @@ class Multisite_Validator_Rule_Port extends Multisite_Validator_Rule_Numeric
 		if ($value >= 0 && $value <= 65535) {
 			return true;
 		}
-		
+
 		return false;
 	}
 

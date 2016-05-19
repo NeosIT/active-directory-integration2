@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Multisite_Validator_Rule_WordPressMetakeyConflictTest')) {
+if (class_exists('Ut_Multisite_Validator_Rule_NetworkTimeoutTest')) {
 	return;
 }
 
@@ -14,10 +14,10 @@ if (class_exists('Ut_Multisite_Validator_Rule_WordPressMetakeyConflictTest')) {
  *
  * @access
  */
-class Ut_Multisite_Validator_Rule_WordPressMetakeyConflictTest extends Ut_BasicTest
+class Ut_Multisite_Validator_Rule_NetworkTimeoutTest extends Ut_BasicTest
 {
 
-	const VALIDATION_MESSAGE = 'You cannot use the same WordPress Attribute multiple times.';
+	const VALIDATION_MESSAGE = 'Network timeout has to be numeric and cannot be negative.';
 
 	public function setUp()
 	{
@@ -33,11 +33,11 @@ class Ut_Multisite_Validator_Rule_WordPressMetakeyConflictTest extends Ut_BasicT
 	 * @param $methods
 	 * @param $msg string
 	 *
-	 * @return Multisite_Validator_Rule_WordPressMetakeyConflict|PHPUnit_Framework_MockObject_MockObject
+	 * @return Multisite_Validator_Rule_NetworkTimeout|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Validator_Rule_WordPressMetakeyConflict')
+		return $this->getMockBuilder('Multisite_Validator_Rule_NetworkTimeout')
 			->setConstructorArgs(
 				array(
 					self::VALIDATION_MESSAGE
@@ -50,12 +50,12 @@ class Ut_Multisite_Validator_Rule_WordPressMetakeyConflictTest extends Ut_BasicT
 	/**
 	 * @test
 	 */
-	public function validate_withConflict_returnString()
+	public function validate_withNegativeNumeric_returnString()
 	{
 		$sut = $this->sut(null);
 
 		$actual = $sut->validate(
-			"testAdAttribute1:string:testWordpressAttribute1:testDescription:0:0:0;testAdAttribute2:string:testWordpressAttribute1:testDescription:0:0:0",
+			-123456789,
 			null
 		);
 
@@ -65,12 +65,27 @@ class Ut_Multisite_Validator_Rule_WordPressMetakeyConflictTest extends Ut_BasicT
 	/**
 	 * @test
 	 */
-	public function validate_withoutConflict_returnTrue()
+	public function validate_withPositiveNumeric_returnTrue()
 	{
 		$sut = $this->sut(null);
 
 		$actual = $sut->validate(
-			"testAdAttribute1:string:testWordpressAttribute1:testDescription:0:0:0;testAdAttribute2:string:testWordpressAttribute2:testDescription:0:0:0",
+			123,
+			null
+		);
+
+		$this->assertTrue($actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function validate_withZero_returnTrue()
+	{
+		$sut = $this->sut(null);
+
+		$actual = $sut->validate(
+			0,
 			null
 		);
 

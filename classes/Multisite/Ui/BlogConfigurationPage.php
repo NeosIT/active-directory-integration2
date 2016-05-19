@@ -394,7 +394,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$validator->addRule(Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN, $defaultEmailDomainRule);
 
 			$adminEmailMessage = __('Admin email does not match the required style. (e.g. "admin@company.local")',	ADI_I18N);
-			$adminEmailRule = new Multisite_Validator_Rule_AdminNotification($adminEmailMessage, '@');
+			$adminEmailRule = new Multisite_Validator_Rule_AdminEmail($adminEmailMessage, '@');
 			$validator->addRule(Adi_Configuration_Options::ADMIN_EMAIL, $adminEmailRule);
 
 			$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', ADI_I18N);

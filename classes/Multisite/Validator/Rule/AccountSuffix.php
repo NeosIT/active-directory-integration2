@@ -8,7 +8,7 @@ if (class_exists('Multisite_Validator_Rule_AccountSuffix')) {
 }
 
 /**
- * Multisite_Validator_Rule_AccountSuffix provides validation for a specific suffix.
+ * Multisite_Validator_Rule_AccountSuffix validates that the given value is a suffix.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
@@ -43,7 +43,7 @@ class Multisite_Validator_Rule_AccountSuffix extends Multisite_Validator_Rule_Su
 			return true;
 		}
 
-		if ($value != "" && strpos($value, '@') === false || $value != "" && $value[0] == '@') {
+		if ($value != "" && strpos($value, '@') === false || $value != "" && $value[0] != '@') {
 			return $this->getMsg();
 		}
 

@@ -10,7 +10,7 @@ if (class_exists('Ut_Multisite_Validator_Rule_SuffixTest')) {
 class Ut_Multisite_Validator_Rule_SuffixTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'Username has to contain a suffix.';
-	
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -29,9 +29,11 @@ class Ut_Multisite_Validator_Rule_SuffixTest extends Ut_BasicTest
 	public function sut($methods = null)
 	{
 		return $this->getMockBuilder('Multisite_Validator_Rule_Suffix')
-			->setConstructorArgs(array(
-				self::VALIDATION_MESSAGE, '@',
-			))
+			->setConstructorArgs(
+				array(
+					self::VALIDATION_MESSAGE, '@',
+				)
+			)
 			->setMethods($methods)
 			->getMock();
 	}

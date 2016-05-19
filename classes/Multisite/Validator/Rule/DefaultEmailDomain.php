@@ -8,7 +8,7 @@ if (class_exists('Multisite_Validator_Rule_DefaultEmailDomain')) {
 }
 
 /**
- * Multisite_Validator_Rule_DefaultEmailDomain prevents using the same Ad Attribute multiple times.
+ * Multisite_Validator_Rule_DefaultEmailDomain prevents saving DefaultEmailDomain in the wrong style.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -28,7 +28,7 @@ class Multisite_Validator_Rule_DefaultEmailDomain extends Core_Validator_Rule_Ab
 	 */
 	public function validate($value, $data)
 	{
-		
+
 		$conflict = $value != "" && strpos($value, '@') !== false;
 
 		if ($conflict) {
@@ -36,17 +36,5 @@ class Multisite_Validator_Rule_DefaultEmailDomain extends Core_Validator_Rule_Ab
 		}
 
 		return true;
-	}
-
-	/**
-	 * Simple delegation to {@see Ldap_Attribute_Repository::checkAttributeMapping}.
-	 *
-	 * @param $attributeString
-	 *
-	 * @return bool
-	 */
-	protected function checkAttributeNamesForConflict($attributeString)
-	{
-		return Ldap_Attribute_Repository::checkAttributeNamesForConflict($attributeString);
 	}
 }

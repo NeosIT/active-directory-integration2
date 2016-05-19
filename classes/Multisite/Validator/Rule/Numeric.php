@@ -29,42 +29,46 @@ class Multisite_Validator_Rule_Numeric extends Core_Validator_Rule_Abstract
 	 */
 	public function validate($value, $data)
 	{
-		if(!is_numeric($value)) {
+		if (!is_numeric($value)) {
 			return $this->getMsg();
 		}
-		
+
 		return true;
 	}
-	
-	public function isNegative($value) {
+
+	public function isNegative($value)
+	{
 		if ($value < 0) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
-	public function isPositive($value) {
+	public function isPositive($value)
+	{
 		if ($value > 0) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	
-	public function isFloat($value) {
+
+	public function isFloat($value)
+	{
 		if (is_float($value)) {
 			return true;
 		}
-		
+
 		return false;
-	}	
-	
-	public function isZero($value) {
+	}
+
+	public function isZero($value)
+	{
 		if ($value === 0) {
 			return true;
 		}
-		
+
 		return false;
 	}
 }

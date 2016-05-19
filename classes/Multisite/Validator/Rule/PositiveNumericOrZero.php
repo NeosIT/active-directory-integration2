@@ -8,7 +8,7 @@ if (class_exists('Multisite_Validator_Rule_PositiveNumericOrZero')) {
 }
 
 /**
- * Multisite_Validator_Rule_PositiveNumberOrZero validates if the value is numeric.
+ * Multisite_Validator_Rule_PositiveNumberOrZero validates if the value is positive numeric or zero.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -21,11 +21,11 @@ class Multisite_Validator_Rule_PositiveNumericOrZero extends Multisite_Validator
 	public function validate($value, $data)
 	{
 		$condition = parent::validate($value, $data) === true && !$this->isNegative($value);
-		
-		if($condition) {
+
+		if ($condition) {
 			return true;
 		}
-		
+
 		return $this->getMsg();
 	}
 }

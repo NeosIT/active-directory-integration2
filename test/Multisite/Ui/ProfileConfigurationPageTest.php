@@ -863,9 +863,19 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		$validator = $sut->getValidator();
 		$rules = $validator->getValidationRules();
 
-		$this->assertCount(3, $rules);
-		$this->assertInstanceOf('Multisite_Validator_Rule_ConditionalSuffix', $rules['sync_to_ad_global_user'][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_ConditionalSuffix', $rules['sync_to_wordpress_user'][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_NoDefaultAttributeName', $rules['additional_user_attributes'][0]);
+		$this->assertCount(10, $rules);
+		$this->assertInstanceOf('Multisite_Validator_Rule_ConditionalSuffix', $rules[Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_ConditionalSuffix', $rules[Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_AccountSuffix', $rules[Adi_Configuration_Options::ACCOUNT_SUFFIX][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_NoDefaultAttributeName', $rules[Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_AttributeMappingNull', $rules[Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][1]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_WordPressMetakeyConflict', $rules[Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][2]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_AdAttributeConflict', $rules[Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][3]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_DefaultEmailDomain', $rules[Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_AdminEmail', $rules[Adi_Configuration_Options::ADMIN_EMAIL][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_Port', $rules[Adi_Configuration_Options::PORT][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_PositiveNumericOrZero', $rules[Adi_Configuration_Options::NETWORK_TIMEOUT][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_PositiveNumericOrZero', $rules[Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_PositiveNumericOrZero', $rules[Adi_Configuration_Options::BLOCK_TIME][0]);
 	}
 }
