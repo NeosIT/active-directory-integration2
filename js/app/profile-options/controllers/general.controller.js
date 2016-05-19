@@ -43,6 +43,7 @@
 
         $scope.$on('validation', function (event, data) {
             $scope.messages = {
+                profile_name: $valueHelper.findMessage('profile_name', data),
                 is_active: $valueHelper.findMessage('is_active', data),
                 show_menu_test_authentication: $valueHelper.findMessage('show_menu_test_authentication', data),
                 show_menu_sync_to_ad: $valueHelper.findMessage('show_menu_sync_to_ad', data),
