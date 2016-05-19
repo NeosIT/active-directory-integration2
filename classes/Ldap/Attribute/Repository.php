@@ -164,10 +164,9 @@ class Ldap_Attribute_Repository
 	 * @return bool
 	 *
 	 */	
-	public static function checkAttributeNamesForConflict($additionAttributesString) { //TODO move logic to convertAttributeMapping
-
+	public static function checkAttributeNamesForConflict($additionAttributesString)
+	{ 
 		$adAttributeNameBuffer = array();
-
 		$customAttributes = explode(";", $additionAttributesString);
 
 		// collect previous custom attributes
@@ -192,8 +191,7 @@ class Ldap_Attribute_Repository
 			continue;			
 		}
 
-		return false;
-		
+		return false;		
 	}
 
 	/**

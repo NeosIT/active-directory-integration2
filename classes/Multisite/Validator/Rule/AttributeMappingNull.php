@@ -62,5 +62,4 @@ class Multisite_Validator_Rule_AttributeMappingNull extends Core_Validator_Rule_
 	{
 		return Ldap_Attribute_Repository::convertAttributeMapping($attributeString);
 	}
-
 }
