@@ -366,6 +366,10 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 				'sync_to_ad_use_global_user' => true,
 			));
 			$validator->addRule('sync_to_ad_global_user', $syncToActiveDirectorySuffixRule);
+			
+			$accountSuffixMessage = __('Account Suffix does not match the required style. (e.g. "@company.local")',	ADI_I18N);
+			$accountSuffixRule = new Multisite_Validator_Rule_Suffix($accountSuffixMessage, '@');
+			$validator->addRule('account_suffix', $accountSuffixRule);
 
 			$noDefaultAttributeNameMessage = __('Cannot use default attribute names for custom attribute mapping.',
 				ADI_I18N);
