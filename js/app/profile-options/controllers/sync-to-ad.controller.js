@@ -1,9 +1,9 @@
 (function () {
     app.controller('SyncToAdController', SyncToAdController);
 
-    SyncToAdController.$inject = ['$scope', '$http', 'DataService'];
+    SyncToAdController.$inject = ['$scope', '$http', 'DataService', 'alertify'];
 
-    function SyncToAdController($scope, $http, DataService) {
+    function SyncToAdController($scope, $http, DataService, alertify) {
         var vm = this;
 
         $scope.$on('permissionItems', function (event, data) {
@@ -39,7 +39,7 @@
         });
 
         $scope.newAuthCode = function () {
-            if (confirm('Do you really want to create a new AuthCode ?')) {
+            alertify.confirm("Do you really want to create a new AuthCode?", function () {
                 $http.post('../admin-ajax.php', {
                     action: 'adi2_profile_options',
                     security: document.adi2.security,
@@ -50,7 +50,9 @@
                     // called asynchronously if an error occurs
                     // or server returns response with an error status.
                 });
-            }
+            }, function() {
+                
+            });                
         };
 
         $scope.getPreparedOptions = function () {
