@@ -626,6 +626,26 @@ class Ut_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 		$this->assertEquals($expected, $actual);
 	}
 
+	/**
+	 * @test
+	 */
+	public function checkAttributeNamesForConflict_withConflict_returnTrue() 
+	{		
+		$attributeString = "testAdAttribute:string:testWordPressMetakey:description:true:true:true;testAdAttribute:string:testWordPressMetakey:description:true:true:true";
+		$actual = Ldap_Attribute_Repository::checkAttributeNamesForConflict($attributeString);
+		$this->assertTrue($actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function checkAttributeNamesForConflict_withoutConflict_returnfalse() 
+	{		
+		$attributeString = "testAdAttribute:string:testWordPressMetakey:description:true:true:true;testAdAttribute2:string:testWordPressMetakey:description:true:true:true;";
+		$actual = Ldap_Attribute_Repository::checkAttributeNamesForConflict($attributeString);
+		$this->assertFalse($actual);		
+	}
+
 
 	/**
 	 * @test

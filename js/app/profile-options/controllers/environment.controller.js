@@ -54,5 +54,9 @@
             data['domain_controllers'] = ListService.parseListArrayToString($scope.option.domain_controllers);
             return data;
         };
+
+        $scope.containsErrors = function () {
+            return (!$arrayUtil.containsOnlyNullValues($scope.messages));
+        };
     }
 })();

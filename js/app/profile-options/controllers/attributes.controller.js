@@ -19,7 +19,7 @@
         });
 
         $scope.$on('ldapAttributes', function (event, data) {
-            $scope.ldapAttributes = vm.parseLdapAttributes(data);
+            $scope.ldapAttributes = $scope.ldapAttributes.concat(vm.parseLdapAttributes(data));
         });
 
         $scope.attributeConfig = {
@@ -36,7 +36,7 @@
 
         $scope.dataTypeConfig = {
             // disable creation of new items
-            create: true,
+            create: false,
             maxItems: 1,
             //// attribute used for displaying the item
             labelField: 'display_name',
@@ -105,9 +105,12 @@
         vm.createAttributeDbString = function (objBuffer) {
             var stringBuffer = "";
             for (var i = 0; i < objBuffer.length; i++) {
-                if (objBuffer[i].adAttribute && objBuffer[i].wordpressAttribute) {
-                    stringBuffer += objBuffer[i].adAttribute + ":" + objBuffer[i].dataType + ":" + objBuffer[i].wordpressAttribute + ":" + objBuffer[i].description + ":" + objBuffer[i].viewInUserProfile + ":" + objBuffer[i].syncToAd + ":" + objBuffer[i].overwriteWithEmptyValue + ";";
+
+                if (typeof objBuffer[i].description == 'undefined') {
+                    objBuffer[i].description = "";
                 }
+                
+                stringBuffer += objBuffer[i].adAttribute + ":" + objBuffer[i].dataType + ":" + objBuffer[i].wordpressAttribute + ":" + objBuffer[i].description + ":" + objBuffer[i].viewInUserProfile + ":" + objBuffer[i].syncToAd + ":" + objBuffer[i].overwriteWithEmptyValue + ";";
             }
 
             return stringBuffer;
