@@ -3,11 +3,11 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Multisite_Validator_Rule_NoDefaultAttributeName')) {
+if (class_exists('Ut_Multisite_Validator_Rule_NoDefaultAttributeNameTest')) {
 	return;
 }
 
-class Ut_Multisite_Validator_Rule_NoDefaultAttributeName extends Ut_BasicTest
+class Ut_Multisite_Validator_Rule_NoDefaultAttributeNameTest extends Ut_BasicTest
 {
 	/** @var string */
 	private $invalidTestString = 'givenname:string:adi2_samaccountname:first name:true:true:true';

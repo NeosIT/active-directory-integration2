@@ -70,7 +70,7 @@ class Multisite_Validator_Rule_ConditionalSuffix extends Multisite_Validator_Rul
 		foreach ($this->propertyCondition AS $key => $value) {
 			$dataValue = $data[$key];
 
-			if(isset($dataValue['option_value'])) {
+			if (isset($dataValue['option_value'])) {
 				$dataValue = $dataValue['option_value'];
 			}
 

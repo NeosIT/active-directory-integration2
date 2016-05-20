@@ -36,11 +36,13 @@ class Ut_Multisite_Validator_Rule_ConditionalSuffixTest extends Ut_BasicTest
 	public function sut($methods = null)
 	{
 		return $this->getMockBuilder('Multisite_Validator_Rule_ConditionalSuffix')
-			->setConstructorArgs(array(
-				self::VALIDATION_MESSAGE, '@', array(
+			->setConstructorArgs(
+				array(
+					self::VALIDATION_MESSAGE, '@', array(
 					'sync_to_wordpress_enabled' => true,
 				),
-			))
+				)
+			)
 			->setMethods($methods)
 			->getMock();
 	}
@@ -100,13 +102,15 @@ class Ut_Multisite_Validator_Rule_ConditionalSuffixTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
-		$actual = $this->invokeMethod($sut, 'areConditionsTrue', array(
+		$actual = $this->invokeMethod(
+			$sut, 'areConditionsTrue', array(
 			array(
 				'sync_to_wordpress_enabled' => array(
 					'option_value' => 1,
 				),
 			),
-		));
+		)
+		);
 
 		$this->assertTrue($actual);
 	}
@@ -118,13 +122,15 @@ class Ut_Multisite_Validator_Rule_ConditionalSuffixTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
-		$actual = $this->invokeMethod($sut, 'areConditionsTrue', array(
+		$actual = $this->invokeMethod(
+			$sut, 'areConditionsTrue', array(
 			array(
 				'sync_to_wordpress_enabled' => array(
 					'option_value' => 0,
 				),
 			),
-		));
+		)
+		);
 
 		$this->assertFalse($actual);
 	}
@@ -136,11 +142,13 @@ class Ut_Multisite_Validator_Rule_ConditionalSuffixTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
-		$actual = $this->invokeMethod($sut, 'areConditionsTrue', array(
+		$actual = $this->invokeMethod(
+			$sut, 'areConditionsTrue', array(
 			array(
 				'sync_to_wordpress_enabled' => 1
 			),
-		));
+		)
+		);
 
 		$this->assertTrue($actual);
 	}

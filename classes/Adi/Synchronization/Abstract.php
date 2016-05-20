@@ -29,7 +29,7 @@ abstract class Adi_Synchronization_Abstract
 	/**
 	 * Execution time in seconds which is required for the long-running tasks
 	 */
-	const REQUIRED_EXECUTION_TIME_IN_SECONDS = 3600;
+	const REQUIRED_EXECUTION_TIME_IN_SECONDS = 18000;
 
 
 	/**

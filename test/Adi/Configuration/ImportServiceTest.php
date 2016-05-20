@@ -670,7 +670,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 			->method('persistSanitized')
 			->with($siteId,
 				'additional_user_attributes',
-				'ad_attribute;type;wa;d;0;1;1;'
+				'ad_attribute:type:wa:d:0:1:1;'
 				);
 
 		$sut->persistConvertedAttributeMapping($siteId, $previousVersion);

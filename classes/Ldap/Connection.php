@@ -475,14 +475,16 @@ class Ldap_Connection
 		$allUsers = array();
 
 		foreach ($groups as $group) {
-			$members = $this->findAllMembersOfGroup($group);
+			if($group !== "") {
+				$members = $this->findAllMembersOfGroup($group);
 
-			$this->logger->info("In group '$group' are " . sizeof($members) . " members.");
-			$this->logger->debug("Members of group '$group': " . print_r($members, true));
+				$this->logger->info("In group '$group' are " . sizeof($members) . " members.");
+				$this->logger->debug("Members of group '$group': " . print_r($members, true));
 
-			// 'merge' array
-			// a new key with the same name will override the old key with the same name
-			$allUsers = $members + $allUsers;
+				// 'merge' array
+				// a new key with the same name will override the old key with the same name
+				$allUsers = $members + $allUsers;
+			}
 		}
 
 		//return all users
