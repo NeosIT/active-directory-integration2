@@ -45,6 +45,12 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 	/* @var Logger $logger */
 	private $logger;
 
+	/* @var int */
+	private $ldapRequestTimeCounter;
+
+	/* @var int */
+	private $wordpressDbTimeCounter;
+
 	/**
 	 * @param Adi_User_Manager                $userManager
 	 * @param Adi_User_Helper                 $userHelper
@@ -81,7 +87,10 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 			return false;
 		}
 
+		$startTime = time();
+		$this->logger->debug('START: findSynchronizableUsers(): ' . $startTime);
 		$users = $this->findSynchronizableUsers();
+		$this->logger->debug('END: findSynchronizableUsers(): Duration:  ' .  time() - $startTime . ' seconds');
 
 		if (is_array($users) && !empty($users)) {
 			$this->logNumberOfUsers($users);
@@ -144,6 +153,8 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 
 		$this->increaseExecutionTime();
 
+		Logger::getRootLogger()->setLevel(LoggerLevel::getLevelInfo());
+
 		return true;
 	}
 
@@ -155,7 +166,10 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 	 */
 	protected function findSynchronizableUsers()
 	{
-		$groups = trim($this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS));
+
+		$groups = trim(
+			$this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS)
+		);
 		$activeDirectoryUsers = $this->connection->findAllMembersOfGroups($groups);
 		$convertedActiveDirectoryUsers = $this->convertActiveDirectoryUsers($activeDirectoryUsers);
 
@@ -277,11 +291,20 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 	{
 		Core_Assert::notNull($credentials);
 
-		$synchronizeDisabledAccounts = $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS);
+		$synchronizeDisabledAccounts = $this->configuration->getOptionValue(
+			Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS
+		);
+
+		$startTimerLdap = time();
+
 		// ADI-204: in contrast to the Login process we use the sAMAccountName in synchronization have the sAMAccountName
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, $guid);
 
-		$credentials->setUserPrincipalName($ldapAttributes->getFilteredValue('userprincipalname'));
+		$elapsedTimeLdap = time() - $startTimerLdap;
+		$this->ldapRequestTimeCounter = $this->ldapRequestTimeCounter + $elapsedTimeLdap;
+
+			$credentials->setUserPrincipalName($ldapAttributes->getFilteredValue('userprincipalname'));
+
 
 		$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
 
@@ -292,7 +315,10 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 			}
 		}
 
+		$startTimerWordPress = time();
 		$status = $this->createOrUpdateUser($adiUser);
+		$elapsedTimeWordPress = time() - $startTimerWordPress;
+		$this->wordpressDbTimeCounter = $this->wordpressDbTimeCounter + $elapsedTimeWordPress;
 
 		if (-1 === $status) {
 			return -1;
@@ -317,7 +343,9 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 		Core_Assert::notNull($adiUser);
 
 		if (!$adiUser->getId()) {
+			$startTimer = time();
 			$user = $this->userManager->create($adiUser, true);
+			$this->logger->info("Creating user took: " . (time() - $startTimer) . " s");
 			$status = 0;
 		} else {
 			$user = $this->userManager->update($adiUser, true);
@@ -363,13 +391,23 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 			}
 
 			if (!$this->isNormalAccount($uac)) {
-				throw new Exception(sprintf(__('User "%s" has no normal Active Directory user account. Only user accounts can be synchronized.',
-					ADI_I18N), $username));
+				throw new Exception(
+					sprintf(
+						__(
+							'User "%s" has no normal Active Directory user account. Only user accounts can be synchronized.',
+							ADI_I18N
+						), $username
+					)
+				);
 			}
 
 			if ($this->isSmartCardRequired($uac)) {
-				throw new Exception(sprintf(__('The account of user "%s" requires a smart card for login.', ADI_I18N),
-					$username));
+				throw new Exception(
+					sprintf(
+						__('The account of user "%s" requires a smart card for login.', ADI_I18N),
+						$username
+					)
+				);
 			}
 		} catch (Exception $e) {
 			$this->logger->warn("Disable user '{$username}': " . $e->getMessage());
@@ -418,17 +456,20 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 	/**
 	 * Finish synchronization with some log messages.
 	 *
-	 * @param int $addedUsers amount of added users
+	 * @param int $addedUsers   amount of added users
 	 * @param int $updatedUsers amount of updated users
-	 * @param int $failedSync amount of failed syncs
+	 * @param int $failedSync   amount of failed syncs
 	 */
 	protected function finishSynchronization($addedUsers, $updatedUsers, $failedSync)
 	{
+		Logger::getRootLogger()->setLevel(LoggerLevel::getLevelDebug());
 		$elapsedTime = $this->getElapsedTime();
 
 		$this->logger->info("$addedUsers users have been added to the WordPress database.");
 		$this->logger->info("$updatedUsers users from the WordPress database have been updated.");
 		$this->logger->info("$failedSync users could not be synchronized.");
+		$this->logger->info("Ldap searches took: $this->ldapRequestTimeCounter seconds");
+		$this->logger->info("WordPress DB actions took: $this->wordpressDbTimeCounter seconds");
 		$this->logger->info("Duration for sync: $elapsedTime seconds");
 		$this->logger->info("End of Sync to WordPress");
 	}

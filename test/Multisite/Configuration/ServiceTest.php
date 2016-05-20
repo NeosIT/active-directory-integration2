@@ -115,6 +115,49 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
+	public function getOptionWithCache() {
+		$sut = $this->sut(array('getProfileOptionValue', 'getValue', 'getPermission'));
+
+		$this->blogConfigurationRepository->expects($this->once())
+			->method('findSanitized')
+			->with(44 /* blogId */, 'port' /* option name */)
+			->willReturn('389');
+
+		$this->blogConfigurationRepository->expects($this->once())
+			->method('findProfileId')
+			->with(44)
+			->willReturn(1);
+
+		$sut->expects($this->once())
+			->method('getProfileOptionValue')
+			->with('port', 44)
+			->willReturn('689');
+
+		$sut->expects($this->once())
+			->method('getPermission')
+			->with('port' /* option name */, 1 /* profileId */)
+			->willReturn(3);
+
+		$sut->expects($this->once())
+			->method('getValue')
+			->with(3 /* permission */, '689' /* profile option value */, '389' /* blog option value */)
+			->willReturn('389');
+
+		$expected = array(
+			'option_name'       => 'port',
+			'option_value'      => '389',
+			'option_permission' => 3,
+		);
+
+		$actual = $sut->getOption('port', 44);
+		$this->assertEquals($expected, $actual);
+		$actualWithCache = $sut->getOption('port', 44);
+		$this->assertEquals($expected, $actualWithCache);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getProfileOptionValue_singleSite_returnNull()
 	{
 		$sut = $this->sut(null);

@@ -50,6 +50,10 @@ class Multisite_Configuration_Service
 	 */
 	const EDITABLE = 3;
 
+	/* @var array */
+	private $cache = array();
+
+
 	/**
 	 * @param Multisite_Configuration_Persistence_BlogConfigurationRepository    $blogConfigurationRepository
 	 * @param Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
@@ -94,6 +98,10 @@ class Multisite_Configuration_Service
 			$blogId = get_current_blog_id();
 		}
 
+		if (isset($this->cache[$blogId][$optionName]) && is_array($this->cache[$blogId][$optionName])) {
+			return $this->cache[$blogId][$optionName];
+		}
+
 		$blogOptionValue = $this->blogConfigurationRepository->findSanitized($blogId, $optionName);
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
 		$profileOptionValue = $this->getProfileOptionValue($optionName, $blogId);
@@ -106,6 +114,8 @@ class Multisite_Configuration_Service
 			'option_value'      => $optionValue,
 			'option_permission' => $permission,
 		);
+
+		$this->cache[$blogId][$optionName] = $optionArray;
 
 		return $optionArray;
 	}

@@ -25,6 +25,9 @@ class Adi_Role_Manager
 	/* @var Logger */
 	private $logger;
 
+	/* @var array */
+	private $mapping;
+
 	/**
 	 * @param Multisite_Configuration_Service $configuration
 	 * @param Ldap_Connection $ldapConnection
@@ -173,25 +176,27 @@ class Adi_Role_Manager
 	 */
 	public function getRoleEquivalentGroups()
 	{
-		$mapping = array();
+		if (empty($this->mapping) || is_null($this->mapping)) {
+			$this->mapping = array();
 
-		$groups = $this->configuration->getOptionValue(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS);
-		$groups = Core_Util_StringUtil::split($groups, ';');
+			$groups = $this->configuration->getOptionValue(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS);
+			$groups = Core_Util_StringUtil::split($groups, ';');
 
-		foreach ($groups as $group) {
-			$parts = Core_Util_StringUtil::split($group, '=');
+			foreach ($groups as $group) {
+				$parts = Core_Util_StringUtil::split($group, '=');
 
-			if (sizeof($parts) !== 2) {
-				continue;
+				if (sizeof($parts) !== 2) {
+					continue;
+				}
+
+				$securityGroup = trim($parts[0]);
+				$wordPressRole = trim($parts[1]);
+
+				$this->mapping[$securityGroup] = $wordPressRole;
 			}
-
-			$securityGroup = trim($parts[0]);
-			$wordPressRole = trim($parts[1]);
-
-			$mapping[$securityGroup] = $wordPressRole;
 		}
 
-		return $mapping;
+		return $this->mapping;
 	}
 
 	/**

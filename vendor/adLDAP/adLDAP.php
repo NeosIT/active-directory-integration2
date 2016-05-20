@@ -844,18 +844,35 @@ class adLDAP {
         
         if ($recursive===NULL){ $recursive=$this->_recursive_groups; } // Use the default option if they haven't set it 
 
-        // Search the directory for the members of a group
-        $info=$this->group_info($group,array("member","cn"));
-        if (isset($info[0]["member"])) {
-        	$users=$info[0]["member"];
-        } else {
-        	return false;
-        }
+		// Search the directory for the members of a group
+		$info=$this->group_info($group,array("member", "cn"));
+		$isNonPaginated = isset($info[0]["member"]) && ($info[0][1] === "member") && !isset($info[0][2]) /* member range not present */;
+
+		if ($isNonPaginated) {
+			$users=$info[0]["member"];
+		} else {
+			$firstRangeIndex = $info[0][1];
+			$users=$info[0][$firstRangeIndex];
+			$startRange = $info[0][$firstRangeIndex]["count"];
+
+			if (strpos($firstRangeIndex, "*") === false) {
+				while(true) {
+					$info=$this->group_info($group,array("member;range=". $startRange . "-*", "cn"));
+					$rangeIndex = $info[0][1];
+					$users = array_merge($users, $info[0][$rangeIndex]);
+					$startRange = $startRange + $info[0][$rangeIndex]["count"];
+					if (strpos($rangeIndex, "*") !== false) {
+						$users["count"] = count($users) - 1;
+						break;
+					}
+				}
+			}
+		}
+		
         if (!is_array($users)) {
             return (false);   
         }
-
-        //$this->_account_suffix = '@the-test.local';
+		
         $user_array=array();
 
         for ($i=0; $i<$users["count"]; $i++){ 
@@ -909,7 +926,7 @@ class adLDAP {
         }
         
         $filter="(&(objectCategory=group)(name=".$this->ldap_slashes($group_name)."))";
-        //echo ($filter."!!!<br>");
+
         if ($fields===NULL){ $fields=array("member","memberof","cn","description","distinguishedname","objectcategory","samaccountname"); }
         
         // Let's use paging if available
