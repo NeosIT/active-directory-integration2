@@ -9,17 +9,8 @@ We will publish all required documentation in the next few weeks. More informati
 ## Development
 This Git repository has to be cloned inside the *wp-content/plugins* directory of your WordPress environment.
 
-After the cloning you have to update the dependencies with help of *Composer*
-
-	# install composer
-	php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
-	php -r "if (hash('SHA384', file_get_contents('composer-setup.php')) === 'fd26ce67e3b237fffd5e5544b45b0d92c41a4afe3e3f778e942e43ce6be197b9cdc7c251dcde6e2a52297ea269370680') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); }"
-	php composer-setup.php
-	php -r "unlink('composer-setup.php');"
-	#
-	cd active-directory-integration2
-	# install dependencies of ADI 2
-	php ~/composer.phar install
+After the cloning you have to update the dependencies with help of *Composer*.
+To install composer follow the instructions on https://getcomposer.org/download/.
 
 	
 ### Testing
