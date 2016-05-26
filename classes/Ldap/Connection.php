@@ -26,6 +26,9 @@ class Ldap_Connection
 
 	/* @var Logger $logger */
 	private $logger;
+	
+	/* @var string */
+	private $siteDomainSid;
 
 	/**
 	 * @param Multisite_Configuration_Service $configuration
@@ -502,6 +505,11 @@ class Ldap_Connection
 	{
 		$adLdap = $this->getAdLdap();
 		$group = trim($group);
+		
+		// check if domainSid for wordpress site is defined
+		if ($this->siteDomainSid == null || $this->siteDomainSid == '') {
+			$this->siteDomainSid = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAINS_ID);
+		}
 
 		try {
 			if (false !== stripos($group, 'id:')) {
@@ -523,7 +531,14 @@ class Ldap_Connection
 		$users = array();
 
 		foreach ($members as $member) {
-			$users[strtolower($member)] = $member;
+			
+			$userInfo = $this->adldap->user_info($member);
+			
+			$userSid = $this->adldap->convertObjectsIdBinaryToString($userInfo[0]["objectsid"][0]);
+			
+			if (strpos($userSid, $this->siteDomainSid) !== false ) {
+				$users[strtolower($member)] = $member;
+			}			
 		}
 
 		return $users;

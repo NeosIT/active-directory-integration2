@@ -184,6 +184,24 @@ class Ldap_Attribute_Service
 	}
 
 	/**
+	 * Find ldap attribute containing objectSid
+	 *
+	 * 
+	 * @return Ldap_Attributes
+	 */
+	public function getObjectSid($username, $isGUID = false) {
+		
+		$attributeNames = array("objectsid");
+		
+		$raw = $this->ldapConnection->findAttributesOfUser($username, $attributeNames, $isGUID);
+		$filtered = $this->parseLdapResponse($attributeNames, $raw);
+		$objectsid = $this->ldapConnection->getAdLdap()->convertObjectsIdBinaryToString($filtered["objectsid"]);
+		
+		return $objectsid;
+	}
+	
+
+	/**
 	 * @return Ldap_Attribute_Repository
 	 */
 	public function getRepository()

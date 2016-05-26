@@ -399,7 +399,8 @@ class Adi_Dependencies
 				$this->getProfileConfigurationRepository(),
 				$this->getProfileRepository(),
 				$this->getDefaultProfileRepository(),
-				$this->getOptionProvider()
+				$this->getOptionProvider(),
+				$this->getVerificationService()
 			);
 		}
 
@@ -1024,5 +1025,19 @@ class Adi_Dependencies
 		}
 
 		return $this->extendPluginList;
+	}
+	
+	/**
+	 * @var Adi_Authentication_VerificationService
+	 */
+	private $verificationService = null;
+	public function getVerificationService() {
+		if ($this->verificationService == null) {
+			$this->verificationService = new Adi_Authentication_VerificationService(
+				$this->getLdapConnection(), $this->getAttributeRepository()
+			);
+		}
+
+		return $this->verificationService;
 	}
 }

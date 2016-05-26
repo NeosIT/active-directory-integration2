@@ -232,7 +232,7 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 	 * @return array a list with synchronizable users which can be null
 	 */
 	protected function getUsers($userId = null) {
-		$users = $this->findActiveDirectoryUsers($userId);
+		$users = $this->findActiveDirectoryUsers($userId);	
 
 		if (!$users) {
 			$this->logger->warn('No possible users for synchronization back to Active Directory found.');

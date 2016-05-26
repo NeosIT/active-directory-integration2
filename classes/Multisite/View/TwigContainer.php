@@ -38,6 +38,12 @@ class Multisite_View_TwigContainer
 	/** @var Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository */
 	private $defaultProfileRepository;
 
+	/** @var Adi_Authentication_VerificationService $verificationService */
+	private $verificationService;
+	
+	/** @var bool */
+	private $isProfileConnectedToDomain;
+
 	/**
 	 * @param Multisite_Configuration_Persistence_BlogConfigurationRepository    $blogConfigurationRepository
 	 * @param Multisite_Configuration_Service                                    $configuration
@@ -45,13 +51,15 @@ class Multisite_View_TwigContainer
 	 * @param Multisite_Configuration_Persistence_ProfileRepository              $profileRepository
 	 * @param Multisite_Configuration_Persistence_DefaultProfileRepository       $defaultProfileRepository
 	 * @param Multisite_Option_Provider                                          $optionProvider
+	 * @param Adi_Authentication_VerificationService                             $verificationService
 	 */
 	public function __construct(Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
 		Multisite_Configuration_Service $configuration,
 		Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
 		Multisite_Configuration_Persistence_ProfileRepository $profileRepository,
 		Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository,
-		Multisite_Option_Provider $optionProvider
+		Multisite_Option_Provider $optionProvider,
+		Adi_Authentication_VerificationService $verificationService
 	) {
 		$this->blogConfigurationRepository = $blogConfigurationRepository;
 		$this->configuration = $configuration;
@@ -59,6 +67,7 @@ class Multisite_View_TwigContainer
 		$this->profileRepository = $profileRepository;
 		$this->defaultProfileRepository = $defaultProfileRepository;
 		$this->optionProvider = $optionProvider;
+		$this->verificationService = $verificationService;
 	}
 
 	/**
@@ -340,9 +349,33 @@ class Multisite_View_TwigContainer
 		$blogId = get_current_blog_id();
 
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
-		$permission = $this->profileConfigurationRepository->findPermissionSanitized($profileId, $optionName);
+		
+		if ($this->isProfileConnectedToDomain == null) {
+			$domainSidBuffer = $this->getOptionValue(Adi_Configuration_Options::DOMAINS_ID, $profileId);
+			
+			if ($domainSidBuffer != '' && $domainSidBuffer != null) {
+				$this->isProfileConnectedToDomain = true;
+			}
+		}		
+		
+		$permission = $this->profileConfigurationRepository->findPermissionSanitized($profileId, $optionName); //TODO Permission muss angepasst werden für den Environment Tab wenn das Profile eine Verknüpfung zu einer Domäne hat
 
+		if ($permission == 3 && $this->isProfileConnectedToDomain && $this->isEnvironmentOption($optionName)) {
+			return 2;
+		}
+		
 		return $permission;
+	}
+
+	public function isEnvironmentOption($optionName) {
+		$optionNameBuffer = array(Adi_Configuration_Options::DOMAIN_CONTROLLERS => true, Adi_Configuration_Options::PORT => true, Adi_Configuration_Options::USE_TLS => true, Adi_Configuration_Options::NETWORK_TIMEOUT => true, Adi_Configuration_Options::BASE_DN => true, Adi_Configuration_Options::DOMAINS_ID => true, Adi_Configuration_Options::VERIFICATION_USERNAME => true, Adi_Configuration_Options::VERIFICATION_PASSWORD => true); //TODO move somewhere else
+
+		if (isset($optionNameBuffer[$optionName]))
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -387,5 +420,38 @@ class Multisite_View_TwigContainer
 		$value = Core_Util_ArrayUtil::get($constant, $metadata, '');
 
 		return $value;
+	}
+	
+	public function verifyConnection($data)
+	{		
+		$objectSid = $this->verificationService->verifyConnection($data);
+		
+		if($objectSid !== false) {
+			return $objectSid;
+		}
+		
+		return false;
+	}
+	
+	public function getDomainsId($objectsId) {
+		
+		$stringBuffer = "";
+		
+		if(is_string($objectsId) && $objectsId != '')
+		{	$position = 0;
+			$reversedString = strrev($objectsId);
+
+			for ($i = 0; $i < strlen($reversedString); $i++) {
+				if ($reversedString[$i] === "-") {
+					$position = $i + 1;
+					break;
+				}
+			}
+			
+			$stringBuffer = substr($reversedString, $position);
+			$stringBuffer = strrev($stringBuffer);			
+		}
+		
+		return $stringBuffer;
 	}
 }

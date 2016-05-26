@@ -27,6 +27,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	const SUB_ACTION_GET_PROFILE_OPTION_VALUES = 'getProfileOptionsValues';
 	const SUB_ACTION_PERSIST_PROFILE_OPTION_VALUES = 'persistProfileOptionsValues';
 	const SUB_ACTION_LOAD_PROFILES = 'loadProfiles';
+	const SUB_ACTION_VERIFY_AD_CONNECTION_FOR_PROFILE = 'verifyAdConnectionForProfile';
 
 	const VERSION_PROFILE_CONFIGURATION_JS = '1.0';
 	const CAPABILITY = 'manage_network';
@@ -50,6 +51,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 		self::SUB_ACTION_PERSIST_PROFILE_OPTION_VALUES => self::SUB_ACTION_PERSIST_PROFILE_OPTION_VALUES,
 		self::SUB_ACTION_LOAD_PROFILES                 => self::SUB_ACTION_LOAD_PROFILES,
 		self::SUB_ACTION_GENERATE_AUTHCODE             => self::SUB_ACTION_GENERATE_AUTHCODE,
+		self::SUB_ACTION_VERIFY_AD_CONNECTION_FOR_PROFILE  => self::SUB_ACTION_VERIFY_AD_CONNECTION_FOR_PROFILE,
 	);
 
 	/**
@@ -220,7 +222,55 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	{
 		$profileId = $postData['profileId'];
 
+		$test = $this->configuration->getAllProfileOptionsValues($profileId);
+		
 		return $this->configuration->getAllProfileOptionsValues($profileId);
+	}
+
+	/**
+	 * Verify connection to AD to recieve domainSid.
+	 *
+	 * @return array
+	 */
+	protected function verifyAdConnectionForProfile($data)
+	{		
+		$data = $data["data"];
+
+		$profileId = $data["profile"];
+		unset($data["profile"]);
+		
+		parent::validate($data);
+
+		return $this->verifyInternalForProfile($data, $profileId);
+	}
+
+	protected function verifyInternalForProfile($data, $profileId) {
+		$objectsid = $this->twigContainer->verifyConnection($data);
+
+		if ($objectsid === false) {
+			return array("verification_failed" => "Verification failed.");
+		}
+
+		$domainsId = $this->twigContainer->getDomainsId($objectsid);
+
+		if (is_string($domainsId) && $domainsId !== '') {
+			$postData = array(
+				"domains_id" => array(
+					"option_value" => $domainsId,
+					"option_permission" => 3, //TODO revisit (Default Value to prevent saving errors)
+			));
+			
+			$this->persistDomainsIdForProfile($postData, $profileId);
+			return array("verification_successful" => "WordPress site is now connected to Domain: "
+				. $domainsId);
+		}
+
+		return array("verification_failed" => "Verification failed.");
+	}
+
+	public function persistDomainsIdForProfile($data, $profileId)
+	{
+		return $this->profileConfigurationController->saveProfileOptions($data, $profileId);
 	}
 
 	/**

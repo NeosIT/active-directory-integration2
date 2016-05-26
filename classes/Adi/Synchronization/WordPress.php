@@ -172,9 +172,9 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 		);
 		$activeDirectoryUsers = $this->connection->findAllMembersOfGroups($groups);
 		$convertedActiveDirectoryUsers = $this->convertActiveDirectoryUsers($activeDirectoryUsers);
-
+		
 		$wordPressUsers = $this->findActiveDirectoryUsernames();
-
+		
 		return array_merge($wordPressUsers, $convertedActiveDirectoryUsers);
 	}
 
@@ -299,7 +299,10 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 
 		// ADI-204: in contrast to the Login process we use the sAMAccountName in synchronization have the sAMAccountName
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, $guid);
-
+		
+		//Add domainsid
+		$ldapAttributes->addDomainSid($this->configuration->getOptionValue(Adi_Configuration_Options::DOMAINS_ID));
+		
 		$elapsedTimeLdap = time() - $startTimerLdap;
 		$this->ldapRequestTimeCounter = $this->ldapRequestTimeCounter + $elapsedTimeLdap;
 

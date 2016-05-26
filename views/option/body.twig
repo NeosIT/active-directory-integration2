@@ -22,8 +22,9 @@
 
         <div id="{{ tabId }}" class="tab-body" style="{{ style }}" ng-controller="{{ optionGroups.angular_controller|raw }}">
             {{ group.create(optionGroups, isProfile) }}
-
-            <button class="button button-primary"  ng-click="$parent.save()">Save</button>
+        
+            <button class="button button-primary"  ng-disabled="(option.verification_status == '' && permission.verification_username == 3 && verification_password == 3)" ng-click="$parent.save()">Save</button>
+            <span ng-hide="(option.verification_status != '') || (permission.verification_username != 3 && permission.verification_password != 3)" style="color: red">You have to verify the connection to the AD before saving.</span>
         </div>
 
     {% endfor %}

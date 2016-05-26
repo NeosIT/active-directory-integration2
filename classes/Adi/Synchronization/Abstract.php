@@ -23,6 +23,9 @@ abstract class Adi_Synchronization_Abstract
 
 	/* @var Ldap_ConnectionDetails */
 	protected $connectionDetails;
+	
+	/* @var string */
+	private $siteDomainSid;
 
 	private $time = 0;
 	
@@ -104,25 +107,33 @@ abstract class Adi_Synchronization_Abstract
 	}
 
 	/**
-	 * Return an array with the the mapping between the Active Directory sAMAccountName (key) and their WordPress username (value).
+	 * Return an array with the mapping between the Active Directory sAMAccountName (key) and their WordPress username (value).
 	 *
 	 * @return array|hashmap key is Active Directory objectGUID, value is WordPress username
 	 */
 	public function findActiveDirectoryUsernames()
 	{
 		$users = $this->findActiveDirectoryUsers();
+
+		if ($this->siteDomainSid == null || $this->siteDomainSid == '') {
+			$this->siteDomainSid = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAINS_ID);
+		}		
+		
 		$r = array();
 		
 		foreach ($users as $user) {
 			$guid = get_user_meta($user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true);
-			
-			$wpUsername = $user->user_login;
-			$r[strtolower($guid)] = $wpUsername;
+			$domainsid = get_user_meta($user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true);
+
+			if ($domainsid == $this->siteDomainSid) {
+				$wpUsername = $user->user_login;
+				$r[strtolower($guid)] = $wpUsername;
+			}
 		}
 
 		return $r;
 	}
-
+	
 	/**
 	 * Find all WordPress users which have their origin in the Active Directory.
 	 *
@@ -134,6 +145,10 @@ abstract class Adi_Synchronization_Abstract
 	 */
 	public function findActiveDirectoryUsers($userId = null)
 	{
+		if ($this->siteDomainSid == null || $this->siteDomainSid == '') {
+			$this->siteDomainSid = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAINS_ID);
+		}
+
 		$args = array(
 			'blog_id'    => get_current_blog_id(),
 			'meta_key'   => ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
@@ -153,7 +168,17 @@ abstract class Adi_Synchronization_Abstract
 		}
 
 		$users = get_users($args);
-		return $users;
+		$r = array();
+		
+		foreach ($users as $user) {
+			$domainsid = get_user_meta($user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true);
+
+			if ($domainsid == $this->siteDomainSid) {
+				array_push($r, $user);
+			}
+		}		
+		
+		return $r;
 	}
 
 	/**

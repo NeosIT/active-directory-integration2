@@ -217,8 +217,6 @@ class Adi_Configuration_Ui_Layout
 					// Group elements in group
 					self::OPTIONS     => array(
 						Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES,
-//						Adi_Configuration_Options::USERMETA_EMPTY_OVERWRITE,
-//						Adi_Configuration_Options::SHOW_ATTRIBUTES,
 					),
 				),
 			),

@@ -92,7 +92,7 @@ class Multisite_Configuration_Service
 	 *
 	 * @return array
 	 */
-	public function getOption($optionName, $blogId = null)
+	public function getOption($optionName, $blogId = null) //TODO Wenn ein Profile welches einem Blog zugeordnet ist eine Domänenverknüpfung besitzt, werden für den Environment immer die Daten aus dem Profile geladen auch wenn die Optionen die Permission 3 haben. Zusamen wird dem Blog Admin nicht gestattet diese Optionen zu ändern. ES MUSS NOCH angepasst werden, dass in diesem Fall die Optionen nicht Persistiert werden, wenn der Blog Admin speichert da ansonsten die Blog Einstellungen überschrieben werden.
 	{
 		if ($blogId === null) {
 			$blogId = get_current_blog_id();
@@ -104,10 +104,28 @@ class Multisite_Configuration_Service
 
 		$blogOptionValue = $this->blogConfigurationRepository->findSanitized($blogId, $optionName);
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
+		$profileHasDomainConnection = false;
+		if ($profileId != null) {
+			$profilDomainSid = $this->getProfileOptionValue(Adi_Configuration_Options::DOMAINS_ID, $blogId);
+			
+			if ($profilDomainSid != null && $profilDomainSid != "") {
+				$profileHasDomainConnection = true;
+			}
+		}
+		
 		$profileOptionValue = $this->getProfileOptionValue($optionName, $blogId);
-
 		$permission = $this->getPermission($optionName, $profileId);
-		$optionValue = $this->getValue($permission, $profileOptionValue, $blogOptionValue);
+		
+		
+		if ($profileHasDomainConnection && $this->isEnvironmentOption($optionName)) {
+			$optionValue = $profileOptionValue;
+			if ($permission == Multisite_Configuration_Service::EDITABLE) {
+				$permission = Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN;
+			}
+		} else {
+			$optionValue = $this->getValue($permission, $profileOptionValue, $blogOptionValue);
+		}
+		
 
 		$optionArray = array(
 			'option_name'       => $optionName,
@@ -158,8 +176,8 @@ class Multisite_Configuration_Service
 		if ($permission < Multisite_Configuration_Service::EDITABLE) {
 			return $profileOptionValue;
 		}
-
-		return $blogOptionValue;
+		
+			return $blogOptionValue;
 	}
 
 	/**
@@ -262,5 +280,17 @@ class Multisite_Configuration_Service
 		);
 
 		return $options;
+	}
+	
+	public function isEnvironmentOption($optionName) 
+	{
+		$optionNameBuffer = array(Adi_Configuration_Options::DOMAIN_CONTROLLERS => true, Adi_Configuration_Options::PORT => true, Adi_Configuration_Options::USE_TLS => true, Adi_Configuration_Options::NETWORK_TIMEOUT => true, Adi_Configuration_Options::BASE_DN => true, Adi_Configuration_Options::DOMAINS_ID => true); //TODO move somewhere else
+		
+		if (isset($optionNameBuffer[$optionName]))
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }

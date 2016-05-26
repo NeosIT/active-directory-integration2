@@ -209,8 +209,8 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository
 	public function findPermissionSanitized($profileId, $optionName)
 	{
 		$permissions = $this->findPermission($profileId, $optionName);
-
-		if (!is_numeric($permissions) || $permissions < 0 || $permissions > 3) {
+		
+		if (!is_numeric($permissions) || $permissions < 0 || $permissions > 3) {			
 			return 3;
 		}
 

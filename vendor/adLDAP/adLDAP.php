@@ -2520,6 +2520,16 @@ class adLDAP {
         }
         return $result;
      }
+
+    /**
+     * Convert binary ObjectsId to String
+     * 
+     * @param $bin
+     * @return $string
+     */
+    public function convertObjectsIdBinaryToString($bin) {
+       return $this->getTextSID($bin);
+    }
      
     /**
     * Converts a binary attribute to a string

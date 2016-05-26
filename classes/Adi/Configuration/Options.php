@@ -30,6 +30,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 	const BASE_DN = 'base_dn';
 	const VERIFICATION_USERNAME = 'verification_username';
 	const VERIFICATION_PASSWORD = 'verification_password';
+	const DOMAINS_ID = 'domains_id';
 
 	// User - User Settings
 	const EXCLUDE_USERNAMES_FROM_AUTHENTICATION = 'exclude_usernames_from_authentication';
@@ -411,13 +412,32 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// VERIFICATION PASSWORD
 			self::VERIFICATION_PASSWORD            => array(
 				$title       => __('Verification Password', ADI_I18N),
-				$type        => Multisite_Option_Type::PASSWORD,
+				$type        => Multisite_Option_Type::VERIFICATION_PASSWORD,
 				$description => __(
 					'Verification Password', ADI_I18N
 				),
 				$detail      => array(
 					__(
 						'You have to enter a valid ad password to link your WordPress Site to a specific AD domain.',
+						ADI_I18N
+					),
+				),
+				$angularAttributes => '',
+				$default     => '',
+				$sanitizer   => array('string'),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			// DOMAINS ID
+			self::DOMAINS_ID           => array(
+				$title       => __('Domains Id', ADI_I18N),
+				$type        => Multisite_Option_Type::TEXT,
+				$description => __(
+					'Shows weither the current WordPress site is connected to an AD domain or not.', ADI_I18N
+				),
+				$detail      => array(
+					__(
+						'Shows weither the current WordPress site is connected to an AD domain or not.',
 						ADI_I18N
 					),
 				),
