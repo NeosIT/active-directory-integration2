@@ -150,6 +150,15 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 		if (!$this->connectToAdLdap($username, $password)) {
 			return false;
 		}
+		
+		$siteDomainSid = $this->configuration->getOption(Adi_Configuration_Options::DOMAINS_ID)["option_value"];
+		$targetDomainSid = $this->getTargetDomainSid($username);
+		
+		if ($targetDomainSid != $siteDomainSid) {
+			$this->logger->error('TargetDomainSid: ' . $targetDomainSid . ' does not match the DomainSid connected to your WordPress Site: ' . $siteDomainSid);
+			return false;
+		}
+		
 
 		$this->increaseExecutionTime();
 

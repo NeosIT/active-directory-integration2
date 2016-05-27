@@ -160,4 +160,32 @@ class Core_Util_StringUtil
 		return strtolower($result);
 	}
 
+	/**
+	 * Convert ObjectSid to DomainSid
+	 * 
+	 * @param string $objectSid
+	 * 
+	 * @return string
+	 */
+	
+	public static function objectSidToDomainSid($objectSid) {
+		$stringBuffer = "";
+
+		if(is_string($objectSid) && $objectSid != '')
+		{	$position = 0;
+			$reversedString = strrev($objectSid);
+
+			for ($i = 0; $i < strlen($reversedString); $i++) {
+				if ($reversedString[$i] === "-") {
+					$position = $i + 1;
+					break;
+				}
+			}
+
+			$stringBuffer = substr($reversedString, $position);
+			$stringBuffer = strrev($stringBuffer);
+		}
+
+		return $stringBuffer;
+	}
 }

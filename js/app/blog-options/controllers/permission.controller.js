@@ -11,7 +11,7 @@
         $scope.new_authorization_group = '';
 
         $scope.wpRoles = [
-            {display_name: "super Admin", value: "super admin"},
+            {display_name: "super admin", value: "super admin"},
             {display_name: "administrator", value: "administrator"},
             {display_name: "editor", value: "editor"},
             {display_name: "contributor", value: "contributor"},

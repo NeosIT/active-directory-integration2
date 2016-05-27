@@ -23,12 +23,15 @@ abstract class Adi_Synchronization_Abstract
 
 	/* @var Ldap_ConnectionDetails */
 	protected $connectionDetails;
-	
+
 	/* @var string */
 	private $siteDomainSid;
 
+	/* @var string */
+	private $targetDomainSid;
+	/* @var int*/
 	private $time = 0;
-	
+
 	/**
 	 * Execution time in seconds which is required for the long-running tasks
 	 */
@@ -37,13 +40,13 @@ abstract class Adi_Synchronization_Abstract
 
 	/**
 	 * @param Multisite_Configuration_Service $configuration
-	 * @param Ldap_Connection $connection
-	 * @param Ldap_Attribute_Service  $attributeService
+	 * @param Ldap_Connection                 $connection
+	 * @param Ldap_Attribute_Service          $attributeService
 	 * */
 	public function __construct(Multisite_Configuration_Service $configuration,
-								Ldap_Connection $connection,
-								Ldap_Attribute_Service $attributeService)
-	{
+		Ldap_Connection $connection,
+		Ldap_Attribute_Service $attributeService
+	) {
 		$this->configuration = $configuration;
 		$this->connection = $connection;
 		$this->attributeService = $attributeService;
@@ -67,7 +70,10 @@ abstract class Adi_Synchronization_Abstract
 			return;
 		}
 
-		$this->logger->warn('Can not increase PHP configuration option \'max_execution_time\' to ' . self::REQUIRED_EXECUTION_TIME_IN_SECONDS . ' seconds.');
+		$this->logger->warn(
+			'Can not increase PHP configuration option \'max_execution_time\' to '
+			. self::REQUIRED_EXECUTION_TIME_IN_SECONDS . ' seconds.'
+		);
 	}
 
 	/**
@@ -117,15 +123,17 @@ abstract class Adi_Synchronization_Abstract
 
 		if ($this->siteDomainSid == null || $this->siteDomainSid == '') {
 			$this->siteDomainSid = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAINS_ID);
-		}		
-		
+		}
+
 		$r = array();
-		
+
 		foreach ($users as $user) {
 			$guid = get_user_meta($user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true);
-			$domainsid = get_user_meta($user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true);
+			$userDomainSid = get_user_meta(
+				$user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
+			);
 
-			if ($domainsid == $this->siteDomainSid) {
+			if ($this->isVerifiedDomainMember($userDomainSid)) {
 				$wpUsername = $user->user_login;
 				$r[strtolower($guid)] = $wpUsername;
 			}
@@ -133,7 +141,7 @@ abstract class Adi_Synchronization_Abstract
 
 		return $r;
 	}
-	
+
 	/**
 	 * Find all WordPress users which have their origin in the Active Directory.
 	 *
@@ -145,10 +153,6 @@ abstract class Adi_Synchronization_Abstract
 	 */
 	public function findActiveDirectoryUsers($userId = null)
 	{
-		if ($this->siteDomainSid == null || $this->siteDomainSid == '') {
-			$this->siteDomainSid = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAINS_ID);
-		}
-
 		$args = array(
 			'blog_id'    => get_current_blog_id(),
 			'meta_key'   => ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
@@ -169,15 +173,17 @@ abstract class Adi_Synchronization_Abstract
 
 		$users = get_users($args);
 		$r = array();
-		
-		foreach ($users as $user) {
-			$domainsid = get_user_meta($user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true);
 
-			if ($domainsid == $this->siteDomainSid) {
+		foreach ($users as $user) {
+			$userDomainSid = get_user_meta(
+				$user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
+			);
+
+			if ($this->isVerifiedDomainMember($userDomainSid)) {
 				array_push($r, $user);
 			}
-		}		
-		
+		}
+
 		return $r;
 	}
 
@@ -187,7 +193,7 @@ abstract class Adi_Synchronization_Abstract
 	 * Check if the attribute value for an attribute is empty, if yes return an array.
 	 * Workaround to prevent adLDAP from syncing "Array" as a value for an attribute to the Active Directory.
 	 *
-	 * @param array $attributesToSync
+	 * @param array  $attributesToSync
 	 * @param string $metaKey
 	 *
 	 * @return bool
@@ -199,5 +205,40 @@ abstract class Adi_Synchronization_Abstract
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if the user is a member of the domain connected to the WordPress Site via domainSid
+	 *
+	 * @param string $userDomainSid
+	 *
+	 * @return bool
+	 */
+	public function isVerifiedDomainMember($userDomainSid)
+	{
+
+		if ($this->siteDomainSid == null || $this->siteDomainSid == '') {
+			$this->siteDomainSid = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAINS_ID);
+		}
+
+		if ($userDomainSid == $this->siteDomainSid) {
+			return true;
+		}
+		
+		return false;
+	}
+
+	public function getTargetDomainSid($username) {
+		
+		if($this->targetDomainSid == null || $this->targetDomainSid == '') {
+			$adLdap = $this->connection->getAdLdap();
+			$binarySid = $adLdap->user_info($username, array("objectsid"));
+			$stringSid = $adLdap->convertObjectsIdBinaryToString($binarySid[0]["objectsid"][0]);
+			$this->targetDomainSid = Core_Util_StringUtil::objectSidToDomainSid($stringSid);
+			
+			return $this->targetDomainSid;
+		}
+
+		return $this->targetDomainSid;
 	}
 }

@@ -46,6 +46,9 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			self::SUB_ACTION_PERSIST_OPTION_VALUES => self::SUB_ACTION_PERSIST_OPTION_VALUES,
 			self::SUB_ACTION_VERIFY_AD_CONNECTION  => self::SUB_ACTION_VERIFY_AD_CONNECTION,
 		);
+	
+	/** @var bool $isVerification */
+	private $isVerification;
 
 	/**
 	 * @param Multisite_View_TwigContainer             $twigContainer
@@ -338,8 +341,13 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	protected function verifyAdConnection($data)
 	{
 		$data = $data["data"];
+		
+		$this->isVerification = true;
+		
 		$this->validate($data);
-		//TODO Profile Config Page Domains ID wird noch nicht gepseichert.
+		
+		$this->isVerification = false;
+		
 		return $this->verifyInternal($data);
 	}
 	
@@ -347,7 +355,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		$objectsid = $this->twigContainer->verifyConnection($data);
 
 		if ($objectsid === false) {
-			return array("verification_failed" => "Verification failed.");
+			return array("verification_failed" => "Verification failed. Connection to Ldap Server failed.");
 		}
 
 		$domainsId = $this->twigContainer->getDomainsId($objectsid);
@@ -444,31 +452,72 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		if (null === $this->validator) {
 			$validator = new Core_Validator();
 
-			$message = __('Username has to contain a suffix.', ADI_I18N);
 
-			// conditional rule for our sync_to_wordpress_user value
-			$syncToWordPressSuffixRule = new Multisite_Validator_Rule_ConditionalSuffix(
-				$message, '@', array(
-					'sync_to_wordpress_enabled' => true,
-				)
-			);
-			$validator->addRule(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER, $syncToWordPressSuffixRule);
+			//ENVIRONMENT
+			$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', ADI_I18N);
+			$portRule = new Multisite_Validator_Rule_Port($portMessage);
+			$validator->addRule(Adi_Configuration_Options::PORT, $portRule);
 
-			// conditional rule for our sync_to_ad_global_user value
-			$syncToActiveDirectorySuffixRule = new Multisite_Validator_Rule_ConditionalSuffix(
-				$message, '@', array(
-					'sync_to_ad_use_global_user' => true,
-				)
-			);
-			$validator->addRule(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER, $syncToActiveDirectorySuffixRule);
+			$networkTimeoutMessage = __('Network timeout has to be numeric and cannot be negative.', ADI_I18N);
+			$networkTimeoutRule = new Multisite_Validator_Rule_PositiveNumericOrZero($networkTimeoutMessage);
+			$validator->addRule(Adi_Configuration_Options::NETWORK_TIMEOUT, $networkTimeoutRule);
+			
+			if ($this->isVerification) {
+				$verifyUsernameMessage = __(
+					'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', ADI_I18N
+				);
+				$verifyUsernameRule = new Multisite_Validator_Rule_AdminEmail($verifyUsernameMessage, '@');
+				$validator->addRule(Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameRule);
 
+				$verifyUsernameEmptyMessage = __(
+					'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', ADI_I18N
+				);
+				$verifyUsernameEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyUsernameEmptyMessage);
+				$validator->addRule(Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameEmptyRule);
+
+				$verifyPasswordMessage = __('Verification Password cannot be empty.', ADI_I18N);
+				$verifyPasswordRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyPasswordMessage);
+				$validator->addRule(Adi_Configuration_Options::VERIFICATION_PASSWORD, $verifyPasswordRule);
+
+				$this->validator = $validator;
+				return $this->validator;
+			}
+
+			//PROFILE
+			$notEmptyMessage = __('This value must not be empty.', ADI_I18N);
+			$notEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($notEmptyMessage);
+			$validator->addRule(Adi_Configuration_Options::PROFILE_NAME, $notEmptyRule);
+			
+
+			//USER
 			$accountSuffixMessage = __(
 				'Account Suffix does not match the required style. (e.g. "@company.local")',
 				ADI_I18N
 			);
 			$accountSuffixRule = new Multisite_Validator_Rule_AccountSuffix($accountSuffixMessage, '@');
 			$validator->addRule(Adi_Configuration_Options::ACCOUNT_SUFFIX, $accountSuffixRule);
+			
+			$defaultEmailDomainMessage = __('Please remove the "@", it will be added automatically.', ADI_I18N);
+			$defaultEmailDomainRule = new Multisite_Validator_Rule_DefaultEmailDomain($defaultEmailDomainMessage);
+			$validator->addRule(Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN, $defaultEmailDomainRule);
 
+			//SECURITY
+			$maxLoginAttempts = __('Maximum login attempts has to be numeric and cannot be negative.', ADI_I18N);
+			$maxLoginAttemptsRule = new Multisite_Validator_Rule_PositiveNumericOrZero($maxLoginAttempts);
+			$validator->addRule(Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS, $maxLoginAttemptsRule);
+
+			$blockTimeMessage = __('Blocking Time has to be numeric and cannot be negative.', ADI_I18N);
+			$blockTimeRule = new Multisite_Validator_Rule_PositiveNumericOrZero($blockTimeMessage);
+			$validator->addRule(Adi_Configuration_Options::BLOCK_TIME, $blockTimeRule);
+
+			$adminEmailMessage = __(
+				'Admin email does not match the required style. (e.g. "admin@company.local")',
+				ADI_I18N
+			);
+			$adminEmailRule = new Multisite_Validator_Rule_AdminEmail($adminEmailMessage, '@');
+			$validator->addRule(Adi_Configuration_Options::ADMIN_EMAIL, $adminEmailRule);
+
+			//ATTRIBUTES
 			$noDefaultAttributeNameMessage = __(
 				'Cannot use default attribute names for custom attribute mapping.',
 				ADI_I18N
@@ -493,52 +542,24 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$adAttributeConflictRule = new Multisite_Validator_Rule_AdAttributeConflict($adAttributeConflictMessage);
 			$validator->addRule(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $adAttributeConflictRule);
 
-			$defaultEmailDomainMessage = __('Please remove the "@", it will be added automatically.', ADI_I18N);
-			$defaultEmailDomainRule = new Multisite_Validator_Rule_DefaultEmailDomain($defaultEmailDomainMessage);
-			$validator->addRule(Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN, $defaultEmailDomainRule);
-
-			$adminEmailMessage = __(
-				'Admin email does not match the required style. (e.g. "admin@company.local")',
-				ADI_I18N
+			//SYNC TO AD
+			// conditional rule for our sync_to_ad_global_user value
+			$message = __('Username has to contain a suffix.', ADI_I18N);
+			$syncToActiveDirectorySuffixRule = new Multisite_Validator_Rule_ConditionalSuffix(
+				$message, '@', array(
+					'sync_to_ad_use_global_user' => true,
+				)
 			);
-			$adminEmailRule = new Multisite_Validator_Rule_AdminEmail($adminEmailMessage, '@');
-			$validator->addRule(Adi_Configuration_Options::ADMIN_EMAIL, $adminEmailRule);
+			$validator->addRule(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER, $syncToActiveDirectorySuffixRule);
 
-//			$verifyUsernameMessage = __(
-//				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', ADI_I18N
-//			);
-//			$verifyUsernameRule = new Multisite_Validator_Rule_AdminEmail($verifyUsernameMessage, '@');
-//			$validator->addRule(Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameRule);
-//
-//			$verifyUsernameEmptyMessage = __(
-//				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', ADI_I18N
-//			);
-//			$verifyUsernameEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyUsernameEmptyMessage);
-//			$validator->addRule(Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameEmptyRule);
-//
-//			$verifyPasswordMessage = __('Verification Password cannot be empty.', ADI_I18N);
-//			$verifyPasswordRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyPasswordMessage);
-//			$validator->addRule(Adi_Configuration_Options::VERIFICATION_PASSWORD, $verifyPasswordRule);
-
-			$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', ADI_I18N);
-			$portRule = new Multisite_Validator_Rule_Port($portMessage);
-			$validator->addRule(Adi_Configuration_Options::PORT, $portRule);
-
-			$networkTimeoutMessage = __('Network timeout has to be numeric and cannot be negative.', ADI_I18N);
-			$networkTimeoutRule = new Multisite_Validator_Rule_PositiveNumericOrZero($networkTimeoutMessage);
-			$validator->addRule(Adi_Configuration_Options::NETWORK_TIMEOUT, $networkTimeoutRule);
-
-			$maxLoginAttempts = __('Maximum login attempts has to be numeric and cannot be negative.', ADI_I18N);
-			$maxLoginAttemptsRule = new Multisite_Validator_Rule_PositiveNumericOrZero($maxLoginAttempts);
-			$validator->addRule(Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS, $maxLoginAttemptsRule);
-
-			$blockTimeMessage = __('Blocking Time has to be numeric and cannot be negative.', ADI_I18N);
-			$blockTimeRule = new Multisite_Validator_Rule_PositiveNumericOrZero($blockTimeMessage);
-			$validator->addRule(Adi_Configuration_Options::BLOCK_TIME, $blockTimeRule);
-
-			$notEmptyMessage = __('This value must not be empty.', ADI_I18N);
-			$notEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($notEmptyMessage);
-			$validator->addRule(Adi_Configuration_Options::PROFILE_NAME, $notEmptyRule);
+			//SYNC TO WORDPRESS
+			// conditional rule for our sync_to_wordpress_user value
+			$syncToWordPressSuffixRule = new Multisite_Validator_Rule_ConditionalSuffix(
+				$message, '@', array(
+					'sync_to_wordpress_enabled' => true,
+				)
+			);
+			$validator->addRule(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER, $syncToWordPressSuffixRule);
 
 			$this->validator = $validator;
 		}

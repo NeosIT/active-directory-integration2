@@ -433,25 +433,7 @@ class Multisite_View_TwigContainer
 		return false;
 	}
 	
-	public function getDomainsId($objectsId) {
-		
-		$stringBuffer = "";
-		
-		if(is_string($objectsId) && $objectsId != '')
-		{	$position = 0;
-			$reversedString = strrev($objectsId);
-
-			for ($i = 0; $i < strlen($reversedString); $i++) {
-				if ($reversedString[$i] === "-") {
-					$position = $i + 1;
-					break;
-				}
-			}
-			
-			$stringBuffer = substr($reversedString, $position);
-			$stringBuffer = strrev($stringBuffer);			
-		}
-		
-		return $stringBuffer;
+	public function getDomainsId($objectSid) {		
+		return Core_Util_StringUtil::objectSidToDomainSid($objectSid);
 	}
 }

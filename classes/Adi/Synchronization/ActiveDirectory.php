@@ -108,6 +108,14 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 			return false;
 		}
 
+		$siteDomainSid = $this->configuration->getOption(Adi_Configuration_Options::DOMAINS_ID)["option_value"]; //TODO Refactoring move to Abstract to avoid duplicated code
+		$targetDomainSid = $this->getTargetDomainSid($username);
+
+		if ($targetDomainSid != $siteDomainSid) {
+			$this->logger->error('TargetDomainSid: ' . $targetDomainSid . ' does not match the DomainSid connected to your WordPress Site: ' . $siteDomainSid);
+			return false;
+		}
+
 		$this->increaseExecutionTime();
 		
 		return true;

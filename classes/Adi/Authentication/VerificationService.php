@@ -19,8 +19,8 @@ class Adi_Authentication_VerificationService
 	private $ldapConnection;
 
 	/**
-	 * @param Ldap_Connection                 $ldapConnection
-	 * @param Ldap_Attribute_Repository          $attributeRepository
+	 * @param Ldap_Connection           $ldapConnection
+	 * @param Ldap_Attribute_Repository $attributeRepository
 	 */
 	public function __construct(Ldap_Connection $ldapConnection,
 		Ldap_Attribute_Repository $attributeRepository
@@ -28,10 +28,11 @@ class Adi_Authentication_VerificationService
 		$this->ldapConnection = $ldapConnection;
 		$this->attributeRepository = $attributeRepository;
 	}
-	
-	public function verifyConnection($data) {
-		
-		
+
+	public function verifyConnection($data)
+	{
+
+
 		$config = new Ldap_ConnectionDetails();
 		$config->setCustomDomainControllers($data["domain_controllers"]);
 		$config->setCustomPort($data["port"]);
@@ -40,22 +41,20 @@ class Adi_Authentication_VerificationService
 		$config->setCustomBaseDn($data["base_dn"]);
 		$config->setUsername($data["verification_username"]);
 		$config->setPassword($data["verification_password"]);
-		
-		//TODO Exception muss abgefangen werden, crashed wenn die connection nicht hergestellt werden kann 
+
 		//TODO Only the save button on the environment page is disabled at the moment if no domains id is set.
 		$this->ldapConnection->connect($config);
-		
-		$isConnected = $this->ldapConnection->isConnected($this->ldapConnection->getAdLdap());
-		
-		if($isConnected) {
+
+		$isConnected = $this->ldapConnection->isConnected();
+
+		if ($isConnected) {
+			
 			$attributeService = new Ldap_Attribute_Service($this->ldapConnection, $this->attributeRepository);
-
-
 			$objectSid = $attributeService->getObjectSid($data["verification_username"], false);
 
 			return $objectSid;
 		}
-		
+
 		return false;
 	}
 
