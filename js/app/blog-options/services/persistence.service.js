@@ -13,8 +13,6 @@
             data.verification_password = "";
             delete data.verification_status;
             delete data.verification_status_message;
-
-            console.log(data);
             
             return $http.post('admin-ajax.php', {
                 action: 'adi2_blog_options',

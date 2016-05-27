@@ -44,8 +44,6 @@
                 verification_password : $valueHelper.findPermission("verification_password", data),
                 verification_status: $valueHelper.findPermission("domains_id", data)
             };
-            
-            console.log($scope.permission.verification_username);
 
             if ($scope.option.verification_status != '') {
                 $scope.option.verification_status_message = "WordPress Site connected to Domain."
@@ -88,8 +86,6 @@
                 profile: $scope.activeProfile.profileId
             };
             
-
-            console.log("send verification request");
             $http.post('../admin-ajax.php', {
                 action: 'adi2_profile_options',
                 security: document.adi2.security,
