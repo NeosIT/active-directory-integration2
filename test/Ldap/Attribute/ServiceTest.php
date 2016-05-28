@@ -243,4 +243,14 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 		$actual = Ldap_Attribute_Service::getLdapValue($metaObject, $adResponse);
 		$this->assertEquals(array($adResponse['metaKey']), $actual);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getObjectSid_itReturnsObjectSidOfUsername()
+	{
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
+	}
 }

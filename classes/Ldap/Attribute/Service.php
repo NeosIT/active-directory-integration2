@@ -189,15 +189,15 @@ class Ldap_Attribute_Service
 	 * 
 	 * @return Ldap_Attributes
 	 */
-	public function getObjectSid($username, $isGUID = false) {
-		
+	public function getObjectSid($username, $isGUID = false)
+	{
 		$attributeNames = array("objectsid");
 		
 		$raw = $this->ldapConnection->findAttributesOfUser($username, $attributeNames, $isGUID);
 		$filtered = $this->parseLdapResponse($attributeNames, $raw);
-		$objectsid = $this->ldapConnection->getAdLdap()->convertObjectsIdBinaryToString($filtered["objectsid"]);
+		$objectSid = $this->ldapConnection->getAdLdap()->convertObjectSidBinaryToString($filtered["objectsid"]);
 		
-		return $objectsid;
+		return $objectSid;
 	}
 	
 

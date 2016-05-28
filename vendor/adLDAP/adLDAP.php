@@ -847,7 +847,7 @@ class adLDAP {
 		// Search the directory for the members of a group
 		$info=$this->group_info($group,array("member", "cn"));
         
-        //Check if group exist
+        // check if group exist
         if ($info["count"] === 0) {
             return false;
         }
@@ -2528,12 +2528,13 @@ class adLDAP {
      }
 
     /**
-     * Convert binary ObjectsId to String
-     * 
+     * Convert binary Object SID to string
+     *
+     * @author dme@neos-it.de
      * @param $bin
      * @return $string
      */
-    public function convertObjectsIdBinaryToString($bin) {
+    public function convertObjectSidBinaryToString($bin) {
        return $this->getTextSID($bin);
     }
      

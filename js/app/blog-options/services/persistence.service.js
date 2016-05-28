@@ -8,7 +8,7 @@
 
         vm.persistData = function (data) {
             
-            //exclude domains_id from persist
+            // exclude domain_sid from persist
             data.verification_username = "";
             data.verification_password = "";
             delete data.verification_status;

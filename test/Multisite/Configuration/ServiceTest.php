@@ -285,4 +285,28 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 
 		$this->assertEquals($expected, $result);
 	}
+
+	/**
+	 * @test
+	 */
+	public function isEnvironmentOption_whenCheckingEnvironmentOption_itReturnsTrue()
+	{
+		$sut = $this->sut(null);
+
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isEnvironmentOption_whenCheckingNonEnvironmentOption_itReturnsFalse()
+	{
+		$sut = $this->sut(null);
+
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
+	}
 }

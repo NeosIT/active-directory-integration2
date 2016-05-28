@@ -214,6 +214,19 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	}
 
 	/**
+	 * @issue ADI-235
+	 * @test
+	 */
+	public function prepareForSync_whenUsernameIsNotInDomain_itReturnsFalse()
+	{
+		$sut = $this->sut();
+
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
+	}
+
+	/**
 	 * @test
 	 */
 	public function findSynchronizableUsers_iReturnsMergedActiveDirectoryAndWordPressUsers()
@@ -588,6 +601,52 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 			->method('synchronizeAccountStatus')
 			->with($adiUser, true);
 
+
+		$actual = $sut->synchronizeUser($credentials, 'guid');
+		$this->assertEquals(666, $actual);
+	}
+
+
+	/**
+	 * @issue ADI-235
+	 * @test
+	 */
+	public function synchronizeUser_itAddsDomainSid()
+	{
+		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
+			'findLdapAttributesOfUser'));
+
+		$credentials = new Adi_Authentication_Credentials("username");
+		$adiUser = new Adi_User($credentials, new Ldap_Attributes());
+
+		$this->attributeService->expects($this->once())
+			->method('findLdapAttributesOfUser')
+			->willReturn(new Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad')));
+
+		$this->behave($this->userManager, 'createAdiUser', $adiUser);
+
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS)
+			->willReturn(true);
+
+		$sut->expects($this->once())
+			->method('checkAccountRestrictions')
+			->with($adiUser)
+			->willReturn(true);
+
+		$sut->expects($this->once())
+			->method('createOrUpdateUser')
+			->with($adiUser)
+			->willReturn(666);
+
+		$sut->expects($this->once())
+			->method('synchronizeAccountStatus')
+			->with($adiUser, true);
+
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
 
 		$actual = $sut->synchronizeUser($credentials, 'guid');
 		$this->assertEquals(666, $actual);

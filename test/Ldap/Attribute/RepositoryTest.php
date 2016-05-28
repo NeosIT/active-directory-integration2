@@ -713,6 +713,7 @@ class Ut_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			'adi2_userprincipalname',
 			'adi2_useraccountcontrol',
 			'adi2_objectguid',
+			'adi2_domainsid'
 		);
 
 		$actual = Ldap_Attribute_Repository::getDefaultAttributeMetaKeys();

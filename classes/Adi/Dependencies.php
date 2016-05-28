@@ -1031,6 +1031,7 @@ class Adi_Dependencies
 	 * @var Adi_Authentication_VerificationService
 	 */
 	private $verificationService = null;
+
 	public function getVerificationService() {
 		if ($this->verificationService == null) {
 			$this->verificationService = new Adi_Authentication_VerificationService(

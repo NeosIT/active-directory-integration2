@@ -108,11 +108,7 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 			return false;
 		}
 
-		$siteDomainSid = $this->configuration->getOption(Adi_Configuration_Options::DOMAINS_ID)["option_value"]; //TODO Refactoring move to Abstract to avoid duplicated code
-		$targetDomainSid = $this->getTargetDomainSid($username);
-
-		if ($targetDomainSid != $siteDomainSid) {
-			$this->logger->error('TargetDomainSid: ' . $targetDomainSid . ' does not match the DomainSid connected to your WordPress Site: ' . $siteDomainSid);
+		if (!$this->isUsernameInDomain($username)) {
 			return false;
 		}
 
@@ -240,7 +236,7 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 	 * @return array a list with synchronizable users which can be null
 	 */
 	protected function getUsers($userId = null) {
-		$users = $this->findActiveDirectoryUsers($userId);	
+		$users = $this->findActiveDirectoryUsers($userId);
 
 		if (!$users) {
 			$this->logger->warn('No possible users for synchronization back to Active Directory found.');

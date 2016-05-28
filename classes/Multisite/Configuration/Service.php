@@ -92,7 +92,8 @@ class Multisite_Configuration_Service
 	 *
 	 * @return array
 	 */
-	public function getOption($optionName, $blogId = null) //TODO Wenn ein Profile welches einem Blog zugeordnet ist eine Domänenverknüpfung besitzt, werden für den Environment immer die Daten aus dem Profile geladen auch wenn die Optionen die Permission 3 haben. Zusamen wird dem Blog Admin nicht gestattet diese Optionen zu ändern. ES MUSS NOCH angepasst werden, dass in diesem Fall die Optionen nicht Persistiert werden, wenn der Blog Admin speichert da ansonsten die Blog Einstellungen überschrieben werden.
+	public function getOption($optionName, $blogId = null)
+		//TODO Wenn ein Profile welches einem Blog zugeordnet ist eine Domänenverknüpfung besitzt, werden für den Environment immer die Daten aus dem Profile geladen auch wenn die Optionen die Permission 3 haben. Zusamen wird dem Blog Admin nicht gestattet diese Optionen zu ändern. ES MUSS NOCH angepasst werden, dass in diesem Fall die Optionen nicht Persistiert werden, wenn der Blog Admin speichert da ansonsten die Blog Einstellungen überschrieben werden.
 	{
 		if ($blogId === null) {
 			$blogId = get_current_blog_id();
@@ -104,28 +105,32 @@ class Multisite_Configuration_Service
 
 		$blogOptionValue = $this->blogConfigurationRepository->findSanitized($blogId, $optionName);
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
-		$profileHasDomainConnection = false;
+		$profileHasLinkedDomain = false;
+
 		if ($profileId != null) {
-			$profilDomainSid = $this->getProfileOptionValue(Adi_Configuration_Options::DOMAINS_ID, $blogId);
+			$profileDomainSid = $this->getProfileOptionValue(Adi_Configuration_Options::DOMAIN_SID, $blogId);
 			
-			if ($profilDomainSid != null && $profilDomainSid != "") {
-				$profileHasDomainConnection = true;
+			if (!empty($profileDomainSid)) {
+				$profileHasLinkedDomain = true;
 			}
 		}
 		
 		$profileOptionValue = $this->getProfileOptionValue($optionName, $blogId);
 		$permission = $this->getPermission($optionName, $profileId);
-		
-		
-		if ($profileHasDomainConnection && $this->isEnvironmentOption($optionName)) {
+
+		// ADI-235: corner-case; if the profile has been already linked to an Active Directory domain the options from
+		// the "Environment" tab can't be edited in child profiles. This prevents overwriting connections provided by the
+		// network administrator
+		if ($profileHasLinkedDomain && $this->isEnvironmentOption($optionName)) {
 			$optionValue = $profileOptionValue;
+
 			if ($permission == Multisite_Configuration_Service::EDITABLE) {
 				$permission = Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN;
 			}
-		} else {
+		}
+		else {
 			$optionValue = $this->getValue($permission, $profileOptionValue, $blogOptionValue);
 		}
-		
 
 		$optionArray = array(
 			'option_name'       => $optionName,
@@ -177,7 +182,7 @@ class Multisite_Configuration_Service
 			return $profileOptionValue;
 		}
 		
-			return $blogOptionValue;
+		return $blogOptionValue;
 	}
 
 	/**
@@ -265,8 +270,8 @@ class Multisite_Configuration_Service
 	/**
 	 * Find all option values, that are  part of the profile and not the profile configuration.
 	 *
-	 * @param $profileId
-	 * @param $options
+	 * @param numeric $profileId
+	 * @param array $options
 	 *
 	 * @return mixed
 	 */
@@ -281,12 +286,27 @@ class Multisite_Configuration_Service
 
 		return $options;
 	}
-	
+
+	/**
+	 * Return if the given option name is located on the "Environment" tab
+	 *
+	 * @param string $optionName
+	 * @return bool
+	 */
 	public function isEnvironmentOption($optionName) 
 	{
-		$optionNameBuffer = array(Adi_Configuration_Options::DOMAIN_CONTROLLERS => true, Adi_Configuration_Options::PORT => true, Adi_Configuration_Options::USE_TLS => true, Adi_Configuration_Options::NETWORK_TIMEOUT => true, Adi_Configuration_Options::BASE_DN => true, Adi_Configuration_Options::DOMAINS_ID => true); //TODO move somewhere else
-		
-		if (isset($optionNameBuffer[$optionName]))
+		$arrEnvironmentOptions = array(Adi_Configuration_Options::DOMAIN_CONTROLLERS,
+			Adi_Configuration_Options::PORT,
+			Adi_Configuration_Options::USE_TLS,
+			Adi_Configuration_Options::NETWORK_TIMEOUT,
+			Adi_Configuration_Options::BASE_DN,
+			Adi_Configuration_Options::DOMAIN_SID
+		); //TODO move somewhere else
+
+		// TODO better solution would be to get viewable configuration through Layout class. But this introduces new
+		// dependencies to the front end package. Meh.
+
+		if (in_array($optionName, $arrEnvironmentOptions))
 		{
 			return true;
 		}

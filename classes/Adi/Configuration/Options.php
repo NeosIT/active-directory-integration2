@@ -30,7 +30,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 	const BASE_DN = 'base_dn';
 	const VERIFICATION_USERNAME = 'verification_username';
 	const VERIFICATION_PASSWORD = 'verification_password';
-	const DOMAINS_ID = 'domains_id';
+	const DOMAIN_SID = 'domain_sid';
 
 	// User - User Settings
 	const EXCLUDE_USERNAMES_FROM_AUTHENTICATION = 'exclude_usernames_from_authentication';
@@ -392,14 +392,14 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			),
 			// VERIFICATION USERNAME
 			self::VERIFICATION_USERNAME            => array(
-				$title       => __('Verification Username', ADI_I18N),
+				$title       => __('Verification username', ADI_I18N),
 				$type        => Multisite_Option_Type::TEXT,
 				$description => __(
-					'Verification Username (e.g. Admin@test.ad)', ADI_I18N
+					'Verification username (e.g. administration@test.ad)', ADI_I18N
 				),
 				$detail      => array(
 					__(
-						'You have to enter a valid ad username to link your WordPress Site to a specific AD domain.',
+						'You have to enter a valid Active Directory account to link your WordPress site to a specific Active Directory domain.',
 						ADI_I18N
 					),
 				),
@@ -411,14 +411,14 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			),
 			// VERIFICATION PASSWORD
 			self::VERIFICATION_PASSWORD            => array(
-				$title       => __('Verification Password', ADI_I18N),
+				$title       => __('Verification password', ADI_I18N),
 				$type        => Multisite_Option_Type::VERIFICATION_PASSWORD,
 				$description => __(
-					'Verification Password', ADI_I18N
+					'Verification password', ADI_I18N
 				),
 				$detail      => array(
 					__(
-						'You have to enter a valid ad password to link your WordPress Site to a specific AD domain.',
+						'You have to enter the password for the Active Directory account to link your WordPress site to a specific Active Directory domain.',
 						ADI_I18N
 					),
 				),
@@ -429,15 +429,15 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$transient         => false,
 			),
 			// DOMAINS ID
-			self::DOMAINS_ID           => array(
-				$title       => __('Domains Id', ADI_I18N),
+			self::DOMAIN_SID           => array(
+				$title       => __('Active Directory Domain SID', ADI_I18N),
 				$type        => Multisite_Option_Type::TEXT,
 				$description => __(
-					'Shows weither the current WordPress site is connected to an AD domain or not.', ADI_I18N
+					'Shows whether the current WordPress site is connected to an AD domain or not.', ADI_I18N
 				),
 				$detail      => array(
 					__(
-						'Shows weither the current WordPress site is connected to an AD domain or not.',
+						'Shows whether the current WordPress site is connected to an AD domain or not.',
 						ADI_I18N
 					),
 				),

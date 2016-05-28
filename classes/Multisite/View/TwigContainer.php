@@ -351,7 +351,7 @@ class Multisite_View_TwigContainer
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
 		
 		if ($this->isProfileConnectedToDomain == null) {
-			$domainSidBuffer = $this->getOptionValue(Adi_Configuration_Options::DOMAINS_ID, $profileId);
+			$domainSidBuffer = $this->getOptionValue(Adi_Configuration_Options::DOMAIN_SID, $profileId);
 			
 			if ($domainSidBuffer != '' && $domainSidBuffer != null) {
 				$this->isProfileConnectedToDomain = true;
@@ -360,22 +360,12 @@ class Multisite_View_TwigContainer
 		
 		$permission = $this->profileConfigurationRepository->findPermissionSanitized($profileId, $optionName); //TODO Permission muss angepasst werden für den Environment Tab wenn das Profile eine Verknüpfung zu einer Domäne hat
 
-		if ($permission == 3 && $this->isProfileConnectedToDomain && $this->isEnvironmentOption($optionName)) {
+		// TODO wat? this must be described
+		if ($permission == 3 && $this->isProfileConnectedToDomain && $this->configuration->isEnvironmentOption($optionName)) {
 			return 2;
 		}
 		
 		return $permission;
-	}
-
-	public function isEnvironmentOption($optionName) {
-		$optionNameBuffer = array(Adi_Configuration_Options::DOMAIN_CONTROLLERS => true, Adi_Configuration_Options::PORT => true, Adi_Configuration_Options::USE_TLS => true, Adi_Configuration_Options::NETWORK_TIMEOUT => true, Adi_Configuration_Options::BASE_DN => true, Adi_Configuration_Options::DOMAINS_ID => true, Adi_Configuration_Options::VERIFICATION_USERNAME => true, Adi_Configuration_Options::VERIFICATION_PASSWORD => true); //TODO move somewhere else
-
-		if (isset($optionNameBuffer[$optionName]))
-		{
-			return true;
-		}
-
-		return false;
 	}
 
 	/**

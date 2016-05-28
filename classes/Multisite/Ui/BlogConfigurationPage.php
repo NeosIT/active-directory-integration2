@@ -352,19 +352,20 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	}
 	
 	protected function verifyInternal($data) {
-		$objectsid = $this->twigContainer->verifyConnection($data);
+		$objectSid = $this->twigContainer->verifyConnection($data);
 
-		if ($objectsid === false) {
-			return array("verification_failed" => "Verification failed. Connection to Ldap Server failed.");
+		if ($objectSid === false) {
+			return array("verification_failed" => "Verification failed. Connection to Active Directory server failed.");
 		}
 
-		$domainsId = $this->twigContainer->getDomainsId($objectsid);
+		$domainSid = $this->twigContainer->getDomainsId($objectSid);
 
-		if (is_string($domainsId) && $domainsId !== '') {
-			$postData = array("domains_id" => $domainsId);
+		if (is_string($domainSid) && $domainSid !== '') {
+			$postData = array("domain_sid" => $domainSid);
 			$this->persistDomainsId($postData);
-			return array("verification_successful" => "WordPress site is now connected to Domain: "
-				. $domainsId);
+
+			return array("verification_successful" => "WordPress site is now connected to Active Directory domain: "
+				. $domainSid);
 		}
 
 		return array("verification_failed" => "Verification failed.");

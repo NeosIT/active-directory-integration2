@@ -24,11 +24,6 @@ abstract class Adi_Synchronization_Abstract
 	/* @var Ldap_ConnectionDetails */
 	protected $connectionDetails;
 
-	/* @var string */
-	private $siteDomainSid;
-
-	/* @var string */
-	private $targetDomainSid;
 	/* @var int*/
 	private $time = 0;
 
@@ -36,7 +31,6 @@ abstract class Adi_Synchronization_Abstract
 	 * Execution time in seconds which is required for the long-running tasks
 	 */
 	const REQUIRED_EXECUTION_TIME_IN_SECONDS = 18000;
-
 
 	/**
 	 * @param Multisite_Configuration_Service $configuration
@@ -121,10 +115,6 @@ abstract class Adi_Synchronization_Abstract
 	{
 		$users = $this->findActiveDirectoryUsers();
 
-		if ($this->siteDomainSid == null || $this->siteDomainSid == '') {
-			$this->siteDomainSid = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAINS_ID);
-		}
-
 		$r = array();
 
 		foreach ($users as $user) {
@@ -208,37 +198,40 @@ abstract class Adi_Synchronization_Abstract
 	}
 
 	/**
-	 * Check if the user is a member of the domain connected to the WordPress Site via domainSid
+	 * Check if the user is a member of the Active Directory domain connected to the WordPress site via its domain SID
 	 *
 	 * @param string $userDomainSid
 	 *
-	 * @return bool
+	 * @return bool true if user is member of domain
 	 */
 	public function isVerifiedDomainMember($userDomainSid)
 	{
-
-		if ($this->siteDomainSid == null || $this->siteDomainSid == '') {
-			$this->siteDomainSid = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAINS_ID);
-		}
-
-		if ($userDomainSid == $this->siteDomainSid) {
+		if ($userDomainSid == $this->connection->getDomainSid()) {
 			return true;
 		}
 		
 		return false;
 	}
 
-	public function getTargetDomainSid($username) {
-		
-		if($this->targetDomainSid == null || $this->targetDomainSid == '') {
-			$adLdap = $this->connection->getAdLdap();
-			$binarySid = $adLdap->user_info($username, array("objectsid"));
-			$stringSid = $adLdap->convertObjectsIdBinaryToString($binarySid[0]["objectsid"][0]);
-			$this->targetDomainSid = Core_Util_StringUtil::objectSidToDomainSid($stringSid);
-			
-			return $this->targetDomainSid;
+	/**
+	 * Check if username is inside the current linked domain
+	 *
+	 * @param string $username
+	 * @return bool
+	 */
+	public function isUsernameInDomain($username) {
+		// TODO this method is only called from the child classes after the authentication is succeeded. Can we re-use the user_info from the authentication?
+		// TODO this would prevent a second LDAP call
+		$adLdap = $this->connection->getAdLdap();
+		$binarySid = $adLdap->user_info($username, array("objectsid"));
+		$stringSid = $adLdap->convertObjectSidBinaryToString($binarySid[0]["objectsid"][0]);
+		$usersDomainSid = Core_Util_StringUtil::objectSidToDomainSid($stringSid);
+
+		if ($this->isVerifiedDomainMember($usersDomainSid)) {
+			return true;
 		}
 
-		return $this->targetDomainSid;
+		$this->logger->warn('User ' . $username . ' with SID ' . $usersDomainSid . ' (domain SID: ' . $usersDomainSid . ') is not member of domain with domain SID "' . $this->getDomainSid() . "'");
+		return false;
 	}
 }

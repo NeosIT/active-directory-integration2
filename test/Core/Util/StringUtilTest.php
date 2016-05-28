@@ -88,4 +88,13 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 		$actual = Core_Util_StringUtil::splitText($string);
 		$this->assertEquals($expected, $actual);
 	}
+
+	/**
+	 * @test
+	 */
+	public function objectSidToDomainSid_itReturnsDomainSidOfObject() {
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
+	}
 }

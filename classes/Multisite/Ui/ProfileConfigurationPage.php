@@ -245,30 +245,32 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	}
 
 	protected function verifyInternalForProfile($data, $profileId) {
-		$objectsid = $this->twigContainer->verifyConnection($data);
+		// TODO this code does already exist inside BlogConfigurationPage
+		// TODO REFACTOR!
+		$objectSid = $this->twigContainer->verifyConnection($data);
 
-		if ($objectsid === false) {
+		if ($objectSid === false) {
 			return array("verification_failed" => "Verification failed.");
 		}
 
-		$domainsId = $this->twigContainer->getDomainsId($objectsid);
+		$domainSid = $this->twigContainer->getDomainsId($objectSid);
 
-		if (is_string($domainsId) && $domainsId !== '') {
+		if (is_string($domainSid) && $domainSid !== '') {
 			$postData = array(
-				"domains_id" => array(
-					"option_value" => $domainsId,
+				"domain_sid" => array(
+					"option_value" => $domainSid,
 					"option_permission" => 3, //TODO revisit (Default Value to prevent saving errors)
 			));
 			
-			$this->persistDomainsIdForProfile($postData, $profileId);
-			return array("verification_successful" => "WordPress site is now connected to Domain: "
-				. $domainsId);
+			$this->persistDomainSidForProfile($postData, $profileId);
+			return array("verification_successful" => "WordPress site is now connected to Active Directory domain: "
+				. $domainSid);
 		}
 
 		return array("verification_failed" => "Verification failed.");
 	}
 
-	public function persistDomainsIdForProfile($data, $profileId)
+	public function persistDomainSidForProfile($data, $profileId)
 	{
 		return $this->profileConfigurationController->saveProfileOptions($data, $profileId);
 	}

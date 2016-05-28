@@ -104,6 +104,18 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
+	public function prepareForSync_whenUsernameIsNotInDomain_itReturnFalse()
+	{
+		$sut = $this->sut(array('isEnabled'));
+
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+	}
+
+	/**
+	 * @test
+	 */
 	public function prepareForSync_connectionNotEstablished_returnFalse()
 	{
 		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime', 'isEnabled'));

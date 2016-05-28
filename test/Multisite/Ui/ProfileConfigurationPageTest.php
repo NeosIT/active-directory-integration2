@@ -108,24 +108,24 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'add_query_arg', array(
-				'args'   => array('page', Multisite_Ui_BlogProfileRelationshipPage::buildSlug()),
-				'times'  => 1,
+				'args' => array('page', Multisite_Ui_BlogProfileRelationshipPage::buildSlug()),
+				'times' => 1,
 				'return' => 'url',
 			)
 		);
 
 		WP_Mock::wpFunction(
 			'wp_create_nonce', array(
-				'args'   => Multisite_Ui_ProfileConfigurationPage::NONCE,
-				'times'  => 1,
+				'args' => Multisite_Ui_ProfileConfigurationPage::NONCE,
+				'times' => 1,
 				'return' => $nonce,
 			)
 		);
 
 		WP_Mock::wpFunction(
 			'wp_create_nonce', array(
-				'args'   => Multisite_Ui_BlogProfileRelationshipPage::NONCE,
-				'times'  => 1,
+				'args' => Multisite_Ui_BlogProfileRelationshipPage::NONCE,
+				'times' => 1,
 				'return' => $nonce,
 			)
 		);
@@ -134,8 +134,8 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 			->method('display')
 			->with(Multisite_Ui_ProfileConfigurationPage::TEMPLATE, array(
 				'blog_profile_relationship_url' => 'url',
-				'nonce'                         => $nonce,
-				'blog_rel_nonce'                => $nonce,
+				'nonce' => $nonce,
+				'blog_rel_nonce' => $nonce,
 			));
 
 		$sut->renderNetwork();
@@ -151,7 +151,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_page', ADI_URL . '/js/page.js',
 					array('jquery'),
 					Multisite_Ui::VERSION_PAGE_JS,
@@ -162,7 +162,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'jquery-1.12.2.min',
 					ADI_URL . '/js/libraries/jquery-1.12.2.min.js',
 					array(),
@@ -174,7 +174,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'angular.min',
 					ADI_URL . '/js/libraries/angular.min.js',
 					array(),
@@ -186,7 +186,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'ng-alertify',
 					ADI_URL . '/js/libraries/ng-alertify.js',
 					array('angular.min'),
@@ -198,7 +198,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'ng-notify',
 					ADI_URL . '/js/libraries/ng-notify.min.js',
 					array('angular.min'),
@@ -210,7 +210,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_shared_util_array',
 					ADI_URL . '/js/app/shared/utils/array.util.js',
 					array(),
@@ -221,7 +221,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_shared_util_value',
 					ADI_URL . '/js/app/shared/utils/value.util.js',
 					array(),
@@ -233,7 +233,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_app_module',
 					ADI_URL . '/js/app/app.module.js',
 					array(),
@@ -244,7 +244,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_app_config',
 					ADI_URL . '/js/app/app.config.js',
 					array(),
@@ -256,7 +256,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_shared_service_browser',
 					ADI_URL . '/js/app/shared/services/browser.service.js',
 					array(),
@@ -268,7 +268,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_shared_service_template',
 					ADI_URL . '/js/app/shared/services/template.service.js',
 					array(),
@@ -280,7 +280,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_shared_service_notification',
 					ADI_URL . '/js/app/shared/services/notification.service.js',
 					array(),
@@ -291,7 +291,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_service_persistence',
 					ADI_URL . '/js/app/profile-options/services/persistence.service.js',
 					array(),
@@ -302,7 +302,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_shared_service_list',
 					ADI_URL . '/js/app/shared/services/list.service.js',
 					array(),
@@ -313,7 +313,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_service_data',
 					ADI_URL . '/js/app/profile-options/services/data.service.js',
 					array(),
@@ -326,7 +326,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		// add the controller js files
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_controller_profile',
 					ADI_URL . '/js/app/profile-options/controllers/profile.controller.js',
 					array(),
@@ -338,7 +338,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_controller_delete',
 					ADI_URL . '/js/app/profile-options/controllers/delete.controller.js',
 					array(),
@@ -350,7 +350,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_controller_ajax',
 					ADI_URL . '/js/app/profile-options/controllers/ajax.controller.js',
 					array(),
@@ -361,7 +361,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_controller_general',
 					ADI_URL . '/js/app/profile-options/controllers/general.controller.js',
 					array(),
@@ -372,7 +372,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_controller_environment',
 					ADI_URL . '/js/app/profile-options/controllers/environment.controller.js',
 					array(),
@@ -383,7 +383,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_controller_user',
 					ADI_URL . '/js/app/profile-options/controllers/user.controller.js',
 					array(),
@@ -394,7 +394,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_controller_password',
 					ADI_URL . '/js/app/profile-options/controllers/password.controller.js',
 					array(),
@@ -405,7 +405,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_controller_permission',
 					ADI_URL . '/js/app/profile-options/controllers/permission.controller.js',
 					array(),
@@ -416,7 +416,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_controller_security',
 					ADI_URL . '/js/app/profile-options/controllers/security.controller.js',
 					array(),
@@ -427,7 +427,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_controller_attributes',
 					ADI_URL . '/js/app/profile-options/controllers/attributes.controller.js',
 					array(),
@@ -438,7 +438,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_controller_sync_to_ad',
 					ADI_URL . '/js/app/profile-options/controllers/sync-to-ad.controller.js',
 					array(),
@@ -449,7 +449,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_profile_options_controller_sync_to_wordpress',
 					ADI_URL . '/js/app/profile-options/controllers/sync-to-wordpress.controller.js',
 					array(),
@@ -461,7 +461,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'adi2_blog_options_model',
 					ADI_URL . '/js/app/profile-options/models/profile.model.js',
 					array(),
@@ -473,7 +473,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'selectizejs',
 					ADI_URL . '/js/libraries/selectize.min.js',
 					array('jquery'),
@@ -486,7 +486,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'selectizeFix',
 					ADI_URL . '/js/libraries/fixed-angular-selectize-3.0.1.js',
 					array('selectizejs', 'angular.min'),
@@ -498,7 +498,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args'  => array(
+				'args' => array(
 					'adi2',
 					ADI_URL . '/css/adi2.css',
 					array(),
@@ -510,7 +510,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args'  => array(
+				'args' => array(
 					'ng-notify',
 					ADI_URL . '/css/ng-notify.min.css',
 					array(),
@@ -522,7 +522,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args'  => array(
+				'args' => array(
 					'selectizecss',
 					ADI_URL . '/css/selectize.css',
 					array(),
@@ -534,7 +534,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args'  => array(
+				'args' => array(
 					'alertify.min',
 					ADI_URL . '/css/alertify.min.css',
 					array(),
@@ -562,15 +562,15 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'check_ajax_referer', array(
-				'args'  => array('Active Directory Integration Profile Option Nonce', 'security', true),
+				'args' => array('Active Directory Integration Profile Option Nonce', 'security', true),
 				'times' => 1,
 			)
 		);
 
 		WP_Mock::wpFunction(
 			'current_user_can', array(
-				'args'   => array('manage_network'),
-				'times'  => '1',
+				'args' => array('manage_network'),
+				'times' => '1',
 				'return' => true,
 			)
 		);
@@ -695,18 +695,18 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 
 		$message = array(
-			'message'               => 'The profile was deleted successfully.',
-			'type'                  => 'success',
-			'isMessage'             => true,
+			'message' => 'The profile was deleted successfully.',
+			'type' => 'success',
+			'isMessage' => true,
 			'additionalInformation' => array(),
 		);
 
 		$expected = array(
-			'message'               => 'The profile was deleted successfully.',
-			'type'                  => 'success',
-			'isMessage'             => true,
+			'message' => 'The profile was deleted successfully.',
+			'type' => 'success',
+			'isMessage' => true,
 			'additionalInformation' => array(
-				'profileId'   => 1,
+				'profileId' => 1,
 				'profileName' => 'test',
 			),
 		);
@@ -735,7 +735,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getPermission'));
 
-		 $permissionItems = array(
+		$permissionItems = array(
 			0 => array(
 				"value" => "0",
 				"description" => __("Input field is invisible.", ADI_I18N),
@@ -755,12 +755,12 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		);
 
 		$expected = array(
-			'profiles'           => 'profileArray',
+			'profiles' => 'profileArray',
 			'associatedProfiles' => 'associatedProfiles',
 			'defaultProfileData' => 'defaultProfileData',
-			'ldapAttributes'     => Ldap_Attribute_Description::findAll(),
-			'dataTypes'          => Ldap_Attribute_Repository::findAllAttributeTypes(),
-			'permissionItems'    => $permissionItems,
+			'ldapAttributes' => Ldap_Attribute_Description::findAll(),
+			'dataTypes' => Ldap_Attribute_Repository::findAllAttributeTypes(),
+			'permissionItems' => $permissionItems,
 		);
 
 		$this->profileController->expects($this->once())
@@ -878,5 +878,16 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		$this->assertInstanceOf('Multisite_Validator_Rule_PositiveNumericOrZero', $rules[Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_PositiveNumericOrZero', $rules[Adi_Configuration_Options::BLOCK_TIME][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[Adi_Configuration_Options::PROFILE_NAME][0]);
+	}
+
+
+	/**
+	 * @test
+	 */
+	public function persistDomainSidForProfile_itSavesBlogOptions()
+	{
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
 	}
 }

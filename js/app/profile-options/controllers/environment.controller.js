@@ -30,7 +30,7 @@
                 base_dn: $valueHelper.findValue("base_dn", data),
                 verification_username : '',
                 verification_password : '',
-                verification_status: $valueHelper.findValue("domains_id", data),
+                verification_status: $valueHelper.findValue("domain_sid", data),
                 verification_status_message: ''
             };
 
@@ -42,7 +42,7 @@
                 base_dn: $valueHelper.findPermission('base_dn', data),
                 verification_username : $valueHelper.findPermission("verification_username", data),
                 verification_password : $valueHelper.findPermission("verification_password", data),
-                verification_status: $valueHelper.findPermission("domains_id", data)
+                verification_status: $valueHelper.findPermission("domain_sid", data)
             };
 
             if ($scope.option.verification_status != '') {
@@ -59,7 +59,7 @@
                 base_dn: $valueHelper.findMessage('base_dn', data),
                 verification_username : $valueHelper.findMessage("verification_username", data),
                 verification_password : $valueHelper.findMessage("verification_password", data),
-                verification_status: $valueHelper.findMessage("domains_id", data)
+                verification_status: $valueHelper.findMessage("domain_sid", data)
             };
         });
 

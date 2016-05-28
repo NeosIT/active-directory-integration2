@@ -495,6 +495,19 @@ class Ldap_Connection
 	}
 
 	/**
+	 * Return the domain SID of the current synchronization
+	 *
+	 * @return mixed|string
+	 */
+	public function getDomainSid() {
+		if (empty($this->siteDomainSid)) {
+			$this->siteDomainSid = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAIN_SID);
+		}
+
+		return $this->siteDomainSid;
+	}
+
+	/**
 	 * Get all members of one group.
 	 *
 	 * @param string $group
@@ -505,11 +518,8 @@ class Ldap_Connection
 	{
 		$adLdap = $this->getAdLdap();
 		$group = trim($group);
-		
-		// check if domainSid for wordpress site is defined
-		if ($this->siteDomainSid == null || $this->siteDomainSid == '') {
-			$this->siteDomainSid = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAINS_ID);
-		}
+
+		$siteDomainSid = $this->getDomainSid();
 
 		try {
 			if (false !== stripos($group, 'id:')) {
@@ -531,12 +541,10 @@ class Ldap_Connection
 		$users = array();
 
 		foreach ($members as $member) {
-			
 			$userInfo = $this->adldap->user_info($member);
+			$userSid = $this->adldap->convertObjectSidBinaryToString($userInfo[0]["objectsid"][0]);
 			
-			$userSid = $this->adldap->convertObjectsIdBinaryToString($userInfo[0]["objectsid"][0]);
-			
-			if (strpos($userSid, $this->siteDomainSid) !== false ) {
+			if (strpos($userSid, $siteDomainSid) !== false ) {
 				$users[strtolower($member)] = $member;
 			}			
 		}

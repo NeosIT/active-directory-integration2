@@ -142,23 +142,19 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 
 		$username = $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER);
 		$password = $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD);
-		if (empty($username) && empty($password)) {
-			$this->logger->error('Sync to WordPress global user or password not set.');
 
+		if (empty($username) && empty($password)) {
+			$this->logger->error('Sync to WordPress service account user or password not set.');
 			return false;
 		}
+
 		if (!$this->connectToAdLdap($username, $password)) {
 			return false;
 		}
-		
-		$siteDomainSid = $this->configuration->getOption(Adi_Configuration_Options::DOMAINS_ID)["option_value"];
-		$targetDomainSid = $this->getTargetDomainSid($username);
-		
-		if ($targetDomainSid != $siteDomainSid) {
-			$this->logger->error('TargetDomainSid: ' . $targetDomainSid . ' does not match the DomainSid connected to your WordPress Site: ' . $siteDomainSid);
+
+		if (!$this->isUsernameInDomain($username)) {
 			return false;
 		}
-		
 
 		$this->increaseExecutionTime();
 
@@ -309,14 +305,13 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 		// ADI-204: in contrast to the Login process we use the sAMAccountName in synchronization have the sAMAccountName
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, $guid);
 		
-		//Add domainsid
-		$ldapAttributes->addDomainSid($this->configuration->getOptionValue(Adi_Configuration_Options::DOMAINS_ID));
+		// ADI-235: add domain SID
+		$ldapAttributes->addDomainSid($this->connection->getDomainSid());
 		
 		$elapsedTimeLdap = time() - $startTimerLdap;
 		$this->ldapRequestTimeCounter = $this->ldapRequestTimeCounter + $elapsedTimeLdap;
 
-			$credentials->setUserPrincipalName($ldapAttributes->getFilteredValue('userprincipalname'));
-
+		$credentials->setUserPrincipalName($ldapAttributes->getFilteredValue('userprincipalname'));
 
 		$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
 
