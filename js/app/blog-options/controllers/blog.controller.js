@@ -23,6 +23,7 @@
                 $scope.$broadcast('options', result['options']);
                 $scope.$broadcast('ldapAttributes', result['ldapAttributes']);
                 $scope.$broadcast('dataTypes', result['dataTypes']);
+                $scope.$broadcast('wpRoles', result['wpRoles']);
             });
         }
 
