@@ -109,7 +109,7 @@ class Ldap_Connection
 	 */
 	public function getBaseDn(Ldap_ConnectionDetails $connectionDetails)
 	{
-		$baseDn = $connectionDetails->getCustomBaseDn();
+		$baseDn = $connectionDetails->getBaseDn();
 
 		if (null === $baseDn) {
 			$baseDn = $this->configuration->getOptionValue(Adi_Configuration_Options::BASE_DN);
@@ -127,7 +127,7 @@ class Ldap_Connection
 	 */
 	public function getDomainControllers(Ldap_ConnectionDetails $connectionDetails)
 	{
-		$domainControllers = $connectionDetails->getCustomDomainControllers();
+		$domainControllers = $connectionDetails->getDomainControllers();
 
 		if (null === $domainControllers) {
 			$domainControllers = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAIN_CONTROLLERS);
@@ -147,7 +147,7 @@ class Ldap_Connection
 	 */
 	public function getAdPort(Ldap_ConnectionDetails $connectionDetails)
 	{
-		$port = $connectionDetails->getCustomPort();
+		$port = $connectionDetails->getPort();
 
 		if (null === $port) {
 			$port = $this->configuration->getOptionValue(Adi_Configuration_Options::PORT);
@@ -165,7 +165,7 @@ class Ldap_Connection
 	 */
 	public function getUseTls(Ldap_ConnectionDetails $connectionDetails)
 	{
-		$useTls = $connectionDetails->getCustomUseStartTls();
+		$useTls = $connectionDetails->getUseStartTls();
 
 		if (null === $useTls) {
 			$useTls = $this->configuration->getOptionValue(Adi_Configuration_Options::USE_TLS);
@@ -183,7 +183,7 @@ class Ldap_Connection
 	 */
 	public function getEncryption(Ldap_ConnectionDetails $connectionDetails)
 	{
-		$encryption = $connectionDetails->getCustomEncryption();
+		$encryption = $connectionDetails->getEncryption();
 
 		if (null === $encryption) {
 			$encryption = $this->configuration->getOptionValue(Adi_Configuration_Options::ENCRYPTION);
@@ -201,7 +201,7 @@ class Ldap_Connection
 	 */
 	public function getNetworkTimeout(Ldap_ConnectionDetails $connectionDetails)
 	{
-		$networkTimeout = $connectionDetails->getCustomNetworkTimeout();
+		$networkTimeout = $connectionDetails->getNetworkTimeout();
 
 		if (null === $networkTimeout) {
 			$networkTimeout = $this->configuration->getOptionValue(Adi_Configuration_Options::NETWORK_TIMEOUT);

@@ -79,16 +79,16 @@ abstract class It_BasicTest extends Ut_BasicTest
 	{
 		$this->connectionDetails = new Ldap_ConnectionDetails();
 
-		$this->connectionDetails->setCustomBaseDn(get_cfg_var('AD_BASE_DN'));
-		$this->connectionDetails->setCustomDomainControllers(get_cfg_var('AD_ENDPOINT'));
+		$this->connectionDetails->setBaseDn(get_cfg_var('AD_BASE_DN'));
+		$this->connectionDetails->setDomainControllers(get_cfg_var('AD_ENDPOINT'));
 
 		$port = get_cfg_var('AD_PORT') ? get_cfg_var('AD_PORT') : 389;
-		$this->connectionDetails->setCustomPort($port);
+		$this->connectionDetails->setPort($port);
 
 		$useStartTls = get_cfg_var('AD_USE_TLS') ? filter_var(get_cfg_var('AD_USE_TLS'), FILTER_VALIDATE_BOOLEAN) : false;
-		$this->connectionDetails->setCustomUseStartTls($useStartTls);
+		$this->connectionDetails->setUseStartTls($useStartTls);
 		
-		$this->connectionDetails->setCustomNetworkTimeout('5');
+		$this->connectionDetails->setNetworkTimeout('5');
 		$this->connectionDetails->setUsername(get_cfg_var('AD_USERNAME') . get_cfg_var('AD_SUFFIX'));
 		$this->connectionDetails->setPassword(get_cfg_var('AD_PASSWORD'));
 
@@ -245,7 +245,7 @@ abstract class It_BasicTest extends Ut_BasicTest
 		$this->deleteUserWithUsername($this->username2, $adLDAP);
 		$this->deleteGroupWithGroupName($this->groupName1, $adLDAP);
 		$this->deleteGroupWithGroupName($this->groupName2, $adLDAP);
-		$adLDAP->ou_delete("OU=". $this->ouName. "," . $this->connectionDetails->getCustomBaseDn());
+		$adLDAP->ou_delete("OU=". $this->ouName. "," . $this->connectionDetails->getBaseDn());
 	}
 
 	/**

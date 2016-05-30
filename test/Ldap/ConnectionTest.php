@@ -137,7 +137,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$connectionDetails = new Ldap_ConnectionDetails();
-		$connectionDetails->setCustomBaseDn('custom');
+		$connectionDetails->setBaseDn('custom');
 
 		$actual = $sut->getBaseDn($connectionDetails);
 		$this->assertEquals('custom', $actual);
@@ -169,7 +169,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$connectionDetails = new Ldap_ConnectionDetails();
-		$connectionDetails->setCustomDomainControllers('custom;custom2');
+		$connectionDetails->setDomainControllers('custom;custom2');
 
 		$actual = $sut->getDomainControllers($connectionDetails);
 		$this->assertEquals(array('custom', 'custom2'), $actual);
@@ -201,7 +201,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$connectionDetails = new Ldap_ConnectionDetails();
-		$connectionDetails->setCustomPort('custom');
+		$connectionDetails->setPort('custom');
 
 		$actual = $sut->getAdPort($connectionDetails);
 		$this->assertEquals('custom', $actual);
@@ -233,7 +233,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$connectionDetails = new Ldap_ConnectionDetails();
-		$connectionDetails->setCustomUseStartTls('custom');
+		$connectionDetails->setUseStartTls('custom');
 
 		$actual = $sut->getUseTls($connectionDetails);
 		$this->assertEquals('custom', $actual);
@@ -265,7 +265,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$connectionDetails = new Ldap_ConnectionDetails();
-		$connectionDetails->setCustomNetworkTimeout(5);
+		$connectionDetails->setNetworkTimeout(5);
 
 		$actual = $sut->getNetworkTimeout($connectionDetails);
 		$this->assertEquals(5, $actual);
