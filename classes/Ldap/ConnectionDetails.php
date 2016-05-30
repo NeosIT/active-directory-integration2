@@ -19,6 +19,7 @@ class Ldap_ConnectionDetails
 	private $domainControllers = null;
 	private $port = null;
 	private $useStartTls = null;
+	private $encryption = null;
 	private $networkTimeout = null;
 	private $username = null;
 	private $password = null;
@@ -97,6 +98,22 @@ class Ldap_ConnectionDetails
 	public function setCustomUseStartTls($useStartTls)
 	{
 		$this->useStartTls = $useStartTls;
+	}
+
+	/**
+	 * @return null
+	 */
+	public function getCustomEncryption()
+	{
+		return $this->encryption;
+	}
+
+	/**
+	 * @param null $encryption
+	 */
+	public function setCustomEncryption($encryption)
+	{
+		$this->encryption = $encryption;
 	}
 
 	/**

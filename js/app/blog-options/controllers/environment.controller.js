@@ -24,6 +24,7 @@
                 port: $valueHelper.findValue("port", data),
                 use_tls: $valueHelper.findValue("use_tls", data),
                 network_timeout: $valueHelper.findValue("network_timeout", data),
+                encryption: $valueHelper.findValue("encryption", data),
                 base_dn: $valueHelper.findValue("base_dn", data)
             };
 
@@ -32,6 +33,7 @@
                 port: $valueHelper.findPermission('port', data),
                 use_tls: $valueHelper.findPermission('use_tls', data),
                 network_timeout: $valueHelper.findPermission('network_timeout', data),
+                encryption: $valueHelper.findPermission('encryption', data),
                 base_dn: $valueHelper.findPermission('base_dn', data)
             };
         });
@@ -42,6 +44,7 @@
                 port: $valueHelper.findMessage('port', data),
                 use_tls: $valueHelper.findMessage('use_tls', data),
                 network_timeout: $valueHelper.findMessage('network_timeout', data),
+                encryption: $valueHelper.findMessage('encryption', data),
                 base_dn: $valueHelper.findMessage('base_dn', data)
             };
         });
