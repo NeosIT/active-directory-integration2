@@ -294,8 +294,6 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 
 		$data = $postData['data'];
 
-		$this->validate($data);
-
 		//check if the permission of the option is high enough for the option to be saved
 		$databaseOptionData = $this->twigContainer->getAllOptionsValues();
 
@@ -306,6 +304,8 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 				unset($data[$optionName]);
 			}
 		}
+
+		$this->validate($data);
 
 		return $this->blogConfigurationController->saveBlogOptions($data);
 	}
