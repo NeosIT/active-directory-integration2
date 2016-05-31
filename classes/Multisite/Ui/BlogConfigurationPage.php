@@ -49,7 +49,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	 * @param Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
 	 */
 	public function __construct(Multisite_View_TwigContainer $twigContainer,
-		Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
+								Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
 	) {
 		parent::__construct($twigContainer);
 
@@ -261,6 +261,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			'options'        => $data,
 			'ldapAttributes' => Ldap_Attribute_Description::findAll(),
 			'dataTypes'      => Ldap_Attribute_Repository::findAllAttributeTypes(),
+			'wpRoles'        => Adi_Role_Manager::getRoles(),
 		);
 	}
 
@@ -419,6 +420,10 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$notEmptyMessage = __('This value must not be empty.', ADI_I18N);
 			$notEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($notEmptyMessage);
 			$validator->addRule(Adi_Configuration_Options::PROFILE_NAME, $notEmptyRule);
+
+			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', ADI_I18N);
+			$disallowedRoleRule = new Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig($disallowedRoleMessage);
+			$validator->addRule(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
 
 			$this->validator = $validator;
 		}

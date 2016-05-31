@@ -283,4 +283,26 @@ class Adi_Role_Manager
 		return $roles;
 	}
 
+	/**
+	 * Return an array with role name as key and the real value as value.
+	 *
+	 * @return array
+	 */
+	public static function getRoles()
+	{
+		$result = array(
+			'super admin'   => self::ROLE_SUPER_ADMIN,
+			'administrator' => self::ROLE_ADMINISTRATOR,
+			'editor'        => self::ROLE_EDITOR,
+			'contributor'   => self::ROLE_CONTRIBUTOR,
+			'subscriber'    => self::ROLE_SUBSCRIBER,
+		);
+
+		// in a single site WordPress installation remove the super admin, b/c it does not exist
+		if (!is_multisite()) {
+			unset($result['super admin']);
+		}
+
+		return $result;
+	}
 }

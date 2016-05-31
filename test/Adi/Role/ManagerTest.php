@@ -425,4 +425,47 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 
 		$this->invokeMethod($sut, 'loadMultisiteFunctions');
 	}
+
+	/**
+	 * @test
+	 */
+	public function getRoles_inSingleSite_removesSuperAdminFromRoles()
+	{
+		WP_Mock::wpFunction('is_multisite', array(
+			'times'  => 1,
+			'return' => false,
+		));
+
+		$expected = array(
+			'administrator' => Adi_Role_Manager::ROLE_ADMINISTRATOR,
+			'editor'        => Adi_Role_Manager::ROLE_EDITOR,
+			'contributor'   => Adi_Role_Manager::ROLE_CONTRIBUTOR,
+			'subscriber'    => Adi_Role_Manager::ROLE_SUBSCRIBER,
+		);
+		$actual = Adi_Role_Manager::getRoles();
+
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getRoles_inMultiSite_containsAllRoles()
+	{
+		WP_Mock::wpFunction('is_multisite', array(
+			'times'  => 1,
+			'return' => true,
+		));
+
+		$expected = array(
+			'super admin'   => Adi_Role_Manager::ROLE_SUPER_ADMIN,
+			'administrator' => Adi_Role_Manager::ROLE_ADMINISTRATOR,
+			'editor'        => Adi_Role_Manager::ROLE_EDITOR,
+			'contributor'   => Adi_Role_Manager::ROLE_CONTRIBUTOR,
+			'subscriber'    => Adi_Role_Manager::ROLE_SUBSCRIBER,
+		);
+		$actual = Adi_Role_Manager::getRoles();
+
+		$this->assertEquals($expected, $actual);
+	}
 }
