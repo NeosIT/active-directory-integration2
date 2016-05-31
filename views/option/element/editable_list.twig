@@ -39,13 +39,13 @@
         <span class="nsp_dashicons dashicons dashicons-plus"></span>
     </button>
     <br>
-    
+
+    <p>
+        {% import "option/element/error-msg.twig" as errorElement %}
+        {{ errorElement.create(optionName) }}
+    </p>
 
     {% import "option/element/description.twig" as descriptionElement %}
     {{ descriptionElement.create(description) }}
-
-    <p>
-        <span ng-bind="messages.{{ optionName }}" class="error-msg"></span>
-    </p>
     
 {% endmacro %}

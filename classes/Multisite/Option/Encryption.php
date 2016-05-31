@@ -21,4 +21,13 @@ class Multisite_Option_Encryption
 	const NONE = 'none',
 		STARTTLS = 'starttls',
 		LDAPS = 'ldaps';
+
+	public static function getValues()
+	{
+		return array(
+			self::NONE,
+			self::STARTTLS,
+			self::LDAPS,
+		);
+	}
 }

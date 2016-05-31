@@ -425,6 +425,11 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$disallowedRoleRule = new Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig($disallowedRoleMessage);
 			$validator->addRule(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
 
+			$invalidValueMessage = __('The given value is invalid.', ADI_I18N);
+			$invalidSelectValueRule = new Multisite_Validator_Rule_SelectValueValid($invalidValueMessage,
+				Multisite_Option_Encryption::getValues());
+			$validator->addRule(Adi_Configuration_Options::ENCRYPTION, $invalidSelectValueRule);
+
 			$this->validator = $validator;
 		}
 
