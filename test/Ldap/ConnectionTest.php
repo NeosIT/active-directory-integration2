@@ -19,7 +19,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 
 	public function setUp()
 	{
-		if ( ! class_exists('adLDAP')) {
+		if (!class_exists('adLDAP')) {
 			//get adLdap
 			require_once ADI_PATH . '/vendor/adLDAP/adLDAP.php';
 		}
@@ -70,7 +70,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 			'use_tls'            => true,
 			'network_timeout'    => 5,
 			'ad_username'        => 'admin',
-			'ad_password'        => '12345'
+			'ad_password'        => '12345',
 		);
 
 		$sut->expects($this->once())
@@ -100,7 +100,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 			'use_tls'            => true,
 			'network_timeout'    => 5,
 			'ad_username'        => 'tobi',
-			'ad_password'        => 'Streng Geheim'
+			'ad_password'        => 'Streng Geheim',
 		);
 
 		$log = array(
@@ -111,7 +111,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 			'use_tls'            => true,
 			'network_timeout'    => 5,
 			'ad_username'        => 'tobi',
-			'ad_password'        => '*** protected password ***'
+			'ad_password'        => '*** protected password ***',
 		);
 
 		$connectionDetails = new Ldap_ConnectionDetails();
@@ -180,7 +180,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	 */
 	public function getDomainControllers_withoutCustomValue_returnDefaultValue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut(array('getDomainControllersWithEncryption'));
 
 		$connectionDetails = new Ldap_ConnectionDetails();
 
@@ -188,6 +188,8 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 			->method('getOptionValue')
 			->with(Adi_Configuration_Options::DOMAIN_CONTROLLERS)
 			->willReturn('default');
+
+		$this->expects($sut, $this->once(), 'getDomainControllersWithEncryption', $connectionDetails, array('default'));
 
 		$actual = $sut->getDomainControllers($connectionDetails);
 		$this->assertEquals(array('default'), $actual);
@@ -233,10 +235,10 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$connectionDetails = new Ldap_ConnectionDetails();
-		$connectionDetails->setUseStartTls('custom');
+		$connectionDetails->setEncryption(Multisite_Option_Encryption::LDAPS);
 
 		$actual = $sut->getUseTls($connectionDetails);
-		$this->assertEquals('custom', $actual);
+		$this->assertFalse($actual);
 	}
 
 	/**
@@ -244,17 +246,14 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	 */
 	public function getUseTls_withoutCustomValue_returnDefaultValue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut(array('getEncryption'));
 
 		$connectionDetails = new Ldap_ConnectionDetails();
 
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(Adi_Configuration_Options::USE_TLS)
-			->willReturn('default');
+		$this->expects($sut, $this->once(), 'getEncryption', $connectionDetails, Multisite_Option_Encryption::STARTTLS);
 
 		$actual = $sut->getUseTls($connectionDetails);
-		$this->assertEquals('default', $actual);
+		$this->assertTrue($actual);
 	}
 
 	/**
@@ -377,10 +376,10 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 			0 => array(
 				'sn' => array(
 					'count' => 1,
-					0       => 'Brown'
+					0       => 'Brown',
 				),
 				0    => 'sn',
-			)
+			),
 		);
 
 		$sut->expects($this->once())
@@ -619,7 +618,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 			'bb'  => 'Bb',
 			'cc'  => 'CC',
 			'd'   => 'd',
-			'eee' => 'eEe'
+			'eee' => 'eEe',
 		);
 
 		$groupA = array('aa' => 'aA',
@@ -663,7 +662,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 			->willReturn(array('huGo'));
 
 		$expected = array(
-			'hugo' => 'huGo'
+			'hugo' => 'huGo',
 		);
 
 		$actual = $sut->findAllMembersOfGroup(' id:123 ');
@@ -687,7 +686,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 			->willReturn(array('huGo'));
 
 		$expected = array(
-			'hugo' => 'huGo'
+			'hugo' => 'huGo',
 		);
 
 		$actual = $sut->findAllMembersOfGroup(' groupA ');
