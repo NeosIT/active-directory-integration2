@@ -3,20 +3,14 @@
 
     PermissionController.$inject = ['$scope', 'PersistService', 'ListService', 'DataService'];
 
-    function PermissionController($scope, PersistService, ListService, DataService) {
+    function PermissionController ($scope, PersistService, ListService, DataService) {
         var vm = this;
 
         $scope.permissionOptions = DataService.getPermissionOptions();
 
         $scope.new_authorization_group = '';
 
-        $scope.wpRoles = [
-            {display_name: "super Admin", value: "super admin"},
-            {display_name: "administrator", value: "administrator"},
-            {display_name: "editor", value: "editor"},
-            {display_name: "contributor", value: "contributor"},
-            {display_name: "subscriber", value: "subscriber"}
-        ];
+        $scope.wpRoles = [];
 
         $scope.wpRolesConfig = {
             // disable creation of new items
@@ -54,6 +48,16 @@
             };
         });
 
+        $scope.$on('wpRoles', function (event, data) {
+            var result = [];
+
+            for (var idx in data) {
+                result.push({display_name: idx, value: data[idx]});
+            }
+
+            $scope.wpRoles = result;
+        });
+
         $scope.save = function () {
             var data = JSON.parse(angular.toJson($scope.option));
 
@@ -87,13 +91,15 @@
 
         vm.parseRoleEquivalentStringToObjects = function (roleEquivalentString) {
 
-            if (roleEquivalentString["option_value"] == "") {
+            if(roleEquivalentString["option_value"] == "") {
                 return;
             }
 
             var groups = roleEquivalentString["option_value"].split(";");
+
             for (var i = 0; i < groups.length; i++) {
                 var group = groups[i].split("=");
+
                 if (group[0] && group[1]) {
                     $scope.option.role_equivalent_groups["groups"].push({
                         "securityGroup": group[0],
@@ -107,6 +113,7 @@
 
         vm.createRoleEquivalentDbString = function (objBuffer) {
             var stringBuffer = "";
+
             for (var i = 0; i < objBuffer.length; i++) {
                 if (objBuffer[i].securityGroup && objBuffer[i].wordpressRole) {
                     stringBuffer += objBuffer[i].securityGroup + "=" + objBuffer[i].wordpressRole + ";";
@@ -116,9 +123,10 @@
             return stringBuffer;
         };
 
-        //TODO gleiches System für Attributes einbauen / in eigenen Service auslagern.
+        //TODO use same system for attributes; move to own AngularJS service
         vm.addCustomItemToWordpressRoles = function (itemKey) {
             var flag = false;
+
             for (key in $scope.wpRoles) {
                 if ($scope.wpRoles[key]["display_name"] == itemKey) {
                     flag = true;

@@ -16,6 +16,12 @@ if (class_exists('Adi_Role_Manager')) {
  */
 class Adi_Role_Manager
 {
+	const ROLE_SUPER_ADMIN = 'super admin';
+	const ROLE_ADMINISTRATOR = 'administrator';
+	const ROLE_EDITOR = 'editor';
+	const ROLE_CONTRIBUTOR = 'contributor';
+	const ROLE_SUBSCRIBER = 'subscriber';
+
 	/* @var Multisite_Configuration_Service */
 	private $configuration;
 
@@ -30,12 +36,11 @@ class Adi_Role_Manager
 
 	/**
 	 * @param Multisite_Configuration_Service $configuration
-	 * @param Ldap_Connection $ldapConnection
+	 * @param Ldap_Connection                 $ldapConnection
 	 */
 	public function __construct(Multisite_Configuration_Service $configuration,
 								Ldap_Connection $ldapConnection
-	)
-	{
+	) {
 		$this->configuration = $configuration;
 		$this->ldapConnection = $ldapConnection;
 
@@ -47,6 +52,7 @@ class Adi_Role_Manager
 	 * from Active Directory
 	 *
 	 * @param string $username
+	 *
 	 * @return Adi_Role_Mapping
 	 * @throws Exception
 	 */
@@ -64,6 +70,7 @@ class Adi_Role_Manager
 	 * Check if user is a member of at least one authorization group for the current blog
 	 *
 	 * @param Adi_Role_Mapping $roleMapping
+	 *
 	 * @return bool
 	 * @throws Exception
 	 */
@@ -88,9 +95,10 @@ class Adi_Role_Manager
 	 * <li>On user update if *no* Role Equivalent Groups the user's existing roles will not be updated</li>
 	 * </ul>
 	 *
-	 * @param WP_User|false $wpUser
+	 * @param WP_User|false    $wpUser
 	 * @param Adi_Role_Mapping $roleMapping
-	 * @param bool $isUserPreviouslyCreated has the user been previously created
+	 * @param bool             $isUserPreviouslyCreated has the user been previously created
+	 *
 	 * @return bool false if $wpUser was no valid user
 	 */
 	public function synchronizeRoles($wpUser, Adi_Role_Mapping $roleMapping, $isUserPreviouslyCreated = false)
@@ -134,7 +142,8 @@ class Adi_Role_Manager
 			}
 		}
 
-		$this->logger->info("Security groups " . json_encode($roleMapping->getSecurityGroups()) . " are mapped to WordPress roles: " . json_encode($roles));
+		$this->logger->info("Security groups " . json_encode($roleMapping->getSecurityGroups())
+			. " are mapped to WordPress roles: " . json_encode($roles));
 		$this->updateRoles($wpUser, $roles, $cleanExistingRoles);
 
 		return true;
@@ -144,8 +153,9 @@ class Adi_Role_Manager
 	 * Update the role of the given user with his new role
 	 *
 	 * @param WP_User|false $wpUser
-	 * @param array $roles WordPress roles to update. Only available roles can be assigned, all other roles are ignored
-	 * @param bool $cleanExistingRoles If true all existing roles are removed before updating the new ones
+	 * @param array         $roles WordPress roles to update. Only available roles can be assigned, all other roles are ignored
+	 * @param bool          $cleanExistingRoles If true all existing roles are removed before updating the new ones
+	 *
 	 * @return bool
 	 */
 	public function updateRoles($wpUser, $roles, $cleanExistingRoles = true)
@@ -162,12 +172,50 @@ class Adi_Role_Manager
 		$availableRoles = new WP_Roles();
 
 		foreach ($roles as $role) {
+			if ($role == self::ROLE_SUPER_ADMIN) {
+				$this->grantSuperAdminRole($wpUser);
+				continue;
+			}
+
 			if ($availableRoles->is_role($role)) {
 				$wpUser->add_role($role);
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Grant the role 'super admin' to a specific {@link WP_User}.
+	 *
+	 * @param WP_User $wpUser
+	 */
+	protected function grantSuperAdminRole(WP_User $wpUser)
+	{
+		$this->loadMultisiteFunctions();
+		grant_super_admin($wpUser->ID);
+	}
+
+	/**
+	 * Load the ms.php file to provide the multisite functions on login.
+	 */
+	protected function loadMultisiteFunctions()
+	{
+		$multiSiteFilePath = ABSPATH . 'wp-admin/includes/ms.php';
+		$coreUtil = Core_Util::native();
+
+		// check if the necessary function is already available
+		if ($coreUtil->isFunctionAvailable('grant_super_admin')) {
+			return;
+		}
+
+		// check if the necessary file is existing
+		if (!$coreUtil->isFileAvailable($multiSiteFilePath)) {
+			return;
+		}
+
+		// at login the 'wp-admin/includes/ms.php' is not loaded
+		Core_Util::native()->includeOnce($multiSiteFilePath);
 	}
 
 	/**
@@ -203,6 +251,7 @@ class Adi_Role_Manager
 	 * Update the assigned WordPress roles of the user
 	 *
 	 * @param Adi_Role_Mapping $roleMapping
+	 *
 	 * @return Adi_Role_Mapping
 	 */
 	public function loadWordPressRoles(Adi_Role_Mapping $roleMapping)
@@ -217,6 +266,7 @@ class Adi_Role_Manager
 	 * Get all WordPress roles of the user which have been mapped to one or multiple of his group membership in the Active Directory
 	 *
 	 * @param Adi_Role_Mapping $roleMapping
+	 *
 	 * @return array with mapped WordPress roles
 	 */
 	public function getMappedWordPressRoles(Adi_Role_Mapping $roleMapping)
@@ -233,4 +283,26 @@ class Adi_Role_Manager
 		return $roles;
 	}
 
+	/**
+	 * Return an array with role name as key and the real value as value.
+	 *
+	 * @return array
+	 */
+	public static function getRoles()
+	{
+		$result = array(
+			'super admin'   => self::ROLE_SUPER_ADMIN,
+			'administrator' => self::ROLE_ADMINISTRATOR,
+			'editor'        => self::ROLE_EDITOR,
+			'contributor'   => self::ROLE_CONTRIBUTOR,
+			'subscriber'    => self::ROLE_SUBSCRIBER,
+		);
+
+		// in a single site WordPress installation remove the super admin, b/c it does not exist
+		if (!is_multisite()) {
+			unset($result['super admin']);
+		}
+
+		return $result;
+	}
 }

@@ -634,6 +634,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'options'        => $expected,
 			'ldapAttributes' => Ldap_Attribute_Description::findAll(),
 			'dataTypes'      => Ldap_Attribute_Repository::findAllAttributeTypes(),
+			'wpRoles'        => Adi_Role_Manager::getRoles(),
 		), $result);
 	}
 
@@ -732,7 +733,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$validator = $sut->getValidator();
 		$rules = $validator->getValidationRules();
 
-		$this->assertCount(11, $rules);
+		$this->assertCount(12, $rules);
 		$this->assertInstanceOf('Multisite_Validator_Rule_ConditionalSuffix', $rules[Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_ConditionalSuffix', $rules[Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_AccountSuffix', $rules[Adi_Configuration_Options::ACCOUNT_SUFFIX][0]);
@@ -747,5 +748,6 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->assertInstanceOf('Multisite_Validator_Rule_PositiveNumericOrZero', $rules[Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_PositiveNumericOrZero', $rules[Adi_Configuration_Options::BLOCK_TIME][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[Adi_Configuration_Options::PROFILE_NAME][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig', $rules[Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS][0]);
 	}
 }
