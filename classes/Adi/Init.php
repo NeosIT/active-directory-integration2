@@ -187,6 +187,9 @@ class Adi_Init
 			return false;
 		}
 
+		// migration
+		$this->registerMigrationHook();
+
 		// shared hooks
 		$this->registerSharedAdministrationHooks();
 
@@ -197,6 +200,14 @@ class Adi_Init
 		$this->registerAdministrationHooks();
 
 		return true;
+	}
+
+	/**
+	 * Register hooks used for migrations
+	 */
+	protected function registerMigrationHook()
+	{
+		$this->dc()->getMigrationService()->register();
 	}
 
 	/**
