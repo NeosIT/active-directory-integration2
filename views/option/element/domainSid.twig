@@ -24,17 +24,11 @@
         {% endif %}
     {% endif %}
 
-    <input id="{{ inputId }}" type="password" {{ inline }} {{ angularAttributes|raw }} {{ disabled }}
-           ng-model="option.{{ optionName }}" ng-class="{ error: messages.{{ optionName }} != null }"/>
-    <button id="{{ inputId }}" {{ disabled }} type="button" class="button button-secondary"
-            ng-click="verify()" {{ angularAttributes|raw }}>Verify
-    </button>
-        <span ng-bind="messages.{{ optionName }}" class="error-msg"></span>
-        
-
-
-    &nbsp
-
+    <div ng-hide="option.verification_status_message == ''">
+        <code>
+            <span ng-bind="option.verification_status_message"></span><span ng-hide="option.verification_status_message == 'Verification failed.'" ng-bind="option.domain_sid"></span>
+        </code>
+    </div>
     
     <p>{% import "option/element/description.twig" as descriptionElement %}
         {{ descriptionElement.create(description) }}</p>

@@ -754,8 +754,15 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	 */
 	public function persistDomainSid_itSavesBlogOptions()
 	{
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$sut = $this->sut();
+		$data = array();
+
+		$this->blogConfigurationController->expects($this->once())
+			->method('saveBlogOptions')
+			->with($data)
+			->willReturn(true);
+
+		$actual = $sut->persistDomainSid($data);
+		$this->assertTrue($actual);
 	}
 }

@@ -200,7 +200,6 @@ class Ldap_Attribute_Service
 		return $objectSid;
 	}
 	
-
 	/**
 	 * @return Ldap_Attribute_Repository
 	 */

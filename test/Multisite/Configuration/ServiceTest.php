@@ -87,10 +87,17 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 			->with(44)
 			->willReturn(1);
 
-		$sut->expects($this->once())
+		$sut->expects($this->exactly(2))
 			->method('getProfileOptionValue')
-			->with('port', 44)
-			->willReturn('689');
+			->withConsecutive(
+				array(Adi_Configuration_Options::DOMAIN_SID, 44),
+				array(Adi_Configuration_Options::PORT, 44)
+			)
+			->will(
+				$this->onConsecutiveCalls(
+					'',
+					'689'
+				));
 
 		$sut->expects($this->once())
 			->method('getPermission')
@@ -128,10 +135,17 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 			->with(44)
 			->willReturn(1);
 
-		$sut->expects($this->once())
+		$sut->expects($this->exactly(2))
 			->method('getProfileOptionValue')
-			->with('port', 44)
-			->willReturn('689');
+			->withConsecutive(
+				array(Adi_Configuration_Options::DOMAIN_SID, 44),
+				array(Adi_Configuration_Options::PORT, 44)
+			)
+			->will(
+				$this->onConsecutiveCalls(
+					'',
+					'689'
+				));
 
 		$sut->expects($this->once())
 			->method('getPermission')
@@ -293,9 +307,8 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$actual = $sut->isEnvironmentOption(Adi_Configuration_Options::PORT);
+		$this->assertTrue($actual);
 	}
 
 	/**
@@ -305,8 +318,9 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$actual = $sut->isEnvironmentOption(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER);
+		$this->assertFalse($actual);
 	}
+	
+	
 }

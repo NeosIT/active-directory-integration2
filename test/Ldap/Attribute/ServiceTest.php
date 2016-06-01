@@ -18,10 +18,20 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	 */
 	private $ldapConnection;
 
+	/**
+	 * @var adLDAP|PHPUnit_Framework_MockObject_MockObject $adLdap
+	 */
+	private $adLdap;
+
 	public function setUp()
 	{
 		$this->attributeRepository = $this->createMock('Ldap_Attribute_Repository');
 		$this->ldapConnection = $this->createMock('Ldap_Connection');
+
+		if (!class_exists('adLDAP')) {
+			//get adLdap
+			require_once ADI_PATH . '/vendor/adLDAP/adLDAP.php';
+		}
 
 		WP_Mock::setUp();
 
@@ -31,6 +41,8 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 				'return_arg' => 0,
 			)
 		);
+
+		$this->adLdap = parent::createMock('adLDAP');
 	}
 
 	public function tearDown()
@@ -46,10 +58,12 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	public function sut($methods)
 	{
 		return $this->getMockBuilder('Ldap_Attribute_Service')
-			->setConstructorArgs(array(
-				$this->ldapConnection,
-				$this->attributeRepository,
-			))
+			->setConstructorArgs(
+				array(
+					$this->ldapConnection,
+					$this->attributeRepository,
+				)
+			)
 			->setMethods($methods)
 			->getMock();
 	}
@@ -249,8 +263,29 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	 */
 	public function getObjectSid_itReturnsObjectSidOfUsername()
 	{
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$sut = $this->sut(array('parseLdapResponse'));
+
+		$this->ldapConnection->expects($this->once())
+			->method('findAttributesOfUser')
+			->with('administrator', array('objectsid'), false)
+			->willReturn(array());
+
+		$sut->expects($this->once())
+			->method('parseLdapResponse')
+			->with(array('objectsid'), array())
+			->willReturn(array("objectsid" => "S-1-5-21-0000000000-0000000000-0000000000-1234"));
+
+		$this->ldapConnection->expects($this->once())
+			->method('getAdLdap')
+			->willReturn($this->adLdap);
+
+		$this->adLdap->expects($this->once())
+			->method('convertObjectSidBinaryToString')
+			->with('S-1-5-21-0000000000-0000000000-0000000000-1234')
+			->willReturn('S-1-5-21-0000000000-0000000000-0000000000');
+
+		$sut->getObjectSid("administrator");
 	}
+
+
 }

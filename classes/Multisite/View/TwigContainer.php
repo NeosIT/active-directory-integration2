@@ -358,9 +358,9 @@ class Multisite_View_TwigContainer
 			}
 		}		
 		
-		$permission = $this->profileConfigurationRepository->findPermissionSanitized($profileId, $optionName); //TODO Permission muss angepasst werden für den Environment Tab wenn das Profile eine Verknüpfung zu einer Domäne hat
+		$permission = $this->profileConfigurationRepository->findPermissionSanitized($profileId, $optionName);
 
-		// TODO wat? this must be described
+		// if blog admin should have the permission to change the environment options BUT the profile used for the blog is connected to a domain, the blog admin is not allowed to change any environment options anymore.
 		if ($permission == 3 && $this->isProfileConnectedToDomain && $this->configuration->isEnvironmentOption($optionName)) {
 			return 2;
 		}
@@ -414,7 +414,7 @@ class Multisite_View_TwigContainer
 	
 	public function verifyConnection($data)
 	{		
-		$objectSid = $this->verificationService->verifyConnection($data);
+		$objectSid = $this->verificationService->verifyActiveDirectoryDomain($data);
 		
 		if($objectSid !== false) {
 			return $objectSid;

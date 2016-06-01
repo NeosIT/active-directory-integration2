@@ -541,8 +541,8 @@ class Ldap_Connection
 		$users = array();
 
 		foreach ($members as $member) {
-			$userInfo = $this->adldap->user_info($member);
-			$userSid = $this->adldap->convertObjectSidBinaryToString($userInfo[0]["objectsid"][0]);
+			$userInfo = $adLdap->user_info($member);
+			$userSid = $adLdap->convertObjectSidBinaryToString($userInfo[0]["objectsid"][0]);
 			
 			if (strpos($userSid, $siteDomainSid) !== false ) {
 				$users[strtolower($member)] = $member;

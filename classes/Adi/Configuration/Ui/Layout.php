@@ -95,7 +95,8 @@ class Adi_Configuration_Ui_Layout
 						Adi_Configuration_Options::NETWORK_TIMEOUT,
 						Adi_Configuration_Options::BASE_DN,
 						Adi_Configuration_Options::VERIFICATION_USERNAME,
-						Adi_Configuration_Options::VERIFICATION_PASSWORD
+						Adi_Configuration_Options::VERIFICATION_PASSWORD,
+						Adi_Configuration_Options::DOMAIN_SID
 					),
 				),
 			),

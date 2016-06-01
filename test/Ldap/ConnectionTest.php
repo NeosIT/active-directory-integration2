@@ -19,7 +19,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 
 	public function setUp()
 	{
-		if ( ! class_exists('adLDAP')) {
+		if (!class_exists('adLDAP')) {
 			//get adLdap
 			require_once ADI_PATH . '/vendor/adLDAP/adLDAP.php';
 		}
@@ -651,16 +651,38 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	 */
 	public function findAllMembersOfGroup_getMembersOfPrimarGroupId_returnMembers()
 	{
-		$sut = $this->sut(array('getAdLdap'));
+		$sut = $this->sut(array('getAdLdap', 'getDomainSid'));
+
+		$userInfo = array(
+			0 => array(
+				"objectsid" => array(
+					0 => "1234"
+				)
+			)
+		);
 
 		$sut->expects($this->once())
 			->method('getAdLdap')
 			->willReturn($this->adLDAP);
 
+		$sut->expects($this->once())
+			->method('getDomainSid')
+			->willReturn('1234');
+
 		$this->adLDAP->expects($this->once())
 			->method('group_members_by_primarygroupid')
 			->with('123', null, true)
 			->willReturn(array('huGo'));
+
+		$this->adLDAP->expects($this->once())
+			->method('user_info')
+			->with('huGo')
+			->willReturn($userInfo);
+
+		$this->adLDAP->expects($this->once())
+			->method('convertObjectSidBinaryToString')
+			->with('1234')
+			->willReturn('1234');
 
 		$expected = array(
 			'hugo' => 'huGo'
@@ -675,16 +697,38 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	 */
 	public function findAllMembersOfGroup_getMembersOfGroupName_returnMembers()
 	{
-		$sut = $this->sut(array('getAdLdap'));
+		$sut = $this->sut(array('getAdLdap', 'getDomainSid'));
+
+		$userInfo = array(
+			0 => array(
+				"objectsid" => array(
+					0 => "1234"
+				)
+			)
+		);
 
 		$sut->expects($this->once())
 			->method('getAdLdap')
 			->willReturn($this->adLDAP);
 
+		$sut->expects($this->once())
+			->method('getDomainSid')
+			->willReturn('1234');
+
 		$this->adLDAP->expects($this->once())
 			->method('group_members')
 			->with('groupA', null)
 			->willReturn(array('huGo'));
+
+		$this->adLDAP->expects($this->once())
+			->method('user_info')
+			->with('huGo')
+			->willReturn($userInfo);
+
+		$this->adLDAP->expects($this->once())
+			->method('convertObjectSidBinaryToString')
+			->with('1234')
+			->willReturn('1234');
 
 		$expected = array(
 			'hugo' => 'huGo'

@@ -93,7 +93,6 @@ class Multisite_Configuration_Service
 	 * @return array
 	 */
 	public function getOption($optionName, $blogId = null)
-		//TODO Wenn ein Profile welches einem Blog zugeordnet ist eine Domänenverknüpfung besitzt, werden für den Environment immer die Daten aus dem Profile geladen auch wenn die Optionen die Permission 3 haben. Zusamen wird dem Blog Admin nicht gestattet diese Optionen zu ändern. ES MUSS NOCH angepasst werden, dass in diesem Fall die Optionen nicht Persistiert werden, wenn der Blog Admin speichert da ansonsten die Blog Einstellungen überschrieben werden.
 	{
 		if ($blogId === null) {
 			$blogId = get_current_blog_id();
@@ -300,7 +299,10 @@ class Multisite_Configuration_Service
 			Adi_Configuration_Options::USE_TLS,
 			Adi_Configuration_Options::NETWORK_TIMEOUT,
 			Adi_Configuration_Options::BASE_DN,
-			Adi_Configuration_Options::DOMAIN_SID
+			Adi_Configuration_Options::DOMAIN_SID,
+			Adi_Configuration_Options::VERIFICATION_USERNAME,
+			Adi_Configuration_Options::VERIFICATION_PASSWORD,
+			
 		); //TODO move somewhere else
 
 		// TODO better solution would be to get viewable configuration through Layout class. But this introduces new

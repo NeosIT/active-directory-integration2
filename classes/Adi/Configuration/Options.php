@@ -430,8 +430,8 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			),
 			// DOMAINS ID
 			self::DOMAIN_SID           => array(
-				$title       => __('Active Directory Domain SID', ADI_I18N),
-				$type        => Multisite_Option_Type::TEXT,
+				$title       => __('Domain Sid', ADI_I18N),
+				$type        => Multisite_Option_Type::DOMAIN_SID,
 				$description => __(
 					'Shows whether the current WordPress site is connected to an AD domain or not.', ADI_I18N
 				),

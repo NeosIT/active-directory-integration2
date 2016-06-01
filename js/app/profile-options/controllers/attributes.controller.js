@@ -6,6 +6,8 @@
     function AttributesController($scope, DataService) {
         var vm = this;
 
+        $scope.isSaveDisabled = false;
+
         $scope.$on('permissionItems', function (event, data) {
             $scope.permissionOptions = data;
         });
@@ -13,6 +15,7 @@
         $scope.optionsValues = [];
         $scope.ldapAttributes = [];
         $scope.dataTypes = [];
+        $scope.newWordpressAttribute = "adi2_";
 
         $scope.$on('dataTypes', function (event, data) {
             $scope.dataTypes = vm.parseDataTypes(data);
@@ -45,6 +48,7 @@
             //// attribute for client side filtering in the remote result set
             searchField: "display_name"
         };
+        
         $scope.$on('options', function (event, data) {
 
             $scope.optionsValues = data;
@@ -53,11 +57,15 @@
                 additional_user_attributes: JSON.parse('{"attributes":[]}'),
             };
 
+            if ($valueHelper.findValue("domain_sid", data) == '') {
+                $scope.isSaveDisabled = true;
+            } else {
+                $scope.isSaveDisabled = false;
+            }
+
             $scope.permission = {
                 additional_user_attributes: $scope.optionsValues["additional_user_attributes"]["option_permission"],
             };
-
-            $scope.newWordpressAttribute = "adi2_";
 
             vm.parseAttributeStringToObjects($scope.optionsValues["additional_user_attributes"]);
 
@@ -67,6 +75,10 @@
             $scope.messages = {
                 additional_user_attributes: $valueHelper.findMessage("additional_user_attributes", data)
             };
+        });
+
+        $scope.$on('verification', function (event, data) {
+            $scope.isSaveDisabled = false;
         });
 
         $scope.addAttribute = function (newAdAttribute, newDataType, newWordpressAttribute, newDescription, newViewInUserProfile, newSyncToAd, newOverwriteWithEmptyValue) {

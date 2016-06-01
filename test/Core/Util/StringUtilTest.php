@@ -93,8 +93,11 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 	 * @test
 	 */
 	public function objectSidToDomainSid_itReturnsDomainSidOfObject() {
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$objectSid = "S-1-5-21-0000000000-0000000000-0000000000-1234";
+		$domainSid = Core_Util_StringUtil::objectSidToDomainSid($objectSid);
+		
+		$expected = "S-1-5-21-0000000000-0000000000-0000000000";
+		
+		$this->assertEquals($expected, $domainSid);
 	}
 }

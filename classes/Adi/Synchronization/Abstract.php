@@ -54,13 +54,13 @@ abstract class Adi_Synchronization_Abstract
 	 */
 	public function increaseExecutionTime()
 	{
-		if (ini_get('max_execution_time') >= self::REQUIRED_EXECUTION_TIME_IN_SECONDS) {
-			return;
+		if (Core_Util::native()->iniGet('max_execution_time') >= self::REQUIRED_EXECUTION_TIME_IN_SECONDS) {
+			return; 
 		}
 
-		ini_set('max_execution_time', self::REQUIRED_EXECUTION_TIME_IN_SECONDS);
+		Core_Util::native()->iniSet('max_execution_time', self::REQUIRED_EXECUTION_TIME_IN_SECONDS);
 
-		if (ini_get('max_execution_time') >= self::REQUIRED_EXECUTION_TIME_IN_SECONDS) {
+		if (Core_Util::native()->iniGet('max_execution_time') >= self::REQUIRED_EXECUTION_TIME_IN_SECONDS) {
 			return;
 		}
 

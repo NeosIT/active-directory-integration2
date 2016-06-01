@@ -341,17 +341,16 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	protected function verifyAdConnection($data)
 	{
 		$data = $data["data"];
-		
-		$this->isVerification = true;
+		$this->setVerificationStatus(true);
 		
 		$this->validate($data);
 		
-		$this->isVerification = false;
+		$this->setVerificationStatus(false);
 		
 		return $this->verifyInternal($data);
 	}
 	
-	protected function verifyInternal($data) {
+	protected function verifyInternal($data, $profileId = null) {
 		$objectSid = $this->twigContainer->verifyConnection($data);
 
 		if ($objectSid === false) {
@@ -359,16 +358,19 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		}
 
 		$domainSid = $this->twigContainer->getDomainsId($objectSid);
-
+		
+		return $this->prepareDomainSid($domainSid, $profileId);
+	}
+	
+	protected function prepareDomainSid($domainSid, $profileId = null) {
 		if (is_string($domainSid) && $domainSid !== '') {
 			$postData = array("domain_sid" => $domainSid);
-			$this->persistDomainsId($postData);
+			$this->persistDomainSid($postData);
 
-			return array("verification_successful" => "WordPress site is now connected to Active Directory domain: "
-				. $domainSid);
+			return array("verification_successful" => $domainSid);
 		}
 
-		return array("verification_failed" => "Verification failed.");
+		return array("verification_failed" => "Verification failed!");
 	}
 
 	/**
@@ -403,9 +405,15 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		return $this->blogConfigurationController->saveBlogOptions($data);
 	}
 
-	public function persistDomainsId($data)
+	/**
+	 * Persists the DomainSid to the WordPress database
+	 * 
+	 * @param $data
+	 *
+	 * @return array
+	 */
+	public function persistDomainSid($data)
 	{
-
 		return $this->blogConfigurationController->saveBlogOptions($data);
 	}
 
@@ -566,5 +574,12 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		}
 
 		return $this->validator;
+	}
+
+	/**
+	 * @param bool $status
+	 */
+	protected function setVerificationStatus($status) {
+		$this->isVerification = $status;
 	}
 }

@@ -10,6 +10,8 @@
     function GeneralController($scope, DataService) {
         var vm = this;
 
+        $scope.isSaveDisabled = false;
+
         $scope.$on('permissionItems', function (event, data) {
             $scope.permissionOptions = data;
         });
@@ -33,11 +35,17 @@
                 show_menu_sync_to_wordpress: $valueHelper.findValue('show_menu_sync_to_wordpress', data) ? true : false,
             };
 
+            if ($valueHelper.findValue("domain_sid", data) == '') {
+                $scope.isSaveDisabled = true;
+            } else {
+                $scope.isSaveDisabled = false;
+            }
+
             $scope.permission = {
                 is_active: $valueHelper.findPermission('is_active', data),
                 show_menu_test_authentication: $valueHelper.findPermission('show_menu_test_authentication', data),
                 show_menu_sync_to_ad: $valueHelper.findPermission('show_menu_sync_to_ad', data),
-                show_menu_sync_to_wordpress: $valueHelper.findPermission('show_menu_sync_to_wordpress', data)
+                show_menu_sync_to_wordpress: $valueHelper.findPermission('show_menu_sync_to_wordpress', data),
             };
         });
 
@@ -51,8 +59,14 @@
             };
         });
 
+        $scope.$on('verification', function (event, data) {
+            $scope.isSaveDisabled = false;
+        });
+
         $scope.getPreparedOptions = function () {
-            return DataService.cleanOptions($scope.option);
+            
+            var data = DataService.cleanOptions($scope.option);
+            return data;
         };
 
         $scope.containsErrors = function () {

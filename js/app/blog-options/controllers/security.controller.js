@@ -6,6 +6,8 @@
     function SecurityController($scope, ListService, DataService) {
         var vm = this;
 
+        $scope.isSaveDisabled = false;
+
         $scope.permissionOptions = DataService.getPermissionOptions();
 
         $scope.new_admin_email = '';
@@ -26,8 +28,13 @@
                 block_time: $valueHelper.findValue("block_time", data),
                 user_notification: $valueHelper.findValue("user_notification", data),
                 admin_notification: $valueHelper.findValue("admin_notification", data),
-                admin_email: $valueHelper.findValue("admin_email", data).split(";")
+                admin_email: $valueHelper.findValue("admin_email", data).split(";"),
+                domain_sid: $valueHelper.findValue("domain_sid", data)
             };
+
+            if ($valueHelper.findValue("domain_sid", data) == '') {
+                $scope.isSaveDisabled = true;
+            }
 
             $scope.permission = {
                 auto_login: $valueHelper.findPermission("auto_login", data),
@@ -35,7 +42,9 @@
                 block_time: $valueHelper.findPermission("block_time", data),
                 user_notification: $valueHelper.findPermission("user_notification", data),
                 admin_notification: $valueHelper.findPermission("admin_notification", data),
-                admin_email: $valueHelper.findPermission("admin_email", data)
+                admin_email: $valueHelper.findPermission("admin_email", data),
+                verification_username : $valueHelper.findPermission("verification_username", data),
+                verification_password : $valueHelper.findPermission("verification_password", data)
             };
         });
 
@@ -48,6 +57,10 @@
                 admin_notification: $valueHelper.findMessage("admin_notification", data),
                 admin_email: $valueHelper.findMessage("admin_email", data)
             };
+        });
+
+        $scope.$on('verification', function (event, data) {
+            $scope.isSaveDisabled = false;
         });
 
         $scope.getPreparedOptions = function () {
