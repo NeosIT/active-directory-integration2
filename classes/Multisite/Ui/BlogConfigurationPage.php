@@ -354,7 +354,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		$objectSid = $this->twigContainer->verifyConnection($data);
 
 		if ($objectSid === false) {
-			return array("verification_failed" => "Verification failed. Connection to Active Directory server failed.");
+			return array("verification_failed" => "Verification failed! Please check your logfile for further information.");
 		}
 
 		$domainSid = $this->twigContainer->getDomainsId($objectSid);
@@ -370,7 +370,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			return array("verification_successful" => $domainSid);
 		}
 
-		return array("verification_failed" => "Verification failed!");
+		return array("verification_failed" => "Verification failed! Please check your logfile for further information.");
 	}
 
 	/**

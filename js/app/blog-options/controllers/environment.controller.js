@@ -106,7 +106,7 @@
                         $rootScope.$broadcast('verification', response.data['verification_successful']);
                         
                     } else {
-                        ngNotify.set('Verification failed!!', 'error');
+                        ngNotify.set(response.data['verification_failed'], 'error');
                     }
                     
                 }

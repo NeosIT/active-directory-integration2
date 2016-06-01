@@ -257,7 +257,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 			return array("verification_successful" => $domainSid);
 		}
 
-		return array("verification_failed" => "Verification failed.");
+		return array("verification_failed" => "Verification failed. Please check your logfile for further information.");
 	}
 
 	public function persistDomainSidForProfile($data, $profileId)

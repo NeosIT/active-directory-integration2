@@ -478,7 +478,7 @@ class Ldap_Connection
 		$allUsers = array();
 
 		foreach ($groups as $group) {
-			if($group !== "") {
+			if ($group !== "") {
 				$members = $this->findAllMembersOfGroup($group);
 
 				$this->logger->info("In group '$group' are " . sizeof($members) . " members.");

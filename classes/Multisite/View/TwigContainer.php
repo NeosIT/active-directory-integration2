@@ -416,7 +416,7 @@ class Multisite_View_TwigContainer
 	{		
 		$objectSid = $this->verificationService->verifyActiveDirectoryDomain($data);
 		
-		if($objectSid !== false) {
+		if ($objectSid !== false) {
 			return $objectSid;
 		}
 		
