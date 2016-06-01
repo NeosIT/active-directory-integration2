@@ -24,8 +24,21 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 
 		$this->assertEquals($expected, $actual);
 	}
-	
-		/**
+
+	/**
+	 * @issue ADI-248
+	 * @test
+	 */
+	public function ADI248_splitText_onlyReturnsNonEmptyLines() {
+		$string  = "  ; ; test ";
+
+		$expected = array("test");
+
+		$actual = Core_Util_StringUtil::splitNonEmpty($string, ";");
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
 	 * @test
 	 */
 	public function splitText_withUnixLineBreaks_returnLinesInArray()
