@@ -108,7 +108,6 @@
                         $scope.option.verification_status_message = "Verification successful! WordPress site is now connected to Domain: ";
                         ngNotify.set('Verification successful!', 'success');
                         $scope.messages = {};
-                        console.log(response.data);
                         $scope.option.domain_sid = response.data['verification_successful'];
                         $scope.isSaveDisabled = false;
                         $rootScope.$broadcast('verification', $scope.option.domain_sid);
