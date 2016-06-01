@@ -110,14 +110,38 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 		$this->assertEquals(true, $value);
 	}
 
+	/**
+	 * @issue ADI-248
+	 * @test
+	 */
+	public function ADI248_whenAuthorizationGroupIsEmpty_itIsNotPossibleToAuthorize() {
+		$sut = $this->sut(null);
+
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with('authorization_group')
+			// empty authorization groups
+			->willReturn('  ; ;;');
+
+		$mapping = new Adi_Role_Mapping("username");
+
+		$value = $sut->isInAuthorizationGroup($mapping);
+
+		$this->assertEquals(true, $value);
+	}
+
+	/**
+	 * @test
+	 */
 	public function synchronizeRoles_loadsWordPressRoles()
 	{
-		$sut = $this->sut(array('loadWordPressRoles'));
+		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles'));
 
 		$roleMapping = new Adi_Role_Mapping("username");
 		$roleMapping->setWordPressRoles(array());
 
 		$wpUser = $this->createAnonymousMock(array());
+		$wpUser->ID = 1;
 
 		$sut->expects($this->once())
 			->method('loadWordPressRoles');

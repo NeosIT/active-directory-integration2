@@ -77,10 +77,17 @@ class Adi_Role_Manager
 	public function isInAuthorizationGroup(Adi_Role_Mapping $roleMapping)
 	{
 		$authorizationGroups = $this->configuration->getOptionValue(Adi_Configuration_Options::AUTHORIZATION_GROUP);
-		$expectedGroups = Core_Util_StringUtil::split($authorizationGroups, ';');
+		$expectedGroups = Core_Util_StringUtil::splitNonEmpty($authorizationGroups, ';');
+
+		// ADI-248: if no authorization group has been defined, the login is always possible and there has not to be
+		// matching group
+		if (sizeof($expectedGroups) == 0) {
+			return true;
+		}
 
 		$intersect = $roleMapping->getMatchingGroups($expectedGroups);
 
+		// is the user inside of at least one authorization group?
 		return sizeof($intersect) > 0;
 	}
 
