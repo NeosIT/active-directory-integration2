@@ -231,7 +231,7 @@ abstract class Adi_Synchronization_Abstract
 			return true;
 		}
 
-		$this->logger->warn('User ' . $username . ' with SID ' . $usersDomainSid . ' (domain SID: ' . $usersDomainSid . ') is not member of domain with domain SID "' . $this->getDomainSid() . "'");
+		$this->logger->warn('User ' . $username . ' with SID ' . $usersDomainSid . ' (domain SID: ' . $usersDomainSid . ') is not member of domain with domain SID "' . $this->connection->getDomainSid() . "'");
 		return false;
 	}
 }

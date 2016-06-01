@@ -380,8 +380,8 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 			->method('isVerifiedDomainMember')
 			->with('4321')
 			->willReturn(false);
-		
-		$sut->expects($this->once())
+
+		$this->ldapConnection->expects($this->once())
 			->method('getDomainSid')
 			->willReturn("1234");
 
