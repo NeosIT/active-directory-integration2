@@ -417,10 +417,8 @@ class adLDAP {
     * @return bool
     */
     public function connect() {
-
     	ldap_set_option($this->_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
-    	ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
-		
+
         // Connect to the AD/LDAP server as the username/password
         $this->_last_used_dc = $this->random_controller();
         
@@ -440,8 +438,7 @@ class adLDAP {
 		}
         
         if ($this->_use_tls) {
-			putenv("LDAPTLS_REQCERT=never");
-            ldap_start_tls($this->_conn);
+           ldap_start_tls($this->_conn);
         }
                
         // Bind as a domain admin if they've set it up
