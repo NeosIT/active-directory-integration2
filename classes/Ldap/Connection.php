@@ -207,6 +207,24 @@ class Ldap_Connection
 	}
 
 	/**
+	 * Return the encryption based upon the $connectionDetails. If the encryption is not set the encryption of the current blog instance is returned.
+	 * 
+	 * @param Ldap_ConnectionDetails $connectionDetails
+	 *
+	 * @return mixed|null
+	 */
+	public function getEncryption(Ldap_ConnectionDetails $connectionDetails)
+	{
+		$encryption = $connectionDetails->getCustomEncryption();
+
+		if (null === $encryption) {
+			$encryption = $this->configuration->getOptionValue(Adi_Configuration_Options::ENCRYPTION);
+		}
+
+		return $encryption;
+	}
+
+	/**
 	 * Return the network timeout based upon the $connectionDetails. If the port is not set the network timeout of the current blog instance is returned.
 	 *
 	 * @param Ldap_ConnectionDetails $connectionDetails
