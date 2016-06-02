@@ -14,7 +14,7 @@ if (class_exists('Multisite_Configuration_Persistence_BlogConfigurationRepositor
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access  public
  */
-class Multisite_Configuration_Persistence_BlogConfigurationRepository
+class Multisite_Configuration_Persistence_BlogConfigurationRepository implements Multisite_Configuration_Persistence_ConfigurationRepository
 {
 	const PROFILE_ID = 'profile_id';
 	const PREFIX = 'bo_v_';
@@ -96,7 +96,7 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository
 		$options = array();
 		$optionNames = array_keys($this->optionProvider->getNonTransient());
 		foreach ($optionNames as $optionName) {
-			$options[$optionName] = $this->findSanitized($siteId, $optionName);
+			$options[$optionName] = $this->findSanitizedValue($siteId, $optionName);
 		}
 
 		return $options;
@@ -111,7 +111,7 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository
 	 *
 	 * @return null|string
 	 */
-	public function findSanitized($siteId, $optionName)
+	public function findSanitizedValue($siteId, $optionName)
 	{
 		//prevent change of associated profile
 		if (self::PROFILE_ID === $optionName) {
@@ -121,7 +121,7 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository
 		if ($this->isOptionHandledByProfile($siteId, $optionName)) {
 			$profileId = $this->findProfileId($siteId);
 
-			return $this->profileConfigurationRepository->findValueSanitized($profileId, $optionName);
+			return $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
 		}
 
 		$optionValue = $this->find($siteId, $optionName);
@@ -184,7 +184,7 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository
 			$params = $option[Multisite_Option_Attribute::SANITIZER];
 			$optionValue = $this->sanitizer->sanitize($optionValue, $params, $option, true);
 
-			$this->persistSanitized($siteId, $optionName, $optionValue);
+			$this->persistSanitizedValue($siteId, $optionName, $optionValue);
 		}
 
 		return $optionValue;
@@ -220,7 +220,7 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository
 	 *
 	 * @return string $optionValue return the sanitized value
 	 */
-	public function persistSanitized($siteId, $optionName, $optionValue)
+	public function persistSanitizedValue($siteId, $optionName, $optionValue)
 	{
 		if (self::PROFILE_ID === $optionName) {
 			return null;

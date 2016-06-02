@@ -18,7 +18,7 @@ class Ut_Multisite_Ui_BlogConfigurationControllerTest extends Ut_BasicTest
 
 		$this->blogConfigurationRepository = $this->getMockBuilder('Multisite_Configuration_Persistence_BlogConfigurationRepository')
 			->disableOriginalConstructor()
-			->setMethods(array('persistSanitized'))
+			->setMethods(array('persistSanitizedValue'))
 			->getMock();
 
 		$this->optionProvider = $this->createMock('Multisite_Option_Provider');
@@ -197,7 +197,7 @@ class Ut_Multisite_Ui_BlogConfigurationControllerTest extends Ut_BasicTest
 		);
 
 		$this->blogConfigurationRepository->expects($this->once())
-			->method('persistSanitized')
+			->method('persistSanitizedValue')
 			->with('1', 'port', '389');
 
 		$sut->persistOption("port", '389');

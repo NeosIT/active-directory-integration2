@@ -37,7 +37,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	private function createActivationEnvironment($dc)
 	{
 		$fakeService = $this->createAnonymousMock(array('check', 'register', 'insertDefaultProfile', 'autoImport',
-			'migratePreviousVersion', 'persistValueSanitized', 'persistSanitized'));
+			'migratePreviousVersion', 'persistSanitizedValue'));
 		$dc->expects($this->once())
 			->method('getRequirements')
 			->willReturn($fakeService);
@@ -170,7 +170,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 		$this->behave($dc, 'getProfileConfigurationRepository', $fakeService);
 
 		$fakeService->expects($this->once())
-			->method('persistValueSanitized')
+			->method('persistSanitizedValue')
 			->with(666, Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION, 'username');
 
 		$sut->activation();
@@ -198,7 +198,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 		$this->behave($dc, 'getBlogConfigurationRepository', $fakeService);
 
 		$fakeService->expects($this->once())
-			->method('persistSanitized')
+			->method('persistSanitizedValue')
 			->with(0, Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION, 'username');
 
 		$sut->activation();

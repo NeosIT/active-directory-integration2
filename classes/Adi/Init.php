@@ -57,9 +57,9 @@ class Adi_Init
 				$optionValue = $currentUser->user_login;
 
 				if (is_multisite()) {
-					$this->dc()->getProfileConfigurationRepository()->persistValueSanitized($profileId, $optionName, $optionValue);
+					$this->dc()->getProfileConfigurationRepository()->persistSanitizedValue($profileId, $optionName, $optionValue);
 				} else {
-					$this->dc()->getBlogConfigurationRepository()->persistSanitized(0, $optionName, $optionValue);
+					$this->dc()->getBlogConfigurationRepository()->persistSanitizedValue(0, $optionName, $optionValue);
 				}
 			}
 		}

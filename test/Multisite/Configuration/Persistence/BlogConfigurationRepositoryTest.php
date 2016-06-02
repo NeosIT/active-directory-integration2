@@ -65,10 +65,10 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 	 */
 	public function findAllSanitized_getValuesForAllOptions_delegateToMethod()
 	{
-		$sut = $this->sut(array('findSanitized'));
+		$sut = $this->sut(array('findSanitizedValue'));
 
 		$sut->expects($this->at(0))
-			->method('findSanitized')
+			->method('findSanitizedValue')
 			->with(5, Adi_Configuration_Options::IS_ACTIVE)
 			->willReturn('is_active');
 
@@ -82,7 +82,7 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 	public function findAllSanitized_invalidOptionName_returnNull()
 	{
 		$sut = $this->sut(null);
-		$actual = $sut->findSanitized(5, Multisite_Configuration_Persistence_BlogConfigurationRepository::PROFILE_ID);
+		$actual = $sut->findSanitizedValue(5, Multisite_Configuration_Persistence_BlogConfigurationRepository::PROFILE_ID);
 		$this->assertEquals(null, $actual);
 	}
 
@@ -105,11 +105,11 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 			->willReturn(1);
 
 		$this->profileConfigurationRepository->expects($this->once())
-			->method('findValueSanitized')
+			->method('findSanitizedValue')
 			->with(1, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
 			->willReturn('profile-password!');
 
-		$actual = $sut->findSanitized(5, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
+		$actual = $sut->findSanitizedValue(5, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 		$this->assertEquals('profile-password!', $actual);
 	}
 
@@ -140,7 +140,7 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 			->with('password!')
 			->willReturn('password!');
 
-		$actual = $sut->findSanitized(5, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
+		$actual = $sut->findSanitizedValue(5, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 		$this->assertEquals('password!', $actual);
 	}
 
@@ -168,7 +168,7 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 			->with(' hi ', $meta[Multisite_Option_Attribute::SANITIZER], $meta)
 			->willReturn('hi');
 
-		$actual = $sut->findSanitized(5, Adi_Configuration_Options::DOMAIN_CONTROLLERS);
+		$actual = $sut->findSanitizedValue(5, Adi_Configuration_Options::DOMAIN_CONTROLLERS);
 		$this->assertEquals('hi', $actual);
 	}
 
@@ -201,7 +201,7 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 			->with('  password!  ', $meta[Multisite_Option_Attribute::SANITIZER], $meta)
 			->willReturn('password!');
 
-		$actual = $sut->findSanitized(5, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
+		$actual = $sut->findSanitizedValue(5, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 		$this->assertEquals('password!', $actual);
 	}
 
@@ -321,7 +321,7 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 	public function persistSanitized_invalidOptionName_returnNull()
 	{
 		$sut = $this->sut(null);
-		$value = $sut->persistSanitized(5, Multisite_Configuration_Persistence_BlogConfigurationRepository::PROFILE_ID,
+		$value = $sut->persistSanitizedValue(5, Multisite_Configuration_Persistence_BlogConfigurationRepository::PROFILE_ID,
 			'');
 		$this->assertEquals(null, $value);
 	}
@@ -345,7 +345,7 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 			->with(6, Adi_Configuration_Options::DOMAIN_CONTROLLERS, 'sanitized')
 			->willReturn('sanitized');
 
-		$value = $sut->persistSanitized(6, Adi_Configuration_Options::DOMAIN_CONTROLLERS, '123456');
+		$value = $sut->persistSanitizedValue(6, Adi_Configuration_Options::DOMAIN_CONTROLLERS, '123456');
 		$this->assertEquals('sanitized', $value);
 	}
 
@@ -371,7 +371,7 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 			->with(6, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '--encrypted--')
 			->willReturn('--encrypted--');
 
-		$value = $sut->persistSanitized(6, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '123456');
+		$value = $sut->persistSanitizedValue(6, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '123456');
 		$this->assertEquals('--encrypted--', $value);
 	}
 
@@ -399,7 +399,7 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 			->with(6, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '--encrypted--')
 			->willReturn('--encrypted--');
 
-		$value = $sut->persistSanitized(6, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '123456');
+		$value = $sut->persistSanitizedValue(6, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '123456');
 		$this->assertEquals('--encrypted--', $value);
 	}
 

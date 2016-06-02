@@ -13,7 +13,7 @@ if (class_exists('Multisite_Configuration_Persistence_ProfileConfigurationReposi
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Multisite_Configuration_Persistence_ProfileConfigurationRepository
+class Multisite_Configuration_Persistence_ProfileConfigurationRepository implements Multisite_Configuration_Persistence_ConfigurationRepository
 {
 	const PREFIX = 'po_';
 	const PREFIX_VALUE = 'v_';
@@ -71,7 +71,7 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository
 	 *
 	 * @return object
 	 */
-	public function findValueSanitized($profileId, $optionName)
+	public function findSanitizedValue($profileId, $optionName)
 	{
 		$value = $this->findValue($profileId, $optionName);
 		$optionMetadata = $this->optionProvider->get($optionName);
@@ -145,7 +145,7 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository
 	 *
 	 * @return string $optionValue|null
 	 */
-	public function persistValueSanitized($profileId, $optionName, $optionValue)
+	public function persistSanitizedValue($profileId, $optionName, $optionValue)
 	{
 		//option meta data
 		$optionElement = $this->optionProvider->get($optionName);

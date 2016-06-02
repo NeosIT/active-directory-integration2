@@ -266,7 +266,7 @@ class Adi_Configuration_ImportService
 		$configuration = $this->getPreviousConfiguration($siteId, $previousVersion);
 
 		foreach ($configuration as $index => $optionDefinition) {
-			$this->blogConfigurationRepository->persistSanitized($siteId, $optionDefinition['option_new'],
+			$this->blogConfigurationRepository->persistSanitizedValue($siteId, $optionDefinition['option_new'],
 				$optionDefinition['value']);
 		}
 
@@ -302,7 +302,7 @@ class Adi_Configuration_ImportService
 			$configurationString .= implode(":", $subsettings) . ";";
 		}
 
-		$this->blogConfigurationRepository->persistSanitized($siteId,
+		$this->blogConfigurationRepository->persistSanitizedValue($siteId,
 			Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $configurationString);
 	}
 

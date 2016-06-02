@@ -64,6 +64,9 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 		throw new Exception('Test');
 	}
 
+	/**
+	 * Blog configuration migration.
+	 */
 	protected function migrateBlogs()
 	{
 		global $wpdb;
@@ -75,51 +78,37 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 		foreach ($blogs AS $blog) {
 			$blogId = $blog['blog_id'];
 
-			$this->migrateBlogConfig($blogId);
+			$this->migrateConfig($this->blogConfigurationRepository, $blogId);
 		}
 	}
 
-	protected function migrateBlogConfig($blogId)
-	{
-		// find data to migrate
-		$domainControllers = $this->blogConfigurationRepository->findSanitized($blogId,
-			Adi_Configuration_Options::DOMAIN_CONTROLLERS);
-		$useTls = $this->blogConfigurationRepository->findSanitized($blogId, Adi_Configuration_Options::USE_TLS);
-		// set initial encryption status by using the 'useTls' value
-		$encryptionStatus = ($useTls) ? Multisite_Option_Encryption::STARTTLS : Multisite_Option_Encryption::NONE;
-
-		// check if the connection uses LDAPS
-		if (false !== stripos($domainControllers, self::LDAPS_PREFIX)) {
-			// set our encryption status to LDAPS
-			$encryptionStatus = Multisite_Option_Encryption::LDAPS;
-
-			// remove the 'ldaps://' protocol from the URI
-			$domainControllers = str_ireplace(self::LDAPS_PREFIX, '', $domainControllers);
-			$this->blogConfigurationRepository->persistSanitized($blogId, Adi_Configuration_Options::DOMAIN_CONTROLLERS,
-				$domainControllers);
-		}
-
-		// now we can persist the new encryption status 
-		$this->blogConfigurationRepository->persistSanitized($blogId, Adi_Configuration_Options::ENCRYPTION,
-			$encryptionStatus);
-	}
-
-	private function migrateProfiles()
+	/**
+	 * Profile configuration migration.
+	 */
+	protected function migrateProfiles()
 	{
 		$profiles = $this->profileRepository->findAll();
 
 		foreach ($profiles AS $profile) {
 			$profileId = $profile['profileId'];
 
-			$this->migrateProfileConfig($profileId);
+			$this->migrateConfig($this->profileConfigurationRepository, $profileId);
 		}
 	}
 
-	protected function migrateProfileConfig($profileId)
-	{
+	/**
+	 * Migrate the old data using the given {@code $configurationRepository}.
+	 *
+	 * @param Multisite_Configuration_Persistence_ConfigurationRepository $configurationRepository
+	 * @param                                                             $id
+	 */
+	protected function migrateConfig(Multisite_Configuration_Persistence_ConfigurationRepository $configurationRepository,
+									 $id
+	) {
 		// find data to migrate
-		$domainControllers = $this->profileConfigurationRepository->findValueSanitized($profileId, Adi_Configuration_Options::DOMAIN_CONTROLLERS);
-		$useTls = $this->profileConfigurationRepository->findValueSanitized($profileId, Adi_Configuration_Options::USE_TLS);
+		$domainControllers = $configurationRepository->findSanitizedValue($id,
+			Adi_Configuration_Options::DOMAIN_CONTROLLERS);
+		$useTls = $configurationRepository->findSanitizedValue($id, Adi_Configuration_Options::USE_TLS);
 		// set initial encryption status by using the 'useTls' value
 		$encryptionStatus = ($useTls) ? Multisite_Option_Encryption::STARTTLS : Multisite_Option_Encryption::NONE;
 
@@ -130,20 +119,11 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 
 			// remove the 'ldaps://' protocol from the URI
 			$domainControllers = str_ireplace(self::LDAPS_PREFIX, '', $domainControllers);
-			$this->profileConfigurationRepository->persistValueSanitized($profileId, Adi_Configuration_Options::DOMAIN_CONTROLLERS, $domainControllers);
+			$configurationRepository->persistSanitizedValue($id, Adi_Configuration_Options::DOMAIN_CONTROLLERS,
+				$domainControllers);
 		}
 
-		// now we can persist the new encryption status 
-		$this->profileConfigurationRepository->persistValueSanitized($profileId, Adi_Configuration_Options::ENCRYPTION, $encryptionStatus);
-	}
-
-	protected function migrateProfileTls($profileId)
-	{
-
-	}
-
-	protected function migrateProfileLdaps($profileId)
-	{
-
+		// now we can persist the new encryption status
+		$configurationRepository->persistSanitizedValue($id, Adi_Configuration_Options::ENCRYPTION, $encryptionStatus);
 	}
 }

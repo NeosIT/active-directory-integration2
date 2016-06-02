@@ -446,7 +446,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 			->willReturn(true);
 
 		$this->blogConfigurationRepository->expects($this->at(0))
-			->method('persistSanitized')
+			->method('persistSanitizedValue')
 			->with(1, Adi_Configuration_Options::IS_ACTIVE, true);
 
 		$sut->expects($this->once())
@@ -667,7 +667,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 
 
 		$this->blogConfigurationRepository->expects($this->once())
-			->method('persistSanitized')
+			->method('persistSanitizedValue')
 			->with($siteId,
 				'additional_user_attributes',
 				'ad_attribute:type:wa:d:0:1:1;'
