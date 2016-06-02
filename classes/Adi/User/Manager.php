@@ -459,7 +459,7 @@ class Adi_User_Manager
 			$value = Ldap_Attribute_Converter::formatAttributeValue($attribute->getType(), $value);
 
 			// set value if $value is not empty or $userMetaEmptyOverwrite is true
-			$message = "Set AD attribute '$name' (ADI " . $attribute . ") to '$value'" . print_r($value, true);
+			$message = "Set AD attribute '$name' (ADI " . $attribute . ") to " . print_r($value, true);
 			$this->logger->debug($message);
 
 			$this->metaRepository->update($userId, $attribute->getMetakey(), $value);
