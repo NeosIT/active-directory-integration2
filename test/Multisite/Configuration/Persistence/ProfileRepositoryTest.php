@@ -423,11 +423,11 @@ class Ut_Multisite_Configuration_Persistence_ProfileRepositoryTest extends Ut_Ba
 
 		$this->profileConfigurationRepository->expects($this->at(0))
 			->method('deleteValue')
-			->with(5, Adi_Configuration_Options::IS_ACTIVE);
+			->with(5, Adi_Configuration_Options::SUPPORT_ID);
 
 		$this->profileConfigurationRepository->expects($this->at(1))
 			->method('deletePermission')
-			->with(5, Adi_Configuration_Options::IS_ACTIVE);
+			->with(5, Adi_Configuration_Options::SUPPORT_ID);
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('deleteProfileAssociations')

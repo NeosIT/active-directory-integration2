@@ -148,6 +148,13 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 		ob_start();
 		Core_Logger::displayAndLogMessages();
 
+		// detect support-id
+		$supportData = $this->detectSupportData();
+		
+		foreach ($supportData as $line) {
+			$this->logger->info($line);
+		}
+		
 		// detect system environment
 		$env = $this->detectSystemEnvironment();
 		$this->logger->info('System Information: ');
@@ -190,6 +197,27 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 			array('Web Server', json_encode(php_sapi_name())),
 			array('adLDAP', json_encode(adLDAP::VERSION)),
 		);
+	}
+
+	/**
+	 * Detects the support data
+	 * 
+	 * @return array
+	 */
+	function detectSupportData()
+	{
+		$supportId = $this->configuration->getOptionValue(Adi_Configuration_Options::SUPPORT_ID, get_current_blog_id());
+		$siteUrl = get_site_url();
+		$siteName = get_bloginfo('name');
+		
+		if ($supportId == '') {
+			$supportId = 'unlicensed';
+		}
+		
+		$supportString = 'Support for: ###' . $supportId . '###' . $siteUrl . '###' . $siteName . '###';
+		$supportStringHashed = 'Support Hash: ' . hash('sha256', $supportString);		
+		
+		return array($supportString, $supportStringHashed);
 	}
 
 	/**

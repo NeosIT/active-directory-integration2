@@ -424,7 +424,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', ADI_I18N);
 			$disallowedRoleRule = new Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig($disallowedRoleMessage);
 			$validator->addRule(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
-
+			
 			$this->validator = $validator;
 		}
 

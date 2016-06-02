@@ -67,7 +67,7 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 	{
 		$sut = $this->sut(array('findSanitized'));
 
-		$sut->expects($this->at(0))
+		$sut->expects($this->at(1))
 			->method('findSanitized')
 			->with(5, Adi_Configuration_Options::IS_ACTIVE)
 			->willReturn('is_active');

@@ -195,9 +195,19 @@ class Ut_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 	{
 		$username = "username";
 		$password = "password";
+		$supportString = 'Support for: ###123###http://example.com###ExampleBlogName###';
+		
+		$supportData = array(
+			$supportString,
+			'Support Hash: ' . hash('sha256', $supportString)
+		);
 
-		$sut = $this->sut(array('connectToActiveDirectory', 'detectSystemEnvironment'));
+		$sut = $this->sut(array('connectToActiveDirectory', 'detectSystemEnvironment', 'detectSupportData'));
 
+		$sut->expects($this->once())
+			->method('detectSupportData')
+			->willReturn($supportData);
+		
 		$sut->expects($this->once())
 			->method('detectSystemEnvironment')
 			->willReturn(array(array('PHP', '5.5')));
@@ -242,5 +252,85 @@ class Ut_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 		$this->assertTrue(is_array($returnedCache));
 		$this->assertTrue(empty($returnedCache));
 
+	}
+	
+	/**
+	 * @test 
+	 */
+	public function detectSupportData_withLicense_returnArray() 
+	{
+		$sut = $this->sut();
+		
+		$supportString = 'Support for: ###123###http://example.com###ExampleBlogName###';
+		
+		$expected = array(
+			$supportString,
+			'Support Hash: ' . hash('sha256', $supportString)
+		);
+		
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(Adi_Configuration_Options::SUPPORT_ID, 1)
+			->willReturn('123');
+
+		WP_Mock::wpFunction('get_current_blog_id', array(
+			'times' => 1,
+			'return' => 1
+		));
+		
+		WP_Mock::wpFunction('get_site_url', array(
+			'times' => 1,
+			'return' => 'http://example.com'
+		));
+
+		WP_Mock::wpFunction('get_bloginfo', array(
+			'args' => 'name',
+			'times' => 1,
+			'return' => 'ExampleBlogName'
+		));
+		
+		$actual = $sut->detectSupportData();
+		
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function detectSupportData_withoutLicense_returnArray() 
+	{
+		$sut = $this->sut();
+		
+		$supportString = 'Support for: ###unlicensed###http://example.com###ExampleBlogName###';
+
+		$expected = array(
+			$supportString,
+			'Support Hash: ' . hash('sha256', $supportString)
+		);
+
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(Adi_Configuration_Options::SUPPORT_ID, 1)
+			->willReturn('');
+
+		WP_Mock::wpFunction('get_current_blog_id', array(
+			'times' => 1,
+			'return' => 1
+		));
+
+		WP_Mock::wpFunction('get_site_url', array(
+			'times' => 1,
+			'return' => 'http://example.com'
+		));
+
+		WP_Mock::wpFunction('get_bloginfo', array(
+			'args' => 'name',
+			'times' => 1,
+			'return' => 'ExampleBlogName'
+		));
+
+		$actual = $sut->detectSupportData();
+
+		$this->assertEquals($expected, $actual);
 	}
 }
