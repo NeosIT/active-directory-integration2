@@ -181,5 +181,4 @@ class Core_Util_StringUtil
 
 		return strtolower($result);
 	}
-
 }

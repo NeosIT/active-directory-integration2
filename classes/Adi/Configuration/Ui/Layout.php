@@ -58,6 +58,7 @@ class Adi_Configuration_Ui_Layout
 				'Profile Options' => array(
 					self::OPTIONS => array(
 						Adi_Configuration_Options::PROFILE_NAME,
+						Adi_Configuration_Options::SUPPORT_LICENSE_KEY,
 						Adi_Configuration_Options::IS_ACTIVE,
 					),
 					self::DESCRIPTION => __(
