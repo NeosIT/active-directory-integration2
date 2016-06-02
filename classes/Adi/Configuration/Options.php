@@ -222,11 +222,11 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$title          => __('Support-ID:', ADI_I18N),
 				$type        => Multisite_Option_Type::TEXT,
 				$description => __(
-					'Your Support-ID',
+					'Please enter your Support-ID here, if you have a paid ADI 2.0 license. It is required to receive support from us.',
 					ADI_I18N
 				),
 				$detail      => __(
-					'Your Support-ID',
+					'Please enter your Support-ID here, if you have a paid ADI 2.0 license. It is required to receive support from us.',
 					ADI_I18N
 				),
 				$sanitizer   => array('string'),
