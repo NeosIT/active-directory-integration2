@@ -270,7 +270,7 @@ class Ut_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 		
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SUPPORT_ID, 1)
+			->with(Adi_Configuration_Options::SUPPORT_LICENSE_KEY, 1)
 			->willReturn('123');
 
 		WP_Mock::wpFunction('get_current_blog_id', array(
@@ -310,7 +310,7 @@ class Ut_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SUPPORT_ID, 1)
+			->with(Adi_Configuration_Options::SUPPORT_LICENSE_KEY, 1)
 			->willReturn('');
 
 		WP_Mock::wpFunction('get_current_blog_id', array(

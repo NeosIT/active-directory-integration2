@@ -206,7 +206,7 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 	 */
 	function detectSupportData()
 	{
-		$supportId = $this->configuration->getOptionValue(Adi_Configuration_Options::SUPPORT_ID, get_current_blog_id());
+		$supportId = $this->configuration->getOptionValue(Adi_Configuration_Options::SUPPORT_LICENSE_KEY, get_current_blog_id());
 		$siteUrl = get_site_url();
 		$siteName = get_bloginfo('name');
 		
