@@ -185,7 +185,8 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function createAuthentication_itCreatesANewInstance() {
+	public function createAuthentication_itCreatesANewInstance()
+	{
 		$credentials = Adi_Authentication_LoginService::createCredentials('username', 'password');
 
 		$this->assertNotNull($credentials);
@@ -362,6 +363,7 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$this->assertEquals(array('@test.ad', '@domain.tld'), $actual);
 	}
+
 	/**
 	 * @test
 	 */
@@ -429,7 +431,7 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$this->roleManager->expects($this->exactly(2))
 			->method('createRoleMapping')
 			->withConsecutive(
-				array($username), 
+				array($username),
 				array($username . $suffix)
 			)
 			->willReturn($roleMapping);
@@ -628,9 +630,33 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	}
 
 	/**
+	 * @issue ADI-256
 	 * @test
 	 */
-	public function postAuthentication_itReturnsFalse_whenUserIsDisabled() {
+	public function ADI256_postAuthentication_whenUserNotCreated_itDoesNotCheckDisabled()
+	{
+		$sut = $this->sut(array('createOrUpdateUser'));
+
+		$credentials = Adi_Authentication_LoginService::createCredentials('username', 'password');
+
+		$wpUser = (object)(array('ID' => 0 /* invalid id - user has not been created */));
+
+		$sut->expects($this->once())
+			->method('createOrUpdateUser')
+			->with($credentials)
+			->willReturn($wpUser);
+
+		$this->userManager->expects($this->never())
+			->method('isDisabled');
+
+		$this->assertEquals($wpUser, $sut->postAuthentication($credentials));
+	}
+
+	/**
+	 * @test
+	 */
+	public function postAuthentication_itReturnsFalse_whenUserIsDisabled()
+	{
 		$sut = $this->sut(array('createOrUpdateUser'));
 
 		$credentials = Adi_Authentication_LoginService::createCredentials('username', 'password');
@@ -652,7 +678,8 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function postAuthentication_itReturnsWpUser_whenCreateOrUpdateSucceeds() {
+	public function postAuthentication_itReturnsWpUser_whenCreateOrUpdateSucceeds()
+	{
 		$sut = $this->sut(array('createOrUpdateUser'));
 
 		$credentials = Adi_Authentication_LoginService::createCredentials('username', 'password');
