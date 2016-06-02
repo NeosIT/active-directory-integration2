@@ -91,6 +91,7 @@ class Adi_Configuration_Ui_Layout
 					self::OPTIONS => array(
 						Adi_Configuration_Options::DOMAIN_CONTROLLERS,
 						Adi_Configuration_Options::PORT,
+						//Adi_Configuration_Options::USE_TLS,
 						Adi_Configuration_Options::ENCRYPTION,
 						Adi_Configuration_Options::NETWORK_TIMEOUT,
 						Adi_Configuration_Options::BASE_DN,
