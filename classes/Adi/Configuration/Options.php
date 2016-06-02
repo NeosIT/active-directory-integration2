@@ -338,7 +338,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 					__('This option handles the encryption type for the LDAP connection.',
 						ADI_I18N),
 					__('None: No encryption will be used.', ADI_I18N),
-					__('STARTTLS: ', ADI_I18N),
+					__('STARTTLS: Enabling this option activates the TLS (Transport Layer Security), which secures the data transport between your Active Directory server and WordPress by encrypting the data. If you want to use STARTTLS, the "Port" option has to be set as default("389"). Please note that STARTTLS is not the same as LDAP/S.', ADI_I18N),
 					__('LDAPS: The LDAP connections uses LDAPS. The default port is 636.',
 						ADI_I18N),
 				),

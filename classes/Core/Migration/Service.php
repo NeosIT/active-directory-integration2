@@ -45,7 +45,7 @@ class Core_Migration_Service
 	 */
 	public function register()
 	{
-		add_action('init', array($this, 'startMigration'));
+		add_action('wp_loaded', array($this, 'startMigration'));
 	}
 
 	/**

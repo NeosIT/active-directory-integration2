@@ -38,6 +38,7 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 
 		$this->logger = Logger::getLogger('Migration_MigrateEncryption');
 		$this->profileRepository = $dependencyContainer->getProfileRepository();
+		$this->profileConfigurationRepository = $dependencyContainer->getProfileConfigurationRepository();
 		$this->blogConfigurationRepository = $dependencyContainer->getBlogConfigurationRepository();
 	}
 
@@ -61,7 +62,7 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 		$this->migrateBlogs();
 		$this->migrateProfiles();
 
-		throw new Exception('Test');
+		//throw new Exception('Test');
 	}
 
 	/**
@@ -69,10 +70,8 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 	 */
 	protected function migrateBlogs()
 	{
-		global $wpdb;
-
 		// so get all the blog ids from the blogs table
-		$blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
+		$blogs = $this->findAllBlogIds();
 
 		// migrate blog configurations
 		foreach ($blogs AS $blog) {
@@ -125,5 +124,10 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 
 		// now we can persist the new encryption status
 		$configurationRepository->persistSanitizedValue($id, Adi_Configuration_Options::ENCRYPTION, $encryptionStatus);
+	}
+	
+	protected function findAllBlogIds() {
+		global $wpdb;
+		return $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
 	}
 }

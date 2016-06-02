@@ -19,7 +19,7 @@ if (class_exists('Core_Migration_Persistence_MigrationRepository')) {
  */
 class Core_Migration_Persistence_MigrationRepository
 {
-	const MIGRATION = ADI_PREFIX . '_migration';
+	const MIGRATION = ADI_PREFIX . 'migration';
 
 	/**
 	 * Find the last migration that was executed.
@@ -45,9 +45,9 @@ class Core_Migration_Persistence_MigrationRepository
 	public function setLastMigration($lastMigration)
 	{
 		if (is_multisite()) {
-			return add_site_option(self::MIGRATION, $lastMigration);
+			return update_site_option(self::MIGRATION, $lastMigration);
 		}
 
-		return add_option(self::MIGRATION, $lastMigration);
+		return update_option(self::MIGRATION, $lastMigration);
 	}
 }
