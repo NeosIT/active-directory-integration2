@@ -37,7 +37,6 @@
                 authorize_by_group: $valueHelper.findValue("authorize_by_group", data),
                 authorization_group: $valueHelper.findValue("authorization_group", data, '').split(";"),
                 role_equivalent_groups: JSON.parse('{"groups":[]}'),
-                domain_sid: $valueHelper.findValue("domain_sid", data)
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {

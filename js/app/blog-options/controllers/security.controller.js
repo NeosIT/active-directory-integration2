@@ -29,7 +29,6 @@
                 user_notification: $valueHelper.findValue("user_notification", data),
                 admin_notification: $valueHelper.findValue("admin_notification", data),
                 admin_email: $valueHelper.findValue("admin_email", data).split(";"),
-                domain_sid: $valueHelper.findValue("domain_sid", data)
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {

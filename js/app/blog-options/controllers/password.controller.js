@@ -17,7 +17,6 @@
                 fallback_to_local_password: $valueHelper.findValue("fallback_to_local_password", data),
                 auto_update_password: $valueHelper.findValue("auto_update_password", data),
                 enable_lost_password_recovery: $valueHelper.findValue("enable_lost_password_recovery", data),
-                domain_sid: $valueHelper.findValue("domain_sid", data)
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {

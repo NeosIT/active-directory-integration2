@@ -28,7 +28,6 @@
                 sync_to_wordpress_security_groups: $valueHelper.findValue("sync_to_wordpress_security_groups", data).split(";"),
                 disable_users: $valueHelper.findValue("disable_users", data),
                 sync_to_wordpress_authcode: $valueHelper.findValue("sync_to_wordpress_authcode", data),
-                domain_sid: $valueHelper.findValue("domain_sid", data),
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {

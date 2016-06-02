@@ -17,7 +17,6 @@
                 sync_to_ad_global_user: $valueHelper.findValue("sync_to_ad_global_user", data),
                 sync_to_ad_global_password: $valueHelper.findValue("sync_to_ad_global_password", data),
                 sync_to_ad_authcode: $valueHelper.findValue("sync_to_ad_authcode", data),
-                domain_sid: $valueHelper.findValue("domain_sid", data)
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {

@@ -31,7 +31,6 @@
                 show_menu_test_authentication: $valueHelper.findValue('show_menu_test_authentication', data) ? true : false,
                 show_menu_sync_to_ad: $valueHelper.findValue('show_menu_sync_to_ad', data) ? true : false,
                 show_menu_sync_to_wordpress: $valueHelper.findValue('show_menu_sync_to_wordpress', data) ? true : false,
-                domain_sid: $valueHelper.findValue("domain_sid", data),
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {

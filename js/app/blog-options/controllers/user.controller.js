@@ -43,8 +43,7 @@
                 prevent_email_change: $valueHelper.findValue("prevent_email_change", data),
                 duplicate_email_prevention: $valueHelper.findValue("duplicate_email_prevention", data),
                 name_pattern: $valueHelper.findValue("name_pattern", data),
-                show_user_status: $valueHelper.findValue("show_user_status", data),
-                domain_sid: $valueHelper.findValue("domain_sid", data)
+                show_user_status: $valueHelper.findValue("show_user_status", data)
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {
