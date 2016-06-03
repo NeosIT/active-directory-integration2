@@ -117,6 +117,7 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 
 			// remove the 'ldaps://' protocol from the URI
 			$domainControllers = str_ireplace(self::LDAPS_PREFIX, '', $domainControllers);
+			$configurationRepository->persistSanitizedValue($id, Adi_Configuration_Options::PORT, 636);
 			$configurationRepository->persistSanitizedValue($id, Adi_Configuration_Options::DOMAIN_CONTROLLERS,
 				$domainControllers);
 		}
