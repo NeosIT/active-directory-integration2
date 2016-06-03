@@ -18,22 +18,21 @@ class Ut_Migration_MigratedEncryption extends Ut_BasicTest
 
 	/** @var Multisite_Configuration_Persistence_BlogConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $blogConfigurationRepository */
 	private $blogConfigurationRepository;
-	
+
 	/** @var Adi_Dependencies|PHPUnit_Framework_MockObject_MockObject $dependencyContainer */
 	private $dependencyContainer;
-	
+
 	public function setUp()
 	{
 
 		parent::setUp();
 		$this->dependencyContainer = parent::createMock('Adi_Dependencies');
-		
-		
-		
+
+
 		$this->profileRepository = parent::createMock('Multisite_Configuration_Persistence_ProfileRepository');
 		$this->profileConfigurationRepository = parent::createMock('Multisite_Configuration_Persistence_ProfileConfigurationRepository');
 		$this->blogConfigurationRepository = parent::createMock('Multisite_Configuration_Persistence_BlogConfigurationRepository');
-		
+
 		$this->dependencyContainer->expects($this->once())
 			->method('getProfileRepository')
 			->willReturn($this->profileRepository);
@@ -61,48 +60,51 @@ class Ut_Migration_MigratedEncryption extends Ut_BasicTest
 	{
 		return $connection = $this->getMockBuilder('Migration_MigrateEncryption')
 			->setConstructorArgs(array(
-				$this->dependencyContainer
+				$this->dependencyContainer,
 			))
 			->setMethods($methods)
 			->getMock();
 	}
-	
+
 	/**
 	 * @test
 	 */
-	public function getId() {
+	public function getId()
+	{
 		$sut = $this->sut(null);
-		
+
 		$actual = $sut->getId();
-		
+
 		$expected = 1;
-		
+
 		$this->assertEquals($expected, $actual);
 	}
-	
+
 	/**
 	 * @test
 	 */
-	public function execute_triggersCorrectMethodes() {
-		
+	public function execute_triggersCorrectMethodes()
+	{
+
 		$sut = $this->sut(array('migrateBlogs', 'migrateProfiles'));
-		
+
 		$sut->expects($this->once())
 			->method('migrateBlogs');
-		
+
 		$sut->expects($this->once())
 			->method('migrateProfiles');
-				
+
 		$sut->execute();
 	}
-	
+
 	/**
 	 * @test
 	 */
-	public function migrateBlogs_executeMigrateConfig_withBlogId() {
-		
+	public function migrateBlogs_executeMigrateConfig_withBlogId()
+	{
+
 		$sut = $this->sut(array('migrateProfiles', 'findAllBlogIds', 'migrateConfig'));
-		
+
 		$sut->expects($this->once())
 			->method('findAllBlogIds')
 			->willReturn(array(array('blog_id' => 1)));
@@ -113,21 +115,22 @@ class Ut_Migration_MigratedEncryption extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('migrateProfiles');
-	
+
 		$sut->execute();
 	}
 
 	/**
 	 * @test
 	 */
-	public function migrateProfiles_executeMigrateConfig_withBlogId() {
+	public function migrateProfiles_executeMigrateConfig_withBlogId()
+	{
 
 		$sut = $this->sut(array('migrateBlogs', 'migrateConfig'));
 
 		$this->profileRepository->expects($this->once())
 			->method('findAll')
 			->willReturn(array(array('profileId' => 1)));
-		
+
 		$sut->expects($this->once())
 			->method('migrateBlogs');
 
@@ -137,11 +140,12 @@ class Ut_Migration_MigratedEncryption extends Ut_BasicTest
 
 		$sut->execute();
 	}
-	
+
 	/**
 	 * @test
 	 */
-	public function migrateConfig_withBlogConfigurationRepository_persistStarttls() {
+	public function migrateConfig_withBlogConfigurationRepository_persistStarttls()
+	{
 		$sut = $this->sut(array('migrateProfiles', 'findAllBlogIds'));
 
 		$sut->expects($this->once())
@@ -161,19 +165,20 @@ class Ut_Migration_MigratedEncryption extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('migrateProfiles');
-		
+
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('persistSanitizedValue')
 			->with(1, Adi_Configuration_Options::ENCRYPTION, 'starttls');
 
-		
+
 		$sut->execute();
 	}
 
 	/**
 	 * @test
 	 */
-	public function migrateConfig_withBlogConfigurationRepository_persistNone() {
+	public function migrateConfig_withBlogConfigurationRepository_persistNone()
+	{
 		$sut = $this->sut(array('migrateProfiles', 'findAllBlogIds'));
 
 		$sut->expects($this->once())
@@ -205,7 +210,8 @@ class Ut_Migration_MigratedEncryption extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function migrateConfig_withBlogConfigurationRepository_persistLdaps() {
+	public function migrateConfig_withBlogConfigurationRepository_persistLdaps()
+	{
 		$sut = $this->sut(array('migrateProfiles', 'findAllBlogIds'));
 
 		$sut->expects($this->once())
@@ -226,11 +232,12 @@ class Ut_Migration_MigratedEncryption extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('migrateProfiles');
 
-		$this->blogConfigurationRepository->expects($this->exactly(2))
+		$this->blogConfigurationRepository->expects($this->exactly(3))
 			->method('persistSanitizedValue')
 			->withConsecutive(
-				array(1, Adi_Configuration_Options::DOMAIN_CONTROLLERS),
-				array(1, Adi_Configuration_Options::ENCRYPTION)
+				array(1, Adi_Configuration_Options::PORT, 636),
+				array(1, Adi_Configuration_Options::DOMAIN_CONTROLLERS, '127.0.0.1'),
+				array(1, Adi_Configuration_Options::ENCRYPTION, Multisite_Option_Encryption::LDAPS)
 			)
 			->will($this->onConsecutiveCalls(
 				'127.0.0.1',
