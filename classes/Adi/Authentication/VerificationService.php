@@ -31,13 +31,14 @@ class Adi_Authentication_VerificationService
 	}
 
 	/**
-	 * Check if the connection to the Active Directory can be established. Receive objectSid from user used to authenticate.
+	 * Check if the connection to the Active Directory can be established. 
+	 * Receive objectSid from user used to authenticate.
+	 * 
 	 * @param array $data
 	 *
 	 * @return bool false || string $objectId
-	 * 
 	 */
-	public function verifyActiveDirectoryDomain($data)
+	public function findActiveDirectoryDomainSid($data)
 	{
 		$config = new Ldap_ConnectionDetails();
 		$config->setCustomDomainControllers($data["domain_controllers"]);

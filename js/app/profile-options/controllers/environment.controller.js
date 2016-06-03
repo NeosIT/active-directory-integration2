@@ -99,7 +99,7 @@
                 action: 'adi2_profile_options',
                 security: document.adi2.security,
                 data: data,
-                subAction: 'verifyAdConnectionForProfile'
+                subAction: 'verifyAdConnection'
             }).then(function (response) {
                 if (typeof response != 'undefined') {
                     $scope.messages = response.data;

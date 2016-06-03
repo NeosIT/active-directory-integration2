@@ -95,7 +95,7 @@ class Ut_Adi_Authentication_VerificationServiceTest extends Ut_BasicTest
 			->with($data['verification_username'])
 			->willReturn("1234");
 		
-		$sut->verifyActiveDirectoryDomain($data);
+		$sut->findActiveDirectoryDomainSid($data);
 	}
 	
 	/**

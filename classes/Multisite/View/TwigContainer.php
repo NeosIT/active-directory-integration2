@@ -40,7 +40,7 @@ class Multisite_View_TwigContainer
 
 	/** @var Adi_Authentication_VerificationService $verificationService */
 	private $verificationService;
-	
+
 	/** @var bool */
 	private $isProfileConnectedToDomain;
 
@@ -54,12 +54,12 @@ class Multisite_View_TwigContainer
 	 * @param Adi_Authentication_VerificationService                             $verificationService
 	 */
 	public function __construct(Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
-		Multisite_Configuration_Service $configuration,
-		Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
-		Multisite_Configuration_Persistence_ProfileRepository $profileRepository,
-		Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository,
-		Multisite_Option_Provider $optionProvider,
-		Adi_Authentication_VerificationService $verificationService
+								Multisite_Configuration_Service $configuration,
+								Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
+								Multisite_Configuration_Persistence_ProfileRepository $profileRepository,
+								Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository,
+								Multisite_Option_Provider $optionProvider,
+								Adi_Authentication_VerificationService $verificationService
 	) {
 		$this->blogConfigurationRepository = $blogConfigurationRepository;
 		$this->configuration = $configuration;
@@ -349,22 +349,24 @@ class Multisite_View_TwigContainer
 		$blogId = get_current_blog_id();
 
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
-		
+
 		if ($this->isProfileConnectedToDomain == null) {
 			$domainSidBuffer = $this->getOptionValue(Adi_Configuration_Options::DOMAIN_SID, $profileId);
-			
+
 			if ($domainSidBuffer != '' && $domainSidBuffer != null) {
 				$this->isProfileConnectedToDomain = true;
 			}
-		}		
-		
+		}
+
 		$permission = $this->profileConfigurationRepository->findPermissionSanitized($profileId, $optionName);
 
 		// if blog admin should have the permission to change the environment options BUT the profile used for the blog is connected to a domain, the blog admin is not allowed to change any environment options anymore.
-		if ($permission == 3 && $this->isProfileConnectedToDomain && $this->configuration->isEnvironmentOption($optionName)) {
+		if ($permission == 3 && $this->isProfileConnectedToDomain
+			&& $this->configuration->isEnvironmentOption($optionName)
+		) {
 			return 2;
 		}
-		
+
 		return $permission;
 	}
 
@@ -411,19 +413,17 @@ class Multisite_View_TwigContainer
 
 		return $value;
 	}
-	
-	public function verifyConnection($data)
-	{		
-		$objectSid = $this->verificationService->verifyActiveDirectoryDomain($data);
-		
-		if ($objectSid !== false) {
-			return $objectSid;
-		}
-		
-		return false;
-	}
-	
-	public function getDomainsId($objectSid) {		
-		return Core_Util_StringUtil::objectSidToDomainSid($objectSid);
+
+	/**
+	 * Check if the connection to the Active Directory can be established.
+	 * Receive objectSid from user used to authenticate.
+	 *
+	 * @param $data
+	 *
+	 * @return bool
+	 */
+	public function findActiveDirectoryDomainSid($data)
+	{
+		return $this->verificationService->findActiveDirectoryDomainSid($data);
 	}
 }

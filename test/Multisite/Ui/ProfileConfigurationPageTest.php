@@ -888,13 +888,13 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 		$data = array();
-		
-		$this->blogConfigurationController->expects($this->once())
-			->method('saveBlogOptions')
+
+		$this->profileConfigurationController->expects($this->once())
+			->method('saveProfileOptions')
 			->with($data)
 			->willReturn(true);
-		
-		$actual = $sut->persistDomainSid($data);
+
+		$actual = $sut->persistDomainSid($data, 1);
 		$this->assertTrue($actual);
 	}
 }
