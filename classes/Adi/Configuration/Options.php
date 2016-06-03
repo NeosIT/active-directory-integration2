@@ -392,14 +392,14 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			),
 			// VERIFICATION USERNAME
 			self::VERIFICATION_USERNAME            => array(
-				$title       => __('Verification username', ADI_I18N),
+				$title       => __('Username', ADI_I18N),
 				$type        => Multisite_Option_Type::TEXT,
 				$description => __(
-					'Verification username (e.g. administration@test.ad)', ADI_I18N
+					'Username used to authenticated against the Active Directory in order to connect your WordPress site or profile to a domain (e.g. administration@test.ad)', ADI_I18N
 				),
 				$detail      => array(
 					__(
-						'You have to enter a valid Active Directory account to link your WordPress site to a specific Active Directory domain.',
+						'You have to enter a valid Active Directory account to connect your WordPress site to a specific Active Directory domain.',
 						ADI_I18N
 					),
 				),
@@ -411,14 +411,14 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			),
 			// VERIFICATION PASSWORD
 			self::VERIFICATION_PASSWORD            => array(
-				$title       => __('Verification password', ADI_I18N),
+				$title       => __('Password', ADI_I18N),
 				$type        => Multisite_Option_Type::VERIFICATION_PASSWORD,
 				$description => __(
-					'Verification password', ADI_I18N
+					'Password used to authenticate against the Active Directory in order to connect your WordPress site or profile to a domain.' , ADI_I18N
 				),
 				$detail      => array(
 					__(
-						'You have to enter the password for the Active Directory account to link your WordPress site to a specific Active Directory domain.',
+						'You have to enter the password for the Active Directory user in order to connect your WordPress site or profile to a domain.',
 						ADI_I18N
 					),
 				),
