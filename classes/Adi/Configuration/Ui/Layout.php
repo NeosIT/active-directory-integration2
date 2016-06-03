@@ -98,7 +98,7 @@ class Adi_Configuration_Ui_Layout
 				),
 				__('Verify Credentials', ADI_I18N) => array(
 					self::DESCRIPTION => __(
-						'Connected your WordPress Site or Profile to a domain.',
+						'Connect your WordPress site or profile to a domain.',
 						ADI_I18N
 					),
 					self::OPTIONS => array(
