@@ -348,27 +348,6 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$showPermission    => true,
 				$transient         => false,
 			),
-//			self::USE_TLS                       => array(
-//				$title           => __('Use STARTTLS', ADI_I18N),
-//				$type            => Multisite_Option_Type::CHECKBOX,
-//				$description     => __(
-//					'Secures the connection between the WordPress and the Active Directory servers using STARTTLS',
-//					ADI_I18N
-//				),
-//				$detail          => __(
-//					'Enabling this option activates the TLS (Transport Layer Security), which secures the data transport between your Active Directory server and WordPress by encrypting the data. If you want to use STARTTLS, the "Port" option has to be set as default("389"). Please note that STARTTLS is not the same as LDAP/S.',
-//					ADI_I18N
-//				),
-//				$angularAttributes => '',
-//				$default         => false,
-//				$disabled        => !extension_loaded('openssl'),
-//				$disabledMessage => __(
-//					'<b>You must enable the PHP module "openssl" before you can use STARTTLS.</b>', ADI_I18N
-//				),
-//				$sanitizer       => array('boolean'),
-//				$showPermission    => true,
-//				$transient         => false,
-//			),
 			// network timeout (LDAP_OPT_NETWORK_TIMEOUT) in seconds
 			self::NETWORK_TIMEOUT               => array(
 				$title       => __('LDAP network timeout', ADI_I18N),

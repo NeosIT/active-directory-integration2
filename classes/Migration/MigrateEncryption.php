@@ -61,8 +61,6 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 	{
 		$this->migrateBlogs();
 		$this->migrateProfiles();
-
-		//throw new Exception('Test');
 	}
 
 	/**

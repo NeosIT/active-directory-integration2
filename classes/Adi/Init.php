@@ -222,6 +222,9 @@ class Adi_Init
 
 		$this->initialize();
 
+		// migration
+		$this->registerMigrationHook();
+
 		// shared hooks
 		$this->registerSharedAdministrationHooks();
 

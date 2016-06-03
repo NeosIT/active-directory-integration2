@@ -488,7 +488,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function runMultisite_itRegistersTheSharedAdministrationHooks_whenInMultisiteEnvironment()
 	{
-		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks'));
+		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks', 'registerMigrationHook'));
 		$dc = $this->mockDependencyContainer($sut);
 
 		$this->loginUser($sut, null, null);
@@ -518,7 +518,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function runMultisite_itRegistersTheMultisiteAdministrationHooks_whenInMultisiteEnvironment()
 	{
-		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks'));
+		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks', 'registerMigrationHook'));
 		$dc = $this->mockDependencyContainer($sut);
 
 		$this->loginUser($sut, null, null);
