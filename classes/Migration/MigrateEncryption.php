@@ -73,6 +73,7 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 		// so get all the blog ids from the blogs table
 		$blogs = $this->findAllBlogIds();
 
+
 		// migrate blog configurations
 		foreach ($blogs AS $blog) {
 			$blogId = $blog['blog_id'];
@@ -125,8 +126,17 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 		// now we can persist the new encryption status
 		$configurationRepository->persistSanitizedValue($id, Adi_Configuration_Options::ENCRYPTION, $encryptionStatus);
 	}
-	
+
+	/**
+	 * Returns an array containing all blog ids
+	 * 
+	 * @return array
+	 */
 	protected function findAllBlogIds() {
+		if (!is_multisite()) {
+			return array(array('blog_id' => get_current_blog_id()));
+		}
+		
 		global $wpdb;
 		return $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
 	}
