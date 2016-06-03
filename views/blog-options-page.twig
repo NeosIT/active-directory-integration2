@@ -8,6 +8,8 @@
 
     <div ng-controller="BlogController">
         <form class="form adi-form" name="form">
+            <div class="block-ui" ng-hide="runningRequests == 0"></div>
+
             {% import "option/page.twig" as page %}
             {{ page.create('noprefix') }}
         </form>

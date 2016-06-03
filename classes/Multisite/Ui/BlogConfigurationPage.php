@@ -157,6 +157,8 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS);
 		wp_enqueue_script('ng-notify', ADI_URL . '/js/libraries/ng-notify.min.js',
 			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS);
+		wp_enqueue_script('ng-busy', ADI_URL . '/js/libraries/angular-busy.min.js',
+			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS);
 
 		wp_enqueue_script('adi2_shared_util_array', ADI_URL . '/js/app/shared/utils/array.util.js',
 			array(), Multisite_Ui::VERSION_PAGE_JS);

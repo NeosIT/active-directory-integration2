@@ -23,7 +23,7 @@
         <div id="{{ tabId }}" class="tab-body" style="{{ style }}" ng-controller="{{ optionGroups.angular_controller|raw }}">
             {{ group.create(optionGroups, isProfile) }}
 
-            <button class="button button-primary"  ng-click="$parent.save()">Save</button>
+            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__ }}" ng-click="$parent.save()">Save</button>
         </div>
 
     {% endfor %}

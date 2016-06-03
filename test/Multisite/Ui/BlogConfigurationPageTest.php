@@ -175,6 +175,18 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args'  => array(
+					'ng-busy',
+					ADI_URL . '/js/libraries/angular-busy.min.js',
+					array('angular.min'),
+					Multisite_Ui::VERSION_PAGE_JS,
+				),
+				'times' => 1,
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'wp_enqueue_script', array(
+				'args'  => array(
 					'adi2_shared_util_array',
 					ADI_URL . '/js/app/shared/utils/array.util.js',
 					array(),
