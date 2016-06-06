@@ -14,13 +14,14 @@
         {% set disabled = "" %}
     {% endif %}
 
-    {% if  newNetwork  %}
+    {% if  newNetwork %}
         {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
     {% else %}
         {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
     {% endif %}
 
-    <select id="{{ inputId }}" {{ inline }} ng-class="{ error: messages.{{ optionName }} != null }" ng-model="option.{{ optionName }}" {{ disabled }} {{ angularAttributes|raw }}>
+    <select id="{{ inputId }}" {{ inline }} ng-class="{ error: messages.{{ optionName }} != null }"
+            ng-model="option.{{ optionName }}" {{ disabled }} {{ angularAttributes|raw }}>
 
         {% for elementName, elementValue in elements %}
 
@@ -37,7 +38,15 @@
         {% endfor %}
 
     </select>
-    <p>{% import "option/element/description.twig" as descriptionElement %}
-    {{ descriptionElement.create(description) }}</p>
+
+    <p>
+        {% import "option/element/error-msg.twig" as errorElement %}
+        {{ errorElement.create(optionName) }}
+    </p>
+
+    <p>
+        {% import "option/element/description.twig" as descriptionElement %}
+        {{ descriptionElement.create(description) }}
+    </p>
 
 {% endmacro %}

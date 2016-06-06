@@ -6,6 +6,8 @@
     function AttributesController($scope, DataService) {
         var vm = this;
 
+        $scope.isSaveDisabled = false;
+
         $scope.permissionOptions = DataService.getPermissionOptions();
 
         $scope.optionsValues = [];
@@ -51,9 +53,15 @@
             $scope.option = {
                 additional_user_attributes: JSON.parse('{"attributes":[]}'),
             };
+            
+            if ($valueHelper.findValue("domain_sid", data) == '') {
+                $scope.isSaveDisabled = true;
+            }
 
             $scope.permission = {
                 additional_user_attributes: $scope.optionsValues["additional_user_attributes"]["option_permission"],
+                verification_username : $valueHelper.findPermission("verification_username", data),
+                verification_password : $valueHelper.findPermission("verification_password", data)
             };
 
             $scope.newWordpressAttribute = "adi2_";
@@ -64,6 +72,10 @@
             $scope.messages = {
                 additional_user_attributes: $valueHelper.findMessage("additional_user_attributes", data)
             };
+        });
+
+        $scope.$on('verification', function (event, data) {
+            $scope.isSaveDisabled = false;
         });
 
         $scope.addAttribute = function (newAdAttribute, newDataType, newWordpressAttribute, newDescription, newViewInUserProfile, newSyncToAd, newOverwriteWithEmptyValue) {

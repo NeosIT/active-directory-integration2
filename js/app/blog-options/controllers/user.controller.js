@@ -6,6 +6,8 @@
     function UserController($scope, ListService, DataService) {
         var vm = this;
 
+        $scope.isSaveDisabled = false;
+        
         $scope.permissionOptions = DataService.getPermissionOptions();
 
         $scope.new_account_suffix = '';
@@ -44,6 +46,10 @@
                 show_user_status: $valueHelper.findValue("show_user_status", data)
             };
 
+            if ($valueHelper.findValue("domain_sid", data) == '') {
+                $scope.isSaveDisabled = true;
+            }
+
             $scope.permission = {
                 account_suffix: $valueHelper.findPermission("account_suffix", data),
                 exclude_usernames_from_authentication: $valueHelper.findPermission("exclude_usernames_from_authentication", data),
@@ -55,9 +61,13 @@
                 prevent_email_change: $valueHelper.findPermission("prevent_email_change", data),
                 duplicate_email_prevention: $valueHelper.findPermission("duplicate_email_prevention", data),
                 name_pattern: $valueHelper.findPermission("name_pattern", data),
-                show_user_status: $valueHelper.findPermission("show_user_status", data)
+                show_user_status: $valueHelper.findPermission("show_user_status", data),
+                verification_username : $valueHelper.findPermission("verification_username", data),
+                verification_password : $valueHelper.findPermission("verification_password", data)
             };
         });
+        
+
 
         $scope.$on('validation', function (event, data) {
             $scope.messages = {
@@ -73,6 +83,10 @@
                 name_pattern: $valueHelper.findMessage("name_pattern", data),
                 show_user_status: $valueHelper.findMessage("show_user_status", data)
             };
+        });
+
+        $scope.$on('verification', function (event, data) {
+            $scope.isSaveDisabled = false;
         });
 
         $scope.getPreparedOptions = function () {

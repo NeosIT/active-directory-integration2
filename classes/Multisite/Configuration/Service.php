@@ -93,7 +93,6 @@ class Multisite_Configuration_Service
 	 * @return array
 	 */
 	public function getOption($optionName, $blogId = null)
-		//TODO Wenn ein Profile welches einem Blog zugeordnet ist eine Domänenverknüpfung besitzt, werden für den Environment immer die Daten aus dem Profile geladen auch wenn die Optionen die Permission 3 haben. Zusamen wird dem Blog Admin nicht gestattet diese Optionen zu ändern. ES MUSS NOCH angepasst werden, dass in diesem Fall die Optionen nicht Persistiert werden, wenn der Blog Admin speichert da ansonsten die Blog Einstellungen überschrieben werden.
 	{
 		if ($blogId === null) {
 			$blogId = get_current_blog_id();
@@ -103,7 +102,7 @@ class Multisite_Configuration_Service
 			return $this->cache[$blogId][$optionName];
 		}
 
-		$blogOptionValue = $this->blogConfigurationRepository->findSanitized($blogId, $optionName);
+		$blogOptionValue = $this->blogConfigurationRepository->findSanitizedValue($blogId, $optionName);
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
 		$profileHasLinkedDomain = false;
 
@@ -160,7 +159,7 @@ class Multisite_Configuration_Service
 		}
 
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
-		$profileOption = $this->profileConfigurationRepository->findValueSanitized($profileId, $optionName);
+		$profileOption = $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
 
 		return $profileOption;
 	}
@@ -246,7 +245,7 @@ class Multisite_Configuration_Service
 		$options = array();
 
 		foreach ($allOptionNames as $name) {
-			$valueBuffer = $this->profileConfigurationRepository->findValueSanitized($profileId, $name);
+			$valueBuffer = $this->profileConfigurationRepository->findSanitizedValue($profileId, $name);
 			$permissionBuffer = (string)$this->getPermission($name, $profileId);
 
 			if ($name == "additional_user_attributes") { //TODO bessere Lösung überlegen
@@ -300,7 +299,10 @@ class Multisite_Configuration_Service
 			Adi_Configuration_Options::USE_TLS,
 			Adi_Configuration_Options::NETWORK_TIMEOUT,
 			Adi_Configuration_Options::BASE_DN,
-			Adi_Configuration_Options::DOMAIN_SID
+			Adi_Configuration_Options::DOMAIN_SID,
+			Adi_Configuration_Options::VERIFICATION_USERNAME,
+			Adi_Configuration_Options::VERIFICATION_PASSWORD,
+			
 		); //TODO move somewhere else
 
 		// TODO better solution would be to get viewable configuration through Layout class. But this introduces new

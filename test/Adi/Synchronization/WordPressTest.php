@@ -183,7 +183,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	 */
 	public function prepareForSync_syncIsEnabled_returnTrue()
 	{
-		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime'));
+		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime', 'isUsernameInDomain'));
 
 		$this->configuration->expects($this->exactly(3))
 			->method('getOptionValue')
@@ -209,6 +209,10 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('increaseExecutionTime');
 
+		$sut->expects($this->once())
+			->method('isUsernameInDomain')
+			->willReturn(true);
+
 		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
 		$this->assertEquals(true, $actual);
 	}
@@ -219,11 +223,35 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	 */
 	public function prepareForSync_whenUsernameIsNotInDomain_itReturnsFalse()
 	{
-		$sut = $this->sut();
+		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime', 'isUsernameInDomain'));
 
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->configuration->expects($this->exactly(3))
+			->method('getOptionValue')
+			->withConsecutive(
+				array(Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED),
+				array(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER),
+				array(Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD)
+			)
+			->will($this->onConsecutiveCalls(
+				true,
+				'user',
+				'password'
+			));
+
+		$sut->expects($this->once())
+			->method('startTimer');
+
+		$sut->expects($this->once())
+			->method('connectToAdLdap')
+			->with('user', 'password')
+			->willReturn(true);
+
+		$sut->expects($this->once())
+			->method('isUsernameInDomain')
+			->willReturn(false);
+
+		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
+		$this->assertEquals(false, $actual);
 	}
 
 	/**
@@ -644,9 +672,9 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 			->method('synchronizeAccountStatus')
 			->with($adiUser, true);
 
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->ldapConnection->expects($this->once())
+			->method("getDomainSid")
+			->willReturn("S-1234");
 
 		$actual = $sut->synchronizeUser($credentials, 'guid');
 		$this->assertEquals(666, $actual);

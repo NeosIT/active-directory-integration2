@@ -24,8 +24,21 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 
 		$this->assertEquals($expected, $actual);
 	}
-	
-		/**
+
+	/**
+	 * @issue ADI-248
+	 * @test
+	 */
+	public function ADI248_splitText_onlyReturnsNonEmptyLines() {
+		$string  = "  ; ; test ";
+
+		$expected = array("test");
+
+		$actual = Core_Util_StringUtil::splitNonEmpty($string, ";");
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
 	 * @test
 	 */
 	public function splitText_withUnixLineBreaks_returnLinesInArray()
@@ -93,8 +106,11 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 	 * @test
 	 */
 	public function objectSidToDomainSid_itReturnsDomainSidOfObject() {
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$objectSid = "S-1-5-21-0000000000-0000000000-0000000000-1234";
+		$domainSid = Core_Util_StringUtil::objectSidToDomainSid($objectSid);
+		
+		$expected = "S-1-5-21-0000000000-0000000000-0000000000";
+		
+		$this->assertEquals($expected, $domainSid);
 	}
 }

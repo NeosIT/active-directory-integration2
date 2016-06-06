@@ -25,6 +25,9 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 
 	/** @var Multisite_Option_Provider|PHPUnit_Framework_MockObject_MockObject */
 	private $optionProvider;
+	
+	/** @var Adi_Authentication_VerificationService|PHPUnit_Framework_MockObject_MockObject */
+	private $verificationService;
 
 	public function setUp()
 	{
@@ -37,6 +40,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 		$this->defaultProfileRepository = $this->createMock
 		('Multisite_Configuration_Persistence_DefaultProfileRepository');
 		$this->optionProvider = $this->createMock('Multisite_Option_Provider');
+		$this->verificationService = $this->createMock('Adi_Authentication_VerificationService');
 	}
 
 	public function tearDown()
@@ -224,7 +228,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$this->profileConfigurationRepository->expects($this->once())
-			->method('findValueSanitized')
+			->method('findSanitizedValue')
 			->with(1, 'port')
 			->willReturn('389');
 
@@ -281,7 +285,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 			->willReturn(3);
 
 		$this->blogConfigurationRepository->expects($this->once())
-			->method('findSanitized')
+			->method('findSanitizedValue')
 			->with($blogId, 'port')
 			->willReturn('389');
 
@@ -592,6 +596,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 					$this->profileRepository,
 					$this->defaultProfileRepository,
 					$this->optionProvider,
+					$this->verificationService
 				)
 			)
 			->setMethods($methods)

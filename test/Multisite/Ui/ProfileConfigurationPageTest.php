@@ -211,6 +211,18 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
+					'ng-busy',
+					ADI_URL . '/js/libraries/angular-busy.min.js',
+					array('angular.min'),
+					Multisite_Ui::VERSION_PAGE_JS,
+				),
+				'times' => 1,
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'wp_enqueue_script', array(
+				'args'  => array(
 					'adi2_shared_util_array',
 					ADI_URL . '/js/app/shared/utils/array.util.js',
 					array(),
@@ -761,6 +773,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 			'ldapAttributes' => Ldap_Attribute_Description::findAll(),
 			'dataTypes' => Ldap_Attribute_Repository::findAllAttributeTypes(),
 			'permissionItems' => $permissionItems,
+			'wpRoles'            => Adi_Role_Manager::getRoles(),
 		);
 
 		$this->profileController->expects($this->once())
@@ -863,7 +876,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		$validator = $sut->getValidator();
 		$rules = $validator->getValidationRules();
 
-		$this->assertCount(11, $rules);
+		$this->assertCount(13, $rules);
 		$this->assertInstanceOf('Multisite_Validator_Rule_ConditionalSuffix', $rules[Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_ConditionalSuffix', $rules[Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_AccountSuffix', $rules[Adi_Configuration_Options::ACCOUNT_SUFFIX][0]);
@@ -878,6 +891,8 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		$this->assertInstanceOf('Multisite_Validator_Rule_PositiveNumericOrZero', $rules[Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_PositiveNumericOrZero', $rules[Adi_Configuration_Options::BLOCK_TIME][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[Adi_Configuration_Options::PROFILE_NAME][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig', $rules[Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_SelectValueValid', $rules[Adi_Configuration_Options::ENCRYPTION][0]);
 	}
 
 
@@ -886,8 +901,15 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 	 */
 	public function persistDomainSidForProfile_itSavesBlogOptions()
 	{
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$sut = $this->sut();
+		$data = array();
+
+		$this->profileConfigurationController->expects($this->once())
+			->method('saveProfileOptions')
+			->with($data)
+			->willReturn(true);
+
+		$actual = $sut->persistDomainSid($data, 1);
+		$this->assertTrue($actual);
 	}
 }

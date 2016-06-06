@@ -1,10 +1,12 @@
 (function () {
     app.controller('EnvironmentController', EnvironmentController);
 
-    EnvironmentController.$inject = ['$scope', '$http', 'ListService', 'DataService', 'ngNotify'];
+    EnvironmentController.$inject = ['$rootScope', '$scope', '$http', 'ListService', 'DataService', 'ngNotify'];
 
-    function EnvironmentController($scope, $http, ListService, DataService, ngNotify) {
+    function EnvironmentController($rootScope, $scope, $http, ListService, DataService, ngNotify) {
         var vm = this;
+        
+        $scope.isSaveDisabled = false;
 
         $scope.permissionOptions = DataService.getPermissionOptions();
         $scope.new_domain_controllers = '';
@@ -20,30 +22,34 @@
 
         $scope.$on('options', function (event, data) {
             $scope.option = {
-                domain_controllers: $valueHelper.findValue('domain_controllers', data, '').split(";"),
+                domain_controllers: $valueHelper.findValue('domain_controllers', data, '').split(";"), 
                 port: $valueHelper.findValue("port", data),
-                use_tls: $valueHelper.findValue("use_tls", data),
                 network_timeout: $valueHelper.findValue("network_timeout", data),
+                encryption: $valueHelper.findValue("encryption", data),
                 base_dn: $valueHelper.findValue("base_dn", data),
                 verification_username : '',
                 verification_password : '',
-                verification_status: $valueHelper.findValue("domain_sid", data),
+                domain_sid: $valueHelper.findValue("domain_sid", data),
                 verification_status_message: ''
             };
+
+            if ($valueHelper.findValue("domain_sid", data) == '') {
+                $scope.isSaveDisabled = true;
+            }
 
             $scope.permission = {
                 domain_controllers: $valueHelper.findPermission('domain_controllers', data),
                 port: $valueHelper.findPermission('port', data),
-                use_tls: $valueHelper.findPermission('use_tls', data),
                 network_timeout: $valueHelper.findPermission('network_timeout', data),
+                encryption: $valueHelper.findPermission('encryption', data),
                 base_dn: $valueHelper.findPermission('base_dn', data),
                 verification_username : $valueHelper.findPermission("verification_username", data),
                 verification_password : $valueHelper.findPermission("verification_password", data),
-                verification_status: $valueHelper.findPermission("domain_sid", data)
+                domain_sid: $valueHelper.findPermission("domain_sid", data)
             };
             
-            if ($scope.option.verification_status != '') {
-                $scope.option.verification_status_message = "WordPress Site connected to Domain."
+            if ($scope.option.domain_sid != '') {
+                $scope.option.verification_status_message = "WordPress Site is currently connected to Domain: "
             }
         });
 
@@ -51,12 +57,12 @@
             $scope.messages = {
                 domain_controllers: $valueHelper.findMessage('domain_controllers', data),
                 port: $valueHelper.findMessage('port', data),
-                use_tls: $valueHelper.findMessage('use_tls', data),
                 network_timeout: $valueHelper.findMessage('network_timeout', data),
+                encryption: $valueHelper.findMessage('encryption', data),
                 base_dn: $valueHelper.findMessage('base_dn', data),
                 verification_username : $valueHelper.findMessage("verification_username", data),
                 verification_password : $valueHelper.findMessage("verification_password", data),
-                verification_status: $valueHelper.findMessage("domain_sid", data)
+                domain_sid: $valueHelper.findMessage("domain_sid", data)
             };
         });
 
@@ -70,12 +76,12 @@
             return (!$arrayUtil.containsOnlyNullValues($scope.messages));
         };
         
-        $scope.verificate = function () {
+        $scope.verify = function () {
             
             var data = {
-                domain_controllers: $scope.option.domain_controllers,
+                domain_controllers: ListService.parseListArrayToString($scope.option.domain_controllers),
                 port: $scope.option.port,
-                use_tls: $scope.option.use_tls,
+                encryption: $scope.option.encryption,
                 network_timeout: $scope.option.network_timeout,
                 base_dn: $scope.option.base_dn,
                 verification_username: $scope.option.verification_username,
@@ -92,12 +98,15 @@
                     $scope.messages = response.data;
                     
                     if (response.data.hasOwnProperty("verification_successful")) {
-                        $scope.option.verification_status_message = response.data['verification_successful'];
+                        $scope.option.verification_status_message = "Verification successful! WordPress site is now connected to Domain: ";
                         ngNotify.set('Verification successful!', 'success');
                         $scope.messages = {};
+                        $scope.option.domain_sid = response.data['verification_successful'];
+                        $scope.isSaveDisabled = false;
+                        $rootScope.$broadcast('verification', response.data['verification_successful']);
+                        
                     } else {
-                        ngNotify.set('Something went wrong!', 'error');
-                        $scope.option.verification_status_message = response.data['verification_failed'];
+                        ngNotify.set(response.data['verification_failed'], 'error');
                     }
                     
                 }

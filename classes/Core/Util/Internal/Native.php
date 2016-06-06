@@ -94,6 +94,18 @@ class Core_Util_Internal_Native
 	}
 
 	/**
+	 * Delegate the call to php internal file_exists function.
+	 *
+	 * @param $filePath
+	 *
+	 * @return bool
+	 */
+	public function isFileAvailable($filePath)
+	{
+		return file_exists($filePath);
+	}
+
+	/**
 	 * Delegate the call to php internal include_once function.
 	 *
 	 * @param $path
@@ -101,5 +113,30 @@ class Core_Util_Internal_Native
 	public function includeOnce($path)
 	{
 		include_once($path);
+	}
+
+	/**
+	 * Delegate the call to php internal ini_get function.
+	 * 
+	 * @param string $key
+	 * 
+	 * @return string
+	 */
+	public function iniGet($key)
+	{
+		return ini_get($key);
+	}
+
+	/**
+	 * Delegate the call to php internal ini_set function.
+	 *
+	 * @param string $key
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public function iniSet($key, $value)
+	{
+		return ini_set($key, $value);
 	}
 }

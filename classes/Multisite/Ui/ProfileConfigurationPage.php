@@ -27,7 +27,6 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	const SUB_ACTION_GET_PROFILE_OPTION_VALUES = 'getProfileOptionsValues';
 	const SUB_ACTION_PERSIST_PROFILE_OPTION_VALUES = 'persistProfileOptionsValues';
 	const SUB_ACTION_LOAD_PROFILES = 'loadProfiles';
-	const SUB_ACTION_VERIFY_AD_CONNECTION_FOR_PROFILE = 'verifyAdConnectionForProfile';
 
 	const VERSION_PROFILE_CONFIGURATION_JS = '1.0';
 	const CAPABILITY = 'manage_network';
@@ -51,7 +50,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 		self::SUB_ACTION_PERSIST_PROFILE_OPTION_VALUES => self::SUB_ACTION_PERSIST_PROFILE_OPTION_VALUES,
 		self::SUB_ACTION_LOAD_PROFILES                 => self::SUB_ACTION_LOAD_PROFILES,
 		self::SUB_ACTION_GENERATE_AUTHCODE             => self::SUB_ACTION_GENERATE_AUTHCODE,
-		self::SUB_ACTION_VERIFY_AD_CONNECTION_FOR_PROFILE  => self::SUB_ACTION_VERIFY_AD_CONNECTION_FOR_PROFILE,
+		parent::SUB_ACTION_VERIFY_AD_CONNECTION        => parent::SUB_ACTION_VERIFY_AD_CONNECTION,
 	);
 
 	/**
@@ -62,10 +61,10 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	 * @param Multisite_Configuration_Service             $configurationService
 	 */
 	public function __construct(Multisite_View_TwigContainer $twigContainer,
-		Multisite_Ui_BlogConfigurationController $blogConfigurationController,
-		Multisite_Ui_ProfileConfigurationController $profileConfigurationController,
-		Multisite_Ui_ProfileController $profileController,
-		Multisite_Configuration_Service $configurationService
+								Multisite_Ui_BlogConfigurationController $blogConfigurationController,
+								Multisite_Ui_ProfileConfigurationController $profileConfigurationController,
+								Multisite_Ui_ProfileController $profileController,
+								Multisite_Configuration_Service $configurationService
 	) {
 		parent::__construct($twigContainer, $blogConfigurationController);
 
@@ -183,7 +182,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	/**
 	 * Get the data from our {@see $_POST} and send it to our {@see Multisite_Ui_ProfileController}.
 	 *
-	 * @param $postData
+	 * @param array $postData
 	 *
 	 * @return bool|false|int
 	 */
@@ -200,7 +199,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	/**
 	 * Get the data from our {@see $_POST} and send it to our {@see Multisite_Ui_ProfileController}.
 	 *
-	 * @param $postData
+	 * @param array $postData
 	 *
 	 * @return array|bool
 	 */
@@ -214,7 +213,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	/**
 	 * Get the data from our {@see $_POST} and send it to our {@see Multisite_Configuration_Service}.
 	 *
-	 * @param $postData
+	 * @param array $postData
 	 *
 	 * @return array|mixed
 	 */
@@ -222,55 +221,53 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	{
 		$profileId = $postData['profileId'];
 
-		$test = $this->configuration->getAllProfileOptionsValues($profileId);
-		
 		return $this->configuration->getAllProfileOptionsValues($profileId);
 	}
 
 	/**
 	 * Verify connection to AD to recieve domainSid.
 	 *
+	 * @param array $data
+	 *
 	 * @return array
 	 */
-	protected function verifyAdConnectionForProfile($data)
-	{		
+	protected function verifyAdConnection($data)
+	{
 		$data = $data["data"];
-
 		$profileId = $data["profile"];
 		unset($data["profile"]);
-		
-		parent::validate($data);
 
-		return $this->verifyInternalForProfile($data, $profileId);
+		parent::validateVerification($data);
+
+		return $this->verifyInternal($data, $profileId);
 	}
 
-	protected function verifyInternalForProfile($data, $profileId) {
-		// TODO this code does already exist inside BlogConfigurationPage
-		// TODO REFACTOR!
-		$objectSid = $this->twigContainer->verifyConnection($data);
-
-		if ($objectSid === false) {
-			return array("verification_failed" => "Verification failed.");
-		}
-
-		$domainSid = $this->twigContainer->getDomainsId($objectSid);
-
-		if (is_string($domainSid) && $domainSid !== '') {
-			$postData = array(
-				"domain_sid" => array(
-					"option_value" => $domainSid,
-					"option_permission" => 3, //TODO revisit (Default Value to prevent saving errors)
-			));
-			
-			$this->persistDomainSidForProfile($postData, $profileId);
-			return array("verification_successful" => "WordPress site is now connected to Active Directory domain: "
-				. $domainSid);
-		}
-
-		return array("verification_failed" => "Verification failed.");
+	/**
+	 * Prepare an array for persistence.
+	 *
+	 * @param string $domainSid
+	 *
+	 * @return array
+	 */
+	protected function getDomainSidForPersistence($domainSid)
+	{
+		return array(
+			"domain_sid" => array(
+				"option_value"      => $domainSid,
+				"option_permission" => 3, //TODO revisit (default value to prevent saving errors)
+			),
+		);
 	}
 
-	public function persistDomainSidForProfile($data, $profileId)
+	/**
+	 * Delegate call to {@link Multisite_Ui_ProfileConfigurationController#saveProfileOptions}.
+	 *
+	 * @param array $data
+	 * @param int|null $profileId
+	 *
+	 * @return array
+	 */
+	public function persistDomainSid($data, $profileId = null)
 	{
 		return $this->profileConfigurationController->saveProfileOptions($data, $profileId);
 	}
@@ -278,7 +275,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	/**
 	 * Get the data from our {@see $_POST} and send it to our {@see Multisite_Ui_ProfileConfigurationController}.
 	 *
-	 * @param $postData
+	 * @param array $postData
 	 *
 	 * @return array
 	 */
@@ -303,7 +300,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	/**
 	 * Get the profile id from the given data.
 	 *
-	 * @param $data
+	 * @param array $data
 	 *
 	 * @return null
 	 */
@@ -330,7 +327,8 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 			'defaultProfileData' => $this->configuration->getAllProfileOptionsValues(-1),
 			'ldapAttributes'     => Ldap_Attribute_Description::findAll(),
 			'dataTypes'          => Ldap_Attribute_Repository::findAllAttributeTypes(),
-			'permissionItems'	 => $this->getPermission(),
+			'permissionItems'    => $this->getPermission(),
+			'wpRoles'        => Adi_Role_Manager::getRoles(),
 		);
 	}
 
@@ -344,19 +342,19 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	{
 		$permissionItems = array(
 			0 => array(
-				"value" => "0",
+				"value"       => "0",
 				"description" => __("Input field is invisible.", ADI_I18N),
 			),
 			1 => array(
-				"value" => "1",
+				"value"       => "1",
 				"description" => __("Deactivated and option value not shown.", ADI_I18N),
 			),
 			2 => array(
-				"value" => "2",
+				"value"       => "2",
 				"description" => __("Deactivated and option value shown.", ADI_I18N),
 			),
 			3 => array(
-				"value" => "3",
+				"value"       => "3",
 				"description" => __("Blog admin sets the option value.", ADI_I18N),
 			),
 		);
@@ -394,7 +392,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 
 	/**
 	 * Get the current nonce value.
-	 * 
+	 *
 	 * @return string
 	 */
 	protected function getNonce()

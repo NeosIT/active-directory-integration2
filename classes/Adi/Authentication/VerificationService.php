@@ -30,31 +30,45 @@ class Adi_Authentication_VerificationService
 		$this->attributeRepository = $attributeRepository;
 	}
 
-	public function verifyConnection($data)
+	/**
+	 * Check if the connection to the Active Directory can be established. 
+	 * Receive objectSid from user used to authenticate.
+	 * 
+	 * @param array $data
+	 *
+	 * @return bool false || string $objectId
+	 */
+	public function findActiveDirectoryDomainSid($data)
 	{
-		// TODO unit tests missing
-		// TODO refactor name in verifyActiveDirectoryDomain
 		$config = new Ldap_ConnectionDetails();
-		$config->setCustomDomainControllers($data["domain_controllers"]);
-		$config->setCustomPort($data["port"]);
-		$config->setCustomUseStartTls($data["use_tls"]);
-		$config->setCustomNetworkTimeout($data["network_timeout"]);
-		$config->setCustomBaseDn($data["base_dn"]);
+		$config->setDomainControllers($data["domain_controllers"]);
+		$config->setPort($data["port"]);
+		$config->setEncryption($data["encryption"]);
+		$config->setNetworkTimeout($data["network_timeout"]);
+		$config->setBaseDn($data["base_dn"]);
 		$config->setUsername($data["verification_username"]);
 		$config->setPassword($data["verification_password"]);
-
-		//TODO Only the save button on the environment page is disabled at the moment if no domains id is set.
+		
 		$this->ldapConnection->connect($config);
 
 		$isConnected = $this->ldapConnection->isConnected();
 
 		if ($isConnected) {
-			$attributeService = new Ldap_Attribute_Service($this->ldapConnection, $this->attributeRepository);
+			$attributeService = $this->getCustomAttributeService();
 			$objectSid = $attributeService->getObjectSid($data["verification_username"], false);
 
 			return $objectSid;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get Ldap_Attribute_Service for verification process
+	 * 
+	 * @return Ldap_Attribute_Service
+	 */
+	public function getCustomAttributeService() {
+		return new Ldap_Attribute_Service($this->ldapConnection, $this->attributeRepository);
 	}
 }

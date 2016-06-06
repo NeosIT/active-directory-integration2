@@ -77,7 +77,7 @@ class Adi_User_Persistence_Repository
 	 * Delegate the call to wordpress get_user_by() function.
 	 *
 	 * @param string $key
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @return false|WP_User
 	 */
@@ -89,23 +89,40 @@ class Adi_User_Persistence_Repository
 	/**
 	 * Find one or multiple users by the given meta key
 	 *
-	 * @param $key
-	 * @param $value
+	 * @param string $key
+	 * @param mixed $value
 	 *
 	 * @return array of WP_User
 	 */
-	protected function findByMetaKey($key, $value)
+	public function findByMetaKey($key, $value = null)
 	{
-		return get_users(array('meta_key' => $key, 'meta_value' => $value, 'fields' => 'all'
-			/* get WP_User objects */));
+		$options =
+			array('meta_key' => $key, 'fields' => 'all' /* get WP_User objects */);
+
+		if ($value != null) {
+			$options['meta_value'] = $value;
+		}
+
+		return get_users($options);
+	}
+
+	/**
+	 * Find the user meta information for the user with the given ID
+	 *
+	 * @param int $userId
+	 * @return array of arrays: array('last_name' => array('My last name'), 'first_name' => array('My first name')
+	 */
+	public function findUserMeta($userId)
+	{
+		return get_user_meta($userId);
 	}
 
 	/**
 	 * Update wp_user_meta with given values
 	 *
-	 * @param int    $userId
+	 * @param int $userId
 	 * @param string $key
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @return int|bool int if key does not exist, bool if it is updated, false on error
 	 */
@@ -131,7 +148,7 @@ class Adi_User_Persistence_Repository
 	/**
 	 * Update the sAMAccountName meta key
 	 *
-	 * @param int    $userId
+	 * @param int $userId
 	 * @param string $sAMAccountName
 	 */
 	public function updateSAMAccountName($userId, $sAMAccountName)
@@ -171,7 +188,7 @@ class Adi_User_Persistence_Repository
 	 * Update the email for the given $userId.
 	 *
 	 * @param integer $userId
-	 * @param string  $mail
+	 * @param string $mail
 	 */
 	public function updateEmail($userId, $mail)
 	{
@@ -182,7 +199,7 @@ class Adi_User_Persistence_Repository
 	 * Update the password for the given $userId.
 	 *
 	 * @param integer $userId
-	 * @param string  $password
+	 * @param string $password
 	 */
 	public function updatePassword($userId, $password)
 	{
@@ -193,8 +210,8 @@ class Adi_User_Persistence_Repository
 	 * Update the property $key for the given $userId.
 	 *
 	 * @param integer $userId
-	 * @param string  $key
-	 * @param mixed   $value
+	 * @param string $key
+	 * @param mixed $value
 	 */
 	protected function updateProperty($userId, $key, $value)
 	{
@@ -234,7 +251,7 @@ class Adi_User_Persistence_Repository
 
 	/**
 	 * @param Adi_User $user
-	 * @param array    $userData
+	 * @param array $userData
 	 *
 	 * @return int|WP_Error
 	 */

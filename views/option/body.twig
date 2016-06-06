@@ -6,6 +6,7 @@
     {% import "option/group.twig" as group %}
 
     {% set grouping = getOptionsGrouping() %}
+    {% set isOnNetworkDashboard = isOnNetworkDashboard() %}
 
     {# Create all tab bodies #}
     {% for tabName, optionGroups in grouping if isOptionGroupVisible(optionGroups) %}
@@ -22,9 +23,13 @@
 
         <div id="{{ tabId }}" class="tab-body" style="{{ style }}" ng-controller="{{ optionGroups.angular_controller|raw }}">
             {{ group.create(optionGroups, isProfile) }}
-        
-            <button class="button button-primary"  ng-disabled="(option.verification_status == '' && permission.verification_username == 3 && verification_password == 3)" ng-click="$parent.save()">Save</button>
-            <span ng-hide="(option.verification_status != '') || (permission.verification_username != 3 && permission.verification_password != 3)" style="color: red">You have to verify the connection to the AD before saving.</span>
+        {% if isOnNetworkDashboard %}
+            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__ }}" ng-disabled="isSaveDisabled" ng-click="$parent.save()">Save</button>
+            <span ng-hide="!isSaveDisabled" style="color: red">You have to verify the connection to the AD before saving.</span>
+        {% else %}
+            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__ }}" ng-disabled="(isSaveDisabled && permission.verification_username == 3 && permission.verification_password == 3)" ng-click="$parent.save()">Save</button>
+            <span ng-hide="(!isSaveDisabled || permission.verification_username != 3 && permission.verification_password != 3)" style="color: red">You have to verify the connection to the AD before saving.</span>
+        {% endif %}
         </div>
 
     {% endfor %}

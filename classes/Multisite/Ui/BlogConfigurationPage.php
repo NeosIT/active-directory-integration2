@@ -35,8 +35,11 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	/** @var Multisite_Ui_BlogConfigurationController */
 	private $blogConfigurationController;
 
-	/* @var Core_Validator */
+	/** @var Core_Validator */
 	private $validator;
+
+	/** @var Core_Validator */
+	private $verificationValidator;
 
 	/** @var array map the given subActions to the corresponding methods */
 	private $actionMapping
@@ -46,7 +49,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			self::SUB_ACTION_PERSIST_OPTION_VALUES => self::SUB_ACTION_PERSIST_OPTION_VALUES,
 			self::SUB_ACTION_VERIFY_AD_CONNECTION  => self::SUB_ACTION_VERIFY_AD_CONNECTION,
 		);
-	
+
 	/** @var bool $isVerification */
 	private $isVerification;
 
@@ -55,8 +58,9 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	 * @param Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
 	 */
 	public function __construct(Multisite_View_TwigContainer $twigContainer,
-		Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
-	) {
+								Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
+	)
+	{
 		parent::__construct($twigContainer);
 
 		$this->blogConfigurationController = $blogConfigurationConfigurationControllerController;
@@ -197,6 +201,8 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			'ng-notify', ADI_URL . '/js/libraries/ng-notify.min.js',
 			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS
 		);
+		wp_enqueue_script('ng-busy', ADI_URL . '/js/libraries/angular-busy.min.js',
+			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS);
 
 		wp_enqueue_script(
 			'adi2_shared_util_array', ADI_URL . '/js/app/shared/utils/array.util.js',
@@ -317,6 +323,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			'options'        => $data,
 			'ldapAttributes' => Ldap_Attribute_Description::findAll(),
 			'dataTypes'      => Ldap_Attribute_Repository::findAllAttributeTypes(),
+			'wpRoles' => Adi_Role_Manager::getRoles(),
 		);
 	}
 
@@ -342,13 +349,8 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	protected function verifyAdConnection($data)
 	{
 		$data = $data["data"];
-		
-		$this->isVerification = true;
-		
-		$this->validate($data);
-		
-		$this->isVerification = false;
-		
+		$this->validateVerification($data);
+
 		return $this->verifyInternal($data);
 	}
 
@@ -356,26 +358,59 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	 * Verify the connection by the given $data array
 	 *
 	 * @param array $data
+	 * @param null $profileId
+	 *
 	 * @return array
 	 */
-	protected function verifyInternal($data) {
-		$objectSid = $this->twigContainer->verifyConnection($data);
+	protected function verifyInternal($data, $profileId = null)
+	{
+		$failedMessage = array(
+			"verification_failed" => "Verification failed! Please check your logfile for further information.",
+		);
+		$objectSid = $this->twigContainer->findActiveDirectoryDomainSid($data);
 
-		if ($objectSid === false) {
-			return array("verification_failed" => "Verification failed. Connection to Active Directory server failed.");
+		if (false === $objectSid) {
+			return $failedMessage;
 		}
 
-		$domainSid = $this->twigContainer->getDomainsId($objectSid);
+		$domainSid = Core_Util_StringUtil::objectSidToDomainSid($objectSid);
+		$domainSidData = $this->prepareDomainSid($domainSid);
 
+		if (false === $domainSid) {
+			return $failedMessage;
+		}
+
+		$this->persistDomainSid($domainSidData, $profileId);
+
+		return array("verification_successful" => $domainSid);
+	}
+
+	/**
+	 * Check if the given SID is valid and normalize it for persistence.
+	 *
+	 * @param      $domainSid
+	 *
+	 * @return array
+	 */
+	protected function prepareDomainSid($domainSid)
+	{
 		if (is_string($domainSid) && $domainSid !== '') {
-			$postData = array("domain_sid" => $domainSid);
-			$this->persistDomainsId($postData);
-
-			return array("verification_successful" => "WordPress site is now connected to Active Directory domain: "
-				. $domainSid);
+			return $this->getDomainSidForPersistence($domainSid);
 		}
 
-		return array("verification_failed" => "Verification failed.");
+		return false;
+	}
+
+	/**
+	 * Prepare an array for persistence.
+	 *
+	 * @param $domainSid
+	 *
+	 * @return array
+	 */
+	protected function getDomainSidForPersistence($domainSid)
+	{
+		return array("domain_sid" => $domainSid);
 	}
 
 	/**
@@ -394,8 +429,6 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 
 		$data = $postData['data'];
 
-		$this->validate($data);
-
 		//check if the permission of the option is high enough for the option to be saved
 		$databaseOptionData = $this->twigContainer->getAllOptionsValues();
 
@@ -407,23 +440,54 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			}
 		}
 
-		return $this->blogConfigurationController->saveBlogOptions($data);
-	}
-
-	public function persistDomainsId($data)
-	{
+		$this->validate($data);
 
 		return $this->blogConfigurationController->saveBlogOptions($data);
 	}
 
 	/**
-	 * Validate the given data.
+	 * Delegate call to {@link Multisite_Ui_BlogConfigurationController#saveProfileOptions}.
+	 *
+	 * @param $data
+	 * @param $profileId
+	 *
+	 * @return array
+	 */
+	public function persistDomainSid($data, $profileId = null)
+	{
+		return $this->blogConfigurationController->saveBlogOptions($data);
+	}
+
+	/**
+	 * Validate the given data using the validator from {@code Multisite_Ui_BlogConfigurationPage#getValidator()}.
 	 *
 	 * @param $data
 	 */
 	protected function validate($data)
 	{
-		$validationResult = $this->getValidator()->validate($data);
+		$this->validateWithValidator($this->getValidator(), $data);
+	}
+
+	/**
+	 * Validate the given data using the validator from
+	 * {@code Multisite_Ui_BlogConfigurationPage#getVerificationValidator()}.
+	 *
+	 * @param $data
+	 */
+	protected function validateVerification($data)
+	{
+		$this->validateWithValidator($this->getVerificationValidator(), $data);
+	}
+
+	/**
+	 * Validate the data using the given {@code $validator}.
+	 *
+	 * @param Core_Validator $validator
+	 * @param                $data
+	 */
+	private function validateWithValidator(Core_Validator $validator, $data)
+	{
+		$validationResult = $validator->validate($data);
 
 		if (!$validationResult->isValid()) {
 			$this->renderJson($validationResult->getResult());
@@ -451,51 +515,25 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	}
 
 	/**
-	 * Create or get our current validator object..
+	 * Get the validator for the default save action.
 	 *
 	 * @return Core_Validator
 	 */
 	public function getValidator()
 	{
 		if (null === $this->validator) {
-			$validator = new Core_Validator();
-
-
-			//ENVIRONMENT
-			$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', ADI_I18N);
-			$portRule = new Multisite_Validator_Rule_Port($portMessage);
-			$validator->addRule(Adi_Configuration_Options::PORT, $portRule);
-
-			$networkTimeoutMessage = __('Network timeout has to be numeric and cannot be negative.', ADI_I18N);
-			$networkTimeoutRule = new Multisite_Validator_Rule_PositiveNumericOrZero($networkTimeoutMessage);
-			$validator->addRule(Adi_Configuration_Options::NETWORK_TIMEOUT, $networkTimeoutRule);
-			
-			if ($this->isVerification) {
-				$verifyUsernameMessage = __(
-					'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', ADI_I18N
-				);
-				$verifyUsernameRule = new Multisite_Validator_Rule_AdminEmail($verifyUsernameMessage, '@');
-				$validator->addRule(Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameRule);
-
-				$verifyUsernameEmptyMessage = __(
-					'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', ADI_I18N
-				);
-				$verifyUsernameEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyUsernameEmptyMessage);
-				$validator->addRule(Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameEmptyRule);
-
-				$verifyPasswordMessage = __('Verification Password cannot be empty.', ADI_I18N);
-				$verifyPasswordRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyPasswordMessage);
-				$validator->addRule(Adi_Configuration_Options::VERIFICATION_PASSWORD, $verifyPasswordRule);
-
-				$this->validator = $validator;
-				return $this->validator;
-			}
+			$validator = $this->getSharedValidator();
 
 			//PROFILE
 			$notEmptyMessage = __('This value must not be empty.', ADI_I18N);
 			$notEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($notEmptyMessage);
 			$validator->addRule(Adi_Configuration_Options::PROFILE_NAME, $notEmptyRule);
-			
+
+			//ENVIRONMENT
+			$invalidValueMessage = __('The given value is invalid.', ADI_I18N);
+			$invalidSelectValueRule = new Multisite_Validator_Rule_SelectValueValid($invalidValueMessage,
+				Multisite_Option_Encryption::getValues());
+			$validator->addRule(Adi_Configuration_Options::ENCRYPTION, $invalidSelectValueRule);
 
 			//USER
 			$accountSuffixMessage = __(
@@ -504,7 +542,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			);
 			$accountSuffixRule = new Multisite_Validator_Rule_AccountSuffix($accountSuffixMessage, '@');
 			$validator->addRule(Adi_Configuration_Options::ACCOUNT_SUFFIX, $accountSuffixRule);
-			
+
 			$defaultEmailDomainMessage = __('Please remove the "@", it will be added automatically.', ADI_I18N);
 			$defaultEmailDomainRule = new Multisite_Validator_Rule_DefaultEmailDomain($defaultEmailDomainMessage);
 			$validator->addRule(Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN, $defaultEmailDomainRule);
@@ -524,6 +562,11 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			);
 			$adminEmailRule = new Multisite_Validator_Rule_AdminEmail($adminEmailMessage, '@');
 			$validator->addRule(Adi_Configuration_Options::ADMIN_EMAIL, $adminEmailRule);
+
+			//PERMISSIONS
+			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', ADI_I18N);
+			$disallowedRoleRule = new Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig($disallowedRoleMessage);
+			$validator->addRule(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
 
 			//ATTRIBUTES
 			$noDefaultAttributeNameMessage = __(
@@ -573,5 +616,56 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		}
 
 		return $this->validator;
+	}
+
+	/**
+	 * Get the validator with all necessary rules for the verification.
+	 *
+	 * @return Core_Validator
+	 */
+	public function getVerificationValidator()
+	{
+		if (null == $this->verificationValidator) {
+			$validator = $this->getSharedValidator();
+
+			$verifyUsernameMessage = __(
+				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', ADI_I18N
+			);
+			$verifyUsernameRule = new Multisite_Validator_Rule_AdminEmail($verifyUsernameMessage, '@');
+			$validator->addRule(Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameRule);
+
+			$verifyUsernameEmptyMessage = __(
+				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', ADI_I18N
+			);
+			$verifyUsernameEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyUsernameEmptyMessage);
+			$validator->addRule(Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameEmptyRule);
+
+			$verifyPasswordMessage = __('Verification Password cannot be empty.', ADI_I18N);
+			$verifyPasswordRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyPasswordMessage);
+			$validator->addRule(Adi_Configuration_Options::VERIFICATION_PASSWORD, $verifyPasswordRule);
+
+			$this->verificationValidator = $validator;
+		}
+
+		return $this->verificationValidator;
+	}
+
+	/**
+	 * Return a validator with the shared rules.
+	 */
+	protected function getSharedValidator()
+	{
+		$validator = new Core_Validator();
+
+		//ENVIRONMENT
+		$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', ADI_I18N);
+		$portRule = new Multisite_Validator_Rule_Port($portMessage);
+		$validator->addRule(Adi_Configuration_Options::PORT, $portRule);
+
+		$networkTimeoutMessage = __('Network timeout has to be numeric and cannot be negative.', ADI_I18N);
+		$networkTimeoutRule = new Multisite_Validator_Rule_PositiveNumericOrZero($networkTimeoutMessage);
+		$validator->addRule(Adi_Configuration_Options::NETWORK_TIMEOUT, $networkTimeoutRule);
+
+		return $validator;
 	}
 }

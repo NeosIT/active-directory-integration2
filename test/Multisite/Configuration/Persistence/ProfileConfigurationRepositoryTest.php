@@ -64,7 +64,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 			->with('encrypted')
 			->willReturn('encrypted');
 
-		$actual = $sut->findValueSanitized(999, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
+		$actual = $sut->findSanitizedValue(999, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 		$this->assertEquals('encrypted', $actual);
 	}
 
@@ -87,7 +87,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 			->with('  a@b.de  ', $meta[Multisite_Option_Attribute::SANITIZER], $meta)
 			->willReturn('a@b.de');
 
-		$actual = $sut->findValueSanitized(999, Adi_Configuration_Options::DOMAIN_CONTROLLERS);
+		$actual = $sut->findSanitizedValue(999, Adi_Configuration_Options::DOMAIN_CONTROLLERS);
 		$this->assertEquals('a@b.de', $actual);
 	}
 
@@ -114,7 +114,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 			->with('  a@b.de  ',  $meta[Multisite_Option_Attribute::SANITIZER], $meta)
 			->willReturn('a@b.de');
 
-		$actual = $sut->findValueSanitized(999, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
+		$actual = $sut->findSanitizedValue(999, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 		$this->assertEquals('a@b.de', $actual);
 	}
 
@@ -159,7 +159,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 			->with(87, Adi_Configuration_Options::DOMAIN_CONTROLLERS, 'sanitized')
 			->willReturn(true);
 
-		$actual = $sut->persistValueSanitized(87, Adi_Configuration_Options::DOMAIN_CONTROLLERS, '8078');
+		$actual = $sut->persistSanitizedValue(87, Adi_Configuration_Options::DOMAIN_CONTROLLERS, '8078');
 		$this->assertEquals(true, $actual);
 	}
 
@@ -185,7 +185,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 			->with(87, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, 'encrypted')
 			->willReturn(true);
 
-		$actual = $sut->persistValueSanitized(87, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '8078');
+		$actual = $sut->persistSanitizedValue(87, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '8078');
 		$this->assertEquals(true, $actual);
 	}
 
@@ -213,7 +213,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 			->with(87, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, 'encrypted')
 			->willReturn(true);
 
-		$actual = $sut->persistValueSanitized(87, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '8078');
+		$actual = $sut->persistSanitizedValue(87, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '8078');
 		$this->assertEquals(true, $actual);
 	}
 

@@ -438,22 +438,22 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 	 */
 	public function importOptions_triggersCorrectMethodsWithCorrectParameters()
 	{
-		$sut = $this->sut(array('getOption', 'setOption', 'persistConvertedAttributeMapping'));
+		$sut = $this->sut(array('getPreviousConfiguration', 'persistConvertedAttributeMapping'));
 
-		$sut->expects($this->at(0))
-			->method('getOption')
-			->with(1, Adi_Configuration_Options::IS_ACTIVE, "1.5")
-			->willReturn(true);
+		$sut->expects($this->once())
+			->method('getPreviousConfiguration')
+			->with(1, 'previous_version')
+			->willReturn(array(array('option_new' => 'option_new', 'value' => 'value')));
 
 		$this->blogConfigurationRepository->expects($this->at(0))
-			->method('persistSanitized')
-			->with(1, Adi_Configuration_Options::IS_ACTIVE, true);
+			->method('persistSanitizedValue')
+			->with(1, 'option_new', 'value');
 
 		$sut->expects($this->once())
 			->method('persistConvertedAttributeMapping')
-			->with(1, '1.5');
+			->with(1, 'previous_version');
 
-		$this->invokeMethod($sut, 'importOptions', array(1, '1.5'));
+		$this->invokeMethod($sut, 'importOptions', array(1, 'previous_version'));
 	}
 
 	/**
@@ -667,7 +667,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 
 
 		$this->blogConfigurationRepository->expects($this->once())
-			->method('persistSanitized')
+			->method('persistSanitizedValue')
 			->with($siteId,
 				'additional_user_attributes',
 				'ad_attribute:type:wa:d:0:1:1;'
