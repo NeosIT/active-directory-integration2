@@ -440,7 +440,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getOption', 'setOption', 'persistConvertedAttributeMapping'));
 
-		$sut->expects($this->at(0))
+		$sut->expects($this->at(1))
 			->method('getOption')
 			->with(1, Adi_Configuration_Options::IS_ACTIVE, "1.5")
 			->willReturn(true);

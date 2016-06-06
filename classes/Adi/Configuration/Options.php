@@ -17,6 +17,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 {
 	// General
 	const PROFILE_NAME = 'profile_name';
+	const SUPPORT_LICENSE_KEY = 'support_license_key';
 	const IS_ACTIVE = 'is_active';
 	const SHOW_MENU_TEST_AUTHENTICATION = 'show_menu_test_authentication';
 	const SHOW_MENU_SYNC_TO_AD = 'show_menu_sync_to_ad';
@@ -217,6 +218,23 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$angularAttributes => 'ng-disabled="((true)',
 				$showPermission => false,
 				$transient      => true,
+			),
+			self::SUPPORT_LICENSE_KEY      => array(
+				$title          => __('Support license key:', ADI_I18N),
+				$type        => Multisite_Option_Type::TEXT,
+				$description => __(
+					"Please enter your support license key here, if you have a paid ADI 2.0 license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
+					ADI_I18N
+				),
+				$detail      => __(
+					"Please enter your support license key here, if you have a paid ADI 2.0 license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
+					ADI_I18N
+				),
+				$sanitizer   => array('string'),
+				$default => '',
+				$angularAttributes => '',
+				$showPermission => true,
+				$transient      => false,
 			),
 			self::IS_ACTIVE         => array(
 				$title 		=> __('Enable ADI', ADI_I18N),
