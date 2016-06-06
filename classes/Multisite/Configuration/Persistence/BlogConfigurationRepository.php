@@ -106,29 +106,29 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository implements
 	 * Get the value for the option $optionName and for the blog $blogId.
 	 * Moreover this method sanitize, decrypt etc. the value.
 	 *
-	 * @param int    $siteId
+	 * @param int    $siteSiteId
 	 * @param string $optionName
 	 *
 	 * @return null|string
 	 */
-	public function findSanitizedValue($siteId, $optionName)
+	public function findSanitizedValue($siteSiteId, $optionName)
 	{
 		//prevent change of associated profile
 		if (self::PROFILE_ID === $optionName) {
 			return null;
 		}
 
-		if ($this->isOptionHandledByProfile($siteId, $optionName)) {
-			$profileId = $this->findProfileId($siteId);
+		if ($this->isOptionHandledByProfile($siteSiteId, $optionName)) {
+			$profileId = $this->findProfileId($siteSiteId);
 
 			return $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
 		}
 
-		$optionValue = $this->find($siteId, $optionName);
+		$optionValue = $this->find($siteSiteId, $optionName);
 		$optionMetadata = $this->optionProvider->get($optionName);
 
 		if (false === $optionValue) {
-			$optionValue = $this->getDefaultValue($siteId, $optionName, $optionMetadata);
+			$optionValue = $this->getDefaultValue($siteSiteId, $optionName, $optionMetadata);
 		}
 
 		$type = Core_Util_ArrayUtil::get(Multisite_Option_Attribute::TYPE, $optionMetadata);
@@ -214,13 +214,13 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository implements
 	 * Save an option for the blog $blogid.
 	 * Moreover this method sanitize, encrypt etc. the value.
 	 *
-	 * @param int    $siteId
+	 * @param int    $siteSiteId
 	 * @param string $optionName
 	 * @param string $optionValue
 	 *
 	 * @return string $optionValue return the sanitized value
 	 */
-	public function persistSanitizedValue($siteId, $optionName, $optionValue)
+	public function persistSanitizedValue($siteSiteId, $optionName, $optionValue)
 	{
 		if (self::PROFILE_ID === $optionName) {
 			return null;
@@ -239,7 +239,7 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository implements
 			$optionValue = $this->encryptionHandler->encrypt($optionValue);
 		}
 
-		return $this->persist($siteId, $optionName, $optionValue);
+		return $this->persist($siteSiteId, $optionName, $optionValue);
 	}
 
 	/**

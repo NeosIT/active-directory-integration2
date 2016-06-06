@@ -99,7 +99,9 @@ class Ldap_ConnectionDetails
 			$encryption = 'none';
 		}
 
-		Core_Assert::condition(in_array(strtolower($encryption), array('none', 'starttls', 'ldaps')), 'Encryption type must be one of none, starttls or ldaps');
+		Core_Assert::condition(
+			in_array(strtolower($encryption), Multisite_Option_Encryption::getValues()),
+			'Encryption type must be one of none, starttls or ldaps');
 
 		$this->encryption = $encryption;
 	}

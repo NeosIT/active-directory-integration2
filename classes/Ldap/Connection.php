@@ -73,12 +73,14 @@ class Ldap_Connection
 	 */
 	public function createConfiguration(Ldap_ConnectionDetails $connectionDetails)
 	{
+		$useTls = $this->getUseTls($connectionDetails);
+
 		$config = array(
 			'account_suffix'     => '',
 			'base_dn'            => $this->getBaseDn($connectionDetails),
 			'domain_controllers' => $this->getDomainControllers($connectionDetails),
 			'ad_port'            => $this->getAdPort($connectionDetails),
-			'use_tls'            => $this->getUseTls($connectionDetails),
+			'use_tls'            => $useTls,
 			'network_timeout'    => $this->getNetworkTimeout($connectionDetails),
 			'ad_username'        => $connectionDetails->getUsername(),
 			'ad_password'        => $connectionDetails->getPassword(),
@@ -91,7 +93,7 @@ class Ldap_Connection
 			$output['ad_password'] = '*** protected password ***';
 		}
 
-		$encryption = $this->getUseTls($connectionDetails) ? 'LDAP connection is encrypted with "' . $this->getEncryption($connectionDetails) . '"' : 'LDAP connection is *not* encrypted';
+		$encryption = $useTls ? 'LDAP connection is encrypted with "' . $this->getEncryption($connectionDetails) . '"' : 'LDAP connection is *not* encrypted';
 
 		$this->logger->info($encryption);
 		$this->logger->debug(print_r($output, true));

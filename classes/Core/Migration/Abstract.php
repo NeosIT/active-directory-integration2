@@ -10,7 +10,6 @@ if (class_exists('Core_Migration_Abstract')) {
 /**
  * Core_Migration_Abstract provides the base functionality for migrations.
  *
- * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @author  Danny Meißner <dme@neos-it.de>
  *

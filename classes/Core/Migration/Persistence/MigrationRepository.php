@@ -11,7 +11,6 @@ if (class_exists('Core_Migration_Persistence_MigrationRepository')) {
  * Core_Migration_Persistence_MigrationRepository provides access to the migration data to check if various migrations
  * have already been migrated.
  *
- * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @author  Danny Meißner <dme@neos-it.de>
  *

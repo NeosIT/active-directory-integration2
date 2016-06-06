@@ -8,9 +8,8 @@ if (class_exists('Core_Migration_Service')) {
 }
 
 /**
- * Core_Migration_Migrator provides methods to execute migrations.
+ * Core_Migration_Service provides methods to execute migrations.
  *
- * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @author  Danny Meißner <dme@neos-it.de>
  *
@@ -20,13 +19,15 @@ class Core_Migration_Service
 {
 	/** @var Adi_Dependencies */
 	private $dependencyContainer;
+
 	/** @var Core_Migration_Persistence_MigrationRepository */
 	private $migrationRepository;
+
 	/** @var Logger */
 	private $logger;
 
 	/**
-	 * Core_Migration_Migrator constructor.
+	 * Core_Migration_Service constructor.
 	 *
 	 * @param Adi_Dependencies                               $dependencyContainer
 	 * @param Core_Migration_Persistence_MigrationRepository $migrationRepository

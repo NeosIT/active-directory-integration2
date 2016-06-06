@@ -66,18 +66,18 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 	/**
 	 * Get the option $optionName for the profile $profileId.
 	 *
-	 * @param int    $profileId
+	 * @param int    $profileSiteId
 	 * @param string $optionName
 	 *
 	 * @return object
 	 */
-	public function findSanitizedValue($profileId, $optionName)
+	public function findSanitizedValue($profileSiteId, $optionName)
 	{
-		$value = $this->findValue($profileId, $optionName);
+		$value = $this->findValue($profileSiteId, $optionName);
 		$optionMetadata = $this->optionProvider->get($optionName);
 
 		if (false === $value) {
-			$optionValue = $this->getDefaultValue($profileId, $optionName, $optionMetadata);
+			$optionValue = $this->getDefaultValue($profileSiteId, $optionName, $optionMetadata);
 		}
 
 		$type = Core_Util_ArrayUtil::get(Multisite_Option_Attribute::TYPE, $optionMetadata);
@@ -139,13 +139,13 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 	/**
 	 * Save the option value and option permission
 	 *
-	 * @param int    $profileId
+	 * @param int    $profileSiteId
 	 * @param string $optionName
 	 * @param string $optionValue
 	 *
 	 * @return string $optionValue|null
 	 */
-	public function persistSanitizedValue($profileId, $optionName, $optionValue)
+	public function persistSanitizedValue($profileSiteId, $optionName, $optionValue)
 	{
 		//option meta data
 		$optionElement = $this->optionProvider->get($optionName);
@@ -163,7 +163,7 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 		}
 
 		//save option in database
-		return $this->persistValue($profileId, $optionName, $optionValue);
+		return $this->persistValue($profileSiteId, $optionName, $optionValue);
 	}
 
 	/**
