@@ -85,9 +85,15 @@ abstract class It_BasicTest extends Ut_BasicTest
 		$port = get_cfg_var('AD_PORT') ? get_cfg_var('AD_PORT') : 389;
 		$this->connectionDetails->setPort($port);
 
-		$useStartTls = get_cfg_var('AD_USE_TLS') ? filter_var(get_cfg_var('AD_USE_TLS'), FILTER_VALIDATE_BOOLEAN) : false;
-		$this->connectionDetails->setUseStartTls($useStartTls);
-		
+		$useEncryption = get_cfg_var('AD_USE_TLS') ? filter_var(get_cfg_var('AD_USE_TLS'), FILTER_VALIDATE_BOOLEAN) : false;
+		$encryption = 'none';
+
+		if ($useEncryption) {
+			$encryption = $port == '389' ? 'starttls' : 'ldaps';
+		}
+
+		$this->connectionDetails->setEncryption($encryption);
+
 		$this->connectionDetails->setNetworkTimeout('5');
 		$this->connectionDetails->setUsername(get_cfg_var('AD_USERNAME') . get_cfg_var('AD_SUFFIX'));
 		$this->connectionDetails->setPassword(get_cfg_var('AD_PASSWORD'));

@@ -331,7 +331,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			self::PORT                          => array(
 				$title       => __('Port', ADI_I18N),
 				$type        => Multisite_Option_Type::NUMBER,
-				$description => __('Port on which Active Directory listens (defaults to "389").', ADI_I18N),
+				$description => __('Port on which Active Directory listens. Unencrypted LDAP or STARTTLS uses port 389. LDAPS listens on port 636.', ADI_I18N),
 				$detail      => __(
 					'This option defines the Active Directory communication port and is by default set to 389.',
 					ADI_I18N
@@ -355,9 +355,9 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$detail            => array(
 					__('This option handles the encryption type for the LDAP connection.',
 						ADI_I18N),
-					__('None: No encryption will be used.', ADI_I18N),
-					__('STARTTLS: Enabling this option activates the TLS (Transport Layer Security), which secures the data transport between your Active Directory server and WordPress by encrypting the data. If you want to use STARTTLS, the "Port" option has to be set as default("389"). Please note that STARTTLS is not the same as LDAP/S.', ADI_I18N),
-					__('LDAPS: The LDAP connections uses LDAPS. The default port is 636.',
+					__('None: No encryption is be used.', ADI_I18N),
+					__('STARTTLS: Enabling this option activates TLS (Transport Layer Security), which secures the data transport between your Active Directory server and WordPress by encrypting the data. If you want to use STARTTLS, the "Port" option should be set as default("389"). Please note that STARTTLS is not the same as LDAPS.', ADI_I18N),
+					__('LDAPS: The LDAP connection uses LDAPS. By default, Active Directory listens on port 636 for LDAPS connections.',
 						ADI_I18N),
 				),
 				$angularAttributes => '',

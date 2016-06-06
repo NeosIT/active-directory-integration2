@@ -82,26 +82,8 @@ class Ldap_ConnectionDetails
 	}
 
 	/**
-	 * Get the custom usage of StartTLS.
-	 * If this value is null, the Connection.php will use the value set by the blog or network admin.
-	 * @return null
-	 */
-	public function getUseStartTls()
-	{
-		return $this->useStartTls;
-	}
-
-	/**
-	 * Override the default usage of StartTLS (set by the blog or site admin) with your own custom value.
-	 * @param bool $useStartTls
-	 */
-	public function setUseStartTls($useStartTls)
-	{
-		$this->useStartTls = $useStartTls;
-	}
-
-	/**
-	 * @return null
+	 * Return the encryption type. This can be "none", "starttls" or "ldaps"
+	 * @return string
 	 */
 	public function getEncryption()
 	{
@@ -109,10 +91,16 @@ class Ldap_ConnectionDetails
 	}
 
 	/**
-	 * @param null $encryption
+	 * @param string $encryption "none", "starttls" or "ldaps"
 	 */
 	public function setEncryption($encryption)
 	{
+		if (!isset($encryption)) {
+			$encryption = 'none';
+		}
+
+		Core_Assert::condition(in_array(strtolower($encryption), array('none', 'starttls', 'ldaps')), 'Encryption type must be one of none, starttls or ldaps');
+
 		$this->encryption = $encryption;
 	}
 
