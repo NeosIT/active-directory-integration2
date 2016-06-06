@@ -39,18 +39,19 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 
 	/** @var array map the given subActions to the corresponding methods */
 	private $actionMapping = array(
-		self::SUB_ACTION_GENERATE_AUTHCODE     => self::SUB_ACTION_GENERATE_AUTHCODE,
+		self::SUB_ACTION_GENERATE_AUTHCODE => self::SUB_ACTION_GENERATE_AUTHCODE,
 		self::SUB_ACTION_GET_ALL_OPTION_VALUES => self::SUB_ACTION_GET_ALL_OPTION_VALUES,
 		self::SUB_ACTION_PERSIST_OPTION_VALUES => self::SUB_ACTION_PERSIST_OPTION_VALUES,
 	);
 
 	/**
-	 * @param Multisite_View_TwigContainer             $twigContainer
+	 * @param Multisite_View_TwigContainer $twigContainer
 	 * @param Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
 	 */
 	public function __construct(Multisite_View_TwigContainer $twigContainer,
 								Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
-	) {
+	)
+	{
 		parent::__construct($twigContainer);
 
 		$this->blogConfigurationController = $blogConfigurationConfigurationControllerController;
@@ -260,10 +261,10 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		}
 
 		return array(
-			'options'        => $data,
+			'options' => $data,
 			'ldapAttributes' => Ldap_Attribute_Description::findAll(),
-			'dataTypes'      => Ldap_Attribute_Repository::findAllAttributeTypes(),
-			'wpRoles'        => Adi_Role_Manager::getRoles(),
+			'dataTypes' => Ldap_Attribute_Repository::findAllAttributeTypes(),
+			'wpRoles' => Adi_Role_Manager::getRoles(),
 		);
 	}
 
@@ -426,7 +427,12 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', ADI_I18N);
 			$disallowedRoleRule = new Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig($disallowedRoleMessage);
 			$validator->addRule(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
-			
+
+			$invalidValueMessage = __('The given value is invalid.', ADI_I18N);
+			$invalidSelectValueRule = new Multisite_Validator_Rule_SelectValueValid($invalidValueMessage,
+				Multisite_Option_Encryption::getValues());
+			$validator->addRule(Adi_Configuration_Options::ENCRYPTION, $invalidSelectValueRule);
+
 			$this->validator = $validator;
 		}
 

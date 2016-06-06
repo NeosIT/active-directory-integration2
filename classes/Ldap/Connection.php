@@ -73,15 +73,17 @@ class Ldap_Connection
 	 */
 	public function createConfiguration(Ldap_ConnectionDetails $connectionDetails)
 	{
+		$useTls = $this->getUseTls($connectionDetails);
+
 		$config = array(
-			'account_suffix' => '',
-			'base_dn' => $this->getBaseDn($connectionDetails),
+			'account_suffix'     => '',
+			'base_dn'            => $this->getBaseDn($connectionDetails),
 			'domain_controllers' => $this->getDomainControllers($connectionDetails),
-			'ad_port' => $this->getAdPort($connectionDetails),
-			'use_tls' => $this->getUseTls($connectionDetails),
-			'network_timeout' => $this->getNetworkTimeout($connectionDetails),
-			'ad_username' => $connectionDetails->getUsername(),
-			'ad_password' => $connectionDetails->getPassword()
+			'ad_port'            => $this->getAdPort($connectionDetails),
+			'use_tls'            => $useTls,
+			'network_timeout'    => $this->getNetworkTimeout($connectionDetails),
+			'ad_username'        => $connectionDetails->getUsername(),
+			'ad_password'        => $connectionDetails->getPassword(),
 		);
 
 		// log connection details
@@ -91,9 +93,12 @@ class Ldap_Connection
 			$output['ad_password'] = '*** protected password ***';
 		}
 
+		$encryption = $useTls ? 'LDAP connection is encrypted with "' . $this->getEncryption($connectionDetails) . '"' : 'LDAP connection is *not* encrypted';
+
+		$this->logger->info($encryption);
 		$this->logger->debug(print_r($output, true));
 
-		if (strpos($output['ad_username'], '@') === FALSE) {
+		if (strpos($output['ad_username'], '@') === false) {
 			$this->logger->warn('Username for the sync user does not contain a correct suffix. If the connection to the ad fails, this could be the cause. Please make sure you added the right suffix to your global sync user at BlogOptions->Syncronizer.');
 		}
 
@@ -109,7 +114,7 @@ class Ldap_Connection
 	 */
 	public function getBaseDn(Ldap_ConnectionDetails $connectionDetails)
 	{
-		$baseDn = $connectionDetails->getCustomBaseDn();
+		$baseDn = $connectionDetails->getBaseDn();
 
 		if (null === $baseDn) {
 			$baseDn = $this->configuration->getOptionValue(Adi_Configuration_Options::BASE_DN);
@@ -127,7 +132,7 @@ class Ldap_Connection
 	 */
 	public function getDomainControllers(Ldap_ConnectionDetails $connectionDetails)
 	{
-		$domainControllers = $connectionDetails->getCustomDomainControllers();
+		$domainControllers = $connectionDetails->getDomainControllers();
 
 		if (null === $domainControllers) {
 			$domainControllers = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAIN_CONTROLLERS);
@@ -135,7 +140,27 @@ class Ldap_Connection
 
 		$domainControllers = Core_Util_StringUtil::split($domainControllers, ';');
 
-		return $domainControllers;
+		return $this->getDomainControllersWithEncryption($connectionDetails, $domainControllers);
+	}
+
+	/**
+	 * Check if the controllers should be prefixed with 'ldaps://' or not.
+	 *
+	 * @param Ldap_ConnectionDetails $connectionDetails
+	 * @param array                  $domainControllers
+	 *
+	 * @return array
+	 */
+	protected function getDomainControllersWithEncryption(Ldap_ConnectionDetails $connectionDetails,
+														  array $domainControllers
+	) {
+		if ($this->getEncryption($connectionDetails) !== Multisite_Option_Encryption::LDAPS) {
+			return $domainControllers;
+		}
+
+		return array_map(function($controller) {
+			return 'ldaps://' . $controller;
+		}, $domainControllers);
 	}
 
 	/**
@@ -147,7 +172,7 @@ class Ldap_Connection
 	 */
 	public function getAdPort(Ldap_ConnectionDetails $connectionDetails)
 	{
-		$port = $connectionDetails->getCustomPort();
+		$port = $connectionDetails->getPort();
 
 		if (null === $port) {
 			$port = $this->configuration->getOptionValue(Adi_Configuration_Options::PORT);
@@ -161,17 +186,29 @@ class Ldap_Connection
 	 *
 	 * @param Ldap_ConnectionDetails $connectionDetails
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
 	public function getUseTls(Ldap_ConnectionDetails $connectionDetails)
 	{
-		$useTls = $connectionDetails->getCustomUseStartTls();
+		return $this->getEncryption($connectionDetails) === Multisite_Option_Encryption::STARTTLS;
+	}
 
-		if (null === $useTls) {
-			$useTls = $this->configuration->getOptionValue(Adi_Configuration_Options::USE_TLS);
+	/**
+	 * Return the encryption based upon the $connectionDetails. If the encryption is not set the encryption of the current blog instance is returned.
+	 *
+	 * @param Ldap_ConnectionDetails $connectionDetails
+	 *
+	 * @return string|null
+	 */
+	public function getEncryption(Ldap_ConnectionDetails $connectionDetails)
+	{
+		$encryption = $connectionDetails->getEncryption();
+
+		if (null === $encryption) {
+			$encryption = $this->configuration->getOptionValue(Adi_Configuration_Options::ENCRYPTION);
 		}
 
-		return $useTls;
+		return $encryption;
 	}
 
 	/**
@@ -183,7 +220,7 @@ class Ldap_Connection
 	 */
 	public function getNetworkTimeout(Ldap_ConnectionDetails $connectionDetails)
 	{
-		$networkTimeout = $connectionDetails->getCustomNetworkTimeout();
+		$networkTimeout = $connectionDetails->getNetworkTimeout();
 
 		if (null === $networkTimeout) {
 			$networkTimeout = $this->configuration->getOptionValue(Adi_Configuration_Options::NETWORK_TIMEOUT);
@@ -228,6 +265,7 @@ class Ldap_Connection
 	 * @param string $username
 	 * @param string $suffix
 	 * @param string $password
+	 *
 	 * @return boolean
 	 */
 	public function authenticate($username, $suffix, $password)
@@ -259,10 +297,13 @@ class Ldap_Connection
 		if ($success) {
 			$dc = $this->getAdLdap()->get_last_used_dc();
 			$this->logger->debug("Connection established with Domain Controller: $dc");
+
 			return true;
 		}
 
-		$this->logger->error('Connection with AD failed. User: "' . $username . '" could not be authenticated against the AD.');
+		$this->logger->error('Connection with AD failed. User: "' . $username
+			. '" could not be authenticated against the AD.');
+
 		return false;
 	}
 
@@ -310,11 +351,13 @@ class Ldap_Connection
 	{
 		$adLdap = $this->getAdLdap();
 
-		$this->logger->debug("Import these attributes from ad for the user '$username': " . print_r($attributeNames, true));
+		$this->logger->debug("Import these attributes from ad for the user '$username': " . print_r($attributeNames,
+				true));
 		$userInfo = $adLdap->user_info($username, $attributeNames, $isGUID);
 
 		if ($userInfo === false) {
 			$this->logger->warn("Attributes for '$username': could not be loaded. Does the sAMAccountName or userPrincipalName exist?");
+
 			return false;
 		}
 
@@ -330,7 +373,8 @@ class Ldap_Connection
 	 * Lookup all requested attributes and instantly sanitize them.
 	 *
 	 * @param string $username
-	 * @param array $attributes
+	 * @param array  $attributes
+	 *
 	 * @return array
 	 */
 	public function findSanitizedAttributesOfUser($username, $attributes)
@@ -351,7 +395,7 @@ class Ldap_Connection
 	 * Modify user with attributes
 	 *
 	 * @param string $username
-	 * @param array $attributes Map with attributes and their values
+	 * @param array  $attributes Map with attributes and their values
 	 *
 	 * @return bool
 	 * @throws Exception
@@ -360,6 +404,7 @@ class Ldap_Connection
 	{
 		if (empty($attributes)) {
 			$this->logger->debug("Modifying user '$username' skipped. Found no attributes to synchronize to Active Directory.");
+
 			return false;
 		}
 
@@ -421,8 +466,8 @@ class Ldap_Connection
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $domainController
-	 * @param int $port
-	 * @param int $timeout
+	 * @param int    $port
+	 * @param int    $timeout
 	 *
 	 * @return bool true if port could be opened, false if port could not be opened or fsockopen is not available.
 	 */
@@ -475,7 +520,7 @@ class Ldap_Connection
 		$allUsers = array();
 
 		foreach ($groups as $group) {
-			if($group !== "") {
+			if ($group !== "") {
 				$members = $this->findAllMembersOfGroup($group);
 
 				$this->logger->info("In group '$group' are " . sizeof($members) . " members.");

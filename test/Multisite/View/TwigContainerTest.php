@@ -224,7 +224,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$this->profileConfigurationRepository->expects($this->once())
-			->method('findValueSanitized')
+			->method('findSanitizedValue')
 			->with(1, 'port')
 			->willReturn('389');
 
@@ -281,7 +281,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 			->willReturn(3);
 
 		$this->blogConfigurationRepository->expects($this->once())
-			->method('findSanitized')
+			->method('findSanitizedValue')
 			->with($blogId, 'port')
 			->willReturn('389');
 

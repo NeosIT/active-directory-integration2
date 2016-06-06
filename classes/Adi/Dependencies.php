@@ -1025,4 +1025,41 @@ class Adi_Dependencies
 
 		return $this->extendPluginList;
 	}
+
+	/**
+	 * @var Core_Migration_Service
+	 */
+	private $migrationService = null;
+
+	/**
+	 * @return Core_Migration_Service
+	 */
+	public function getMigrationService()
+	{
+		if ($this->migrationService == null) {
+			$this->migrationService = new Core_Migration_Service(
+				$this,
+				$this->getMigrationRepository()
+			);
+		}
+
+		return $this->migrationService;
+	}
+
+	/**
+	 * @var Core_Migration_Persistence_MigrationRepository
+	 */
+	private $migrationRepository;
+
+	/**
+	 * @return Core_Migration_Persistence_MigrationRepository
+	 */
+	public function getMigrationRepository()
+	{
+		if ($this->migrationRepository == null) {
+			$this->migrationRepository = new Core_Migration_Persistence_MigrationRepository();
+		}
+
+		return $this->migrationRepository;
+	}
 }

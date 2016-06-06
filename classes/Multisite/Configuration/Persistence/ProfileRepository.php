@@ -102,7 +102,7 @@ class Multisite_Configuration_Persistence_ProfileRepository
 	public function findAll()
 	{
 		$host = &$this;
-		$profileIds = $this->findAllIDs();
+		$profileIds = $this->findAllIds();
 
 		return array_map(function($id) use ($host) {
 			return array(
@@ -133,6 +133,7 @@ class Multisite_Configuration_Persistence_ProfileRepository
 		);
 
 		$profileIds = array();
+
 		foreach ($result as $optionValue) {
 			$profileIds[] = str_replace($prefix, '', $optionValue);
 		}

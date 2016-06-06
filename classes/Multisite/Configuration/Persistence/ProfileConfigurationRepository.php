@@ -13,7 +13,7 @@ if (class_exists('Multisite_Configuration_Persistence_ProfileConfigurationReposi
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Multisite_Configuration_Persistence_ProfileConfigurationRepository
+class Multisite_Configuration_Persistence_ProfileConfigurationRepository implements Multisite_Configuration_Persistence_ConfigurationRepository
 {
 	const PREFIX = 'po_';
 	const PREFIX_VALUE = 'v_';
@@ -66,18 +66,18 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository
 	/**
 	 * Get the option $optionName for the profile $profileId.
 	 *
-	 * @param int    $profileId
+	 * @param int    $profileSiteId
 	 * @param string $optionName
 	 *
 	 * @return object
 	 */
-	public function findValueSanitized($profileId, $optionName)
+	public function findSanitizedValue($profileSiteId, $optionName)
 	{
-		$value = $this->findValue($profileId, $optionName);
+		$value = $this->findValue($profileSiteId, $optionName);
 		$optionMetadata = $this->optionProvider->get($optionName);
 
 		if (false === $value) {
-			$optionValue = $this->getDefaultValue($profileId, $optionName, $optionMetadata);
+			$optionValue = $this->getDefaultValue($profileSiteId, $optionName, $optionMetadata);
 		}
 
 		$type = Core_Util_ArrayUtil::get(Multisite_Option_Attribute::TYPE, $optionMetadata);
@@ -139,13 +139,13 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository
 	/**
 	 * Save the option value and option permission
 	 *
-	 * @param int    $profileId
+	 * @param int    $profileSiteId
 	 * @param string $optionName
 	 * @param string $optionValue
 	 *
 	 * @return string $optionValue|null
 	 */
-	public function persistValueSanitized($profileId, $optionName, $optionValue)
+	public function persistSanitizedValue($profileSiteId, $optionName, $optionValue)
 	{
 		//option meta data
 		$optionElement = $this->optionProvider->get($optionName);
@@ -163,7 +163,7 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository
 		}
 
 		//save option in database
-		return $this->persistValue($profileId, $optionName, $optionValue);
+		return $this->persistValue($profileSiteId, $optionName, $optionValue);
 	}
 
 	/**

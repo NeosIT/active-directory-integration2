@@ -95,12 +95,13 @@
     </table>
 
     <p>
-        {% import "option/element/description.twig" as descriptionElement %}
-        {{ descriptionElement.create(description) }}
+        {% import "option/element/error-msg.twig" as errorElement %}
+        {{ errorElement.create(optionName) }}
     </p>
 
     <p>
-        <span ng-bind="messages.{{ optionName }}" class="error-msg"></span>
+        {% import "option/element/description.twig" as descriptionElement %}
+        {{ descriptionElement.create(description) }}
     </p>
 
 

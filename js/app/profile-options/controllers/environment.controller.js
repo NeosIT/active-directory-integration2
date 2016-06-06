@@ -25,16 +25,16 @@
             $scope.option = {
                 domain_controllers: $valueHelper.findValue('domain_controllers', data, '').split(";"),
                 port: $valueHelper.findValue("port", data),
-                use_tls: $valueHelper.findValue("use_tls", data),
                 network_timeout: $valueHelper.findValue("network_timeout", data),
+                encryption: $valueHelper.findValue("encryption", data),
                 base_dn: $valueHelper.findValue("base_dn", data)
             };
 
             $scope.permission = {
                 domain_controllers: $valueHelper.findPermission('domain_controllers', data),
                 port: $valueHelper.findPermission('port', data),
-                use_tls: $valueHelper.findPermission('use_tls', data),
                 network_timeout: $valueHelper.findPermission('network_timeout', data),
+                encryption: $valueHelper.findPermission('encryption', data),
                 base_dn: $valueHelper.findPermission('base_dn', data)
             };
         });
@@ -43,8 +43,8 @@
             $scope.messages = {
                 domain_controllers: $valueHelper.findMessage('domain_controllers', data),
                 port: $valueHelper.findMessage('port', data),
-                use_tls: $valueHelper.findMessage('use_tls', data),
                 network_timeout: $valueHelper.findMessage('network_timeout', data),
+                encryption: $valueHelper.findMessage('encryption', data),
                 base_dn: $valueHelper.findMessage('base_dn', data)
             };
         });
