@@ -98,7 +98,7 @@ class Adi_Autoloader
 	 */
 	private function isPluginClass($class)
 	{
-		$prefixes = array('Adi', 'Core', 'Ldap', 'Multisite');
+		$prefixes = array('Adi', 'Core', 'Ldap', 'Multisite', 'Migration');
 
 		foreach ($prefixes as $prefix) {
 			$len = strlen($prefix);

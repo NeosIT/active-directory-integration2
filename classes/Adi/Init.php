@@ -57,9 +57,9 @@ class Adi_Init
 				$optionValue = $currentUser->user_login;
 
 				if (is_multisite()) {
-					$this->dc()->getProfileConfigurationRepository()->persistValueSanitized($profileId, $optionName, $optionValue);
+					$this->dc()->getProfileConfigurationRepository()->persistSanitizedValue($profileId, $optionName, $optionValue);
 				} else {
-					$this->dc()->getBlogConfigurationRepository()->persistSanitized(0, $optionName, $optionValue);
+					$this->dc()->getBlogConfigurationRepository()->persistSanitizedValue(0, $optionName, $optionValue);
 				}
 			}
 		}
@@ -133,6 +133,9 @@ class Adi_Init
 
 		$this->initialize();
 
+		// migration
+		$this->registerMigrationHook();
+
 		if ($this->isActive()) {
 			// only with an active ADI profile the core has to be registered
 			if (true !== $this->registerCore()) {
@@ -200,6 +203,14 @@ class Adi_Init
 	}
 
 	/**
+	 * Register hooks used for migrations
+	 */
+	protected function registerMigrationHook()
+	{
+		$this->dc()->getMigrationService()->register();
+	}
+
+	/**
 	 * It registers the callbacks which are only required in a multisite setup and when viewing the network dashboard
 	 */
 	public function runMultisite()
@@ -210,6 +221,9 @@ class Adi_Init
 		}
 
 		$this->initialize();
+
+		// migration
+		$this->registerMigrationHook();
 
 		// shared hooks
 		$this->registerSharedAdministrationHooks();

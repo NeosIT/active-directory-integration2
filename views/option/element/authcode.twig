@@ -27,7 +27,15 @@
     &nbsp
 
     <button id="{{ inputId }}" type="button" class="button button-secondary" ng-click="newAuthCode()" {{ angularAttributes|raw }}>Regenerate Auth Code</button>
-    <p>{% import "option/element/description.twig" as descriptionElement %}
-    {{ descriptionElement.create(description) }}</p>
+
+    <p>
+        {% import "option/element/error-msg.twig" as errorElement %}
+        {{ errorElement.create(optionName) }}
+    </p>
+
+    <p>
+        {% import "option/element/description.twig" as descriptionElement %}
+        {{ descriptionElement.create(description) }}
+    </p>
 
 {% endmacro %}

@@ -102,7 +102,7 @@ class Multisite_Configuration_Service
 			return $this->cache[$blogId][$optionName];
 		}
 
-		$blogOptionValue = $this->blogConfigurationRepository->findSanitized($blogId, $optionName);
+		$blogOptionValue = $this->blogConfigurationRepository->findSanitizedValue($blogId, $optionName);
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
 		$profileOptionValue = $this->getProfileOptionValue($optionName, $blogId);
 
@@ -137,7 +137,7 @@ class Multisite_Configuration_Service
 		}
 
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
-		$profileOption = $this->profileConfigurationRepository->findValueSanitized($profileId, $optionName);
+		$profileOption = $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
 
 		return $profileOption;
 	}
@@ -223,7 +223,7 @@ class Multisite_Configuration_Service
 		$options = array();
 
 		foreach ($allOptionNames as $name) {
-			$valueBuffer = $this->profileConfigurationRepository->findValueSanitized($profileId, $name);
+			$valueBuffer = $this->profileConfigurationRepository->findSanitizedValue($profileId, $name);
 			$permissionBuffer = (string)$this->getPermission($name, $profileId);
 
 			if ($name == "additional_user_attributes") { //TODO bessere Lösung überlegen

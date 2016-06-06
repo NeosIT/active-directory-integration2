@@ -171,7 +171,7 @@ class It_Ldap_ConnectionIT extends It_BasicTest
 	{
 		$this->ldapConnection->connect($this->connectionDetails);
 		$returnedValue = $this->ldapConnection->getLastUsedDC();
-		$expectedDc = $this->connectionDetails->getCustomDomainControllers();
+		$expectedDc = $this->connectionDetails->getDomainControllers();
 
 		$this->assertEquals($expectedDc, $returnedValue);
 	}
@@ -182,8 +182,8 @@ class It_Ldap_ConnectionIT extends It_BasicTest
 	public function checkPort_withCorrectData_returnTrue()
 	{
 		$returnedValue = $this->ldapConnection->checkPort(
-			$this->connectionDetails->getCustomDomainControllers(), $this->connectionDetails->getCustomPort(),
-			$this->connectionDetails->getCustomNetworkTimeout()
+			$this->connectionDetails->getDomainControllers(), $this->connectionDetails->getPort(),
+			$this->connectionDetails->getNetworkTimeout()
 		);
 
 		$this->assertTrue($returnedValue);
@@ -208,11 +208,11 @@ class It_Ldap_ConnectionIT extends It_BasicTest
 
 		$expectedConfig = array(
 			'account_suffix' => '',
-			'base_dn' => $this->connectionDetails->getCustomBaseDn(),
-			'domain_controllers' => array($this->connectionDetails->getCustomDomainControllers()),
-			'ad_port' => $this->connectionDetails->getCustomPort(),
-			'use_tls' => $this->connectionDetails->getCustomUseStartTls(),
-			'network_timeout' => $this->connectionDetails->getCustomNetworkTimeout(),
+			'base_dn' => $this->connectionDetails->getBaseDn(),
+			'domain_controllers' => array($this->connectionDetails->getDomainControllers()),
+			'ad_port' => $this->connectionDetails->getPort(),
+			'use_tls' => $this->connectionDetails->getUseStartTls(),
+			'network_timeout' => $this->connectionDetails->getNetworkTimeout(),
 			'ad_username' => $this->connectionDetails->getUsername(),
 			'ad_password' => $this->connectionDetails->getPassword()
 		);
@@ -226,7 +226,7 @@ class It_Ldap_ConnectionIT extends It_BasicTest
 	public function getCustomBaseDn_withBaseDnNotEmpty_returnBaseDn()
 	{
 		$returnedBaseDn = $this->ldapConnection->getBaseDn($this->connectionDetails);
-		$this->assertEquals($this->connectionDetails->getCustomBaseDn(), $returnedBaseDn);
+		$this->assertEquals($this->connectionDetails->getBaseDn(), $returnedBaseDn);
 	}
 
 	/**
@@ -235,7 +235,7 @@ class It_Ldap_ConnectionIT extends It_BasicTest
 	public function getCustomDomainControllers_withDcNotNull_returnDc()
 	{
 		$returnedDomainControllers = $this->ldapConnection->getDomainControllers($this->connectionDetails);
-		$this->assertEquals(array($this->connectionDetails->getCustomDomainControllers()), $returnedDomainControllers);
+		$this->assertEquals(array($this->connectionDetails->getDomainControllers()), $returnedDomainControllers);
 	}
 
 	/**
@@ -244,7 +244,7 @@ class It_Ldap_ConnectionIT extends It_BasicTest
 	public function getAdPort_withAdPortNotNull_returnPort()
 	{
 		$returnedPort = $this->ldapConnection->getAdPort($this->connectionDetails);
-		$this->assertEquals($this->connectionDetails->getCustomPort(), $returnedPort);
+		$this->assertEquals($this->connectionDetails->getPort(), $returnedPort);
 	}
 
 	/**
@@ -253,7 +253,7 @@ class It_Ldap_ConnectionIT extends It_BasicTest
 	public function getUseTls_withUseTlsNotNull_returnUseTls()
 	{
 		$returnedUseStartTls = $this->ldapConnection->getUseTls($this->connectionDetails);
-		$this->assertEquals($this->connectionDetails->getCustomUseStartTls(), $returnedUseStartTls);
+		$this->assertEquals($this->connectionDetails->getUseStartTls(), $returnedUseStartTls);
 	}
 
 	/**
@@ -262,7 +262,7 @@ class It_Ldap_ConnectionIT extends It_BasicTest
 	public function getCustomNetworkTimeout_withNetworkTimeoutNotNull_returnNetworkTimeout()
 	{
 		$returnedNetworkTimeout = $this->ldapConnection->getNetworkTimeout($this->connectionDetails);
-		$this->assertEquals($this->connectionDetails->getCustomNetworkTimeout(), $returnedNetworkTimeout);
+		$this->assertEquals($this->connectionDetails->getNetworkTimeout(), $returnedNetworkTimeout);
 
 		$this->ldapConnection->connect($this->connectionDetails);
 		$adLDAP = $this->ldapConnection->getAdLdap();
@@ -281,8 +281,8 @@ class It_Ldap_ConnectionIT extends It_BasicTest
 			)
 			->will(
 				$this->onConsecutiveCalls(
-					$this->connectionDetails->getCustomDomainControllers(),
-					$this->connectionDetails->getCustomPort()
+					$this->connectionDetails->getDomainControllers(),
+					$this->connectionDetails->getPort()
 				)
 			);
 

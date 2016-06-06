@@ -92,7 +92,7 @@ class Adi_Configuration_Ui_Layout
 					self::OPTIONS => array(
 						Adi_Configuration_Options::DOMAIN_CONTROLLERS,
 						Adi_Configuration_Options::PORT,
-						Adi_Configuration_Options::USE_TLS,
+						Adi_Configuration_Options::ENCRYPTION,
 						Adi_Configuration_Options::NETWORK_TIMEOUT,
 						Adi_Configuration_Options::BASE_DN,
 					),
@@ -216,8 +216,6 @@ class Adi_Configuration_Ui_Layout
 					// Group elements in group
 					self::OPTIONS     => array(
 						Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES,
-//						Adi_Configuration_Options::USERMETA_EMPTY_OVERWRITE,
-//						Adi_Configuration_Options::SHOW_ATTRIBUTES,
 					),
 				),
 			),
