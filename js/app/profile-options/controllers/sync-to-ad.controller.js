@@ -6,6 +6,8 @@
     function SyncToAdController($scope, $http, DataService, alertify) {
         var vm = this;
 
+        $scope.isSaveDisabled = false;
+
         $scope.$on('permissionItems', function (event, data) {
             $scope.permissionOptions = data;
         });
@@ -16,15 +18,21 @@
                 sync_to_ad_use_global_user: $valueHelper.findValue("sync_to_ad_use_global_user", data),
                 sync_to_ad_global_user: $valueHelper.findValue("sync_to_ad_global_user", data),
                 sync_to_ad_global_password: $valueHelper.findValue("sync_to_ad_global_password", data),
-                sync_to_ad_authcode: $valueHelper.findValue("sync_to_ad_authcode", data)
+                sync_to_ad_authcode: $valueHelper.findValue("sync_to_ad_authcode", data),
             };
+
+            if ($valueHelper.findValue("domain_sid", data) == '') {
+                $scope.isSaveDisabled = true;
+            } else {
+                $scope.isSaveDisabled = false;
+            }
 
             $scope.permission = {
                 sync_to_ad: $valueHelper.findPermission("sync_to_ad", data),
                 sync_to_ad_use_global_user: $valueHelper.findPermission("sync_to_ad_use_global_user", data),
                 sync_to_ad_global_user: $valueHelper.findPermission("sync_to_ad_global_user", data),
                 sync_to_ad_global_password: $valueHelper.findPermission("sync_to_ad_global_password", data),
-                sync_to_ad_authcode: $valueHelper.findPermission("sync_to_ad_authcode", data)
+                sync_to_ad_authcode: $valueHelper.findPermission("sync_to_ad_authcode", data),
             };
         });
 
@@ -36,6 +44,10 @@
                 sync_to_ad_global_password: $valueHelper.findMessage("sync_to_ad_global_password", data),
                 sync_to_ad_authcode: $valueHelper.findMessage("sync_to_ad_authcode", data)
             };
+        });
+
+        $scope.$on('verification', function (event, data) {
+            $scope.isSaveDisabled = false;
         });
 
         $scope.newAuthCode = function () {
@@ -56,7 +68,8 @@
         };
 
         $scope.getPreparedOptions = function () {
-            return DataService.cleanOptions($scope.option);
+            var data =  DataService.cleanOptions($scope.option);
+            return data;
         };
 
         $scope.containsErrors = function () {

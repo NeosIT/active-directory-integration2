@@ -30,6 +30,7 @@ class Adi_User_Persistence_Repository
 	 * Meta key which holds the Active Directory object GUID of a WordPress user
 	 */
 	const META_KEY_OBJECT_GUID = 'objectguid';
+	const META_KEY_DOMAINSID = 'domainsid';
 
 	public function __construct()
 	{

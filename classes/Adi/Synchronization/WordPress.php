@@ -142,12 +142,17 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 
 		$username = $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER);
 		$password = $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD);
-		if (empty($username) && empty($password)) {
-			$this->logger->error('Sync to WordPress global user or password not set.');
 
+		if (empty($username) && empty($password)) {
+			$this->logger->error('Sync to WordPress service account user or password not set.');
 			return false;
 		}
+
 		if (!$this->connectToAdLdap($username, $password)) {
+			return false;
+		}
+
+		if (!$this->isUsernameInDomain($username)) {
 			return false;
 		}
 
@@ -172,9 +177,9 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 		);
 		$activeDirectoryUsers = $this->connection->findAllMembersOfGroups($groups);
 		$convertedActiveDirectoryUsers = $this->convertActiveDirectoryUsers($activeDirectoryUsers);
-
+		
 		$wordPressUsers = $this->findActiveDirectoryUsernames();
-
+		
 		return array_merge($wordPressUsers, $convertedActiveDirectoryUsers);
 	}
 
@@ -299,12 +304,14 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 
 		// ADI-204: in contrast to the Login process we use the sAMAccountName in synchronization have the sAMAccountName
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, $guid);
-
+		
+		// ADI-235: add domain SID
+		$ldapAttributes->addDomainSid($this->connection->getDomainSid());
+		
 		$elapsedTimeLdap = time() - $startTimerLdap;
 		$this->ldapRequestTimeCounter = $this->ldapRequestTimeCounter + $elapsedTimeLdap;
 
-			$credentials->setUserPrincipalName($ldapAttributes->getFilteredValue('userprincipalname'));
-
+		$credentials->setUserPrincipalName($ldapAttributes->getFilteredValue('userprincipalname'));
 
 		$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
 

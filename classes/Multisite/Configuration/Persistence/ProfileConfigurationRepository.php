@@ -32,7 +32,7 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 	private $logger;
 
 	/**
-	 * @param Multisite_Option_Sanitizer           $sanitizer
+	 * @param Multisite_Option_Sanitizer $sanitizer
 	 * @param Core_Encryption $encryptionHandler
 	 * @param Multisite_Option_Provider $optionProvider
 	 */
@@ -81,7 +81,7 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 		}
 
 		$type = Core_Util_ArrayUtil::get(Multisite_Option_Attribute::TYPE, $optionMetadata);
-		
+
 		if (Multisite_Option_Type::PASSWORD === $type) {
 			$value = $this->encryptionHandler->decrypt($value);
 		}
@@ -104,7 +104,8 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 	 *
 	 * @return bool|mixed|null|string
 	 */
-	public function getDefaultValue($profileId, $optionName, $option) {
+	public function getDefaultValue($profileId, $optionName, $option)
+	{
 		$optionValue = $option[Multisite_Option_Attribute::DEFAULT_VALUE];
 
 		// generate with Sanitizer a new value, persist it and find it (again).
@@ -235,17 +236,19 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 	/**
 	 * @param int $profileId
 	 * @param string $optionName
-	 * @param int $optionPermission
+	 * @param int $optionPermission between [0,3]
 	 *
 	 * @return bool
 	 */
 	public function persistPermissionSanitized($profileId, $optionName, $optionPermission)
 	{
-		if (!is_numeric($optionPermission) || $optionPermission < 0 || $optionPermission > 3) {
-			return false;
+		$isValidPermission = is_numeric($optionPermission) && ($optionPermission >= 0 && $optionPermission <= 3);
+
+		if ($isValidPermission) {
+			return $this->persistPermission($profileId, $optionName, $optionPermission);
 		}
 
-		return $this->persistPermission($profileId, $optionName, $optionPermission);
+		return false;
 	}
 
 	/**

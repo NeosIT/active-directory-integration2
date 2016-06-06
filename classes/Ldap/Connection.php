@@ -26,6 +26,9 @@ class Ldap_Connection
 
 	/* @var Logger $logger */
 	private $logger;
+	
+	/* @var string */
+	private $siteDomainSid;
 
 	/**
 	 * @param Multisite_Configuration_Service $configuration
@@ -537,6 +540,19 @@ class Ldap_Connection
 	}
 
 	/**
+	 * Return the domain SID of the current synchronization
+	 *
+	 * @return mixed|string
+	 */
+	public function getDomainSid() {
+		if (empty($this->siteDomainSid)) {
+			$this->siteDomainSid = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAIN_SID);
+		}
+
+		return $this->siteDomainSid;
+	}
+
+	/**
 	 * Get all members of one group.
 	 *
 	 * @param string $group
@@ -547,6 +563,8 @@ class Ldap_Connection
 	{
 		$adLdap = $this->getAdLdap();
 		$group = trim($group);
+
+		$siteDomainSid = $this->getDomainSid();
 
 		try {
 			if (false !== stripos($group, 'id:')) {
@@ -568,7 +586,12 @@ class Ldap_Connection
 		$users = array();
 
 		foreach ($members as $member) {
-			$users[strtolower($member)] = $member;
+			$userInfo = $adLdap->user_info($member);
+			$userSid = $adLdap->convertObjectSidBinaryToString($userInfo[0]["objectsid"][0]);
+			
+			if (strpos($userSid, $siteDomainSid) !== false ) {
+				$users[strtolower($member)] = $member;
+			}			
 		}
 
 		return $users;

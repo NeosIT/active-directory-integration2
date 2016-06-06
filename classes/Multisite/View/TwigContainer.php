@@ -38,6 +38,12 @@ class Multisite_View_TwigContainer
 	/** @var Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository */
 	private $defaultProfileRepository;
 
+	/** @var Adi_Authentication_VerificationService $verificationService */
+	private $verificationService;
+
+	/** @var bool */
+	private $isProfileConnectedToDomain;
+
 	/**
 	 * @param Multisite_Configuration_Persistence_BlogConfigurationRepository    $blogConfigurationRepository
 	 * @param Multisite_Configuration_Service                                    $configuration
@@ -45,13 +51,15 @@ class Multisite_View_TwigContainer
 	 * @param Multisite_Configuration_Persistence_ProfileRepository              $profileRepository
 	 * @param Multisite_Configuration_Persistence_DefaultProfileRepository       $defaultProfileRepository
 	 * @param Multisite_Option_Provider                                          $optionProvider
+	 * @param Adi_Authentication_VerificationService                             $verificationService
 	 */
 	public function __construct(Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
-		Multisite_Configuration_Service $configuration,
-		Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
-		Multisite_Configuration_Persistence_ProfileRepository $profileRepository,
-		Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository,
-		Multisite_Option_Provider $optionProvider
+								Multisite_Configuration_Service $configuration,
+								Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
+								Multisite_Configuration_Persistence_ProfileRepository $profileRepository,
+								Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository,
+								Multisite_Option_Provider $optionProvider,
+								Adi_Authentication_VerificationService $verificationService
 	) {
 		$this->blogConfigurationRepository = $blogConfigurationRepository;
 		$this->configuration = $configuration;
@@ -59,6 +67,7 @@ class Multisite_View_TwigContainer
 		$this->profileRepository = $profileRepository;
 		$this->defaultProfileRepository = $defaultProfileRepository;
 		$this->optionProvider = $optionProvider;
+		$this->verificationService = $verificationService;
 	}
 
 	/**
@@ -340,7 +349,23 @@ class Multisite_View_TwigContainer
 		$blogId = get_current_blog_id();
 
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
+
+		if ($this->isProfileConnectedToDomain == null) {
+			$domainSidBuffer = $this->getOptionValue(Adi_Configuration_Options::DOMAIN_SID, $profileId);
+
+			if ($domainSidBuffer != '' && $domainSidBuffer != null) {
+				$this->isProfileConnectedToDomain = true;
+			}
+		}
+
 		$permission = $this->profileConfigurationRepository->findPermissionSanitized($profileId, $optionName);
+
+		// if blog admin should have the permission to change the environment options BUT the profile used for the blog is connected to a domain, the blog admin is not allowed to change any environment options anymore.
+		if ($permission == 3 && $this->isProfileConnectedToDomain
+			&& $this->configuration->isEnvironmentOption($optionName)
+		) {
+			return 2;
+		}
 
 		return $permission;
 	}
@@ -387,5 +412,18 @@ class Multisite_View_TwigContainer
 		$value = Core_Util_ArrayUtil::get($constant, $metadata, '');
 
 		return $value;
+	}
+
+	/**
+	 * Check if the connection to the Active Directory can be established.
+	 * Receive objectSid from user used to authenticate.
+	 *
+	 * @param $data
+	 *
+	 * @return bool
+	 */
+	public function findActiveDirectoryDomainSid($data)
+	{
+		return $this->verificationService->findActiveDirectoryDomainSid($data);
 	}
 }

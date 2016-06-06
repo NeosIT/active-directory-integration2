@@ -30,6 +30,9 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 	const USE_TLS = 'use_tls';
 	const NETWORK_TIMEOUT = 'network_timeout';
 	const BASE_DN = 'base_dn';
+	const VERIFICATION_USERNAME = 'verification_username';
+	const VERIFICATION_PASSWORD = 'verification_password';
+	const DOMAIN_SID = 'domain_sid';
 
 	// User - User Settings
 	const EXCLUDE_USERNAMES_FROM_AUTHENTICATION = 'exclude_usernames_from_authentication';
@@ -401,6 +404,63 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 					__('3. Click on your Domain Controller -> right-click Users -> Properties', ADI_I18N),
 					__('4. Attribute -> Select distinguishedName in the list -> press View', ADI_I18N),
 					__('5. Copy your Base DN.', ADI_I18N),
+				),
+				$angularAttributes => '',
+				$default     => '',
+				$sanitizer   => array('string'),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			// VERIFICATION USERNAME
+			self::VERIFICATION_USERNAME            => array(
+				$title       => __('Username', ADI_I18N),
+				$type        => Multisite_Option_Type::TEXT,
+				$description => __(
+					'Username used to authenticated against the Active Directory in order to connect your WordPress site or profile to a domain (e.g. administration@test.ad)', ADI_I18N
+				),
+				$detail      => array(
+					__(
+						'You have to enter a valid Active Directory account to connect your WordPress site to a specific Active Directory domain.',
+						ADI_I18N
+					),
+				),
+				$angularAttributes => '',
+				$default     => '',
+				$sanitizer   => array('string'),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			// VERIFICATION PASSWORD
+			self::VERIFICATION_PASSWORD            => array(
+				$title       => __('Password', ADI_I18N),
+				$type        => Multisite_Option_Type::VERIFICATION_PASSWORD,
+				$description => __(
+					'Password used to authenticate against the Active Directory in order to connect your WordPress site or profile to a domain.' , ADI_I18N
+				),
+				$detail      => array(
+					__(
+						'You have to enter the password for the Active Directory user in order to connect your WordPress site or profile to a domain.',
+						ADI_I18N
+					),
+				),
+				$angularAttributes => '',
+				$default     => '',
+				$sanitizer   => array('string'),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			// DOMAINS ID
+			self::DOMAIN_SID           => array(
+				$title       => __('Domain Sid', ADI_I18N),
+				$type        => Multisite_Option_Type::DOMAIN_SID,
+				$description => __(
+					'Shows whether the current WordPress site is connected to an AD domain or not.', ADI_I18N
+				),
+				$detail      => array(
+					__(
+						'Shows whether the current WordPress site is connected to an AD domain or not.',
+						ADI_I18N
+					),
 				),
 				$angularAttributes => '',
 				$default     => '',

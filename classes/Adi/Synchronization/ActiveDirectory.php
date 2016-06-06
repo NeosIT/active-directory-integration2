@@ -108,6 +108,10 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 			return false;
 		}
 
+		if (!$this->isUsernameInDomain($username)) {
+			return false;
+		}
+
 		$this->increaseExecutionTime();
 		
 		return true;

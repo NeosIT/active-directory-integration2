@@ -56,6 +56,7 @@ class Ldap_Attribute_Repository
 			'userprincipalname',
 			'useraccountcontrol',
 			'objectguid',
+			'domainsid',
 		);
 
 	private static $wellKnownAttributeTypes

@@ -26,7 +26,9 @@ class Ut_Multisite_Option_TypeTest extends Ut_BasicTest
 			'AUTHCODE' => 'authcode',
 			'RADIO' => 'radio',
 			'TABLE' => 'table',
-			'EDITABLE_LIST' => 'editable_list'
+			'EDITABLE_LIST' => 'editable_list',
+			'VERIFICATION_PASSWORD' => 'verification_password',
+			'DOMAIN_SID' => 'domain_sid'
 		);
 
 		$this->assertEquals($expected, $actual);

@@ -383,10 +383,12 @@ class Ut_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 				array(null, 'samaccountname'),
 				array(null, 'userprincipalname'),
 				array(null, 'useraccountcontrol'),
-				array(null, 'objectguid')
+				array(null, 'objectguid'),
+				array(null, 'domainsid')
 			)
 			->will(
 				$this->onConsecutiveCalls(
+					new Ldap_Attribute(),
 					new Ldap_Attribute(),
 					new Ldap_Attribute(),
 					new Ldap_Attribute(),
@@ -411,6 +413,7 @@ class Ut_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			'userprincipalname'  => new Ldap_Attribute(),
 			'useraccountcontrol' => new Ldap_Attribute(),
 			'objectguid'         => new Ldap_Attribute(),
+			'domainsid'          => new Ldap_Attribute()
 		);
 
 		$actual = $sut->createDefaultAttributes();
@@ -438,10 +441,12 @@ class Ut_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 				array(null, 'samaccountname'),
 				array(null, 'userprincipalname'),
 				array(null, 'useraccountcontrol'),
-				array(null, 'objectguid')
+				array(null, 'objectguid'),
+				array(null, 'domainsid')
 			)
 			->will(
 				$this->onConsecutiveCalls(
+					new Ldap_Attribute(),
 					new Ldap_Attribute(),
 					new Ldap_Attribute(),
 					new Ldap_Attribute(),
@@ -471,6 +476,7 @@ class Ut_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			'userprincipalname'  => new Ldap_Attribute(),
 			'useraccountcontrol' => new Ldap_Attribute(),
 			'objectguid'         => new Ldap_Attribute(),
+			'domainsid'          => new Ldap_Attribute()
 		);
 
 		$actual = $sut->createDefaultAttributes($param);
@@ -713,6 +719,7 @@ class Ut_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			'adi2_userprincipalname',
 			'adi2_useraccountcontrol',
 			'adi2_objectguid',
+			'adi2_domainsid'
 		);
 
 		$actual = Ldap_Attribute_Repository::getDefaultAttributeMetaKeys();

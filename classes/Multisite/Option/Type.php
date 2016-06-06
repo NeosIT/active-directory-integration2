@@ -27,4 +27,6 @@ class Multisite_Option_Type
 	const AUTHCODE = 'authcode';
 	const EDITABLE_LIST = 'editable_list';
 	const TABLE = 'table';
+	const VERIFICATION_PASSWORD = 'verification_password';
+	const DOMAIN_SID = 'domain_sid';
 }

@@ -101,4 +101,16 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 		$actual = Core_Util_StringUtil::splitText($string);
 		$this->assertEquals($expected, $actual);
 	}
+
+	/**
+	 * @test
+	 */
+	public function objectSidToDomainSid_itReturnsDomainSidOfObject() {
+		$objectSid = "S-1-5-21-0000000000-0000000000-0000000000-1234";
+		$domainSid = Core_Util_StringUtil::objectSidToDomainSid($objectSid);
+		
+		$expected = "S-1-5-21-0000000000-0000000000-0000000000";
+		
+		$this->assertEquals($expected, $domainSid);
+	}
 }

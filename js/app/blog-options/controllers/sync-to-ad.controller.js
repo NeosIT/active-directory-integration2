@@ -6,6 +6,8 @@
     function SyncToAdController($scope, $http, DataService, alertify) {
         var vm = this;
 
+        $scope.isSaveDisabled = false;
+
         $scope.permissionOptions = DataService.getPermissionOptions();
 
         $scope.$on('options', function (event, data) {
@@ -14,15 +16,21 @@
                 sync_to_ad_use_global_user: $valueHelper.findValue("sync_to_ad_use_global_user", data),
                 sync_to_ad_global_user: $valueHelper.findValue("sync_to_ad_global_user", data),
                 sync_to_ad_global_password: $valueHelper.findValue("sync_to_ad_global_password", data),
-                sync_to_ad_authcode: $valueHelper.findValue("sync_to_ad_authcode", data)
+                sync_to_ad_authcode: $valueHelper.findValue("sync_to_ad_authcode", data),
             };
+
+            if ($valueHelper.findValue("domain_sid", data) == '') {
+                $scope.isSaveDisabled = true;
+            }
 
             $scope.permission = {
                 sync_to_ad: $valueHelper.findPermission("sync_to_ad", data),
                 sync_to_ad_use_global_user: $valueHelper.findPermission("sync_to_ad_use_global_user", data),
                 sync_to_ad_global_user: $valueHelper.findPermission("sync_to_ad_global_user", data),
                 sync_to_ad_global_password: $valueHelper.findPermission("sync_to_ad_global_password", data),
-                sync_to_ad_authcode: $valueHelper.findPermission("sync_to_ad_authcode", data)
+                sync_to_ad_authcode: $valueHelper.findPermission("sync_to_ad_authcode", data),
+                verification_username : $valueHelper.findPermission("verification_username", data),
+                verification_password : $valueHelper.findPermission("verification_password", data)
             };
         });
 
@@ -34,6 +42,10 @@
                 sync_to_ad_global_password: $valueHelper.findMessage("sync_to_ad_global_password", data),
                 sync_to_ad_authcode: $valueHelper.findMessage("sync_to_ad_authcode", data)
             };
+        });
+
+        $scope.$on('verification', function (event, data) {
+            $scope.isSaveDisabled = false;
         });
 
         $scope.newAuthCode = function () {

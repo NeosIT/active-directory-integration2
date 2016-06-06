@@ -6,6 +6,8 @@
     function UserController($scope, ListService, DataService) {
         var vm = this;
 
+        $scope.isSaveDisabled = false;
+
         $scope.$on('permissionItems', function (event, data) {
             $scope.permissionOptions = data;
         });
@@ -43,8 +45,14 @@
                 prevent_email_change: $valueHelper.findValue("prevent_email_change", data),
                 duplicate_email_prevention: $valueHelper.findValue("duplicate_email_prevention", data),
                 name_pattern: $valueHelper.findValue("name_pattern", data),
-                show_user_status: $valueHelper.findValue("show_user_status", data)
+                show_user_status: $valueHelper.findValue("show_user_status", data),
             };
+
+            if ($valueHelper.findValue("domain_sid", data) == '') {
+                $scope.isSaveDisabled = true;
+            } else {
+                $scope.isSaveDisabled = false;
+            }
 
             $scope.permission = {
                 account_suffix: $valueHelper.findPermission("account_suffix", data),
@@ -57,7 +65,7 @@
                 prevent_email_change: $valueHelper.findPermission("prevent_email_change", data),
                 duplicate_email_prevention: $valueHelper.findPermission("duplicate_email_prevention", data),
                 name_pattern: $valueHelper.findPermission("name_pattern", data),
-                show_user_status: $valueHelper.findPermission("show_user_status", data)
+                show_user_status: $valueHelper.findPermission("show_user_status", data),
             };
         });
 
@@ -76,6 +84,10 @@
                 show_user_status: $valueHelper.findMessage("show_user_status", data)
             };
         });
+
+        $scope.$on('verification', function (event, data) {
+            $scope.isSaveDisabled = false;
+        }); 
 
         $scope.getPreparedOptions = function () {
             var data = DataService.cleanOptions($scope.option);

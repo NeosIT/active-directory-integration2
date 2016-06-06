@@ -42,6 +42,16 @@
 
         {% import "option/element/table.twig" as table %}
         {{ table.create(optionName, permission, inputId) }}
+        
+    {% elseif type == constant('Multisite_Option_Type::VERIFICATION_PASSWORD') %}
+
+        {% import "option/element/verification_password.twig" as verification_password %}
+        {{ verification_password.create(optionName, permission, inputId) }}
+
+    {% elseif type == constant('Multisite_Option_Type::DOMAIN_SID') %}
+
+        {% import "option/element/domainsid.twig" as domainSid %}
+        {{ domainSid.create(optionName, permission, inputId) }}
 
     {% else %}
 

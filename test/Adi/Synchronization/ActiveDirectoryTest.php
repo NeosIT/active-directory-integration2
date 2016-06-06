@@ -104,6 +104,40 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
+	public function prepareForSync_whenUsernameIsNotInDomain_itReturnFalse()
+	{
+		$sut = $this->sut(array('isEnabled', 'getServiceAccountUsername', 'getServiceAccountPassword', 'connectToAdLdap', 'isUsernameInDomain'));
+		
+		$sut->expects($this->once())
+			->method('isEnabled')
+			->willReturn(true);
+
+		$sut->expects($this->once())
+			->method('getServiceAccountUsername')
+			->willReturn("username");
+
+		$sut->expects($this->once())
+			->method('getServiceAccountPassword')
+			->willReturn("password");
+		
+		$sut->expects($this->once())			
+			->method('connectToAdLdap')
+			->with("username", "password")
+			->willReturn(true);
+
+		$sut->expects($this->once())
+			->method('isUsernameInDomain')
+			->with("username")			
+			->willReturn(false);
+
+		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
+		$this->assertEquals(false, $actual);
+        
+	}
+
+	/**
+	 * @test
+	 */
 	public function prepareForSync_connectionNotEstablished_returnFalse()
 	{
 		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime', 'isEnabled'));
@@ -129,7 +163,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	 */
 	public function prepareForSync_syncToAdIsEnabled_returnTrue()
 	{
-		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime', 'isEnabled', 'getServiceAccountUsername', 'getServiceAccountPassword'));
+		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime', 'isEnabled', 'getServiceAccountUsername', 'getServiceAccountPassword', 'isUsernameInDomain'));
 
 		$sut->expects($this->once())
 			->method('isEnabled')
@@ -153,6 +187,10 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('increaseExecutionTime');
+		
+		$sut->expects($this->once())
+			->method('isUsernameInDomain')
+			->willReturn(true);
 
 		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
 		$this->assertEquals(true, $actual);

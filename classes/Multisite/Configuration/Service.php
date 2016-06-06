@@ -104,10 +104,32 @@ class Multisite_Configuration_Service
 
 		$blogOptionValue = $this->blogConfigurationRepository->findSanitizedValue($blogId, $optionName);
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
-		$profileOptionValue = $this->getProfileOptionValue($optionName, $blogId);
+		$profileHasLinkedDomain = false;
 
+		if ($profileId != null) {
+			$profileDomainSid = $this->getProfileOptionValue(Adi_Configuration_Options::DOMAIN_SID, $blogId);
+			
+			if (!empty($profileDomainSid)) {
+				$profileHasLinkedDomain = true;
+			}
+		}
+		
+		$profileOptionValue = $this->getProfileOptionValue($optionName, $blogId);
 		$permission = $this->getPermission($optionName, $profileId);
-		$optionValue = $this->getValue($permission, $profileOptionValue, $blogOptionValue);
+
+		// ADI-235: corner-case; if the profile has been already linked to an Active Directory domain the options from
+		// the "Environment" tab can't be edited in child profiles. This prevents overwriting connections provided by the
+		// network administrator
+		if ($profileHasLinkedDomain && $this->isEnvironmentOption($optionName)) {
+			$optionValue = $profileOptionValue;
+
+			if ($permission == Multisite_Configuration_Service::EDITABLE) {
+				$permission = Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN;
+			}
+		}
+		else {
+			$optionValue = $this->getValue($permission, $profileOptionValue, $blogOptionValue);
+		}
 
 		$optionArray = array(
 			'option_name'       => $optionName,
@@ -158,7 +180,7 @@ class Multisite_Configuration_Service
 		if ($permission < Multisite_Configuration_Service::EDITABLE) {
 			return $profileOptionValue;
 		}
-
+		
 		return $blogOptionValue;
 	}
 
@@ -247,8 +269,8 @@ class Multisite_Configuration_Service
 	/**
 	 * Find all option values, that are  part of the profile and not the profile configuration.
 	 *
-	 * @param $profileId
-	 * @param $options
+	 * @param numeric $profileId
+	 * @param array $options
 	 *
 	 * @return mixed
 	 */
@@ -262,5 +284,35 @@ class Multisite_Configuration_Service
 		);
 
 		return $options;
+	}
+
+	/**
+	 * Return if the given option name is located on the "Environment" tab
+	 *
+	 * @param string $optionName
+	 * @return bool
+	 */
+	public function isEnvironmentOption($optionName) 
+	{
+		$arrEnvironmentOptions = array(Adi_Configuration_Options::DOMAIN_CONTROLLERS,
+			Adi_Configuration_Options::PORT,
+			Adi_Configuration_Options::USE_TLS,
+			Adi_Configuration_Options::NETWORK_TIMEOUT,
+			Adi_Configuration_Options::BASE_DN,
+			Adi_Configuration_Options::DOMAIN_SID,
+			Adi_Configuration_Options::VERIFICATION_USERNAME,
+			Adi_Configuration_Options::VERIFICATION_PASSWORD,
+			
+		); //TODO move somewhere else
+
+		// TODO better solution would be to get viewable configuration through Layout class. But this introduces new
+		// dependencies to the front end package. Meh.
+
+		if (in_array($optionName, $arrEnvironmentOptions))
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }

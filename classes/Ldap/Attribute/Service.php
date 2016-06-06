@@ -157,7 +157,7 @@ class Ldap_Attribute_Service
 	}
 
 	/**
-	 * Find the ldap attributes for the given credentials or guid.
+	 * Find the LDAP attributes for the given credentials or guid.
 	 *
 	 * @param Adi_Authentication_Credentials $credentials
 	 * @param string                         $guid
@@ -181,6 +181,24 @@ class Ldap_Attribute_Service
 		}
 
 		return $ldapAttributes;
+	}
+
+	/**
+	 * Find LDAP attribute containing the objectSid
+	 *
+	 * @param string $username
+	 * @param boolean $isGuid
+	 * @return Ldap_Attributes
+	 */
+	public function getObjectSid($username, $isGuid = false)
+	{
+		$attributeNames = array("objectsid");
+		
+		$raw = $this->ldapConnection->findAttributesOfUser($username, $attributeNames, $isGuid);
+		$filtered = $this->parseLdapResponse($attributeNames, $raw);
+		$objectSid = $this->ldapConnection->getAdLdap()->convertObjectSidBinaryToString($filtered["objectsid"]);
+		
+		return $objectSid;
 	}
 
 	/**
