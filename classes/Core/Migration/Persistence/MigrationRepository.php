@@ -19,7 +19,15 @@ if (class_exists('Core_Migration_Persistence_MigrationRepository')) {
  */
 class Core_Migration_Persistence_MigrationRepository
 {
-	const MIGRATION = ADI_PREFIX . 'migration';
+	const MIGRATION = 'migration';
+
+	/**
+	 * Return the full option name for migrations
+	 * @return string
+	 */
+	public static function getMigrationOption() {
+		return ADI_PREFIX . 'migration';
+	}
 
 	/**
 	 * Find the last migration that was executed.
@@ -29,10 +37,10 @@ class Core_Migration_Persistence_MigrationRepository
 	public function getLastMigration()
 	{
 		if (is_multisite()) {
-			return get_site_option(self::MIGRATION, 0);
+			return get_site_option(self::getMigrationOption(), 0);
 		}
 
-		return get_option(self::MIGRATION, 0);
+		return get_option(self::getMigrationOption(), 0);
 	}
 
 	/**
@@ -45,9 +53,9 @@ class Core_Migration_Persistence_MigrationRepository
 	public function setLastMigration($lastMigration)
 	{
 		if (is_multisite()) {
-			return update_site_option(self::MIGRATION, $lastMigration);
+			return update_site_option(self::getMigrationOption(), $lastMigration);
 		}
 
-		return update_option(self::MIGRATION, $lastMigration);
+		return update_option(self::getMigrationOption(), $lastMigration);
 	}
 }
