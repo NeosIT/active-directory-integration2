@@ -79,7 +79,7 @@
                 <input id="addProfileName" type="text" ng-model="newProfileName">
                 <label for="addProfileDescription">{{ 'Description'|__ }}</label>
                 <input id="addProfileDescription" type="text" ng-model="newProfileDescription">
-                <button class="button-primary" ng-click="save()">{{ 'Save'|__ }}</button>
+                <button class="button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__ }}" ng-click="save()">{{ 'Save'|__ }}</button>
         </td>
 
     </tr>
