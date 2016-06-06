@@ -440,8 +440,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	public function run_itRegistersTheUserProfileHooks()
 	{
 		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
-			'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu',
-			'registerMigrationHook'));
+			'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu'));
 		$this->loginUser($sut, 666, false);
 
 		$sut->expects($this->once())
@@ -456,8 +455,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	public function registerCore_itRegistersTheAdministrationHooks()
 	{
 		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
-			'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu',
-			'registerMigrationHook'));
+			'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu'));
 		$this->loginUser($sut, 666, false);
 
 		$sut->expects($this->once())

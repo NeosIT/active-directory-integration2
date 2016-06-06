@@ -133,6 +133,9 @@ class Adi_Init
 
 		$this->initialize();
 
+		// migration
+		$this->registerMigrationHook();
+
 		if ($this->isActive()) {
 			// only with an active ADI profile the core has to be registered
 			if (true !== $this->registerCore()) {
@@ -186,9 +189,6 @@ class Adi_Init
 
 			return false;
 		}
-
-		// migration
-		$this->registerMigrationHook();
 
 		// shared hooks
 		$this->registerSharedAdministrationHooks();
