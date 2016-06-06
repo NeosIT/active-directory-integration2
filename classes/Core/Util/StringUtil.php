@@ -166,7 +166,6 @@ class Core_Util_StringUtil
 	 * @param string $objectSid
 	 * @return string
 	 */
-	
 	public static function objectSidToDomainSid($objectSid) {
 		$stringBuffer = "";
 

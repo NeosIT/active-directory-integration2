@@ -336,6 +336,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	/**
 	 * Verify connection to AD to recieve domainSid.
 	 *
+	 * @param array $data
 	 * @return array
 	 */
 	protected function verifyAdConnection($data)
@@ -350,7 +351,13 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		
 		return $this->verifyInternal($data);
 	}
-	
+
+	/**
+	 * Verify the connection by the given $data array
+	 *
+	 * @param array $data
+	 * @return array
+	 */
 	protected function verifyInternal($data) {
 		$objectSid = $this->twigContainer->verifyConnection($data);
 
