@@ -262,7 +262,7 @@ class Adi_Configuration_ImportService
 	 */
 	protected function importOptions($siteId, $previousVersion)
 	{
-		//get all option names
+		// get all option names
 		$configuration = $this->getPreviousConfiguration($siteId, $previousVersion);
 
 		foreach ($configuration as $index => $optionDefinition) {

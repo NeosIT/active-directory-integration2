@@ -69,11 +69,11 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 
 		$sut->expects($this->at(0))
 			->method('findSanitizedValue')
-			->with(5, Adi_Configuration_Options::IS_ACTIVE)
-			->willReturn('is_active');
+			->with(5, Adi_Configuration_Options::SUPPORT_LICENSE_KEY)
+			->willReturn('support_license_key');
 
 		$actual = $sut->findAllSanitized(5);
-		$this->assertEquals('is_active', $actual[Adi_Configuration_Options::IS_ACTIVE]);
+		$this->assertEquals('support_license_key', $actual[Adi_Configuration_Options::SUPPORT_LICENSE_KEY]);
 	}
 
 	/**
