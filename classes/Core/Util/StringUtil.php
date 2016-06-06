@@ -47,6 +47,28 @@ class Core_Util_StringUtil
 	}
 
 	/**
+	 * Split string at $separator and return only the items which are not empty and have at least one character.
+	 *
+	 * @param $string
+	 * @param $separator
+	 * @return array
+	 */
+	public static function splitNonEmpty($string, $separator) {
+		$items = self::split($string, $separator);
+		$r = array();
+
+		foreach ($items as $item) {
+			$trimmedItem = trim($item);
+
+			if (!empty($trimmedItem)) {
+				$r[] = $trimmedItem;
+			}
+		}
+
+		return $r;
+	}
+
+	/**
 	 * Split a text with \r\n and only returns non-empty lines
 	 *
 	 * @param string $value
@@ -159,7 +181,6 @@ class Core_Util_StringUtil
 
 		return strtolower($result);
 	}
-
 	/**
 	 * Convert object SID to domain SID
 	 * 

@@ -59,7 +59,8 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	 */
 	public function __construct(Multisite_View_TwigContainer $twigContainer,
 								Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
-	) {
+	)
+	{
 		parent::__construct($twigContainer);
 
 		$this->blogConfigurationController = $blogConfigurationConfigurationControllerController;
@@ -200,6 +201,8 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			'ng-notify', ADI_URL . '/js/libraries/ng-notify.min.js',
 			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS
 		);
+		wp_enqueue_script('ng-busy', ADI_URL . '/js/libraries/angular-busy.min.js',
+			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS);
 
 		wp_enqueue_script(
 			'adi2_shared_util_array', ADI_URL . '/js/app/shared/utils/array.util.js',
@@ -320,6 +323,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			'options'        => $data,
 			'ldapAttributes' => Ldap_Attribute_Description::findAll(),
 			'dataTypes'      => Ldap_Attribute_Repository::findAllAttributeTypes(),
+			'wpRoles' => Adi_Role_Manager::getRoles(),
 		);
 	}
 
@@ -426,8 +430,6 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 
 		$data = $postData['data'];
 
-		$this->validate($data);
-
 		//check if the permission of the option is high enough for the option to be saved
 		$databaseOptionData = $this->twigContainer->getAllOptionsValues();
 
@@ -438,6 +440,8 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 				unset($data[$optionName]);
 			}
 		}
+
+		$this->validate($data);
 
 		return $this->blogConfigurationController->saveBlogOptions($data);
 	}
@@ -526,6 +530,12 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$notEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($notEmptyMessage);
 			$validator->addRule(Adi_Configuration_Options::PROFILE_NAME, $notEmptyRule);
 
+			//ENVIRONMENT
+			$invalidValueMessage = __('The given value is invalid.', ADI_I18N);
+			$invalidSelectValueRule = new Multisite_Validator_Rule_SelectValueValid($invalidValueMessage,
+				Multisite_Option_Encryption::getValues());
+			$validator->addRule(Adi_Configuration_Options::ENCRYPTION, $invalidSelectValueRule);
+
 			//USER
 			$accountSuffixMessage = __(
 				'Account Suffix does not match the required style. (e.g. "@company.local")',
@@ -553,6 +563,11 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			);
 			$adminEmailRule = new Multisite_Validator_Rule_AdminEmail($adminEmailMessage, '@');
 			$validator->addRule(Adi_Configuration_Options::ADMIN_EMAIL, $adminEmailRule);
+
+			//PERMISSIONS
+			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', ADI_I18N);
+			$disallowedRoleRule = new Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig($disallowedRoleMessage);
+			$validator->addRule(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
 
 			//ATTRIBUTES
 			$noDefaultAttributeNameMessage = __(

@@ -24,10 +24,10 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 		$sut = $this->sut();
 
 		WP_Mock::wpFunction('load_plugin_textdomain', array(
-			'args' => array(
+			'args'  => array(
 				ADI_I18N,
 				false,
-				ADI_PLUGIN_NAME . '/languages/'
+				ADI_PLUGIN_NAME . '/languages/',
 			),
 			'times' => 1));
 
@@ -36,13 +36,18 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 
 	private function createActivationEnvironment($dc)
 	{
-		$fakeService = $this->createAnonymousMock(array('check', 'register', 'insertDefaultProfile', 'autoImport', 'persistValueSanitized', 'persistSanitized'));
+		$fakeService = $this->createAnonymousMock(array('check', 'register', 'insertDefaultProfile', 'autoImport',
+			'migratePreviousVersion', 'persistSanitizedValue'));
 		$dc->expects($this->once())
 			->method('getRequirements')
 			->willReturn($fakeService);
 
 		$dc->expects($this->any())
 			->method('getImportService')
+			->willReturn($fakeService);
+
+		$dc->expects($this->any())
+			->method('getUserManager')
 			->willReturn($fakeService);
 
 		$dc->expects($this->any())
@@ -126,6 +131,26 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
+	public function activation_itMigratesAdi1xUsers()
+	{
+		$sut = $this->sut(array('dc'));
+		$dc = $this->mockDependencyContainer($sut);
+		$fakeService = $this->createActivationEnvironment($dc);
+
+		$fakeService->expects($this->once())
+			->method('check')
+			->with(true, true)
+			->willReturn(true);
+
+		$fakeService->expects($this->once())
+			->method('migratePreviousVersion');
+
+		$sut->activation();
+	}
+
+	/**
+	 * @test
+	 */
 	public function activation_itExcludesCurrentUserInNetwork_whenDefaultProfileHasBeenAdded()
 	{
 		$sut = $this->sut(array('dc'));
@@ -133,11 +158,11 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 		$fakeService = $this->createActivationEnvironment($dc);
 
 		WP_Mock::wpFunction('wp_get_current_user', array(
-			'times' => 1,
+			'times'  => 1,
 			'return' => (object)array('user_login' => 'username')));
 
 		WP_Mock::wpFunction('is_multisite', array(
-			'times' => 1,
+			'times'  => 1,
 			'return' => true));
 
 		$this->behave($fakeService, 'check', true);
@@ -145,7 +170,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 		$this->behave($dc, 'getProfileConfigurationRepository', $fakeService);
 
 		$fakeService->expects($this->once())
-			->method('persistValueSanitized')
+			->method('persistSanitizedValue')
 			->with(666, Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION, 'username');
 
 		$sut->activation();
@@ -161,11 +186,11 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 		$fakeService = $this->createActivationEnvironment($dc);
 
 		WP_Mock::wpFunction('wp_get_current_user', array(
-			'times' => 1,
+			'times'  => 1,
 			'return' => (object)array('user_login' => 'username')));
 
 		WP_Mock::wpFunction('is_multisite', array(
-			'times' => 1,
+			'times'  => 1,
 			'return' => false));
 
 		$this->behave($fakeService, 'check', true);
@@ -173,7 +198,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 		$this->behave($dc, 'getBlogConfigurationRepository', $fakeService);
 
 		$fakeService->expects($this->once())
-			->method('persistSanitized')
+			->method('persistSanitizedValue')
 			->with(0, Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION, 'username');
 
 		$sut->activation();
@@ -182,15 +207,16 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function postActivation_itRegistersPostActivationOfOptionsImporter() {
+	public function postActivation_itRegistersPostActivationOfOptionsImporter()
+	{
 		global $pagenow;
 		$pagenow = 'plugins.php';
 		$_REQUEST['activate'] = 'true';
 
 
 		WP_Mock::wpFunction('is_plugin_active', array(
-			'args' => 'active-directory-integration2/index.php',
-			'times' => 1,
+			'args'   => 'active-directory-integration2/index.php',
+			'times'  => 1,
 			'return' => true));
 
 		$sut = $this->sut(array('dc'));
@@ -227,7 +253,8 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function run_itDoesNotRegisterCore_whenNotActive() {
+	public function run_itDoesNotRegisterCore_whenNotActive()
+	{
 		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'isActive', 'registerCore'));
 
 		$sut->expects($this->once())
@@ -243,7 +270,8 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function run_itRegistersAdministrationMenu_evenWhenNotActive() {
+	public function run_itRegistersAdministrationMenu_evenWhenNotActive()
+	{
 		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'isActive', 'registerAdministrationMenu'));
 
 		$sut->expects($this->once())
@@ -259,8 +287,10 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function run_itRegisterCore_whenActive() {
-		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'isActive', 'registerCore', 'registerAdministrationMenu'));
+	public function run_itRegisterCore_whenActive()
+	{
+		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'isActive', 'registerCore',
+			'registerAdministrationMenu'));
 
 		$sut->expects($this->once())
 			->method('isActive')
@@ -279,7 +309,8 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function registerAdministrationMenu_itRegistersTheAdministrationMenu() {
+	public function registerAdministrationMenu_itRegistersTheAdministrationMenu()
+	{
 		$sut = $this->sut(array('dc'));
 		$fakeService = $this->createAnonymousMock(array('register'));
 		$dc = $this->mockDependencyContainer($sut);
@@ -294,7 +325,8 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function isActive_itReturnsValue() {
+	public function isActive_itReturnsValue()
+	{
 		$sut = $this->sut(array('dc'));
 
 		$fakeService = $this->createAnonymousMock(array('getOptionValue'));
@@ -365,8 +397,31 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function run_itRegistersTheSharedAdministrationHooks() {
-		$sut = $this->sut(array('dc', 'isActive', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu'));
+	public function run_itRegistersTheMigrationHook()
+	{
+		$sut = $this->sut(array('dc', 'isActive', 'isOnNetworkDashboard', 'initialize',
+			'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks',
+			'registerAdministrationMenu', 'registerMigrationHook'));
+		$this->loginUser($sut, 666, false);
+
+		$sut->expects($this->once())
+			->method('isActive')
+			->willReturn(true);
+
+		$sut->expects($this->once())
+			->method('registerMigrationHook');
+
+		$sut->run();
+	}
+
+	/**
+	 * @test
+	 */
+	public function run_itRegistersTheSharedAdministrationHooks()
+	{
+		$sut = $this->sut(array('dc', 'isActive', 'isOnNetworkDashboard', 'initialize',
+			'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks',
+			'registerAdministrationMenu', 'registerMigrationHook'));
 		$this->loginUser($sut, 666, false);
 
 		$sut->expects($this->once())
@@ -377,7 +432,6 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 			->method('registerSharedAdministrationHooks');
 
 		$sut->run();
-
 	}
 
 	/**
@@ -385,7 +439,8 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function run_itRegistersTheUserProfileHooks()
 	{
-		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu'));
+		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
+			'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu'));
 		$this->loginUser($sut, 666, false);
 
 		$sut->expects($this->once())
@@ -399,7 +454,8 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function registerCore_itRegistersTheAdministrationHooks()
 	{
-		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu'));
+		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
+			'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu'));
 		$this->loginUser($sut, 666, false);
 
 		$sut->expects($this->once())
@@ -430,7 +486,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function runMultisite_itRegistersTheSharedAdministrationHooks_whenInMultisiteEnvironment()
 	{
-		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks'));
+		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks', 'registerMigrationHook'));
 		$dc = $this->mockDependencyContainer($sut);
 
 		$this->loginUser($sut, null, null);
@@ -460,7 +516,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function runMultisite_itRegistersTheMultisiteAdministrationHooks_whenInMultisiteEnvironment()
 	{
-		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks'));
+		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks', 'registerMigrationHook'));
 		$dc = $this->mockDependencyContainer($sut);
 
 		$this->loginUser($sut, null, null);
@@ -510,6 +566,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 
 	/**
 	 * Sets multisite environment
+	 *
 	 * @param $isMultisite
 	 * @param $isSuperAdmin
 	 */
@@ -517,15 +574,15 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	{
 		WP_Mock::wpFunction('is_multisite', array(
 			'return' => $isMultisite,
-			'times' => 1));
+			'times'  => 1));
 
 		WP_Mock::wpFunction('is_super_admin', array(
 			'return' => $isSuperAdmin,
-			'times' => $isMultisite ?  1 : 0));
+			'times'  => $isMultisite ? 1 : 0));
 
 		WP_Mock::wpFunction('is_network_admin', array(
 			'return' => $isOnNetworkDashboard,
-			'times' => $isSuperAdmin && $isMultisite ? 1 : 0));
+			'times'  => $isSuperAdmin && $isMultisite ? 1 : 0));
 	}
 
 	/**
@@ -543,7 +600,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 
 		if ($userId) {
 			WP_Mock::wpFunction('wp_get_current_user', array(
-				'times' => 1,
+				'times'  => 1,
 				'return' => (object)array('ID' => $userId)));
 
 			$dc->expects($this->once())
@@ -563,6 +620,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 * Mock the dependency container and overwrites the 'dc' method in Adi_Init
 	 *
 	 * @param $sut
+	 *
 	 * @return PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function mockDependencyContainer($sut)
@@ -660,7 +718,8 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('initialize', 'dc'));
 		$dc = $this->mockDependencyContainer($sut);
-		$fakeService = $this->createAnonymousMock(array('register', 'registerAjaxListener', 'registerBlogAndNetworkMenu'));
+		$fakeService = $this->createAnonymousMock(array('register', 'registerAjaxListener',
+			'registerBlogAndNetworkMenu'));
 
 		$dc->expects($this->once())
 			->method('getExtendUserList')

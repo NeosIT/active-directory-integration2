@@ -28,10 +28,10 @@
             <td class="adi-zero-padding-left">
                 <table class="adi-role-equivalent">
                     <tr class="adi-role-equivalent-headline">
-                        <td>Sicherheitsgruppe</td>
+                        <td>Security group</td>
                         <td class="adi-zero-padding-left" style="padding-right: 15px"><span
                                     class="nsp_dashicons dashicons dashicons-leftright"></span></td>
-                        <td class="adi-zero-padding-left"> WordPress-Rolle</td>
+                        <td class="adi-zero-padding-left"> WordPress role</td>
                         <td>&nbsp;</td>
                     </tr>
                 </table>
@@ -93,7 +93,14 @@
             </td>
         </tr>
     </table>
-    <p>{% import "option/element/description.twig" as descriptionElement %}
+
+    <p>
+        {% import "option/element/error-msg.twig" as errorElement %}
+        {{ errorElement.create(optionName) }}
+    </p>
+
+    <p>
+        {% import "option/element/description.twig" as descriptionElement %}
         {{ descriptionElement.create(description) }}
     </p>
 

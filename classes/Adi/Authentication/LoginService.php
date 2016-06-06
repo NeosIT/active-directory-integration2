@@ -443,7 +443,8 @@ class Adi_Authentication_LoginService
 	{
 		$wpUser = $this->createOrUpdateUser($credentials);
 
-		if (is_object($wpUser)) {
+		// ADI-256: user does only have a valid id if he is already inside the directory or has been created with "Auto Create User" == on
+		if (is_object($wpUser) && ($wpUser->ID > 0)) {
 			if ($this->userManager->isDisabled($wpUser->ID)) {
 				$this->logger->error("Unable to login user. User is disabled.");
 

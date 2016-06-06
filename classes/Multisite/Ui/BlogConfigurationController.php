@@ -79,7 +79,7 @@ class Multisite_Ui_BlogConfigurationController
 	 */
 	public function persistOption($optionName, $option)
 	{
-		$r = $this->blogConfigurationRepository->persistSanitized(get_current_blog_id(), $optionName, $option);
+		$r = $this->blogConfigurationRepository->persistSanitizedValue(get_current_blog_id(), $optionName, $option);
 
 		return $r;
 	}

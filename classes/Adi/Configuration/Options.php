@@ -17,6 +17,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 {
 	// General
 	const PROFILE_NAME = 'profile_name';
+	const SUPPORT_LICENSE_KEY = 'support_license_key';
 	const IS_ACTIVE = 'is_active';
 	const SHOW_MENU_TEST_AUTHENTICATION = 'show_menu_test_authentication';
 	const SHOW_MENU_SYNC_TO_AD = 'show_menu_sync_to_ad';
@@ -25,6 +26,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 	// Server
 	const DOMAIN_CONTROLLERS = 'domain_controllers';
 	const PORT = 'port';
+	const ENCRYPTION = 'encryption';
 	const USE_TLS = 'use_tls';
 	const NETWORK_TIMEOUT = 'network_timeout';
 	const BASE_DN = 'base_dn';
@@ -220,6 +222,23 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$showPermission => false,
 				$transient      => true,
 			),
+			self::SUPPORT_LICENSE_KEY      => array(
+				$title          => __('Support license key:', ADI_I18N),
+				$type        => Multisite_Option_Type::TEXT,
+				$description => __(
+					"Please enter your support license key here, if you have a paid ADI 2.0 license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
+					ADI_I18N
+				),
+				$detail      => __(
+					"Please enter your support license key here, if you have a paid ADI 2.0 license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
+					ADI_I18N
+				),
+				$sanitizer   => array('string'),
+				$default => '',
+				$angularAttributes => '',
+				$showPermission => true,
+				$transient      => false,
+			),
 			self::IS_ACTIVE         => array(
 				$title 		=> __('Enable ADI', ADI_I18N),
 				$type		=> Multisite_Option_Type::CHECKBOX,
@@ -315,7 +334,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			self::PORT                          => array(
 				$title       => __('Port', ADI_I18N),
 				$type        => Multisite_Option_Type::NUMBER,
-				$description => __('Port on which Active Directory listens (defaults to "389").', ADI_I18N),
+				$description => __('Port on which Active Directory listens. Unencrypted LDAP or STARTTLS uses port 389. LDAPS listens on port 636.', ADI_I18N),
 				$detail      => __(
 					'This option defines the Active Directory communication port and is by default set to 389.',
 					ADI_I18N
@@ -327,24 +346,26 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$transient         => false,
 			),
 			// Secure the connection between the Drupal and the LDAP servers using START_TLS.
-			self::USE_TLS                       => array(
-				$title           => __('Use STARTTLS', ADI_I18N),
-				$type            => Multisite_Option_Type::CHECKBOX,
-				$description     => __(
-					'Secures the connection between the WordPress and the Active Directory servers using STARTTLS',
-					ADI_I18N
+			self::ENCRYPTION => array(
+				$title             => __('Use encryption', ADI_I18N),
+				$type              => Multisite_Option_Type::SELECT,
+				$elements          => array(
+					__('None', ADI_I18N)     => Multisite_Option_Encryption::NONE,
+					__('STARTTLS', ADI_I18N) => Multisite_Option_Encryption::STARTTLS,
+					__('LDAPS', ADI_I18N)    => Multisite_Option_Encryption::LDAPS,
 				),
-				$detail          => __(
-					'Enabling this option activates the TLS (Transport Layer Security), which secures the data transport between your Active Directory server and WordPress by encrypting the data. If you want to use STARTTLS, the "Port" option has to be set as default("389"). Please note that STARTTLS is not the same as LDAP/S.',
-					ADI_I18N
+				$description       => __('This option handles the encryption type for the LDAP connection.', ADI_I18N),
+				$detail            => array(
+					__('This option handles the encryption type for the LDAP connection.',
+						ADI_I18N),
+					__('None: No encryption is be used.', ADI_I18N),
+					__('STARTTLS: Enabling this option activates TLS (Transport Layer Security), which secures the data transport between your Active Directory server and WordPress by encrypting the data. If you want to use STARTTLS, the "Port" option should be set as default("389"). Please note that STARTTLS is not the same as LDAPS.', ADI_I18N),
+					__('LDAPS: The LDAP connection uses LDAPS. By default, Active Directory listens on port 636 for LDAPS connections.',
+						ADI_I18N),
 				),
 				$angularAttributes => '',
-				$default         => false,
-				$disabled        => !extension_loaded('openssl'),
-				$disabledMessage => __(
-					'<b>You must enable the PHP module "openssl" before you can use STARTTLS.</b>', ADI_I18N
-				),
-				$sanitizer       => array('boolean'),
+				$default           => 'none',
+				$sanitizer         => array('selection', 0),
 				$showPermission    => true,
 				$transient         => false,
 			),

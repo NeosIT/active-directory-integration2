@@ -94,6 +94,18 @@ class Core_Util_Internal_Native
 	}
 
 	/**
+	 * Delegate the call to php internal file_exists function.
+	 *
+	 * @param $filePath
+	 *
+	 * @return bool
+	 */
+	public function isFileAvailable($filePath)
+	{
+		return file_exists($filePath);
+	}
+
+	/**
 	 * Delegate the call to php internal include_once function.
 	 *
 	 * @param $path

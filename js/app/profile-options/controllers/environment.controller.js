@@ -27,8 +27,8 @@
             $scope.option = {
                 domain_controllers: $valueHelper.findValue('domain_controllers', data, '').split(";"),
                 port: $valueHelper.findValue("port", data),
-                use_tls: $valueHelper.findValue("use_tls", data),
                 network_timeout: $valueHelper.findValue("network_timeout", data),
+                encryption: $valueHelper.findValue("encryption", data),
                 base_dn: $valueHelper.findValue("base_dn", data),
                 verification_username : '',
                 verification_password : '',
@@ -45,8 +45,8 @@
             $scope.permission = {
                 domain_controllers: $valueHelper.findPermission('domain_controllers', data),
                 port: $valueHelper.findPermission('port', data),
-                use_tls: $valueHelper.findPermission('use_tls', data),
                 network_timeout: $valueHelper.findPermission('network_timeout', data),
+                encryption: $valueHelper.findPermission('encryption', data),
                 base_dn: $valueHelper.findPermission('base_dn', data),
                 verification_username : $valueHelper.findPermission("verification_username", data),
                 verification_password : $valueHelper.findPermission("verification_password", data),
@@ -63,8 +63,8 @@
             $scope.messages = {
                 domain_controllers: $valueHelper.findMessage('domain_controllers', data),
                 port: $valueHelper.findMessage('port', data),
-                use_tls: $valueHelper.findMessage('use_tls', data),
                 network_timeout: $valueHelper.findMessage('network_timeout', data),
+                encryption: $valueHelper.findMessage('encryption', data),
                 base_dn: $valueHelper.findMessage('base_dn', data),
                 verification_username : $valueHelper.findMessage("verification_username", data),
                 verification_password : $valueHelper.findMessage("verification_password", data),
@@ -87,7 +87,7 @@
             var data = {
                 domain_controllers: ListService.parseListArrayToString($scope.option.domain_controllers),
                 port: $scope.option.port,
-                use_tls: $scope.option.use_tls,
+                encryption: $scope.option.encryption,
                 network_timeout: $scope.option.network_timeout,
                 base_dn: $scope.option.base_dn,
                 verification_username: $scope.option.verification_username,

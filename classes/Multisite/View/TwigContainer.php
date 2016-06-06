@@ -273,7 +273,7 @@ class Multisite_View_TwigContainer
 	public function getOptionValue($optionName, $profileId = null)
 	{
 		if (null !== $profileId) {
-			return $this->profileConfigurationRepository->findValueSanitized($profileId, $optionName);
+			return $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
 		}
 
 		$permission = $this->getPermissionForOptionAndBlog($optionName);
@@ -283,7 +283,7 @@ class Multisite_View_TwigContainer
 			return false;
 		}
 
-		return $this->blogConfigurationRepository->findSanitized(get_current_blog_id(), $optionName);
+		return $this->blogConfigurationRepository->findSanitizedValue(get_current_blog_id(), $optionName);
 	}
 
 	/**

@@ -61,7 +61,7 @@ class Ut_Adi_Authentication_VerificationServiceTest extends Ut_BasicTest
 		$data = array(
 			'domain_controllers' => array('127.0.0.1'),
 			'port' => 389,
-			'use_tls' => '',
+			'encryption' => 'none',
 			'network_timeout' => 5,
 			'base_dn' => 'DC=test;DC=ad',
 			'verification_username' => 'administrator',
@@ -69,11 +69,11 @@ class Ut_Adi_Authentication_VerificationServiceTest extends Ut_BasicTest
 		);
 		
 		$config = new Ldap_ConnectionDetails();
-		$config->setCustomDomainControllers($data["domain_controllers"]);
-		$config->setCustomPort($data["port"]);
-		$config->setCustomUseStartTls($data["use_tls"]);
-		$config->setCustomNetworkTimeout($data["network_timeout"]);
-		$config->setCustomBaseDn($data["base_dn"]);
+		$config->setDomainControllers($data["domain_controllers"]);
+		$config->setPort($data["port"]);
+		$config->setEncryption($data["encryption"]);
+		$config->setNetworkTimeout($data["network_timeout"]);
+		$config->setBaseDn($data["base_dn"]);
 		$config->setUsername($data["verification_username"]);
 		$config->setPassword($data["verification_password"]);
 		

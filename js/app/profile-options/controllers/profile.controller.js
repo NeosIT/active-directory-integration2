@@ -196,6 +196,7 @@
                 $scope.$broadcast('ldapAttributes', result['ldapAttributes']);
                 $scope.$broadcast('dataTypes', result['dataTypes']);
                 $scope.$broadcast('permissionItems', result['permissionItems']);
+                $scope.$broadcast('wpRoles', result['wpRoles']);
 
                 $scope.runningRequests--;
             });

@@ -8,7 +8,7 @@ if (class_exists('Ldap_ConnectionDetails')) {
 }
 
 /**
- * Ldap_ConnectionDetails contains all details for an LDAP connection to the Active Directory..
+ * Ldap_ConnectionDetails contains all details for an LDAP connection to the Active Directory.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
@@ -19,6 +19,7 @@ class Ldap_ConnectionDetails
 	private $domainControllers = null;
 	private $port = null;
 	private $useStartTls = null;
+	private $encryption = null;
 	private $networkTimeout = null;
 	private $username = null;
 	private $password = null;
@@ -28,7 +29,7 @@ class Ldap_ConnectionDetails
 	 * If this value is null, the Connection.php will use the value set by the blog or network admin.
 	 * @return null
 	 */
-	public function getCustomBaseDn()
+	public function getBaseDn()
 	{
 		return $this->baseDn;
 	}
@@ -37,7 +38,7 @@ class Ldap_ConnectionDetails
 	 * Override the default base dn (set by the blog or site admin) with your own custom value.
 	 * @param null $baseDn
 	 */
-	public function setCustomBaseDn($baseDn)
+	public function setBaseDn($baseDn)
 	{
 		$this->baseDn = $baseDn;
 	}
@@ -47,7 +48,7 @@ class Ldap_ConnectionDetails
 	 * If this value is null, the Connection.php will use the value set by the blog or network admin.
 	 * @return null
 	 */
-	public function getCustomDomainControllers()
+	public function getDomainControllers()
 	{
 		return $this->domainControllers;
 	}
@@ -56,7 +57,7 @@ class Ldap_ConnectionDetails
 	 * Override the default domain controllers (set by the blog or site admin) with your own custom value.
 	 * @param string $domainControllers splitted with semicolon
 	 */
-	public function setCustomDomainControllers($domainControllers)
+	public function setDomainControllers($domainControllers)
 	{
 		$this->domainControllers = $domainControllers;
 	}
@@ -66,7 +67,7 @@ class Ldap_ConnectionDetails
 	 * If this value is null, the Connection.php will use the value set by the blog or network admin.
 	 * @return null
 	 */
-	public function getCustomPort()
+	public function getPort()
 	{
 		return $this->port;
 	}
@@ -75,28 +76,34 @@ class Ldap_ConnectionDetails
 	 * Override the default portset by the blog or site admin) with your own custom value.
 	 * @param int $port
 	 */
-	public function setCustomPort($port)
+	public function setPort($port)
 	{
 		$this->port = $port;
 	}
 
 	/**
-	 * Get the custom usage of StartTLS.
-	 * If this value is null, the Connection.php will use the value set by the blog or network admin.
-	 * @return null
+	 * Return the encryption type. This can be "none", "starttls" or "ldaps"
+	 * @return string
 	 */
-	public function getCustomUseStartTls()
+	public function getEncryption()
 	{
-		return $this->useStartTls;
+		return $this->encryption;
 	}
 
 	/**
-	 * Override the default usage of StartTLS (set by the blog or site admin) with your own custom value.
-	 * @param bool $useStartTls
+	 * @param string $encryption "none", "starttls" or "ldaps"
 	 */
-	public function setCustomUseStartTls($useStartTls)
+	public function setEncryption($encryption)
 	{
-		$this->useStartTls = $useStartTls;
+		if (!isset($encryption)) {
+			$encryption = 'none';
+		}
+
+		Core_Assert::condition(
+			in_array(strtolower($encryption), Multisite_Option_Encryption::getValues()),
+			'Encryption type must be one of none, starttls or ldaps');
+
+		$this->encryption = $encryption;
 	}
 
 	/**
@@ -104,7 +111,7 @@ class Ldap_ConnectionDetails
 	 * If this value is null, the Connection.php will use the value set by the blog or network admin.
 	 * @return null
 	 */
-	public function getCustomNetworkTimeout()
+	public function getNetworkTimeout()
 	{
 		return $this->networkTimeout;
 	}
@@ -113,7 +120,7 @@ class Ldap_ConnectionDetails
 	 * Override the default network timeout (set by the blog or site admin) with your own custom value.
 	 * @param int $networkTimeout
 	 */
-	public function setCustomNetworkTimeout($networkTimeout)
+	public function setNetworkTimeout($networkTimeout)
 	{
 		$this->networkTimeout = $networkTimeout;
 	}

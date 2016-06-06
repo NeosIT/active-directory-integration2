@@ -60,7 +60,7 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 		));
 
 		$this->blogConfigurationRepository->expects($this->once())
-			->method('findSanitized')
+			->method('findSanitizedValue')
 			->with(33, 'port');
 
 		$sut->expects($this->once())
@@ -78,7 +78,7 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 		$sut = $this->sut(array('getProfileOptionValue', 'getValue', 'getPermission'));
 
 		$this->blogConfigurationRepository->expects($this->once())
-			->method('findSanitized')
+			->method('findSanitizedValue')
 			->with(44 /* blogId */, 'port' /* option name */)
 			->willReturn('389');
 
@@ -126,7 +126,7 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 		$sut = $this->sut(array('getProfileOptionValue', 'getValue', 'getPermission'));
 
 		$this->blogConfigurationRepository->expects($this->once())
-			->method('findSanitized')
+			->method('findSanitizedValue')
 			->with(44 /* blogId */, 'port' /* option name */)
 			->willReturn('389');
 
@@ -209,7 +209,7 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 			->willReturn(66);
 
 		$this->profileConfigurationRepository->expects($this->once())
-			->method('findValueSanitized')
+			->method('findSanitizedValue')
 			->with(66, 'port')
 			->willReturn($profileOption);
 

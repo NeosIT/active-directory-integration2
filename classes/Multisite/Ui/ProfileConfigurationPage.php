@@ -328,6 +328,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 			'ldapAttributes'     => Ldap_Attribute_Description::findAll(),
 			'dataTypes'          => Ldap_Attribute_Repository::findAllAttributeTypes(),
 			'permissionItems'    => $this->getPermission(),
+			'wpRoles'        => Adi_Role_Manager::getRoles(),
 		);
 	}
 

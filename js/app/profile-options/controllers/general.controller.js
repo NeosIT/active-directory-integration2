@@ -29,6 +29,7 @@
         $scope.$on('options', function (event, data) {
             $scope.option = {
                 profile_name: $valueHelper.findValue('profile_name', data) ? $valueHelper.findValue('profile_name', data) : '',
+                support_license_key: $valueHelper.findValue('support_license_key', data),
                 is_active: $valueHelper.findValue('is_active', data) ? true : false,
                 show_menu_test_authentication: $valueHelper.findValue('show_menu_test_authentication', data) ? true : false,
                 show_menu_sync_to_ad: $valueHelper.findValue('show_menu_sync_to_ad', data) ? true : false,
@@ -42,6 +43,7 @@
             }
 
             $scope.permission = {
+                support_license_key: $valueHelper.findPermission('support_license_key', data),
                 is_active: $valueHelper.findPermission('is_active', data),
                 show_menu_test_authentication: $valueHelper.findPermission('show_menu_test_authentication', data),
                 show_menu_sync_to_ad: $valueHelper.findPermission('show_menu_sync_to_ad', data),
@@ -52,6 +54,7 @@
         $scope.$on('validation', function (event, data) {
             $scope.messages = {
                 profile_name: $valueHelper.findMessage('profile_name', data),
+                support_license_key: $valueHelper.findMessage('support_license_key', data),
                 is_active: $valueHelper.findMessage('is_active', data),
                 show_menu_test_authentication: $valueHelper.findMessage('show_menu_test_authentication', data),
                 show_menu_sync_to_ad: $valueHelper.findMessage('show_menu_sync_to_ad', data),

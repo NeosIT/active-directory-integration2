@@ -1451,4 +1451,55 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$sut->disable($userId, $reason);
 	}
+
+	/**
+	 * @test
+	 */
+	public function migratePreviousVersion_itUpdatesOldSamAccountNames() {
+		$sut = $this->sut();
+		$wpUsers = array((object)array('ID' => 666));
+
+		$this->userRepository->expects($this->once())
+			->method('findByMetaKey')
+			->with('adi_samaccountname')
+			->willReturn($wpUsers);
+
+		$this->userRepository->expects($this->once())
+			->method('findUserMeta')
+			->with(666)
+			->willReturn(array('adi_samaccountname' => array('username')));
+
+		$this->userRepository->expects($this->once())
+			->method('updateSAMAccountName')
+			->with(666, 'username');
+
+		$actual = $sut->migratePreviousVersion();
+
+		$this->assertEquals(1, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function migratePreviousVersion_itIgnoresSamAccountName_whenAlreadyMigrated() {
+		$sut = $this->sut();
+		$wpUsers = array((object)array('ID' => 666));
+
+		$this->userRepository->expects($this->once())
+			->method('findByMetaKey')
+			->with('adi_samaccountname')
+			->willReturn($wpUsers);
+
+		$this->userRepository->expects($this->once())
+			->method('findUserMeta')
+			->with(666)
+			->willReturn(array('adi_samaccountname' => array('username'), 'adi2_samaccountname' => array('new_username')));
+
+		$this->userRepository->expects($this->never())
+			->method('updateSAMAccountName');
+
+		$actual = $sut->migratePreviousVersion();
+
+		$this->assertEquals(0, $actual);
+	}
 }
