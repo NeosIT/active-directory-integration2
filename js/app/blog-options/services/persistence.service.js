@@ -7,6 +7,13 @@
         var vm = this;
 
         vm.persistData = function (data) {
+            
+            // exclude domain_sid from persist
+            data.verification_username = "";
+            data.verification_password = "";
+            delete data.verification_status;
+            delete data.verification_status_message;
+            
             return $http.post('admin-ajax.php', {
                 action: 'adi2_blog_options',
                 security: document.adi2.security,

@@ -24,23 +24,23 @@ abstract class Adi_Synchronization_Abstract
 	/* @var Ldap_ConnectionDetails */
 	protected $connectionDetails;
 
+	/* @var int*/
 	private $time = 0;
-	
+
 	/**
 	 * Execution time in seconds which is required for the long-running tasks
 	 */
 	const REQUIRED_EXECUTION_TIME_IN_SECONDS = 18000;
 
-
 	/**
 	 * @param Multisite_Configuration_Service $configuration
-	 * @param Ldap_Connection $connection
-	 * @param Ldap_Attribute_Service  $attributeService
+	 * @param Ldap_Connection                 $connection
+	 * @param Ldap_Attribute_Service          $attributeService
 	 * */
 	public function __construct(Multisite_Configuration_Service $configuration,
-								Ldap_Connection $connection,
-								Ldap_Attribute_Service $attributeService)
-	{
+		Ldap_Connection $connection,
+		Ldap_Attribute_Service $attributeService
+	) {
 		$this->configuration = $configuration;
 		$this->connection = $connection;
 		$this->attributeService = $attributeService;
@@ -54,17 +54,20 @@ abstract class Adi_Synchronization_Abstract
 	 */
 	public function increaseExecutionTime()
 	{
-		if (ini_get('max_execution_time') >= self::REQUIRED_EXECUTION_TIME_IN_SECONDS) {
+		if (Core_Util::native()->iniGet('max_execution_time') >= self::REQUIRED_EXECUTION_TIME_IN_SECONDS) {
+			return; 
+		}
+
+		Core_Util::native()->iniSet('max_execution_time', self::REQUIRED_EXECUTION_TIME_IN_SECONDS);
+
+		if (Core_Util::native()->iniGet('max_execution_time') >= self::REQUIRED_EXECUTION_TIME_IN_SECONDS) {
 			return;
 		}
 
-		ini_set('max_execution_time', self::REQUIRED_EXECUTION_TIME_IN_SECONDS);
-
-		if (ini_get('max_execution_time') >= self::REQUIRED_EXECUTION_TIME_IN_SECONDS) {
-			return;
-		}
-
-		$this->logger->warn('Can not increase PHP configuration option \'max_execution_time\' to ' . self::REQUIRED_EXECUTION_TIME_IN_SECONDS . ' seconds.');
+		$this->logger->warn(
+			'Can not increase PHP configuration option \'max_execution_time\' to '
+			. self::REQUIRED_EXECUTION_TIME_IN_SECONDS . ' seconds.'
+		);
 	}
 
 	/**
@@ -104,20 +107,26 @@ abstract class Adi_Synchronization_Abstract
 	}
 
 	/**
-	 * Return an array with the the mapping between the Active Directory sAMAccountName (key) and their WordPress username (value).
+	 * Return an array with the mapping between the Active Directory sAMAccountName (key) and their WordPress username (value).
 	 *
 	 * @return array|hashmap key is Active Directory objectGUID, value is WordPress username
 	 */
 	public function findActiveDirectoryUsernames()
 	{
 		$users = $this->findActiveDirectoryUsers();
+
 		$r = array();
-		
+
 		foreach ($users as $user) {
 			$guid = get_user_meta($user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true);
-			
-			$wpUsername = $user->user_login;
-			$r[strtolower($guid)] = $wpUsername;
+			$userDomainSid = get_user_meta(
+				$user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
+			);
+
+			if ($this->isVerifiedDomainMember($userDomainSid)) {
+				$wpUsername = $user->user_login;
+				$r[strtolower($guid)] = $wpUsername;
+			}
 		}
 
 		return $r;
@@ -153,7 +162,19 @@ abstract class Adi_Synchronization_Abstract
 		}
 
 		$users = get_users($args);
-		return $users;
+		$r = array();
+
+		foreach ($users as $user) {
+			$userDomainSid = get_user_meta(
+				$user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
+			);
+
+			if ($this->isVerifiedDomainMember($userDomainSid)) {
+				array_push($r, $user);
+			}
+		}
+
+		return $r;
 	}
 
 	/**
@@ -162,7 +183,7 @@ abstract class Adi_Synchronization_Abstract
 	 * Check if the attribute value for an attribute is empty, if yes return an array.
 	 * Workaround to prevent adLDAP from syncing "Array" as a value for an attribute to the Active Directory.
 	 *
-	 * @param array $attributesToSync
+	 * @param array  $attributesToSync
 	 * @param string $metaKey
 	 *
 	 * @return bool
@@ -173,6 +194,44 @@ abstract class Adi_Synchronization_Abstract
 			return true;
 		}
 
+		return false;
+	}
+
+	/**
+	 * Check if the user is a member of the Active Directory domain connected to the WordPress site via its domain SID
+	 *
+	 * @param string $userDomainSid
+	 *
+	 * @return bool true if user is member of domain
+	 */
+	public function isVerifiedDomainMember($userDomainSid)
+	{
+		if ($userDomainSid == $this->connection->getDomainSid()) {
+			return true;
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Check if username is inside the current linked domain
+	 *
+	 * @param string $username
+	 * @return bool
+	 */
+	public function isUsernameInDomain($username) {
+		// TODO this method is only called from the child classes after the authentication is succeeded. Can we re-use the user_info from the authentication?
+		// TODO this would prevent a second LDAP call
+		$adLdap = $this->connection->getAdLdap();
+		$binarySid = $adLdap->user_info($username, array("objectsid"));
+		$stringSid = $adLdap->convertObjectSidBinaryToString($binarySid[0]["objectsid"][0]);
+		$usersDomainSid = Core_Util_StringUtil::objectSidToDomainSid($stringSid);
+
+		if ($this->isVerifiedDomainMember($usersDomainSid)) {
+			return true;
+		}
+
+		$this->logger->warn('User ' . $username . ' with SID ' . $usersDomainSid . ' (domain SID: ' . $usersDomainSid . ') is not member of domain with domain SID "' . $this->connection->getDomainSid() . "'");
 		return false;
 	}
 }

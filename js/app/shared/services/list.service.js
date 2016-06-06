@@ -27,12 +27,14 @@
             for (var i = 0; i < arrayLength; i++) {
                 var value = listArray[i];
 
-                if (i + 1 < arrayLength) {
-                    stringBuffer += value + ";";
-                    continue;
-                }
+                if (value != '') {
+                    if (i + 1 < arrayLength) {
+                        stringBuffer += value + ";";
+                        continue;
+                    }
 
-                stringBuffer += value;
+                    stringBuffer += value;
+                }
             }
 
             return stringBuffer;

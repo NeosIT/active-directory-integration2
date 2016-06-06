@@ -114,4 +114,29 @@ class Core_Util_Internal_Native
 	{
 		include_once($path);
 	}
+
+	/**
+	 * Delegate the call to php internal ini_get function.
+	 * 
+	 * @param string $key
+	 * 
+	 * @return string
+	 */
+	public function iniGet($key)
+	{
+		return ini_get($key);
+	}
+
+	/**
+	 * Delegate the call to php internal ini_set function.
+	 *
+	 * @param string $key
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public function iniSet($key, $value)
+	{
+		return ini_set($key, $value);
+	}
 }

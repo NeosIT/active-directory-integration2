@@ -183,7 +183,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	 */
 	public function prepareForSync_syncIsEnabled_returnTrue()
 	{
-		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime'));
+		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime', 'isUsernameInDomain'));
 
 		$this->configuration->expects($this->exactly(3))
 			->method('getOptionValue')
@@ -209,8 +209,49 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('increaseExecutionTime');
 
+		$sut->expects($this->once())
+			->method('isUsernameInDomain')
+			->willReturn(true);
+
 		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
 		$this->assertEquals(true, $actual);
+	}
+
+	/**
+	 * @issue ADI-235
+	 * @test
+	 */
+	public function prepareForSync_whenUsernameIsNotInDomain_itReturnsFalse()
+	{
+		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime', 'isUsernameInDomain'));
+
+		$this->configuration->expects($this->exactly(3))
+			->method('getOptionValue')
+			->withConsecutive(
+				array(Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED),
+				array(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER),
+				array(Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD)
+			)
+			->will($this->onConsecutiveCalls(
+				true,
+				'user',
+				'password'
+			));
+
+		$sut->expects($this->once())
+			->method('startTimer');
+
+		$sut->expects($this->once())
+			->method('connectToAdLdap')
+			->with('user', 'password')
+			->willReturn(true);
+
+		$sut->expects($this->once())
+			->method('isUsernameInDomain')
+			->willReturn(false);
+
+		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
+		$this->assertEquals(false, $actual);
 	}
 
 	/**
@@ -588,6 +629,52 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 			->method('synchronizeAccountStatus')
 			->with($adiUser, true);
 
+
+		$actual = $sut->synchronizeUser($credentials, 'guid');
+		$this->assertEquals(666, $actual);
+	}
+
+
+	/**
+	 * @issue ADI-235
+	 * @test
+	 */
+	public function synchronizeUser_itAddsDomainSid()
+	{
+		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
+			'findLdapAttributesOfUser'));
+
+		$credentials = new Adi_Authentication_Credentials("username");
+		$adiUser = new Adi_User($credentials, new Ldap_Attributes());
+
+		$this->attributeService->expects($this->once())
+			->method('findLdapAttributesOfUser')
+			->willReturn(new Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad')));
+
+		$this->behave($this->userManager, 'createAdiUser', $adiUser);
+
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS)
+			->willReturn(true);
+
+		$sut->expects($this->once())
+			->method('checkAccountRestrictions')
+			->with($adiUser)
+			->willReturn(true);
+
+		$sut->expects($this->once())
+			->method('createOrUpdateUser')
+			->with($adiUser)
+			->willReturn(666);
+
+		$sut->expects($this->once())
+			->method('synchronizeAccountStatus')
+			->with($adiUser, true);
+
+		$this->ldapConnection->expects($this->once())
+			->method("getDomainSid")
+			->willReturn("S-1234");
 
 		$actual = $sut->synchronizeUser($credentials, 'guid');
 		$this->assertEquals(666, $actual);

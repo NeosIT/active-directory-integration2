@@ -3,8 +3,10 @@
 
     PermissionController.$inject = ['$scope', 'PersistService', 'ListService', 'DataService'];
 
-    function PermissionController ($scope, PersistService, ListService, DataService) {
+    function PermissionController($scope, PersistService, ListService, DataService) {
         var vm = this;
+
+        $scope.isSaveDisabled = false;
 
         $scope.$on('permissionItems', function (event, data) {
             $scope.permissionOptions = data;
@@ -30,13 +32,19 @@
             $scope.option = {
                 authorize_by_group: $valueHelper.findValue("authorize_by_group", data),
                 authorization_group: $valueHelper.findValue("authorization_group", data, '').split(";"),
-                role_equivalent_groups: JSON.parse('{"groups":[]}')
+                role_equivalent_groups: JSON.parse('{"groups":[]}'),
             };
+
+            if ($valueHelper.findValue("domain_sid", data) == '') {
+                $scope.isSaveDisabled = true;
+            } else {
+                $scope.isSaveDisabled = false;
+            }
 
             $scope.permission = {
                 authorize_by_group: $valueHelper.findPermission("authorize_by_group", data),
                 authorization_group: $valueHelper.findPermission("authorization_group", data),
-                role_equivalent_groups: $valueHelper.findPermission("role_equivalent_groups", data)
+                role_equivalent_groups: $valueHelper.findPermission("role_equivalent_groups", data),
             };
 
             vm.parseRoleEquivalentStringToObjects(data["role_equivalent_groups"]);
@@ -58,6 +66,10 @@
             }
 
             $scope.wpRoles = result;
+        });
+
+        $scope.$on('verification', function (event, data) {
+            $scope.isSaveDisabled = false;
         });
 
         $scope.save = function () {
@@ -93,7 +105,7 @@
 
         vm.parseRoleEquivalentStringToObjects = function (roleEquivalentString) {
 
-            if(roleEquivalentString["option_value"] == "") {
+            if (roleEquivalentString["option_value"] == "") {
                 return;
             }
 

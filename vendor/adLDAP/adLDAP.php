@@ -845,6 +845,12 @@ class adLDAP {
 
 		// Search the directory for the members of a group
 		$info=$this->group_info($group,array("member", "cn"));
+        
+        // check if group exist
+        if ($info["count"] === 0) {
+            return false;
+        }
+        
 		$isNonPaginated = isset($info[0]["member"]) && ($info[0][1] === "member") && !isset($info[0][2]) /* member range not present */;
 
 		if ($isNonPaginated) {
@@ -2519,6 +2525,17 @@ class adLDAP {
         }
         return $result;
      }
+
+    /**
+     * Convert binary Object SID to string
+     *
+     * @author dme@neos-it.de
+     * @param $bin
+     * @return $string
+     */
+    public function convertObjectSidBinaryToString($bin) {
+       return $this->getTextSID($bin);
+    }
      
     /**
     * Converts a binary attribute to a string
