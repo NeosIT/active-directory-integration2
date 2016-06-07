@@ -90,7 +90,10 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 	const SYNC_TO_WORDPRESS_DISABLE_USERS = 'disable_users';
 
 	// New Features
-	const AUTO_LOGIN = 'auto_login';
+	const SSO_ENABLED = 'sso';
+	const SSO_USER = 'sso_user';
+	const SSO_PASSWORD = 'sso_password';
+	const SSO_ENVIRONMENT_VARIABLE = 'sso_environment_variable';
 
 	// additional attribute mapping
 	const ATTRIBUTES_COLUMN_TYPE = "type";
@@ -509,7 +512,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 						'If you have multiple account suffixes like *@emea.company.local*, *@africa.company.local* enter each of them and put the primary domain name (@company.local) at the *last* position.',
 						ADI_I18N
 					)
-					),
+				),
 				$angularAttributes => '',
 				$default     => '',
 				$sanitizer   => array('accumulation', ';', array('string', false, true)),
@@ -710,7 +713,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 					__(
 						'The first time a user logs on his local password will be equated with the password he used to authenticate against the Active Directory. If this option is deactivated a random password for this user will be set.',
 						ADI_I18N
-				),
+					),
 					__('If this option is deactivated a random password for this user will be set.', ADI_I18N),
 					__('The option does only work if *User > Automatic user creation* is enabled.', ADI_I18N),
 				),
@@ -734,7 +737,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 						ADI_I18N),
 					__('This option is only be used after the WordPress authentication against the AD fails because of a network timeout.',
 						ADI_I18N),
-					),
+				),
 				$angularAttributes => '',
 				$default     => false,
 				$sanitizer   => array('boolean'),
@@ -881,20 +884,80 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$transient         => false,
 			),
 			// Settings for Autologin
-			self::AUTO_LOGIN                    => array(
-				$title       => __('Auto Login', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
-				$description => __(
-					'This option will grant users the possibility to Single Sign On WordPress once they got authenticated against Active Directory. (Not Implemented Yet.)',
+			self::SSO_ENABLED                           => array(
+				$title             => __('Enable SSO', ADI_I18N),
+				$type              => Multisite_Option_Type::CHECKBOX,
+				$description       => __(
+					'This option will grant users the possibility to Single Sign On WordPress once they got authenticated against Active Directory.',
 					ADI_I18N
 				),
-				$detail      => __(
-					'This option will grant users the possibility to Single Sign On WordPress once they got authenticated against Active Directory. (Not Implemented Yet.)',
+				$detail            => __(
+					'This option will grant users the possibility to Single Sign On WordPress once they got authenticated against Active Directory.',
 					ADI_I18N
 				),
 				$angularAttributes => '',
-				$default     => false,
-				$sanitizer   => array('boolean'),
+				$default           => false,
+				$sanitizer         => array('boolean'),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			self::SSO_USER                              => array(
+				$title             => __('Service account username', ADI_I18N),
+				$type              => Multisite_Option_Type::TEXT,
+				$description       => __(
+					'Username of an Active Directory account with read permissions for the users in the Active Directory (e.g. "ldapuser@company.local").',
+					ADI_I18N
+				),
+				$detail            => __(
+					'Username of an Active Directory account with read permissions for the users in the Active Directory (e.g. "ldapuser@company.local").',
+					ADI_I18N
+				),
+				$angularAttributes => 'ng-disabled="((!option.sso) || ((permission.sso == 2) || (permission.sso == 1))',
+				$default           => '',
+				$sanitizer         => array('string'),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			self::SSO_PASSWORD                          => array(
+				$title             => __('Service account password', ADI_I18N),
+				$type              => Multisite_Option_Type::PASSWORD,
+				$description       => __('Password of an Active Directory account with read permissions for the users in the Active Directory.',
+					ADI_I18N),
+				$detail            => __(
+					'Password of an Active Directory account with read permissions for the users in the Active Directory.',
+					ADI_I18N
+				),
+				$angularAttributes => 'ng-disabled="((!option.sso) || ((permission.sso == 2) || (permission.sso == 1))',
+				$default           => '',
+				$sanitizer         => array('string', false, false),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			self::SSO_ENVIRONMENT_VARIABLE              => array(
+				$title             => __('Username variable', ADI_I18N),
+				$type              => Multisite_Option_Type::SELECT,
+				$elements          => array(
+					Adi_Authentication_SingleSignOn_Variable::REMOTE_USER   => Adi_Authentication_SingleSignOn_Variable::REMOTE_USER,
+					Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER => Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER,
+				),
+				$description       => __(
+					'The PHP server variable which is used by the web server to retrieve the current user!',
+					ADI_I18N
+				),
+				$detail            => array(
+					sprintf(
+						__('%s: The default server variable.', ADI_I18N),
+						Adi_Authentication_SingleSignOn_Variable::REMOTE_USER
+					),
+					sprintf(
+						__('%s: Is used when working with proxies. The variable "REMOTE_USER" must be forwarded from the proxy.',
+							ADI_I18N),
+						Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER
+					),
+				),
+				$angularAttributes => 'ng-disabled="((!option.sso) || ((permission.sso == 2) || (permission.sso == 1))',
+				$default           => Adi_Authentication_SingleSignOn_Variable::REMOTE_USER,
+				$sanitizer         => array('selection', 0),
 				$showPermission    => true,
 				$transient         => false,
 			),
@@ -1040,7 +1103,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 						'Additional Attributes that should appear on the user profile must also be placed in "Attributes to show".',
 						ADI_I18N
 					),
-					),
+				),
 				$angularAttributes => 'ng-disabled="(((permission.additional_user_attributes == 1) || (permission.additional_user_attributes == 2))',
 				$default                                       => '',
 				$sanitizer                                     => array('custom'), // all in lower case

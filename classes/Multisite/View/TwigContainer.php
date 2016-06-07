@@ -307,7 +307,7 @@ class Multisite_View_TwigContainer
 	 */
 	public function getAllProfileOptionsValues($profileId)
 	{
-		return $this->configuration->getAllProfileOptionsValues($profileId);
+		return $this->configuration->getProfileOptionsValues($profileId);
 	}
 
 	/**

@@ -51,9 +51,11 @@ class Core_Util_StringUtil
 	 *
 	 * @param $string
 	 * @param $separator
+	 *
 	 * @return array
 	 */
-	public static function splitNonEmpty($string, $separator) {
+	public static function splitNonEmpty($string, $separator)
+	{
 		$items = self::split($string, $separator);
 		$r = array();
 
@@ -181,17 +183,19 @@ class Core_Util_StringUtil
 
 		return strtolower($result);
 	}
+
 	/**
 	 * Convert object SID to domain SID
-	 * 
+	 *
 	 * @param string $objectSid
+	 *
 	 * @return string
 	 */
-	public static function objectSidToDomainSid($objectSid) {
+	public static function objectSidToDomainSid($objectSid)
+	{
 		$stringBuffer = "";
 
-		if (is_string($objectSid) && !empty($objectSid))
-		{
+		if (is_string($objectSid) && !empty($objectSid)) {
 			$position = 0;
 			$reversedString = strrev($objectSid);
 
@@ -207,5 +211,40 @@ class Core_Util_StringUtil
 		}
 
 		return $stringBuffer;
+	}
+
+	/**
+	 * Check if the given string is either empty or contains only whitespaces.
+	 *
+	 * @param $string
+	 *
+	 * @return bool
+	 */
+	public static function isEmptyOrWhitespace($string)
+	{
+		if (null === $string) {
+			return true;
+		}
+
+		$trimmedValue = trim($string);
+
+		return ('' === $trimmedValue);
+	}
+
+	/**
+	 * Check if the given text starts with the given string.
+	 *
+	 * Thanks to:
+	 * http://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php?answertab=votes#tab-top
+	 *
+	 * @param $needle
+	 * @param $haystack
+	 *
+	 * @return bool
+	 */
+	public static function startsWith($needle, $haystack)
+	{
+		// search backwards starting from haystack length characters from the end
+		return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
 	}
 }

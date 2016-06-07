@@ -3,22 +3,24 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_ConditionalSuffix')) {
+if (class_exists('Multisite_Validator_Rule_Conditional')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_SyncToWordPressSuffix provides validation for a specific suffix. Before the validation,
- * other conditions will be checked.
+ * Multisite_Validator_Rule_Conditional runs the given rule only under certain conditions.
  *
- * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
- * @author  Danny Meißner <dme@neos-it.de>
  *
  * @access
  */
-class Multisite_Validator_Rule_ConditionalSuffix extends Multisite_Validator_Rule_Suffix
+class Multisite_Validator_Rule_Conditional extends Core_Validator_Rule_Abstract
 {
+	/**
+	 * @var Core_Validator_Rule[]
+	 */
+	private $rules = array();
+
 	/**
 	 * Conditions to match our data against, before we can run our validation.
 	 *
@@ -27,19 +29,17 @@ class Multisite_Validator_Rule_ConditionalSuffix extends Multisite_Validator_Rul
 	private $propertyCondition;
 
 	/**
-	 * Multisite_Validator_Rule_ConditionalSuffix constructor.
+	 * Multisite_Validator_Rule_Conditional constructor.
 	 *
-	 * @param string $msg
-	 * @param string $suffix
-	 * @param array  $propertyCondition
+	 * @param Core_Validator_Rule[] $rules
+	 * @param array                 $propertyCondition
 	 */
-	public function __construct($msg, $suffix, array $propertyCondition)
+	public function __construct($rules, array $propertyCondition)
 	{
-		parent::__construct($msg, $suffix);
-
+		parent::__construct('');
+		$this->rules = $rules;
 		$this->propertyCondition = $propertyCondition;
 	}
-
 
 	/**
 	 * Validate the given data.
@@ -51,8 +51,16 @@ class Multisite_Validator_Rule_ConditionalSuffix extends Multisite_Validator_Rul
 	 */
 	public function validate($value, $data)
 	{
-		if ($this->areConditionsTrue($data)) {
-			return parent::validate($value, $data);
+		if (!$this->areConditionsTrue($data)) {
+			return true;
+		}
+
+		foreach ($this->rules as $rule) {
+			$result = $rule->validate($value, $data);
+
+			if (true !== $result) {
+				return $result;
+			}
 		}
 
 		return true;
@@ -67,7 +75,7 @@ class Multisite_Validator_Rule_ConditionalSuffix extends Multisite_Validator_Rul
 	 */
 	protected function areConditionsTrue($data)
 	{
-		foreach ($this->propertyCondition AS $key => $value) {
+		foreach ($this->propertyCondition as $key => $value) {
 			$dataValue = $data[$key];
 
 			if (isset($dataValue['option_value'])) {

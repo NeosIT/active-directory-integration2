@@ -60,12 +60,35 @@ class Multisite_Configuration_Service
 	 * @param Multisite_Configuration_Persistence_ProfileRepository              $profileRepository
 	 */
 	public function __construct(Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
-		Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
-		Multisite_Configuration_Persistence_ProfileRepository $profileRepository
+								Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
+								Multisite_Configuration_Persistence_ProfileRepository $profileRepository
 	) {
 		$this->blogConfigurationRepository = $blogConfigurationRepository;
 		$this->profileConfigurationRepository = $profileConfigurationRepository;
 		$this->profileRepository = $profileRepository;
+	}
+
+	/**
+	 * Return all profiles with the given options.
+	 *
+	 * @param array $optionNames if empty, search for all options
+	 *
+	 * @return array
+	 */
+	public function findAllProfiles(array $optionNames = array())
+	{
+		if (empty($optionNames)) {
+			$optionNames = $this->blogConfigurationRepository->getAllOptionNames();
+		}
+
+		$profileIds = $this->profileRepository->findAllIds();
+		$r = array();
+
+		foreach ($profileIds as $profileId) {
+			$r[$profileId] = $this->getProfileOptionsValues($profileId, $optionNames);
+		}
+
+		return $r;
 	}
 
 	/**
@@ -108,12 +131,12 @@ class Multisite_Configuration_Service
 
 		if ($profileId != null) {
 			$profileDomainSid = $this->getProfileOptionValue(Adi_Configuration_Options::DOMAIN_SID, $blogId);
-			
+
 			if (!empty($profileDomainSid)) {
 				$profileHasLinkedDomain = true;
 			}
 		}
-		
+
 		$profileOptionValue = $this->getProfileOptionValue($optionName, $blogId);
 		$permission = $this->getPermission($optionName, $profileId);
 
@@ -180,7 +203,7 @@ class Multisite_Configuration_Service
 		if ($permission < Multisite_Configuration_Service::EDITABLE) {
 			return $profileOptionValue;
 		}
-		
+
 		return $blogOptionValue;
 	}
 
@@ -204,6 +227,10 @@ class Multisite_Configuration_Service
 		return Multisite_Configuration_Service::EDITABLE;
 	}
 
+	/**
+	 * Find all options for the current site
+	 * @return array|mixed
+	 */
 	public function getAllOptions()
 	{
 		$allOptionNames = $this->blogConfigurationRepository->getAllOptionNames();
@@ -214,7 +241,7 @@ class Multisite_Configuration_Service
 		foreach ($allOptionNames as $name) {
 			$buffer = $this->getOption($name);
 
-			if ($name == "additional_user_attributes") { //TODO bessere Lösung überlegen
+			if ($name == "additional_user_attributes") { //TODO find better solution
 				$options[$name] = array(
 					'option_value'      => $buffer['option_value'],
 					'option_permission' => $buffer['option_permission'],
@@ -235,13 +262,14 @@ class Multisite_Configuration_Service
 	/**
 	 * Find all option values and the corresponding permission.
 	 *
-	 * @param $profileId
+	 * @param int	$profileId
+	 * @param array $optionNames
 	 *
 	 * @return array|mixed
 	 */
-	public function getAllProfileOptionsValues($profileId)
+	public function getProfileOptionsValues($profileId, $optionNames = array())
 	{
-		$allOptionNames = $this->blogConfigurationRepository->getAllOptionNames();
+		$allOptionNames = (empty($optionNames)) ? $this->blogConfigurationRepository->getAllOptionNames() : $optionNames;
 		$options = array();
 
 		foreach ($allOptionNames as $name) {
@@ -253,7 +281,8 @@ class Multisite_Configuration_Service
 					'option_value'      => $valueBuffer,
 					'option_permission' => $permissionBuffer,
 				);
-			} else {
+			}
+			else {
 				$options[$name] = array(
 					'option_value'      => $valueBuffer,
 					'option_permission' => $permissionBuffer,
@@ -270,7 +299,7 @@ class Multisite_Configuration_Service
 	 * Find all option values, that are  part of the profile and not the profile configuration.
 	 *
 	 * @param numeric $profileId
-	 * @param array $options
+	 * @param array   $options
 	 *
 	 * @return mixed
 	 */
@@ -290,9 +319,10 @@ class Multisite_Configuration_Service
 	 * Return if the given option name is located on the "Environment" tab
 	 *
 	 * @param string $optionName
+	 *
 	 * @return bool
 	 */
-	public function isEnvironmentOption($optionName) 
+	public function isEnvironmentOption($optionName)
 	{
 		$arrEnvironmentOptions = array(Adi_Configuration_Options::DOMAIN_CONTROLLERS,
 			Adi_Configuration_Options::PORT,
@@ -302,17 +332,15 @@ class Multisite_Configuration_Service
 			Adi_Configuration_Options::DOMAIN_SID,
 			Adi_Configuration_Options::VERIFICATION_USERNAME,
 			Adi_Configuration_Options::VERIFICATION_PASSWORD,
-			
 		); //TODO move somewhere else
 
 		// TODO better solution would be to get viewable configuration through Layout class. But this introduces new
 		// dependencies to the front end package. Meh.
 
-		if (in_array($optionName, $arrEnvironmentOptions))
-		{
+		if (in_array($optionName, $arrEnvironmentOptions)) {
 			return true;
 		}
-		
+
 		return false;
 	}
 }

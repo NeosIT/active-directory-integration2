@@ -938,25 +938,6 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Authentication_Sso
-	 */
-	private $sso = null;
-
-	/**
-	 * @return Adi_Authentication_Sso
-	 */
-	public function getSso()
-	{
-		if ($this->sso == null) {
-			$this->sso = new Adi_Authentication_Sso(
-				$this->getConfiguration()
-			);
-		}
-
-		return $this->sso;
-	}
-
-	/**
 	 * @var Adi_Requirements
 	 */
 	private $requirements = null;
@@ -1063,13 +1044,14 @@ class Adi_Dependencies
 
 		return $this->migrationRepository;
 	}
-	
+
 	/**
 	 * @var Adi_Authentication_VerificationService
 	 */
 	private $verificationService = null;
 
-	public function getVerificationService() {
+	public function getVerificationService()
+	{
 		if ($this->verificationService == null) {
 			$this->verificationService = new Adi_Authentication_VerificationService(
 				$this->getLdapConnection(), $this->getAttributeRepository()
@@ -1077,5 +1059,66 @@ class Adi_Dependencies
 		}
 
 		return $this->verificationService;
+	}
+
+	/**
+	 * @var Adi_Authentication_SingleSignOn_Service
+	 */
+	private $ssoService = null;
+
+	/**
+	 * @return Adi_Authentication_SingleSignOn_Service
+	 */
+	public function getSsoService()
+	{
+		if ($this->ssoService == null) {
+			$this->ssoService = new Adi_Authentication_SingleSignOn_Service(
+				$this->getFailedLoginRepository(),
+				$this->getConfiguration(),
+				$this->getLdapConnection(),
+				$this->getUserManager(),
+				$this->getMailNotification(),
+				$this->getShowBlockedMessage(),
+				$this->getAttributeService(),
+				$this->getRoleManager(),
+				$this->getSsoValidator()
+			);
+		}
+
+		return $this->ssoService;
+	}
+
+	/**
+	 * @var Adi_Authentication_Ui_SingleSignOn
+	 */
+	private $ssoPage = null;
+
+	/**
+	 * @return Adi_Authentication_Ui_SingleSignOn
+	 */
+	public function getSsoPage()
+	{
+		if ($this->ssoPage == null) {
+			$this->ssoPage = new Adi_Authentication_Ui_SingleSignOn();
+		}
+
+		return $this->ssoPage;
+	}
+
+	/**
+	 * @var Adi_Authentication_SingleSignOn_Validator
+	 */
+	private $ssoValidator = null;
+
+	/**
+	 * @return Adi_Authentication_SingleSignOn_Validator
+	 */
+	public function getSsoValidator()
+	{
+		if ($this->ssoValidator == null) {
+			$this->ssoValidator = new Adi_Authentication_SingleSignOn_Validator();
+		}
+
+		return $this->ssoValidator;
 	}
 }

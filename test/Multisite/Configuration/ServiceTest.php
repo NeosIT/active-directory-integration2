@@ -50,6 +50,96 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
+	public function findAllProfiles_withGivenOptionNames_usesOnlyGivenOptions()
+	{
+		$sut = $this->sut(array('getProfileOptionsValues'));
+
+		$profiles = array(
+			1, 2, 3,
+		);
+		$options = array(
+			'a', 'b', 'c',
+		);
+
+		$expected = array(
+			1 => array('a' => 1, 'b' => 1, 'c' => 1),
+			2 => array('a' => 2, 'b' => 2, 'c' => 2),
+			3 => array('a' => 3, 'b' => 3, 'c' => 3),
+		);
+
+		$this->blogConfigurationRepository->expects($this->never())
+			->method('getAllOptionNames')
+			->willReturn($options);
+
+		$this->profileRepository->expects($this->once())
+			->method('findAllIds')
+			->willReturn($profiles);
+
+		$sut->expects($this->any())
+			->method('getProfileOptionsValues')
+			->withConsecutive(
+				array(1, $options),
+				array(2, $options),
+				array(3, $options)
+			)
+			->willReturnOnConsecutiveCalls(
+				$expected[1],
+				$expected[2],
+				$expected[3]
+			);
+
+		$actual = $sut->findAllProfiles($options);
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllProfiles_withEmptyOptionNames_usesAllOptions()
+	{
+		$sut = $this->sut(array('getProfileOptionsValues'));
+
+		$profiles = array(
+			1, 2, 3,
+		);
+		$options = array(
+			'a', 'b', 'c',
+		);
+
+		$expected = array(
+			1 => array('a' => 1, 'b' => 1, 'c' => 1),
+			2 => array('a' => 2, 'b' => 2, 'c' => 2),
+			3 => array('a' => 3, 'b' => 3, 'c' => 3),
+		);
+
+		$this->blogConfigurationRepository->expects($this->once())
+			->method('getAllOptionNames')
+			->willReturn($options);
+
+		$this->profileRepository->expects($this->once())
+			->method('findAllIds')
+			->willReturn($profiles);
+
+		$sut->expects($this->any())
+			->method('getProfileOptionsValues')
+			->withConsecutive(
+				array(1, $options),
+				array(2, $options),
+				array(3, $options)
+			)
+			->willReturnOnConsecutiveCalls(
+				$expected[1],
+				$expected[2],
+				$expected[3]
+			);
+
+		$actual = $sut->findAllProfiles();
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getOption_withoutBlogId_requestBlogId()
 	{
 		$sut = $this->sut(array('getProfileOptionValue', 'getValue', 'getPermission'));
@@ -122,7 +212,8 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function getOptionWithCache() {
+	public function getOptionWithCache()
+	{
 		$sut = $this->sut(array('getProfileOptionValue', 'getValue', 'getPermission'));
 
 		$this->blogConfigurationRepository->expects($this->once())
@@ -289,9 +380,9 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 			->willReturn('name');
 
 		$expected = array(
-			Adi_Configuration_Options::PROFILE_NAME      => array(
+			Adi_Configuration_Options::PROFILE_NAME => array(
 				'option_value'      => 'name',
-				'option_permission' => Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN
+				'option_permission' => Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN,
 			),
 		);
 
@@ -321,6 +412,6 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 		$actual = $sut->isEnvironmentOption(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER);
 		$this->assertFalse($actual);
 	}
-	
-	
+
+
 }

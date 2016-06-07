@@ -221,7 +221,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	{
 		$profileId = $postData['profileId'];
 
-		return $this->configuration->getAllProfileOptionsValues($profileId);
+		return $this->configuration->getProfileOptionsValues($profileId);
 	}
 
 	/**
@@ -324,7 +324,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 		return array(
 			'profiles'           => $this->profileController->findAll(),
 			'associatedProfiles' => $this->profileController->findAllProfileAssociations(),
-			'defaultProfileData' => $this->configuration->getAllProfileOptionsValues(-1),
+			'defaultProfileData' => $this->configuration->getProfileOptionsValues(-1),
 			'ldapAttributes'     => Ldap_Attribute_Description::findAll(),
 			'dataTypes'          => Ldap_Attribute_Repository::findAllAttributeTypes(),
 			'permissionItems'    => $this->getPermission(),
