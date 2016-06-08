@@ -182,10 +182,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	 */
 	protected function loadSharedAdminScriptsAndStyle()
 	{
-		wp_enqueue_script(
-			'jquery-1.12.2.min', ADI_URL . '/js/libraries/jquery-1.12.2.min.js',
-			array(), Multisite_Ui::VERSION_PAGE_JS
-		);
+		wp_enqueue_script("jquery");
 
 		wp_enqueue_script('adi2_page', ADI_URL . '/js/page.js', array('jquery'), Multisite_Ui::VERSION_PAGE_JS);
 

@@ -60,7 +60,7 @@ angular.module('selectize', []).value('selectizeConfig', {}).directive("selectiz
         if (settings.maxItems == 1) {
           value = value[0]
         }
-        
+
         modelCtrl.$setViewValue( value );
 
         if (scope.config.onChange) {
@@ -95,7 +95,7 @@ angular.module('selectize', []).value('selectizeConfig', {}).directive("selectiz
       };
 
       // 2015-12-21 CKL: https://github.com/machineboy2045/angular-selectize/issues/36
-      $(element).selectize(settings);
+      jQuery(element).selectize(settings);
 
       element.on('$destroy', function() {
         if (selectize) {
