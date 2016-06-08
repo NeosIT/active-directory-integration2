@@ -152,9 +152,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_page', ADI_URL . '/js/page.js',
-					array('jquery'),
-					Multisite_Ui::VERSION_PAGE_JS,
+					'jquery'
 				),
 				'times' => 1,
 			)
@@ -163,9 +161,8 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'jquery-1.12.2.min',
-					ADI_URL . '/js/libraries/jquery-1.12.2.min.js',
-					array(),
+					'adi2_page', ADI_URL . '/js/page.js',
+					array('jquery'),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,

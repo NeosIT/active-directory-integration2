@@ -234,7 +234,7 @@ jQuery(document).ready(function () {
     }
 
     //Calling the showActiveHelpTabs function so that only settings from the first time loaded page are shown.
-    $( document ).ready(function() {
+    jQuery( document ).ready(function() {
         showActiveHelpTabs();
     });
 
@@ -243,6 +243,4 @@ jQuery(document).ready(function () {
     jQuery(document).on('click', '.nsp-autocomplete', function () {
         jQuery(this).autocomplete("search", "");
     });
-
-
 });
