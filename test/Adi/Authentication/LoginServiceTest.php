@@ -13,8 +13,8 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	private $configuration;
 
 	/* @var Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection */
-
 	private $ldapConnection;
+
 	/* @var Adi_User_Manager|PHPUnit_Framework_MockObject_MockObject $userManager */
 	private $userManager;
 
@@ -915,6 +915,7 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$credentials = new Adi_Authentication_Credentials("username@test.ad");
 		$adiUser = new Adi_User($credentials, new Ldap_Attributes());
 		$adiUser->setId(666);
+		$wpUser = new WP_User();
 
 		$adiUser->setRoleMapping($roleMapping);
 
@@ -923,9 +924,14 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$this->userManager->expects($this->never())
 			->method('update');
 
+		$this->userManager->expects($this->once())
+			->method('findById')
+			->with($adiUser->getId())
+			->willReturn($wpUser);
+
 		$actual = $sut->updateUser($adiUser);
 
-		$this->assertEquals(666, $actual);
+		$this->assertEquals($wpUser, $actual);
 	}
 
 	/**

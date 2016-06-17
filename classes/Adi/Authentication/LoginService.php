@@ -530,7 +530,7 @@ class Adi_Authentication_LoginService
 			return false;
 		}
 
-		// create user and return its ID
+		// create user and return WP_User
 		return $this->userManager->create($user);
 	}
 
@@ -539,7 +539,7 @@ class Adi_Authentication_LoginService
 	 *
 	 * @param Adi_User $user
 	 *
-	 * @return false|int false if creation is only simulated; int if user has been updated.
+	 * @return false|WP_User false if creation is only simulated; int if user has been updated.
 	 */
 	function updateUser(Adi_User $user)
 	{
@@ -567,7 +567,8 @@ class Adi_Authentication_LoginService
 		// if autoUpdateUser is disabled we still have to update his role
 		$this->userManager->updateUserRoles($user->getId(), $user->getRoleMapping());
 
-		return $user->getId();
+		// get WP_User from Adi_User
+		return $this->userManager->findById($user->getId());
 	}
 
 	/**
