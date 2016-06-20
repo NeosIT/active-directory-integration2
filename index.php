@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Active Directory Integration 2
-Plugin URI: http://www.steindorff.de/wp-ad-integration
+Plugin URI: https://www.active-directory-wp.com
 Description: This is the successor of the Active Directory Integration plug-in which allows you to authenticate, authorize, create and update users through Active Directory.
 Version: 2.0
-Author: Tobias Hellmann, Sebastian Weinert, Danny Meißner, Christoph Steindorff, Christopher Klein
+Author: NeosIT GmbH
 Author URI: http://www.neos-it.de/
 License: GPLv3
 
@@ -33,8 +33,6 @@ $autoLoader->register();
 
 require_once 'functions.php';
 require_once ADI_PATH . '/vendor/apache/log4php/src/main/php/Logger.php';
-
-ldap_set_option(null, LDAP_OPT_DEBUG_LEVEL, 7);
 
 $requirements = new Adi_Requirements();
 if (!$requirements->check()) {
