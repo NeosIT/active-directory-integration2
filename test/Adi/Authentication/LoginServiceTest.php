@@ -646,6 +646,40 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->with($credentials)
 			->willReturn($wpUser);
 
+		\WP_Mock::wpFunction('is_wp_error', array(
+			'times' => 1,
+			'return' => false
+		));
+
+		$this->userManager->expects($this->never())
+			->method('isDisabled');
+
+		$this->assertEquals($wpUser, $sut->postAuthentication($credentials));
+	}
+
+	/**
+	 * @issue ADI-300
+	 * @test
+	 */
+	public function ADI300_postAuthentication_whenWordPressError_itDoesNotCheckDisabled()
+	{
+		$sut = $this->sut(array('createOrUpdateUser'));
+
+		$credentials = Adi_Authentication_LoginService::createCredentials('username', 'password');
+
+		$wpUser = (object)(array('ID' => 1));
+
+		$sut->expects($this->once())
+			->method('createOrUpdateUser')
+			->with($credentials)
+			->willReturn($wpUser);
+
+		\WP_Mock::wpFunction('is_wp_error', array(
+			'args'   => array($wpUser),
+			'times'  => 1,
+			'return' => true,
+		));
+
 		$this->userManager->expects($this->never())
 			->method('isDisabled');
 
