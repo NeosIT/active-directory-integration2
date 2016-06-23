@@ -260,7 +260,7 @@ class Adi_User_Manager
 		if (Adi_User_DuplicateEmailPrevention::PREVENT == $prevention && $emailAlreadyExists) {
 			// Duplicate emails should be prevented and the email is already existing. So we throw an exception with
 			// our WP_Error
-			$error = new WP_Error("Can not create user '$username' because he uses an existing email address.");
+			$error = new WP_Error('duplicateEmailPrevention', "Can not create user '$username' because he uses an existing email address.");
 			Core_Util_ExceptionUtil::handleWordPressErrorAsException($error);
 		}
 	}
