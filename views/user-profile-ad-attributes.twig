@@ -1,5 +1,6 @@
+{% set ADI_I18N = constant('ADI_I18N') %}
 {% if  renderData.attributes|length > 0 %}
-    <h3>{{ 'Additional Information provided by Active Directory Integration'|__ }}</h3>
+    <h3>{{ 'Additional Information provided by Active Directory Integration'|__(ADI_I18N) }}</h3>
 {% endif %}
 
 <table class="form-table">
@@ -42,20 +43,20 @@
             <tr>
                 <th>
                     <label for="adi2_active_directory_password"
-                           class="adi2_active_directory_password">{{ 'Reenter password'|__ }}</label>
+                           class="adi2_active_directory_password">{{ 'Reenter password'|__(ADI_I18N) }}</label>
                 </th>
                 <td>
                     <input type="password" name="adi2_active_directory_password" id="adi2_active_directory_password"
                            class="regulat-text code"/>
                     <p class="description">
-                        {{ 'If you want to save the changes in "Additional Information" back to the Active Directory you must enter your password.'|__ }}
+                        {{ 'If you want to save the changes in "Additional Information" back to the Active Directory you must enter your password.'|__(ADI_I18N) }}
                     </p>
                 </td>
             </tr>
         {% endif %}
     {% else %}
         <tr>
-            <td colspan="2"><p class="notice notice-warning">Profile can not be edited or synchronized back to Active Directory: {{ renderData.adi_synchronization_error_message }}</p></td>
+            <td colspan="2"><p class="notice notice-warning">{{ 'Profile can not be edited or synchronized back to Active Directory:'|__(ADI_I18N) }} ~ {{ renderData.adi_synchronization_error_message }}</p></td>
         </tr>
     {% endif %}
 

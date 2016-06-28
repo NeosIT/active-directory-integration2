@@ -63,7 +63,7 @@
         });
 
         $scope.newAuthCode = function () {
-            alertify.confirm("Do you really want to regenerate a new AuthCode?", function () {
+            alertify.confirm(document['adi2']['auth-code-confirmation'], function () {
                 $http.post('admin-ajax.php', {
                     action: 'adi2_blog_options',
                     security: document.adi2.security,

@@ -4,20 +4,21 @@
     document['adi2']['security'] = '{{ nonce }}';
 </script>
 
+{% set ADI_I18N = constant('ADI_I18N') %}
 {% set profileIDs = findAllProfileIds() %}
 
-<h1>{{ 'Administrate Profiles'|__ }}</h1>
+<h1>{{ 'Administrate Profiles'|__(ADI_I18N) }}</h1>
 <div ng-app="profileAdministration" ng-controller="profileAdministrationController">
 <table class="form-table">
     {# head with table titles#}
     <tr>
 
         <th scope="row">
-            <h3>{{ 'Name :'|__ }}</h3>
+            <h3>{{ 'Name :'|__(ADI_I18N) }}</h3>
         </th>
 
         <td>
-            <h3>{{ 'Description :'|__ }}</h3>
+            <h3>{{ 'Description :'|__(ADI_I18N) }}</h3>
         </td>
 
     </tr>
@@ -38,24 +39,24 @@
 
                 <div class="row-actions visible">
                     <span class="edit">
-                        <a class="change_profile_link edit" target="{{ spanId }}">{{ 'Edit'|__ }}</a>
+                        <a class="change_profile_link edit" target="{{ spanId }}">{{ 'Edit'|__(ADI_I18N) }}</a>
                         |
                     </span>
                     <span class="delete">
-                        <a class="delete_profile_link delete" target="{{ profileID }}" message="{{ 'Do you want to delete this profile?'|__ }}">{{ 'Delete'|__ }}</a>
+                        <a class="delete_profile_link delete" target="{{ profileID }}" message="{{ 'Do you want to delete this profile?'|__(ADI_I18N) }}">{{ 'Delete'|__(ADI_I18N) }}</a>
                     </span>
                 </div>
 
                 <br>
 
                 <span id="{{ spanId }}" class="change_profile_span" style="display: none">
-                    <label for="{{ nameId }}">{{ 'New Name:'|__ }}</label>
+                    <label for="{{ nameId }}">{{ 'New Name:'|__(ADI_I18N) }}</label>
                     <input id="{{ nameId }}" type="text">
-                    <label for="{{ descriptionId }}">{{ 'New Description:'|__ }}</label>
+                    <label for="{{ descriptionId }}">{{ 'New Description:'|__(ADI_I18N) }}</label>
                     <input id="{{ descriptionId }}" type="text">
                     <button class="change_profile_button button button-primary" target_id="{{ profileID }}"
                             target_name="{{ nameId }}"
-                            target_description="{{ descriptionId }}">{{ 'Change'|__ }}</button>
+                            target_description="{{ descriptionId }}">{{ 'Change'|__(ADI_I18N) }}</button>
                 </span>
 
             </td>
@@ -69,17 +70,17 @@
 
         <th scope="row">
             <span class="edit">
-                <a id="addProfileLink" class="edit">{{ 'Add'|__ }}</a>
+                <a id="addProfileLink" class="edit">{{ 'Add'|__(ADI_I18N) }}</a>
 
             </span>
         </th>
 
         <td>
-                <label for="addProfileName">{{ 'Name:'|__ }}</label>
+                <label for="addProfileName">{{ 'Name:'|__(ADI_I18N) }}</label>
                 <input id="addProfileName" type="text" ng-model="newProfileName">
-                <label for="addProfileDescription">{{ 'Description'|__ }}</label>
+                <label for="addProfileDescription">{{ 'Description'|__(ADI_I18N) }}</label>
                 <input id="addProfileDescription" type="text" ng-model="newProfileDescription">
-                <button class="button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__ }}" ng-click="save()">{{ 'Save'|__ }}</button>
+                <button class="button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__(ADI_I18N) }}" ng-click="save()">{{ 'Save'|__(ADI_I18N) }}</button>
         </td>
 
     </tr>

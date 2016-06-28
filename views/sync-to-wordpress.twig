@@ -1,3 +1,4 @@
+{% set ADI_I18N = constant('ADI_I18N') %}
 {% if status is defined %}
     {% set logs = log  %}
     {% for logLine in logs %}
@@ -17,8 +18,8 @@
 <h1>{{ 'Sync to WordPress'|__ }}</h1>
 
 <div>
-    {{ 'If you want to trigger Sync to WordPress, you must know the URL to the index.php of your blog:'|__ }}</br>
-    {{ 'Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:'|__ }}</br>
+    {{ 'If you want to trigger Sync to WordPress, you must know the URL to the index.php of your blog:'|__(ADI_I18N) }}</br>
+    {{ 'Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:'|__(ADI_I18N) }}</br>
     <code>curl --data "adi2-task=sync-to-wordpress&auth-code={{ authCode }}" {{ blogUrl }}/wp-admin/admin.php</code></br>
     <code>wget --post-data "adi2-task=sync-to-wordpress&auth-code={{ authCode }}" {{ blogUrl }}/wp-admin/admin.php</code>
 </div>
@@ -27,5 +28,5 @@
 
 <form method="post">
     <input type="hidden" name="security" value="{{ nonce }}"/>
-    <input type="submit" name="syncToWordpress" class="button button-primary" value="{{ status is defined ? 'Repeat AD to WordPress synchronization'|__ : 'Start AD to WordPress synchronization'|__ }}""/>
+    <input type="submit" name="syncToWordpress" class="button button-primary" value="{{ status is defined ? 'Repeat AD to WordPress synchronization'|__(ADI_I18N) : 'Start AD to WordPress synchronization'|__(ADI_I18N) }}"/>
 </form>

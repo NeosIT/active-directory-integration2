@@ -4,7 +4,8 @@
     {% import "option/header.twig" as header %}
     {% import "option/body.twig" as body %}
 
-    {% set grouping = getOptionsGrouping() %}
+    {% set ADI_I18N = constant('ADI_I18N') %}
+    {% set grouping = getOptionsGrouping() %}    
 
     <div id="{{ 'optionPage__' ~ prefix }}" class="wrap">
 
@@ -16,7 +17,7 @@
 
         {% else %}
 
-            <h3>{{ 'No options exists'|__ }}</h3>
+            <h3>{{ 'No options exists'|__(ADI_I18N) }}</h3>
 
         {% endif %}
 

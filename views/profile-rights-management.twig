@@ -22,17 +22,17 @@
 <div ng-app="adi2-module">
     <div ng-controller="ProfileController">
         <h1>Profile Options</h1>
-        <span>{{ 'Configure Settings for Profile : '|__ }}</span>
+        <span>{{ 'Configure Settings for Profile : '|__(ADI_I18N) }}</span>
         <span>
              <select ng-model="activeProfile"
                      ng-change="changeProfile(activeProfile, true)"
                      ng-options="profile.profileName for profile in profiles"></select>
                     <button class="button button-primary" ng-click="create()" ng-disabled="runningRequests > 0">
-                        {{ 'Create new profile'|__ }}
+                        {{ 'Create new profile'|__(ADI_I18N) }}
                     </button>
                     <button class="button" ng-click="remove(activeProfile)"
                             ng-disabled="runningRequests > 0 || activeProfile['profileId'] == -1">
-                        {{ 'Delete profile'|__ }}
+                        {{ 'Delete profile'|__(ADI_I18N) }}
                     </button>
         </span>
         <form class="form adi-form ng-hide" name="form" ng-hide="-1 === activeProfile.profileId">
