@@ -169,7 +169,7 @@ class Multisite_View_TwigContainer
 		$result = array(
 			// ADI-272 / #7: errors occur if Twig cache directory is not writable in filesystem.
 			// You can enable the cache by uncomment the following line:
-			// 'cache'            => ADI_PATH . '/twig/cache',
+			//'cache'            => ADI_PATH . '/twig/cache',
 			'strict_variables' => true,
 		);
 

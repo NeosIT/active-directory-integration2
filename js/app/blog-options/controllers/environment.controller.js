@@ -49,7 +49,7 @@
             };
             
             if ($scope.option.domain_sid != '') {
-                $scope.option.verification_status_message = "WordPress Site is currently connected to Domain: "
+                $scope.option.verification_status_message = document['adi2']['verification-status'];
             }
         });
 
@@ -98,15 +98,15 @@
                     $scope.messages = response.data;
                     
                     if (response.data.hasOwnProperty("verification_successful")) {
-                        $scope.option.verification_status_message = "Verification successful! WordPress site is now connected to Domain: ";
-                        ngNotify.set('Verification successful!', 'success');
+                        $scope.option.verification_status_message = document['adi2']['verification-successful'];
+                        ngNotify.set(document['adi2']['verification-successful-notification'], 'success');
                         $scope.messages = {};
                         $scope.option.domain_sid = response.data['verification_successful'];
                         $scope.isSaveDisabled = false;
                         $rootScope.$broadcast('verification', response.data['verification_successful']);
                         
                     } else {
-                        ngNotify.set(response.data['verification_failed'], 'error');
+                        ngNotify.set(document['adi2']['verification-failed-notification'], 'error');
                     }
                     
                 }

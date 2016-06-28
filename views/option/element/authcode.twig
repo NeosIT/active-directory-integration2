@@ -1,5 +1,6 @@
 {% macro create(optionName, permission, inputId) %}
 
+    {% set ADI_I18N = constant('ADI_I18N') %}
     {% set inline = getMetadata(optionName, 'INLINE')|join(' ') %}
     {% set description = getMetadata(optionName, 'DESCRIPTION') %}
     {% set angularAttributes = getMetadata(optionName, 'ANGULAR_ATTRIBUTES') %}
@@ -26,7 +27,7 @@
 
     &nbsp
 
-    <button id="{{ inputId }}" type="button" class="button button-secondary" ng-click="newAuthCode()" {{ angularAttributes|raw }}>Regenerate Auth Code</button>
+    <button id="{{ inputId }}" type="button" class="button button-secondary" ng-click="newAuthCode()" {{ angularAttributes|raw }}>{{ 'Regenerate Auth Code'|__(ADI_I18N) }}</button>
 
     <p>
         {% import "option/element/error-msg.twig" as errorElement %}

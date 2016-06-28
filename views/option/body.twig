@@ -4,7 +4,7 @@
     <div ng-controller="AjaxController">
 
     {% import "option/group.twig" as group %}
-
+    {% set ADI_I18N = constant('ADI_I18N') %}
     {% set grouping = getOptionsGrouping() %}
     {% set isOnNetworkDashboard = isOnNetworkDashboard() %}
 
@@ -24,11 +24,11 @@
         <div id="{{ tabId }}" class="tab-body" style="{{ style }}" ng-controller="{{ optionGroups.angular_controller|raw }}">
             {{ group.create(optionGroups, isProfile) }}
         {% if isOnNetworkDashboard %}
-            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__ }}" ng-disabled="isSaveDisabled" ng-click="$parent.save()">Save</button>
-            <span ng-hide="!isSaveDisabled" style="color: red">You have to verify the connection to the AD before saving.</span>
+            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__(ADI_I18N) }}" ng-disabled="isSaveDisabled" ng-click="$parent.save()">{{ 'Save'|__(ADI_I18N) }}</button>
+            <span ng-hide="!isSaveDisabled" style="color: red">{{ 'You have to verify the connection to the AD before saving.'|__(ADI_I18N) }}</span>
         {% else %}
-            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__ }}" ng-disabled="(isSaveDisabled && permission.verification_username == 3 && permission.verification_password == 3)" ng-click="$parent.save()">Save</button>
-            <span ng-hide="(!isSaveDisabled || permission.verification_username != 3 && permission.verification_password != 3)" style="color: red">You have to verify the connection to the AD before saving.</span>
+            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__(ADI_I18N) }}" ng-disabled="(isSaveDisabled && permission.verification_username == 3 && permission.verification_password == 3)" ng-click="$parent.save()">{{ 'Save'|__(ADI_I18N) }}</button>
+            <span ng-hide="(!isSaveDisabled || permission.verification_username != 3 && permission.verification_password != 3)" style="color: red">{{ 'You have to verify the connection to the AD before saving.'|__(ADI_I18N) }}</span>
         {% endif %}
         </div>
 

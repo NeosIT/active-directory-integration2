@@ -55,7 +55,7 @@ class Adi_Configuration_Ui_Layout
 			__('Profile', ADI_I18N) => array(
 				self::ANGULAR_CONTROLLER => 'GeneralController',
 				self::MULTISITE_ONLY => false,
-				'Profile Options' => array(
+				__('Profile Options', ADI_I18N) => array(
 					self::OPTIONS => array(
 						Adi_Configuration_Options::PROFILE_NAME,
 						Adi_Configuration_Options::SUPPORT_LICENSE_KEY,
