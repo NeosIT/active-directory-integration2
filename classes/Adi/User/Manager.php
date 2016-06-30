@@ -489,7 +489,7 @@ class Adi_User_Manager
 
 				if (!$attribute) {
 					$message = "$name is empty. Local value left unchanged.";
-					$host->logger->debug($message);
+					$host->getLogger()->debug($message);
 
 					return false;
 				}
@@ -524,7 +524,7 @@ class Adi_User_Manager
 
 				if (empty($value) && !$userMetaEmptyOverwrite) {
 					$message = "AD attribute '$name'' is empty. Local value '" . $attribute . "' left unchanged.";
-					$host->logger->debug($message);
+					$host->getLogger()->debug($message);
 
 					return false;
 				}
@@ -702,5 +702,13 @@ class Adi_User_Manager
 		}
 
 		return $migrated;
+	}
+
+	/**
+	 * @return Logger
+	 */
+	public function getLogger()
+	{
+		return $this->logger;
 	}
 }
