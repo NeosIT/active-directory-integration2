@@ -247,7 +247,8 @@ class Adi_Authentication_LoginService
 	}
 
 	/**
-	 * Return whether the given username is excluded from authentication
+	 * Return whether the given username is excluded from authentication. This method is completely case-insensitive, so if the excluded usernames are
+	 * "admin@test.ad;user@test.ad" it will return true for "admin@test.ad", "ADMIN@test.ad", "user@test.ad", "usER@test.AD" and so on.
 	 *
 	 * @access package
 	 *
@@ -260,7 +261,7 @@ class Adi_Authentication_LoginService
 		$excludes = strtolower($this->configuration->getOptionValue(Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION));
 		$excludedUsernames = explode(';', $excludes);
 
-		return in_array($username, $excludedUsernames);
+		return in_array(strtolower($username), $excludedUsernames);
 	}
 
 	/**
