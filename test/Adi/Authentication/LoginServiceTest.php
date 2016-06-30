@@ -274,7 +274,25 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->with(Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION)
 			->willReturn('userA;userB');
 
-		$this->assertTrue($sut->isUsernameExcludedFromAuthentication('userB'));
+		// Match original name
+		$this->assertTrue($sut->isUsernameExcludedFromAuthentication('userA'));
+	}
+
+	/**
+	 * @issue ADI-304
+	 * @test
+	 */
+	public function ADI_304_isUsernameExcludedFromAuthentication_itReturnsTrue_whenUserIsExcludedCaseInsensitive()
+	{
+		$sut = $this->sut();
+
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION)
+			->willReturn('userA;userB');
+
+		// ADI-304: exclude usernames must be case-insensitive
+		$this->assertTrue($sut->isUsernameExcludedFromAuthentication('userb'));
 	}
 
 	/**

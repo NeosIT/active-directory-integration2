@@ -473,7 +473,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$title		=> __('Exclude usernames from authentication', ADI_I18N),
 				$type		=> Multisite_Option_Type::EDITABLE_LIST,
 				$description	=> __(
-					'Entered usernames will always be excluded from ADI login authentication.',
+					'Entered usernames will always be excluded from ADI login authentication. Usernames are case-insensitive.',
 					ADI_I18N
 				),
 				$detail 	=> array(
@@ -692,7 +692,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$type        => Multisite_Option_Type::CHECKBOX,
 				$description => __('Show additional columns (<em>ADI User</em>, <em>disabled</em>) in WordPress\' users list.',
 					ADI_I18N),
-				$detail      => __('', ADI_I18N),
+				$detail      => __('Show additional columns', ADI_I18N),
 				$default     => true,
 				$sanitizer   => array('boolean'),
 				$showPermission => true,
