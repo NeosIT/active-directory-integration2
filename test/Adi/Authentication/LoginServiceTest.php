@@ -274,7 +274,7 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->with(Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION)
 			->willReturn('userA;userB');
 
-		$this->assertTrue($sut->isUsernameExcludedFromAuthentication('userB'));
+		$this->assertTrue($sut->isUsernameExcludedFromAuthentication('userb'));
 	}
 
 	/**

@@ -257,7 +257,7 @@ class Adi_Authentication_LoginService
 	 */
 	function isUsernameExcludedFromAuthentication($username)
 	{
-		$excludes = $this->configuration->getOptionValue(Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION);
+		$excludes = strtolower($this->configuration->getOptionValue(Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION));
 		$excludedUsernames = explode(';', $excludes);
 
 		return in_array($username, $excludedUsernames);
