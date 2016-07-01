@@ -198,7 +198,7 @@ class Multisite_Configuration_Service
 	protected function getPermission($optionName, $profileId = null)
 	{
 		if (is_multisite()) {
-			return $this->profileConfigurationRepository->findPermissionSanitized($profileId, $optionName);
+			return $this->profileConfigurationRepository->findSanitizedPermission($profileId, $optionName);
 		}
 
 		return Multisite_Configuration_Service::EDITABLE;

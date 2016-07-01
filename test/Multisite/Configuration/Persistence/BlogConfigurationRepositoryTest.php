@@ -218,7 +218,7 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 			->willReturn(1);
 
 		$this->profileConfigurationRepository->expects($this->once())
-			->method('findPermissionSanitized')
+			->method('findSanitizedPermission')
 			->with(1, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
 			->willReturn(Multisite_Configuration_Service::EDITABLE);
 
@@ -242,7 +242,7 @@ class Ut_Multisite_Configuration_Persistence_BlogConfigurationRepositoryTest ext
 			->willReturn(1);
 
 		$this->profileConfigurationRepository->expects($this->once())
-			->method('findPermissionSanitized')
+			->method('findSanitizedPermission')
 			->with(1, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
 			->willReturn(Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN);
 

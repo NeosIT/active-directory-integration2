@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-30 20:14+0200\n"
-"PO-Revision-Date: 2016-06-30 20:15+0200\n"
+"POT-Creation-Date: 2016-07-01 09:11+0200\n"
+"PO-Revision-Date: 2016-07-01 09:17+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;_e;esc_html__\n"
 "X-Poedit-Basepath: ..\n"
@@ -217,6 +217,7 @@ msgid "Use encryption"
 msgstr "Verschlüsslung benutzen"
 
 #: classes/Adi/Configuration/Options.php:353
+#: twig/cache/3f/e8/e2e8f1c61e529e1a195642367c1515c638b42e8ad488d0db5f87fbbf6b94.php:46
 msgid "None"
 msgstr "Keine"
 
@@ -458,30 +459,25 @@ msgstr ""
 "Position hinzu."
 
 #: classes/Adi/Configuration/Options.php:521
-msgid "Append suffix to new users"
-msgstr "Füge Suffix neuen Benutzern hinzu"
+msgid "Use sAMAccountName for newly created users"
+msgstr "Benutze sAMAccountName für neu erstellte Benutzer"
 
 #: classes/Adi/Configuration/Options.php:524
 msgid ""
-"If checked, the account suffix (see above) will be appended to the usernames "
-"of new created users."
+"If checked, the sAMAccountName will be set as username for newly created "
+"users."
 msgstr ""
-"Durch das Aktivieren dieser Option wird das oben angegebene Suffix "
-"automatisch allen neu erstellten Benutzern hinzugefügt."
+"Wenn diese Option aktiviert ist, wird ADI beim Erstellen neuer Benutzer den "
+"sAMAccountName als Benutzername in WordPress setzen."
 
 #: classes/Adi/Configuration/Options.php:528
 msgid ""
-"This option will automatically add the previously defined *Account suffix* "
-"to all new created users. This means if you create the user *newuser* and "
-"already have configured your account suffix e.g. *@company.local*, this "
-"option will automatically change the username to *newuser@company.local*."
+"Instead of using the user principal name for newly created users, the "
+"sAMAccountName will be used."
 msgstr ""
-"Durch das Aktivieren dieser Option wird das vorher definierte Suffix "
-"automatisch allen neu erstellten Benutzern hinzugefügt. Das bedeutet, dass "
-"wenn Sie einen neuen Benutzer erstellen (\"neuerbenutzer\") und bereits die "
-"Option für das Account Suffix gesetzt haben (\"@company.local\"), dann wird "
-"diese Option den Benutzernamen automatisch in \"neuerbenutzer@company.local"
-"\" ändern."
+"Anstelle des normalerweise verwendeten userPrincipalName wird bei neu "
+"erstellten Benutzern der sAMAccountName als Benutzername in WordPress "
+"gesetzt."
 
 #: classes/Adi/Configuration/Options.php:539
 msgid "Automatic user creation"
@@ -710,7 +706,7 @@ msgstr ""
 
 #: classes/Adi/Configuration/Options.php:695
 msgid "Show additional columns"
-msgstr ""
+msgstr "Zeige extra Spalten"
 
 #: classes/Adi/Configuration/Options.php:703
 msgid "Set local password on first successful login"
@@ -1408,6 +1404,7 @@ msgstr "AD Attribute"
 
 #: classes/Adi/Configuration/Options.php:1280
 #: classes/Ldap/Attribute/Description.php:28
+#: twig/cache/3a/85/3fc4beb7430d11563c22bf1942c54902b78fb230ed4342d6c73a3934f183.php:138
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -1577,7 +1574,7 @@ msgid "Synchronize WordPress profiles back to Active Directory."
 msgstr "Synchronisiert WordPress-Profile zurück zum Active Directory"
 
 #: classes/Adi/Configuration/Ui/Layout.php:254
-#: twig/cache/22/1d/198e90f901e284eaf12e0deeac3c0f4836ce0c76ab5cfbf0f2c8830daf32.php:63
+#: twig/cache/95/b4/a53179ece39e6011ebac0a3ca74974676cda1fddff2771e380f9a9558083.php:65
 msgid "Sync to WordPress"
 msgstr "Sync to WordPress"
 
@@ -1880,6 +1877,7 @@ msgid "Direct reports"
 msgstr "Direct reports"
 
 #: classes/Multisite/Configuration/Persistence/ProfileRepository.php:154
+#: twig/cache/3f/e8/e2e8f1c61e529e1a195642367c1515c638b42e8ad488d0db5f87fbbf6b94.php:42
 msgid "New Profile"
 msgstr "Neues Profil"
 
@@ -1992,6 +1990,7 @@ msgid "Network timeout has to be numeric and cannot be negative."
 msgstr "Der Netzwerk Timeout muss eine Zahl und nicht negativ sein."
 
 #: classes/Multisite/Ui/BlogProfileRelationshipPage.php:49
+#: twig/cache/a7/ed/06a7c8f5a5fd2172f8bff435cdf6b2ec972027cfb3733d265e913c693b47.php:43
 msgid "Profile assignment"
 msgstr "Profilzuweisung"
 
@@ -2044,108 +2043,20 @@ msgstr "URL"
 msgid "Select %s"
 msgstr "Auswählen %s"
 
-#: twig/cache/08/55/986b36f1e09aae2d9a2637c5c70552c37fcfb4203ed4e8264369da40e833.php:73
-msgid "No options exists"
-msgstr "Es existieren keine Optionen"
+#: twig/cache/1e/48/f236022f23e0e1dc45c7c607719acd9fde6c635aa742936d9659ab1ccd27.php:109
+msgid "Security group"
+msgstr "Sicherheitsgruppen"
 
-#: twig/cache/19/06/989450f8271c832522b208b0bf11ef4a52c3d8797d3a0cdd6bde3e067bd4.php:22
-msgid "Additional Information provided by Active Directory Integration"
-msgstr ""
-"Zusätzliche Information bereitgestellt durch Active Directory Integration"
+#: twig/cache/1e/48/f236022f23e0e1dc45c7c607719acd9fde6c635aa742936d9659ab1ccd27.php:115
+msgid "WordPress role"
+msgstr "WordPress-Rollen"
 
-#: twig/cache/19/06/989450f8271c832522b208b0bf11ef4a52c3d8797d3a0cdd6bde3e067bd4.php:126
-msgid "Reenter password"
-msgstr "Passwort neu eingeben"
-
-#: twig/cache/19/06/989450f8271c832522b208b0bf11ef4a52c3d8797d3a0cdd6bde3e067bd4.php:135
-msgid ""
-"If you want to save the changes in \"Additional Information\" back to the "
-"Active Directory you must enter your password."
-msgstr ""
-"Wenn Sie die Änderungen unter <em>Zusätzliche Informationen</em> zum Active "
-"Directory synchronisieren möchten, müssen Sie ihr Passwort eingeben."
-
-#: twig/cache/22/1d/198e90f901e284eaf12e0deeac3c0f4836ce0c76ab5cfbf0f2c8830daf32.php:69
-msgid ""
-"If you want to trigger Sync to WordPress, you must know the URL to the index."
-"php of your blog:"
-msgstr ""
-"Wenn Sie <em>Sync to WordPress</em> auslösen möchten, müssen Sie die URL zur "
-"index.php Ihres Blogs kennen:"
-
-#: twig/cache/22/1d/198e90f901e284eaf12e0deeac3c0f4836ce0c76ab5cfbf0f2c8830daf32.php:73
-#: twig/cache/fe/30/7b904070747bbfbf31f4d81ea14e22df0fa2b0e11df3d6810cdc47732485.php:73
-msgid ""
-"Settings like auth-code etc. depends on the current blog. So be careful "
-"which blog you are using. Here are some examples:"
-msgstr ""
-"Einstellungen wie <em>Auth Code</em> hängen vom aktuellen Blog ab. Seien Sie "
-"also vorsichtig dabei und achten Sie darauf welchen Blog Sie zurzeit "
-"verwenden. Hier sind ein paar Beispiele:"
-
-#: twig/cache/22/1d/198e90f901e284eaf12e0deeac3c0f4836ce0c76ab5cfbf0f2c8830daf32.php:98
-msgid "Repeat AD to WordPress synchronization"
-msgstr "Wiederhole <em>AD to WordPress Synchronisation</em>."
-
-#: twig/cache/22/1d/198e90f901e284eaf12e0deeac3c0f4836ce0c76ab5cfbf0f2c8830daf32.php:98
-msgid "Start AD to WordPress synchronization"
-msgstr "Starte <em>AD to WordPress Synchronisation</em>"
-
-#: twig/cache/8b/52/49e557848cd20a79aa47b6c073449f2d5e3971de51c49c032dc5b5f4d505.php:63
-msgid "Test Active Directory authentication"
-msgstr "Teste Active Directory Authentifizierung"
-
-#: twig/cache/8b/52/49e557848cd20a79aa47b6c073449f2d5e3971de51c49c032dc5b5f4d505.php:68
-msgid ""
-"Please enter the username and password for the account you want to "
-"authenticate with. After submitting the request you will get the debug "
-"output."
-msgstr ""
-"Bitte geben Sie den Benutzernamen und das Passwort für den Account an, mit "
-"dem Sie sich authentifizieren wollen. Nach dem Absenden erhalten sie eine "
-"Ausgabe zur weiteren Analyse."
-
-#: twig/cache/8b/52/49e557848cd20a79aa47b6c073449f2d5e3971de51c49c032dc5b5f4d505.php:73
-msgid ""
-"For this page feature of blocking user accounts with failed login attempts "
-"is disabled. You do not have to worry about locking an account."
-msgstr ""
-"Für diese Seite ist das Blockieren von Benutzerkonten durch fehlgeschlagene "
-"Anmeldeversuche deaktiviert. Sie müssen sich keine Sorgen darüber machen, "
-"dass ihr Konto gesperrt wird."
-
-#: twig/cache/8b/52/49e557848cd20a79aa47b6c073449f2d5e3971de51c49c032dc5b5f4d505.php:78
-msgid "Please note that the entered password is not masked."
-msgstr ""
-"Bitte beachten sie, dass das Passwort im <strong>Klartext</strong> "
-"dargestellt wird."
-
-#: twig/cache/8b/52/49e557848cd20a79aa47b6c073449f2d5e3971de51c49c032dc5b5f4d505.php:87
-msgid "Username:"
-msgstr "Benutzername:"
-
-#: twig/cache/8b/52/49e557848cd20a79aa47b6c073449f2d5e3971de51c49c032dc5b5f4d505.php:96
-msgid "Password (will be shown):"
-msgstr "Passwort (wird angezeigt):"
-
-#: twig/cache/8b/52/49e557848cd20a79aa47b6c073449f2d5e3971de51c49c032dc5b5f4d505.php:111
-msgid "Try to authenticate again"
-msgstr "Teste Authentifizierung erneut"
-
-#: twig/cache/8b/52/49e557848cd20a79aa47b6c073449f2d5e3971de51c49c032dc5b5f4d505.php:111
-msgid "Try to authenticate"
-msgstr "Teste Authentifizierung"
-
-#: twig/cache/a7/70/f09b056a419375fa97296c73602cea0e15561ee21efa0cfce6138899e98d.php:30
-msgid "Active Directory Integration Blog Configuration"
-msgstr "Active Directory Integration Blog Einstellungen"
-
-#: twig/cache/ae/31/1ba8eef194cd287b69036b5e2089f57bd9f29af4064d6a9b4981e4630e6a.php:23
-#: twig/cache/ae/31/1ba8eef194cd287b69036b5e2089f57bd9f29af4064d6a9b4981e4630e6a.php:30
+#: twig/cache/25/ad/6409a39fb5a0c7e80bcb9f47877dffde967e13526846a63124f0b06e6f1d.php:25
+#: twig/cache/25/ad/6409a39fb5a0c7e80bcb9f47877dffde967e13526846a63124f0b06e6f1d.php:32
 msgid "User Disabled"
 msgstr "Benutzer deaktiviert"
 
-#: twig/cache/ae/31/1ba8eef194cd287b69036b5e2089f57bd9f29af4064d6a9b4981e4630e6a.php:42
+#: twig/cache/25/ad/6409a39fb5a0c7e80bcb9f47877dffde967e13526846a63124f0b06e6f1d.php:44
 msgid ""
 "If selected, the user can not log in and his e-mail address will be changed "
 "for security reasons. The e-mail address is restored if the user is "
@@ -2155,11 +2066,11 @@ msgstr ""
 "und seine E-Mailadresse wird aus Sicherheitsgründen geändert. Die E-"
 "Mailadresse wird bei Aktivierung des Benutzers wiederhergestellt."
 
-#: twig/cache/ae/31/1ba8eef194cd287b69036b5e2089f57bd9f29af4064d6a9b4981e4630e6a.php:51
+#: twig/cache/25/ad/6409a39fb5a0c7e80bcb9f47877dffde967e13526846a63124f0b06e6f1d.php:53
 msgid "Information on last disabling: "
 msgstr "Informationen zur letzten Deaktivierung: "
 
-#: twig/cache/ae/31/1ba8eef194cd287b69036b5e2089f57bd9f29af4064d6a9b4981e4630e6a.php:59
+#: twig/cache/25/ad/6409a39fb5a0c7e80bcb9f47877dffde967e13526846a63124f0b06e6f1d.php:61
 msgid ""
 "Attention: This flag is automatically set (or unset) by Sync to WordPresss "
 "and its state may change on next run of synchronization."
@@ -2168,16 +2079,255 @@ msgstr ""
 "aktiviert (bzw. deaktiviert). Der aktuelle Status kann sich also bei der "
 "nächsten Synchronisation ändern."
 
-#: twig/cache/c1/8f/1bd13b8e7767e4b776cbec89608333c7f119b9dff7c6ae5dc80fe6ae1dc8.php:108
-#: twig/cache/c1/8f/1bd13b8e7767e4b776cbec89608333c7f119b9dff7c6ae5dc80fe6ae1dc8.php:115
+#: twig/cache/29/5f/548180bff66024c838ef6714fb46ce20e5b72193dbd35a93789cf5546531.php:109
+#: twig/cache/29/5f/548180bff66024c838ef6714fb46ce20e5b72193dbd35a93789cf5546531.php:121
 msgid "Please wait..."
 msgstr "Bitte warten..."
 
-#: twig/cache/fe/30/7b904070747bbfbf31f4d81ea14e22df0fa2b0e11df3d6810cdc47732485.php:63
+#: twig/cache/29/5f/548180bff66024c838ef6714fb46ce20e5b72193dbd35a93789cf5546531.php:111
+#: twig/cache/29/5f/548180bff66024c838ef6714fb46ce20e5b72193dbd35a93789cf5546531.php:123
+msgid "Save"
+msgstr "Speichern"
+
+#: twig/cache/29/5f/548180bff66024c838ef6714fb46ce20e5b72193dbd35a93789cf5546531.php:115
+#: twig/cache/29/5f/548180bff66024c838ef6714fb46ce20e5b72193dbd35a93789cf5546531.php:127
+msgid "You have to verify the connection to the AD before saving."
+msgstr ""
+"Sie müssen die Verbindung zu einer Domäne verifizieren bevor Sie speichern "
+"können."
+
+#: twig/cache/3a/85/3fc4beb7430d11563c22bf1942c54902b78fb230ed4342d6c73a3934f183.php:126
+msgid "AD Attributes"
+msgstr "AD Attribute"
+
+#: twig/cache/3a/85/3fc4beb7430d11563c22bf1942c54902b78fb230ed4342d6c73a3934f183.php:130
+msgid "Data Type"
+msgstr "Datentypen"
+
+#: twig/cache/3a/85/3fc4beb7430d11563c22bf1942c54902b78fb230ed4342d6c73a3934f183.php:134
+msgid "Wordpress Attribute"
+msgstr "WordPress-Attribut"
+
+#: twig/cache/3a/85/3fc4beb7430d11563c22bf1942c54902b78fb230ed4342d6c73a3934f183.php:142
+msgid "View in User Profile"
+msgstr "In Benutzerprofil anzeigen"
+
+#: twig/cache/3a/85/3fc4beb7430d11563c22bf1942c54902b78fb230ed4342d6c73a3934f183.php:146
+msgid "Sync to Ad"
+msgstr "Sync to Ad"
+
+#: twig/cache/3a/85/3fc4beb7430d11563c22bf1942c54902b78fb230ed4342d6c73a3934f183.php:150
+msgid "Overwrite with empty value"
+msgstr "Mit leerem Wert überschreiben"
+
+#: twig/cache/3f/e8/e2e8f1c61e529e1a195642367c1515c638b42e8ad488d0db5f87fbbf6b94.php:21
+msgid ""
+"The current profile contains unsaved changes. Are you sure you want to "
+"continue?"
+msgstr ""
+"Das aktuelle Profil enthält nicht-gespeicherte Änderungen. Sind Sie sicher "
+"das Sie fortfahren wollen ?"
+
+#: twig/cache/3f/e8/e2e8f1c61e529e1a195642367c1515c638b42e8ad488d0db5f87fbbf6b94.php:23
+msgid "The current profile is associated with the following sites:"
+msgstr "Das aktuelle Profil ist mit den folgenden Seiten verknüpft:"
+
+#: twig/cache/3f/e8/e2e8f1c61e529e1a195642367c1515c638b42e8ad488d0db5f87fbbf6b94.php:25
+msgid ""
+"The current profile is associated with {{ associations.length }} sites. Are "
+"you sure you want to delete this profile?"
+msgstr ""
+"Das aktuelle Profil ist mit {{ associations.length }} Seiten verbunden. Sind "
+"Sie sicher, dass Sie das Profil löschen möchten?"
+
+#: twig/cache/3f/e8/e2e8f1c61e529e1a195642367c1515c638b42e8ad488d0db5f87fbbf6b94.php:27
+msgid "Assign to profile:"
+msgstr "Neues Profil zuweisen:"
+
+#: twig/cache/3f/e8/e2e8f1c61e529e1a195642367c1515c638b42e8ad488d0db5f87fbbf6b94.php:71
+msgid "Configure Settings for Profile : "
+msgstr "Einstellungen für Profil :"
+
+#: twig/cache/3f/e8/e2e8f1c61e529e1a195642367c1515c638b42e8ad488d0db5f87fbbf6b94.php:80
+msgid "Create new profile"
+msgstr "Erstelle ein neues Profil"
+
+#: twig/cache/3f/e8/e2e8f1c61e529e1a195642367c1515c638b42e8ad488d0db5f87fbbf6b94.php:87
+msgid "Delete profile"
+msgstr "Profil löschen"
+
+#: twig/cache/3f/e8/e2e8f1c61e529e1a195642367c1515c638b42e8ad488d0db5f87fbbf6b94.php:127
+msgid "View associated profiles"
+msgstr "Zeige verbundene Profile"
+
+#: twig/cache/3f/f2/d1781264aa11ffd03ea98253fda02aac18cdbff2cd57fcc147e6273728e2.php:65
+msgid "Test Active Directory authentication"
+msgstr "Teste Active Directory Authentifizierung"
+
+#: twig/cache/3f/f2/d1781264aa11ffd03ea98253fda02aac18cdbff2cd57fcc147e6273728e2.php:70
+msgid ""
+"Please enter the username and password for the account you want to "
+"authenticate with. After submitting the request you will get the debug "
+"output."
+msgstr ""
+"Bitte geben Sie den Benutzernamen und das Passwort für den Account an, mit "
+"dem Sie sich authentifizieren wollen. Nach dem Absenden erhalten sie eine "
+"Ausgabe zur weiteren Analyse."
+
+#: twig/cache/3f/f2/d1781264aa11ffd03ea98253fda02aac18cdbff2cd57fcc147e6273728e2.php:75
+msgid ""
+"For this page feature of blocking user accounts with failed login attempts "
+"is disabled. You do not have to worry about locking an account."
+msgstr ""
+"Für diese Seite ist das Blockieren von Benutzerkonten durch fehlgeschlagene "
+"Anmeldeversuche deaktiviert. Sie müssen sich keine Sorgen darüber machen, "
+"dass ihr Konto gesperrt wird."
+
+#: twig/cache/3f/f2/d1781264aa11ffd03ea98253fda02aac18cdbff2cd57fcc147e6273728e2.php:80
+msgid "Please note that the entered password is not masked."
+msgstr ""
+"Bitte beachten sie, dass das Passwort im <strong>Klartext</strong> "
+"dargestellt wird."
+
+#: twig/cache/3f/f2/d1781264aa11ffd03ea98253fda02aac18cdbff2cd57fcc147e6273728e2.php:89
+msgid "Username:"
+msgstr "Benutzername:"
+
+#: twig/cache/3f/f2/d1781264aa11ffd03ea98253fda02aac18cdbff2cd57fcc147e6273728e2.php:98
+msgid "Password (will be shown):"
+msgstr "Passwort (wird angezeigt):"
+
+#: twig/cache/3f/f2/d1781264aa11ffd03ea98253fda02aac18cdbff2cd57fcc147e6273728e2.php:113
+msgid "Try to authenticate again"
+msgstr "Teste Authentifizierung erneut"
+
+#: twig/cache/3f/f2/d1781264aa11ffd03ea98253fda02aac18cdbff2cd57fcc147e6273728e2.php:113
+msgid "Try to authenticate"
+msgstr "Teste Authentifizierung"
+
+#: twig/cache/46/53/fd7bab3b263b5d1dd72b3fabfacfac07a331894100a9d7ca2db60a18561c.php:24
+msgid "Additional Information provided by Active Directory Integration"
+msgstr ""
+"Zusätzliche Information bereitgestellt durch Active Directory Integration"
+
+#: twig/cache/46/53/fd7bab3b263b5d1dd72b3fabfacfac07a331894100a9d7ca2db60a18561c.php:128
+msgid "Reenter password"
+msgstr "Passwort neu eingeben"
+
+#: twig/cache/46/53/fd7bab3b263b5d1dd72b3fabfacfac07a331894100a9d7ca2db60a18561c.php:137
+msgid ""
+"If you want to save the changes in \"Additional Information\" back to the "
+"Active Directory you must enter your password."
+msgstr ""
+"Wenn Sie die Änderungen unter <em>Zusätzliche Informationen</em> zum Active "
+"Directory synchronisieren möchten, müssen Sie ihr Passwort eingeben."
+
+#: twig/cache/46/53/fd7bab3b263b5d1dd72b3fabfacfac07a331894100a9d7ca2db60a18561c.php:151
+msgid "Profile can not be edited or synchronized back to Active Directory:"
+msgstr ""
+"Das Profil kann nicht bearbeitet oder zum Active Directory synchronisiert "
+"werden:"
+
+#: twig/cache/4f/d2/0586d8347504d9959a9463abfdffa503fb9b118b205cca816594f93a15e8.php:110
+msgid "Regenerate Auth Code"
+msgstr "Neuen Auth Code erstellen"
+
+#: twig/cache/5a/8b/4775f9278ab0410f92b9a4025564830976f479b56d66a5afbcbdd467fdf1.php:32
+msgid "Active Directory Integration Blog Configuration"
+msgstr "Active Directory Integration Blog Einstellungen"
+
+#: twig/cache/61/35/f6cbf3ea4d2428655594009514ee4256543cbb1918376a3bb4893c63826f.php:76
+msgid "No options exists"
+msgstr "Es existieren keine Optionen"
+
+#: twig/cache/62/9c/3d4176768f468e718823dde7d390baea6be61586e5c3ebbf3634f3abdb8b.php:132
+msgid "Verify"
+msgstr "Verifizieren"
+
+#: twig/cache/6f/93/9f42e40ff06eba0ce3a1adb012f7bec338adb1aaf18de0911c0d28ab9628.php:41
+msgid "Do you really want to regenerate a new AuthCode?"
+msgstr "Möchten Sie wirklich einen neuen Auth Code generieren?"
+
+#: twig/cache/6f/93/9f42e40ff06eba0ce3a1adb012f7bec338adb1aaf18de0911c0d28ab9628.php:45
+msgid "WordPress Site is currently connected to Domain: "
+msgstr "WordPress Seite / Profil ist momentan mit folgender Domäne verbunden: "
+
+#: twig/cache/6f/93/9f42e40ff06eba0ce3a1adb012f7bec338adb1aaf18de0911c0d28ab9628.php:49
+msgid "Verification successful! WordPress site is now connected to Domain: "
+msgstr ""
+"Verifizierung erfolgreich! Ihr WordPress-Blog ist nun mit der folgenden "
+"Domäne verbunden: "
+
+#: twig/cache/6f/93/9f42e40ff06eba0ce3a1adb012f7bec338adb1aaf18de0911c0d28ab9628.php:53
+msgid "Verification successful!"
+msgstr "Verifizierung erfolgreich!"
+
+#: twig/cache/6f/93/9f42e40ff06eba0ce3a1adb012f7bec338adb1aaf18de0911c0d28ab9628.php:57
+msgid "Verification failed! Please check your logfile for further information."
+msgstr ""
+"Verifizierung fehlgeschlagen! Bitte überprüfen Sie die Log-Datei für weitere "
+"Informationen."
+
+#: twig/cache/6f/93/9f42e40ff06eba0ce3a1adb012f7bec338adb1aaf18de0911c0d28ab9628.php:112
+msgid "Manage Permissions"
+msgstr "Verwalte Berechtigungen"
+
+#: twig/cache/95/b4/a53179ece39e6011ebac0a3ca74974676cda1fddff2771e380f9a9558083.php:71
+msgid ""
+"If you want to trigger Sync to WordPress, you must know the URL to the index."
+"php of your blog:"
+msgstr ""
+"Wenn Sie <em>Sync to WordPress</em> auslösen möchten, müssen Sie die URL zur "
+"index.php Ihres Blogs kennen:"
+
+#: twig/cache/95/b4/a53179ece39e6011ebac0a3ca74974676cda1fddff2771e380f9a9558083.php:75
+#: twig/cache/dd/cf/ba6aed8a6d4f4f9694ea71693aaeff4c51c7f84162a131bb6a07307ac33f.php:75
+msgid ""
+"Settings like auth-code etc. depends on the current blog. So be careful "
+"which blog you are using. Here are some examples:"
+msgstr ""
+"Einstellungen wie <em>Auth Code</em> hängen vom aktuellen Blog ab. Seien Sie "
+"also vorsichtig dabei und achten Sie darauf welchen Blog Sie zurzeit "
+"verwenden. Hier sind ein paar Beispiele:"
+
+#: twig/cache/95/b4/a53179ece39e6011ebac0a3ca74974676cda1fddff2771e380f9a9558083.php:100
+msgid "Repeat AD to WordPress synchronization"
+msgstr "Wiederhole <em>AD to WordPress Synchronisation</em>."
+
+#: twig/cache/95/b4/a53179ece39e6011ebac0a3ca74974676cda1fddff2771e380f9a9558083.php:100
+msgid "Start AD to WordPress synchronization"
+msgstr "Starte <em>AD to WordPress Synchronisation</em>"
+
+#: twig/cache/a7/ed/06a7c8f5a5fd2172f8bff435cdf6b2ec972027cfb3733d265e913c693b47.php:38
+msgid "Search"
+msgstr "Suchen"
+
+#: twig/cache/a7/ed/06a7c8f5a5fd2172f8bff435cdf6b2ec972027cfb3733d265e913c693b47.php:50
+msgid "Default profile"
+msgstr "Standardprofil"
+
+#: twig/cache/a7/ed/06a7c8f5a5fd2172f8bff435cdf6b2ec972027cfb3733d265e913c693b47.php:56
+msgid "--- None assigned"
+msgstr "--- Nicht zugewiesen"
+
+#: twig/cache/a7/ed/06a7c8f5a5fd2172f8bff435cdf6b2ec972027cfb3733d265e913c693b47.php:97
+#: twig/cache/a7/ed/06a7c8f5a5fd2172f8bff435cdf6b2ec972027cfb3733d265e913c693b47.php:144
+msgid "Apply"
+msgstr "Übernehmen"
+
+#: twig/cache/a7/ed/06a7c8f5a5fd2172f8bff435cdf6b2ec972027cfb3733d265e913c693b47.php:115
+msgid "Change selected blogs to profile"
+msgstr "Ändere Profil der ausgewählten Blogs "
+
+#: twig/cache/a7/ed/06a7c8f5a5fd2172f8bff435cdf6b2ec972027cfb3733d265e913c693b47.php:121
+msgid "--- Use default profile"
+msgstr "--- Benutze Standardprofil"
+
+#: twig/cache/dd/cf/ba6aed8a6d4f4f9694ea71693aaeff4c51c7f84162a131bb6a07307ac33f.php:65
 msgid "Sync to Active Directory"
 msgstr "Sync to Active Directory"
 
-#: twig/cache/fe/30/7b904070747bbfbf31f4d81ea14e22df0fa2b0e11df3d6810cdc47732485.php:69
+#: twig/cache/dd/cf/ba6aed8a6d4f4f9694ea71693aaeff4c51c7f84162a131bb6a07307ac33f.php:71
 msgid ""
 "If you want to trigger Sync to Active Directory, you must know the URL to "
 "the index.php of your blog:"
@@ -2185,15 +2335,15 @@ msgstr ""
 "Wenn Sie <em>Sync to Active Directory</em> auslösen möchten, müssen Sie die "
 "URL zur index.php Ihres Blogs kennen:"
 
-#: twig/cache/fe/30/7b904070747bbfbf31f4d81ea14e22df0fa2b0e11df3d6810cdc47732485.php:96
+#: twig/cache/dd/cf/ba6aed8a6d4f4f9694ea71693aaeff4c51c7f84162a131bb6a07307ac33f.php:98
 msgid "User-ID: (optional)"
 msgstr "User-ID: (optional)"
 
-#: twig/cache/fe/30/7b904070747bbfbf31f4d81ea14e22df0fa2b0e11df3d6810cdc47732485.php:113
+#: twig/cache/dd/cf/ba6aed8a6d4f4f9694ea71693aaeff4c51c7f84162a131bb6a07307ac33f.php:115
 msgid "Repeat WordPress to Active Directory synchronization"
 msgstr "Wiederhole <em>WordPress to Active Directory Synchronisation</em>"
 
-#: twig/cache/fe/30/7b904070747bbfbf31f4d81ea14e22df0fa2b0e11df3d6810cdc47732485.php:113
+#: twig/cache/dd/cf/ba6aed8a6d4f4f9694ea71693aaeff4c51c7f84162a131bb6a07307ac33f.php:115
 msgid "Start WordPress to Active Directory synchronization"
 msgstr "Starte <em>WordPress to Active Directory Synchronisation</em>"
 
@@ -2203,122 +2353,46 @@ msgstr "Starte <em>WordPress to Active Directory Synchronisation</em>"
 #~ "Die eingetragenen Benutzernamen werden von der ADI Login-"
 #~ "Authentifizierung ausgeschlossen."
 
-#~ msgid "Security group"
-#~ msgstr "Sicherheitsgruppen"
-
-#~ msgid "WordPress role"
-#~ msgstr "WordPress-Rollen"
-
-#~ msgid "Save"
-#~ msgstr "Speichern"
-
-#~ msgid "You have to verify the connection to the AD before saving."
-#~ msgstr ""
-#~ "Sie müssen die Verbindung zu einer Domäne verifizieren bevor Sie "
-#~ "speichern können."
-
-#~ msgid "AD Attributes"
-#~ msgstr "AD Attribute"
-
-#~ msgid "Data Type"
-#~ msgstr "Datentypen"
-
-#~ msgid "Wordpress Attribute"
-#~ msgstr "WordPress-Attribut"
-
-#~ msgid "View in User Profile"
-#~ msgstr "In Benutzerprofil anzeigen"
-
-#~ msgid "Sync to Ad"
-#~ msgstr "Sync to Ad"
-
-#~ msgid "Overwrite with empty value"
-#~ msgstr "Mit leerem Wert überschreiben"
+#~ msgid "Use sAMAccountName for new created users"
+#~ msgstr "Benutze sAMAccountName für neu erstellte Benutzer"
 
 #~ msgid ""
-#~ "The current profile contains unsaved changes. Are you sure you want to "
-#~ "continue?"
+#~ "If checked, the sAMAccountName will be set as username for new created "
+#~ "users."
 #~ msgstr ""
-#~ "Das aktuelle Profil enthält nicht-gespeicherte Änderungen. Sind Sie "
-#~ "sicher das Sie fortfahren wollen ?"
-
-#~ msgid "The current profile is associated with the following sites:"
-#~ msgstr "Das aktuelle Profil ist mit den folgenden Seiten verknüpft:"
+#~ "Wenn diese Option aktiviert ist wird ADI den sAMAccountName als "
+#~ "Benutzername in WordPress für neu erstellte Benutzer verwenden."
 
 #~ msgid ""
-#~ "The current profile is associated with {{ associations.length }} sites. "
-#~ "Are you sure you want to delete this profile?"
+#~ "Instead of using the user principal name for new created users, the "
+#~ "sAMAccountName will be used."
 #~ msgstr ""
-#~ "Das aktuelle Profil ist mit {{ associations.length }} Seiten verbunden. "
-#~ "Sind Sie sicher, dass Sie das Profil löschen möchten?"
+#~ "Anstelle des userPrincipalNames wird der sAMAccountName als Benutzername "
+#~ "für neu erstellte Benutzer gesetzt."
 
-#~ msgid "Assign to profile:"
-#~ msgstr "Neues Profil zuweisen:"
-
-#~ msgid "Configure Settings for Profile : "
-#~ msgstr "Einstellungen für Profil :"
-
-#~ msgid "Create new profile"
-#~ msgstr "Erstelle ein neues Profil"
-
-#~ msgid "Delete profile"
-#~ msgstr "Profil löschen"
-
-#~ msgid "View associated profiles"
-#~ msgstr "Zeige verbundene Profile"
-
-#~ msgid "Profile can not be edited or synchronized back to Active Directory:"
-#~ msgstr ""
-#~ "Das Profil kann nicht bearbeitet oder zum Active Directory synchronisiert "
-#~ "werden:"
-
-#~ msgid "Regenerate Auth Code"
-#~ msgstr "Neuen Auth Code erstellen"
-
-#~ msgid "Verify"
-#~ msgstr "Verifizieren"
-
-#~ msgid "Do you really want to regenerate a new AuthCode?"
-#~ msgstr "Möchten Sie wirklich einen neuen Auth Code generieren?"
-
-#~ msgid "WordPress Site is currently connected to Domain: "
-#~ msgstr ""
-#~ "WordPress Seite / Profil ist momentan mit folgender Domäne verbunden: "
-
-#~ msgid "Verification successful! WordPress site is now connected to Domain: "
-#~ msgstr ""
-#~ "Verifizierung erfolgreich! Ihr WordPress-Blog ist nun mit der folgenden "
-#~ "Domäne verbunden: "
-
-#~ msgid "Verification successful!"
-#~ msgstr "Verifizierung erfolgreich!"
+#~ msgid "Append suffix to new users"
+#~ msgstr "Füge Suffix neuen Benutzern hinzu"
 
 #~ msgid ""
-#~ "Verification failed! Please check your logfile for further information."
+#~ "If checked, the account suffix (see above) will be appended to the "
+#~ "usernames of new created users."
 #~ msgstr ""
-#~ "Verifizierung fehlgeschlagen! Bitte überprüfen Sie die Log-Datei für "
-#~ "weitere Informationen."
+#~ "Durch das Aktivieren dieser Option wird das oben angegebene Suffix "
+#~ "automatisch allen neu erstellten Benutzern hinzugefügt."
 
-#~ msgid "Manage Permissions"
-#~ msgstr "Verwalte Berechtigungen"
-
-#~ msgid "Search"
-#~ msgstr "Suchen"
-
-#~ msgid "Default profile"
-#~ msgstr "Standardprofil"
-
-#~ msgid "--- None assigned"
-#~ msgstr "--- Nicht zugewiesen"
-
-#~ msgid "Apply"
-#~ msgstr "Übernehmen"
-
-#~ msgid "Change selected blogs to profile"
-#~ msgstr "Ändere Profil der ausgewählten Blogs "
-
-#~ msgid "--- Use default profile"
-#~ msgstr "--- Benutze Standardprofil"
+#~ msgid ""
+#~ "This option will automatically add the previously defined *Account "
+#~ "suffix* to all new created users. This means if you create the user "
+#~ "*newuser* and already have configured your account suffix e.g. *@company."
+#~ "local*, this option will automatically change the username to "
+#~ "*newuser@company.local*."
+#~ msgstr ""
+#~ "Durch das Aktivieren dieser Option wird das vorher definierte Suffix "
+#~ "automatisch allen neu erstellten Benutzern hinzugefügt. Das bedeutet, "
+#~ "dass wenn Sie einen neuen Benutzer erstellen (\"neuerbenutzer\") und "
+#~ "bereits die Option für das Account Suffix gesetzt haben (\"@company.local"
+#~ "\"), dann wird diese Option den Benutzernamen automatisch in "
+#~ "\"neuerbenutzer@company.local\" ändern."
 
 #~ msgid "Verification failed!"
 #~ msgstr "Verifizierung fehlgeschlagen!"

@@ -210,7 +210,7 @@ class Multisite_Configuration_Persistence_ProfileRepository
 				continue;
 			}
 
-			$this->profileConfigurationRepository->persistPermissionSanitized(
+			$this->profileConfigurationRepository->persistSanitizedPermission(
 				$id,
 				Adi_Configuration_Options::PROFILE_NAME,
 				Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN

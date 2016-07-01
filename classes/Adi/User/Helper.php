@@ -92,29 +92,6 @@ class Adi_User_Helper
 	}
 
 	/**
-	 * Get the new username suffix from the Active Directory values ($userAttributeValues)
-	 *
-	 * @param string $username
-	 * @param string $suffix
-	 * @param bool   $isCreate
-	 *
-	 * @return string
-	 */
-	public function getNewUsername($username, $suffix, $isCreate = true)
-	{
-		// add suffix to the username if APPEND_SUFFIX_TO_NEW_USERS is true
-		$appendSuffixToNewUsers = $this->configuration->getOptionValue(
-			Adi_Configuration_Options::APPEND_SUFFIX_TO_NEW_USERS
-		);
-
-		if ($appendSuffixToNewUsers && $isCreate) {
-			return $username . $suffix;
-		}
-
-		return $username;
-	}
-
-	/**
 	 * Get the password for a new user using the {@see Adi_User_Helper}.
 	 *
 	 * @param string $password

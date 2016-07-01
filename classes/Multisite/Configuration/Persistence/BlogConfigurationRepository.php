@@ -156,7 +156,7 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository implements
 	protected function isOptionHandledByProfile($siteId, $optionName)
 	{
 		$profileId = $this->findProfileId($siteId);
-		$permission = $this->profileConfigurationRepository->findPermissionSanitized($profileId, $optionName);
+		$permission = $this->profileConfigurationRepository->findSanitizedPermission($profileId, $optionName);
 
 		if (Multisite_Configuration_Service::EDITABLE > $permission) {
 			return true;
@@ -410,5 +410,30 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository implements
 				'blog_id' => 0,
 			),
 		);
+	}
+
+	/**
+	 * Get the option permission for the profile and the option.
+	 *
+	 * @param int    $profileId
+	 * @param string $optionName
+	 *
+	 * @return array|bool|null|object|void
+	 */
+	public function findSanitizedPermission($profileId, $optionName)
+	{
+		return false;
+	}
+
+	/**
+	 * @param int    $profileId
+	 * @param string $optionName
+	 * @param int    $optionPermission between [0,3]
+	 *
+	 * @return bool
+	 */
+	public function persistSanitizedPermission($profileId, $optionName, $optionPermission)
+	{
+		return false;
 	}
 }

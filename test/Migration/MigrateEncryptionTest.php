@@ -6,7 +6,7 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Migration_MigratedEncryption extends Ut_BasicTest
+class Ut_Migration_MigrateEncryptionTest extends Ut_BasicTest
 {
 	const LDAPS_PREFIX = 'ldaps://';
 

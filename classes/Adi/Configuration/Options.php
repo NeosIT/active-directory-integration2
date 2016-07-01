@@ -37,7 +37,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 	// User - User Settings
 	const EXCLUDE_USERNAMES_FROM_AUTHENTICATION = 'exclude_usernames_from_authentication';
 	const ACCOUNT_SUFFIX = 'account_suffix';
-	const APPEND_SUFFIX_TO_NEW_USERS = 'append_suffix_to_new_users';
+	const USE_SAMACCOUNTNAME_FOR_NEW_USERS = 'use_samaccountname_for_new_users';
 	const AUTO_CREATE_USER = 'auto_create_user';
 	const AUTO_UPDATE_USER = 'auto_update_user';
 	const AUTO_UPDATE_DESCRIPTION = 'auto_update_description';
@@ -488,7 +488,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$transient      => false,
 			),
 			// account Suffix (will be appended to all usernames created in WordPress, as well as used in the Active Directory authentication process
-			self::ACCOUNT_SUFFIX                => array(
+			self::ACCOUNT_SUFFIX                   => array(
 				$title       => __('Account suffix', ADI_I18N),
 				$type        => Multisite_Option_Type::EDITABLE_LIST,
 				$description => __(
@@ -516,16 +516,16 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$showPermission    => true,
 				$transient         => false,
 			),
-			// Should the account suffix be appended to the usernames created in WordPress?
-			self::APPEND_SUFFIX_TO_NEW_USERS    => array(
-				$title       => __('Append suffix to new users', ADI_I18N),
+			// Should the sAMAccountName be used for newly created users instead of the UserPrincipalName?
+			self::USE_SAMACCOUNTNAME_FOR_NEW_USERS => array(
+				$title       => __('Use sAMAccountName for newly created users', ADI_I18N),
 				$type        => Multisite_Option_Type::CHECKBOX,
 				$description => __(
-					'If checked, the account suffix (see above) will be appended to the usernames of new created users.',
+					'If checked, the sAMAccountName will be set as username for newly created users.',
 					ADI_I18N
 				),
 				$detail      => __(
-					'This option will automatically add the previously defined *Account suffix* to all new created users. This means if you create the user *newuser* and already have configured your account suffix e.g. *@company.local*, this option will automatically change the username to *newuser@company.local*.',
+					'Instead of using the user principal name for newly created users, the sAMAccountName will be used.',
 					ADI_I18N
 				),
 				$angularAttributes => '',

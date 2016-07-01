@@ -391,17 +391,17 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 		$this->behave($adiUser, 'getCredentials', $credentials);
 		$this->behave($credentials, 'getPassword', 'password');
 		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes(array(), $ldapAttributes));
-		$this->behave($credentials, 'getSAMAccountName', 'samaccountname');
+		$this->behave($credentials, 'getUserPrincipalName', 'userprincipalname');
 		$this->behave($this->userRepository, 'create', 100);
 
 		$this->userHelper->expects($this->once())
 			->method('getEmailAddress')
-			->with('samaccountname', $ldapAttributes)
+			->with('userprincipalname', $ldapAttributes)
 			->willReturn('email@test.ad');
 
 		$sut->expects($this->once())
 			->method('checkDuplicateEmail')
-			->with('samaccountname', 'email@test.ad');
+			->with('userprincipalname', 'email@test.ad');
 
 		$this->exceptionUtil->shouldReceive('handleWordPressErrorAsException')
 			->with(100)
@@ -470,10 +470,10 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 		$sut = $this->sut();
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::APPEND_SUFFIX_TO_NEW_USERS)
+			->with(Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS)
 			->willReturn('1');
 
-		$this->assertTrue($sut->appendSuffixToNewUser());
+		$this->assertTrue($sut->useSamAccountNameForNewUsers());
 	}
 
 	/**

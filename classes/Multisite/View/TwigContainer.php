@@ -360,7 +360,7 @@ class Multisite_View_TwigContainer
 			}
 		}
 
-		$permission = $this->profileConfigurationRepository->findPermissionSanitized($profileId, $optionName);
+		$permission = $this->profileConfigurationRepository->findSanitizedPermission($profileId, $optionName);
 
 		// if blog admin should have the permission to change the environment options BUT the profile used for the blog is connected to a domain, the blog admin is not allowed to change any environment options anymore.
 		if ($permission == 3 && $this->isProfileConnectedToDomain
@@ -384,7 +384,7 @@ class Multisite_View_TwigContainer
 			$profileId = $this->blogConfigurationRepository->findProfileId(get_current_blog_id());
 		}
 
-		return $this->profileConfigurationRepository->findPermissionSanitized($profileId, $optionName);
+		return $this->profileConfigurationRepository->findSanitizedPermission($profileId, $optionName);
 	}
 
 	/**

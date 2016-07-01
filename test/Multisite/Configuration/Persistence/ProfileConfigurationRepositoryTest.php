@@ -270,7 +270,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 			->with(66, 'port')
 			->willReturn(2);
 
-		$actual = $this->invokeMethod($sut,'findPermissionSanitized', array(66, 'port'));
+		$actual = $this->invokeMethod($sut,'findSanitizedPermission', array(66, 'port'));
 		$this->assertEquals(2, $actual);
 	}
 
@@ -285,7 +285,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 			->with(66, 'port')
 			->willReturn('aaa');
 
-		$actual = $this->invokeMethod($sut,'findPermissionSanitized', array(66, 'port'));
+		$actual = $this->invokeMethod($sut,'findSanitizedPermission', array(66, 'port'));
 		$this->assertEquals(3, $actual);
 	}
 
@@ -321,7 +321,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 			->with(66, 'port', 1)
 			->willReturn(true);
 
-		$actual = $sut->persistPermissionSanitized(66, 'port', 1);
+		$actual = $sut->persistSanitizedPermission(66, 'port', 1);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -334,7 +334,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 		$sut->expects($this->never())
 			->method('persistPermission');
 
-		$actual = $sut->persistPermissionSanitized(66, 'port', 'a');
+		$actual = $sut->persistSanitizedPermission(66, 'port', 'a');
 		$this->assertEquals(false, $actual);
 	}
 

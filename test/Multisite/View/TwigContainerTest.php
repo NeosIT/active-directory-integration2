@@ -257,7 +257,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 			->willReturn($profileId);
 
 		$this->profileConfigurationRepository->expects($this->once())
-			->method('findPermissionSanitized')
+			->method('findSanitizedPermission')
 			->with($profileId, 'port')
 			->willReturn(1);
 
@@ -360,7 +360,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 			->willReturn($profileId);
 
 		$this->profileConfigurationRepository->expects($this->once())
-			->method('findPermissionSanitized')
+			->method('findSanitizedPermission')
 			->with($profileId, $optionName)
 			->willReturn(2);
 
@@ -390,7 +390,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 			->willReturn($profileId);
 
 		$this->profileConfigurationRepository->expects($this->once())
-			->method('findPermissionSanitized')
+			->method('findSanitizedPermission')
 			->with($profileId, $optionName)
 			->willReturn(2);
 
@@ -409,7 +409,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 		$optionName = 'port';
 
 		$this->profileConfigurationRepository->expects($this->once())
-			->method('findPermissionSanitized')
+			->method('findSanitizedPermission')
 			->with($profileId, $optionName)
 			->willReturn(2);
 

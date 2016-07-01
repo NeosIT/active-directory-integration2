@@ -123,7 +123,7 @@ class Adi_Configuration_Ui_Layout
 					self::OPTIONS => array(
 						Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION,
 						Adi_Configuration_Options::ACCOUNT_SUFFIX,
-						Adi_Configuration_Options::APPEND_SUFFIX_TO_NEW_USERS,
+						Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS,
 						Adi_Configuration_Options::AUTO_CREATE_USER,
 						Adi_Configuration_Options::AUTO_UPDATE_USER,
 						Adi_Configuration_Options::AUTO_UPDATE_DESCRIPTION,

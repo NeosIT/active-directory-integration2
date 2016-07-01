@@ -252,7 +252,7 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 		));
 
 		$this->profileConfigurationRepository->expects($this->once())
-			->method('findPermissionSanitized')
+			->method('findSanitizedPermission')
 			->with(5, 'port')
 			->willReturn(1);
 
