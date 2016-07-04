@@ -765,6 +765,7 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$adiUser = $this->createMock('Adi_User');
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 		$this->behave($adiUser, 'getId', 666);
+		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
 
 		$this->attributeService->expects($this->once())
 			->method('findLdapAttributesOfUser')
@@ -790,6 +791,7 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$this->behave($this->attributeService, 'findLdapAttributesOfUser', $ldapAttributes);
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 		$this->behave($adiUser, 'getId', 666);
+		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
 
 		$sut->createOrUpdateUser($credentials);
 
@@ -816,6 +818,7 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$adiUser = $this->createMock('Adi_User');
 		$this->behave($this->attributeService, 'findLdapAttributesOfUser', $ldapAttributes);
 		$this->behave($adiUser, 'getId', 666);
+		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
 
 		$this->userManager->expects($this->once())
 			->method('createAdiUser')
@@ -851,6 +854,7 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$adiUser = $this->createMock('Adi_User');
 		$this->behave($this->attributeService, 'findLdapAttributesOfUser', $ldapAttributes);
 		$this->behave($adiUser, 'getId', 0);
+		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
 
 		$this->userManager->expects($this->once())
 			->method('createAdiUser')
@@ -864,6 +868,33 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$actual = $sut->createOrUpdateUser($credentials);
 
 		$this->assertEquals(555, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createOrUpdateUser_updateDomainSID() {
+		$domainSID = 'S-1-5-21-1372432699-1244323441-1038535101';
+		$credentials = Adi_Authentication_LoginService::createCredentials('username', 'password');
+
+		$this->ldapConnection->expects($this->exactly(1))
+			->method('getDomainSid')
+			->willReturn($domainSID);
+
+		$sut = $this->sut(array('createUser', 'updateUser'));
+		$this->behave($this->attributeService, 'findLdapAttributesOfUser', new Ldap_Attributes());
+
+		$adiUser = $this->createMock('Adi_User');
+		$this->behave($this->userManager, 'createAdiUser', $adiUser);
+
+		$ldapAttributes = $this->createMock('Ldap_Attributes');
+		$this->behave($adiUser, 'getLdapAttributes', $ldapAttributes);
+
+		$ldapAttributes->expects($this->once())
+			->method('setDomainSid')
+			->with($domainSID);
+
+		$sut->createOrUpdateUser($credentials);
 	}
 
 	/**

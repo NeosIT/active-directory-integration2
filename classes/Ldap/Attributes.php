@@ -87,7 +87,7 @@ class Ldap_Attributes
 	/**
 	 * @param string $domainSid
 	 */
-	public function addDomainSid($domainSid) {
+	public function setDomainSid($domainSid) {
 		if (isset($this->filtered)) {
 			$this->filtered["domainsid"] = $domainSid;
 		}
