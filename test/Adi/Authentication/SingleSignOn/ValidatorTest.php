@@ -36,6 +36,7 @@ class Ut_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_BasicTest
 	public function tearDown()
 	{
 		parent::tearDown();
+		Core_Util::native(null);
 	}
 
 	/**

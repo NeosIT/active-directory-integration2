@@ -54,6 +54,7 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 	public function tearDown()
 	{
 		parent::tearDown();
+		Core_Util::native(null);
 	}
 
 	/**

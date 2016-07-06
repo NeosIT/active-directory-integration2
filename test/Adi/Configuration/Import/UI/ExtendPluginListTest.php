@@ -16,7 +16,6 @@ class Ut_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_BasicTest
 		parent::setUp();
 
 		$this->importService = $this->createMock('Adi_Configuration_ImportService');
-		Core_Util::native(null);
 	}
 
 	public function tearDown()
