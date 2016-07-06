@@ -74,6 +74,26 @@ class Core_Util_ArrayUtil
 	}
 
 	/**
+	 * Map the data from the given {@code $array} using the {@code $callback}.
+	 * 
+	 * @param       $callback
+	 * @param array $array
+	 *
+	 * @return array
+	 */
+	public static function map($callback, array $array)
+	{
+		$result = array();
+
+		foreach ($array as $key => $value) {
+			$value = $callback($value, $key);
+			$result[$key] = $value;
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Filter the given $array by using the $callback.
 	 *
 	 * @param \Closure $callback
@@ -114,7 +134,7 @@ class Core_Util_ArrayUtil
 	 */
 	public static function findFirstOrDefault($array, $default = null)
 	{
-		if (0 == sizeof($array)) {
+		if (!is_array($array) || 0 == sizeof($array)) {
 			return $default;
 		}
 

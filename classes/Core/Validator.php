@@ -65,9 +65,9 @@ class Core_Validator
 	 * Add a new rule to our registered rules.
 	 *
 	 * @param string $name
-	 * @param        $rule
+	 * @param Core_Validator_Rule $rule
 	 */
-	public function addRule($name, $rule)
+	public function addRule($name, Core_Validator_Rule $rule)
 	{
 		if (!isset($this->validationRules[$name])) {
 			$this->validationRules[$name] = array();

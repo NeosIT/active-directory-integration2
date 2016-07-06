@@ -50,17 +50,13 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			self::SUB_ACTION_VERIFY_AD_CONNECTION  => self::SUB_ACTION_VERIFY_AD_CONNECTION,
 		);
 
-	/** @var bool $isVerification */
-	private $isVerification;
-
 	/**
 	 * @param Multisite_View_TwigContainer             $twigContainer
 	 * @param Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
 	 */
 	public function __construct(Multisite_View_TwigContainer $twigContainer,
 								Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
-	)
-	{
+	) {
 		parent::__construct($twigContainer);
 
 		$this->blogConfigurationController = $blogConfigurationConfigurationControllerController;
@@ -320,7 +316,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			'options'        => $data,
 			'ldapAttributes' => Ldap_Attribute_Description::findAll(),
 			'dataTypes'      => Ldap_Attribute_Repository::findAllAttributeTypes(),
-			'wpRoles' => Adi_Role_Manager::getRoles(),
+			'wpRoles'        => Adi_Role_Manager::getRoles(),
 		);
 	}
 
@@ -341,6 +337,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	 * Verify connection to AD to recieve domainSid.
 	 *
 	 * @param array $data
+	 *
 	 * @return array
 	 */
 	protected function verifyAdConnection($data)
@@ -355,7 +352,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	 * Verify the connection by the given $data array
 	 *
 	 * @param array $data
-	 * @param null $profileId
+	 * @param null  $profileId
 	 *
 	 * @return array
 	 */
@@ -521,18 +518,20 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		if (null === $this->validator) {
 			$validator = $this->getSharedValidator();
 
-			//PROFILE
+			$message = __('Username has to contain a suffix.', ADI_I18N);
+			$invalidValueMessage = __('The given value is invalid.', ADI_I18N);
+
+			// PROFILE
 			$notEmptyMessage = __('This value must not be empty.', ADI_I18N);
 			$notEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($notEmptyMessage);
 			$validator->addRule(Adi_Configuration_Options::PROFILE_NAME, $notEmptyRule);
 
-			//ENVIRONMENT
-			$invalidValueMessage = __('The given value is invalid.', ADI_I18N);
+			// ENVIRONMENT
 			$invalidSelectValueRule = new Multisite_Validator_Rule_SelectValueValid($invalidValueMessage,
 				Multisite_Option_Encryption::getValues());
 			$validator->addRule(Adi_Configuration_Options::ENCRYPTION, $invalidSelectValueRule);
 
-			//USER
+			// USER
 			$accountSuffixMessage = __(
 				'Account Suffix does not match the required style. (e.g. "@company.local")',
 				ADI_I18N
@@ -544,7 +543,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$defaultEmailDomainRule = new Multisite_Validator_Rule_DefaultEmailDomain($defaultEmailDomainMessage);
 			$validator->addRule(Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN, $defaultEmailDomainRule);
 
-			//SECURITY
+			// SECURITY
 			$maxLoginAttempts = __('Maximum login attempts has to be numeric and cannot be negative.', ADI_I18N);
 			$maxLoginAttemptsRule = new Multisite_Validator_Rule_PositiveNumericOrZero($maxLoginAttempts);
 			$validator->addRule(Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS, $maxLoginAttemptsRule);
@@ -560,12 +559,42 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$adminEmailRule = new Multisite_Validator_Rule_AdminEmail($adminEmailMessage, '@');
 			$validator->addRule(Adi_Configuration_Options::ADMIN_EMAIL, $adminEmailRule);
 
-			//PERMISSIONS
+			// SSO username
+			$ssoServiceAccountUserSuffixRule = new Multisite_Validator_Rule_Suffix($message, '@');
+
+			$ssoServiceAccountUserNotEmptyMessage = __('Username must not be empty.', ADI_I18N);
+			$ssoServiceAccountUserNotEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace(
+				$ssoServiceAccountUserNotEmptyMessage
+			);
+
+			$ssoServiceAccountUsernameConditionalRules = new Multisite_Validator_Rule_Conditional(
+				array($ssoServiceAccountUserSuffixRule, $ssoServiceAccountUserNotEmptyRule),
+				array(Adi_Configuration_Options::SSO_ENABLED => true)
+			);
+			$validator->addRule(Adi_Configuration_Options::SSO_USER, $ssoServiceAccountUsernameConditionalRules);
+
+			// SSO password
+			$ssoServiceAccountPasswordNotEmptyMessage = __('Password must not be empty.', ADI_I18N);
+			$ssoServiceAccountPasswordNotEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace(
+				$ssoServiceAccountPasswordNotEmptyMessage
+			);
+			$ssoServiceAccountPasswordConditionalRules = new Multisite_Validator_Rule_Conditional(
+				array($ssoServiceAccountPasswordNotEmptyRule),
+				array(Adi_Configuration_Options::SSO_ENABLED => true)
+			);
+			$validator->addRule(Adi_Configuration_Options::SSO_PASSWORD, $ssoServiceAccountPasswordConditionalRules);
+
+			$ssoEnvironmentVariableRule = new Multisite_Validator_Rule_SelectValueValid(
+				$invalidSelectValueRule, Adi_Authentication_SingleSignOn_Variable::getValues()
+			);
+			$validator->addRule(Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE, $ssoEnvironmentVariableRule);
+
+			// PERMISSIONS
 			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', ADI_I18N);
 			$disallowedRoleRule = new Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig($disallowedRoleMessage);
 			$validator->addRule(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
 
-			//ATTRIBUTES
+			// ATTRIBUTES
 			$noDefaultAttributeNameMessage = __(
 				'Cannot use default attribute names for custom attribute mapping.',
 				ADI_I18N
@@ -590,24 +619,23 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$adAttributeConflictRule = new Multisite_Validator_Rule_AdAttributeConflict($adAttributeConflictMessage);
 			$validator->addRule(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $adAttributeConflictRule);
 
-			//SYNC TO AD
+			// SYNC TO AD
 			// conditional rule for our sync_to_ad_global_user value
-			$message = __('Username has to contain a suffix.', ADI_I18N);
-			$syncToActiveDirectorySuffixRule = new Multisite_Validator_Rule_ConditionalSuffix(
-				$message, '@', array(
-					'sync_to_ad_use_global_user' => true,
-				)
+			$syncToActiveDirectorySuffixRule = new Multisite_Validator_Rule_Suffix($message, '@');
+			$syncToWordPressConditionalRules = new Multisite_Validator_Rule_Conditional(
+				array($syncToActiveDirectorySuffixRule),
+				array(Adi_Configuration_Options::SYNC_TO_AD_USE_GLOBAL_USER => true)
 			);
-			$validator->addRule(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER, $syncToActiveDirectorySuffixRule);
+			$validator->addRule(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER, $syncToWordPressConditionalRules);
 
-			//SYNC TO WORDPRESS
+			// SYNC TO WORDPRESS
 			// conditional rule for our sync_to_wordpress_user value
-			$syncToWordPressSuffixRule = new Multisite_Validator_Rule_ConditionalSuffix(
-				$message, '@', array(
-					'sync_to_wordpress_enabled' => true,
-				)
+			$syncToWordPressSuffixRule = new Multisite_Validator_Rule_Suffix($message, '@');
+			$syncToWordPressConditionalRules = new Multisite_Validator_Rule_Conditional(
+				array($syncToWordPressSuffixRule),
+				array(Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED => true)
 			);
-			$validator->addRule(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER, $syncToWordPressSuffixRule);
+			$validator->addRule(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER, $syncToWordPressConditionalRules);
 
 			$this->validator = $validator;
 		}
@@ -654,7 +682,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	{
 		$validator = new Core_Validator();
 
-		//ENVIRONMENT
+		// ENVIRONMENT
 		$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', ADI_I18N);
 		$portRule = new Multisite_Validator_Rule_Port($portMessage);
 		$validator->addRule(Adi_Configuration_Options::PORT, $portRule);

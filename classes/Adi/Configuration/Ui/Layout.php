@@ -178,14 +178,17 @@ class Adi_Configuration_Ui_Layout
 				self::ANGULAR_CONTROLLER => 'SecurityController',
 				self::MULTISITE_ONLY => false,
 				// Group name
-				__('SSO', ADI_I18N) => array(
+				__('Single Sign On', ADI_I18N) => array(
 					self::DESCRIPTION => __(
-						'Single Sign On Configuration (Not implemented, yet.)',
+						'Single Sign On Configuration',
 						ADI_I18N
 					),
 					// Option elements in group
 					self::OPTIONS => array(
-						Adi_Configuration_Options::AUTO_LOGIN,
+						Adi_Configuration_Options::SSO_ENABLED,
+						Adi_Configuration_Options::SSO_USER,
+						Adi_Configuration_Options::SSO_PASSWORD,
+						Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE,
 					),
 				),
 				// Group name

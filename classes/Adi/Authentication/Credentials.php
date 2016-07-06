@@ -99,7 +99,7 @@ class Adi_Authentication_Credentials
 	 */
 	public function setUpnSuffix($upnSuffix)
 	{
-		if ('@' == $upnSuffix[0]) {
+		if (0 === strpos($upnSuffix, '@')) {
 			$upnSuffix = substr($upnSuffix, 1);
 		}
 
@@ -147,6 +147,13 @@ class Adi_Authentication_Credentials
 	public function setSAMAccountName($sAMAccountName)
 	{
 		$this->sAMAccountName = $sAMAccountName;
+
+		// split the sAMAcountName from the logon name
+		$parts = explode('\\', $sAMAccountName);
+
+		if ($parts >= 2) {
+			$this->sAMAccountName = array_pop($parts);
+		}
 	}
 
 	/**

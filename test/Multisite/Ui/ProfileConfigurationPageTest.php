@@ -675,7 +675,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		$data = array('profileId' => 1);
 
 		$this->configuration->expects($this->once())
-			->method('getAllProfileOptionsValues')
+			->method('getProfileOptionsValues')
 			->with(1)
 			->willReturn('test');
 
@@ -782,7 +782,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 			->willReturn($expected['associatedProfiles']);
 
 		$this->configuration->expects($this->once())
-			->method('getAllProfileOptionsValues')
+			->method('getProfileOptionsValues')
 			->with(-1)
 			->willReturn($expected['defaultProfileData']);
 
@@ -873,9 +873,9 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		$validator = $sut->getValidator();
 		$rules = $validator->getValidationRules();
 
-		$this->assertCount(13, $rules);
-		$this->assertInstanceOf('Multisite_Validator_Rule_ConditionalSuffix', $rules[Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_ConditionalSuffix', $rules[Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER][0]);
+		$this->assertCount(16, $rules);
+		$this->assertInstanceOf('Multisite_Validator_Rule_Conditional', $rules[Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_Conditional', $rules[Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_AccountSuffix', $rules[Adi_Configuration_Options::ACCOUNT_SUFFIX][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_NoDefaultAttributeName', $rules[Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_AttributeMappingNull', $rules[Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][1]);
@@ -890,6 +890,9 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		$this->assertInstanceOf('Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[Adi_Configuration_Options::PROFILE_NAME][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig', $rules[Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS][0]);
 		$this->assertInstanceOf('Multisite_Validator_Rule_SelectValueValid', $rules[Adi_Configuration_Options::ENCRYPTION][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_SelectValueValid', $rules[Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_Conditional', $rules[Adi_Configuration_Options::SSO_USER][0]);
+		$this->assertInstanceOf('Multisite_Validator_Rule_Conditional', $rules[Adi_Configuration_Options::SSO_PASSWORD][0]);
 	}
 
 

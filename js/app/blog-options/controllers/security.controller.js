@@ -23,7 +23,10 @@
 
         $scope.$on('options', function (event, data) {
             $scope.option = {
-                auto_login: $valueHelper.findValue("auto_login", data),
+                sso: $valueHelper.findValue("sso", data),
+                sso_user: $valueHelper.findValue("sso_user", data),
+                sso_password: $valueHelper.findValue("sso_password", data),
+                sso_environment_variable: $valueHelper.findValue("sso_environment_variable", data),
                 max_login_attempts: $valueHelper.findValue("max_login_attempts", data),
                 block_time: $valueHelper.findValue("block_time", data),
                 user_notification: $valueHelper.findValue("user_notification", data),
@@ -36,7 +39,10 @@
             }
 
             $scope.permission = {
-                auto_login: $valueHelper.findPermission("auto_login", data),
+                sso: $valueHelper.findPermission("sso", data),
+                sso_user: $valueHelper.findPermission("sso_user", data),
+                sso_password: $valueHelper.findPermission("sso_password", data),
+                sso_environment_variable: $valueHelper.findPermission("sso_environment_variable", data),
                 max_login_attempts: $valueHelper.findPermission("max_login_attempts", data),
                 block_time: $valueHelper.findPermission("block_time", data),
                 user_notification: $valueHelper.findPermission("user_notification", data),
@@ -49,7 +55,10 @@
 
         $scope.$on('validation', function (event, data) {
             $scope.messages = {
-                auto_login: $valueHelper.findMessage("auto_login", data),
+                sso: $valueHelper.findMessage("sso", data),
+                sso_user: $valueHelper.findMessage("sso_user", data),
+                sso_password: $valueHelper.findMessage("sso_password", data),
+                sso_environment_variable: $valueHelper.findMessage("sso_environment_variable", data),
                 max_login_attempts: $valueHelper.findMessage("max_login_attempts", data),
                 block_time: $valueHelper.findMessage("block_time", data),
                 user_notification: $valueHelper.findMessage("user_notification", data),

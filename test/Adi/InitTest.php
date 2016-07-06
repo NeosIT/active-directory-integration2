@@ -418,7 +418,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function registerCore_itRegistersLoginHooks_whenUserIsOnLoginPage()
 	{
-		$sut = $this->sut(array('registerLoginHooks', 'isOnLoginPage'));
+		$sut = $this->sut(array('registerLoginHooks', 'isSsoEnabled', 'isOnLoginPage'));
 
 		$sut->expects($this->once())
 			->method('isOnLoginPage')
@@ -435,7 +435,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function registerCore_itLogsOutTheCurrentUser_whenUserIsDisabled()
 	{
-		$sut = $this->sut(array('dc'));
+		$sut = $this->sut(array('dc', 'isSsoEnabled'));
 
 		$this->loginUser($sut, 666, true);
 
@@ -455,7 +455,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('dc', 'isActive', 'isOnNetworkDashboard', 'initialize',
 			'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks',
-			'registerAdministrationMenu', 'registerMigrationHook'));
+			'registerAdministrationMenu', 'registerMigrationHook', 'isSsoEnabled'));
 		$this->loginUser($sut, 666, false);
 
 		$sut->expects($this->once())
@@ -475,7 +475,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('dc', 'isActive', 'isOnNetworkDashboard', 'initialize',
 			'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks',
-			'registerAdministrationMenu', 'registerMigrationHook'));
+			'registerAdministrationMenu', 'registerMigrationHook', 'isSsoEnabled'));
 		$this->loginUser($sut, 666, false);
 
 		$sut->expects($this->once())
@@ -494,7 +494,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	public function run_itRegistersTheUserProfileHooks()
 	{
 		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
-			'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu'));
+			'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu', 'isSsoEnabled'));
 		$this->loginUser($sut, 666, false);
 
 		$sut->expects($this->once())
@@ -509,7 +509,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	public function registerCore_itRegistersTheAdministrationHooks()
 	{
 		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
-			'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu'));
+			'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu', 'isSsoEnabled'));
 		$this->loginUser($sut, 666, false);
 
 		$sut->expects($this->once())
@@ -540,7 +540,8 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function runMultisite_itRegistersTheSharedAdministrationHooks_whenInMultisiteEnvironment()
 	{
-		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks', 'registerMigrationHook'));
+		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
+			'registerMigrationHook'));
 		$dc = $this->mockDependencyContainer($sut);
 
 		$this->loginUser($sut, null, null);
@@ -570,7 +571,8 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function runMultisite_itRegistersTheMultisiteAdministrationHooks_whenInMultisiteEnvironment()
 	{
-		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks', 'registerMigrationHook'));
+		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
+			'registerMigrationHook'));
 		$dc = $this->mockDependencyContainer($sut);
 
 		$this->loginUser($sut, null, null);

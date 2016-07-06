@@ -117,9 +117,9 @@ class Core_Util_Internal_Native
 
 	/**
 	 * Delegate the call to php internal ini_get function.
-	 * 
+	 *
 	 * @param string $key
-	 * 
+	 *
 	 * @return string
 	 */
 	public function iniGet($key)
@@ -138,5 +138,23 @@ class Core_Util_Internal_Native
 	public function iniSet($key, $value)
 	{
 		return ini_set($key, $value);
+	}
+
+	/**
+	 * Returns the current session id from PHP.
+	 *
+	 * @return string
+	 */
+	public function getSessionId()
+	{
+		return session_id();
+	}
+
+	/**
+	 * Start a new session.
+	 */
+	public function startSession()
+	{
+		session_start();
 	}
 }
