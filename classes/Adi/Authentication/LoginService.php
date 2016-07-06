@@ -484,6 +484,10 @@ class Adi_Authentication_LoginService
 
 		$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
 
+		// ADI-309: domain SID gets not synchronized
+		$domainSid = $this->ldapConnection->getDomainSid();
+		$adiUser->getLdapAttributes()->setDomainSid($domainSid);
+
 		if ($adiUser->getId()) {
 			$wpUser = $this->updateUser($adiUser);
 		} else {
