@@ -82,7 +82,7 @@ class Multisite_Ui_ProfileConfigurationController
 		$optionPermission = $option['option_permission'];
 		$optionValue = $option['option_value'];
 		$this->profileConfigurationRepository->persistSanitizedValue($profile, $optionName, $optionValue);
-		$this->profileConfigurationRepository->persistPermissionSanitized($profile, $optionName, $optionPermission);
+		$this->profileConfigurationRepository->persistSanitizedPermission($profile, $optionName, $optionPermission);
 	}
 
 	/**

@@ -174,6 +174,7 @@ class Core_Migration_Service
 	{
 		return array(
 			'Migration_MigrateEncryption',
+			'Migration_MigrateUseSamAccountNameForNewCreatedUsers',
 		);
 	}
 }

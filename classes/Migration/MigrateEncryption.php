@@ -16,30 +16,13 @@ if (class_exists('Migration_MigrateEncryption')) {
  *
  * @access
  */
-class Migration_MigrateEncryption extends Core_Migration_Abstract
+class Migration_MigrateEncryption extends Core_Migration_Configuration_Abstract
 {
 	const LDAPS_PREFIX = 'ldaps://';
-
-	/** @var Logger $logger */
-	private $logger;
-
-	/** @var Multisite_Configuration_Persistence_ProfileRepository $profileRepository */
-	private $profileRepository;
-
-	/** @var Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository */
-	private $profileConfigurationRepository;
-
-	/** @var Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository */
-	private $blogConfigurationRepository;
 
 	public function __construct(Adi_Dependencies $dependencyContainer)
 	{
 		parent::__construct($dependencyContainer);
-
-		$this->logger = Logger::getLogger('Migration_MigrateEncryption');
-		$this->profileRepository = $dependencyContainer->getProfileRepository();
-		$this->profileConfigurationRepository = $dependencyContainer->getProfileConfigurationRepository();
-		$this->blogConfigurationRepository = $dependencyContainer->getBlogConfigurationRepository();
 	}
 
 	/**
@@ -61,37 +44,6 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 	{
 		$this->migrateBlogs();
 		$this->migrateProfiles();
-	}
-
-	/**
-	 * Blog configuration migration.
-	 */
-	protected function migrateBlogs()
-	{
-		// so get all the blog ids from the blogs table
-		$blogs = $this->findAllBlogIds();
-
-
-		// migrate blog configurations
-		foreach ($blogs AS $blog) {
-			$blogId = $blog['blog_id'];
-
-			$this->migrateConfig($this->blogConfigurationRepository, $blogId);
-		}
-	}
-
-	/**
-	 * Profile configuration migration.
-	 */
-	protected function migrateProfiles()
-	{
-		$profiles = $this->profileRepository->findAll();
-
-		foreach ($profiles AS $profile) {
-			$profileId = $profile['profileId'];
-
-			$this->migrateConfig($this->profileConfigurationRepository, $profileId);
-		}
 	}
 
 	/**
@@ -124,19 +76,5 @@ class Migration_MigrateEncryption extends Core_Migration_Abstract
 
 		// now we can persist the new encryption status
 		$configurationRepository->persistSanitizedValue($id, Adi_Configuration_Options::ENCRYPTION, $encryptionStatus);
-	}
-
-	/**
-	 * Returns an array containing all blog ids
-	 * 
-	 * @return array
-	 */
-	protected function findAllBlogIds() {
-		if (!is_multisite()) {
-			return array(array('blog_id' => get_current_blog_id()));
-		}
-		
-		global $wpdb;
-		return $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
 	}
 }

@@ -198,16 +198,16 @@ class Adi_User_Manager
 			$password = $this->userHelper->getPassword($credentials->getPassword(), $syncToWordPress);
 			$credentials->setPassword($password);
 
-			$wpUserLogin = $credentials->getSAMAccountName();
+			$wpUserLogin = $credentials->getUserPrincipalName();
 
 			// get the correct username and assign it to our user, so we can persist him
-			if ($this->appendSuffixToNewUser()) {
-				$this->logger->debug(
-					"Using the userPrincipalName '" . $credentials->getUserPrincipalName()
-					. " for newly created user instead of sAMAccountName."
+			if ($this->useSamAccountNameForNewUsers()) {
+				$this->logger->info(
+					"Using the samAccountName '" . $credentials->getSAMAccountName()
+					. "' for newly created user instead of userPrincipalName."
 				);
 
-				$wpUserLogin = $credentials->getUserPrincipalName();
+				$wpUserLogin = $credentials->getSAMAccountName();
 			}
 
 			$user->setUserLogin($wpUserLogin);
@@ -233,12 +233,12 @@ class Adi_User_Manager
 	 *
 	 * @return bool
 	 */
-	function appendSuffixToNewUser()
+	function useSamAccountNameForNewUsers()
 	{
-		// get stored value for APPEND_SUFFIX_TO_NEW_USER
-		$appendSuffixToNewUser = $this->configuration->getOptionValue(Adi_Configuration_Options::APPEND_SUFFIX_TO_NEW_USERS);
+		// Use samAccountName for new created users ?
+		$useSamAccountNameForNewUsers = $this->configuration->getOptionValue(Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS);
 
-		return (bool)$appendSuffixToNewUser;
+		return (bool)$useSamAccountNameForNewUsers;
 	}
 
 

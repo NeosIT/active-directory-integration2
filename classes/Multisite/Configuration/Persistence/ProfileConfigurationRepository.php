@@ -207,7 +207,7 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 	 *
 	 * @return array|bool|null|object|void
 	 */
-	public function findPermissionSanitized($profileId, $optionName)
+	public function findSanitizedPermission($profileId, $optionName)
 	{
 		$permissions = $this->findPermission($profileId, $optionName);
 
@@ -240,7 +240,7 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 	 *
 	 * @return bool
 	 */
-	public function persistPermissionSanitized($profileId, $optionName, $optionPermission)
+	public function persistSanitizedPermission($profileId, $optionName, $optionPermission)
 	{
 		$isValidPermission = is_numeric($optionPermission) && ($optionPermission >= 0 && $optionPermission <= 3);
 
