@@ -190,7 +190,10 @@ class Adi_Init
 			return false;
 		}
 
-		// TODO register SSO as soon as it is available
+		if ($this->isSsoEnabled()) {
+			$this->registerSsoHooks();
+		}
+
 		if ($this->isOnLoginPage()) {
 			$this->registerLoginHooks();
 
@@ -271,6 +274,19 @@ class Adi_Init
 		$this->dc()->getLoginService()->register();
 		// register custom password validation
 		$this->dc()->getPasswordValidationService()->register();
+	}
+
+	/**
+	 * Register hooks during WordPress load
+	 */
+	public function registerSsoHooks()
+	{
+		// register sso
+		if ($this->isOnLoginPage()) {
+			$this->dc()->getSsoPage()->register();
+		}
+
+		$this->dc()->getSsoService()->register();
 	}
 
 	/**
@@ -356,6 +372,16 @@ class Adi_Init
 	}
 
 	/**
+	 * Return if SSO is enabled for the current blog.
+	 *
+	 * @return bool
+	 */
+	function isSsoEnabled()
+	{
+		return (bool)$this->dc()->getConfiguration()->getOptionValue(Adi_Configuration_Options::SSO_ENABLED);
+	}
+
+	/**
 	 * Return true if the user is currently on the login page or executes a log in
 	 * @return bool
 	 */
@@ -366,5 +392,4 @@ class Adi_Init
 
 		return (substr($page, -strlen($required)) == $required);
 	}
-
 }

@@ -17,6 +17,9 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	/* @var Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection */
 	private $ldapConnection;
 
+	/* @var Core_Util_Internal_Native|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
+	private $native;
+
 	public function setUp()
 	{
 		if (!class_exists('adLDAP')) {
@@ -34,11 +37,16 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->getMock();
 
 		$this->ldapConnection->method('getAdLdap')->willReturn($this->adLdap);
+
+		// mock away our internal php calls
+		$this->native = $this->createMockedNative();
+		Core_Util::native($this->native);
 	}
 
 	public function tearDown()
 	{
 		parent::tearDown();
+		Core_Util::native(null);
 	}
 
 	/**
@@ -405,17 +413,13 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	 */
 	public function loadMultisiteFunctions_withFunctionAvailable_returns()
 	{
-		$util = $this->createMock('Core_Util_Internal_Native');
-
-		$util->expects($this->once())
+		$this->native->expects($this->once())
 			->method('isFunctionAvailable')
 			->with('grant_super_admin')
 			->willReturn(true);
 
-		$util->expects($this->never())
+		$this->native->expects($this->never())
 			->method('isFileAvailable');
-
-		Core_Util::native($util);
 
 		$sut = $this->sut(null);
 
@@ -427,23 +431,19 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	 */
 	public function loadMultisiteFunctions_withoutFunctionAvailable_checksForFileAndImportsIt()
 	{
-		$util = $this->createMock('Core_Util_Internal_Native');
-
-		$util->expects($this->once())
+		$this->native->expects($this->once())
 			->method('isFunctionAvailable')
 			->with('grant_super_admin')
 			->willReturn(false);
 
-		$util->expects($this->once())
+		$this->native->expects($this->once())
 			->method('isFileAvailable')
 			->willReturn(ABSPATH . 'wp-admin/includes/ms.php')
 			->willReturn(true);
 
-		$util->expects($this->once())
+		$this->native->expects($this->once())
 			->method('includeOnce')
 			->with(ABSPATH . 'wp-admin/includes/ms.php');
-
-		Core_Util::native($util);
 
 		$sut = $this->sut(null);
 

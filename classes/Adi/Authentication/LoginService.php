@@ -35,7 +35,7 @@ class Adi_Authentication_LoginService
 	/* @var Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage */
 	private $userBlockedMessage;
 
-	/* @var Ldap_Attribute_Repository $attributeService */
+	/** @var Ldap_Attribute_Service $attributeService */
 	private $attributeService;
 
 	/* @var Logger $logger */
@@ -69,13 +69,13 @@ class Adi_Authentication_LoginService
 	 * @param Adi_Role_Manager                                          $roleManager
 	 */
 	public function __construct(Adi_Authentication_Persistence_FailedLoginRepository $failedLogin = null,
-		Multisite_Configuration_Service $configuration,
-		Ldap_Connection $ldapConnection,
-		Adi_User_Manager $userManager,
-		Adi_Mail_Notification $mailNotification = null,
-		Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
-		Ldap_Attribute_Service $attributeService,
-		Adi_Role_Manager $roleManager
+								Multisite_Configuration_Service $configuration,
+								Ldap_Connection $ldapConnection,
+								Adi_User_Manager $userManager,
+								Adi_Mail_Notification $mailNotification = null,
+								Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
+								Ldap_Attribute_Service $attributeService,
+								Adi_Role_Manager $roleManager
 	) {
 		$this->failedLogin = $failedLogin;
 		$this->configuration = $configuration;
@@ -204,9 +204,7 @@ class Adi_Authentication_LoginService
 	 */
 	public static function createCredentials($login, $password)
 	{
-		$credentials = new Adi_Authentication_Credentials($login, $password);
-
-		return $credentials;
+		return new Adi_Authentication_Credentials($login, $password);
 	}
 
 	/**
@@ -345,6 +343,17 @@ class Adi_Authentication_LoginService
 			return false;
 		}
 
+		return $this->isUserAuthorized($username, $accountSuffix);
+	}
+
+	/**
+	 * @param $username
+	 * @param $accountSuffix
+	 *
+	 * @return bool
+	 */
+	protected function isUserAuthorized($username, $accountSuffix)
+	{
 		// search for role mapping by the SAMAccountName and UserPrincipleName and merge them together
 		$roleMapping = $this->roleManager->createRoleMapping($username);
 		$upnRoleMapping = $this->roleManager->createRoleMapping($username . $accountSuffix);
@@ -475,6 +484,10 @@ class Adi_Authentication_LoginService
 
 		$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
 
+		// ADI-309: domain SID gets not synchronized
+		$domainSid = $this->ldapConnection->getDomainSid();
+		$adiUser->getLdapAttributes()->setDomainSid($domainSid);
+
 		if ($adiUser->getId()) {
 			$wpUser = $this->updateUser($adiUser);
 		} else {
@@ -603,5 +616,77 @@ class Adi_Authentication_LoginService
 	public function isCurrentUserAuthenticated()
 	{
 		return $this->currentUserAuthenticated;
+	}
+
+	/**
+	 * @return Adi_Authentication_Persistence_FailedLoginRepository
+	 */
+	public function getFailedLogin()
+	{
+		return $this->failedLogin;
+	}
+
+	/**
+	 * @return Ldap_Connection
+	 */
+	public function getLdapConnection()
+	{
+		return $this->ldapConnection;
+	}
+
+	/**
+	 * @return Multisite_Configuration_Service
+	 */
+	public function getConfiguration()
+	{
+		return $this->configuration;
+	}
+
+	/**
+	 * @return Adi_User_Manager
+	 */
+	public function getUserManager()
+	{
+		return $this->userManager;
+	}
+
+	/**
+	 * @return Adi_Mail_Notification
+	 */
+	public function getMailNotification()
+	{
+		return $this->mailNotification;
+	}
+
+	/**
+	 * @return Adi_Authentication_Ui_ShowBlockedMessage
+	 */
+	public function getUserBlockedMessage()
+	{
+		return $this->userBlockedMessage;
+	}
+
+	/**
+	 * @return Ldap_Attribute_Service
+	 */
+	public function getAttributeService()
+	{
+		return $this->attributeService;
+	}
+
+	/**
+	 * @return Logger
+	 */
+	public function getLogger()
+	{
+		return $this->logger;
+	}
+
+	/**
+	 * @return Adi_Role_Manager
+	 */
+	public function getRoleManager()
+	{
+		return $this->roleManager;
 	}
 }

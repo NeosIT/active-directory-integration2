@@ -66,6 +66,17 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Simple expected exception behaviour.
+	 *
+	 * @param $exception
+	 * @param $exceptionMessage
+	 */
+	public function expectExceptionThrown($exception, $exceptionMessage = '')
+	{
+		$this->setExpectedException($exception, $exceptionMessage);
+	}
+
+	/**
 	 * Simple behaviour for mock
 	 *
 	 * @param object $sut
@@ -200,6 +211,20 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 	protected function createUtilClassMock($clazzName)
 	{
 		return Mockery::mock('alias:' . $clazzName);
+	}
+
+	/**
+	 * Create a mock for a {@link WP_User}.
+	 *
+	 * @return WP_User
+	 */
+	protected function createWpUserMock()
+	{
+		$user = $this->createMock('WP_User');
+		$user->ID = 2;
+		$user->user_login = 'max@test.ad';
+
+		return $user;
 	}
 
 	/**

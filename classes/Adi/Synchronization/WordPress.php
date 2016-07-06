@@ -306,7 +306,7 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, $guid);
 		
 		// ADI-235: add domain SID
-		$ldapAttributes->addDomainSid($this->connection->getDomainSid());
+		$ldapAttributes->setDomainSid($this->connection->getDomainSid());
 		
 		$elapsedTimeLdap = time() - $startTimerLdap;
 		$this->ldapRequestTimeCounter = $this->ldapRequestTimeCounter + $elapsedTimeLdap;
