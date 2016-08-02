@@ -386,7 +386,7 @@ class Ldap_Connection
 		$sanitized = array();
 
 		foreach ($attributes as $attribute) {
-			$attribute = strtolower($attribute);
+			$attribute = Core_Util_StringUtil::toLowerCase($attribute);
 			$array = Core_Util_ArrayUtil::get($attribute, $userInfo);
 			$sanitized[$attribute] = Core_Util_ArrayUtil::get(0, $array);
 		}
@@ -590,7 +590,7 @@ class Ldap_Connection
 			$userSid = $adLdap->convertObjectSidBinaryToString($userInfo[0]["objectsid"][0]);
 			
 			if (strpos($userSid, $siteDomainSid) !== false ) {
-				$users[strtolower($member)] = $member;
+				$users[Core_Util_StringUtil::toLowerCase($member)] = $member;
 			}			
 		}
 

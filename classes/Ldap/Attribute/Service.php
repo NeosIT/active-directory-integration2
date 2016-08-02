@@ -80,7 +80,7 @@ class Ldap_Attribute_Service
 	public static function getLdapAttribute($attributeName, $ldapData)
 	{
 		// default value
-		$attributeName = strtolower($attributeName);
+		$attributeName = Core_Util_StringUtil::toLowerCase($attributeName);
 		$sanitizedValue = '';
 
 		// check $attributeValues

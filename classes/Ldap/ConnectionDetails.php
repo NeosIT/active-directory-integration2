@@ -100,7 +100,7 @@ class Ldap_ConnectionDetails
 		}
 
 		Core_Assert::condition(
-			in_array(strtolower($encryption), Multisite_Option_Encryption::getValues()),
+			in_array(Core_Util_StringUtil::toLowerCase($encryption), Multisite_Option_Encryption::getValues()),
 			'Encryption type must be one of none, starttls or ldaps');
 
 		$this->encryption = $encryption;

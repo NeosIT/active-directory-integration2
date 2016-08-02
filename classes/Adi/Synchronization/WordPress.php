@@ -198,7 +198,7 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 			$attributes = $this->attributeService->findLdapAttributesOfUsername($adUser);
 			$guid = $attributes->getFilteredValue(Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID);
 
-			$result[strtolower($guid)] = $adUser;
+			$result[Core_Util_StringUtil::toLowerCase($guid)] = $adUser;
 		}
 
 		return $result;

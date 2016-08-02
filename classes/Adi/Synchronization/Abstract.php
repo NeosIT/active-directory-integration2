@@ -125,7 +125,7 @@ abstract class Adi_Synchronization_Abstract
 
 			if ($this->isVerifiedDomainMember($userDomainSid)) {
 				$wpUsername = $user->user_login;
-				$r[strtolower($guid)] = $wpUsername;
+				$r[Core_Util_StringUtil::toLowerCase($guid)] = $wpUsername;
 			}
 		}
 

@@ -53,7 +53,7 @@ class Adi_Authentication_Credentials
 	 */
 	public function setLogin($login)
 	{
-		$login = strtolower(trim($login));
+		$login = Core_Util_StringUtil::toLowerCase(trim($login));
 		$this->login = $login;
 
 		$this->setUserPrincipalName($login);
@@ -63,7 +63,7 @@ class Adi_Authentication_Credentials
 	public function setUserPrincipalName($userPrincipalName)
 	{
 		Core_Assert::notEmpty($userPrincipalName, "userPrincipalName must not be empty");
-		$userPrincipalName = strtolower(trim($userPrincipalName));
+		$userPrincipalName = Core_Util_StringUtil::toLowerCase(trim($userPrincipalName));
 
 		$parts = explode('@', $userPrincipalName);
 

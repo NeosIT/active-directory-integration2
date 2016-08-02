@@ -338,7 +338,7 @@ class Ldap_Attribute_Repository
 	public static function resolveType($array)
 	{
 		$type = Core_Util_ArrayUtil::get(Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE, $array, 'string');
-		$type = strtolower(trim($type));
+		$type = Core_Util_StringUtil::toLowerCase(trim($type));
 
 		if (!in_array($type, self::$wellKnownAttributeTypes)) {
 			return 'string';
@@ -356,7 +356,7 @@ class Ldap_Attribute_Repository
 	 */
 	public static function resolveDefaultAttributeMetaKey($attributeName)
 	{
-		return ADI_PREFIX . strtolower($attributeName);
+		return ADI_PREFIX . Core_Util_StringUtil::toLowerCase($attributeName);
 	}
 
 	/**

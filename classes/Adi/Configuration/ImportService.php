@@ -325,7 +325,7 @@ class Adi_Configuration_ImportService
 		// collect previous custom attributes
 		foreach ($customAttributes as $line) {
 			$settings = explode(":", $line);
-			$adAttribute = strtolower(trim($settings[0]));
+			$adAttribute = Core_Util_StringUtil::toLowerCase(trim($settings[0]));
 			$type = sizeof($settings) >= 2 ? $settings[1] : 'string';
 			$wordpressAttribute = sizeof($settings) >= 3 ? $settings[2] : $adAttribute;
 
@@ -342,7 +342,7 @@ class Adi_Configuration_ImportService
 		// overwrite any attributes to show configuration
 		foreach ($attributesToShow as $line) {
 			$settings = explode(":", $line);
-			$adAttribute = strtolower(trim($settings[0]));
+			$adAttribute = Core_Util_StringUtil::toLowerCase(trim($settings[0]));
 
 			if (!isset($r[$adAttribute])) {
 				continue;

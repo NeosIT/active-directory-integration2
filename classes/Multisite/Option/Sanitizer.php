@@ -60,7 +60,7 @@ class Multisite_Option_Sanitizer
 			$value = $value["option_value"];
 		}
 
-		if (strtolower($value) === 'false') {
+		if (Core_Util_StringUtil::toLowerCase($value) === 'false') {
 			return false;
 		}
 
@@ -230,7 +230,7 @@ class Multisite_Option_Sanitizer
 		}
 
 		if ($lowercase) {
-			$value = strtolower($value);
+			$value = Core_Util_StringUtil::toLowerCase($value);
 		}
 
 		if ($nonEmpty && 0 === strlen($value)) {
