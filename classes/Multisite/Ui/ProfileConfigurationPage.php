@@ -3,14 +3,14 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Ui_ProfileConfigurationPage')) {
+if (class_exists('NextADInt_Multisite_Ui_ProfileConfigurationPage')) {
 	return;
 }
 
 /**
- * Multisite_Ui_ProfileConfigurationPage represents the BlogOption page in WordPress.
+ * NextADInt_Multisite_Ui_ProfileConfigurationPage represents the BlogOption page in WordPress.
  *
- * Multisite_Ui_ProfileConfigurationPage holds the methods for interacting with WordPress, displaying the rendered template
+ * NextADInt_Multisite_Ui_ProfileConfigurationPage holds the methods for interacting with WordPress, displaying the rendered template
  * and saving the data.
  *
  * @author Tobias Hellmann <the@neos-it.de>
@@ -19,7 +19,7 @@ if (class_exists('Multisite_Ui_ProfileConfigurationPage')) {
  *
  * @access public
  */
-class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurationPage
+class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisite_Ui_BlogConfigurationPage
 {
 	const SUB_ACTION_GENERATE_AUTHCODE = 'generateNewAuthCode';
 	const SUB_ACTION_SAVE_PROFILE = 'saveProfile';
@@ -33,13 +33,13 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	const TEMPLATE = 'profile-rights-management.twig';
 	const NONCE = 'Active Directory Integration Profile Option Nonce';
 
-	/** @var Multisite_Ui_ProfileConfigurationController */
+	/** @var NextADInt_Multisite_Ui_ProfileConfigurationController */
 	private $profileConfigurationController;
 
-	/** @var Multisite_Ui_ProfileController */
+	/** @var NextADInt_Multisite_Ui_ProfileController */
 	private $profileController;
 
-	/** @var Multisite_Configuration_Service */
+	/** @var NextADInt_Multisite_Configuration_Service */
 	private $configuration;
 
 	/** @var array map the given subActions to the corresponding methods */
@@ -54,17 +54,17 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	);
 
 	/**
-	 * @param Multisite_View_TwigContainer                $twigContainer
-	 * @param Multisite_Ui_BlogConfigurationController    $blogConfigurationController
-	 * @param Multisite_Ui_ProfileConfigurationController $profileConfigurationController
-	 * @param Multisite_Ui_ProfileController              $profileController
-	 * @param Multisite_Configuration_Service             $configurationService
+	 * @param NextADInt_Multisite_View_TwigContainer                $twigContainer
+	 * @param NextADInt_Multisite_Ui_BlogConfigurationController    $blogConfigurationController
+	 * @param NextADInt_Multisite_Ui_ProfileConfigurationController $profileConfigurationController
+	 * @param NextADInt_Multisite_Ui_ProfileController              $profileController
+	 * @param NextADInt_Multisite_Configuration_Service             $configurationService
 	 */
-	public function __construct(Multisite_View_TwigContainer $twigContainer,
-								Multisite_Ui_BlogConfigurationController $blogConfigurationController,
-								Multisite_Ui_ProfileConfigurationController $profileConfigurationController,
-								Multisite_Ui_ProfileController $profileController,
-								Multisite_Configuration_Service $configurationService
+	public function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer,
+								NextADInt_Multisite_Ui_BlogConfigurationController $blogConfigurationController,
+								NextADInt_Multisite_Ui_ProfileConfigurationController $profileConfigurationController,
+								NextADInt_Multisite_Ui_ProfileController $profileController,
+								NextADInt_Multisite_Configuration_Service $configurationService
 	) {
 		parent::__construct($twigContainer, $blogConfigurationController);
 
@@ -80,7 +80,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	 */
 	public function getTitle()
 	{
-		return esc_html__('Profile options', ADI_I18N);
+		return esc_html__('Profile options', NEXT_AD_INT_I18N);
 	}
 
 	/**
@@ -100,7 +100,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	 */
 	public function getSlug()
 	{
-		return ADI_PREFIX . 'profile_options';
+		return NEXT_AD_INT_PREFIX . 'profile_options';
 	}
 
 	/**
@@ -108,12 +108,12 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	 */
 	public function renderNetwork()
 	{
-		$relativeUrl = add_query_arg('page', Multisite_Ui_BlogProfileRelationshipPage::buildSlug());
+		$relativeUrl = add_query_arg('page', NextADInt_Multisite_Ui_BlogProfileRelationshipPage::buildSlug());
 
 		$this->display(self::TEMPLATE, array(
 			'blog_profile_relationship_url' => $relativeUrl,
 			'nonce'                         => wp_create_nonce(self::NONCE), //create nonce for security
-			'blog_rel_nonce'                => wp_create_nonce(Multisite_Ui_BlogProfileRelationshipPage::NONCE),
+			'blog_rel_nonce'                => wp_create_nonce(NextADInt_Multisite_Ui_BlogProfileRelationshipPage::NONCE),
 		));
 	}
 
@@ -130,57 +130,57 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 
 		parent::loadSharedAdminScriptsAndStyle();
 
-		wp_enqueue_script('adi2_profile_options_service_persistence',
-			ADI_URL . '/js/app/profile-options/services/persistence.service.js',
+		wp_enqueue_script('next_ad_int_profile_options_service_persistence',
+			NEXT_AD_INT_URL . '/js/app/profile-options/services/persistence.service.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_service_data',
-			ADI_URL . '/js/app/profile-options/services/data.service.js',
+		wp_enqueue_script('next_ad_int_profile_options_service_data',
+			NEXT_AD_INT_URL . '/js/app/profile-options/services/data.service.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
 
 		// add the controller js files
-		wp_enqueue_script('adi2_profile_options_controller_profile', ADI_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_profile', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/profile.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_delete', ADI_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_delete', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/delete.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_ajax', ADI_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_ajax', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/ajax.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_general', ADI_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_general', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/general.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_environment', ADI_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_environment', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/environment.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_user', ADI_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_user', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/user.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_password', ADI_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_password', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/password.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_permission', ADI_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_permission', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/permission.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_security', ADI_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_security', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/security.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_attributes', ADI_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_attributes', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/attributes.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_sync_to_ad', ADI_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_sync_to_ad', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/sync-to-ad.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_sync_to_wordpress', ADI_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_sync_to_wordpress', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/sync-to-wordpress.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
 
-		wp_enqueue_script('adi2_blog_options_model', ADI_URL . '/js/app/profile-options/models/profile.model.js',
+		wp_enqueue_script('next_ad_int_blog_options_model', NEXT_AD_INT_URL . '/js/app/profile-options/models/profile.model.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
 	}
 
 	/**
-	 * Get the data from our {@see $_POST} and send it to our {@see Multisite_Ui_ProfileController}.
+	 * Get the data from our {@see $_POST} and send it to our {@see NextADInt_Multisite_Ui_ProfileController}.
 	 *
 	 * @param array $postData
 	 *
@@ -197,7 +197,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	}
 
 	/**
-	 * Get the data from our {@see $_POST} and send it to our {@see Multisite_Ui_ProfileController}.
+	 * Get the data from our {@see $_POST} and send it to our {@see NextADInt_Multisite_Ui_ProfileController}.
 	 *
 	 * @param array $postData
 	 *
@@ -211,7 +211,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	}
 
 	/**
-	 * Get the data from our {@see $_POST} and send it to our {@see Multisite_Configuration_Service}.
+	 * Get the data from our {@see $_POST} and send it to our {@see NextADInt_Multisite_Configuration_Service}.
 	 *
 	 * @param array $postData
 	 *
@@ -260,7 +260,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	}
 
 	/**
-	 * Delegate call to {@link Multisite_Ui_ProfileConfigurationController#saveProfileOptions}.
+	 * Delegate call to {@link NextADInt_Multisite_Ui_ProfileConfigurationController#saveProfileOptions}.
 	 *
 	 * @param array $data
 	 * @param int|null $profileId
@@ -273,7 +273,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	}
 
 	/**
-	 * Get the data from our {@see $_POST} and send it to our {@see Multisite_Ui_ProfileConfigurationController}.
+	 * Get the data from our {@see $_POST} and send it to our {@see NextADInt_Multisite_Ui_ProfileConfigurationController}.
 	 *
 	 * @param array $postData
 	 *
@@ -325,10 +325,10 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 			'profiles'           => $this->profileController->findAll(),
 			'associatedProfiles' => $this->profileController->findAllProfileAssociations(),
 			'defaultProfileData' => $this->configuration->getProfileOptionsValues(-1),
-			'ldapAttributes'     => Ldap_Attribute_Description::findAll(),
-			'dataTypes'          => Ldap_Attribute_Repository::findAllAttributeTypes(),
+			'ldapAttributes'     => NextADInt_Ldap_Attribute_Description::findAll(),
+			'dataTypes'          => NextADInt_Ldap_Attribute_Repository::findAllAttributeTypes(),
 			'permissionItems'    => $this->getPermission(),
-			'wpRoles'        => Adi_Role_Manager::getRoles(),
+			'wpRoles'        => NextADInt_Adi_Role_Manager::getRoles(),
 		);
 	}
 
@@ -343,19 +343,19 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 		$permissionItems = array(
 			0 => array(
 				"value"       => "0",
-				"description" => __("Input field is invisible.", ADI_I18N),
+				"description" => __("Input field is invisible.", NEXT_AD_INT_I18N),
 			),
 			1 => array(
 				"value"       => "1",
-				"description" => __("Deactivated and option value not shown.", ADI_I18N),
+				"description" => __("Deactivated and option value not shown.", NEXT_AD_INT_I18N),
 			),
 			2 => array(
 				"value"       => "2",
-				"description" => __("Deactivated and option value shown.", ADI_I18N),
+				"description" => __("Deactivated and option value shown.", NEXT_AD_INT_I18N),
 			),
 			3 => array(
 				"value"       => "3",
-				"description" => __("Blog admin sets the option value.", ADI_I18N),
+				"description" => __("Blog admin sets the option value.", NEXT_AD_INT_I18N),
 			),
 		);
 

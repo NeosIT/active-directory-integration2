@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Validator_Result')) {
+if (class_exists('NextADInt_Core_Validator_Result')) {
 	return;
 }
 
@@ -12,7 +12,7 @@ if (class_exists('Core_Validator_Result')) {
  * @author Sebastian Weinert <swe@neos-it.de>
  * @author Danny Meißner <dme@neos-it.de>
  */
-class Core_Validator_Result
+class NextADInt_Core_Validator_Result
 {
 	/**
 	 * @var array

@@ -3,35 +3,35 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Authentication_Ui_ShowBlockedMessage')) {
+if (class_exists('NextADInt_Adi_Authentication_Ui_ShowBlockedMessage')) {
 	return;
 }
 
 /**
- * Adi_Authentication_Ui_ShowBlockedMessage blocks user and shows block message.
+ * NextADInt_Adi_Authentication_Ui_ShowBlockedMessage blocks user and shows block message.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_Authentication_Ui_ShowBlockedMessage
+class NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 {
 	const TEMPLATE_NAME = 'block-user.twig';
 
-	/* @var Multisite_Configuration_Service $configuration */
+	/* @var NextADInt_Multisite_Configuration_Service $configuration */
 	private $configuration;
 
-	/* @var Multisite_View_TwigContainer $twigContainer */
+	/* @var NextADInt_Multisite_View_TwigContainer $twigContainer */
 	private $twigContainer;
 
 	/* @var Logger $logger */
 	private $logger;
 
 	/**
-	 * @param Multisite_Configuration_Service $configuration
-	 * @param Multisite_View_TwigContainer            $twigContainer
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Multisite_View_TwigContainer            $twigContainer
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration,
-								Multisite_View_TwigContainer $twigContainer)
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Multisite_View_TwigContainer $twigContainer)
 	{
 		$this->configuration = $configuration;
 		$this->twigContainer = $twigContainer;
@@ -50,7 +50,7 @@ class Adi_Authentication_Ui_ShowBlockedMessage
 		}
 
 		//show block message via wp_die
-		$blockTime = $this->configuration->getOptionValue(Adi_Configuration_Options::BLOCK_TIME);
+		$blockTime = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::BLOCK_TIME);
 		
 		$this->showBlockMessage($blockTime);
 	}
@@ -69,7 +69,7 @@ class Adi_Authentication_Ui_ShowBlockedMessage
 			)
 		);
 
-		$display = __("Your account is blocked for %s seconds.", ADI_I18N);
+		$display = __("Your account is blocked for %s seconds.", NEXT_AD_INT_I18N);
 		$display = sprintf($display, "<span id='secondsLeft'>$timeLeft</span>");
 
 		wp_die($display);

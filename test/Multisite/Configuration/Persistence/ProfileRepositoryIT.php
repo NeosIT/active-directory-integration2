@@ -6,9 +6,9 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Multisite_Configuration_Persistence_ProfileRepositoryIT extends Ut_DatabaseTest
+class NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryIT extends Ut_DatabaseTest
 {
-	/* @var Core_Persistence_WordPressRepository|PHPUnit_Framework_MockObject_MockObject basicCommands */
+	/* @var NextADInt_Core_Persistence_WordPressRepository|PHPUnit_Framework_MockObject_MockObject basicCommands */
 	private $wordPressRepository;
 
 	public function setUp()
@@ -28,7 +28,7 @@ class Multisite_Configuration_Persistence_ProfileRepositoryIT extends Ut_Databas
 		global $pdo;
 		$pdo = $this->getConnection()->getConnection();
 
-		$mock = $this->createMock('Core_Persistence_WordPressRepository');
+		$mock = $this->createMock('NextADInt_Core_Persistence_WordPressRepository');
 
 		$mock->expects($this->any())
 			->method('getTableOptions')
@@ -70,11 +70,11 @@ class Multisite_Configuration_Persistence_ProfileRepositoryIT extends Ut_Databas
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods)
 	{
-		return $this->getMockBuilder('Multisite_Configuration_Persistence_ProfileRepository')
+		return $this->getMockBuilder('NextADInt_Multisite_Configuration_Persistence_ProfileRepository')
 			->setConstructorArgs(
 				array(
 					null,
@@ -112,12 +112,12 @@ CREATE TABLE `wp_sitemeta` (
 ");
 
 		$pdo->exec("
-INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (1, 1, 'adi2_p_n_1', 'aaa');
-INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (2, 1, 'adi2_p_d_1', 'afda');
-INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (3, 1, 'adi2_p_n_2', 'afv');
-INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (4, 1, 'adi2_p_d_2', 'dfdf');
-INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (5, 1, 'adi2_p_n_3', 'dddd');
-INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (6, 1, 'adi2_p_d_3', 'aaa');
+INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (1, 1, 'next_ad_int_p_n_1', 'aaa');
+INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (2, 1, 'next_ad_int_p_d_1', 'afda');
+INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (3, 1, 'next_ad_int_p_n_2', 'afv');
+INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (4, 1, 'next_ad_int_p_d_2', 'dfdf');
+INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (5, 1, 'next_ad_int_p_n_3', 'dddd');
+INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (6, 1, 'next_ad_int_p_d_3', 'aaa');
 ");
 
 		$actual = $sut->findAllIds();

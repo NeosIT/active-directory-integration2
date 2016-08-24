@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Active Directory Integration 2
+Plugin Name: Next Active Directory Integration
 Plugin URI: https://www.active-directory-wp.com
 Description: This is the successor of the Active Directory Integration plug-in which allows you to authenticate, authorize, create and update users through Active Directory.
 Version: 2.0
@@ -19,40 +19,32 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-define('ADI_PLUGIN_VERSION', '2.0');
-define('ADI_PREFIX', 'adi2_');
-define('ADI_PATH', dirname(__FILE__));
-define('ADI_URL', plugins_url('', __FILE__));
-define('ADI_I18N', 'ad-integration-2.0');
-define('ADI_PLUGIN_NAME', 'active-directory-integration2');
-define('ADI_PLUGIN_FILE', ADI_PLUGIN_NAME . '/index.php');
-
-require_once ADI_PATH . '/Autoloader.php';
-$autoLoader = new Adi_Autoloader();
+require_once 'constants.php';
+require_once 'Autoloader.php';
+$autoLoader = new NextADInt_Autoloader();
 $autoLoader->register();
 
 require_once 'functions.php';
-require_once ADI_PATH . '/vendor/apache/log4php/src/main/php/Logger.php';
+if (!class_exists('Logger')) {
+    require_once 'vendor/apache/log4php/src/main/php/Logger.php';
+}
 
-$requirements = new Adi_Requirements();
+$requirements = new NextADInt_Adi_Requirements();
 if (!$requirements->check()) {
 	return;
 }
 
 // start plugin
-$adiPlugin = new Adi_Init();
+$adiPlugin = new NextADInt_Adi_Init();
 
 // register basic hooks
 register_activation_hook(__FILE__, array($adiPlugin, 'activation'));
-register_uninstall_hook(__FILE__, array('Adi_Init' /* static */, 'uninstall'));
+register_uninstall_hook(__FILE__, array('NextADInt_Adi_Init' /* static */, 'uninstall'));
 
-add_action('plugins_loaded', 'angular_ajax_params_to_post');
+add_action('plugins_loaded', 'next_ad_int_angular_ajax_params_to_post');
 
 // register any hooks after the plug-in has been activated e.g. to display notices for a migration of options
 add_action('admin_init', array($adiPlugin, 'postActivation'));
-
-// TODO: remove / move
-add_action( 'plugins_loaded', 'angular_ajax_params_to_post' );
 
 // --- Normal Blog / Single Site ---
 // execute the plugin and their hooks after the 'plugins_loaded' hook has been called
@@ -64,4 +56,3 @@ add_action('plugins_loaded', array($adiPlugin, 'run'));
 // another possible solution would be using the hook 'redirect_network_admin_request' from network/admin.php but
 // the loading of the menu happens to early
 add_action('plugins_loaded', array($adiPlugin, 'runMultisite'));
-

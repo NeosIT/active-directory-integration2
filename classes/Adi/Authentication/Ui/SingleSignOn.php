@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('SingleSignOnPage')) {
+if (class_exists('NextADInt_Adi_Authentication_Ui_ShowBlockedMessage')) {
 	return;
 }
 
 /**
- * Adi_Authentication_Ui_SingleSignOn provides the functionality to display SSO related data in the frontend.
+ * NextADInt_Adi_Authentication_Ui_ShowBlockedMessage provides the functionality to display SSO related data in the frontend.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access
  */
-class Adi_Authentication_Ui_SingleSignOn
+class NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 {
 	/**
 	 * Register our action to add the SSO link to the login page.
@@ -29,7 +29,7 @@ class Adi_Authentication_Ui_SingleSignOn
 	 */
 	public function generateLoginFooter()
 	{
-		$message = __('Log in with SSO', ADI_I18N);
+		$message = __('Log in with SSO', NEXT_AD_INT_I18N);
 		$url = esc_url(add_query_arg('reauth', 'sso'));
 		echo '<p><a href="' . $url . '">' . $message . '</a></p>';
 	}

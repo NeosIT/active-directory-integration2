@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_User_Helper')) {
+if (class_exists('NextADInt_Adi_User_Helper')) {
 	return;
 }
 
@@ -13,10 +13,10 @@ if (class_exists('Adi_User_Helper')) {
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_User_Helper
+class NextADInt_Adi_User_Helper
 {
 	/**
-	 * @var Multisite_Configuration_Service
+	 * @var NextADInt_Multisite_Configuration_Service
 	 */
 	private $configuration;
 
@@ -24,9 +24,9 @@ class Adi_User_Helper
 	private $logger;
 
 	/**
-	 * @param Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration)
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration)
 	{
 		$this->configuration = $configuration;
 
@@ -36,11 +36,11 @@ class Adi_User_Helper
 	/**
 	 * Return the enriched $userData for WordPress, using the values from the Active Directory.
 	 *
-	 * @param Adi_User $user
+	 * @param NextADInt_Adi_User $user
 	 *
 	 * @return array
 	 */
-	public function getEnrichedUserData(Adi_User $user)
+	public function getEnrichedUserData(NextADInt_Adi_User $user)
 	{
 		$ldapAttributes = $user->getLdapAttributes()->getFiltered();
 
@@ -50,7 +50,7 @@ class Adi_User_Helper
 			'last_name' => $ldapAttributes['sn'],
 		);
 
-		$autoUpdateDescription = $this->configuration->getOptionValue(Adi_Configuration_Options::AUTO_UPDATE_DESCRIPTION);
+		$autoUpdateDescription = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_DESCRIPTION);
 
 		if ($autoUpdateDescription) {
 			$userData['description'] = $ldapAttributes['description'];
@@ -92,7 +92,7 @@ class Adi_User_Helper
 	}
 
 	/**
-	 * Get the password for a new user using the {@see Adi_User_Helper}.
+	 * Get the password for a new user using the {@see NextADInt_Adi_User_Helper}.
 	 *
 	 * @param string $password
 	 * @param boolean $syncToWordPress
@@ -115,7 +115,7 @@ class Adi_User_Helper
 	 */
 	protected function isRandomGeneratePassword($syncToWordPress)
 	{
-		$noRandomPassword = $this->configuration->getOptionValue(Adi_Configuration_Options::NO_RANDOM_PASSWORD);
+		$noRandomPassword = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::NO_RANDOM_PASSWORD);
 
 		return (!$noRandomPassword || $syncToWordPress);
 	}
@@ -157,7 +157,7 @@ class Adi_User_Helper
 		}
 
 		// if a defaultEmailDomain is set, then return the username with the defaultEmailDomain as suffix
-		$defaultEmailDomain = $this->configuration->getOptionValue(Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN);
+		$defaultEmailDomain = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN);
 
 		if ($defaultEmailDomain) {
 			return $username . '@' . $defaultEmailDomain;
@@ -182,7 +182,7 @@ class Adi_User_Helper
 	 */
 	public function getDisplayName($username, $ldapAttributes)
 	{
-		$namePattern = $this->configuration->getOptionValue(Adi_Configuration_Options::NAME_PATTERN);
+		$namePattern = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::NAME_PATTERN);
 
 		// if name pattern is empty or 'samaccountName', then do nothing
 		if (!$namePattern || $namePattern === 'samaccountname') {

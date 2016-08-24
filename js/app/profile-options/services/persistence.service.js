@@ -15,9 +15,9 @@
             };
 
             return $http.post('../admin-ajax.php', {
-                action: 'adi2_blog_profile_relationship',
+                action: 'next_ad_int_blog_profile_relationship',
                 data: data,
-                security: document['adi2']['blog-rel-security']
+                security: document['next_ad_int']['blog-rel-security']
             }).then(function () {
 
             });
@@ -25,8 +25,8 @@
 
         vm.removeProfile = function (id) {
             return $http.post('../admin-ajax.php', {
-                action: 'adi2_profile_options',
-                security: document.adi2.security,
+                action: 'next_ad_int_profile_options',
+                security: document.next_ad_int.security,
                 subAction: 'removeProfile',
                 id: id
             }).then($result);
@@ -34,8 +34,8 @@
 
         vm.persistData = function (data) {
             return $http.post('../admin-ajax.php', {
-                action: 'adi2_profile_options',
-                security: document.adi2.security,
+                action: 'next_ad_int_profile_options',
+                security: document.next_ad_int.security,
                 subAction: 'persistProfileOptionsValues',
                 data: data
             }).then($result);

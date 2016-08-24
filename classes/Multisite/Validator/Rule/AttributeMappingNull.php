@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_AttributeMappingNull')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_AttributeMappingNull')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_AttributeMappingNull prevents saving uncomplete attribute mappings.
+ * NextADInt_Multisite_Validator_Rule_AttributeMappingNull prevents saving uncomplete attribute mappings.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Validator_Rule_AttributeMappingNull')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_AttributeMappingNull extends Core_Validator_Rule_Abstract
+class NextADInt_Multisite_Validator_Rule_AttributeMappingNull extends NextADInt_Core_Validator_Rule_Abstract
 {
 	/**
 	 * Validate the given data.
@@ -41,7 +41,7 @@ class Multisite_Validator_Rule_AttributeMappingNull extends Core_Validator_Rule_
 				|| $attribute["type"] === "undefined"
 				|| $attribute["wordpress_attribute"] === ""
 				|| $attribute["wordpress_attribute"] === "undefined"
-				|| $attribute["wordpress_attribute"] === "adi2_";
+				|| $attribute["wordpress_attribute"] === "next_ad_int_";
 
 			if ($isEmpty) {
 				return $this->getMsg();
@@ -52,7 +52,7 @@ class Multisite_Validator_Rule_AttributeMappingNull extends Core_Validator_Rule_
 	}
 
 	/**
-	 * Simple delegation to {@see Ldap_Attribute_Repository::convertAttributeMapping}.
+	 * Simple delegation to {@see NextADInt_Ldap_Attribute_Repository::convertAttributeMapping}.
 	 *
 	 * @param $attributeString
 	 *
@@ -60,6 +60,6 @@ class Multisite_Validator_Rule_AttributeMappingNull extends Core_Validator_Rule_
 	 */
 	protected function convertAttributeMapping($attributeString)
 	{
-		return Ldap_Attribute_Repository::convertAttributeMapping($attributeString);
+		return NextADInt_Ldap_Attribute_Repository::convertAttributeMapping($attributeString);
 	}
 }

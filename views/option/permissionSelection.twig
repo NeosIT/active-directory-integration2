@@ -6,7 +6,7 @@
     {% set itemDescription = "{{ item.description }}" %}
 
     {% if isPermissionEnabled %}
-        <select class="adi2-resize" ng-model="permission.{{ optionName }}">
+        <select class="next_ad_int-resize" ng-model="permission.{{ optionName }}">
             <option ng-repeat="item in permissionOptions" value="{{ itemValue }}">{{ itemDescription }}</option>
         </select>
     {% endif %}

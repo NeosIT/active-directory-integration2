@@ -3,42 +3,42 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Configuration_Persistence_ProfileConfigurationRepository')) {
+if (class_exists('NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository')) {
 	return;
 }
 
 /**
- * Multisite_Configuration_Persistence_ProfileConfigurationRepository persists and finds profile options.
+ * NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository persists and finds profile options.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Multisite_Configuration_Persistence_ProfileConfigurationRepository implements Multisite_Configuration_Persistence_ConfigurationRepository
+class NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository implements NextADInt_Multisite_Configuration_Persistence_ConfigurationRepository
 {
 	const PREFIX = 'po_';
 	const PREFIX_VALUE = 'v_';
 	const PREFIX_PERMISSION = 'p_';
 
-	/* @var Multisite_Option_Sanitizer */
+	/* @var NextADInt_Multisite_Option_Sanitizer */
 	private $sanitizer;
 
-	/* @var Core_Encryption */
+	/* @var NextADInt_Core_Encryption */
 	private $encryptionHandler;
 
-	/* @var Multisite_Option_Provider */
+	/* @var NextADInt_Multisite_Option_Provider */
 	private $optionProvider;
 
 	/* @var Logger */
 	private $logger;
 
 	/**
-	 * @param Multisite_Option_Sanitizer $sanitizer
-	 * @param Core_Encryption $encryptionHandler
-	 * @param Multisite_Option_Provider $optionProvider
+	 * @param NextADInt_Multisite_Option_Sanitizer $sanitizer
+	 * @param NextADInt_Core_Encryption $encryptionHandler
+	 * @param NextADInt_Multisite_Option_Provider $optionProvider
 	 */
-	public function __construct(Multisite_Option_Sanitizer $sanitizer,
-								Core_Encryption $encryptionHandler,
-								Multisite_Option_Provider $optionProvider)
+	public function __construct(NextADInt_Multisite_Option_Sanitizer $sanitizer,
+								NextADInt_Core_Encryption $encryptionHandler,
+								NextADInt_Multisite_Option_Provider $optionProvider)
 	{
 		$this->sanitizer = $sanitizer;
 		$this->encryptionHandler = $encryptionHandler;
@@ -60,7 +60,7 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 	{
 		$prefix = $optionValue ? self::PREFIX_VALUE : self::PREFIX_PERMISSION;
 
-		return ADI_PREFIX . self::PREFIX . $prefix . $profileId . '_' . $optionName;
+		return NEXT_AD_INT_PREFIX . self::PREFIX . $prefix . $profileId . '_' . $optionName;
 	}
 
 	/**
@@ -80,14 +80,14 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 			$optionValue = $this->getDefaultValue($profileSiteId, $optionName, $optionMetadata);
 		}
 
-		$type = Core_Util_ArrayUtil::get(Multisite_Option_Attribute::TYPE, $optionMetadata);
+		$type = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Multisite_Option_Attribute::TYPE, $optionMetadata);
 
-		if (Multisite_Option_Type::PASSWORD === $type) {
+		if (NextADInt_Multisite_Option_Type::PASSWORD === $type) {
 			$value = $this->encryptionHandler->decrypt($value);
 		}
 
-		if (isset($optionMetadata[Multisite_Option_Attribute::SANITIZER])) {
-			$params = $optionMetadata[Multisite_Option_Attribute::SANITIZER];
+		if (isset($optionMetadata[NextADInt_Multisite_Option_Attribute::SANITIZER])) {
+			$params = $optionMetadata[NextADInt_Multisite_Option_Attribute::SANITIZER];
 			$value = $this->sanitizer->sanitize($value, $params, $optionMetadata);
 		}
 
@@ -106,11 +106,11 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 	 */
 	public function getDefaultValue($profileId, $optionName, $option)
 	{
-		$optionValue = $option[Multisite_Option_Attribute::DEFAULT_VALUE];
+		$optionValue = $option[NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE];
 
 		// generate with Sanitizer a new value, persist it and find it (again).
-		if (Core_Util_ArrayUtil::get(Multisite_Option_Attribute::PERSIST_DEFAULT_VALUE, $option, false)) {
-			$params = $option[Multisite_Option_Attribute::SANITIZER];
+		if (NextADInt_Core_Util_ArrayUtil::get(NextADInt_Multisite_Option_Attribute::PERSIST_DEFAULT_VALUE, $option, false)) {
+			$params = $option[NextADInt_Multisite_Option_Attribute::SANITIZER];
 			$optionValue = $this->sanitizer->sanitize($optionValue, $params, $option, true);
 
 			$this->persistValue($profileId, $optionName, $optionValue);
@@ -130,7 +130,7 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 	protected function findValue($profileId, $optionName)
 	{
 		$metadata = $this->optionProvider->get($optionName);
-		$default = $metadata[Multisite_Option_Attribute::DEFAULT_VALUE];
+		$default = $metadata[NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE];
 
 		$name = $this->createUniqueOptionName(true, $profileId, $optionName);
 
@@ -152,14 +152,14 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 		$optionElement = $this->optionProvider->get($optionName);
 
 		//call sanitizer
-		if (isset($optionElement[Multisite_Option_Attribute::SANITIZER])) {
-			$params = $optionElement[Multisite_Option_Attribute::SANITIZER];
+		if (isset($optionElement[NextADInt_Multisite_Option_Attribute::SANITIZER])) {
+			$params = $optionElement[NextADInt_Multisite_Option_Attribute::SANITIZER];
 			$optionValue = $this->sanitizer->sanitize($optionValue, $params, $optionElement);
 		}
 
 		//encrypt if option is a password
-		$type = Core_Util_ArrayUtil::get(Multisite_Option_Attribute::TYPE, $optionElement);
-		if (Multisite_Option_Type::PASSWORD === $type) {
+		$type = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Multisite_Option_Attribute::TYPE, $optionElement);
+		if (NextADInt_Multisite_Option_Type::PASSWORD === $type) {
 			$optionValue = $this->encryptionHandler->encrypt($optionValue);
 		}
 

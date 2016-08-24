@@ -10,7 +10,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 {
 	public static function setUpBeforeClass()
 	{
-		Core_Logger::disableLogging();
+		NextADInt_Core_Logger::disableLogging();
 	}
 
 	public function setUp()
@@ -18,7 +18,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 		\WP_Mock::setUp();
 
 		\WP_Mock::wpFunction('__', array(
-			'args'       => array(WP_Mock\Functions::type('string'), ADI_I18N),
+			'args'       => array(WP_Mock\Functions::type('string'), NEXT_AD_INT_I18N),
 			'times'      => '0+',
 			'return_arg' => 0,
 		));
@@ -28,7 +28,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 			'times' => '0',
 		));
 		\WP_Mock::wpFunction('esc_html__', array(
-			'args'       => array(WP_Mock\Functions::type('string'), ADI_I18N),
+			'args'       => array(WP_Mock\Functions::type('string'), NEXT_AD_INT_I18N),
 			'times'      => '0+',
 			'return_arg' => 0,
 		));
@@ -64,6 +64,28 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 			->disableProxyingToOriginalMethods()
 			->getMock();
 	}
+
+    /**
+     * Create a mocked object using the phpunit MockBuilder.
+     * This method ignores the constructor and will not delegate call to real methods.
+     * Furthermore you can add mocked method to this object with the param methods.
+     *
+     * @param $className
+     *
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    public function createMockWithMethods($className, $methods)
+    {
+        if (!class_exists($className) && !interface_exists($className)) {
+            echo "You create a new class/interface '$className'. Be careful.";
+        }
+
+        return $this->getMockBuilder($className)
+            ->disableOriginalConstructor()
+            ->disableProxyingToOriginalMethods()
+            ->setMethods($methods)
+            ->getMock();
+    }
 
 	/**
 	 * Simple expected exception behaviour.
@@ -175,7 +197,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function createMockedNative()
 	{
-		return $this->getMockBuilder('Core_Util_Internal_Native')
+		return $this->getMockBuilder('NextADInt_Core_Util_Internal_Native')
 			->disableOriginalConstructor()
 			->getMock();
 	}

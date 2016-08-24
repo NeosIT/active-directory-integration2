@@ -1,7 +1,7 @@
 <?php
 // more functions
-if (!function_exists('hash_equals')) {
-	function hash_equals($a, $b)
+if (!function_exists('next_ad_int_hash_equals')) {
+	function next_ad_int_hash_equals($a, $b)
 	{
 		$ret = strlen($a) ^ strlen($b);
 		$ret |= array_sum(unpack("C*", $a ^ $b));
@@ -10,8 +10,8 @@ if (!function_exists('hash_equals')) {
 	}
 }
 
-if (!function_exists('angular_ajax_params_to_post')) {
-	function angular_ajax_params_to_post()
+if (!function_exists('next_ad_int_angular_ajax_params_to_post')) {
+	function next_ad_int_angular_ajax_params_to_post()
 	{
 		$isAjax = (defined('DOING_AJAX') && DOING_AJAX);
 

@@ -4,19 +4,19 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/* @var Multisite_View_TwigContainer|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_View_TwigContainer|PHPUnit_Framework_MockObject_MockObject */
 	private $twigContainer;
 
-	/* @var Ldap_Attribute_Repository|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Ldap_Attribute_Repository|PHPUnit_Framework_MockObject_MockObject */
 	private $attributeRepository;
 
 	/**
-	 * @var Adi_Synchronization_ActiveDirectory|PHPUnit_Framework_MockObject_MockObject
+	 * @var NextADInt_Adi_Synchronization_ActiveDirectory|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $syncToActiveDirectory;
 
@@ -26,10 +26,10 @@ class Ut_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTest
 
 	public function setUp()
 	{
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->twigContainer = $this->createMock('Multisite_View_TwigContainer');
-		$this->attributeRepository = $this->createMock('Ldap_Attribute_Repository');
-		$this->syncToActiveDirectory = $this->createMock('Adi_Synchronization_ActiveDirectory');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->twigContainer = $this->createMock('NextADInt_Multisite_View_TwigContainer');
+		$this->attributeRepository = $this->createMock('NextADInt_Ldap_Attribute_Repository');
+		$this->syncToActiveDirectory = $this->createMock('NextADInt_Adi_Synchronization_ActiveDirectory');
 
 		$this->twig = $this->getMockBuilder('Twig_Environment')
 			->disableOriginalConstructor()
@@ -47,11 +47,11 @@ class Ut_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTest
 	/**
 	 * @param null $methods
 	 *
-	 * @return Adi_User_Profile_Ui_ShowLdapAttributes|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_User_Profile_Ui_ShowLdapAttributes|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_User_Profile_Ui_ShowLdapAttributes')
+		return $this->getMockBuilder('NextADInt_Adi_User_Profile_Ui_ShowLdapAttributes')
 			->setConstructorArgs(
 				array(
 					$this->configuration,
@@ -271,7 +271,7 @@ class Ut_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTest
 	public function createAttributesViewModel_delegatesToCreateAttributeViewModel() {
 		$sut = $this->sut(array('createAttributeViewModel'));
 
-		$attributes = array('mail' => new Ldap_Attribute());
+		$attributes = array('mail' => new NextADInt_Ldap_Attribute());
 
 		$sut->expects($this->once())
 			->method('createAttributeViewModel')
@@ -290,7 +290,7 @@ class Ut_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$metaObject = new Ldap_Attribute();
+		$metaObject = new NextADInt_Ldap_Attribute();
 		$metaObject->setMetakey('m_key');
 
 		$user = (object)array(
@@ -319,7 +319,7 @@ class Ut_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$metaObject = new Ldap_Attribute();
+		$metaObject = new NextADInt_Ldap_Attribute();
 
 		$user = (object)array(
 			'ID' => 123
@@ -344,7 +344,7 @@ class Ut_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$metaObject = new Ldap_Attribute();
+		$metaObject = new NextADInt_Ldap_Attribute();
 		$metaObject->setMetakey('m_key');
 		$metaObject->setDescription('do stuff');
 
@@ -371,7 +371,7 @@ class Ut_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$metaObject = new Ldap_Attribute();
+		$metaObject = new NextADInt_Ldap_Attribute();
 		$metaObject->setMetakey('m_key');
 
 		$user = (object)array(
@@ -398,7 +398,7 @@ class Ut_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$metaObject = new Ldap_Attribute();
+		$metaObject = new NextADInt_Ldap_Attribute();
 		$metaObject->setType('list');
 		$metaObject->setSyncable(true);
 
@@ -417,7 +417,7 @@ class Ut_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$metaObject = new Ldap_Attribute();
+		$metaObject = new NextADInt_Ldap_Attribute();
 		$metaObject->setType('string');
 		$metaObject->setSyncable(true);
 
@@ -436,7 +436,7 @@ class Ut_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$metaObject = new Ldap_Attribute();
+		$metaObject = new NextADInt_Ldap_Attribute();
 		$metaObject->setType('string');
 		$metaObject->setSyncable(false);
 

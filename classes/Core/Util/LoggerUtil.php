@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Util_LoggerUtil')) {
+if (class_exists('NextADInt_Core_Util_LoggerUtil')) {
 	return;
 }
 
 /**
- * Core_Util_LoggerUtil allows logging multiple messages by iterating through the given array of messages.
+ * NextADInt_Core_Util_LoggerUtil allows logging multiple messages by iterating through the given array of messages.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access
  */
-abstract class Core_Util_LoggerUtil
+abstract class NextADInt_Core_Util_LoggerUtil
 {
 	private function __construct()
 	{

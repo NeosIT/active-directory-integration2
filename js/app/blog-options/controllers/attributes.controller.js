@@ -64,7 +64,7 @@
                 verification_password : $valueHelper.findPermission("verification_password", data)
             };
 
-            $scope.newWordpressAttribute = "adi2_";
+            $scope.newWordpressAttribute = "next_ad_int_";
 
         });
 
@@ -163,7 +163,7 @@
         vm.resetAddAttributeFields = function () {
             $scope.newAdAttribute = "";
             $scope.newDataType = "";
-            $scope.newWordpressAttribute = "adi2_";
+            $scope.newWordpressAttribute = "next_ad_int_";
             $scope.newDescription = "";
             $scope.newViewInUserProfile = false;
             $scope.newSyncToAd = false;

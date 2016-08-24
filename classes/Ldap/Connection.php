@@ -3,22 +3,22 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ldap_Connection')) {
+if (class_exists('NextADInt_Ldap_Connection')) {
 	return;
 }
 
 /**
  * This class abstracts the usage of the adLDAP library for easier handling common use-cases and falls back to the default values of the blog if values are not present.
  *
- * Ldap_Connection establishes a connection to the defined Active Directories, authenticates users and contains help functions for
+ * NextADInt_Ldap_Connection establishes a connection to the defined Active Directories, authenticates users and contains help functions for
  * checking group membership etc.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Ldap_Connection
+class NextADInt_Ldap_Connection
 {
-	/* @var Multisite_Configuration_Service $configuration */
+	/* @var NextADInt_Multisite_Configuration_Service $configuration */
 	private $configuration;
 
 	/* @var adLDAP $adldap */
@@ -31,13 +31,13 @@ class Ldap_Connection
 	private $siteDomainSid;
 
 	/**
-	 * @param Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration)
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration)
 	{
 		if (!class_exists('adLDAP')) {
 			// get adLdap
-			require_once ADI_PATH . '/vendor/adLDAP/adLDAP.php';
+			require_once NEXT_AD_INT_PATH . '/vendor/adLDAP/adLDAP.php';
 		}
 
 		$this->configuration = $configuration;
@@ -49,9 +49,9 @@ class Ldap_Connection
 	 * Create an connection to the Active Directory. But the state of the connection is unknown.
 	 * You have to check if with $this->checkConnection().
 	 *
-	 * @param Ldap_ConnectionDetails $connectionDetails
+	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
 	 */
-	public function connect(Ldap_ConnectionDetails $connectionDetails)
+	public function connect(NextADInt_Ldap_ConnectionDetails $connectionDetails)
 	{
 		$config = $this->createConfiguration($connectionDetails);
 
@@ -68,13 +68,13 @@ class Ldap_Connection
 	}
 
 	/**
-	 * Based upon the provided Ldap_ConnectionDetails a configuration array for adLDAP is created.
+	 * Based upon the provided NextADInt_Ldap_Connection a configuration array for adLDAP is created.
 	 *
-	 * @param Ldap_ConnectionDetails $connectionDetails
+	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
 	 *
 	 * @return array
 	 */
-	public function createConfiguration(Ldap_ConnectionDetails $connectionDetails)
+	public function createConfiguration(NextADInt_Ldap_ConnectionDetails $connectionDetails)
 	{
 		$useTls = $this->getUseTls($connectionDetails);
 
@@ -111,16 +111,16 @@ class Ldap_Connection
 	/**
 	 * Return the base DN based upon the $connectionDetails. If the base DN is not set the base DN of the current blog instance is returned.
 	 *
-	 * @param Ldap_ConnectionDetails $connectionDetails
+	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
 	 *
 	 * @return mixed
 	 */
-	public function getBaseDn(Ldap_ConnectionDetails $connectionDetails)
+	public function getBaseDn(NextADInt_Ldap_ConnectionDetails $connectionDetails)
 	{
 		$baseDn = $connectionDetails->getBaseDn();
 
 		if (null === $baseDn) {
-			$baseDn = $this->configuration->getOptionValue(Adi_Configuration_Options::BASE_DN);
+			$baseDn = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::BASE_DN);
 		}
 
 		return $baseDn;
@@ -129,19 +129,19 @@ class Ldap_Connection
 	/**
 	 * Return the domain controllers based upon the $connectionDetails. If no domain controller is set the domain controllers of the current blog instance are returned.
 	 *
-	 * @param Ldap_ConnectionDetails $connectionDetails
+	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
 	 *
 	 * @return array
 	 */
-	public function getDomainControllers(Ldap_ConnectionDetails $connectionDetails)
+	public function getDomainControllers(NextADInt_Ldap_ConnectionDetails $connectionDetails)
 	{
 		$domainControllers = $connectionDetails->getDomainControllers();
 
 		if (null === $domainControllers) {
-			$domainControllers = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAIN_CONTROLLERS);
+			$domainControllers = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS);
 		}
 
-		$domainControllers = Core_Util_StringUtil::split($domainControllers, ';');
+		$domainControllers = NextADInt_Core_Util_StringUtil::split($domainControllers, ';');
 
 		return $this->getDomainControllersWithEncryption($connectionDetails, $domainControllers);
 	}
@@ -149,15 +149,15 @@ class Ldap_Connection
 	/**
 	 * Check if the controllers should be prefixed with 'ldaps://' or not.
 	 *
-	 * @param Ldap_ConnectionDetails $connectionDetails
+	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
 	 * @param array                  $domainControllers
 	 *
 	 * @return array
 	 */
-	protected function getDomainControllersWithEncryption(Ldap_ConnectionDetails $connectionDetails,
+	protected function getDomainControllersWithEncryption(NextADInt_Ldap_ConnectionDetails $connectionDetails,
 														  array $domainControllers
 	) {
-		if ($this->getEncryption($connectionDetails) !== Multisite_Option_Encryption::LDAPS) {
+		if ($this->getEncryption($connectionDetails) !== NextADInt_Multisite_Option_Encryption::LDAPS) {
 			return $domainControllers;
 		}
 
@@ -169,16 +169,16 @@ class Ldap_Connection
 	/**
 	 * Return the port based upon the $connectionDetails. If the port is not set the port of the current blog instance is returned.
 	 *
-	 * @param Ldap_ConnectionDetails $connectionDetails
+	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
 	 *
 	 * @return mixed
 	 */
-	public function getAdPort(Ldap_ConnectionDetails $connectionDetails)
+	public function getAdPort(NextADInt_Ldap_ConnectionDetails $connectionDetails)
 	{
 		$port = $connectionDetails->getPort();
 
 		if (null === $port) {
-			$port = $this->configuration->getOptionValue(Adi_Configuration_Options::PORT);
+			$port = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::PORT);
 		}
 
 		return $port;
@@ -187,28 +187,28 @@ class Ldap_Connection
 	/**
 	 * Return the usage of TLS based upon the $connectionDetails. If the usage of TLS is not set the usage of TLS of the current blog instance is returned.
 	 *
-	 * @param Ldap_ConnectionDetails $connectionDetails
+	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
 	 *
 	 * @return bool
 	 */
-	public function getUseTls(Ldap_ConnectionDetails $connectionDetails)
+	public function getUseTls(NextADInt_Ldap_ConnectionDetails $connectionDetails)
 	{
-		return $this->getEncryption($connectionDetails) === Multisite_Option_Encryption::STARTTLS;
+		return $this->getEncryption($connectionDetails) === NextADInt_Multisite_Option_Encryption::STARTTLS;
 	}
 
 	/**
 	 * Return the encryption based upon the $connectionDetails. If the encryption is not set the encryption of the current blog instance is returned.
 	 *
-	 * @param Ldap_ConnectionDetails $connectionDetails
+	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
 	 *
 	 * @return string|null
 	 */
-	public function getEncryption(Ldap_ConnectionDetails $connectionDetails)
+	public function getEncryption(NextADInt_Ldap_ConnectionDetails $connectionDetails)
 	{
 		$encryption = $connectionDetails->getEncryption();
 
 		if (null === $encryption) {
-			$encryption = $this->configuration->getOptionValue(Adi_Configuration_Options::ENCRYPTION);
+			$encryption = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ENCRYPTION);
 		}
 
 		return $encryption;
@@ -217,16 +217,16 @@ class Ldap_Connection
 	/**
 	 * Return the network timeout based upon the $connectionDetails. If the port is not set the network timeout of the current blog instance is returned.
 	 *
-	 * @param Ldap_ConnectionDetails $connectionDetails
+	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
 	 *
 	 * @return mixed
 	 */
-	public function getNetworkTimeout(Ldap_ConnectionDetails $connectionDetails)
+	public function getNetworkTimeout(NextADInt_Ldap_ConnectionDetails $connectionDetails)
 	{
 		$networkTimeout = $connectionDetails->getNetworkTimeout();
 
 		if (null === $networkTimeout) {
-			$networkTimeout = $this->configuration->getOptionValue(Adi_Configuration_Options::NETWORK_TIMEOUT);
+			$networkTimeout = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT);
 		}
 
 		return $networkTimeout;
@@ -387,8 +387,8 @@ class Ldap_Connection
 
 		foreach ($attributes as $attribute) {
 			$attribute = strtolower($attribute);
-			$array = Core_Util_ArrayUtil::get($attribute, $userInfo);
-			$sanitized[$attribute] = Core_Util_ArrayUtil::get(0, $array);
+			$array = NextADInt_Core_Util_ArrayUtil::get($attribute, $userInfo);
+			$sanitized[$attribute] = NextADInt_Core_Util_ArrayUtil::get(0, $array);
 		}
 
 		return $sanitized;
@@ -441,15 +441,15 @@ class Ldap_Connection
 	 */
 	public function checkPorts()
 	{
-		if (!Core_Util::native()->isFunctionAvailable('fsockopen')) {
+		if (!NextADInt_Core_Util::native()->isFunctionAvailable('fsockopen')) {
 			$this->logger->debug('Function fsockopen() is not available. Can not check server ports.');
 
 			return false;
 		}
 
-		$domainControllers = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAIN_CONTROLLERS);
-		$domainControllers = Core_Util_StringUtil::split($domainControllers, ';');
-		$port = $this->configuration->getOptionValue(Adi_Configuration_Options::PORT);
+		$domainControllers = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS);
+		$domainControllers = NextADInt_Core_Util_StringUtil::split($domainControllers, ';');
+		$port = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::PORT);
 		$timeout = 2;
 
 		$this->logger->info('Checking domain controller ports:');
@@ -476,17 +476,17 @@ class Ldap_Connection
 	 */
 	public function checkPort($domainController, $port, $timeout)
 	{
-		if (!@Core_Util::native()->isFunctionAvailable('fsockopen')) {
+		if (!@NextADInt_Core_Util::native()->isFunctionAvailable('fsockopen')) {
 			return false;
 		}
 
 		$errorCode = -1;
 		$errorString = '';
-		$resource = @Core_Util::native()->fsockopen($domainController, $port, $errorCode, $errorString, $timeout);
+		$resource = @NextADInt_Core_Util::native()->fsockopen($domainController, $port, $errorCode, $errorString, $timeout);
 
 		if ($resource) {
 			$this->logger->info("Checking address '$domainController' and port $port - OK");
-			Core_Util::native()->fclose($resource);
+			NextADInt_Core_Util::native()->fclose($resource);
 
 			return true;
 		}
@@ -519,7 +519,7 @@ class Ldap_Connection
 	 */
 	public function findAllMembersOfGroups($groups)
 	{
-		$groups = Core_Util_StringUtil::split($groups, ';');
+		$groups = NextADInt_Core_Util_StringUtil::split($groups, ';');
 		$allUsers = array();
 
 		foreach ($groups as $group) {
@@ -546,7 +546,7 @@ class Ldap_Connection
 	 */
 	public function getDomainSid() {
 		if (empty($this->siteDomainSid)) {
-			$this->siteDomainSid = $this->configuration->getOptionValue(Adi_Configuration_Options::DOMAIN_SID);
+			$this->siteDomainSid = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID);
 		}
 
 		return $this->siteDomainSid;

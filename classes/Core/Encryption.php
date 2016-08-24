@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Encryption')) {
+if (class_exists('NextADInt_Core_Encryption')) {
 	return;
 }
 
 /**
- * Core_Encryption provides methods to encrypt and decrypt
+ * NextADInt_Core_Encryption provides methods to encrypt and decrypt
  * credentials e.g for the synchronization between WordPress and Active Directory users.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Core_Encryption
+class NextADInt_Core_Encryption
 {
 	const KEY_HASH = 'md5';
 	const KEY_SALT1 = 'Active Directory Integration';
@@ -146,7 +146,7 @@ class Core_Encryption
 		$newMac = hash_hmac(self::MAC_HASH, $iv . $plainText, $key);
 
 		// 'new' $mac and the 'old' $mac must be identical
-		if (!hash_equals($mac, $newMac)) {
+		if (!next_ad_int_hash_equals($mac, $newMac)) {
 			return false;
 		}
 

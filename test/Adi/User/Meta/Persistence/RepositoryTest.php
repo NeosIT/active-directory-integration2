@@ -3,7 +3,7 @@
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @access private
  */
-class Ut_Adi_User_Meta_Persistence_RepositoryTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_User_Meta_Persistence_RepositoryTest extends Ut_BasicTest
 {
 	public function setUp()
 	{
@@ -98,9 +98,9 @@ class Ut_Adi_User_Meta_Persistence_RepositoryTest extends Ut_BasicTest
 		$sut->expects($this->exactly(3))
 			->method('update')
 			->withConsecutive(
-				array(1, 'adi2_user_disabled', true),
-				array(1, 'adi2_user_disabled_reason', 'reason'),
-				array(1, 'adi2_user_disabled_email', 'user_email')
+				array(1, 'next_ad_int_user_disabled', true),
+				array(1, 'next_ad_int_user_disabled_reason', 'reason'),
+				array(1, 'next_ad_int_user_disabled_email', 'user_email')
 			);
 
 		$sut->disableUser($wpUser, 'reason');
@@ -119,13 +119,13 @@ class Ut_Adi_User_Meta_Persistence_RepositoryTest extends Ut_BasicTest
 		$sut->expects($this->exactly(2))
 			->method('update')
 			->withConsecutive(
-				array(1, 'adi2_user_disabled', false),
-				array(1, 'adi2_user_disabled_reason', '')
+				array(1, 'next_ad_int_user_disabled', false),
+				array(1, 'next_ad_int_user_disabled_reason', '')
 			);
 
 		$sut->expects($this->once())
 			->method('delete')
-			->with(1, 'adi2_user_disabled_email');
+			->with(1, 'next_ad_int_user_disabled_email');
 
 		$sut->enableUser($wpUser);
 	}
@@ -138,7 +138,7 @@ class Ut_Adi_User_Meta_Persistence_RepositoryTest extends Ut_BasicTest
 		$sut = $this->sut(array('find'));
 		$sut->expects($this->exactly(2))
 			->method('find')
-			->with(1, 'adi2_user_disabled', true)
+			->with(1, 'next_ad_int_user_disabled', true)
 			->willReturnOnConsecutiveCalls(false, true);
 
 		foreach (array(false, true) AS $expected) {
@@ -148,15 +148,15 @@ class Ut_Adi_User_Meta_Persistence_RepositoryTest extends Ut_BasicTest
 	}
 
 	/**
-	 * Create a partial mock for our {@see Adi_User_Meta_Persistence_Repository}.
+	 * Create a partial mock for our {@see NextADInt_Adi_User_Meta_Persistence_Repository}.
 	 *
 	 * @param $methods
 	 *
-	 * @return Adi_User_Meta_Persistence_Repository|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_User_Meta_Persistence_Repository|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function sut($methods)
 	{
-		return $this->getMockBuilder('Adi_User_Meta_Persistence_Repository')
+		return $this->getMockBuilder('NextADInt_Adi_User_Meta_Persistence_Repository')
 			->setConstructorArgs(array())
 			->setMethods($methods)
 			->getMock();

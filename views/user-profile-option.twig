@@ -1,24 +1,24 @@
-{% set ADI_I18N = constant('ADI_I18N') %}
+{% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
 <table class="form-table">
     <tr valign="top">
-        <th scope="row">{{ 'User Disabled'|__(ADI_I18N) }}</th>
+        <th scope="row">{{ 'User Disabled'|__(NEXT_AD_INT_I18N) }}</th>
         <td>
             <fieldset>
                 <legend class="screen-reader-text">
-                    <span>{{ 'User Disabled'|__(ADI_I18N) }}</span>
+                    <span>{{ 'User Disabled'|__(NEXT_AD_INT_I18N) }}</span>
                 </legend>
                 <label for="user_disabled">
                     <input type="hidden" name="adi_user_disabled" value="0"/>
                     <input type="checkbox" name="adi_user_disabled"
                            id="user_disabled" {{ userDisabled ? 'checked' : '' }} value="1"/>
-                    {{ 'If selected, the user can not log in and his e-mail address will be changed for security reasons. The e-mail address is restored if the user is reenabled.'|__(ADI_I18N) }}
+                    {{ 'If selected, the user can not log in and his e-mail address will be changed for security reasons. The e-mail address is restored if the user is reenabled.'|__(NEXT_AD_INT_I18N) }}
                 </label>
 
                 {% if userDisabled %}
-                    <p class="description"> {{ 'Information on last disabling: '|__(ADI_I18N) ~ disabledReason }}</p>
+                    <p class="description"> {{ 'Information on last disabling: '|__(NEXT_AD_INT_I18N) ~ disabledReason }}</p>
                 {% endif %}
 
-                <p class="description">{{ 'Attention: This flag is automatically set (or unset) by Sync to WordPresss and its state may change on next run of synchronization.'|__(ADI_I18N) }}</p>
+                <p class="description">{{ 'Attention: This flag is automatically set (or unset) by Sync to WordPresss and its state may change on next run of synchronization.'|__(NEXT_AD_INT_I18N) }}</p>
             </fieldset>
         </td>
     </tr>

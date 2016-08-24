@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Multisite_Site_Ui_ExtendSiteList')) {
+if (class_exists('NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList')) {
 	return;
 }
 
@@ -14,26 +14,26 @@ if (class_exists('Adi_Multisite_Site_Ui_ExtendSiteList')) {
  * @author Christopher Klein <ckl@neos-it.de>
  * @access public
  */
-class Adi_Multisite_Site_Ui_ExtendSiteList
+class NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList
 {
 	const ADI_PROFILE_COLUMN = 'adi-profile';
 
 	/**
-	 * @var Multisite_Configuration_Persistence_BlogConfigurationRepository
+	 * @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository
 	 */
 	private $blogConfigurationRepository;
 
 	/**
-	 * @var Multisite_Configuration_Persistence_ProfileRepository
+	 * @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository
 	 */
 	private $profileRepository;
 
 	/**
-	 * @param Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository
-	 * @param Multisite_Configuration_Persistence_ProfileRepository           $profileRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_ProfileRepository           $profileRepository
 	 */
-	public function __construct(Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
-		Multisite_Configuration_Persistence_ProfileRepository $profileRepository
+	public function __construct(NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
+		NextADInt_Multisite_Configuration_Persistence_ProfileRepository $profileRepository
 	) {
 		$this->blogConfigurationRepository = $blogConfigurationRepository;
 		$this->profileRepository = $profileRepository;
@@ -57,7 +57,7 @@ class Adi_Multisite_Site_Ui_ExtendSiteList
 	 */
 	public function addColumns($columns)
 	{
-		$columns[self::ADI_PROFILE_COLUMN] = __('Active ADI profile', ADI_I18N);
+		$columns[self::ADI_PROFILE_COLUMN] = __('Active ADI profile', NEXT_AD_INT_I18N);
 
 		return $columns;
 	}
@@ -80,7 +80,7 @@ class Adi_Multisite_Site_Ui_ExtendSiteList
 				$name = $this->profileRepository->findName($id, '');
 
 				if ($isDefaultProfileUsed) {
-					echo sprintf(__('%s (default profile)', ADI_I18N), $name);
+					echo sprintf(__('%s (default profile)', NEXT_AD_INT_I18N), $name);
 
 					return;
 				}
@@ -92,7 +92,7 @@ class Adi_Multisite_Site_Ui_ExtendSiteList
 				}
 			}
 
-			echo "<em>" . __('None assigned', ADI_I18N) . '</em>';
+			echo "<em>" . __('None assigned', NEXT_AD_INT_I18N) . '</em>';
 		}
 	}
 }

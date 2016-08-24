@@ -4,29 +4,29 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Multisite_Ui_BlogProfileRelationshipControllerTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Ui_BlogProfileRelationshipControllerTest extends Ut_BasicTest
 {
-	/** @var Multisite_Configuration_Persistence_BlogConfigurationRepository| PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository| PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationRepository;
 
-	/** @var Multisite_Configuration_Persistence_ProfileRepository| PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository| PHPUnit_Framework_MockObject_MockObject */
 	private $profileRepository;
 
-	/** @var  Core_Persistence_WordPressRepository | PHPUnit_Framework_MockObject_MockObject */
+	/** @var  NextADInt_Core_Persistence_WordPressRepository | PHPUnit_Framework_MockObject_MockObject */
 	private $wordPressRepository;
 
-	/** @var Multisite_Configuration_Persistence_DefaultProfileRepository|PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository|PHPUnit_Framework_MockObject_MockObject */
 	private $defaultProfileRepository;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->blogConfigurationRepository = $this->createMock('Multisite_Configuration_Persistence_BlogConfigurationRepository');
-		$this->profileRepository = $this->createMock('Multisite_Configuration_Persistence_ProfileRepository');
-		$this->wordPressRepository = $this->createMock('Core_Persistence_WordPressRepository');
+		$this->blogConfigurationRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository');
+		$this->profileRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_ProfileRepository');
+		$this->wordPressRepository = $this->createMock('NextADInt_Core_Persistence_WordPressRepository');
 		$this->defaultProfileRepository = $this->createMock
-		('Multisite_Configuration_Persistence_DefaultProfileRepository');
+		('NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository');
 	}
 
 	public function tearDown()
@@ -37,11 +37,11 @@ class Ut_Multisite_Ui_BlogProfileRelationshipControllerTest extends Ut_BasicTest
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Ui_BlogProfileRelationshipController|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Ui_BlogProfileRelationshipController|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Ui_BlogProfileRelationshipController')
+		return $this->getMockBuilder('NextADInt_Multisite_Ui_BlogProfileRelationshipController')
 			->setConstructorArgs(
 				array(
 					$this->blogConfigurationRepository,
@@ -93,7 +93,7 @@ class Ut_Multisite_Ui_BlogProfileRelationshipControllerTest extends Ut_BasicTest
 			->willReturn(false);
 
 		$this->defaultProfileRepository->expects($this->never())
-			->method('saveDefaultProfile')
+			->method('saveProfileId')
 			->with(1);
 
 		$sut->saveDefaultProfile(1);

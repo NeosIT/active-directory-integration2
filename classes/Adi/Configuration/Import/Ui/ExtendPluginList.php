@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Configuration_Import_Ui_ExtendPluginList')) {
+if (class_exists('NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList')) {
 	return;
 }
 
 /**
- * Adi_Configuration_Import_Ui_ExtendPluginList extends the network or blog plug-in list with an additional option for
+ * NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList extends the network or blog plug-in list with an additional option for
  * exporting the previous ADI configuration.
  * As multisites has not been officially supported by ADI v1 we do <strong>not</strong> support the export of a configurations
  * ADI 1.x. network installation with blog activation.
@@ -16,7 +16,7 @@ if (class_exists('Adi_Configuration_Import_Ui_ExtendPluginList')) {
  * @author Christopher Klein <ckl@neos-it.de>
  * @access public
  */
-class Adi_Configuration_Import_Ui_ExtendPluginList
+class NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList
 {
 	const ACTION = 'adiv1_configuration_export.txt';
 
@@ -24,15 +24,15 @@ class Adi_Configuration_Import_Ui_ExtendPluginList
 	const LINE_SEPARATOR = "-----\r\n";
 
 	/**
-	 * @var Adi_Configuration_ImportService
+	 * @var NextADInt_Adi_Configuration_ImportService
 	 */
 	private $importService;
 
 	/**
-	 * Adi_Configuration_Import_Ui_ExtendPluginList constructor.
-	 * @param Adi_Configuration_ImportService $importService
+	 * NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList constructor.
+	 * @param NextADInt_Adi_Configuration_ImportService $importService
 	 */
-	public function __construct(Adi_Configuration_ImportService $importService)
+	public function __construct(NextADInt_Adi_Configuration_ImportService $importService)
 	{
 		$this->importService = $importService;
 	}
@@ -40,8 +40,8 @@ class Adi_Configuration_Import_Ui_ExtendPluginList
 	public function register()
 	{
 		// register the actions only for ADI v2 and no other plug-in entry
-		add_filter('plugin_action_links_' . ADI_PLUGIN_FILE, array($this, 'extendPluginActions'), 10, 5);
-		add_filter('network_admin_plugin_action_links_' . ADI_PLUGIN_FILE, array($this, 'extendPluginActions'), 10, 5);
+		add_filter('plugin_action_links_' . NEXT_AD_INT_PLUGIN_FILE, array($this, 'extendPluginActions'), 10, 5);
+		add_filter('network_admin_plugin_action_links_' . NEXT_AD_INT_PLUGIN_FILE, array($this, 'extendPluginActions'), 10, 5);
 
 		// make the export available
 		add_action('admin_post_' . self::ACTION, array($this, 'exportPreviousConfiguration'));
@@ -61,7 +61,7 @@ class Adi_Configuration_Import_Ui_ExtendPluginList
 		$networkExportAllowed = ($this->isNetworkExportAllowed() && is_network_admin());
 
 		if ($networkExportAllowed || $this->isSingleSiteExportAllowed()) {
-			$actions['adi_v1_configuration_export'] = '<a href="' . admin_url('admin-post.php?action=' . self::ACTION) . '">' . __('Download ADI v1 configuration', ADI_I18N) . '</a>';
+			$actions['adi_v1_configuration_export'] = '<a href="' . admin_url('admin-post.php?action=' . self::ACTION) . '">' . __('Download ADI v1 configuration', NEXT_AD_INT_I18N) . '</a>';
 		}
 
 		return $actions;
@@ -161,7 +161,7 @@ class Adi_Configuration_Import_Ui_ExtendPluginList
 		$r[] = "Single site installation";
 		$r[] = self::LINE_SEPARATOR;
 
-		if (!Adi_Configuration_ImportService::isPreviousVersion($version)) {
+		if (!NextADInt_Adi_Configuration_ImportService::isPreviousVersion($version)) {
 			$r[] = "No previous version of ADI found.";
 			return $r;
 		}
@@ -185,7 +185,7 @@ class Adi_Configuration_Import_Ui_ExtendPluginList
 
 		$version = $this->importService->getPreviousNetworkVersion();
 
-		if (Adi_Configuration_ImportService::isPreviousVersion($version)) {
+		if (NextADInt_Adi_Configuration_ImportService::isPreviousVersion($version)) {
 			$r[] = "Version: $version (global network installation)\r\n";
 			$r[] = self::LINE_SEPARATOR;
 
@@ -193,7 +193,7 @@ class Adi_Configuration_Import_Ui_ExtendPluginList
 		}
 
 		// iterate over each of the installed sites of this network
-		$sites = wp_get_sites();
+		$sites = NextADInt_Core_Util_Internal_WordPress::getSites();
 
 		foreach ($sites as $site) {
 			$blogId = $site['blog_id'];

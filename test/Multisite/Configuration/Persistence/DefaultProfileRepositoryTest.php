@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest')) {
+if (class_exists('Ut_NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest')) {
 	return;
 }
 
@@ -11,7 +11,7 @@ if (class_exists('Ut_Multisite_Configuration_Persistence_DefaultProfileRepositor
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @access private
  */
-class Ut_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest extends Ut_BasicTest
 {
 	public function setUp()
 	{
@@ -26,11 +26,11 @@ class Ut_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest extend
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Configuration_Persistence_DefaultProfileRepository|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Configuration_Persistence_DefaultProfileRepository')
+		return $this->getMockBuilder('NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository')
 			->setConstructorArgs(array())
 			->setMethods($methods)
 			->getMock();
@@ -45,10 +45,10 @@ class Ut_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest extend
 
 		$sut->expects($this->once())
 			->method('getProfileOptionName')
-			->willReturn('adi2_p_default');
+			->willReturn('next_ad_int_p_default');
 
 		WP_Mock::wpFunction('get_site_option', array(
-			'args'   => array('adi2_p_default', false),
+			'args'   => array('next_ad_int_p_default', false),
 			'times'  => 1,
 			'return' => false,
 		));
@@ -66,10 +66,10 @@ class Ut_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest extend
 
 		$sut->expects($this->once())
 			->method('getProfileOptionName')
-			->willReturn('adi2_p_default');
+			->willReturn('next_ad_int_p_default');
 
 		WP_Mock::wpFunction('get_site_option', array(
-			'args'   => array('adi2_p_default', false),
+			'args'   => array('next_ad_int_p_default', false),
 			'times'  => 1,
 			'return' => 5,
 		));
@@ -87,10 +87,10 @@ class Ut_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest extend
 
 		$sut->expects($this->once())
 			->method('getProfileOptionName')
-			->willReturn('adi2_p_default');
+			->willReturn('next_ad_int_p_default');
 
 		WP_Mock::wpFunction('update_site_option', array(
-			'args'  => array('adi2_p_default', 5),
+			'args'  => array('next_ad_int_p_default', 5),
 			'times' => 1,
 		));
 
@@ -104,7 +104,7 @@ class Ut_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest extend
 	{
 		$sut = $this->sut();
 
-		$expected = 'adi2_p_default';
+		$expected = 'next_ad_int_p_default';
 		$actual = $this->invokeMethod($sut, 'getProfileOptionName');
 
 		$this->assertEquals($expected, $actual);

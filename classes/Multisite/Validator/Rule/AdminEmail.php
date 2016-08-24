@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_AdminEmail')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_AdminEmail')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_AdminEmail validates if the given value is an email address.
+ * NextADInt_Multisite_Validator_Rule_AdminEmail validates if the given value is an email address.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Validator_Rule_AdminEmail')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_AdminEmail extends Multisite_Validator_Rule_Suffix
+class NextADInt_Multisite_Validator_Rule_AdminEmail extends NextADInt_Multisite_Validator_Rule_Suffix
 {
 
 	/**

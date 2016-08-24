@@ -2,11 +2,11 @@ describe('ValueHelper', function () {
     var sut;
 
     beforeEach(function () {
-        sut = angular.copy(adi2.util.ValueHelper);
+        sut = angular.copy(next_ad_int.util.ValueHelper);
     });
 
     it('#findValue returns null if item is null', function () {
-        spyOn(adi2.util.ArrayUtil, 'findByKey').and.returnValue(null);
+        spyOn(next_ad_int.util.ArrayUtil, 'findByKey').and.returnValue(null);
 
         var actual = sut.findValue('key', []);
 
@@ -14,7 +14,7 @@ describe('ValueHelper', function () {
     });
 
     it('#findValue returns option_value from found item', function () {
-        spyOn(adi2.util.ArrayUtil, 'findByKey').and.returnValue({
+        spyOn(next_ad_int.util.ArrayUtil, 'findByKey').and.returnValue({
             option_value: 'value'
         });
 
@@ -24,7 +24,7 @@ describe('ValueHelper', function () {
     });
 
     it('#findPermission returns null if item is null', function () {
-        spyOn(adi2.util.ArrayUtil, 'findByKey').and.returnValue(null);
+        spyOn(next_ad_int.util.ArrayUtil, 'findByKey').and.returnValue(null);
 
         var actual = sut.findPermission('key', []);
 
@@ -32,7 +32,7 @@ describe('ValueHelper', function () {
     });
 
     it('#findPermission returns option_permission from found item', function () {
-        spyOn(adi2.util.ArrayUtil, 'findByKey').and.returnValue({
+        spyOn(next_ad_int.util.ArrayUtil, 'findByKey').and.returnValue({
             option_permission: 3
         });
 
@@ -42,7 +42,7 @@ describe('ValueHelper', function () {
     });
 
     it('#findMessage returns null if item is null', function () {
-        spyOn(adi2.util.ArrayUtil, 'findByKey').and.returnValue(null);
+        spyOn(next_ad_int.util.ArrayUtil, 'findByKey').and.returnValue(null);
 
         var actual = sut.findMessage('key', []);
 
@@ -50,7 +50,7 @@ describe('ValueHelper', function () {
     });
 
     it('#findMessage returns option_permission from found item', function () {
-        spyOn(adi2.util.ArrayUtil, 'findByKey').and.returnValue('message');
+        spyOn(next_ad_int.util.ArrayUtil, 'findByKey').and.returnValue('message');
 
         var actual = sut.findMessage('key', []);
 

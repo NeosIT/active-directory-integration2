@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_Port')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_Port')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_Port validates if the value is numeric and in port range.
+ * NextADInt_Multisite_Validator_Rule_Port validates if the value is numeric and in port range.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Validator_Rule_Port')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_Port extends Multisite_Validator_Rule_Numeric
+class NextADInt_Multisite_Validator_Rule_Port extends NextADInt_Multisite_Validator_Rule_Numeric
 {
 
 	/**

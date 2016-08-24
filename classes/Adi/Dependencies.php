@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Dependencies')) {
+if (class_exists('NextADInt_Adi_Dependencies')) {
 	return;
 }
 
@@ -14,20 +14,20 @@ if (class_exists('Adi_Dependencies')) {
  * @author Christopher Klein <ckl@neos-it.de>
  * @access public
  */
-class Adi_Dependencies
+class NextADInt_Adi_Dependencies
 {
 	/**
-	 * @var Core_Persistence_WordPressRepository
+	 * @var NextADInt_Core_Persistence_WordPressRepository
 	 */
 	private $wordPressRepository = null;
 
 	/**
-	 * @return Core_Persistence_WordPressRepository
+	 * @return NextADInt_Core_Persistence_WordPressRepository
 	 */
 	public function getWordPressRepository()
 	{
 		if ($this->wordPressRepository == null) {
-			$this->wordPressRepository = new Core_Persistence_WordPressRepository();
+			$this->wordPressRepository = new NextADInt_Core_Persistence_WordPressRepository();
 
 		}
 
@@ -35,68 +35,68 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Option_Sanitizer
+	 * @var NextADInt_Multisite_Option_Sanitizer
 	 */
 	private $sanitizer = null;
 
 	/**
-	 * @return Multisite_Option_Sanitizer
+	 * @return NextADInt_Multisite_Option_Sanitizer
 	 */
 	public function getSanitizer()
 	{
 		if ($this->sanitizer == null) {
-			$this->sanitizer = new Multisite_Option_Sanitizer();
+			$this->sanitizer = new NextADInt_Multisite_Option_Sanitizer();
 		}
 
 		return $this->sanitizer;
 	}
 
 	/**
-	 * @var Core_Encryption
+	 * @var NextADInt_Core_Encryption
 	 */
 	private $encryptionHandler = null;
 
 	/**
-	 * @return Core_Encryption
+	 * @return NextADInt_Core_Encryption
 	 */
 	public function getEncryptionHandler()
 	{
 		if ($this->encryptionHandler == null) {
-			$this->encryptionHandler = new Core_Encryption();
+			$this->encryptionHandler = new NextADInt_Core_Encryption();
 		}
 
 		return $this->encryptionHandler;
 	}
 
 	/**
-	 * @var Multisite_Option_Provider
+	 * @var NextADInt_Multisite_Option_Provider
 	 */
 	private $optionProvider = null;
 
 	/**
-	 * @return Adi_Configuration_Options|Multisite_Option_Provider
+	 * @return NextADInt_Adi_Configuration_Options|NextADInt_Multisite_Option_Provider
 	 */
 	public function getOptionProvider()
 	{
 		if ($this->optionProvider == null) {
-			$this->optionProvider = new Adi_Configuration_Options();
+			$this->optionProvider = new NextADInt_Adi_Configuration_Options();
 		}
 
 		return $this->optionProvider;
 	}
 
 	/**
-	 * @var Multisite_Configuration_Service
+	 * @var NextADInt_Multisite_Configuration_Service
 	 */
 	private $configurationService;
 
 	/**
-	 * @return Multisite_Configuration_Service
+	 * @return NextADInt_Multisite_Configuration_Service
 	 */
 	public function getConfigurationService()
 	{
 		if ($this->configurationService == null) {
-			$this->configurationService = new Multisite_Configuration_Service(
+			$this->configurationService = new NextADInt_Multisite_Configuration_Service(
 				$this->blogConfigurationRepository,
 				$this->profileConfigurationRepository,
 				$this->profileRepository
@@ -107,17 +107,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Configuration_Persistence_BlogConfigurationRepository
+	 * @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository
 	 */
 	private $blogConfigurationRepository = null;
 
 	/**
-	 * @return Multisite_Configuration_Persistence_BlogConfigurationRepository
+	 * @return NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository
 	 */
 	public function getBlogConfigurationRepository()
 	{
 		if ($this->blogConfigurationRepository == null) {
-			$this->blogConfigurationRepository = new Multisite_Configuration_Persistence_BlogConfigurationRepository(
+			$this->blogConfigurationRepository = new NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository(
 				$this->getSanitizer(),
 				$this->getEncryptionHandler(),
 				$this->getOptionProvider(),
@@ -130,17 +130,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Configuration_Persistence_ProfileConfigurationRepository
+	 * @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository
 	 */
 	private $profileConfigurationRepository = null;
 
 	/**
-	 * @return Multisite_Configuration_Persistence_ProfileConfigurationRepository
+	 * @return NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository
 	 */
 	public function getProfileConfigurationRepository()
 	{
 		if ($this->profileConfigurationRepository == null) {
-			$this->profileConfigurationRepository = new Multisite_Configuration_Persistence_ProfileConfigurationRepository(
+			$this->profileConfigurationRepository = new NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository(
 				$this->getSanitizer(),
 				$this->getEncryptionHandler(),
 				$this->getOptionProvider());
@@ -150,17 +150,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Configuration_Service
+	 * @var NextADInt_Multisite_Configuration_Service
 	 */
 	private $configuration = null;
 
 	/**
-	 * @return Multisite_Configuration_Service
+	 * @return NextADInt_Multisite_Configuration_Service
 	 */
 	public function getConfiguration()
 	{
 		if ($this->configuration == null) {
-			$this->configuration = new Multisite_Configuration_Service(
+			$this->configuration = new NextADInt_Multisite_Configuration_Service(
 				$this->getBlogConfigurationRepository(),
 				$this->getProfileConfigurationRepository(),
 				$this->getProfileRepository()
@@ -171,17 +171,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Configuration_Persistence_ProfileRepository
+	 * @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository
 	 */
 	private $profileRepository = null;
 
 	/**
-	 * @return Multisite_Configuration_Persistence_ProfileRepository
+	 * @return NextADInt_Multisite_Configuration_Persistence_ProfileRepository
 	 */
 	public function getProfileRepository()
 	{
 		if ($this->profileRepository == null) {
-			$this->profileRepository = new Multisite_Configuration_Persistence_ProfileRepository(
+			$this->profileRepository = new NextADInt_Multisite_Configuration_Persistence_ProfileRepository(
 				$this->getProfileConfigurationRepository(),
 				$this->getBlogConfigurationRepository(),
 				$this->getWordPressRepository(),
@@ -193,51 +193,51 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Configuration_Persistence_DefaultProfileRepository
+	 * @var NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository
 	 */
 	private $defaultProfileRepository = null;
 
 	/**
-	 * @return Multisite_Configuration_Persistence_DefaultProfileRepository
+	 * @return NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository
 	 */
 	public function getDefaultProfileRepository()
 	{
 		if ($this->defaultProfileRepository == null) {
-			$this->defaultProfileRepository = new Multisite_Configuration_Persistence_DefaultProfileRepository();
+			$this->defaultProfileRepository = new NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository();
 		}
 
 		return $this->defaultProfileRepository;
 	}
 
 	/**
-	 * @return Adi_Authentication_Persistence_FailedLoginRepository
+	 * @return NextADInt_Adi_Authentication_Persistence_FailedLoginRepository
 	 */
 	private $failedLoginRepository = null;
 
 	/**
-	 * @return Adi_Authentication_Persistence_FailedLoginRepository|null
+	 * @return NextADInt_Adi_Authentication_Persistence_FailedLoginRepository|null
 	 */
 	public function getFailedLoginRepository()
 	{
 		if ($this->failedLoginRepository == null) {
-			$this->failedLoginRepository = new Adi_Authentication_Persistence_FailedLoginRepository();
+			$this->failedLoginRepository = new NextADInt_Adi_Authentication_Persistence_FailedLoginRepository();
 		}
 
 		return $this->failedLoginRepository;
 	}
 
 	/**
-	 * @var Ldap_Attribute_Repository
+	 * @var NextADInt_Ldap_Attribute_Repository
 	 */
 	private $attributeRepository = null;
 
 	/**
-	 * @return Ldap_Attribute_Repository
+	 * @return NextADInt_Ldap_Attribute_Repository
 	 */
 	public function getAttributeRepository()
 	{
 		if ($this->attributeRepository == null) {
-			$this->attributeRepository = new Ldap_Attribute_Repository(
+			$this->attributeRepository = new NextADInt_Ldap_Attribute_Repository(
 				$this->getConfiguration()
 			);
 		}
@@ -246,17 +246,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Ldap_Attribute_Service
+	 * @var NextADInt_Ldap_Attribute_Service
 	 */
 	private $attributeService = null;
 
 	/**
-	 * @return Ldap_Attribute_Service
+	 * @return NextADInt_Ldap_Attribute_Service
 	 */
 	public function getAttributeService()
 	{
 		if ($this->attributeService == null) {
-			$this->attributeService = new Ldap_Attribute_Service(
+			$this->attributeService = new NextADInt_Ldap_Attribute_Service(
 				$this->getLdapConnection(),
 				$this->getAttributeRepository()
 			);
@@ -266,17 +266,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_User_Helper
+	 * @var NextADInt_Adi_User_Helper
 	 */
 	private $userHelper = null;
 
 	/**
-	 * @return Adi_User_Helper
+	 * @return NextADInt_Adi_User_Helper
 	 */
 	public function getUserHelper()
 	{
 		if ($this->userHelper == null) {
-			$this->userHelper = new Adi_User_Helper(
+			$this->userHelper = new NextADInt_Adi_User_Helper(
 				$this->getConfiguration()
 			);
 		}
@@ -285,17 +285,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Ldap_Connection
+	 * @var NextADInt_Ldap_Connection
 	 */
 	private $ldapConnection = null;
 
 	/**
-	 * @return Ldap_Connection
+	 * @return NextADInt_Ldap_Connection
 	 */
 	public function getLdapConnection()
 	{
 		if ($this->ldapConnection == null) {
-			$this->ldapConnection = new Ldap_Connection(
+			$this->ldapConnection = new NextADInt_Ldap_Connection(
 				$this->getConfiguration()
 			);
 		}
@@ -304,17 +304,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Role_Manager
+	 * @var NextADInt_Adi_Role_Manager
 	 */
 	private $roleManager = null;
 
 	/**
-	 * @return Adi_Role_Manager
+	 * @return NextADInt_Adi_Role_Manager
 	 */
 	public function getRoleManager()
 	{
 		if ($this->roleManager == null) {
-			$this->roleManager = new Adi_Role_Manager(
+			$this->roleManager = new NextADInt_Adi_Role_Manager(
 				$this->getConfiguration(),
 				$this->getLdapConnection()
 			);
@@ -324,51 +324,51 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_User_Meta_Persistence_Repository
+	 * @var NextADInt_Adi_User_Meta_Persistence_Repository
 	 */
 	private $userMetaRepository;
 
 	/**
-	 * @return Adi_User_Meta_Persistence_Repository
+	 * @return NextADInt_Adi_User_Meta_Persistence_Repository
 	 */
 	public function getUserMetaRepository()
 	{
 		if ($this->userMetaRepository == null) {
-			$this->userMetaRepository = new Adi_User_Meta_Persistence_Repository();
+			$this->userMetaRepository = new NextADInt_Adi_User_Meta_Persistence_Repository();
 		}
 
 		return $this->userMetaRepository;
 	}
 
 	/**
-	 * @var Adi_User_Persistence_Repository
+	 * @var NextADInt_Adi_User_Persistence_Repository
 	 */
 	private $userRepository;
 
 	/**
-	 * @return Adi_User_Persistence_Repository
+	 * @return NextADInt_Adi_User_Persistence_Repository
 	 */
 	public function getUserRepository()
 	{
 		if ($this->userRepository == null) {
-			$this->userRepository = new Adi_User_Persistence_Repository();
+			$this->userRepository = new NextADInt_Adi_User_Persistence_Repository();
 		}
 
 		return $this->userRepository;
 	}
 
 	/**
-	 * @var Adi_User_Manager
+	 * @var NextADInt_Adi_User_Manager
 	 */
 	private $userManager = null;
 
 	/**
-	 * @return Adi_User_Manager
+	 * @return NextADInt_Adi_User_Manager
 	 */
 	public function getUserManager()
 	{
 		if ($this->userManager == null) {
-			$this->userManager = new Adi_User_Manager(
+			$this->userManager = new NextADInt_Adi_User_Manager(
 				$this->getConfiguration(),
 				$this->getAttributeService(),
 				$this->getUserHelper(),
@@ -383,17 +383,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_View_TwigContainer
+	 * @var NextADInt_Multisite_View_TwigContainer
 	 */
 	private $twigContainer = null;
 
 	/**
-	 * @return Multisite_View_TwigContainer
+	 * @return NextADInt_Multisite_View_TwigContainer
 	 */
 	public function getTwigContainer()
 	{
 		if ($this->twigContainer == null) {
-			$this->twigContainer = new Multisite_View_TwigContainer(
+			$this->twigContainer = new NextADInt_Multisite_View_TwigContainer(
 				$this->getBlogConfigurationRepository(),
 				$this->getConfiguration(),
 				$this->getProfileConfigurationRepository(),
@@ -408,17 +408,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_User_Profile_Ui_ProvideDisableUserOption
+	 * @var NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption
 	 */
 	private $provideDisableUserOption = null;
 
 	/**
-	 * @return Adi_User_Profile_Ui_ProvideDisableUserOption
+	 * @return NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption
 	 */
 	public function getProvideDisableUserOption()
 	{
 		if ($this->provideDisableUserOption == null) {
-			$this->provideDisableUserOption = new Adi_User_Profile_Ui_ProvideDisableUserOption(
+			$this->provideDisableUserOption = new NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption(
 				$this->getTwigContainer(),
 				$this->getUserManager()
 			);
@@ -428,17 +428,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Mail_Notification
+	 * @var NextADInt_Adi_Mail_Notification
 	 */
 	private $mailNotification = null;
 
 	/**
-	 * @return Adi_Mail_Notification
+	 * @return NextADInt_Adi_Mail_Notification
 	 */
 	public function getMailNotification()
 	{
 		if ($this->mailNotification == null) {
-			$this->mailNotification = new Adi_Mail_Notification(
+			$this->mailNotification = new NextADInt_Adi_Mail_Notification(
 				$this->getConfiguration(),
 				$this->getLdapConnection()
 			);
@@ -448,17 +448,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Authentication_Ui_ShowBlockedMessage
+	 * @var NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 	 */
 	private $showBlockedMessage = null;
 
 	/**
-	 * @return Adi_Authentication_Ui_ShowBlockedMessage
+	 * @return NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 	 */
 	public function getShowBlockedMessage()
 	{
 		if ($this->showBlockedMessage == null) {
-			$this->showBlockedMessage = new Adi_Authentication_Ui_ShowBlockedMessage(
+			$this->showBlockedMessage = new NextADInt_Adi_Authentication_Ui_ShowBlockedMessage(
 				$this->getConfiguration(),
 				$this->getTwigContainer()
 			);
@@ -468,17 +468,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Authentication_LoginService
+	 * @var NextADInt_Adi_Authentication_LoginService
 	 */
 	private $loginService = null;
 
 	/**
-	 * @return Adi_Authentication_LoginService
+	 * @return NextADInt_Adi_Authentication_LoginService
 	 */
 	public function getLoginService()
 	{
 		if ($this->loginService == null) {
-			$this->loginService = new Adi_Authentication_LoginService(
+			$this->loginService = new NextADInt_Adi_Authentication_LoginService(
 				$this->getFailedLoginRepository(),
 				$this->getConfiguration(),
 				$this->getLdapConnection(),
@@ -494,17 +494,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Authentication_PasswordValidationService
+	 * @var NextADInt_Adi_Authentication_PasswordValidationService
 	 */
 	private $passwordValidationService = null;
 
 	/**
-	 * @return Adi_Authentication_PasswordValidationService
+	 * @return NextADInt_Adi_Authentication_PasswordValidationService
 	 */
 	public function getPasswordValidationService()
 	{
 		if ($this->passwordValidationService == null) {
-			$this->passwordValidationService = new Adi_Authentication_PasswordValidationService(
+			$this->passwordValidationService = new NextADInt_Adi_Authentication_PasswordValidationService(
 				$this->getLoginService(),
 				$this->getConfiguration()
 			);
@@ -514,17 +514,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Ui_BlogConfigurationController
+	 * @var NextADInt_Multisite_Ui_BlogConfigurationController
 	 */
 	private $blogConfigurationController = null;
 
 	/**
-	 * @return Multisite_Ui_BlogConfigurationController
+	 * @return NextADInt_Multisite_Ui_BlogConfigurationController
 	 */
 	public function getBlogConfigurationController()
 	{
 		if ($this->blogConfigurationController == null) {
-			$this->blogConfigurationController = new Multisite_Ui_BlogConfigurationController(
+			$this->blogConfigurationController = new NextADInt_Multisite_Ui_BlogConfigurationController(
 				$this->getBlogConfigurationRepository(),
 				$this->getOptionProvider()
 			);
@@ -534,17 +534,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Ui_BlogProfileRelationshipController
+	 * @var NextADInt_Multisite_Ui_BlogProfileRelationshipController
 	 */
 	private $blogProfileRelationshipController = null;
 
 	/**
-	 * @return Multisite_Ui_BlogProfileRelationshipController
+	 * @return NextADInt_Multisite_Ui_BlogProfileRelationshipController
 	 */
 	public function getBlogProfileRelationshipController()
 	{
 		if ($this->blogProfileRelationshipController == null) {
-			$this->blogProfileRelationshipController = new Multisite_Ui_BlogProfileRelationshipController(
+			$this->blogProfileRelationshipController = new NextADInt_Multisite_Ui_BlogProfileRelationshipController(
 				$this->getBlogConfigurationRepository(),
 				$this->getProfileRepository(),
 				$this->getDefaultProfileRepository()
@@ -555,17 +555,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Ui_ProfileController
+	 * @var NextADInt_Multisite_Ui_ProfileController
 	 */
 	private $profileController = null;
 
 	/**
-	 * @return Multisite_Ui_ProfileController
+	 * @return NextADInt_Multisite_Ui_ProfileController
 	 */
 	public function getProfileController()
 	{
 		if ($this->profileController == null) {
-			$this->profileController = new Multisite_Ui_ProfileController(
+			$this->profileController = new NextADInt_Multisite_Ui_ProfileController(
 				$this->getProfileRepository(),
 				$this->getBlogConfigurationRepository(),
 				$this->getDefaultProfileRepository()
@@ -576,17 +576,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Ui_ProfileConfigurationController
+	 * @var NextADInt_Multisite_Ui_ProfileConfigurationController
 	 */
 	private $profileConfigurationController = null;
 
 	/**
-	 * @return Multisite_Ui_ProfileConfigurationController
+	 * @return NextADInt_Multisite_Ui_ProfileConfigurationController
 	 */
 	public function getProfileConfigurationController()
 	{
 		if ($this->profileConfigurationController == null) {
-			$this->profileConfigurationController = new Multisite_Ui_ProfileConfigurationController(
+			$this->profileConfigurationController = new NextADInt_Multisite_Ui_ProfileConfigurationController(
 				$this->getProfileConfigurationRepository(),
 				$this->getOptionProvider()
 			);
@@ -596,17 +596,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Synchronization_ActiveDirectory
+	 * @var NextADInt_Adi_Synchronization_ActiveDirectory
 	 */
 	private $syncToActiveDirectory = null;
 
 	/**
-	 * @return Adi_Synchronization_ActiveDirectory
+	 * @return NextADInt_Adi_Synchronization_ActiveDirectory
 	 */
 	public function getSyncToActiveDirectory()
 	{
 		if ($this->syncToActiveDirectory == null) {
-			$this->syncToActiveDirectory = new Adi_Synchronization_ActiveDirectory(
+			$this->syncToActiveDirectory = new NextADInt_Adi_Synchronization_ActiveDirectory(
 				$this->getAttributeService(),
 				$this->getConfiguration(),
 				$this->getLdapConnection()
@@ -617,17 +617,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Synchronization_WordPress
+	 * @var NextADInt_Adi_Synchronization_WordPress
 	 */
 	private $syncToWordPress = null;
 
 	/**
-	 * @return Adi_Synchronization_WordPress
+	 * @return NextADInt_Adi_Synchronization_WordPress
 	 */
 	public function getSyncToWordPress()
 	{
 		if ($this->syncToWordPress == null) {
-			$this->syncToWordPress = new Adi_Synchronization_WordPress(
+			$this->syncToWordPress = new NextADInt_Adi_Synchronization_WordPress(
 				$this->getUserManager(),
 				$this->getUserHelper(),
 				$this->getConfiguration(),
@@ -641,17 +641,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Ui_BlogConfigurationPage
+	 * @var NextADInt_Multisite_Ui_BlogConfigurationPage
 	 */
 	private $blogConfigurationPage = null;
 
 	/**
-	 * @return Multisite_Ui_BlogConfigurationPage
+	 * @return NextADInt_Multisite_Ui_BlogConfigurationPage
 	 */
 	public function getBlogConfigurationPage()
 	{
 		if ($this->blogConfigurationPage == null) {
-			$this->blogConfigurationPage = new Multisite_Ui_BlogConfigurationPage(
+			$this->blogConfigurationPage = new NextADInt_Multisite_Ui_BlogConfigurationPage(
 				$this->getTwigContainer(),
 				$this->getBlogConfigurationController()
 			);
@@ -662,17 +662,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Ui_ConnectivityTestPage
+	 * @var NextADInt_Adi_Ui_ConnectivityTestPage
 	 */
 	private $connectivityTestPage = null;
 
 	/**
-	 * @return Adi_Ui_ConnectivityTestPage
+	 * @return NextADInt_Adi_Ui_ConnectivityTestPage
 	 */
 	public function getConnectivityTestPage()
 	{
 		if ($this->connectivityTestPage == null) {
-			$this->connectivityTestPage = new Adi_Ui_ConnectivityTestPage(
+			$this->connectivityTestPage = new NextADInt_Adi_Ui_ConnectivityTestPage(
 				$this->getTwigContainer(),
 				$this->getConfiguration(),
 				$this->getLdapConnection(),
@@ -686,17 +686,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Synchronization_Ui_SyncToActiveDirectoryPage
+	 * @var NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage
 	 */
 	private $syncToActiveDirectoryPage = null;
 
 	/**
-	 * @return Adi_Synchronization_Ui_SyncToActiveDirectoryPage
+	 * @return NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage
 	 */
 	public function getSyncToActiveDirectoryPage()
 	{
 		if ($this->syncToActiveDirectoryPage == null) {
-			$this->syncToActiveDirectoryPage = new Adi_Synchronization_Ui_SyncToActiveDirectoryPage(
+			$this->syncToActiveDirectoryPage = new NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage(
 				$this->getTwigContainer(),
 				$this->getSyncToActiveDirectory(),
 				$this->getConfiguration()
@@ -707,17 +707,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Synchronization_Ui_SyncToWordPressPage
+	 * @var NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage
 	 */
 	private $syncToWordPressPage = null;
 
 	/**
-	 * @return Adi_Synchronization_Ui_SyncToWordPressPage
+	 * @return NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage
 	 */
 	public function getSyncToWordPressPage()
 	{
 		if ($this->syncToWordPressPage == null) {
-			$this->syncToWordPressPage = new Adi_Synchronization_Ui_SyncToWordPressPage(
+			$this->syncToWordPressPage = new NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage(
 				$this->getTwigContainer(),
 				$this->getSyncToWordPress(),
 				$this->getConfiguration()
@@ -728,17 +728,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Ui_ProfileConfigurationPage
+	 * @var NextADInt_Multisite_Ui_ProfileConfigurationPage
 	 */
 	private $profileConfigurationPage = null;
 
 	/**
-	 * @return Multisite_Ui_ProfileConfigurationPage
+	 * @return NextADInt_Multisite_Ui_ProfileConfigurationPage
 	 */
 	public function getProfileConfigurationPage()
 	{
 		if ($this->profileConfigurationPage == null) {
-			$this->profileConfigurationPage = new Multisite_Ui_ProfileConfigurationPage(
+			$this->profileConfigurationPage = new NextADInt_Multisite_Ui_ProfileConfigurationPage(
 				$this->getTwigContainer(),
 				$this->getBlogConfigurationController(),
 				$this->getProfileConfigurationController(),
@@ -751,17 +751,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Multisite_Ui_BlogProfileRelationshipPage
+	 * @var NextADInt_Multisite_Ui_BlogProfileRelationshipPage
 	 */
 	private $blogProfileRelationshipPage = null;
 
 	/**
-	 * @return Multisite_Ui_BlogProfileRelationshipPage
+	 * @return NextADInt_Multisite_Ui_BlogProfileRelationshipPage
 	 */
 	public function getBlogProfileRelationshipPage()
 	{
 		if ($this->blogProfileRelationshipPage == null) {
-			$this->blogProfileRelationshipPage = new Multisite_Ui_BlogProfileRelationshipPage(
+			$this->blogProfileRelationshipPage = new NextADInt_Multisite_Ui_BlogProfileRelationshipPage(
 				$this->getTwigContainer(),
 				$this->getBlogProfileRelationshipController()
 			);
@@ -771,17 +771,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Ui_Menu
+	 * @var NextADInt_Adi_Ui_Menu
 	 */
 	private $menu = null;
 
 	/**
-	 * @return Adi_Ui_Menu
+	 * @return NextADInt_Adi_Ui_Menu
 	 */
 	public function getMenu()
 	{
 		if ($this->menu == null) {
-			$this->menu = new Adi_Ui_Menu(
+			$this->menu = new NextADInt_Adi_Ui_Menu(
 				$this->getOptionProvider(),
 				$this->getConfiguration(),
 				$this->getBlogConfigurationPage(),
@@ -795,17 +795,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Multisite_Ui_Menu
+	 * @var NextADInt_Adi_Multisite_Ui_Menu
 	 */
 	private $multisiteMenu = null;
 
 	/**
-	 * @return Adi_Multisite_Ui_Menu
+	 * @return NextADInt_Adi_Multisite_Ui_Menu
 	 */
 	public function getMultisiteMenu()
 	{
 		if ($this->multisiteMenu == null) {
-			$this->multisiteMenu = new Adi_Multisite_Ui_Menu(
+			$this->multisiteMenu = new NextADInt_Adi_Multisite_Ui_Menu(
 				$this->getOptionProvider(),
 				$this->getBlogProfileRelationshipPage(),
 				$this->getProfileConfigurationPage()
@@ -816,17 +816,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Cron_UrlTrigger
+	 * @var NextADInt_Adi_Cron_UrlTrigger
 	 */
 	private $urlTrigger = null;
 
 	/**
-	 * @return Adi_Cron_UrlTrigger
+	 * @return NextADInt_Adi_Cron_UrlTrigger
 	 */
 	public function getUrlTrigger()
 	{
 		if ($this->urlTrigger == null) {
-			$this->urlTrigger = new Adi_Cron_UrlTrigger(
+			$this->urlTrigger = new NextADInt_Adi_Cron_UrlTrigger(
 				$this->getConfiguration(),
 				$this->getSyncToActiveDirectory(),
 				$this->getSyncToWordPress()
@@ -837,17 +837,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_User_Ui_ExtendUserList
+	 * @var NextADInt_Adi_User_Ui_ExtendUserList
 	 */
 	private $extendUserList = null;
 
 	/**
-	 * @return Adi_User_Ui_ExtendUserList
+	 * @return NextADInt_Adi_User_Ui_ExtendUserList
 	 */
 	public function getExtendUserList()
 	{
 		if ($this->extendUserList == null) {
-			$this->extendUserList = new Adi_User_Ui_ExtendUserList(
+			$this->extendUserList = new NextADInt_Adi_User_Ui_ExtendUserList(
 				$this->getConfiguration()
 			);
 		}
@@ -856,17 +856,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_User_Profile_Ui_ShowLdapAttributes
+	 * @var NextADInt_Adi_User_Profile_Ui_ShowLdapAttributes
 	 */
 	private $showLdapAttributes = null;
 
 	/**
-	 * @return Adi_User_Profile_Ui_ShowLdapAttributes
+	 * @return NextADInt_Adi_User_Profile_Ui_ShowLdapAttributes
 	 */
 	public function getShowLdapAttributes()
 	{
 		if ($this->showLdapAttributes == null) {
-			$this->showLdapAttributes = new Adi_User_Profile_Ui_ShowLdapAttributes(
+			$this->showLdapAttributes = new NextADInt_Adi_User_Profile_Ui_ShowLdapAttributes(
 				$this->getConfiguration(),
 				$this->getTwigContainer(),
 				$this->getAttributeRepository(),
@@ -878,17 +878,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_User_Profile_Ui_PreventEmailChange
+	 * @var NextADInt_Adi_User_Profile_Ui_PreventEmailChange
 	 */
 	private $preventEmailChange = null;
 
 	/**
-	 * @return Adi_User_Profile_Ui_PreventEmailChange
+	 * @return NextADInt_Adi_User_Profile_Ui_PreventEmailChange
 	 */
 	public function getPreventEmailChange()
 	{
 		if ($this->preventEmailChange == null) {
-			$this->preventEmailChange = new Adi_User_Profile_Ui_PreventEmailChange(
+			$this->preventEmailChange = new NextADInt_Adi_User_Profile_Ui_PreventEmailChange(
 				$this->getConfiguration()
 			);
 		}
@@ -897,17 +897,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
+	 * @var NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 	 */
 	private $triggerActiveDirectorySynchronization = null;
 
 	/**
-	 * @return Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
+	 * @return NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 	 */
 	public function getTriggerActiveDirectorySynchronization()
 	{
 		if ($this->triggerActiveDirectorySynchronization == null) {
-			$this->triggerActiveDirectorySynchronization = new Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization(
+			$this->triggerActiveDirectorySynchronization = new NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization(
 				$this->getConfiguration(),
 				$this->getSyncToActiveDirectory(),
 				$this->getAttributeRepository()
@@ -918,17 +918,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_User_Profile_Ui_PreventPasswordChange
+	 * @var NextADInt_Adi_User_Profile_Ui_PreventPasswordChange
 	 */
 	private $profilePreventPasswordChange = null;
 
 	/**
-	 * @return Adi_User_Profile_Ui_PreventPasswordChange
+	 * @return NextADInt_Adi_User_Profile_Ui_PreventPasswordChange
 	 */
 	public function getProfilePreventPasswordChange()
 	{
 		if ($this->profilePreventPasswordChange == null) {
-			$this->profilePreventPasswordChange = new Adi_User_Profile_Ui_PreventPasswordChange(
+			$this->profilePreventPasswordChange = new NextADInt_Adi_User_Profile_Ui_PreventPasswordChange(
 				$this->getConfiguration(),
 				$this->getUserManager()
 			);
@@ -938,34 +938,34 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Requirements
+	 * @var NextADInt_Adi_Requirements
 	 */
 	private $requirements = null;
 
 	/**
-	 * @return Adi_Requirements
+	 * @return NextADInt_Adi_Requirements
 	 */
 	public function getRequirements()
 	{
 		if ($this->requirements == null) {
-			$this->requirements = new Adi_Requirements();
+			$this->requirements = new NextADInt_Adi_Requirements();
 		}
 
 		return $this->requirements;
 	}
 
 	/**
-	 * @var Adi_Configuration_ImportService
+	 * @var NextADInt_Adi_Configuration_ImportService
 	 */
 	private $importService = null;
 
 	/**
-	 * @return Adi_Configuration_ImportService
+	 * @return NextADInt_Adi_Configuration_ImportService
 	 */
 	public function getImportService()
 	{
 		if ($this->importService == null) {
-			$this->importService = new Adi_Configuration_ImportService(
+			$this->importService = new NextADInt_Adi_Configuration_ImportService(
 				$this->getBlogConfigurationRepository(),
 				$this->getConfiguration(),
 				$this->getOptionProvider()
@@ -976,14 +976,14 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Multisite_Site_Ui_ExtendSiteList
+	 * @var NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList
 	 */
 	private $extendSiteList = null;
 
 	public function getExtendSiteList()
 	{
 		if ($this->extendSiteList == null) {
-			$this->extendSiteList = new Adi_Multisite_Site_Ui_ExtendSiteList(
+			$this->extendSiteList = new NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList(
 				$this->getBlogConfigurationRepository(),
 				$this->getProfileRepository()
 			);
@@ -993,14 +993,14 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Configuration_Import_Ui_ExtendPluginList
+	 * @var NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList
 	 */
 	private $extendPluginList = null;
 
 	public function getExtendPluginList()
 	{
 		if ($this->extendPluginList == null) {
-			$this->extendPluginList = new Adi_Configuration_Import_Ui_ExtendPluginList(
+			$this->extendPluginList = new NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList(
 				$this->getImportService()
 			);
 		}
@@ -1009,17 +1009,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Core_Migration_Service
+	 * @var NextADInt_Core_Migration_Service
 	 */
 	private $migrationService = null;
 
 	/**
-	 * @return Core_Migration_Service
+	 * @return NextADInt_Core_Migration_Service
 	 */
 	public function getMigrationService()
 	{
 		if ($this->migrationService == null) {
-			$this->migrationService = new Core_Migration_Service(
+			$this->migrationService = new NextADInt_Core_Migration_Service(
 				$this,
 				$this->getMigrationRepository()
 			);
@@ -1029,31 +1029,31 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Core_Migration_Persistence_MigrationRepository
+	 * @var NextADInt_Core_Migration_Persistence_MigrationRepository
 	 */
 	private $migrationRepository;
 
 	/**
-	 * @return Core_Migration_Persistence_MigrationRepository
+	 * @return NextADInt_Core_Migration_Persistence_MigrationRepository
 	 */
 	public function getMigrationRepository()
 	{
 		if ($this->migrationRepository == null) {
-			$this->migrationRepository = new Core_Migration_Persistence_MigrationRepository();
+			$this->migrationRepository = new NextADInt_Core_Migration_Persistence_MigrationRepository();
 		}
 
 		return $this->migrationRepository;
 	}
 
 	/**
-	 * @var Adi_Authentication_VerificationService
+	 * @var NextADInt_Adi_Authentication_VerificationService
 	 */
 	private $verificationService = null;
 
 	public function getVerificationService()
 	{
 		if ($this->verificationService == null) {
-			$this->verificationService = new Adi_Authentication_VerificationService(
+			$this->verificationService = new NextADInt_Adi_Authentication_VerificationService(
 				$this->getLdapConnection(), $this->getAttributeRepository()
 			);
 		}
@@ -1062,17 +1062,17 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Authentication_SingleSignOn_Service
+	 * @var NextADInt_Adi_Authentication_SingleSignOn_Service
 	 */
 	private $ssoService = null;
 
 	/**
-	 * @return Adi_Authentication_SingleSignOn_Service
+	 * @return NextADInt_Adi_Authentication_SingleSignOn_Service
 	 */
 	public function getSsoService()
 	{
 		if ($this->ssoService == null) {
-			$this->ssoService = new Adi_Authentication_SingleSignOn_Service(
+			$this->ssoService = new NextADInt_Adi_Authentication_SingleSignOn_Service(
 				$this->getFailedLoginRepository(),
 				$this->getConfiguration(),
 				$this->getLdapConnection(),
@@ -1089,34 +1089,34 @@ class Adi_Dependencies
 	}
 
 	/**
-	 * @var Adi_Authentication_Ui_SingleSignOn
+	 * @var NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 	 */
 	private $ssoPage = null;
 
 	/**
-	 * @return Adi_Authentication_Ui_SingleSignOn
+	 * @return NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 	 */
 	public function getSsoPage()
 	{
 		if ($this->ssoPage == null) {
-			$this->ssoPage = new Adi_Authentication_Ui_SingleSignOn();
+			$this->ssoPage = new NextADInt_Adi_Authentication_Ui_ShowBlockedMessage();
 		}
 
 		return $this->ssoPage;
 	}
 
 	/**
-	 * @var Adi_Authentication_SingleSignOn_Validator
+	 * @var NextADInt_Adi_Authentication_SingleSignOn_Validator
 	 */
 	private $ssoValidator = null;
 
 	/**
-	 * @return Adi_Authentication_SingleSignOn_Validator
+	 * @return NextADInt_Adi_Authentication_SingleSignOn_Validator
 	 */
 	public function getSsoValidator()
 	{
 		if ($this->ssoValidator == null) {
-			$this->ssoValidator = new Adi_Authentication_SingleSignOn_Validator();
+			$this->ssoValidator = new NextADInt_Adi_Authentication_SingleSignOn_Validator();
 		}
 
 		return $this->ssoValidator;

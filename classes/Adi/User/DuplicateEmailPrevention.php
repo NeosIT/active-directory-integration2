@@ -3,13 +3,13 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_User_DuplicateEmailPrevention')) {
+if (class_exists('NextADInt_Adi_User_DuplicateEmailPrevention')) {
 	return;
 }
 
 /**
- * Adi_User_DuplicateEmailPrevention contains the values for the meta data
- * {@see Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION}.
+ * NextADInt_Adi_User_DuplicateEmailPrevention contains the values for the meta data
+ * {@see NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION}.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -17,7 +17,7 @@ if (class_exists('Adi_User_DuplicateEmailPrevention')) {
  *
  * @access
  */
-abstract class Adi_User_DuplicateEmailPrevention
+abstract class NextADInt_Adi_User_DuplicateEmailPrevention
 {
 	const PREVENT = 'prevent',
 		CREATE = 'create',

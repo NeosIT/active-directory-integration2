@@ -4,16 +4,16 @@
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @access private
  */
-class Ut_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 {
-	/** @var Core_Util_ExceptionUtil|\Mockery\MockInterface */
+	/** @var NextADInt_Core_Util_ExceptionUtil|\Mockery\MockInterface */
 	private $exceptionUtil;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->exceptionUtil = $this->createUtilClassMock('Core_Util_ExceptionUtil');
+		$this->exceptionUtil = $this->createUtilClassMock('NextADInt_Core_Util_ExceptionUtil');
 	}
 
 	public function tearDown()
@@ -192,7 +192,7 @@ class Ut_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('findByMetaKey')
-			->with('adi2_samaccountname', 'sam')
+			->with('next_ad_int_samaccountname', 'sam')
 			->willReturn(array($wpUser));
 
 		$actual = $sut->findBySAMAccountName('sam');
@@ -209,7 +209,7 @@ class Ut_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('updateMetaKey')
-			->with(1, 'adi2_samaccountname', 'sam');
+			->with(1, 'next_ad_int_samaccountname', 'sam');
 
 		$sut->updateSAMAccountName(1, 'sam');
 	}
@@ -237,7 +237,7 @@ class Ut_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('findByMetaKey')
-			->with('adi2_objectguid', 'guid')
+			->with('next_ad_int_objectguid', 'guid')
 			->willReturn(array($wpUser));
 
 		$actual = $sut->findByObjectGuid('guid');
@@ -397,10 +397,10 @@ class Ut_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 
 		$wpError = $this->createMockedObject('WP_Error', array(), array('get_error_messages'));
 
-		$adiUser = $this->createMock('Adi_User');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
 
 		$this->behave($adiUser, 'getUserLogin', 'username');
-		$this->behave($adiUser, 'getCredentials', new Adi_Authentication_Credentials('username', 'password'));
+		$this->behave($adiUser, 'getCredentials', new NextADInt_Adi_Authentication_Credentials('username', 'password'));
 
 		WP_Mock::wpFunction('is_wp_error', array(
 			'args'   => array($wpError),
@@ -427,10 +427,10 @@ class Ut_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$adiUser = $this->createMock('Adi_User');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
 
 		$this->behave($adiUser, 'getUserLogin', 'username');
-		$this->behave($adiUser, 'getCredentials', new Adi_Authentication_Credentials('username', 'password'));
+		$this->behave($adiUser, 'getCredentials', new NextADInt_Adi_Authentication_Credentials('username', 'password'));
 
 		WP_Mock::wpFunction('wp_create_user', array(
 			'args'   => array('username', 'password'),
@@ -463,7 +463,7 @@ class Ut_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 			->method('get_error_messages')
 			->willReturn(array());
 
-		$adiUser = $this->createMock('Adi_User');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
 
 		$adiUser->expects($this->once())
 			->method('getUserLogin')
@@ -490,15 +490,15 @@ class Ut_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 	}
 
 	/**
-	 * Create a partial mock for our {@see Adi_User_Persistence_Repository}.
+	 * Create a partial mock for our {@see NextADInt_Adi_User_Persistence_Repository}.
 	 *
 	 * @param $methods
 	 *
-	 * @return Adi_User_Persistence_Repository|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_User_Persistence_Repository|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_User_Persistence_Repository')
+		return $this->getMockBuilder('NextADInt_Adi_User_Persistence_Repository')
 			->setConstructorArgs(array())
 			->setMethods($methods)
 			->getMock();

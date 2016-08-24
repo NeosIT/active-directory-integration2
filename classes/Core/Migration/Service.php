@@ -3,37 +3,37 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Migration_Service')) {
+if (class_exists('NextADInt_Core_Migration_Service')) {
 	return;
 }
 
 /**
- * Core_Migration_Service provides methods to execute migrations.
+ * NextADInt_Core_Migration_Service provides methods to execute migrations.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @author  Danny Meißner <dme@neos-it.de>
  *
  * @access
  */
-class Core_Migration_Service
+class NextADInt_Core_Migration_Service
 {
-	/** @var Adi_Dependencies */
+	/** @var NextADInt_Adi_Dependencies */
 	private $dependencyContainer;
 
-	/** @var Core_Migration_Persistence_MigrationRepository */
+	/** @var NextADInt_Core_Migration_Persistence_MigrationRepository */
 	private $migrationRepository;
 
 	/** @var Logger */
 	private $logger;
 
 	/**
-	 * Core_Migration_Service constructor.
+	 * NextADInt_Core_Migration_Service constructor.
 	 *
-	 * @param Adi_Dependencies                               $dependencyContainer
-	 * @param Core_Migration_Persistence_MigrationRepository $migrationRepository
+	 * @param NextADInt_Adi_Dependencies                               $dependencyContainer
+	 * @param NextADInt_Core_Migration_Persistence_MigrationRepository $migrationRepository
 	 */
-	public function __construct(Adi_Dependencies $dependencyContainer,
-								Core_Migration_Persistence_MigrationRepository $migrationRepository
+	public function __construct(NextADInt_Adi_Dependencies $dependencyContainer,
+								NextADInt_Core_Migration_Persistence_MigrationRepository $migrationRepository
 	) {
 		$this->dependencyContainer = $dependencyContainer;
 		$this->migrationRepository = $migrationRepository;
@@ -99,7 +99,7 @@ class Core_Migration_Service
 
 		// if the migration has not been migrated yet, execute it and set the ID to $lastMigration
 		try {
-			/** @var Core_Migration_Abstract $migration */
+			/** @var NextADInt_Core_Migration_Abstract $migration */
 			$migration = new $migrationClazz($this->dependencyContainer);
 			$migration->execute();
 
@@ -168,13 +168,13 @@ class Core_Migration_Service
 	/**
 	 * Return a list with all migrations.
 	 *
-	 * @return Core_Migration_Abstract[]
+	 * @return NextADInt_Core_Migration_Abstract[]
 	 */
 	protected function getMigrations()
 	{
 		return array(
-			'Migration_MigrateEncryption',
-			'Migration_MigrateUseSamAccountNameForNewCreatedUsers',
+			'NextADInt_Migration_MigrateEncryption',
+			'NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsers',
 		);
 	}
 }

@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Exception_WordPressErrorException')) {
+if (class_exists('NextADInt_Core_Exception_WordPressErrorException')) {
 	return;
 }
 
 /**
- * Core_Exception_WordPressErrorException encapsulates a {@link WP_Error} object inside an exception
+ * NextADInt_Core_Exception_WordPressErrorException encapsulates a {@link WP_Error} object inside an exception
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access
  */
-class Core_Exception_WordPressErrorException extends Core_Exception
+class NextADInt_Core_Exception_WordPressErrorException extends NextADInt_Core_Exception
 {
 	/** @var WP_Error */
 	private $wordPressError;

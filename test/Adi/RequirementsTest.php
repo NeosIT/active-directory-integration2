@@ -4,9 +4,9 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Adi_RequirementsTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
 {
-	/* @var Core_Util_Internal_Native|\Mockery\MockInterface */
+	/* @var NextADInt_Core_Util_Internal_Native|\Mockery\MockInterface */
 	private $internalNative;
 	
 	/** @var \Mockery\MockInterface */
@@ -24,21 +24,21 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 
 		// mock native functions
 		$this->internalNative = $this->createMockedNative();
-		Core_Util::native($this->internalNative);
+		NextADInt_Core_Util::native($this->internalNative);
 	}
 
 	public function tearDown()
 	{
 		parent::tearDown();
 		// release mocked native functions
-		Core_Util::native(null);
+		NextADInt_Core_Util::native(null);
 	}
 
 	/**
 	 * @test
 	 */
 	public function check_itSucceeds() {
-		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
+		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireMcrypt', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
 		$showErrors = true;
 
 		WP_Mock::wpFunction('is_multisite', array(
@@ -58,6 +58,10 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 			->method('requireMbstring')
 			->with($showErrors);
 
+        $sut->expects($this->once())
+            ->method('requireMcrypt')
+            ->with($showErrors);
+
 		$sut->expects($this->once())
 			->method('preventTooManySites')
 			->with($showErrors);
@@ -76,7 +80,7 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 	 * @test
 	 */
 	public function check_itPreventsSiteActivation_whenIncludeActivationCheckIsEnabled() {
-		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
+		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireMcrypt', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
 		$showErrors = true;
 
 		WP_Mock::wpFunction('is_multisite', array(
@@ -100,7 +104,7 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction('deactivate_plugins', array(
 			'times'  => 1,
-			'return' => ADI_PLUGIN_FILE,
+			'return' => NEXT_AD_INT_PLUGIN_FILE,
 		));
 
 		// mock away static methods
@@ -144,7 +148,7 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 			->willReturn(true);
 
 		// verify calls
-		WP_Mock::expectActionAdded(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+		WP_Mock::expectActionAdded(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
 			$sut, 'wrongWordPressVersion',
 		));
 
@@ -162,10 +166,10 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 		// mock away static methods
 		$this->internalNative->expects($this->once())
 			->method('isLoaded')
-			->with(Adi_Requirements::MODULE_LDAP)
+			->with(NextADInt_Adi_Requirements::MODULE_LDAP)
 			->willReturn(false);
 
-		WP_Mock::expectActionAdded(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+		WP_Mock::expectActionAdded(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
 			$sut, 'missingLdapModule',
 		));
 
@@ -182,7 +186,7 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 		// mock away static methods
 		$this->internalNative->expects($this->once())
 			->method('isLoaded')
-			->with(Adi_Requirements::MODULE_LDAP)
+			->with(NextADInt_Adi_Requirements::MODULE_LDAP)
 			->willReturn(true);
 
 		$sut->requireLdap(true);
@@ -199,10 +203,10 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 		// mock away static methods
 		$this->internalNative->expects($this->once())
 			->method('isLoaded')
-			->with(Adi_Requirements::MODULE_MBSTRING)
+			->with(NextADInt_Adi_Requirements::MODULE_MBSTRING)
 			->willReturn(false);
 
-		WP_Mock::expectActionAdded(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+		WP_Mock::expectActionAdded(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
 			$sut, 'missingMbstring',
 		));
 
@@ -218,11 +222,47 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 		// mock away static methods
 		$this->internalNative->expects($this->once())
 			->method('isLoaded')
-			->with(Adi_Requirements::MODULE_MBSTRING)
+			->with(NextADInt_Adi_Requirements::MODULE_MBSTRING)
 			->willReturn(true);
 
 		$sut->requireMbstring(true);
 	}
+
+    /**
+     * @test
+     * @expectedException RequirementException
+     */
+    public function requireMcrypt_itFails_ifExtensionIsNotLoaded()
+    {
+        $sut = $this->sut();
+
+        // mock away static methods
+        $this->internalNative->expects($this->once())
+            ->method('isLoaded')
+            ->with(NextADInt_Adi_Requirements::MODULE_MCRYPT)
+            ->willReturn(false);
+
+        WP_Mock::expectActionAdded(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+            $sut, 'missingMcrypt',
+        ));
+
+        $sut->requireMcrypt(true);
+    }
+
+    /**
+     * @test
+     */
+    public function requireMcrypt_itSucceeds() {
+        $sut = $this->sut();
+
+        // mock away static methods
+        $this->internalNative->expects($this->once())
+            ->method('isLoaded')
+            ->with(NextADInt_Adi_Requirements::MODULE_MCRYPT)
+            ->willReturn(true);
+
+        $sut->requireMcrypt(true);
+    }
 
 	/**
 	 * @test
@@ -237,7 +277,7 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 			'return' => true,
 		));
 
-		WP_Mock::expectActionAdded(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+		WP_Mock::expectActionAdded(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
 			$sut, 'tooManySites',
 		));
 
@@ -271,7 +311,7 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 			'return' => false,
 		));
 
-		WP_Mock::expectActionAdded(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+		WP_Mock::expectActionAdded(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
 			$sut, 'networkSiteActivationNotAllowed',
 		));
 
@@ -300,10 +340,10 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('isPluginInstalled')
-			->with(Adi_Requirements::DEPRECATED_ADI_PLUGIN_NAME)
+			->with(NextADInt_Adi_Requirements::DEPRECATED_ADI_PLUGIN_NAME)
 			->willReturn(true);
 
-		WP_Mock::expectActionAdded(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+		WP_Mock::expectActionAdded(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
 			$sut, 'deactivatedDeprecatedAdiVersionMessage',
 		));
 
@@ -324,13 +364,13 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 
 		wp_mock::wpfunction('is_plugin_active', array(
 			'times'  => 1,
-			'args' => Adi_Requirements::DEPRECATED_ADI_PLUGIN_NAME,
+			'args' => NextADInt_Adi_Requirements::DEPRECATED_ADI_PLUGIN_NAME,
 			'return' => true,
 		));
 
 		wp_mock::wpfunction('deactivate_plugins', array(
 			'times'  => 1,
-			'args' => Adi_Requirements::DEPRECATED_ADI_PLUGIN_NAME,
+			'args' => NextADInt_Adi_Requirements::DEPRECATED_ADI_PLUGIN_NAME,
 			'return' => true,
 		));
 
@@ -342,11 +382,11 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 	 *
 	 * @param null $methods
 	 *
-	 * @return Adi_Requirements|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Requirements|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Requirements')
+		return $this->getMockBuilder('NextADInt_Adi_Requirements')
 			->setConstructorArgs(
 				array()
 			)

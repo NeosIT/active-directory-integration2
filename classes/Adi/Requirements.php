@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Requirements')) {
+if (class_exists('NextADInt_Adi_Requirements')) {
 	return;
 }
 
@@ -20,7 +20,7 @@ class RequirementException extends Exception
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_Requirements
+class NextADInt_Adi_Requirements
 {
 	/* @var Logger $logger */
 	private $logger;
@@ -28,6 +28,7 @@ class Adi_Requirements
 	const WORDPRESS_VERSION = '4.0';
 	const MODULE_LDAP = 'ldap';
 	const MODULE_MBSTRING = 'mbstring';
+    const MODULE_MCRYPT = 'mcrypt';
 	const DEPRECATED_ADI_PLUGIN_NAME = 'active-directory-integration/ad-integration.php';
 
 	public function __construct()
@@ -50,6 +51,7 @@ class Adi_Requirements
 			$this->requireWordPressVersion($showErrors);
 			$this->requireLdap($showErrors);
 			$this->requireMbstring($showErrors);
+            $this->requireMcrypt($showErrors);
 
 			// check if this WordPress instance has more than 10,000 blogs/sites
 			if (is_multisite()) {
@@ -65,10 +67,10 @@ class Adi_Requirements
 			$this->deactivateDeprecatedVersion();
 		} catch (Exception $e) {
 			// at this moment the plugin.php is not loaded
-			Core_Util::native()->includeOnce(ABSPATH . 'wp-admin/includes/plugin.php');
+			NextADInt_Core_Util::native()->includeOnce(ABSPATH . 'wp-admin/includes/plugin.php');
 
 			// ensure that the plug-in has not been enabled
-			deactivate_plugins(ADI_PLUGIN_FILE);
+			deactivate_plugins(NEXT_AD_INT_PLUGIN_FILE);
 
 			return false;
 		}
@@ -88,9 +90,9 @@ class Adi_Requirements
 		// check wp version
 		global $wp_version;
 
-		if (Core_Util::native()->compare($wp_version, self::WORDPRESS_VERSION, '<')) {
+		if (NextADInt_Core_Util::native()->compare($wp_version, self::WORDPRESS_VERSION, '<')) {
 			if ($showErrors) {
-				add_action(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+				add_action(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
 					$this, 'wrongWordPressVersion',
 				));
 			}
@@ -124,9 +126,9 @@ class Adi_Requirements
 	public function requireLdap($showErrors = true)
 	{
 		// check php module
-		if (!Core_Util::native()->isLoaded(self::MODULE_LDAP)) {
+		if (!NextADInt_Core_Util::native()->isLoaded(self::MODULE_LDAP)) {
 			if ($showErrors) {
-				add_action(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+				add_action(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
 					$this, 'missingLdapModule',
 				));
 			}
@@ -157,9 +159,9 @@ class Adi_Requirements
 	public function requireMbstring($showErrors = true)
 	{
 		// mb_strings php module
-		if (!Core_Util::native()->isLoaded(self::MODULE_MBSTRING)) {
+		if (!NextADInt_Core_Util::native()->isLoaded(self::MODULE_MBSTRING)) {
 			if ($showErrors) {
-				add_action(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+				add_action(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
 					$this, 'missingMbstring',
 				));
 			}
@@ -167,7 +169,6 @@ class Adi_Requirements
 			throw new RequirementException();
 		}
 	}
-
 
 	/**
 	 * Display the error message for the missing mb_string extension.
@@ -181,6 +182,39 @@ class Adi_Requirements
         </div>";
 	}
 
+    /**
+     * mbstring module must be loaded
+     *
+     * @param bool $showErrors
+     *
+     * @throws RequirementException
+     */
+    public function requireMcrypt($showErrors = true)
+    {
+        // mb_strings php module
+        if (!NextADInt_Core_Util::native()->isLoaded(self::MODULE_MCRYPT)) {
+            if ($showErrors) {
+                add_action(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+                    $this, 'missingMcrypt',
+                ));
+            }
+
+            throw new RequirementException();
+        }
+    }
+
+    /**
+     * Display the error message for the missing mb_string extension.
+     */
+    public function missingMcrypt()
+    {
+        echo "
+        <div class=\"error\">
+			<p>The 'Active Directory Integration' plugin requires the PHP module 'mcrypt' for encrypting passwords and storing configuration. You have to enable it.</p>
+			<p>For further information please visit <a href=\"https://secure.php.net/manual/de/mcrypt.setup.php\">https://secure.php.net/manual/de/mcrypt.setup.php</a>.</p>
+        </div>";
+    }
+
 	/**
 	 * Large networks are not supported
 	 *
@@ -192,7 +226,7 @@ class Adi_Requirements
 	{
 		if (wp_is_large_network('sites')) {
 			if ($showErrors) {
-				add_action(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+				add_action(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
 					$this, 'tooManySites',
 				));
 			}
@@ -225,7 +259,7 @@ class Adi_Requirements
 		// ADI-188: do not allow activation when *not* network-wide activated
 		if (!is_network_admin()) {
 			if ($showErrors) {
-				add_action(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+				add_action(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
 					$this, 'networkSiteActivationNotAllowed',
 				));
 			}
@@ -250,7 +284,7 @@ class Adi_Requirements
 	{
 		if ($this->isPluginInstalled(self::DEPRECATED_ADI_PLUGIN_NAME)) {
 			// after activation of ADI 2.x we want to show the information that any previous version has been deactivated
-			add_action(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+			add_action(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
 				$this, 'deactivatedDeprecatedAdiVersionMessage'));
 		}
 	}
@@ -262,11 +296,11 @@ class Adi_Requirements
 	public function deactivateDeprecatedVersion()
 	{
 		// at this moment the plugin.php is not loaded
-		Core_Util::native()->includeOnce(ABSPATH . 'wp-admin/includes/plugin.php');
+		NextADInt_Core_Util::native()->includeOnce(ABSPATH . 'wp-admin/includes/plugin.php');
 
 		if (is_plugin_active(self::DEPRECATED_ADI_PLUGIN_NAME)) {
 			deactivate_plugins(self::DEPRECATED_ADI_PLUGIN_NAME);
-			Core_Logger::logMessages();
+			NextADInt_Core_Logger::logMessages();
 			$this->logger->debug("Disabled deprecated version of ADI.");
 
 			return true;

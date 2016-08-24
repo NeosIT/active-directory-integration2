@@ -4,15 +4,15 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Core_EncryptionTest extends PHPUnit_Framework_TestCase
+class Ut_NextADInt_Core_EncryptionTest extends PHPUnit_Framework_TestCase
 {
-	/* @var Core_Encryption $enryptionHandler */
+	/* @var NextADInt_Core_Encryption $enryptionHandler */
 	private $encryptionHandler;
 
 	//setting up encryptionHandler
 	public function setUp()
 	{
-		$this->encryptionHandler = new Core_Encryption();
+		$this->encryptionHandler = new NextADInt_Core_Encryption();
 	}
 
 	public function testEncrypt_encryptPlainText()

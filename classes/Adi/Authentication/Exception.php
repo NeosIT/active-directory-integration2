@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Authentication_Exception')) {
+if (class_exists('NextADInt_Adi_Authentication_Exception')) {
 	return;
 }
 
 /**
- * Adi_Authentication_Exception is used for raising exceptions during the authentication.
+ * NextADInt_Adi_Authentication_Exception is used for raising exceptions during the authentication.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access
  */
-class Adi_Authentication_Exception extends Core_Exception
+class NextADInt_Adi_Authentication_Exception extends NextADInt_Core_Exception
 {
 
 }

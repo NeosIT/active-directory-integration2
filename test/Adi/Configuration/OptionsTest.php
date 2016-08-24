@@ -4,20 +4,20 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Adi_Configuration_OptionsTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Configuration_OptionsTest extends Ut_BasicTest
 {
 
-	/* @var Ldap_Attribute_Description */
+	/* @var NextADInt_Ldap_Attribute_Description */
 	private $attributeDescription;
 
-	/** @var Adi_Configuration_Options */
+	/** @var NextADInt_Adi_Configuration_Options */
 	private $sut;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->sut = new Adi_Configuration_Options();
+		$this->sut = new NextADInt_Adi_Configuration_Options();
 	}
 
 	public function tearDown()

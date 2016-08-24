@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_User_Profile_Ui_PreventPasswordChange')) {
+if (class_exists('NextADInt_Adi_User_Profile_Ui_PreventPasswordChange')) {
 	return;
 }
 
@@ -15,20 +15,20 @@ if (class_exists('Adi_User_Profile_Ui_PreventPasswordChange')) {
  * @author Christopher Klein <ckl@neos-it.de>
  * @access public
  */
-class Adi_User_Profile_Ui_PreventPasswordChange
+class NextADInt_Adi_User_Profile_Ui_PreventPasswordChange
 {
-	/** @var $configuration Multisite_Configuration_Service */
+	/** @var $configuration NextADInt_Multisite_Configuration_Service */
 	private $configuration;
 
-	/** @var $userManager Adi_User_Manager */
+	/** @var $userManager NextADInt_Adi_User_Manager */
 	private $userManager;
 
 	/**
-	 * @param Multisite_Configuration_Service $configuration
-	 * @param Adi_User_Manager $userManager
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Adi_User_Manager $userManager
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration,
-								Adi_User_Manager $userManager)
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Adi_User_Manager $userManager)
 	{
 		$this->configuration = $configuration;
 		$this->userManager = $userManager;
@@ -51,7 +51,7 @@ class Adi_User_Profile_Ui_PreventPasswordChange
 	 * @return bool
 	 */
 	public function isPasswordChangeEnabled() {
-		return $this->configuration->getOptionValue(Adi_Configuration_Options::ENABLE_PASSWORD_CHANGE);
+		return $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ENABLE_PASSWORD_CHANGE);
 	}
 
 	/**

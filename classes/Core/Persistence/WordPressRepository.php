@@ -3,21 +3,21 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Persistence_WordPressRepository')) {
+if (class_exists('NextADInt_Core_Persistence_WordPressRepository')) {
 	return;
 }
 
 /**
- * Core_Persistence_WordPressRepository contains help methods for finding/persisting data to the database.
+ * NextADInt_Core_Persistence_WordPressRepository contains help methods for finding/persisting data to the database.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Core_Persistence_WordPressRepository
+class NextADInt_Core_Persistence_WordPressRepository
 {
 
 	/**
-	 * Add WordPress base_prefix and ADI_Prefix to the table name and returns it.
+	 * Add WordPress base_prefix and NEXT_AD_INT_PREFIX to the table name and returns it.
 	 *
 	 * @param string $name
 	 *
@@ -28,7 +28,7 @@ class Core_Persistence_WordPressRepository
 		global $wpdb;
 		$basePrefix = $wpdb->base_prefix;
 
-		return $basePrefix . ADI_PREFIX . $name;
+		return $basePrefix . NEXT_AD_INT_PREFIX . $name;
 	}
 
 	/**

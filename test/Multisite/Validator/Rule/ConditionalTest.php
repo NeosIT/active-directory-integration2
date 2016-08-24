@@ -3,11 +3,11 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Multisite_Validator_Rule_ConditionalTest')) {
+if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_ConditionalTest')) {
 	return;
 }
 
-class Ut_Multisite_Validator_Rule_ConditionalTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Validator_Rule_ConditionalTest extends Ut_BasicTest
 {
 	public function setUp()
 	{
@@ -23,11 +23,11 @@ class Ut_Multisite_Validator_Rule_ConditionalTest extends Ut_BasicTest
 	 * @param       $methods
 	 * @param array $rules
 	 *
-	 * @return Multisite_Validator_Rule_Conditional|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Validator_Rule_Conditional|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null, $rules = array())
 	{
-		return $this->getMockBuilder('Multisite_Validator_Rule_Conditional')
+		return $this->getMockBuilder('NextADInt_Multisite_Validator_Rule_Conditional')
 			->setConstructorArgs(array(
 				$rules, array(
 					'sync_to_wordpress_enabled' => true,
@@ -45,8 +45,8 @@ class Ut_Multisite_Validator_Rule_ConditionalTest extends Ut_BasicTest
 		$value = '';
 		$data = array();
 
-		$ruleOne = $this->createMock('Core_Validator_Rule');
-		$ruleTwo = $this->createMock('Core_Validator_Rule');
+		$ruleOne = $this->createMock('NextADInt_Core_Validator_Rule');
+		$ruleTwo = $this->createMock('NextADInt_Core_Validator_Rule');
 
 		$ruleOne->expects($this->once())
 			->method('validate')
@@ -74,8 +74,8 @@ class Ut_Multisite_Validator_Rule_ConditionalTest extends Ut_BasicTest
 		$value = '';
 		$data = array();
 
-		$ruleOne = $this->createMock('Core_Validator_Rule');
-		$ruleTwo = $this->createMock('Core_Validator_Rule');
+		$ruleOne = $this->createMock('NextADInt_Core_Validator_Rule');
+		$ruleTwo = $this->createMock('NextADInt_Core_Validator_Rule');
 
 		$ruleOne->expects($this->once())
 			->method('validate')

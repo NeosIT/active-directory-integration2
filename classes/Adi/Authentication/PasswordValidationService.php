@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Authentication_PasswordValidationService')) {
+if (class_exists('NextADInt_Adi_Authentication_PasswordValidationService')) {
 	return;
 }
 
@@ -13,23 +13,23 @@ if (class_exists('Adi_Authentication_PasswordValidationService')) {
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_Authentication_PasswordValidationService
+class NextADInt_Adi_Authentication_PasswordValidationService
 {
-	/* @var Adi_Authentication_LoginService $loginService */
+	/* @var NextADInt_Adi_Authentication_LoginService $loginService */
 	private $loginService;
 
-	/* @var Multisite_Configuration_Service $configuration */
+	/* @var NextADInt_Multisite_Configuration_Service $configuration */
 	private $configuration;
 
 	/* @var Logger $logger */
 	private $logger;
 
 	/**
-	 * @param Adi_Authentication_LoginService $loginService
-	 * @param Multisite_Configuration_Service  $configuration
+	 * @param NextADInt_Adi_Authentication_LoginService $loginService
+	 * @param NextADInt_Multisite_Configuration_Service  $configuration
 	 */
-	public function __construct(Adi_Authentication_LoginService $loginService,
-								Multisite_Configuration_Service $configuration)
+	public function __construct(NextADInt_Adi_Authentication_LoginService $loginService,
+								NextADInt_Multisite_Configuration_Service $configuration)
 	{
 		$this->loginService = $loginService;
 		$this->configuration = $configuration;
@@ -78,15 +78,15 @@ class Adi_Authentication_PasswordValidationService
 		}
 
 		// return false if user is disabled
-		if (get_user_meta($userId, ADI_PREFIX . 'user_disabled', true)) {
-			$reason = get_user_meta($userId, ADI_PREFIX . 'user_disabled_reason', true);
+		if (get_user_meta($userId, NEXT_AD_INT_PREFIX . 'user_disabled', true)) {
+			$reason = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true);
 			$this->logger->debug("User is disabled. Reason: $reason");
 
 			return false;
 		}
 
 		// only check for local password if this is not an AD user and if fallback to local password is active
-		$userCheck = get_user_meta($userId, ADI_PREFIX . 'samaccountname', true);
+		$userCheck = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true);
 
 		if (!$userCheck) {
 			// use local password check in all other cases
@@ -96,7 +96,7 @@ class Adi_Authentication_PasswordValidationService
 		}
 		
 		$fallbackToLocalPassword = $this->configuration->getOptionValue(
-			Adi_Configuration_Options::FALLBACK_TO_LOCAL_PASSWORD
+			NextADInt_Adi_Configuration_Options::FALLBACK_TO_LOCAL_PASSWORD
 		);
 			
 		if ($fallbackToLocalPassword) {

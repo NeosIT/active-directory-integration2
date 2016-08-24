@@ -6,12 +6,12 @@
  */
 class Ut_User_HelperTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service| PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
 	public function setUp()
 	{
-		$this->configuration = $this->getMockBuilder('Multisite_Configuration_Service')
+		$this->configuration = $this->getMockBuilder('NextADInt_Multisite_Configuration_Service')
 			->disableOriginalConstructor()
 			->setMethods(array('getOptionValue'))
 			->getMock();
@@ -36,14 +36,14 @@ class Ut_User_HelperTest extends Ut_BasicTest
 			'sn'        => 'surname',
 		);
 
-		$adiUser = $this->createMock('Adi_User');
-		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes(array(), $ldapAttributes));
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes(array(), $ldapAttributes));
 		$this->behave($adiUser, 'getId', 1);
-		$this->behave($adiUser, 'getCredentials', new Adi_Authentication_Credentials('username'));
+		$this->behave($adiUser, 'getCredentials', new NextADInt_Adi_Authentication_Credentials('username'));
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::AUTO_UPDATE_DESCRIPTION)
+			->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_DESCRIPTION)
 			->willReturn(false);
 
 		$sut->expects($this->once())
@@ -121,7 +121,7 @@ class Ut_User_HelperTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::NO_RANDOM_PASSWORD)
+			->with(NextADInt_Adi_Configuration_Options::NO_RANDOM_PASSWORD)
 			->willReturn(false);
 
 		$actual = $this->invokeMethod($sut, 'isRandomGeneratePassword', array(false));
@@ -137,7 +137,7 @@ class Ut_User_HelperTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::NO_RANDOM_PASSWORD)
+			->with(NextADInt_Adi_Configuration_Options::NO_RANDOM_PASSWORD)
 			->willReturn(true);
 
 		$actual = $this->invokeMethod($sut, 'isRandomGeneratePassword', array(false));
@@ -153,7 +153,7 @@ class Ut_User_HelperTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::NO_RANDOM_PASSWORD)
+			->with(NextADInt_Adi_Configuration_Options::NO_RANDOM_PASSWORD)
 			->willReturn(false);
 
 		$actual = $this->invokeMethod($sut, 'isRandomGeneratePassword', array(true));
@@ -169,7 +169,7 @@ class Ut_User_HelperTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::NO_RANDOM_PASSWORD)
+			->with(NextADInt_Adi_Configuration_Options::NO_RANDOM_PASSWORD)
 			->willReturn(true);
 
 		$actual = $this->invokeMethod($sut, 'isRandomGeneratePassword', array(true));
@@ -309,11 +309,11 @@ class Ut_User_HelperTest extends Ut_BasicTest
 	/**
 	 * @param $methods array methods to mock
 	 *
-	 * @return Adi_User_Helper|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_User_Helper|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function sut($methods)
 	{
-		return $this->getMockBuilder('Adi_User_Helper')
+		return $this->getMockBuilder('NextADInt_Adi_User_Helper')
 			->setConstructorArgs(
 				array(
 					$this->configuration,

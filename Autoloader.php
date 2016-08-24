@@ -11,11 +11,12 @@ if (!defined('ABSPATH')) {
  *
  * @access
  */
-class Adi_Autoloader
+class NextADInt_Autoloader
 {
 	const SOURCE_FOLDER = 'classes';
 	const PHP_FILE_EXTENSION = '.php';
 	const NAMESPACE_SEPARATOR = '_';
+    const CLASS_PREFIX = 'NextADInt_';
 
 	/**
 	 * Register our load method as an autoloader function.
@@ -42,7 +43,7 @@ class Adi_Autoloader
 		//split path into pieces
 		$pathPieces = $this->convertClassNameToPathArray($class, self::NAMESPACE_SEPARATOR);
 		// convert the array with our path fragments to a absolute path
-		$directoryPath = $this->convertPathArrayToAbsolutePath($pathPieces, ADI_PATH . $classPath);
+		$directoryPath = $this->convertPathArrayToAbsolutePath($pathPieces, NEXT_AD_INT_PATH . $classPath);
 		// build the absolute file path using the created directory path
 		$file = $this->buildFilePath($directoryPath, $pathPieces);
 
@@ -101,9 +102,10 @@ class Adi_Autoloader
 		$prefixes = array('Adi', 'Core', 'Ldap', 'Multisite', 'Migration');
 
 		foreach ($prefixes as $prefix) {
-			$len = strlen($prefix);
+		    $totalPrefix = self::CLASS_PREFIX . $prefix;
+			$len = strlen($totalPrefix);
 
-			if (strncmp($prefix, $class, $len) === 0) {
+			if (strncmp($totalPrefix, $class, $len) === 0) {
 				return true;
 			}
 		}
@@ -121,6 +123,7 @@ class Adi_Autoloader
 	 */
 	private function convertClassNameToPathArray($class, $namespaceSeparator)
 	{
+	    $class = substr($class, strlen(self::CLASS_PREFIX));
 		return explode($namespaceSeparator, $class);
 	}
 

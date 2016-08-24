@@ -2,7 +2,7 @@ describe('ArrayUtil', function () {
     var sut;
 
     beforeEach(function () {
-        sut = angular.copy(adi2.util.ArrayUtil);
+        sut = angular.copy(next_ad_int.util.ArrayUtil);
     });
 
     it('#findNextToItem with no items should return null', function () {

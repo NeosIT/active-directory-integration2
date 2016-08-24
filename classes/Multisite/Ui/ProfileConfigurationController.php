@@ -3,31 +3,31 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Ui_ProfileConfigurationController')) {
+if (class_exists('NextADInt_Multisite_Ui_ProfileConfigurationController')) {
 	return;
 }
 
 /**
- * Multisite_Ui_ProfileConfigurationController validates and persists the option values and
+ * NextADInt_Multisite_Ui_ProfileConfigurationController validates and persists the option values and
  * permissions for a profile.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access  public
  */
-class Multisite_Ui_ProfileConfigurationController
+class NextADInt_Multisite_Ui_ProfileConfigurationController
 {
-	/* @var Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository */
+	/* @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository */
 	private $profileConfigurationRepository;
 
-	/* @var Multisite_Option_Provider */
+	/* @var NextADInt_Multisite_Option_Provider */
 	private $optionProvider;
 
 	/**
-	 * @param Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
-	 * @param Multisite_Option_Provider                                          $optionProvider
+	 * @param NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
+	 * @param NextADInt_Multisite_Option_Provider                                          $optionProvider
 	 */
-	public function __construct(Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
-		Multisite_Option_Provider $optionProvider
+	public function __construct(NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
+		NextADInt_Multisite_Option_Provider $optionProvider
 	) {
 		$this->profileConfigurationRepository = $profileConfigurationRepository;
 		$this->optionProvider = $optionProvider;
@@ -46,10 +46,10 @@ class Multisite_Ui_ProfileConfigurationController
 		try {
 			$this->saveProfileOptionsInternal($options, $profile);
 		} catch (Exception $e) {
-			return Core_Message::error(__('An error occurred while saving the configuration.', ADI_I18N))->toArray();
+			return NextADInt_Core_Message::error(__('An error occurred while saving the configuration.', NEXT_AD_INT_I18N))->toArray();
 		}
 
-		return Core_Message::success(__('The configuration was saved successfully.', ADI_I18N))->toArray();
+		return NextADInt_Core_Message::success(__('The configuration was saved successfully.', NEXT_AD_INT_I18N))->toArray();
 	}
 
 	/**

@@ -3,19 +3,19 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Util_StringUtil')) {
+if (class_exists('NextADInt_Core_Util_StringUtil')) {
 	return;
 }
 
 /**
- * Core_Util_StringUtil provides helper functions for interacting with strings.
+ * NextADInt_Core_Util_StringUtil provides helper functions for interacting with strings.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
  *
  * @access public
  */
-class Core_Util_StringUtil
+class NextADInt_Core_Util_StringUtil
 {
 	private function __construct()
 	{

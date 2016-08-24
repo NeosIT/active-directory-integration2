@@ -4,7 +4,7 @@
  * @author Christopher Klein <ckl@neos-it.de>
  * @access private
  */
-class Ut_Adi_InitTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 {
 	public function setUp()
 	{
@@ -25,9 +25,9 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction('load_plugin_textdomain', array(
 			'args'  => array(
-				ADI_I18N,
+				NEXT_AD_INT_I18N,
 				false,
-				ADI_PLUGIN_NAME . '/languages/',
+				NEXT_AD_INT_PATH . '/languages/',
 			),
 			'times' => 1));
 
@@ -171,7 +171,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 
 		$fakeService->expects($this->once())
 			->method('persistSanitizedValue')
-			->with(666, Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION, 'username');
+			->with(666, NextADInt_Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION, 'username');
 
 		$sut->activation();
 	}
@@ -199,7 +199,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 
 		$fakeService->expects($this->once())
 			->method('persistSanitizedValue')
-			->with(0, Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION, 'username');
+			->with(0, NextADInt_Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION, 'username');
 
 		$sut->activation();
 	}
@@ -215,7 +215,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 
 
 		WP_Mock::wpFunction('is_plugin_active', array(
-			'args'   => 'active-directory-integration2/index.php',
+			'args'   => NEXT_AD_INT_PLUGIN_FILE,
 			'times'  => 1,
 			'return' => true));
 
@@ -246,7 +246,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 		$sut = $this->sut(array('dc'));
 		$dc = $this->mockDependencyContainer($sut);
 
-		WP_Mock::expectActionAdded('after_plugin_row_' . ADI_PLUGIN_FILE,
+		WP_Mock::expectActionAdded('after_plugin_row_' . NEXT_AD_INT_PLUGIN_FILE,
 			array($sut, 'showLicensePurchaseInformation'),
 		99,2);
 
@@ -260,7 +260,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function showLicensePurchaseInformation_itShowsPurchaseInformation() {
 		WP_Mock::wpFunction('is_plugin_active', array(
-			'args'   => 'active-directory-integration2/index.php',
+			'args'   => NEXT_AD_INT_PLUGIN_FILE,
 			'times'  => 1,
 			'return' => true));
 
@@ -280,7 +280,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 
 		$fakeService->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SUPPORT_LICENSE_KEY)
+			->with(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY)
 			->willReturn("");
 
 		$this->expectOutputRegex('/Please purchase/');
@@ -386,7 +386,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 		$fakeService = $this->createAnonymousMock(array('getOptionValue'));
 		$fakeService->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::IS_ACTIVE)
+			->with(NextADInt_Adi_Configuration_Options::IS_ACTIVE)
 			->willReturn(true);
 
 		$dc = $this->mockDependencyContainer($sut);
@@ -405,7 +405,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('registerUrlTriggerHook'));
 
-		$_POST = array(Adi_Cron_UrlTrigger::TASK => Adi_Cron_UrlTrigger::SYNC_TO_AD);
+		$_POST = array(NextADInt_Adi_Cron_UrlTrigger::TASK => NextADInt_Adi_Cron_UrlTrigger::SYNC_TO_AD);
 
 		$sut->expects($this->once())
 			->method('registerUrlTriggerHook');
@@ -435,7 +435,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function registerCore_itLogsOutTheCurrentUser_whenUserIsDisabled()
 	{
-		$sut = $this->sut(array('dc', 'isSsoEnabled'));
+		$sut = $this->sut(array('dc', 'isSsoEnabled', 'registerSharedAdministrationHooks'));
 
 		$this->loginUser($sut, 666, true);
 
@@ -443,7 +443,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 			'times' => 1));
 
 		$sut->expects($this->never())
-			->method('registerUserProfileHooks');
+			->method('registerSharedAdministrationHooks');
 
 		$this->assertFalse($sut->registerCore());
 	}
@@ -549,8 +549,8 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 		$sut->method('isOnNetworkDashboard')
 			->willReturn(true);
 
-		$extendSiteList = $this->createMock('Adi_Multisite_Site_Ui_ExtendSiteList');
-		$multisiteMenu = $this->createMock('Adi_Multisite_Ui_Menu');
+		$extendSiteList = $this->createMock('NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList');
+		$multisiteMenu = $this->createMock('NextADInt_Adi_Multisite_Ui_Menu');
 
 		$dc->expects($this->once())
 			->method('getExtendSiteList')
@@ -580,8 +580,8 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 		$sut->method('isOnNetworkDashboard')
 			->willReturn(true);
 
-		$extendSiteList = $this->createMock('Adi_Multisite_Site_Ui_ExtendSiteList');
-		$multisiteMenu = $this->createMock('Adi_Multisite_Ui_Menu');
+		$extendSiteList = $this->createMock('NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList');
+		$multisiteMenu = $this->createMock('NextADInt_Adi_Multisite_Ui_Menu');
 
 		$dc->expects($this->once())
 			->method('getExtendSiteList')
@@ -650,7 +650,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	private function loginUser($sut, $userId, $disabled)
 	{
-		$userManager = $this->createMock('Adi_User_Manager');
+		$userManager = $this->createMock('NextADInt_Adi_User_Manager');
 
 		$dc = $this->mockDependencyContainer($sut);
 
@@ -673,7 +673,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	}
 
 	/**
-	 * Mock the dependency container and overwrites the 'dc' method in Adi_Init
+	 * Mock the dependency container and overwrites the 'dc' method in NextADInt_Adi_Init
 	 *
 	 * @param $sut
 	 *
@@ -681,7 +681,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	private function mockDependencyContainer($sut)
 	{
-		$dc = $this->createMock('Adi_Dependencies');
+		$dc = $this->createMock('NextADInt_Adi_Dependencies');
 
 		$sut->expects($this->any())
 			->method('dc')
@@ -814,11 +814,11 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	/**
 	 * @param null $methods
 	 *
-	 * @return Adi_Init|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Init|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Init')
+		return $this->getMockBuilder('NextADInt_Adi_Init')
 			->setConstructorArgs(
 				array()
 			)

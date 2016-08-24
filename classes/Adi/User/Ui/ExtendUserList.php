@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_User_Ui_ExtendUserList')) {
+if (class_exists('NextADInt_Adi_User_Ui_ExtendUserList')) {
 	return;
 }
 
@@ -13,17 +13,17 @@ if (class_exists('Adi_User_Ui_ExtendUserList')) {
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_User_Ui_ExtendUserList
+class NextADInt_Adi_User_Ui_ExtendUserList
 {
 	/**
-	 * @var Multisite_Configuration_Service
+	 * @var NextADInt_Multisite_Configuration_Service
 	 */
 	private $configuration;
 
 	/**
-	 * @param Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration)
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration)
 	{
 		$this->configuration = $configuration;
 	}
@@ -34,7 +34,7 @@ class Adi_User_Ui_ExtendUserList
 	public function register()
 	{
 		// escape if SHOW_USER_STATUS is false
-		if (!$this->configuration->getOptionValue(Adi_Configuration_Options::SHOW_USER_STATUS)) {
+		if (!$this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SHOW_USER_STATUS)) {
 			return;
 		}
 
@@ -48,7 +48,7 @@ class Adi_User_Ui_ExtendUserList
 	 * @return string
 	 */
 	public function __columnUserDisabled() {
-		return ADI_PREFIX . 'user_disabled';
+		return NEXT_AD_INT_PREFIX . 'user_disabled';
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Adi_User_Ui_ExtendUserList
 	 * @return string
 	 */
 	public function __columnIsAdiUser() {
-		return ADI_PREFIX . 'user';
+		return NEXT_AD_INT_PREFIX . 'user';
 	}
 
 	/**
@@ -69,8 +69,8 @@ class Adi_User_Ui_ExtendUserList
 	 */
 	public function addColumns($columns)
 	{
-		$columns[$this->__columnIsAdiUser()] = __('ADI User', ADI_I18N);
-		$columns[$this->__columnUserDisabled()] = __('Disabled', ADI_I18N);
+		$columns[$this->__columnIsAdiUser()] = __('ADI User', NEXT_AD_INT_I18N);
+		$columns[$this->__columnUserDisabled()] = __('Disabled', NEXT_AD_INT_I18N);
 
 		return $columns;
 	}
@@ -106,7 +106,7 @@ class Adi_User_Ui_ExtendUserList
 	 * @return string
 	 */
 	function renderIsAdiUserColumn($userId) {
-		$samAccountName = get_user_meta($userId, ADI_PREFIX . 'samaccountname', true);
+		$samAccountName = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true);
 
 		if ($samAccountName) {
 			// add a place holder?
@@ -126,11 +126,11 @@ class Adi_User_Ui_ExtendUserList
 	 */
 	function renderDisabledColumn($userId) {
 		$isUserDisabled = get_user_meta($userId, $this->__columnUserDisabled(), true);
-		$reason = get_user_meta($userId, ADI_PREFIX . 'user_disabled_reason', true);
+		$reason = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true);
 
 		// fallback message
 		if (!$reason || !is_string($reason) || strlen($reason) === 0){
-			$reason = __('User is disabled by ADI 2.0.', ADI_I18N);
+			$reason = __('User is disabled by ADI 2.0.', NEXT_AD_INT_I18N);
 		}
 
 		if ($isUserDisabled) {

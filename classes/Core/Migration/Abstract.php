@@ -3,35 +3,35 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Migration_Abstract')) {
+if (class_exists('NextADInt_Core_Migration_Abstract')) {
 	return;
 }
 
 /**
- * Core_Migration_Abstract provides the base functionality for migrations.
+ * NextADInt_Core_Migration_Abstract provides the base functionality for migrations.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @author  Danny Meißner <dme@neos-it.de>
  *
  * @access
  */
-abstract class Core_Migration_Abstract implements Core_Migration
+abstract class NextADInt_Core_Migration_Abstract implements NextADInt_Core_Migration
 {
-	/** @var Adi_Dependencies */
+	/** @var NextADInt_Adi_Dependencies */
 	private $dependencyContainer;
 
 	/**
-	 * Core_Migration_Abstract constructor.
+	 * NextADInt_Core_Migration_Abstract constructor.
 	 *
-	 * @param Adi_Dependencies $dependencyContainer
+	 * @param NextADInt_Adi_Dependencies $dependencyContainer
 	 */
-	public function __construct(Adi_Dependencies $dependencyContainer)
+	public function __construct(NextADInt_Adi_Dependencies $dependencyContainer)
 	{
 		$this->dependencyContainer = $dependencyContainer;
 	}
 
 	/**
-	 * @return Adi_Dependencies
+	 * @return NextADInt_Adi_Dependencies
 	 */
 	public function getDependencyContainer()
 	{

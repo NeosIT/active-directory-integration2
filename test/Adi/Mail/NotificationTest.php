@@ -6,18 +6,18 @@
  */
 class Ut_Mail_NotificationTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/* @var Ldap_Connection| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Ldap_Connection| PHPUnit_Framework_MockObject_MockObject */
 	private $ldapConnection;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->ldapConnection = $this->createMock('Ldap_Connection');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
 	}
 
 	public function tearDown()
@@ -28,11 +28,11 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	/**
 	 * @param methods
 	 *
-	 * @return Adi_Mail_Notification| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Mail_Notification| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Mail_Notification')
+		return $this->getMockBuilder('NextADInt_Adi_Mail_Notification')
 			->setConstructorArgs(
 				array(
 					$this->configuration,
@@ -53,8 +53,8 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
 			->withConsecutive(
-				array(Adi_Configuration_Options::USER_NOTIFICATION),
-				array(Adi_Configuration_Options::ADMIN_NOTIFICATION)
+				array(NextADInt_Adi_Configuration_Options::USER_NOTIFICATION),
+				array(NextADInt_Adi_Configuration_Options::ADMIN_NOTIFICATION)
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -66,8 +66,8 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('sendNotification')
 			->will($this->returnCallback(function ($mail) {
-				/* @var Adi_Mail_Message $mail */
-				// validate Adi_Mail_Message object
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
 				PHPUnit_Framework_Assert::assertEquals('hugo', $mail->getUsername());
 				PHPUnit_Framework_Assert::assertEquals(true, $mail->getTargetUser());
 			}));
@@ -85,8 +85,8 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
 			->withConsecutive(
-				array(Adi_Configuration_Options::USER_NOTIFICATION),
-				array(Adi_Configuration_Options::ADMIN_NOTIFICATION)
+				array(NextADInt_Adi_Configuration_Options::USER_NOTIFICATION),
+				array(NextADInt_Adi_Configuration_Options::ADMIN_NOTIFICATION)
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -98,8 +98,8 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('sendNotification')
 			->will($this->returnCallback(function ($mail) {
-				/* @var Adi_Mail_Message $mail */
-				// validate Adi_Mail_Message object
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
 				PHPUnit_Framework_Assert::assertEquals('hugo2', $mail->getUsername());
 				PHPUnit_Framework_Assert::assertEquals(false, $mail->getTargetUser());
 			}));
@@ -119,7 +119,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->with('hugo')
 			->willReturn(false);
 
-		$mail = new Adi_Mail_Message();
+		$mail = new NextADInt_Adi_Mail_Message();
 		$mail->setUsername('hugo');
 
 		$actual = $sut->sendNotification($mail);
@@ -143,13 +143,13 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('sendMails')
 			->will($this->returnCallback(function ($mail) {
-				/* @var Adi_Mail_Message $mail */
-				// validate Adi_Mail_Message object
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
 				PHPUnit_Framework_Assert::assertEquals('hugo', $mail->getUsername());
 				return true;
 			}));
 
-		$mail = new Adi_Mail_Message();
+		$mail = new NextADInt_Adi_Mail_Message();
 		$mail->setUsername('hugo');
 
 		$actual = $sut->sendNotification($mail);
@@ -174,13 +174,13 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('sendMails')
 			->will($this->returnCallback(function ($mail) {
-				/* @var Adi_Mail_Message $mail */
-				// validate Adi_Mail_Message object
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
 				PHPUnit_Framework_Assert::assertEquals('hubert', $mail->getFirstName());
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new Adi_Mail_Message());
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message());
 		$this->assertEquals(true, $actual);
 	}
 
@@ -202,13 +202,13 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('sendMails')
 			->will($this->returnCallback(function ($mail) {
-				/* @var Adi_Mail_Message $mail */
-				// validate Adi_Mail_Message object
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
 				PHPUnit_Framework_Assert::assertEquals('habicht', $mail->getSecondName());
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new Adi_Mail_Message());
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message());
 		$this->assertEquals(true, $actual);
 	}
 
@@ -230,13 +230,13 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('sendMails')
 			->will($this->returnCallback(function ($mail) {
-				/* @var Adi_Mail_Message $mail */
-				// validate Adi_Mail_Message object
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
 				PHPUnit_Framework_Assert::assertEquals('hugo.habicht@stuff.de', $mail->getEmail());
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new Adi_Mail_Message());
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message());
 		$this->assertEquals(true, $actual);
 	}
 
@@ -264,13 +264,13 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('sendMails')
 			->will($this->returnCallback(function ($mail) {
-				/* @var Adi_Mail_Message $mail */
-				// validate Adi_Mail_Message object
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
 				PHPUnit_Framework_Assert::assertEquals('http://localhost/wordpress1/wordpress', $mail->getBlogUrl());
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new Adi_Mail_Message());
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message());
 		$this->assertEquals(true, $actual);
 	}
 
@@ -298,13 +298,13 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('sendMails')
 			->will($this->returnCallback(function ($mail) {
-				/* @var Adi_Mail_Message $mail */
-				// validate Adi_Mail_Message object
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
 				PHPUnit_Framework_Assert::assertEquals('localhost/wordpress1', $mail->getBlogDomain());
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new Adi_Mail_Message());
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message());
 		$this->assertEquals(true, $actual);
 	}
 
@@ -332,13 +332,13 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('sendMails')
 			->will($this->returnCallback(function ($mail) {
-				/* @var Adi_Mail_Message $mail */
-				// validate Adi_Mail_Message object
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
 				PHPUnit_Framework_Assert::assertEquals('My Own Blog', $mail->getBlogName());
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new Adi_Mail_Message());
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message());
 		$this->assertEquals(true, $actual);
 	}
 
@@ -357,19 +357,19 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOption')
-			->with(Adi_Configuration_Options::BLOCK_TIME)
+			->with(NextADInt_Adi_Configuration_Options::BLOCK_TIME)
 			->willReturn('30');
 
 		$sut->expects($this->once())
 			->method('sendMails')
 			->will($this->returnCallback(function ($mail) {
-				/* @var Adi_Mail_Message $mail */
-				// validate Adi_Mail_Message object
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
 				PHPUnit_Framework_Assert::assertEquals('30', $mail->getBlockTime());
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new Adi_Mail_Message());
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message());
 		$this->assertEquals(true, $actual);
 	}
 
@@ -391,13 +391,13 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('sendMails')
 			->will($this->returnCallback(function ($mail) {
-				/* @var Adi_Mail_Message $mail */
-				// validate Adi_Mail_Message object
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
 				PHPUnit_Framework_Assert::assertEquals('127.0.0.1', $mail->getRemoteAddress());
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new Adi_Mail_Message());
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message());
 		$this->assertEquals(true, $actual);
 	}
 
@@ -414,7 +414,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::AUTO_UPDATE_USER)
+			->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER)
 			->willReturn(true);
 
 		$this->ldapConnection->expects($this->once())
@@ -443,7 +443,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::AUTO_UPDATE_USER)
+			->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER)
 			->willReturn(false);
 
 		$this->ldapConnection->expects($this->never())
@@ -468,7 +468,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::AUTO_UPDATE_USER)
+			->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER)
 			->willReturn(true);
 
 		$this->ldapConnection->expects($this->once())
@@ -580,8 +580,8 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('getRecipients')
 			->will($this->returnCallback(function ($mail) {
-				/* @var Adi_Mail_Message $mail */
-				// validate Adi_Mail_Message object
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
 				PHPUnit_Framework_Assert::assertEquals('hugo', $mail->getUsername());
 				return array('invalid1', 'invalid2');
 			}));
@@ -598,7 +598,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 				'return' => false)
 		);
 
-		$mail = new Adi_Mail_Message();
+		$mail = new NextADInt_Adi_Mail_Message();
 		$mail->setUsername('hugo');
 		$actual = $sut->sendMails($mail);
 		$this->assertEquals(false, $actual);
@@ -611,7 +611,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getRecipients', 'sendMail'));
 
-		$mail = new Adi_Mail_Message();
+		$mail = new NextADInt_Adi_Mail_Message();
 
 		$sut->expects($this->once())
 			->method('getRecipients')
@@ -638,7 +638,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getRecipients', 'sendMail'));
 
-		$mail = new Adi_Mail_Message();
+		$mail = new NextADInt_Adi_Mail_Message();
 
 		$sut->expects($this->once())
 			->method('getRecipients')
@@ -669,7 +669,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$mail = $this->createMock('Adi_Mail_Message');
+		$mail = $this->createMock('NextADInt_Adi_Mail_Message');
 
 		$mail->expects($this->once())
 			->method('getSubject')
@@ -700,7 +700,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$mail = new Adi_Mail_Message();
+		$mail = new NextADInt_Adi_Mail_Message();
 		$mail->setTargetUser(true);
 		$mail->setEmail('user@email.de');
 
@@ -717,10 +717,10 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::ADMIN_EMAIL)
+			->with(NextADInt_Adi_Configuration_Options::ADMIN_EMAIL)
 			->willReturn('newAdmin@email.de');
 
-		$mail = new Adi_Mail_Message();
+		$mail = new NextADInt_Adi_Mail_Message();
 		$mail->setTargetUser(false);
 
 		$actual = $sut->getRecipients($mail);
@@ -736,10 +736,10 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::ADMIN_EMAIL)
+			->with(NextADInt_Adi_Configuration_Options::ADMIN_EMAIL)
 			->willReturn(false);
 
-		$mail = new Adi_Mail_Message();
+		$mail = new NextADInt_Adi_Mail_Message();
 		$mail->setTargetUser(false);
 
 		WP_Mock::wpFunction('get_bloginfo', array(

@@ -3,79 +3,79 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Adi_Authentication_SingleSignOnServiceTest')) {
+if (class_exists('Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest')) {
 	return;
 }
 
-class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 {
-	/* @var Adi_Authentication_Persistence_FailedLoginRepository|PHPUnit_Framework_MockObject_MockObject $failedLoginRepository */
+	/* @var NextADInt_Adi_Authentication_Persistence_FailedLoginRepository|PHPUnit_Framework_MockObject_MockObject $failedLoginRepository */
 	private $failedLoginRepository;
 
-	/* @var Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $configuration */
+	/* @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $configuration */
 	private $configuration;
 
-	/* @var Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection */
+	/* @var NextADInt_Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection */
 	private $ldapConnection;
 
-	/* @var Adi_User_Manager|PHPUnit_Framework_MockObject_MockObject $userManager */
+	/* @var NextADInt_Adi_User_Manager|PHPUnit_Framework_MockObject_MockObject $userManager */
 	private $userManager;
 
-	/* @var Adi_Mail_Notification|PHPUnit_Framework_MockObject_MockObject $mailNotification */
+	/* @var NextADInt_Adi_Mail_Notification|PHPUnit_Framework_MockObject_MockObject $mailNotification */
 	private $mailNotification;
 
-	/* @var Adi_Authentication_Ui_ShowBlockedMessage|PHPUnit_Framework_MockObject_MockObject $userBlockedMessage */
+	/* @var NextADInt_Adi_Authentication_Ui_ShowBlockedMessage|PHPUnit_Framework_MockObject_MockObject $userBlockedMessage */
 	private $userBlockedMessage;
 
-	/* @var Ldap_Attribute_Service|PHPUnit_Framework_MockObject_MockObject $attributeService */
+	/* @var NextADInt_Ldap_Attribute_Service|PHPUnit_Framework_MockObject_MockObject $attributeService */
 	private $attributeService;
 
-	/* @var Adi_Role_Manager|PHPUnit_Framework_MockObject_MockObject $roleManager */
+	/* @var NextADInt_Adi_Role_Manager|PHPUnit_Framework_MockObject_MockObject $roleManager */
 	private $roleManager;
 
-	/* @var Core_Session_Handler|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
+	/* @var NextADInt_Core_Session_Handler|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
 	private $sessionHandler;
 
-	/* @var Core_Util_Internal_Native|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
+	/* @var NextADInt_Core_Util_Internal_Native|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
 	private $native;
 
-	/** @var Adi_Authentication_SingleSignOn_Validator|PHPUnit_Framework_MockObject_MockObject $ssoValidation */
+	/** @var NextADInt_Adi_Authentication_SingleSignOn_Validator|PHPUnit_Framework_MockObject_MockObject $ssoValidation */
 	private $ssoValidation;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->failedLoginRepository = $this->createMock('Adi_Authentication_Persistence_FailedLoginRepository');
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->ldapConnection = $this->createMock('Ldap_Connection');
-		$this->userManager = $this->createMock('Adi_User_Manager');
-		$this->mailNotification = $this->createMock('Adi_Mail_Notification');
-		$this->userBlockedMessage = $this->createMock('Adi_Authentication_Ui_ShowBlockedMessage');
-		$this->attributeService = $this->createMock('Ldap_Attribute_Service');
-		$this->roleManager = $this->createMock('Adi_Role_Manager');
-		$this->sessionHandler = $this->createMock('Core_Session_Handler');
-		$this->ssoValidation = $this->createMock('Adi_Authentication_SingleSignOn_Validator');
+		$this->failedLoginRepository = $this->createMock('NextADInt_Adi_Authentication_Persistence_FailedLoginRepository');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
+		$this->userManager = $this->createMock('NextADInt_Adi_User_Manager');
+		$this->mailNotification = $this->createMock('NextADInt_Adi_Mail_Notification');
+		$this->userBlockedMessage = $this->createMock('NextADInt_Adi_Authentication_Ui_ShowBlockedMessage');
+		$this->attributeService = $this->createMock('NextADInt_Ldap_Attribute_Service');
+		$this->roleManager = $this->createMock('NextADInt_Adi_Role_Manager');
+		$this->sessionHandler = $this->createMock('NextADInt_Core_Session_Handler');
+		$this->ssoValidation = $this->createMock('NextADInt_Adi_Authentication_SingleSignOn_Validator');
 
 		// mock away our internal php calls
 		$this->native = $this->createMockedNative();
-		Core_Util::native($this->native);
+		NextADInt_Core_Util::native($this->native);
 	}
 
 	public function tearDown()
 	{
 		parent::tearDown();
-		Core_Util::native(null);
+		NextADInt_Core_Util::native(null);
 	}
 
 	/**
 	 * @param null $methods
 	 *
-	 * @return Adi_Authentication_SingleSignOn_Service|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Authentication_SingleSignOn_Service|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Authentication_SingleSignOn_Service')
+		return $this->getMockBuilder('NextADInt_Adi_Authentication_SingleSignOn_Service')
 			->setConstructorArgs(
 				array(
 					$this->failedLoginRepository,
@@ -117,13 +117,13 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 	{
 		$_GET['reauth'] = 'sso';
 		$sut = $this->sut(array('getSessionHandler'));
-		$sessionHandler = $this->createMock('Core_Session_Handler');
+		$sessionHandler = $this->createMock('NextADInt_Core_Session_Handler');
 
 		$sessionHandler->expects($this->exactly(2))
 			->method('clearValue')
 			->withConsecutive(
-				array(Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN),
-				array(Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT)
+				array(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN),
+				array(NextADInt_Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT)
 			);
 
 		$sut->expects($this->exactly(2))
@@ -139,13 +139,13 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 	public function clearAuthenticationState_withoutGetParameter_doesNotClearSessionValues()
 	{
 		$sut = $this->sut(array('getSessionHandler'));
-		$sessionHandler = $this->createMock('Core_Session_Handler');
+		$sessionHandler = $this->createMock('NextADInt_Core_Session_Handler');
 
 		$sessionHandler->expects($this->never())
 			->method('clearValue')
 			->withConsecutive(
-				array(Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN),
-				array(Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT)
+				array(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN),
+				array(NextADInt_Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT)
 			);
 
 		$sut->expects($this->never())
@@ -167,7 +167,7 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE)
+			->with(NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE)
 			->willReturn($remoteVariable);
 
 		$actual = $this->invokeMethod($sut, 'findUsername');
@@ -181,7 +181,7 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 	public function openLdapConnection_withValidConnection_doesNotThrowException()
 	{
 		$profile = array();
-		$connectionDetails = $this->createMock('Ldap_ConnectionDetails');
+		$connectionDetails = $this->createMock('NextADInt_Ldap_ConnectionDetails');
 		$sut = $this->sut(array('createConnectionDetailsFromProfile'));
 
 		$this->behave($sut, 'createConnectionDetailsFromProfile', $connectionDetails);
@@ -199,14 +199,14 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 	public function openLdapConnection_withoutConnection_throwsException()
 	{
 		$profile = array();
-		$connectionDetails = $this->createMock('Ldap_ConnectionDetails');
+		$connectionDetails = $this->createMock('NextADInt_Ldap_ConnectionDetails');
 		$sut = $this->sut(array('createConnectionDetailsFromProfile'));
 
 		$this->ssoValidation->expects($this->once())
 			->method('validateLdapConnection')
-			->willThrowException(new Adi_Authentication_Exception('Cannot connect to ldap. Check the connection.'));
+			->willThrowException(new NextADInt_Adi_Authentication_Exception('Cannot connect to ldap. Check the connection.'));
 
-		$this->expectExceptionThrown('Adi_Authentication_Exception', 'Cannot connect to ldap. Check the connection.');
+		$this->expectExceptionThrown('NextADInt_Adi_Authentication_Exception', 'Cannot connect to ldap. Check the connection.');
 
 		$this->behave($sut, 'createConnectionDetailsFromProfile', $connectionDetails);
 
@@ -242,12 +242,12 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 
 		$profiles = array(
 			array(
-				Adi_Configuration_Options::SSO_ENABLED    => true,
-				Adi_Configuration_Options::ACCOUNT_SUFFIX => '@abc',
+				NextADInt_Adi_Configuration_Options::SSO_ENABLED    => true,
+				NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => '@abc',
 			),
 			array(
-				Adi_Configuration_Options::SSO_ENABLED    => true,
-				Adi_Configuration_Options::ACCOUNT_SUFFIX => '',
+				NextADInt_Adi_Configuration_Options::SSO_ENABLED    => true,
+				NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => '',
 			),
 		);
 
@@ -269,12 +269,12 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 
 		$profiles = array(
 			array(
-				Adi_Configuration_Options::SSO_ENABLED    => true,
-				Adi_Configuration_Options::ACCOUNT_SUFFIX => $suffix,
+				NextADInt_Adi_Configuration_Options::SSO_ENABLED    => true,
+				NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => $suffix,
 			),
 			array(
-				Adi_Configuration_Options::SSO_ENABLED    => true,
-				Adi_Configuration_Options::ACCOUNT_SUFFIX => '',
+				NextADInt_Adi_Configuration_Options::SSO_ENABLED    => true,
+				NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => '',
 			),
 		);
 
@@ -311,23 +311,23 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 		$sut = $this->sut();
 
 		$profile = array(
-			Adi_Configuration_Options::DOMAIN_CONTROLLERS => '127.0.0.1',
-			Adi_Configuration_Options::PORT               => '368',
-			Adi_Configuration_Options::ENCRYPTION         => 'none',
-			Adi_Configuration_Options::NETWORK_TIMEOUT    => '3',
-			Adi_Configuration_Options::BASE_DN            => 'test',
-			Adi_Configuration_Options::SSO_USER           => 'user',
-			Adi_Configuration_Options::SSO_PASSWORD       => 'password',
+			NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS => '127.0.0.1',
+			NextADInt_Adi_Configuration_Options::PORT               => '368',
+			NextADInt_Adi_Configuration_Options::ENCRYPTION         => 'none',
+			NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT    => '3',
+			NextADInt_Adi_Configuration_Options::BASE_DN            => 'test',
+			NextADInt_Adi_Configuration_Options::SSO_USER           => 'user',
+			NextADInt_Adi_Configuration_Options::SSO_PASSWORD       => 'password',
 		);
 
-		$expected = new Ldap_ConnectionDetails();
-		$expected->setDomainControllers($profile[Adi_Configuration_Options::DOMAIN_CONTROLLERS]);
-		$expected->setPort($profile[Adi_Configuration_Options::PORT]);
-		$expected->setEncryption($profile[Adi_Configuration_Options::ENCRYPTION]);
-		$expected->setNetworkTimeout($profile[Adi_Configuration_Options::NETWORK_TIMEOUT]);
-		$expected->setBaseDn($profile[Adi_Configuration_Options::BASE_DN]);
-		$expected->setUsername($profile[Adi_Configuration_Options::SSO_USER]);
-		$expected->setPassword($profile[Adi_Configuration_Options::SSO_PASSWORD]);
+		$expected = new NextADInt_Ldap_ConnectionDetails();
+		$expected->setDomainControllers($profile[NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS]);
+		$expected->setPort($profile[NextADInt_Adi_Configuration_Options::PORT]);
+		$expected->setEncryption($profile[NextADInt_Adi_Configuration_Options::ENCRYPTION]);
+		$expected->setNetworkTimeout($profile[NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT]);
+		$expected->setBaseDn($profile[NextADInt_Adi_Configuration_Options::BASE_DN]);
+		$expected->setUsername($profile[NextADInt_Adi_Configuration_Options::SSO_USER]);
+		$expected->setPassword($profile[NextADInt_Adi_Configuration_Options::SSO_PASSWORD]);
 
 		$actual = $this->invokeMethod($sut, 'createConnectionDetailsFromProfile', array($profile));
 
@@ -370,8 +370,8 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 		$suffix = '@test';
 
 		$profiles = array(
-			array(Adi_Configuration_Options::ACCOUNT_SUFFIX => $suffix),
-			array(Adi_Configuration_Options::ACCOUNT_SUFFIX => ''),
+			array(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => $suffix),
+			array(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => ''),
 		);
 
 		$expected = array($profiles[0]);
@@ -387,8 +387,8 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 		$sut = $this->sut();
 
 		$profiles = array(
-			array(Adi_Configuration_Options::ACCOUNT_SUFFIX => '@test'),
-			array(Adi_Configuration_Options::ACCOUNT_SUFFIX => ''),
+			array(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => '@test'),
+			array(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => ''),
 		);
 
 		$expected = array($profiles[1]);
@@ -404,7 +404,7 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 		$sut = $this->sut();
 
 		$config = array(
-			Adi_Configuration_Options::SSO_ENABLED => array(
+			NextADInt_Adi_Configuration_Options::SSO_ENABLED => array(
 				'option_value'      => false,
 				'option_permission' => 3,
 			),
@@ -412,13 +412,13 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 
 		$profiles = array(
 			array(
-				Adi_Configuration_Options::SSO_ENABLED => array(
+				NextADInt_Adi_Configuration_Options::SSO_ENABLED => array(
 					'option_value'      => true,
 					'option_permission' => 3,
 				),
 			),
 			array(
-				Adi_Configuration_Options::SSO_ENABLED => array(
+				NextADInt_Adi_Configuration_Options::SSO_ENABLED => array(
 					'option_value'      => false,
 					'option_permission' => 3,
 				),
@@ -474,7 +474,7 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 
 		$this->sessionHandler->expects($this->once())
 			->method('setValue')
-			->with(Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT, true);
+			->with(NextADInt_Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT, true);
 
 		$this->behave($sut, 'getSessionHandler', $this->sessionHandler);
 
@@ -545,7 +545,7 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 
 		$sessionHandler = $this->invokeMethod($sut, 'getSessionHandler');
 
-		$this->assertInstanceOf('Core_Session_Handler', $sessionHandler);
+		$this->assertInstanceOf('NextADInt_Core_Session_Handler', $sessionHandler);
 	}
 
 	/**
@@ -554,7 +554,7 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 	public function authenticate_returnTrue()
 	{
 		$username = 'username@company.local';
-		$credentials = new Adi_Authentication_Credentials($username, '');
+		$credentials = new NextADInt_Adi_Authentication_Credentials($username, '');
 		$profile = 1;
 		$user = new WP_User(1, $username, 1);
 
@@ -667,7 +667,7 @@ class Ut_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicTest
 
 		$this->ssoValidation->expects($this->once())
 			->method('validateUrl')
-			->willThrowException(new Adi_Authentication_Exception("error"));
+			->willThrowException(new NextADInt_Adi_Authentication_Exception("error"));
 
 		$this->sessionHandler->expects($this->once())
 			->method('setValue')

@@ -3,33 +3,33 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_User_Profile_Ui_ProvideDisableUserOption')) {
+if (class_exists('NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption')) {
 	return;
 }
 
 /**
- * Adi_User_Profile_Ui_ProvideDisableUserOption Extend user profiles with the possibility of disabling the corresponding user.
+ * NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption Extend user profiles with the possibility of disabling the corresponding user.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_User_Profile_Ui_ProvideDisableUserOption
+class NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption
 {
 	const CAPABILITY = 'manage_options';
 	const TEMPLATE_NAME = 'user-profile-option.twig';
 
-	/** @var Multisite_View_TwigContainer  */
+	/** @var NextADInt_Multisite_View_TwigContainer  */
 	private $twigContainer;
 
-	/** @var Adi_User_Manager */
+	/** @var NextADInt_Adi_User_Manager */
 	private $userManager;
 
 	/**
-	 * @param Multisite_View_TwigContainer $twigContainer
-	 * @param Adi_User_Manager $userManager
+	 * @param NextADInt_Multisite_View_TwigContainer $twigContainer
+	 * @param NextADInt_Adi_User_Manager $userManager
 	 */
-	public function __construct(Multisite_View_TwigContainer $twigContainer,
-								Adi_User_Manager $userManager)
+	public function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer,
+								NextADInt_Adi_User_Manager $userManager)
 	{
 		$this->twigContainer = $twigContainer;
 		$this->userManager = $userManager;
@@ -68,7 +68,7 @@ class Adi_User_Profile_Ui_ProvideDisableUserOption
 		echo $this->twigContainer->getTwig()->render(
 			self::TEMPLATE_NAME, array(
 				'userDisabled'   => $this->userManager->isDisabled($user->ID),
-				'disabledReason' => get_user_meta($user->ID, ADI_PREFIX . 'user_disabled_reason', true),
+				'disabledReason' => get_user_meta($user->ID, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
 			)
 		);
 	}
@@ -82,7 +82,7 @@ class Adi_User_Profile_Ui_ProvideDisableUserOption
 	{
 		//$value 0 => user should be unblocked
 		//$value 1 => user should be blocked
-		$value = $_POST[ADI_PREFIX . 'user_disabled'];
+		$value = $_POST[NEXT_AD_INT_PREFIX . 'user_disabled'];
 		$disabled = $this->userManager->isDisabled($userId);
 
 		//user is not blocked and he should be blocked
@@ -90,7 +90,7 @@ class Adi_User_Profile_Ui_ProvideDisableUserOption
 			//disable user
 			$username = get_userdata($userId);
 			$message = sprintf(
-				__('User manually disabled by "%s" with the ID %s.', ADI_I18N), $username->user_login, $userId
+				__('User manually disabled by "%s" with the ID %s.', NEXT_AD_INT_I18N), $username->user_login, $userId
 			);
 			$this->userManager->disable($userId, $message);
 

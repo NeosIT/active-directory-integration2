@@ -8,17 +8,17 @@ if (class_exists('Handler')) {
 }
 
 /**
- * Core_Session_Handler provides access to the PHP session.
+ * NextADInt_Core_Session_Handler provides access to the PHP session.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @author  Danny Meißner <dme@neos-it.de>
  *
  * @access
  */
-class Core_Session_Handler
+class NextADInt_Core_Session_Handler
 {
 	/**
-	 * @var Core_Session_Handler
+	 * @var NextADInt_Core_Session_Handler
 	 */
 	private static $instance = null;
 
@@ -31,9 +31,9 @@ class Core_Session_Handler
 	}
 
 	/**
-	 * Get the singleton instance of {@link Core_Session_Handler}.
+	 * Get the singleton instance of {@link NextADInt_Core_Session_Handler}.
 	 *
-	 * @return Core_Session_Handler
+	 * @return NextADInt_Core_Session_Handler
 	 */
 	public static function getInstance()
 	{
@@ -46,7 +46,7 @@ class Core_Session_Handler
 
 		if ($instance == null) {
 			// create new instance
-			self::$instance = new Core_Session_Handler();
+			self::$instance = new NextADInt_Core_Session_Handler();
 			self::$instance->startSession();
 		} else {
 			// get instance from parameter
@@ -57,7 +57,7 @@ class Core_Session_Handler
 	}
 
 	/**
-	 * Save the given value in the session using the ADI2_ prefix and {@code $key} as key.
+	 * Save the given value in the session using the next_ad_int_ prefix and {@code $key} as key.
 	 *
 	 * @param $key
 	 * @param $value
@@ -69,7 +69,7 @@ class Core_Session_Handler
 	}
 
 	/**
-	 * Retrieve the value from the session using the ADI2_ prefix and {@code $key} as key.
+	 * Retrieve the value from the session using the next_ad_int_ prefix and {@code $key} as key.
 	 *
 	 * @param      $key
 	 * @param null $default
@@ -108,11 +108,11 @@ class Core_Session_Handler
 	 */
 	protected function normalizeKey($key)
 	{
-		if (Core_Util_StringUtil::startsWith(ADI_PREFIX, $key)) {
+		if (NextADInt_Core_Util_StringUtil::startsWith(NEXT_AD_INT_PREFIX, $key)) {
 			return $key;
 		}
 
-		return ADI_PREFIX . $key;
+		return NEXT_AD_INT_PREFIX . $key;
 	}
 
 	/**
@@ -120,7 +120,7 @@ class Core_Session_Handler
 	 */
 	protected function startSession()
 	{
-		$native = Core_Util::native();
+		$native = NextADInt_Core_Util::native();
 
 		if ('' === $native->getSessionId()) {
 			$native->startSession();

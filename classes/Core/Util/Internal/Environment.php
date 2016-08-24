@@ -3,19 +3,19 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Util_Internal_Environment')) {
+if (class_exists('NextADInt_Core_Util_Internal_Environment')) {
 	return;
 }
 
 /**
- * Core_Util_Internal_Environment checks the environment variables for specific values.
+ * NextADInt_Core_Util_Internal_Environment checks the environment variables for specific values.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access public
  */
-class Core_Util_Internal_Environment
+class NextADInt_Core_Util_Internal_Environment
 {
 	const ENV_PRODUCTIVE = 'productive';
 

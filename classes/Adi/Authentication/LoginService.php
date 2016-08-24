@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Authentication_LoginService')) {
+if (class_exists('NextADInt_Adi_Authentication_LoginService')) {
 	return;
 }
 
@@ -15,34 +15,34 @@ if (class_exists('Adi_Authentication_LoginService')) {
  * @author Tobias Hellmann <the@neos-it.de>
  * @access pubic
  */
-class Adi_Authentication_LoginService
+class NextADInt_Adi_Authentication_LoginService
 {
-	/* @var Adi_Authentication_Persistence_FailedLoginRepository $failedLogin */
+	/* @var NextADInt_Adi_Authentication_Persistence_FailedLoginRepository $failedLogin */
 	private $failedLogin;
 
-	/* @var Ldap_Connection $ldapConnection */
+	/* @var NextADInt_Ldap_Connection $ldapConnection */
 	private $ldapConnection;
 
-	/* @var Multisite_Configuration_Service $configuration */
+	/* @var NextADInt_Multisite_Configuration_Service $configuration */
 	private $configuration;
 
-	/* @var Adi_User_Manager $userManager */
+	/* @var NextADInt_Adi_User_Manager $userManager */
 	private $userManager;
 
-	/* @var Adi_Mail_Notification $mailNotification */
+	/* @var NextADInt_Adi_Mail_Notification $mailNotification */
 	private $mailNotification;
 
-	/* @var Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage */
+	/* @var NextADInt_Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage */
 	private $userBlockedMessage;
 
-	/** @var Ldap_Attribute_Service $attributeService */
+	/** @var NextADInt_Ldap_Attribute_Service $attributeService */
 	private $attributeService;
 
 	/* @var Logger $logger */
 	private $logger;
 
 	/**
-	 * @var Adi_Role_Manager $roleManager
+	 * @var NextADInt_Adi_Role_Manager $roleManager
 	 */
 	private $roleManager;
 
@@ -59,23 +59,23 @@ class Adi_Authentication_LoginService
 	private $currentUserAuthenticated;
 
 	/**
-	 * @param Adi_Authentication_Persistence_FailedLoginRepository|null $failedLogin
-	 * @param Multisite_Configuration_Service                           $configuration
-	 * @param Ldap_Connection                                           $ldapConnection
-	 * @param Adi_User_Manager                                          $userManager
-	 * @param Adi_Mail_Notification|null                                $mailNotification
-	 * @param Adi_Authentication_Ui_ShowBlockedMessage|null             $userBlockedMessage
-	 * @param Ldap_Attribute_Service                                    $attributeService
-	 * @param Adi_Role_Manager                                          $roleManager
+	 * @param NextADInt_Adi_Authentication_Persistence_FailedLoginRepository|null $failedLogin
+	 * @param NextADInt_Multisite_Configuration_Service                           $configuration
+	 * @param NextADInt_Ldap_Connection                                           $ldapConnection
+	 * @param NextADInt_Adi_User_Manager                                          $userManager
+	 * @param NextADInt_Adi_Mail_Notification|null                                $mailNotification
+	 * @param NextADInt_Adi_Authentication_Ui_ShowBlockedMessage|null             $userBlockedMessage
+	 * @param NextADInt_Ldap_Attribute_Service                                    $attributeService
+	 * @param NextADInt_Adi_Role_Manager                                          $roleManager
 	 */
-	public function __construct(Adi_Authentication_Persistence_FailedLoginRepository $failedLogin = null,
-								Multisite_Configuration_Service $configuration,
-								Ldap_Connection $ldapConnection,
-								Adi_User_Manager $userManager,
-								Adi_Mail_Notification $mailNotification = null,
-								Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
-								Ldap_Attribute_Service $attributeService,
-								Adi_Role_Manager $roleManager
+	public function __construct(NextADInt_Adi_Authentication_Persistence_FailedLoginRepository $failedLogin = null,
+								NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Ldap_Connection $ldapConnection,
+								NextADInt_Adi_User_Manager $userManager,
+								NextADInt_Adi_Mail_Notification $mailNotification = null,
+								NextADInt_Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
+								NextADInt_Ldap_Attribute_Service $attributeService,
+								NextADInt_Adi_Role_Manager $roleManager
 	) {
 		$this->failedLogin = $failedLogin;
 		$this->configuration = $configuration;
@@ -100,7 +100,7 @@ class Adi_Authentication_LoginService
 
 		// disable 'lost password' feature
 		$enableLostPasswordRecovery = $this->configuration->getOptionValue(
-			Adi_Configuration_Options::ENABLE_LOST_PASSWORD_RECOVERY
+			NextADInt_Adi_Configuration_Options::ENABLE_LOST_PASSWORD_RECOVERY
 		);
 
 		if (!$enableLostPasswordRecovery) {
@@ -115,7 +115,7 @@ class Adi_Authentication_LoginService
 	public function disableLostPassword()
 	{
 		$message = esc_html__(
-			'Lost Password feature has been disabled by the "Active Directory Integration 2" plugin.', ADI_I18N
+			'Lost Password feature has been disabled by the "Active Directory Integration 2" plugin.', NEXT_AD_INT_I18N
 		);
 
 		wp_die($message);
@@ -159,16 +159,16 @@ class Adi_Authentication_LoginService
 	/**
 	 * Try every given suffix and authenticate with it against the Active Directory. The first authenticatable suffix is used.
 	 *
-	 * @param Adi_Authentication_Credentials $credentials
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 * @param array                          $suffixes
 	 *
 	 * @return bool
 	 * @throws Exception
 	 */
-	public function tryAuthenticatableSuffixes(Adi_Authentication_Credentials $credentials, $suffixes = array())
+	public function tryAuthenticatableSuffixes(NextADInt_Adi_Authentication_Credentials $credentials, $suffixes = array())
 	{
-		Core_Assert::notNull($credentials, "authentication must not be null");
-		Core_Assert::notNull($suffixes, "suffixes must not be null");
+		NextADInt_Core_Assert::notNull($credentials, "authentication must not be null");
+		NextADInt_Core_Assert::notNull($suffixes, "suffixes must not be null");
 
 		$this->logger->debug("$credentials' with authenticatable suffixes: '" . implode(", ", $suffixes) . "'.");
 
@@ -200,11 +200,11 @@ class Adi_Authentication_LoginService
 	 * @param $login
 	 * @param $password
 	 *
-	 * @return Adi_Authentication_Credentials
+	 * @return NextADInt_Adi_Authentication_Credentials
 	 */
 	public static function createCredentials($login, $password)
 	{
-		return new Adi_Authentication_Credentials($login, $password);
+		return new NextADInt_Adi_Authentication_Credentials($login, $password);
 	}
 
 	/**
@@ -234,8 +234,7 @@ class Adi_Authentication_LoginService
 		}
 
 		if ($this->isUsernameExcludedFromAuthentication($login)) {
-			$this->logger->debug('User \"' . $login
-				. '\" is explicitly excluded from Active Directory authentication by configuration setting');
+			$this->logger->debug("User '$login' is explicitly excluded from Active Directory authentication by configuration setting");
 
 			return false;
 		}
@@ -256,7 +255,7 @@ class Adi_Authentication_LoginService
 	 */
 	function isUsernameExcludedFromAuthentication($username)
 	{
-		$excludes = strtolower($this->configuration->getOptionValue(Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION));
+		$excludes = strtolower($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION));
 		$excludedUsernames = explode(';', $excludes);
 
 		return in_array(strtolower($username), $excludedUsernames);
@@ -272,8 +271,8 @@ class Adi_Authentication_LoginService
 	function detectAuthenticatableSuffixes($suffix)
 	{
 		// get all account suffixes from the settings
-		$suffixes = $this->configuration->getOptionValue(Adi_Configuration_Options::ACCOUNT_SUFFIX);
-		$arrAuthenticatableSuffixes = Core_Util_StringUtil::trimmedExplode(';', $suffixes);
+		$suffixes = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX);
+		$arrAuthenticatableSuffixes = NextADInt_Core_Util_StringUtil::trimmedExplode(';', $suffixes);
 
 		// if $rawUsername does not contain no '@', than return the settings value for ACCOUNT_SUFFIX
 		if (empty($suffix)) {
@@ -317,12 +316,12 @@ class Adi_Authentication_LoginService
 	public function authenticateAtActiveDirectory($username, $accountSuffix, $password)
 	{
 		// check if a socket to the domain controller(s) can be established. (Debugging)
-		if (Core_Logger::equalLevel(LoggerLevel::getLevelDebug())) {
+		if (NextADInt_Core_Logger::equalLevel(LoggerLevel::getLevelDebug())) {
 			$this->ldapConnection->checkPorts();
 		}
 
 		// LDAP_Connection
-		$this->ldapConnection->connect(new Ldap_ConnectionDetails());
+		$this->ldapConnection->connect(new NextADInt_Ldap_ConnectionDetails());
 
 		// check if user has been blocked by previous failed attempts
 		$this->bruteForceProtection($username);
@@ -360,7 +359,7 @@ class Adi_Authentication_LoginService
 		$roleMapping->merge($upnRoleMapping);
 
 		// check if an user is in a authorization ad group if the user must be a member for login
-		$authorizeByGroup = $this->configuration->getOptionValue(Adi_Configuration_Options::AUTHORIZE_BY_GROUP);
+		$authorizeByGroup = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP);
 
 		if ($authorizeByGroup && !$this->roleManager->isInAuthorizationGroup($roleMapping)) {
 			$this->logger->error("User '$username' is not in an authorization group.");
@@ -434,8 +433,8 @@ class Adi_Authentication_LoginService
 
 			$totalAttempts = $this->failedLogin->findLoginAttempts($username);
 
-			if ($totalAttempts > Adi_Authentication_LoginService::MAX_LOGIN_ATTEMPTS) {
-				$this->failedLogin->blockUser($username, Adi_Authentication_LoginService::BLOCKING_TIME_IN_SECONDS);
+			if ($totalAttempts > NextADInt_Adi_Authentication_LoginService::MAX_LOGIN_ATTEMPTS) {
+				$this->failedLogin->blockUser($username, NextADInt_Adi_Authentication_LoginService::BLOCKING_TIME_IN_SECONDS);
 			}
 		}
 	}
@@ -444,12 +443,12 @@ class Adi_Authentication_LoginService
 	 * After authentication the user is created or updated.
 	 * If his account is disabled he is not able to login.
 	 *
-	 * @param Adi_Authentication_Credentials $credentials
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 *
 	 * @return bool false if user is disabled
 	 * @access package
 	 */
-	function postAuthentication(Adi_Authentication_Credentials $credentials)
+	function postAuthentication(NextADInt_Adi_Authentication_Credentials $credentials)
 	{
 		$wpUser = $this->createOrUpdateUser($credentials);
 
@@ -469,13 +468,13 @@ class Adi_Authentication_LoginService
 	 * This method updates or creates an user depending on the parameters.
 	 * It internally delegates to createUser or updateUser.
 	 *
-	 * @param Adi_Authentication_Credentials $credentials
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 *
 	 * @return false|int|WP_Error
 	 */
-	function createOrUpdateUser(Adi_Authentication_Credentials $credentials)
+	function createOrUpdateUser(NextADInt_Adi_Authentication_Credentials $credentials)
 	{
-		Core_Assert::notNull($credentials, "credentials must not be null");
+		NextADInt_Core_Assert::notNull($credentials, "credentials must not be null");
 
 		// ADI-204: during login we have to use the authenticated user principal name
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, null);
@@ -511,14 +510,14 @@ class Adi_Authentication_LoginService
 	 * If "Auto Create User" is enabled, the user is created. If "Auto Create User" is disabled, it returns a WP_Error
 	 *
 	 *
-	 * @param Adi_User $user
+	 * @param NextADInt_Adi_User $user
 	 *
 	 * @return false|int|WP_Error false if creation is only simulated; int if user has been created by underlying repository; WP_Error if autoCreateUser is disabled.
 	 */
-	public function createUser(Adi_User $user)
+	public function createUser(NextADInt_Adi_User $user)
 	{
 		$this->logger->debug("Checking preconditions for creating new user " . $user);
-		$autoCreateUser = $this->configuration->getOptionValue(Adi_Configuration_Options::AUTO_CREATE_USER);
+		$autoCreateUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_CREATE_USER);
 
 		// ADI-117: The behavior changed with 2.0.x and has been agreed with CST on 2016-03-02.
 		// In 1.0.x users were created even if auoCreateUser was false but they had a role equivalent group.
@@ -530,7 +529,7 @@ class Adi_Authentication_LoginService
 			return new WP_Error(
 				'invalid_username', __(
 					$error,
-					ADI_I18N
+					NEXT_AD_INT_I18N
 				)
 			);
 		}
@@ -551,15 +550,15 @@ class Adi_Authentication_LoginService
 	/**
 	 * If "Auto Update User" is enabled, the user's profile data is updated. In any case if a $userRole is present, it is synchronized with the backend.
 	 *
-	 * @param Adi_User $user
+	 * @param NextADInt_Adi_User $user
 	 *
 	 * @return false|WP_User false if creation is only simulated; int if user has been updated.
 	 */
-	function updateUser(Adi_User $user)
+	function updateUser(NextADInt_Adi_User $user)
 	{
 		$this->logger->debug("Checking preconditions for updating existing user " . $user);
 
-		$autoUpdateUser = $this->configuration->getOptionValue(Adi_Configuration_Options::AUTO_UPDATE_USER);
+		$autoUpdateUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER);
 		$hasMappedWordPressRole = sizeof($user->getRoleMapping()) > 0;
 
 		// ADI-116: The behavior changed with 2.0.x and has been agreed with CST on 2016-03-02.
@@ -581,7 +580,7 @@ class Adi_Authentication_LoginService
 		// if autoUpdateUser is disabled we still have to update his role
 		$this->userManager->updateUserRoles($user->getId(), $user->getRoleMapping());
 
-		// get WP_User from Adi_User
+		// get WP_User from NextADInt_Adi_User
 		return $this->userManager->findById($user->getId());
 	}
 
@@ -619,7 +618,7 @@ class Adi_Authentication_LoginService
 	}
 
 	/**
-	 * @return Adi_Authentication_Persistence_FailedLoginRepository
+	 * @return NextADInt_Adi_Authentication_Persistence_FailedLoginRepository
 	 */
 	public function getFailedLogin()
 	{
@@ -627,7 +626,7 @@ class Adi_Authentication_LoginService
 	}
 
 	/**
-	 * @return Ldap_Connection
+	 * @return NextADInt_Ldap_Connection
 	 */
 	public function getLdapConnection()
 	{
@@ -635,7 +634,7 @@ class Adi_Authentication_LoginService
 	}
 
 	/**
-	 * @return Multisite_Configuration_Service
+	 * @return NextADInt_Multisite_Configuration_Service
 	 */
 	public function getConfiguration()
 	{
@@ -643,7 +642,7 @@ class Adi_Authentication_LoginService
 	}
 
 	/**
-	 * @return Adi_User_Manager
+	 * @return NextADInt_Adi_User_Manager
 	 */
 	public function getUserManager()
 	{
@@ -651,7 +650,7 @@ class Adi_Authentication_LoginService
 	}
 
 	/**
-	 * @return Adi_Mail_Notification
+	 * @return NextADInt_Adi_Mail_Notification
 	 */
 	public function getMailNotification()
 	{
@@ -659,7 +658,7 @@ class Adi_Authentication_LoginService
 	}
 
 	/**
-	 * @return Adi_Authentication_Ui_ShowBlockedMessage
+	 * @return NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 	 */
 	public function getUserBlockedMessage()
 	{
@@ -667,7 +666,7 @@ class Adi_Authentication_LoginService
 	}
 
 	/**
-	 * @return Ldap_Attribute_Service
+	 * @return NextADInt_Ldap_Attribute_Service
 	 */
 	public function getAttributeService()
 	{
@@ -683,7 +682,7 @@ class Adi_Authentication_LoginService
 	}
 
 	/**
-	 * @return Adi_Role_Manager
+	 * @return NextADInt_Adi_Role_Manager
 	 */
 	public function getRoleManager()
 	{

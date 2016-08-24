@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Migration_MigrateEncryption')) {
+if (class_exists('NextADInt_Migration_MigrateEncryption')) {
 	return;
 }
 
 /**
- * Migration_MigrateEncryption migrates the encryption type from older versions to the new configuration.
+ * NextADInt_Migration_MigrateEncryption migrates the encryption type from older versions to the new configuration.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,11 +16,11 @@ if (class_exists('Migration_MigrateEncryption')) {
  *
  * @access
  */
-class Migration_MigrateEncryption extends Core_Migration_Configuration_Abstract
+class NextADInt_Migration_MigrateEncryption extends NextADInt_Core_Migration_Configuration_Abstract
 {
 	const LDAPS_PREFIX = 'ldaps://';
 
-	public function __construct(Adi_Dependencies $dependencyContainer)
+	public function __construct(NextADInt_Adi_Dependencies $dependencyContainer)
 	{
 		parent::__construct($dependencyContainer);
 	}
@@ -49,32 +49,32 @@ class Migration_MigrateEncryption extends Core_Migration_Configuration_Abstract
 	/**
 	 * Migrate the old data using the given {@code $configurationRepository}.
 	 *
-	 * @param Multisite_Configuration_Persistence_ConfigurationRepository $configurationRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_ConfigurationRepository $configurationRepository
 	 * @param                                                             $id
 	 */
-	protected function migrateConfig(Multisite_Configuration_Persistence_ConfigurationRepository $configurationRepository,
+	protected function migrateConfig(NextADInt_Multisite_Configuration_Persistence_ConfigurationRepository $configurationRepository,
 									 $id
 	) {
 		// find data to migrate
 		$domainControllers = $configurationRepository->findSanitizedValue($id,
-			Adi_Configuration_Options::DOMAIN_CONTROLLERS);
-		$useTls = $configurationRepository->findSanitizedValue($id, Adi_Configuration_Options::USE_TLS);
+			NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS);
+		$useTls = $configurationRepository->findSanitizedValue($id, NextADInt_Adi_Configuration_Options::USE_TLS);
 		// set initial encryption status by using the 'useTls' value
-		$encryptionStatus = ($useTls) ? Multisite_Option_Encryption::STARTTLS : Multisite_Option_Encryption::NONE;
+		$encryptionStatus = ($useTls) ? NextADInt_Multisite_Option_Encryption::STARTTLS : NextADInt_Multisite_Option_Encryption::NONE;
 
 		// check if the connection uses LDAPS
 		if (false !== stripos($domainControllers, self::LDAPS_PREFIX)) {
 			// set our encryption status to LDAPS
-			$encryptionStatus = Multisite_Option_Encryption::LDAPS;
+			$encryptionStatus = NextADInt_Multisite_Option_Encryption::LDAPS;
 
 			// remove the 'ldaps://' protocol from the URI
 			$domainControllers = str_ireplace(self::LDAPS_PREFIX, '', $domainControllers);
-			$configurationRepository->persistSanitizedValue($id, Adi_Configuration_Options::PORT, 636);
-			$configurationRepository->persistSanitizedValue($id, Adi_Configuration_Options::DOMAIN_CONTROLLERS,
+			$configurationRepository->persistSanitizedValue($id, NextADInt_Adi_Configuration_Options::PORT, 636);
+			$configurationRepository->persistSanitizedValue($id, NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS,
 				$domainControllers);
 		}
 
 		// now we can persist the new encryption status
-		$configurationRepository->persistSanitizedValue($id, Adi_Configuration_Options::ENCRYPTION, $encryptionStatus);
+		$configurationRepository->persistSanitizedValue($id, NextADInt_Adi_Configuration_Options::ENCRYPTION, $encryptionStatus);
 	}
 }

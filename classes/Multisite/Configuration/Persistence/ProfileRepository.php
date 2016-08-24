@@ -3,34 +3,34 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Configuration_Persistence_ProfileRepository')) {
+if (class_exists('NextADInt_Multisite_Configuration_Persistence_ProfileRepository')) {
 	return;
 }
 
 /**
- * Multisite_Configuration_Persistence_ProfileRepository creates, updates and deletes profiles.
+ * NextADInt_Multisite_Configuration_Persistence_ProfileRepository creates, updates and deletes profiles.
  * These profiles are necessary for the option managements.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  *
  * @access  public
  */
-class Multisite_Configuration_Persistence_ProfileRepository
+class NextADInt_Multisite_Configuration_Persistence_ProfileRepository
 {
 	const PREFIX = 'p_';
 	const PREFIX_NAME = 'n_';
 	const PREFIX_DESCRIPTION = 'd_';
 
-	/* @var Multisite_Configuration_Persistence_ProfileConfigurationRepository */
+	/* @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository */
 	private $profileConfigurationRepository;
 
-	/* @var Core_Persistence_WordPressRepository */
+	/* @var NextADInt_Core_Persistence_WordPressRepository */
 	private $wordPressRepository;
 
-	/* @var Multisite_Configuration_Persistence_BlogConfigurationRepository */
+	/* @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository */
 	private $blogConfigurationRepository;
 
-	/* @var Multisite_Option_Provider */
+	/* @var NextADInt_Multisite_Option_Provider */
 	private $optionProvider;
 
 	/* @var Logger */
@@ -38,21 +38,21 @@ class Multisite_Configuration_Persistence_ProfileRepository
 
 	/** @var array */
 	private $propertyMapping = array(
-		Adi_Configuration_Options::PROFILE_NAME => self::PREFIX_NAME,
+		NextADInt_Adi_Configuration_Options::PROFILE_NAME => self::PREFIX_NAME,
 	);
 
 	/**
 	 * Adi_Database_Profiles constructor.
 	 *
-	 * @param Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
-	 * @param Multisite_Configuration_Persistence_BlogConfigurationRepository    $blogConfigurationRepository
-	 * @param Core_Persistence_WordPressRepository                               $wordPressRepository
-	 * @param Multisite_Option_Provider                                          $optionProvider
+	 * @param NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository    $blogConfigurationRepository
+	 * @param NextADInt_Core_Persistence_WordPressRepository                               $wordPressRepository
+	 * @param NextADInt_Multisite_Option_Provider                                          $optionProvider
 	 */
-	public function __construct(Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
-		Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
-		Core_Persistence_WordPressRepository $wordPressRepository,
-		Multisite_Option_Provider $optionProvider
+	public function __construct(NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
+		NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
+		NextADInt_Core_Persistence_WordPressRepository $wordPressRepository,
+		NextADInt_Multisite_Option_Provider $optionProvider
 	) {
 		$this->profileConfigurationRepository = $profileConfigurationRepository;
 		$this->blogConfigurationRepository = $blogConfigurationRepository;
@@ -72,7 +72,7 @@ class Multisite_Configuration_Persistence_ProfileRepository
 	 */
 	protected function getProfileOption($profileId, $optionPrefix)
 	{
-		return ADI_PREFIX . self::PREFIX . $optionPrefix . $profileId;
+		return NEXT_AD_INT_PREFIX . self::PREFIX . $optionPrefix . $profileId;
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Multisite_Configuration_Persistence_ProfileRepository
 
 		$prefix = $this->propertyMapping[$name];
 
-		return ADI_PREFIX . self::PREFIX . $prefix . $profileId;
+		return NEXT_AD_INT_PREFIX . self::PREFIX . $prefix . $profileId;
 	}
 
 	/**
@@ -151,7 +151,7 @@ class Multisite_Configuration_Persistence_ProfileRepository
 	 */
 	public function findName($profileId, $newProfileName = null)
 	{
-		$newProfileName = (null !== $newProfileName) ? $newProfileName : __('New Profile', ADI_I18N);
+		$newProfileName = (null !== $newProfileName) ? $newProfileName : __('New Profile', NEXT_AD_INT_I18N);
 		$name = $this->getProfileOption($profileId, self::PREFIX_NAME);
 
 		return get_site_option($name, $newProfileName);
@@ -212,8 +212,8 @@ class Multisite_Configuration_Persistence_ProfileRepository
 
 			$this->profileConfigurationRepository->persistSanitizedPermission(
 				$id,
-				Adi_Configuration_Options::PROFILE_NAME,
-				Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN
+				NextADInt_Adi_Configuration_Options::PROFILE_NAME,
+				NextADInt_Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN
 			);
 			update_site_option($optionName, $value['option_value']);
 		}
@@ -266,10 +266,10 @@ class Multisite_Configuration_Persistence_ProfileRepository
 			return false;
 		}
 
-		$name = __('My ADI profile', ADI_I18N);
+		$name = __('My ADI profile', NEXT_AD_INT_I18N);
 		$description = __(
 			'This profile has been created by the plugin installation automatically. It can safely be deleted.',
-			ADI_I18N
+			NEXT_AD_INT_I18N
 		);
 
 		return $this->insert($name, $description);

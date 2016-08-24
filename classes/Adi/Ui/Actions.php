@@ -3,19 +3,19 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Ui_Actions')) {
+if (class_exists('NextADInt_Adi_Ui_Actions')) {
 	return;
 }
 
 /**
- * Adi_Ui_Actions holds a list of constants for WordPress actions.
+ * NextADInt_Adi_Ui_Actions holds a list of constants for WordPress actions.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
  *
  * @access public
  */
-class Adi_Ui_Actions
+class NextADInt_Adi_Ui_Actions
 {
 	const ADI_REQUIREMENTS_ALL_ADMIN_NOTICES = 'all_admin_notices';
 

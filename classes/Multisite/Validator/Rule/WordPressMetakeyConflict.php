@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_WordPressMetakeyConflict')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_WordPressMetakeyConflict')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_WordPressMetakeyConflict prevents using the same WordPress Attribute multiple times.
+ * NextADInt_Multisite_Validator_Rule_WordPressMetakeyConflict prevents using the same WordPress Attribute multiple times.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Validator_Rule_WordPressMetakeyConflict')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_WordPressMetakeyConflict extends Core_Validator_Rule_Abstract
+class NextADInt_Multisite_Validator_Rule_WordPressMetakeyConflict extends NextADInt_Core_Validator_Rule_Abstract
 {
 	/**
 	 * Validate the given data.
@@ -50,7 +50,7 @@ class Multisite_Validator_Rule_WordPressMetakeyConflict extends Core_Validator_R
 	}
 
 	/**
-	 * Simple delegation to {@see Ldap_Attribute_Repository::convertAttributeMapping}.
+	 * Simple delegation to {@see NextADInt_Ldap_Attribute_Repository::convertAttributeMapping}.
 	 *
 	 * @param $attributeString
 	 *
@@ -58,6 +58,6 @@ class Multisite_Validator_Rule_WordPressMetakeyConflict extends Core_Validator_R
 	 */
 	protected function convertAttributeMapping($attributeString)
 	{
-		return Ldap_Attribute_Repository::convertAttributeMapping($attributeString);
+		return NextADInt_Ldap_Attribute_Repository::convertAttributeMapping($attributeString);
 	}
 }

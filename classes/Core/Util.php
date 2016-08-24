@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Util')) {
+if (class_exists('NextADInt_Core_Util')) {
 	return;
 }
 
@@ -16,13 +16,13 @@ if (class_exists('Core_Util')) {
  *
  * @access public
  */
-class Core_Util
+class NextADInt_Core_Util
 {
 	private function __construct() {
 	}
 
 	/**
-	 * @var Core_Util_Internal_Native
+	 * @var NextADInt_Core_Util_Internal_Native
 	 */
 	private static $native = null;
 	
@@ -34,7 +34,7 @@ class Core_Util
 	 *		if the parameter is explicitly null, the current instance is resetted and replaced with a fresh instance
 	 *		if the parameter is not null it is set as $native object. This must be used inside the test environment
 	 *
-	 * @return Core_Util_Internal_Native not null
+	 * @return NextADInt_Core_Util_Internal_Native not null
 	 */
 	public static function native() {
 		$args = func_get_args();
@@ -47,7 +47,7 @@ class Core_Util
 		
 		if ($instance == null) {
 			// create new instance
-			self::$native = new Core_Util_Internal_Native();
+			self::$native = new NextADInt_Core_Util_Internal_Native();
 		} 
 		else {
 			// get instance from parameter

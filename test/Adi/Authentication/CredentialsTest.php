@@ -5,7 +5,7 @@
  * @author Christopher Klein <ckl@neos-it.de>
  * @access private
  */
-class Ut_Adi_Authentication_CredentialsTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Authentication_CredentialsTest extends Ut_BasicTest
 {
 
 	public function setUp()
@@ -22,7 +22,7 @@ class Ut_Adi_Authentication_CredentialsTest extends Ut_BasicTest
 	 * @test
 	 */
 	public function __construct_itSetsLoginAndPassword() {
-		$sut = new Adi_Authentication_Credentials('LOGIN', 'password');
+		$sut = new NextADInt_Adi_Authentication_Credentials('LOGIN', 'password');
 
 		$this->assertEquals('login', $sut->getLogin());
 		$this->assertEquals('password', $sut->getPassword());
@@ -32,7 +32,7 @@ class Ut_Adi_Authentication_CredentialsTest extends Ut_BasicTest
 	 * @test
 	 */
 	public function setUserPrincipalName_itSplitsUpn() {
-		$sut = new Adi_Authentication_Credentials('login', 'password');
+		$sut = new NextADInt_Adi_Authentication_Credentials('login', 'password');
 		$sut->setUserPrincipalName('me@test.ad');
 		$this->assertEquals('me', $sut->getUpnUsername());
 		$this->assertEquals('test.ad', $sut->getUpnSuffix());
@@ -43,7 +43,7 @@ class Ut_Adi_Authentication_CredentialsTest extends Ut_BasicTest
 	 * @test
 	 */
 	public function setLogin_itUpdatesUserPrincipalName() {
-		$sut = new Adi_Authentication_Credentials('login', 'password');
+		$sut = new NextADInt_Adi_Authentication_Credentials('login', 'password');
 		$sut->setLogin('me@test.ad');
 
 		$this->assertEquals('me', $sut->getUpnUsername());

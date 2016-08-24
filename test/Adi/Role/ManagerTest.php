@@ -8,16 +8,16 @@
  */
 class Ut_Role_ManagerTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $configuration */
+	/* @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $configuration */
 	private $configuration;
 
 	/* @var adLDAP|PHPUnit_Framework_MockObject_MockObject $adLdap */
 	private $adLdap;
 
-	/* @var Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection */
+	/* @var NextADInt_Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection */
 	private $ldapConnection;
 
-	/* @var Core_Util_Internal_Native|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
+	/* @var NextADInt_Core_Util_Internal_Native|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
 	private $native;
 
 	public function setUp()
@@ -29,10 +29,10 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 
 		parent::setUp();
 
-		$this->configuration = parent::createMock('Multisite_Configuration_Service');
+		$this->configuration = parent::createMock('NextADInt_Multisite_Configuration_Service');
 		$this->adLdap = parent::createMock('adLDAP');
 
-		$this->ldapConnection = $this->getMockBuilder('Ldap_Connection')
+		$this->ldapConnection = $this->getMockBuilder('NextADInt_Ldap_Connection')
 			->setConstructorArgs(array($this->configuration))
 			->getMock();
 
@@ -40,23 +40,23 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 
 		// mock away our internal php calls
 		$this->native = $this->createMockedNative();
-		Core_Util::native($this->native);
+		NextADInt_Core_Util::native($this->native);
 	}
 
 	public function tearDown()
 	{
 		parent::tearDown();
-		Core_Util::native(null);
+		NextADInt_Core_Util::native(null);
 	}
 
 	/**
 	 * @param $methods
 	 *
-	 * @return Adi_Role_Manager|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Role_Manager|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods)
 	{
-		return $this->getMockBuilder('Adi_Role_Manager')
+		return $this->getMockBuilder('NextADInt_Adi_Role_Manager')
 			->setConstructorArgs(array($this->configuration, $this->ldapConnection))
 			->setMethods($methods)
 			->getMock();
@@ -90,7 +90,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->with('authorization_group')
 			->willReturn('Test Group;Test Group 2;Test Group   3;');
 
-		$mapping = new Adi_Role_Mapping("username");
+		$mapping = new NextADInt_Adi_Role_Mapping("username");
 		$mapping->setSecurityGroups(array('Unassigned group'));
 
 		$value = $sut->isInAuthorizationGroup($mapping);
@@ -110,7 +110,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->with('authorization_group')
 			->willReturn('Test Group;Test Group 2;assigned group;Test Group   3;');
 
-		$mapping = new Adi_Role_Mapping("username");
+		$mapping = new NextADInt_Adi_Role_Mapping("username");
 		$mapping->setSecurityGroups(array('assigned group'));
 
 		$value = $sut->isInAuthorizationGroup($mapping);
@@ -131,7 +131,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			// empty authorization groups
 			->willReturn('  ; ;;');
 
-		$mapping = new Adi_Role_Mapping("username");
+		$mapping = new NextADInt_Adi_Role_Mapping("username");
 
 		$value = $sut->isInAuthorizationGroup($mapping);
 
@@ -145,7 +145,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles'));
 
-		$roleMapping = new Adi_Role_Mapping("username");
+		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 		$roleMapping->setWordPressRoles(array());
 
 		$wpUser = $this->createAnonymousMock(array());
@@ -169,7 +169,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->method('getRoleEquivalentGroups')
 			->willReturn(array('security-group' => 'wordpress-role'));
 
-		$roleMapping = new Adi_Role_Mapping("username");
+		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 		$roleMapping->setWordPressRoles(array());
 
 		$wpUser = $this->createAnonymousMock(array());
@@ -194,7 +194,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->method('getRoleEquivalentGroups')
 			->willReturn(array());
 
-		$roleMapping = new Adi_Role_Mapping("username");
+		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 		$roleMapping->setWordPressRoles(array());
 
 		$wpUser = $this->createAnonymousMock(array());
@@ -219,7 +219,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->method('getRoleEquivalentGroups')
 			->willReturn(array('security-group' => 'wordpress-role'));
 
-		$roleMapping = new Adi_Role_Mapping("username");
+		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 		$roleMapping->setWordPressRoles(array());
 
 		$wpUser = $this->createAnonymousMock(array());
@@ -243,7 +243,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->method('getRoleEquivalentGroups')
 			->willReturn(array());
 
-		$roleMapping = new Adi_Role_Mapping("username");
+		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 		$roleMapping->setWordPressRoles(array());
 
 		$wpUser = $this->createAnonymousMock(array());
@@ -269,7 +269,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->willReturn(array('security-group'  => 'wordpress-role', 'security-group2' => 'wordpress-role2',
 							   'security-group3' => 'wordpress-role3'));
 
-		$roleMapping = new Adi_Role_Mapping("username");
+		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 		$roleMapping->setWordPressRoles(array('wordpress-role', 'wordpress-role2'));
 
 		$wpUser = $this->createAnonymousMock(array());
@@ -329,7 +329,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->at(0))
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS)
+			->with(NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS)
 			->willReturn(';ad-group=wp-role;c=d');
 
 		$actual = $sut->getRoleEquivalentGroups();
@@ -350,7 +350,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->willReturn(array('belonging-security-group'   => 'A', 'not-belonging-security-group' => 'B',
 							   'belonging-security-group-2' => 'C'));
 
-		$roleMapping = new Adi_Role_Mapping("username");
+		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 		$roleMapping->setSecurityGroups(array('belonging-security-group', 'belonging-security-group-2'));
 
 		$actual = $sut->getMappedWordPressRoles($roleMapping);
@@ -364,11 +364,11 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	 */
 	public function roleConstants_haveCorrectValues()
 	{
-		$this->assertEquals('super admin', Adi_Role_Manager::ROLE_SUPER_ADMIN);
-		$this->assertEquals('administrator', Adi_Role_Manager::ROLE_ADMINISTRATOR);
-		$this->assertEquals('editor', Adi_Role_Manager::ROLE_EDITOR);
-		$this->assertEquals('contributor', Adi_Role_Manager::ROLE_CONTRIBUTOR);
-		$this->assertEquals('subscriber', Adi_Role_Manager::ROLE_SUBSCRIBER);
+		$this->assertEquals('super admin', NextADInt_Adi_Role_Manager::ROLE_SUPER_ADMIN);
+		$this->assertEquals('administrator', NextADInt_Adi_Role_Manager::ROLE_ADMINISTRATOR);
+		$this->assertEquals('editor', NextADInt_Adi_Role_Manager::ROLE_EDITOR);
+		$this->assertEquals('contributor', NextADInt_Adi_Role_Manager::ROLE_CONTRIBUTOR);
+		$this->assertEquals('subscriber', NextADInt_Adi_Role_Manager::ROLE_SUBSCRIBER);
 	}
 
 	/**
@@ -376,8 +376,8 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	 */
 	public function updateRoles_handlesSuperAdminRoleDifferent()
 	{
-		$wpUser = $this->createMock('WP_User');
-		$roles = array(Adi_Role_Manager::ROLE_SUPER_ADMIN);
+		$wpUser = $this->createMockWithMethods('WP_User', array('add_role'));
+		$roles = array(NextADInt_Adi_Role_Manager::ROLE_SUPER_ADMIN);
 
 		$sut = $this->sut(array('grantSuperAdminRole'));
 
@@ -461,12 +461,12 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 		));
 
 		$expected = array(
-			'administrator' => Adi_Role_Manager::ROLE_ADMINISTRATOR,
-			'editor'        => Adi_Role_Manager::ROLE_EDITOR,
-			'contributor'   => Adi_Role_Manager::ROLE_CONTRIBUTOR,
-			'subscriber'    => Adi_Role_Manager::ROLE_SUBSCRIBER,
+			'administrator' => NextADInt_Adi_Role_Manager::ROLE_ADMINISTRATOR,
+			'editor'        => NextADInt_Adi_Role_Manager::ROLE_EDITOR,
+			'contributor'   => NextADInt_Adi_Role_Manager::ROLE_CONTRIBUTOR,
+			'subscriber'    => NextADInt_Adi_Role_Manager::ROLE_SUBSCRIBER,
 		);
-		$actual = Adi_Role_Manager::getRoles();
+		$actual = NextADInt_Adi_Role_Manager::getRoles();
 
 		$this->assertEquals($expected, $actual);
 	}
@@ -482,13 +482,13 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 		));
 
 		$expected = array(
-			'super admin'   => Adi_Role_Manager::ROLE_SUPER_ADMIN,
-			'administrator' => Adi_Role_Manager::ROLE_ADMINISTRATOR,
-			'editor'        => Adi_Role_Manager::ROLE_EDITOR,
-			'contributor'   => Adi_Role_Manager::ROLE_CONTRIBUTOR,
-			'subscriber'    => Adi_Role_Manager::ROLE_SUBSCRIBER,
+			'super admin'   => NextADInt_Adi_Role_Manager::ROLE_SUPER_ADMIN,
+			'administrator' => NextADInt_Adi_Role_Manager::ROLE_ADMINISTRATOR,
+			'editor'        => NextADInt_Adi_Role_Manager::ROLE_EDITOR,
+			'contributor'   => NextADInt_Adi_Role_Manager::ROLE_CONTRIBUTOR,
+			'subscriber'    => NextADInt_Adi_Role_Manager::ROLE_SUBSCRIBER,
 		);
-		$actual = Adi_Role_Manager::getRoles();
+		$actual = NextADInt_Adi_Role_Manager::getRoles();
 
 		$this->assertEquals($expected, $actual);
 	}

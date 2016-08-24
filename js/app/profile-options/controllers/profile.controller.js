@@ -24,7 +24,7 @@
          * default data will be broadcasted to the other controllers.
          */
         $scope.create = function () {
-            var profile = angular.copy(document['adi2']['new-profile']);
+            var profile = angular.copy(document['next_ad_int']['new-profile']);
 
             $scope.profiles.push(profile);
             $scope.activeProfile = profile;
@@ -107,7 +107,7 @@
 
             // if our form is dirty, the user has to confirm the change
             if (!$scope.form.$pristine && checkForDirtyForm) {
-                alertify.confirm(document['adi2']['i18n']['discard-changes'], function () {
+                alertify.confirm(document['next_ad_int']['i18n']['discard-changes'], function () {
                     // access the last active profile, because the $scope.activeProfile already contains the new value
                     vm.lastActiveProfile['profileName'] = $valueHelper.findValue('profile_name', vm.originalProfileData);
 
@@ -180,7 +180,7 @@
             DataService.loadInitData().then(function (result) {
                 // set our profiles to our frontend
                 $scope.profiles = [
-                    document['adi2']['none-profile']
+                    document['next_ad_int']['none-profile']
                 ].concat(result['profiles']);
 
                 // select the first profile from the lsit

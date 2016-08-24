@@ -3,16 +3,16 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Multisite_Validator_Rule_NoDefaultAttributeNameTest')) {
+if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_NoDefaultAttributeNameTest')) {
 	return;
 }
 
-class Ut_Multisite_Validator_Rule_NoDefaultAttributeNameTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Validator_Rule_NoDefaultAttributeNameTest extends Ut_BasicTest
 {
 	/** @var string */
-	private $invalidTestString = 'givenname:string:adi2_samaccountname:first name:true:true:true';
+	private $invalidTestString = 'givenname:string:next_ad_int_samaccountname:first name:true:true:true';
 	/** @var string */
-	private $validTestString = 'givenname:string:adi2_first_name:first name:true:true:true';
+	private $validTestString = 'givenname:string:next_ad_int_first_name:first name:true:true:true';
 
 	public function setUp()
 	{
@@ -27,11 +27,11 @@ class Ut_Multisite_Validator_Rule_NoDefaultAttributeNameTest extends Ut_BasicTes
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Validator_Rule_Suffix|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Validator_Rule_Suffix|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Validator_Rule_NoDefaultAttributeName')
+		return $this->getMockBuilder('NextADInt_Multisite_Validator_Rule_NoDefaultAttributeName')
 			->setConstructorArgs(array('test'))
 			->setMethods($methods)
 			->getMock();

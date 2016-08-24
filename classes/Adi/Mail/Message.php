@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Mail_Message')) {
+if (class_exists('NextADInt_Adi_Mail_Message')) {
 	return;
 }
 
 /**
- * Adi_Mail_Message represents a notification mail.
+ * NextADInt_Adi_Mail_Message represents a notification mail.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_Mail_Message
+class NextADInt_Adi_Mail_Message
 {
 	private $blogDomain;
 	private $blogUrl;
@@ -36,7 +36,7 @@ class Adi_Mail_Message
 	);
 
 	/**
-	 * Adi_Mail_Message constructor.
+	 * NextADInt_Adi_Mail_Message constructor.
 	 */
 	public function __construct()
 	{
@@ -49,7 +49,7 @@ class Adi_Mail_Message
 
 	public function getSubject()
 	{
-		return '[' . $this->blogName . '] ' . __('Account blocked', ADI_I18N);
+		return '[' . $this->blogName . '] ' . __('Account blocked', NEXT_AD_INT_I18N);
 	}
 
 	public function getBody()
@@ -84,7 +84,7 @@ class Adi_Mail_Message
 	public function getBodyElement($number)
 	{
 		$element = self::$bodyElements[$number];
-		$element = __($element, ADI_I18N);
+		$element = __($element, NEXT_AD_INT_I18N);
 		$element .= "\r\n";
 
 		return $element;

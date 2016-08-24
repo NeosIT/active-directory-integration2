@@ -4,20 +4,20 @@ if ( ! defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Logger')) {
+if (class_exists('NextADInt_Core_Logger')) {
 	return;
 }
 
 
 /**
- * Core_Logger Simple logging fascade
+ * NextADInt_Core_Logger Simple logging fascade
  *
  * Internally, log4php is used.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Core_Logger
+class NextADInt_Core_Logger
 {
 	const LOG_PATH = 'logs/debug.log';
 
@@ -70,7 +70,7 @@ class Core_Logger
 		if ($useFile) {
 			$config['rootLogger']['appenders'][] = 'file';
 			$config['appenders']['file'] = self::$fileConfig;
-			$config['appenders']['file']['params']['file'] = ADI_PATH . '/' . self::LOG_PATH;
+			$config['appenders']['file']['params']['file'] = NEXT_AD_INT_PATH . '/' . self::LOG_PATH;
 		}
 
 		if ($useEcho) {

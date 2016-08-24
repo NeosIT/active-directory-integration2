@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Ui_Table_ProfileAssignment')) {
+if (class_exists('NextADInt_Multisite_Ui_Table_ProfileAssignment')) {
 	return;
 }
 
@@ -12,15 +12,15 @@ if (!class_exists('WP_MS_Sites_List_Table')) {
 }
 
 /**
- * Multisite_Ui_Table_ProfileAssignment displays the table with all blogs and their assigned ADI profile.
+ * NextADInt_Multisite_Ui_Table_ProfileAssignment displays the table with all blogs and their assigned ADI profile.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access
  */
-class Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
+class NextADInt_Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
 {
-	const ADI_SITE_NAME_COLUMN = 'adi-site-name';
+	const NEXT_AD_INT_SITE_NAME_COLUMN = 'next-ad-int-site-name';
 
 	/**
 	 * Multisite_Ui_Table_BlogTable constructor.
@@ -51,7 +51,7 @@ class Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
 	 */
 	public function addContent($columnName, $blogId)
 	{
-		if ($columnName == self::ADI_SITE_NAME_COLUMN) {
+		if ($columnName == self::NEXT_AD_INT_SITE_NAME_COLUMN) {
 			$details = get_blog_details($blogId);
 
 			if ($details && !empty($details->blogname)) {
@@ -60,7 +60,7 @@ class Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
 				return;
 			}
 
-			echo "<em>" . __('Cannot find valid site name.', ADI_I18N) . '</em>';
+			echo "<em>" . __('Cannot find valid site name.', NEXT_AD_INT_I18N) . '</em>';
 		}
 	}
 
@@ -71,8 +71,8 @@ class Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
 	{
 		$sites_columns = array(
 			'cb'                        => '<input type="checkbox" />',
-			self::ADI_SITE_NAME_COLUMN 	=> __('Site Name', ADI_I18N),
-			'blogname'                  => __('URL', ADI_I18N),
+			self::NEXT_AD_INT_SITE_NAME_COLUMN 	=> __('Site Name', NEXT_AD_INT_I18N),
+			'blogname'                  => __('URL', NEXT_AD_INT_I18N),
 		);
 
 		/**
@@ -203,7 +203,17 @@ class Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
 		$query .= " LIMIT " . intval(($pagenum - 1) * $per_page) . ", " . intval($per_page);
 		$this->items = $wpdb->get_results($query, ARRAY_A);
 
-		if (wp_is_large_network()) {
+        // after d242446e599ce79a61ee6180613b4ffcf83e92c0 we have to use WP_Site instead of an array
+        // ADI-335
+        global $wp_version;
+        if ( version_compare( $wp_version, '4.6-alpha-37736', '>=')) {
+            foreach ($this->items as $key => $value) {
+                // ADI-336
+                $this->items[$key] = WP_Site::get_instance($value['blog_id']);
+            }
+        }
+
+        if (wp_is_large_network()) {
 			$total = count($this->items);
 		}
 
@@ -257,7 +267,7 @@ class Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
 		$blogname = untrailingslashit($blog['domain'] . $blog['path']);
 
 		echo sprintf('<label class="screen-reader-text" for="blog_%d">%s</label>', $blog['blog_id'],
-			sprintf(__('Select %s', ADI_I18N), $blogname)
+			sprintf(__('Select %s', NEXT_AD_INT_I18N), $blogname)
 		);
 
 		echo sprintf('<input type="checkbox" id="blog_%d" name="allblogs[]" value="%d" />', $blog['blog_id'],

@@ -1,7 +1,7 @@
 describe('DataService', function () {
     var sut, $httpBackend, $q, $rootScope;
 
-    beforeEach(angular.mock.module('adi2-module'));
+    beforeEach(angular.mock.module('next_ad_int-module'));
 
     beforeEach(inject(function (_$httpBackend_, _$q_, _DataService_, _$rootScope_) {
         sut = _DataService_;
@@ -24,8 +24,8 @@ describe('DataService', function () {
 
         // expect post call with parameters
         $httpBackend.expectPOST('../admin-ajax.php', {
-            action: 'adi2_profile_options',
-            security: document.adi2.security,
+            action: 'next_ad_int_profile_options',
+            security: document.next_ad_int.security,
             profileId: 1,
             subAction: 'getProfileOptionsValues'
         });
@@ -48,8 +48,8 @@ describe('DataService', function () {
 
         // expect post call with parameters
         $httpBackend.expectPOST('../admin-ajax.php', {
-            action: 'adi2_profile_options',
-            security: document.adi2.security,
+            action: 'next_ad_int_profile_options',
+            security: document.next_ad_int.security,
             init: 1,
             subAction: 'getProfileOptionsValues'
         });

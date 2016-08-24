@@ -55,7 +55,7 @@
             
 
             if ($scope.option.domain_sid != '') {
-                $scope.option.verification_status_message = document['adi2']['verification-status'];
+                $scope.option.verification_status_message = document['next_ad_int']['verification-status'];
             }
         });
 
@@ -96,8 +96,8 @@
             };
 
             $http.post('../admin-ajax.php', {
-                action: 'adi2_profile_options',
-                security: document.adi2.security,
+                action: 'next_ad_int_profile_options',
+                security: document.next_ad_int.security,
                 data: data,
                 subAction: 'verifyAdConnection'
             }).then(function (response) {
@@ -105,15 +105,15 @@
                     $scope.messages = response.data;
 
                     if (response.data.hasOwnProperty("verification_successful")) {
-                        $scope.option.verification_status_message = document['adi2']['verification-successful'];
-                        ngNotify.set(document['adi2']['verification-successful-notification'], 'success');
+                        $scope.option.verification_status_message = document['next_ad_int']['verification-successful'];
+                        ngNotify.set(document['next_ad_int']['verification-successful-notification'], 'success');
                         $scope.messages = {};
                         $scope.option.domain_sid = response.data['verification_successful'];
                         $scope.isSaveDisabled = false;
                         $rootScope.$broadcast('verification', $scope.option.domain_sid);
 
                     } else {
-                        ngNotify.set(document['adi2']['verification-failed-notification'], 'error');
+                        ngNotify.set(document['next_ad_int']['verification-failed-notification'], 'error');
                     }
 
                 }

@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Multisite_Validator_Rule_AdAttributeConflictTest')) {
+if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_AdAttributeConflictTest')) {
 	return;
 }
 
@@ -14,7 +14,7 @@ if (class_exists('Ut_Multisite_Validator_Rule_AdAttributeConflictTest')) {
  *
  * @access
  */
-class Ut_Multisite_Validator_Rule_AdAttributeConflictTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Validator_Rule_AdAttributeConflictTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'You cannot use the same Ad Attribute multiple times.';
 
@@ -32,11 +32,11 @@ class Ut_Multisite_Validator_Rule_AdAttributeConflictTest extends Ut_BasicTest
 	 * @param $methods
 	 * @param $msg string
 	 *
-	 * @return Multisite_Validator_Rule_AdAttributeConflict|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Validator_Rule_AdAttributeConflict|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Validator_Rule_AdAttributeConflict')
+		return $this->getMockBuilder('NextADInt_Multisite_Validator_Rule_AdAttributeConflict')
 			->setConstructorArgs(
 				array(
 					self::VALIDATION_MESSAGE,

@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_Numeric')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_Numeric')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_Numeric validates if the value is numeric.
+ * NextADInt_Multisite_Validator_Rule_Numeric validates if the value is numeric.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Validator_Rule_Numeric')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_Numeric extends Core_Validator_Rule_Abstract
+class NextADInt_Multisite_Validator_Rule_Numeric extends NextADInt_Core_Validator_Rule_Abstract
 {
 	/**
 	 * Validate the given data.

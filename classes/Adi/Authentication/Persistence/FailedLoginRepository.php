@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Authentication_Persistence_FailedLoginRepository')) {
+if (class_exists('NextADInt_Adi_Authentication_Persistence_FailedLoginRepository')) {
 	return;
 }
 
 /**
- * Adi_Authentication_Persistence_FailedLoginRepository stores the failed login attempts and the block time of an user.
+ * NextADInt_Adi_Authentication_Persistence_FailedLoginRepository stores the failed login attempts and the block time of an user.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access  public
  */
-class Adi_Authentication_Persistence_FailedLoginRepository
+class NextADInt_Adi_Authentication_Persistence_FailedLoginRepository
 {
 	const PREFIX = 'fl_';
 	const PREFIX_LOGIN_ATTEMPTS = 'la_';
@@ -40,7 +40,7 @@ class Adi_Authentication_Persistence_FailedLoginRepository
 	protected function getOptionName($loginAttempts, $username)
 	{
 		$prefix = $loginAttempts ? self::PREFIX_LOGIN_ATTEMPTS : self::PREFIX_BLOCKED_TIME;
-		return ADI_PREFIX . self::PREFIX . $prefix . '_' . $username;
+		return NEXT_AD_INT_PREFIX . self::PREFIX . $prefix . '_' . $username;
 	}
 
 	/**

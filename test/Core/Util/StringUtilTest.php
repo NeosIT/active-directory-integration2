@@ -4,7 +4,7 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
+class Ut_NextADInt_Core_Util_StringUtilTest extends Ut_BasicTest
 {
 	/**
 	 * @test
@@ -20,7 +20,7 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 			' string.',
 		);
 
-		$actual = Core_Util_StringUtil::split($string, "\n");
+		$actual = NextADInt_Core_Util_StringUtil::split($string, "\n");
 
 		$this->assertEquals($expected, $actual);
 	}
@@ -35,7 +35,7 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 
 		$expected = array("test");
 
-		$actual = Core_Util_StringUtil::splitNonEmpty($string, ";");
+		$actual = NextADInt_Core_Util_StringUtil::splitNonEmpty($string, ";");
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -51,7 +51,7 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 			'cddc',
 		);
 
-		$actual = Core_Util_StringUtil::splitText($string);
+		$actual = NextADInt_Core_Util_StringUtil::splitText($string);
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -68,7 +68,7 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 			'effe',
 		);
 
-		$actual = Core_Util_StringUtil::splitText($string);
+		$actual = NextADInt_Core_Util_StringUtil::splitText($string);
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -83,7 +83,7 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 			'a bba',
 		);
 
-		$actual = Core_Util_StringUtil::splitText($string);
+		$actual = NextADInt_Core_Util_StringUtil::splitText($string);
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -99,7 +99,7 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 			'cddc',
 		);
 
-		$actual = Core_Util_StringUtil::splitText($string);
+		$actual = NextADInt_Core_Util_StringUtil::splitText($string);
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -109,7 +109,7 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 	public function objectSidToDomainSid_itReturnsDomainSidOfObject()
 	{
 		$objectSid = "S-1-5-21-0000000000-0000000000-0000000000-1234";
-		$domainSid = Core_Util_StringUtil::objectSidToDomainSid($objectSid);
+		$domainSid = NextADInt_Core_Util_StringUtil::objectSidToDomainSid($objectSid);
 
 		$expected = "S-1-5-21-0000000000-0000000000-0000000000";
 
@@ -123,7 +123,7 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 	{
 		$string = 'Test';
 
-		$result = Core_Util_StringUtil::isEmptyOrWhitespace($string);
+		$result = NextADInt_Core_Util_StringUtil::isEmptyOrWhitespace($string);
 
 		$this->assertFalse($result);
 	}
@@ -135,7 +135,7 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 	{
 		$string = '';
 
-		$result = Core_Util_StringUtil::isEmptyOrWhitespace($string);
+		$result = NextADInt_Core_Util_StringUtil::isEmptyOrWhitespace($string);
 
 		$this->assertTrue($result);
 	}
@@ -147,7 +147,7 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 	{
 		$string = '    ';
 
-		$result = Core_Util_StringUtil::isEmptyOrWhitespace($string);
+		$result = NextADInt_Core_Util_StringUtil::isEmptyOrWhitespace($string);
 
 		$this->assertTrue($result);
 	}
@@ -160,7 +160,7 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 		$string = 'This is a text.';
 		$needle = 'This';
 
-		$result = Core_Util_StringUtil::startsWith($needle, $string);
+		$result = NextADInt_Core_Util_StringUtil::startsWith($needle, $string);
 		$this->assertTrue($result);
 	}
 
@@ -172,7 +172,7 @@ class Ut_Core_Util_StringUtilTest extends Ut_BasicTest
 		$string = 'This is a text.';
 		$needle = 'text';
 
-		$result = Core_Util_StringUtil::startsWith($needle, $string);
+		$result = NextADInt_Core_Util_StringUtil::startsWith($needle, $string);
 		$this->assertFalse($result);
 	}
 }

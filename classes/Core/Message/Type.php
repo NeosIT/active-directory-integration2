@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Message_Type')) {
+if (class_exists('NextADInt_Core_Message_Type')) {
 	return;
 }
 
 /**
- * Core_Message_Type defines the m3essage type in the frontend.
+ * NextADInt_Core_Message_Type defines the m3essage type in the frontend.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Core_Message_Type')) {
  *
  * @access
  */
-class Core_Message_Type
+class NextADInt_Core_Message_Type
 {
 	const SUCCESS = 'success';
 	const ERROR = 'error';

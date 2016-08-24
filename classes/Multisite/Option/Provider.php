@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Option_Provider')) {
+if (class_exists('NextADInt_Multisite_Option_Provider')) {
 	return;
 }
 
@@ -13,7 +13,7 @@ if (class_exists('Multisite_Option_Provider')) {
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-interface Multisite_Option_Provider
+interface NextADInt_Multisite_Option_Provider
 {
 	/**
 	 * Get the option meta data for an option.

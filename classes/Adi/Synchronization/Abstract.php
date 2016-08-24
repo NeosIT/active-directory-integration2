@@ -7,21 +7,21 @@
  *
  * @access
  */
-abstract class Adi_Synchronization_Abstract
+abstract class NextADInt_Adi_Synchronization_Abstract
 {
-	/* @var Multisite_Configuration_Service */
+	/* @var NextADInt_Multisite_Configuration_Service */
 	protected $configuration;
 
-	/* @var Ldap_Connection */
+	/* @var NextADInt_Ldap_Connection */
 	protected $connection;
 
-	/* @var Ldap_Attribute_Service */
+	/* @var NextADInt_Ldap_Attribute_Service */
 	protected $attributeService;
 
 	/* @var Logger $logger */
 	private $logger;
 
-	/* @var Ldap_ConnectionDetails */
+	/* @var NextADInt_Ldap_Connection */
 	protected $connectionDetails;
 
 	/* @var int*/
@@ -33,18 +33,18 @@ abstract class Adi_Synchronization_Abstract
 	const REQUIRED_EXECUTION_TIME_IN_SECONDS = 18000;
 
 	/**
-	 * @param Multisite_Configuration_Service $configuration
-	 * @param Ldap_Connection                 $connection
-	 * @param Ldap_Attribute_Service          $attributeService
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Ldap_Connection                 $connection
+	 * @param NextADInt_Ldap_Attribute_Service          $attributeService
 	 * */
-	public function __construct(Multisite_Configuration_Service $configuration,
-		Ldap_Connection $connection,
-		Ldap_Attribute_Service $attributeService
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration,
+		NextADInt_Ldap_Connection $connection,
+		NextADInt_Ldap_Attribute_Service $attributeService
 	) {
 		$this->configuration = $configuration;
 		$this->connection = $connection;
 		$this->attributeService = $attributeService;
-		$this->connectionDetails = new Ldap_ConnectionDetails();
+		$this->connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$this->logger = Logger::getLogger(__CLASS__);
 	}
@@ -54,13 +54,13 @@ abstract class Adi_Synchronization_Abstract
 	 */
 	public function increaseExecutionTime()
 	{
-		if (Core_Util::native()->iniGet('max_execution_time') >= self::REQUIRED_EXECUTION_TIME_IN_SECONDS) {
+		if (NextADInt_Core_Util::native()->iniGet('max_execution_time') >= self::REQUIRED_EXECUTION_TIME_IN_SECONDS) {
 			return; 
 		}
 
-		Core_Util::native()->iniSet('max_execution_time', self::REQUIRED_EXECUTION_TIME_IN_SECONDS);
+		NextADInt_Core_Util::native()->iniSet('max_execution_time', self::REQUIRED_EXECUTION_TIME_IN_SECONDS);
 
-		if (Core_Util::native()->iniGet('max_execution_time') >= self::REQUIRED_EXECUTION_TIME_IN_SECONDS) {
+		if (NextADInt_Core_Util::native()->iniGet('max_execution_time') >= self::REQUIRED_EXECUTION_TIME_IN_SECONDS) {
 			return;
 		}
 
@@ -80,7 +80,7 @@ abstract class Adi_Synchronization_Abstract
 	 */
 	public function connectToAdLdap($username, $password)
 	{
-		$this->connectionDetails = new Ldap_ConnectionDetails();
+		$this->connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$this->connectionDetails->setUsername($username);
 		$this->connectionDetails->setPassword($password);
 
@@ -118,9 +118,9 @@ abstract class Adi_Synchronization_Abstract
 		$r = array();
 
 		foreach ($users as $user) {
-			$guid = get_user_meta($user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true);
+			$guid = get_user_meta($user->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true);
 			$userDomainSid = get_user_meta(
-				$user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
+				$user->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
 			);
 
 			if ($this->isVerifiedDomainMember($userDomainSid)) {
@@ -145,11 +145,11 @@ abstract class Adi_Synchronization_Abstract
 	{
 		$args = array(
 			'blog_id'    => get_current_blog_id(),
-			'meta_key'   => ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+			'meta_key'   => NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
-					'key'     => ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+					'key'     => NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 					'value'   => '',
 					'compare' => '!=',
 				),
@@ -166,7 +166,7 @@ abstract class Adi_Synchronization_Abstract
 
 		foreach ($users as $user) {
 			$userDomainSid = get_user_meta(
-				$user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
+				$user->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
 			);
 
 			if ($this->isVerifiedDomainMember($userDomainSid)) {
@@ -225,7 +225,7 @@ abstract class Adi_Synchronization_Abstract
 		$adLdap = $this->connection->getAdLdap();
 		$binarySid = $adLdap->user_info($username, array("objectsid"));
 		$stringSid = $adLdap->convertObjectSidBinaryToString($binarySid[0]["objectsid"][0]);
-		$usersDomainSid = Core_Util_StringUtil::objectSidToDomainSid($stringSid);
+		$usersDomainSid = NextADInt_Core_Util_StringUtil::objectSidToDomainSid($stringSid);
 
 		if ($this->isVerifiedDomainMember($usersDomainSid)) {
 			return true;

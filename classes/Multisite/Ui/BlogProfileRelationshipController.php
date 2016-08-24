@@ -3,36 +3,36 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Ui_BlogProfileRelationshipController')) {
+if (class_exists('NextADInt_Multisite_Ui_BlogProfileRelationshipController')) {
 	return;
 }
 
 /**
- * Multisite_Ui_BlogProfileRelationshipController validates and persists blog-profile-changes.
+ * NextADInt_Multisite_Ui_BlogProfileRelationshipController validates and persists blog-profile-changes.
  * After the network admin stores the change the profile of a blog then this class will persist the change.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access  public
  */
-class Multisite_Ui_BlogProfileRelationshipController
+class NextADInt_Multisite_Ui_BlogProfileRelationshipController
 {
-	/* @var Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository */
+	/* @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository */
 	private $blogConfigurationRepository;
 
-	/* @var Multisite_Configuration_Persistence_ProfileRepository $profileRepository */
+	/* @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository $profileRepository */
 	private $profileRepository;
 
-	/** @var Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository */
 	private $defaultProfileRepository;
 
 	/**
-	 * @param Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository
-	 * @param Multisite_Configuration_Persistence_ProfileRepository           $profileRepository
-	 * @param Multisite_Configuration_Persistence_DefaultProfileRepository    $defaultProfileRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_ProfileRepository           $profileRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository    $defaultProfileRepository
 	 */
-	public function __construct(Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
-		Multisite_Configuration_Persistence_ProfileRepository $profileRepository,
-		Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository
+	public function __construct(NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
+		NextADInt_Multisite_Configuration_Persistence_ProfileRepository $profileRepository,
+		NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository
 	) {
 		$this->blogConfigurationRepository = $blogConfigurationRepository;
 		$this->profileRepository = $profileRepository;
@@ -88,7 +88,7 @@ class Multisite_Ui_BlogProfileRelationshipController
 	public function getSites()
 	{
 		if (is_multisite()) {
-			return wp_get_sites(array('limit' => 9999));
+			return NextADInt_Core_Util_Internal_WordPress::getSites(array('limit' => 9999));
 		}
 
 		return array();
@@ -156,12 +156,12 @@ class Multisite_Ui_BlogProfileRelationshipController
 	/**
 	 * Create a new {@see Multisite_Ui_Table_SiteTable}, load the items and return the new instance.
 	 *
-	 * @return Multisite_Ui_Table_ProfileAssignment
+	 * @return NextADInt_Multisite_Ui_Table_ProfileAssignment
 	 */
 	public function buildSiteTable()
 	{
-		$wpListTable = new Multisite_Ui_Table_ProfileAssignment(array(
-			'screen' => ADI_PREFIX . 'blog_profile_relationship',
+		$wpListTable = new NextADInt_Multisite_Ui_Table_ProfileAssignment(array(
+			'screen' => NEXT_AD_INT_PREFIX . 'blog_profile_relationship',
 		));
 
 		$wpListTable->register();

@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Synchronization_ActiveDirectory')) {
+if (class_exists('NextADInt_Adi_Synchronization_ActiveDirectory')) {
 	return;
 }
 
@@ -15,21 +15,21 @@ if (class_exists('Adi_Synchronization_ActiveDirectory')) {
  * @author Danny Meißner <dme@neos-it.de>
  * @access public
  */
-class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
+class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchronization_Abstract
 {
 	/* @var Logger */
 	private $logger;
 
 	/**
-	 * Adi_Synchronization_ActiveDirectory constructor.
+	 * NextADInt_Adi_Synchronization_ActiveDirectory constructor.
 	 *
-	 * @param Ldap_Attribute_Service $attributeService
-	 * @param Multisite_Configuration_Service $configuration
-	 * @param Ldap_Connection $connection
+	 * @param NextADInt_Ldap_Attribute_Service $attributeService
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Ldap_Connection $connection
 	 */
-	public function __construct(Ldap_Attribute_Service $attributeService,
-								Multisite_Configuration_Service $configuration,
-								Ldap_Connection $connection)
+	public function __construct(NextADInt_Ldap_Attribute_Service $attributeService,
+								NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Ldap_Connection $connection)
 	{
 		parent::__construct($configuration, $connection, $attributeService);
 
@@ -53,7 +53,7 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 
 		$attributes = $this->attributeService->getRepository()->getSyncableAttributes();
 
-		$this->logger->info("Available attributes for synchronization: " . Core_Logger::toString($attributes));
+		$this->logger->info("Available attributes for synchronization: " . NextADInt_Core_Logger::toString($attributes));
 		$users = $this->getUsers($userId);
 
 		if (!is_array($users) || empty($users)) {
@@ -173,7 +173,7 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 	 * @return bool
 	 */
 	public function isEnabled() {
-		return $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_AD_ENABLED);
+		return $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_ENABLED);
 	}
 
 	/**
@@ -181,7 +181,7 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 	 * @return mixed
 	 */
 	public function isServiceAccountEnabled() {
-		return $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_AD_USE_GLOBAL_USER);
+		return $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_USE_GLOBAL_USER);
 	}
 
 	/**
@@ -189,7 +189,7 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 	 * @return mixed
 	 */
 	public function getServiceAccountUsername() {
-		return $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER);
+		return $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER);
 	}
 
 	/**
@@ -197,7 +197,7 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 	 * @return mixed
 	 */
 	public function getServiceAccountPassword() {
-		return $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
+		return $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 	}
 
 	/**
@@ -212,17 +212,17 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 	 */
 	public function assertSynchronizationAvailable($userId, $isOwnProfile) {
 		if (!$this->isEnabled()) {
-			throw new Exception(__("Synchronization is not enabled", ADI_I18N));
+			throw new Exception(__("Synchronization is not enabled", NEXT_AD_INT_I18N));
 		}
 
 		$isUserSynchronizable = $this->isSynchronizable($userId);
 
 		if (!$isUserSynchronizable) {
-			throw new Exception(__("This user does not have a corresponding Active Directory account", ADI_I18N));
+			throw new Exception(__("This user does not have a corresponding Active Directory account", NEXT_AD_INT_I18N));
 		}
 
 		if (!$isOwnProfile && !$this->isServiceAccountEnabled()) {
-			throw new Exception(__("This user is not editable because there is no Sync To AD service account available", ADI_I18N));
+			throw new Exception(__("This user is not editable because there is no Sync To AD service account available", NEXT_AD_INT_I18N));
 		}
 
 		return true;
@@ -282,7 +282,7 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 		$userMeta = get_user_meta($userId);
 		$r = array();
 
-		/* @var Ldap_Attribute $attribute */
+		/* @var NextADInt_Ldap_Attribute $attribute */
 		foreach ($attributes as $attributeName => $attribute) {
 			$metaKey = $attribute->getMetakey();
 

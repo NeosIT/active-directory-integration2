@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Ut_Adi_Authentication_Persistence_FailedLoginRepositoryTest
+ * Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class Ut_Adi_Authentication_Persistence_FailedLoginRepositoryTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest extends Ut_BasicTest
 {
 	public function setUp()
 	{
@@ -21,11 +21,11 @@ class Ut_Adi_Authentication_Persistence_FailedLoginRepositoryTest extends Ut_Bas
 	}
 
 	/**
-	 * @return Adi_Authentication_Persistence_FailedLoginRepository|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Authentication_Persistence_FailedLoginRepository|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Authentication_Persistence_FailedLoginRepository')
+		return $this->getMockBuilder('NextADInt_Adi_Authentication_Persistence_FailedLoginRepository')
 			->setConstructorArgs(array())
 			->setMethods($methods)
 			->getMock();
@@ -212,10 +212,10 @@ class Ut_Adi_Authentication_Persistence_FailedLoginRepositoryTest extends Ut_Bas
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with(true, 'hugo')
-			->willReturn('adi2_fl_la_hugo');
+			->willReturn('next_ad_int_fl_la_hugo');
 
 		\WP_Mock::wpFunction('get_site_option',array(
-			'args' => array('adi2_fl_la_hugo', 0),
+			'args' => array('next_ad_int_fl_la_hugo', 0),
 			'times' => 1,
 			'return' => $unixTime
 		));
@@ -236,10 +236,10 @@ class Ut_Adi_Authentication_Persistence_FailedLoginRepositoryTest extends Ut_Bas
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with(true, 'hugo')
-			->willReturn('adi2_fl_la_hugo');
+			->willReturn('next_ad_int_fl_la_hugo');
 
 		\WP_Mock::wpFunction('update_site_option',array(
-			'args' => array('adi2_fl_la_hugo', $unixTime),
+			'args' => array('next_ad_int_fl_la_hugo', $unixTime),
 			'times' => 1,
 			'return' => true
 		));
@@ -258,10 +258,10 @@ class Ut_Adi_Authentication_Persistence_FailedLoginRepositoryTest extends Ut_Bas
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with(true, 'hugo')
-			->willReturn('adi2_fl_la_hugo');
+			->willReturn('next_ad_int_fl_la_hugo');
 
 		\WP_Mock::wpFunction('delete_site_option',array(
-			'args' => 'adi2_fl_la_hugo',
+			'args' => 'next_ad_int_fl_la_hugo',
 			'times' => 1,
 			'return' => true
 		));
@@ -282,10 +282,10 @@ class Ut_Adi_Authentication_Persistence_FailedLoginRepositoryTest extends Ut_Bas
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with(false, 'hugo')
-			->willReturn('adi2_fl_bt_hugo');
+			->willReturn('next_ad_int_fl_bt_hugo');
 
 		\WP_Mock::wpFunction('get_site_option',array(
-			'args' => array('adi2_fl_bt_hugo', 0),
+			'args' => array('next_ad_int_fl_bt_hugo', 0),
 			'times' => 1,
 			'return' => $unixTime
 		));
@@ -306,10 +306,10 @@ class Ut_Adi_Authentication_Persistence_FailedLoginRepositoryTest extends Ut_Bas
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with(false, 'hugo')
-			->willReturn('adi2_fl_bt_hugo');
+			->willReturn('next_ad_int_fl_bt_hugo');
 
 		\WP_Mock::wpFunction('update_site_option',array(
-			'args' => array('adi2_fl_bt_hugo', $unixTime),
+			'args' => array('next_ad_int_fl_bt_hugo', $unixTime),
 			'times' => 1,
 			'return' => true
 		));
@@ -328,10 +328,10 @@ class Ut_Adi_Authentication_Persistence_FailedLoginRepositoryTest extends Ut_Bas
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with(false, 'hugo')
-			->willReturn('adi2_fl_bt_hugo');
+			->willReturn('next_ad_int_fl_bt_hugo');
 
 		\WP_Mock::wpFunction('delete_site_option',array(
-			'args' => 'adi2_fl_bt_hugo',
+			'args' => 'next_ad_int_fl_bt_hugo',
 			'times' => 1,
 			'return' => true
 		));

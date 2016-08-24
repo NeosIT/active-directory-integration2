@@ -4,23 +4,23 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_BasicTest
 {
-	/* @var Multisite_View_TwigContainer| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_View_TwigContainer| PHPUnit_Framework_MockObject_MockObject */
 	private $twigContainer;
 
 	/* @var Twig_Environment|PHPUnit_Framework_MockObject_MockObject */
 	private $twig;
 
-	/* @var Adi_User_Profile_Ui_ProvideDisableUserOption| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption| PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->twigContainer = parent::createMock('Multisite_View_TwigContainer');
-		$this->userManager = parent::createMock('Adi_User_Manager');
+		$this->twigContainer = parent::createMock('NextADInt_Multisite_View_TwigContainer');
+		$this->userManager = parent::createMock('NextADInt_Adi_User_Manager');
 		$this->twig = parent::createMock('Twig_Environment');
 	}
 
@@ -31,11 +31,11 @@ class Ut_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Adi_User_Profile_Ui_ProvideDisableUserOption| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_User_Profile_Ui_ProvideDisableUserOption')
+		return $this->getMockBuilder('NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption')
 			->setConstructorArgs(
 				array(
 					$this->twigContainer,
@@ -129,7 +129,7 @@ class Ut_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'get_user_meta', array(
-				'args'   => array(2, ADI_PREFIX . 'user_disabled_reason', true),
+				'args'   => array(2, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
 				'times'  => 1,
 				'return' => $userMeta,
 			)
@@ -167,7 +167,7 @@ class Ut_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_BasicTest
 
 		$userId = 2;
 
-		$_POST[ADI_PREFIX . 'user_disabled'] = '1';
+		$_POST[NEXT_AD_INT_PREFIX . 'user_disabled'] = '1';
 		$_POST['email'] = "";
 
 		$this->userManager->expects($this->once())
@@ -214,7 +214,7 @@ class Ut_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$userId = 2;
-		$_POST[ADI_PREFIX . 'user_disabled'] = '0';
+		$_POST[NEXT_AD_INT_PREFIX . 'user_disabled'] = '0';
 		$_POST['email'] = "";
 
 		$userObject = (object)array(
