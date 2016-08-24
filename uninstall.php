@@ -7,7 +7,9 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 	wp_die('Plugin uninstalling is not authorized.');
 }
 
-require_once 'init-autoloader.php';
+require_once 'constants.php';
+require_once ADI_PATH . '/Autoloader.php';
+$autoLoader = new Adi_Autoloader();
 
 global $wpdb;
 $tables = array($wpdb->options);
@@ -38,5 +40,3 @@ foreach($tables as $table) {
 
 	$backupTables[$table] = $backupTable;
 }
-
-var_dump($backupTables);
