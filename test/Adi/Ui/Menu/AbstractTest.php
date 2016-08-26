@@ -58,10 +58,7 @@ class Ut_Adi_Ui_Menu_AbstractTest extends Ut_BasicTest
 			->method('getAll')
 			->willReturn(array('domain_controllers' => array('detail' => 'detail', 'title' => 'title')));
 
-		$screen = $this->getMockBuilder('Screen_Object')
-			->disableOriginalConstructor()
-			->setMethods(array('add_help_tab'))
-			->getMock();
+		$screen = $this->createMockWithMethods('BlueprintClass', array('add_help_tab'));
 
 		\WP_Mock::wpFunction('get_current_screen', array(
 			'return' => $screen,

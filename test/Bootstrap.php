@@ -80,6 +80,12 @@ if (!defined('ABSPATH')) {
 	class WP_User {
 		
 	}
+
+	// now we can mock this empty class instead of creating a mock from an non existing class
+    // this is a workaround for a bug https://github.com/sebastianbergmann/phpunit-mock-objects/issues/321
+	class BlueprintClass {
+
+    }
 }
 
 // Jenkins does continuously fail with "allowed memory size of 134217728 bytes exhausted at..." during testing
