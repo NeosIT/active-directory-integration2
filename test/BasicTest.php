@@ -65,6 +65,28 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 			->getMock();
 	}
 
+    /**
+     * Create a mocked object using the phpunit MockBuilder.
+     * This method ignores the constructor and will not delegate call to real methods.
+     * Furthermore you can add mocked method to this object with the param methods.
+     *
+     * @param $className
+     *
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    public function createMockWithMethods($className, $methods)
+    {
+        if (!class_exists($className) && !interface_exists($className)) {
+            echo "You create a new class/interface '$className'. Be careful.";
+        }
+
+        return $this->getMockBuilder($className)
+            ->disableOriginalConstructor()
+            ->disableProxyingToOriginalMethods()
+            ->setMethods($methods)
+            ->getMock();
+    }
+
 	/**
 	 * Simple expected exception behaviour.
 	 *

@@ -435,7 +435,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function registerCore_itLogsOutTheCurrentUser_whenUserIsDisabled()
 	{
-		$sut = $this->sut(array('dc', 'isSsoEnabled'));
+		$sut = $this->sut(array('dc', 'isSsoEnabled', 'registerSharedAdministrationHooks'));
 
 		$this->loginUser($sut, 666, true);
 
@@ -443,7 +443,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 			'times' => 1));
 
 		$sut->expects($this->never())
-			->method('registerUserProfileHooks');
+			->method('registerSharedAdministrationHooks');
 
 		$this->assertFalse($sut->registerCore());
 	}
