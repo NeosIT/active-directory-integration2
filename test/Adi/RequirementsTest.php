@@ -38,7 +38,7 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 	 * @test
 	 */
 	public function check_itSucceeds() {
-		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
+		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireMcrypt', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
 		$showErrors = true;
 
 		WP_Mock::wpFunction('is_multisite', array(
@@ -58,6 +58,10 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 			->method('requireMbstring')
 			->with($showErrors);
 
+        $sut->expects($this->once())
+            ->method('requireMcrypt')
+            ->with($showErrors);
+
 		$sut->expects($this->once())
 			->method('preventTooManySites')
 			->with($showErrors);
@@ -76,7 +80,7 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 	 * @test
 	 */
 	public function check_itPreventsSiteActivation_whenIncludeActivationCheckIsEnabled() {
-		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
+		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireMcrypt', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
 		$showErrors = true;
 
 		WP_Mock::wpFunction('is_multisite', array(
