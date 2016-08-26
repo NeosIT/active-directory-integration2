@@ -30,7 +30,7 @@ require_once NEXT_AD_INT_PATH . '/Autoloader.php';
 $autoLoader = new Adi_Autoloader();
 $autoLoader->register();
 
-require_once 'functions.php';
+require_once NEXT_AD_INT_PATH . '/functions.php';
 require_once NEXT_AD_INT_PATH . '/vendor/apache/log4php/src/main/php/Logger.php';
 
 $requirements = new Adi_Requirements();
