@@ -95,7 +95,7 @@ if (!defined('ABSPATH')) {
 // Jenkins does continuously fail with "allowed memory size of 134217728 bytes exhausted at..." during testing
 ini_set("memory_limit", "2G");
 
-//get plugin path
+// search for the plugin root folder with the classes subfolder
 $path = dirname(__FILE__);
 for ($i = 0; $i < 9; $i++) {
 	$path = dirname($path);
@@ -105,9 +105,6 @@ for ($i = 0; $i < 9; $i++) {
 }
 
 define('ADI_PATH', $path);
-// define the plugin name
-$subPath = explode(DIRECTORY_SEPARATOR, ADI_PATH);
-DEFINE('ADI_PLUGIN_NAME', array_pop($subPath));
 
 require_once "$path/Autoloader.php";
 $autoLoader = new Adi_Autoloader();
