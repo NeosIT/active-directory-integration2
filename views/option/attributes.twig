@@ -1,6 +1,6 @@
 {% macro create(optionName, permission, inputId, permissionSelectionId, network) %}
 
-    {% set ADI_I18N = constant('ADI_I18N') %}
+    {% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
     {% set inline = getMetadata(optionName, 'INLINE')|join(' ') %}
     {% set description = getMetadata(optionName, 'DESCRIPTION') %}
     {% set optionDisabled = getMetadata(optionName, 'DISABLED') %}
@@ -37,13 +37,13 @@
 
     <table style="width: 1200px" class="adi-attribute-mapping">
         <tr>
-            <th style="width: 15%">{{ 'AD Attributes'|__(ADI_I18N) }}</th>
-            <th style="width: 15%">{{ 'Data Type'|__(ADI_I18N) }}</th>
-            <th style="width: 15%">{{ 'Wordpress Attribute'|__(ADI_I18N) }}</th>
-            <th style="width: 15%">{{ 'Description'|__(ADI_I18N) }}</th>
-            <th style="width: 10%">{{ 'View in User Profile'|__(ADI_I18N) }}</th>
-            <th style="width: 10%">{{ 'Sync to Ad'|__(ADI_I18N) }}</th>
-            <th style="width: 10%">{{ 'Overwrite with empty value'|__(ADI_I18N) }}</th>
+            <th style="width: 15%">{{ 'AD Attributes'|__(NEXT_AD_INT_I18N) }}</th>
+            <th style="width: 15%">{{ 'Data Type'|__(NEXT_AD_INT_I18N) }}</th>
+            <th style="width: 15%">{{ 'Wordpress Attribute'|__(NEXT_AD_INT_I18N) }}</th>
+            <th style="width: 15%">{{ 'Description'|__(NEXT_AD_INT_I18N) }}</th>
+            <th style="width: 10%">{{ 'View in User Profile'|__(NEXT_AD_INT_I18N) }}</th>
+            <th style="width: 10%">{{ 'Sync to Ad'|__(NEXT_AD_INT_I18N) }}</th>
+            <th style="width: 10%">{{ 'Overwrite with empty value'|__(NEXT_AD_INT_I18N) }}</th>
             <th style="width: 10%">&nbsp;</th>
         </tr>
         <tr ng-repeat="(key, value) in option.additional_user_attributes.attributes track by key">

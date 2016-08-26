@@ -1,15 +1,15 @@
-{% set ADI_I18N = constant('ADI_I18N') %}
-{% set adi2_i18n_warning_discard_changes = 'The current profile contains unsaved changes. Are you sure you want to continue?'|__(ADI_I18N) %}
-{% set adi2_i18n_delete_profile_associated_sites = 'The current profile is associated with the following sites:' | __(ADI_I18N) %}
-{% set adi2_i18n_delete_profile_associated = 'The current profile is associated with {{ associations.length }} sites. Are you sure you want to delete this profile?' | __(ADI_I18N) %}
-{% set adi2_i18n_assign_new_profile = 'Assign to profile:'| __(ADI_I18N) %}
+{% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
+{% set adi2_i18n_warning_discard_changes = 'The current profile contains unsaved changes. Are you sure you want to continue?'|__(NEXT_AD_INT_I18N) %}
+{% set adi2_i18n_delete_profile_associated_sites = 'The current profile is associated with the following sites:' | __(NEXT_AD_INT_I18N) %}
+{% set adi2_i18n_delete_profile_associated = 'The current profile is associated with {{ associations.length }} sites. Are you sure you want to delete this profile?' | __(NEXT_AD_INT_I18N) %}
+{% set adi2_i18n_assign_new_profile = 'Assign to profile:'| __(NEXT_AD_INT_I18N) %}
 <!-- get nonce -->
 <script type="application/javascript">
     document['adi2'] = document['adi2'] || {};
     document['adi2']['security'] = '{{ nonce }}';
     document['adi2']['blog-rel-security'] = '{{ blog_rel_nonce }}';
-    document['adi2']['new-profile'] = new adi2.model.Profile(null, '{{ 'New Profile'|__(ADI_I18N) }}');
-    document['adi2']['none-profile'] = new adi2.model.Profile(-1, '{{ 'None'|__(ADI_I18N) }}');
+    document['adi2']['new-profile'] = new adi2.model.Profile(null, '{{ 'New Profile'|__(NEXT_AD_INT_I18N) }}');
+    document['adi2']['none-profile'] = new adi2.model.Profile(-1, '{{ 'None'|__(NEXT_AD_INT_I18N) }}');
 
     // I18N
     document['adi2']['i18n'] = document['adi2']['i18n'] || {};
@@ -22,17 +22,17 @@
 <div ng-app="adi2-module">
     <div ng-controller="ProfileController">
         <h1>Profile Options</h1>
-        <span>{{ 'Configure Settings for Profile : '|__(ADI_I18N) }}</span>
+        <span>{{ 'Configure Settings for Profile : '|__(NEXT_AD_INT_I18N) }}</span>
         <span>
              <select ng-model="activeProfile"
                      ng-change="changeProfile(activeProfile, true)"
                      ng-options="profile.profileName for profile in profiles"></select>
                     <button class="button button-primary" ng-click="create()" ng-disabled="runningRequests > 0">
-                        {{ 'Create new profile'|__(ADI_I18N) }}
+                        {{ 'Create new profile'|__(NEXT_AD_INT_I18N) }}
                     </button>
                     <button class="button" ng-click="remove(activeProfile)"
                             ng-disabled="runningRequests > 0 || activeProfile['profileId'] == -1">
-                        {{ 'Delete profile'|__(ADI_I18N) }}
+                        {{ 'Delete profile'|__(NEXT_AD_INT_I18N) }}
                     </button>
         </span>
         <form class="form adi-form ng-hide" name="form" ng-hide="-1 === activeProfile.profileId">
@@ -55,7 +55,7 @@
                             <p ng-hide="associations.length == 0">
                                 <a target="_blank"
                                    ng-href="{{ blog_profile_relationship_url }}&id={{ '{{ associationIds }}' }}">
-                                    {{ 'View associated profiles'|__(ADI_I18N) }}
+                                    {{ 'View associated profiles'|__(NEXT_AD_INT_I18N) }}
                                 </a>
                             </p>
                         </div>
