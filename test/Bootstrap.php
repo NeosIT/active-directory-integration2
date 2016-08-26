@@ -12,7 +12,7 @@ if (!extension_loaded('ldap')) {
 if (!defined('ABSPATH')) {
 	// TODO move this and the definition in index.php to its own file so it can be included once
 	define('ABSPATH', '');
-	define('ADI_PLUGIN_VERSION', '2.0');
+	define('NEXT_AD_INT_PLUGIN_VERSION', '2.0');
 	define('ADI_PREFIX', 'adi2_');
 	define('ADI_URL', '');
 	define('ADI_I18N', 'ad-integration-2.0');

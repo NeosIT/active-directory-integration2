@@ -225,7 +225,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 
 		$this->internalNative->expects($this->once())
 			->method('compare')
-			->with($version, ADI_PLUGIN_VERSION, '<')
+			->with($version, NEXT_AD_INT_PLUGIN_VERSION, '<')
 			->willReturn(false);
 
 		$result = $this->invokeMethod($sut, 'migratePreviousVersion', array($version));
@@ -243,7 +243,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 
 		$this->internalNative->expects($this->once())
 			->method('compare')
-			->with($version, ADI_PLUGIN_VERSION, '<')
+			->with($version, NEXT_AD_INT_PLUGIN_VERSION, '<')
 			->willReturn(true);
 
 		$sut->expects($this->once())
@@ -414,7 +414,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 	{
 		$this->internalNative->expects($this->once())
 			->method('compare')
-			->with('1.1.7', ADI_PLUGIN_VERSION, '<')
+			->with('1.1.7', NEXT_AD_INT_PLUGIN_VERSION, '<')
 			->willReturn(true);
 
 		$this->assertTrue(Adi_Configuration_ImportService::isPreviousVersion('1.1.7'));
@@ -427,7 +427,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 	{
 		$this->internalNative->expects($this->once())
 			->method('compare')
-			->with('2.1', ADI_PLUGIN_VERSION, '<')
+			->with('2.1', NEXT_AD_INT_PLUGIN_VERSION, '<')
 			->willReturn(false);
 
 		$this->assertFalse(Adi_Configuration_ImportService::isPreviousVersion('2.1'));

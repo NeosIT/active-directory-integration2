@@ -192,7 +192,7 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 		return array(
 			array('PHP', json_encode(phpversion())),
 			array('WordPress', json_encode($wp_version)),
-			array('Active Directory Integration', json_encode(ADI_PLUGIN_VERSION)),
+			array('Active Directory Integration', json_encode(NEXT_AD_INT_PLUGIN_VERSION)),
 			array('Operating System', json_encode(php_uname())),
 			array('Web Server', json_encode(php_sapi_name())),
 			array('adLDAP', json_encode(adLDAP::VERSION)),

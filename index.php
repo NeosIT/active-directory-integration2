@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-define('ADI_PLUGIN_VERSION', '2.0');
+define('NEXT_AD_INT_PLUGIN_VERSION', '2.0');
 define('ADI_PREFIX', 'adi2_');
 define('ADI_PATH', dirname(__FILE__));
 define('ADI_URL', plugins_url('', __FILE__));

@@ -210,7 +210,7 @@ class Adi_Configuration_ImportService
 	{
 		// the installed version is newer than the current version?
 		if ($version) {
-			return Core_Util::native()->compare($version, ADI_PLUGIN_VERSION, '<');
+			return Core_Util::native()->compare($version, NEXT_AD_INT_PLUGIN_VERSION, '<');
 		}
 
 		return false;
