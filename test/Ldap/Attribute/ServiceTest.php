@@ -30,7 +30,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 
 		if (!class_exists('adLDAP')) {
 			//get adLdap
-			require_once ADI_PATH . '/vendor/adLDAP/adLDAP.php';
+			require_once NEXT_AD_INT_PATH . '/vendor/adLDAP/adLDAP.php';
 		}
 
 		WP_Mock::setUp();

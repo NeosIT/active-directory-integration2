@@ -186,7 +186,7 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 		global $wp_version;
 
 		if (!class_exists('adLDAP')) {
-			require_once(ADI_PATH . '/vendor/adLDAP/adLDAP.php');
+			require_once(NEXT_AD_INT_PATH . '/vendor/adLDAP/adLDAP.php');
 		}
 
 		return array(

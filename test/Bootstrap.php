@@ -104,7 +104,7 @@ for ($i = 0; $i < 9; $i++) {
 	}
 }
 
-define('ADI_PATH', $path);
+define('NEXT_AD_INT_PATH', $path);
 
 require_once "$path/Autoloader.php";
 $autoLoader = new Adi_Autoloader();

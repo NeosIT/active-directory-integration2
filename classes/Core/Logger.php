@@ -70,7 +70,7 @@ class Core_Logger
 		if ($useFile) {
 			$config['rootLogger']['appenders'][] = 'file';
 			$config['appenders']['file'] = self::$fileConfig;
-			$config['appenders']['file']['params']['file'] = ADI_PATH . '/' . self::LOG_PATH;
+			$config['appenders']['file']['params']['file'] = NEXT_AD_INT_PATH . '/' . self::LOG_PATH;
 		}
 
 		if ($useEcho) {

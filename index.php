@@ -21,17 +21,17 @@ if (!defined('ABSPATH')) {
 
 define('NEXT_AD_INT_PLUGIN_VERSION', '2.0');
 define('ADI_PREFIX', 'adi2_');
-define('ADI_PATH', dirname(__FILE__));
+define('NEXT_AD_INT_PATH', dirname(__FILE__));
 define('ADI_URL', plugins_url('', __FILE__));
 define('ADI_I18N', 'ad-integration-2.0');
-define('ADI_PLUGIN_FILE', ADI_PATH . '/index.php');
+define('ADI_PLUGIN_FILE', NEXT_AD_INT_PATH . '/index.php');
 
-require_once ADI_PATH . '/Autoloader.php';
+require_once NEXT_AD_INT_PATH . '/Autoloader.php';
 $autoLoader = new Adi_Autoloader();
 $autoLoader->register();
 
 require_once 'functions.php';
-require_once ADI_PATH . '/vendor/apache/log4php/src/main/php/Logger.php';
+require_once NEXT_AD_INT_PATH . '/vendor/apache/log4php/src/main/php/Logger.php';
 
 $requirements = new Adi_Requirements();
 if (!$requirements->check()) {

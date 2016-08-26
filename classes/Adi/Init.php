@@ -111,7 +111,7 @@ class Adi_Init
 	 */
 	public static function uninstall()
 	{
-		require_once ADI_PATH . DIRECTORY_SEPARATOR . 'uninstall.php';
+		require_once NEXT_AD_INT_PATH . DIRECTORY_SEPARATOR . 'uninstall.php';
 	}
 
 	// ---
@@ -132,7 +132,7 @@ class Adi_Init
 		Core_Logger::setLevel(LoggerLevel::getLevelAll());
 
 		// load internationalization (i18n)
-		load_plugin_textdomain(ADI_I18N, false, ADI_PATH . '/languages/');
+		load_plugin_textdomain(ADI_I18N, false, NEXT_AD_INT_PATH . '/languages/');
 
 		$this->initialized = true;
 	}

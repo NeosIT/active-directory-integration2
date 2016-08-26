@@ -27,7 +27,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 			'args'  => array(
 				ADI_I18N,
 				false,
-				ADI_PATH . '/languages/',
+				NEXT_AD_INT_PATH . '/languages/',
 			),
 			'times' => 1));
 
