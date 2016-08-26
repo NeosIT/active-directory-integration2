@@ -271,7 +271,7 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 	 */
 	public function getSlug()
 	{
-		return ADI_PREFIX . 'test_connection';
+		return NEXT_AD_INT_PREFIX . 'test_connection';
 	}
 
 	/**

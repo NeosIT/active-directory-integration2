@@ -129,7 +129,7 @@ class Ut_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'get_user_meta', array(
-				'args'   => array(2, ADI_PREFIX . 'user_disabled_reason', true),
+				'args'   => array(2, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
 				'times'  => 1,
 				'return' => $userMeta,
 			)
@@ -167,7 +167,7 @@ class Ut_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_BasicTest
 
 		$userId = 2;
 
-		$_POST[ADI_PREFIX . 'user_disabled'] = '1';
+		$_POST[NEXT_AD_INT_PREFIX . 'user_disabled'] = '1';
 		$_POST['email'] = "";
 
 		$this->userManager->expects($this->once())
@@ -214,7 +214,7 @@ class Ut_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$userId = 2;
-		$_POST[ADI_PREFIX . 'user_disabled'] = '0';
+		$_POST[NEXT_AD_INT_PREFIX . 'user_disabled'] = '0';
 		$_POST['email'] = "";
 
 		$userObject = (object)array(

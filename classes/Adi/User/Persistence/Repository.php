@@ -140,7 +140,7 @@ class Adi_User_Persistence_Repository
 	 */
 	public function findBySAMAccountName($sAMAccountName)
 	{
-		$result = $this->findByMetaKey(ADI_PREFIX . self::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME, $sAMAccountName);
+		$result = $this->findByMetaKey(NEXT_AD_INT_PREFIX . self::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME, $sAMAccountName);
 
 		return Core_Util_ArrayUtil::findFirstOrDefault($result, false);
 	}
@@ -153,7 +153,7 @@ class Adi_User_Persistence_Repository
 	 */
 	public function updateSAMAccountName($userId, $sAMAccountName)
 	{
-		$this->updateMetaKey($userId, ADI_PREFIX . self::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME, $sAMAccountName);
+		$this->updateMetaKey($userId, NEXT_AD_INT_PREFIX . self::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME, $sAMAccountName);
 	}
 
 	/**
@@ -165,7 +165,7 @@ class Adi_User_Persistence_Repository
 	 */
 	public function findByObjectGuid($guid)
 	{
-		$result = $this->findByMetaKey(ADI_PREFIX . self::META_KEY_OBJECT_GUID, $guid);
+		$result = $this->findByMetaKey(NEXT_AD_INT_PREFIX . self::META_KEY_OBJECT_GUID, $guid);
 
 		return Core_Util_ArrayUtil::findFirstOrDefault($result, false);
 	}

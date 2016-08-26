@@ -296,7 +296,7 @@ class Adi_User_Manager
 			}
 
 			// update the user account suffix
-			$this->metaRepository->update($user->getId(), ADI_PREFIX . 'account_suffix',
+			$this->metaRepository->update($user->getId(), NEXT_AD_INT_PREFIX . 'account_suffix',
 				'@' . $credentials->getUpnSuffix());
 
 			// update users email
@@ -629,7 +629,7 @@ class Adi_User_Manager
 			return false;
 		}
 
-		$result = $this->metaRepository->find($userId, ADI_PREFIX . 'samaccountname', true);
+		$result = $this->metaRepository->find($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true);
 
 		return (!empty($result));
 	}
@@ -645,7 +645,7 @@ class Adi_User_Manager
 
 		// It is very likely that the email is already restored (e.g. by the user update/creation in SyncToWordpress).
 		// But if the AD has no email for the user then the old email will be restored.
-		$email = $this->metaRepository->find($userId, ADI_PREFIX . 'user_disabled_email', true);
+		$email = $this->metaRepository->find($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true);
 		$userData = $this->userRepository->findById($userId);
 
 		$this->metaRepository->enableUser($userData);
@@ -682,7 +682,7 @@ class Adi_User_Manager
 	public function migratePreviousVersion()
 	{
 		$oldSamAccountNameProperty = 'adi_samaccountname';
-		$newSamAccountNameProperty = ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME;
+		$newSamAccountNameProperty = NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME;
 		$wpUsers = $this->userRepository->findByMetaKey($oldSamAccountNameProperty);
 
 		$migrated = 0;

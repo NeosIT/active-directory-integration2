@@ -78,15 +78,15 @@ class Adi_Authentication_PasswordValidationService
 		}
 
 		// return false if user is disabled
-		if (get_user_meta($userId, ADI_PREFIX . 'user_disabled', true)) {
-			$reason = get_user_meta($userId, ADI_PREFIX . 'user_disabled_reason', true);
+		if (get_user_meta($userId, NEXT_AD_INT_PREFIX . 'user_disabled', true)) {
+			$reason = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true);
 			$this->logger->debug("User is disabled. Reason: $reason");
 
 			return false;
 		}
 
 		// only check for local password if this is not an AD user and if fallback to local password is active
-		$userCheck = get_user_meta($userId, ADI_PREFIX . 'samaccountname', true);
+		$userCheck = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true);
 
 		if (!$userCheck) {
 			// use local password check in all other cases

@@ -72,7 +72,7 @@ class Multisite_Configuration_Persistence_ProfileRepository
 	 */
 	protected function getProfileOption($profileId, $optionPrefix)
 	{
-		return ADI_PREFIX . self::PREFIX . $optionPrefix . $profileId;
+		return NEXT_AD_INT_PREFIX . self::PREFIX . $optionPrefix . $profileId;
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Multisite_Configuration_Persistence_ProfileRepository
 
 		$prefix = $this->propertyMapping[$name];
 
-		return ADI_PREFIX . self::PREFIX . $prefix . $profileId;
+		return NEXT_AD_INT_PREFIX . self::PREFIX . $prefix . $profileId;
 	}
 
 	/**

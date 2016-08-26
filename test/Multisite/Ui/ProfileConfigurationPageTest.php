@@ -78,7 +78,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = ADI_PREFIX . 'profile_options';
+		$expectedReturn = NEXT_AD_INT_PREFIX . 'profile_options';
 		$returnedValue = $sut->getSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -91,7 +91,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = ADI_PREFIX . 'profile_options';
+		$expectedReturn = NEXT_AD_INT_PREFIX . 'profile_options';
 		$returnedValue = $sut->wpAjaxSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -147,7 +147,7 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 	public function loadJavaScriptAdmin()
 	{
 		$sut = $this->sut(null);
-		$hook = ADI_PREFIX . 'profile_options';
+		$hook = NEXT_AD_INT_PREFIX . 'profile_options';
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(

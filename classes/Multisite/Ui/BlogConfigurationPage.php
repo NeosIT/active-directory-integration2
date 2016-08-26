@@ -89,7 +89,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	 */
 	public function getSlug()
 	{
-		return ADI_PREFIX . 'blog_options';
+		return NEXT_AD_INT_PREFIX . 'blog_options';
 	}
 
 	/**

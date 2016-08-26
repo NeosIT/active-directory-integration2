@@ -137,7 +137,7 @@ class Ut_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'get_user_meta', array(
-				'args' => array($userId, ADI_PREFIX . 'samaccountname', true),
+				'args' => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
 				'times' => '1',
 				'return' => 'testUser'
 			)
@@ -159,7 +159,7 @@ class Ut_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'get_user_meta', array(
-				'args' => array($userId, ADI_PREFIX . 'samaccountname', true),
+				'args' => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
 				'times' => '1',
 				'return' => ''
 			)
@@ -190,7 +190,7 @@ class Ut_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'get_user_meta', array(
-				'args' => array($userId, ADI_PREFIX . 'user_disabled_reason', true),
+				'args' => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
 				'times' => '1',
 				'return' => 'Spam'
 			)
@@ -220,7 +220,7 @@ class Ut_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'get_user_meta', array(
-				'args' => array($userId, ADI_PREFIX . 'user_disabled_reason', true),
+				'args' => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
 				'times' => '1',
 				'return' => 'Spam'
 			)

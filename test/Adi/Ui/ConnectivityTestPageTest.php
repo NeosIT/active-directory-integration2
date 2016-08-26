@@ -84,7 +84,7 @@ class Ut_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = ADI_PREFIX . 'test_connection';
+		$expectedReturn = NEXT_AD_INT_PREFIX . 'test_connection';
 		$returnedValue = $sut->getSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -140,7 +140,7 @@ class Ut_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 	public function loadJavaScriptAdmin()
 	{
 		$sut = $this->sut(null);
-		$hook = ADI_PREFIX . 'test_connection';
+		$hook = NEXT_AD_INT_PREFIX . 'test_connection';
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(

@@ -89,13 +89,13 @@ class Ut_Adi_Authentication_PasswordValidationServiceTest extends Ut_BasicTest
 			->willReturn(false);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'user_disabled', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled', true),
 			'times'  => '1',
 			'return' => true)
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'user_disabled_reason', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
 			'times'  => '1',
 			'return' => $reason)
 		);
@@ -116,13 +116,13 @@ class Ut_Adi_Authentication_PasswordValidationServiceTest extends Ut_BasicTest
 		$check = true;
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'user_disabled', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled', true),
 			'times'  => '1',
 			'return' => false)
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'samaccountname', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
 			'times'  => '1',
 			'return' => true)
 		);
@@ -146,13 +146,13 @@ class Ut_Adi_Authentication_PasswordValidationServiceTest extends Ut_BasicTest
 		$userId = '2';
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'user_disabled', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled', true),
 			'times'  => '1',
 			'return' => false)
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'samaccountname', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
 			'times'  => '1',
 			'return' => true)
 		);
@@ -179,13 +179,13 @@ class Ut_Adi_Authentication_PasswordValidationServiceTest extends Ut_BasicTest
 		$check = true;
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'user_disabled', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled', true),
 			'times'  => '1',
 			'return' => false)
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'samaccountname', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
 			'times'  => '1',
 			'return' => false)
 		);

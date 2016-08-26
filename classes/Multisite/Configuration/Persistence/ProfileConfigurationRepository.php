@@ -60,7 +60,7 @@ class Multisite_Configuration_Persistence_ProfileConfigurationRepository impleme
 	{
 		$prefix = $optionValue ? self::PREFIX_VALUE : self::PREFIX_PERMISSION;
 
-		return ADI_PREFIX . self::PREFIX . $prefix . $profileId . '_' . $optionName;
+		return NEXT_AD_INT_PREFIX . self::PREFIX . $prefix . $profileId . '_' . $optionName;
 	}
 
 	/**

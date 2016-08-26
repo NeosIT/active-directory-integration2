@@ -140,7 +140,7 @@ class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Pa
 	 */
 	public function getSlug()
 	{
-		return ADI_PREFIX . self::SLUG;
+		return NEXT_AD_INT_PREFIX . self::SLUG;
 	}
 
 	/**

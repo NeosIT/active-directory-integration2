@@ -150,7 +150,7 @@ class Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 
 		// Get User Data
 		$userInfo = get_userdata($userId);
-		$passwordKey = ADI_PREFIX . self::FORM_PASSWORD;
+		$passwordKey = NEXT_AD_INT_PREFIX . self::FORM_PASSWORD;
 		$password  = isset($data[$passwordKey]) ? $data[$passwordKey] : null;
 
 
@@ -238,7 +238,7 @@ class Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 		// TODO CKL -> THE: Der Code existiert doch bereits im UserManager?
 
 		// use personal_account_suffix
-		$personalAccountSuffix = trim(get_user_meta($userId, ADI_PREFIX . 'account_suffix', true));
+		$personalAccountSuffix = trim(get_user_meta($userId, NEXT_AD_INT_PREFIX . 'account_suffix', true));
 		$optionAccountSuffix = trim($this->configuration->getOptionValue(Adi_Configuration_Options::ACCOUNT_SUFFIX));
 		
 		if (!$personalAccountSuffix && !$optionAccountSuffix && strpos($username, '@') !== false) {
@@ -262,7 +262,7 @@ class Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 	public function getAccountSuffix($userId, $username)
 	{
 		// TODO CKL -> THE: Der Code existiert doch bereits im UserManager?
-		$personalAccountSuffix = trim(get_user_meta($userId, ADI_PREFIX . 'account_suffix', true));
+		$personalAccountSuffix = trim(get_user_meta($userId, NEXT_AD_INT_PREFIX . 'account_suffix', true));
 		
 		if ($personalAccountSuffix) {
 			return $personalAccountSuffix;

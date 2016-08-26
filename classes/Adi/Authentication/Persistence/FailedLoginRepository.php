@@ -40,7 +40,7 @@ class Adi_Authentication_Persistence_FailedLoginRepository
 	protected function getOptionName($loginAttempts, $username)
 	{
 		$prefix = $loginAttempts ? self::PREFIX_LOGIN_ATTEMPTS : self::PREFIX_BLOCKED_TIME;
-		return ADI_PREFIX . self::PREFIX . $prefix . '_' . $username;
+		return NEXT_AD_INT_PREFIX . self::PREFIX . $prefix . '_' . $username;
 	}
 
 	/**

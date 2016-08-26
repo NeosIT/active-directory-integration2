@@ -62,7 +62,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = ADI_PREFIX . 'blog_options';
+		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_options';
 		$returnedValue = $sut->getSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -75,7 +75,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = ADI_PREFIX . 'blog_options';
+		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_options';
 		$returnedValue = $sut->wpAjaxSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -111,7 +111,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	public function loadAdminScriptsAndStyle()
 	{
 		$sut = $this->sut(null);
-		$hook = ADI_PREFIX . 'blog_options';
+		$hook = NEXT_AD_INT_PREFIX . 'blog_options';
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(

@@ -138,7 +138,7 @@ class Adi_Synchronization_Ui_SyncToWordPressPage extends Multisite_View_Page_Abs
 	 */
 	public function getSlug()
 	{
-		return ADI_PREFIX . self::SLUG;
+		return NEXT_AD_INT_PREFIX . self::SLUG;
 	}
 
 	/**

@@ -62,7 +62,7 @@ class Ut_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = ADI_PREFIX . 'blog_profile_relationship';
+		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
 		$returnedValue = $sut->getSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -75,7 +75,7 @@ class Ut_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = ADI_PREFIX . 'blog_profile_relationship';
+		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
 		$returnedValue = $sut->wpAjaxSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -114,7 +114,7 @@ class Ut_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
 	public function loadJavaScriptAdmin()
 	{
 		$sut = $this->sut(null);
-		$hook = ADI_PREFIX . 'blog_profile_relationship';
+		$hook = NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(

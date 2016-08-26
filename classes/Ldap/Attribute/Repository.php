@@ -356,7 +356,7 @@ class Ldap_Attribute_Repository
 	 */
 	public static function resolveDefaultAttributeMetaKey($attributeName)
 	{
-		return ADI_PREFIX . strtolower($attributeName);
+		return NEXT_AD_INT_PREFIX . strtolower($attributeName);
 	}
 
 	/**

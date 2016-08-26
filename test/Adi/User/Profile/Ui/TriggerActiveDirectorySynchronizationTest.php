@@ -279,7 +279,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 			->with($wpUserdata, 'password')
 			->willReturn(null);
 
-		$actual = $sut->triggerSyncToActiveDirectory(1, array(ADI_PREFIX . Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization::FORM_PASSWORD => 'password'));
+		$actual = $sut->triggerSyncToActiveDirectory(1, array(NEXT_AD_INT_PREFIX . Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization::FORM_PASSWORD => 'password'));
 		$this->assertEquals(false, $actual);
 	}
 
@@ -323,7 +323,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 
 		\WP_Mock::wpFunction(
 			'get_user_meta', array(
-			'args'   => array(654, ADI_PREFIX . 'account_suffix', true),
+			'args'   => array(654, NEXT_AD_INT_PREFIX . 'account_suffix', true),
 			'times'  => 1,
 			'return' => ''
 		)
@@ -346,7 +346,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 		$sut = $this->sut(null);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array(654, ADI_PREFIX . 'account_suffix', true),
+			'args'   => array(654, NEXT_AD_INT_PREFIX . 'account_suffix', true),
 			'times'  => 1,
 			'return' => '@the-test.local')
 		);
@@ -371,7 +371,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 		$userName = 'testUser';
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'account_suffix', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'account_suffix', true),
 			'times'  => '1',
 			'return' => '@personalSuffix.it')
 		);
@@ -392,7 +392,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 		$optionSuffix = '@option.it';
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'account_suffix', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'account_suffix', true),
 			'times'  => '1',
 			'return' => '')
 		);
@@ -418,7 +418,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 		$splittedSuffix = '@splittedSuffix.it';
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'account_suffix', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'account_suffix', true),
 			'times'  => '1',
 			'return' => '')
 		);
@@ -443,7 +443,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 		$userName = 'testUser';
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'account_suffix', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'account_suffix', true),
 			'times'  => '1',
 			'return' => '')
 		);

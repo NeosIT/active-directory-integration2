@@ -100,7 +100,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	 */
 	public function getSlug()
 	{
-		return ADI_PREFIX . 'profile_options';
+		return NEXT_AD_INT_PREFIX . 'profile_options';
 	}
 
 	/**

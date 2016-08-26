@@ -76,7 +76,7 @@ class Multisite_Ui_BlogProfileRelationshipPage extends Multisite_View_Page_Abstr
 	 */
 	public static function buildSlug()
 	{
-		return ADI_PREFIX . 'blog_profile_relationship';
+		return NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
 	}
 
 	/**
