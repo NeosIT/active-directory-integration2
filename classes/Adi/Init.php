@@ -73,7 +73,7 @@ class Adi_Init
 		global $pagenow;
 
 		// show purchase support license information
-		add_action( 'after_plugin_row_' . ADI_PLUGIN_FILE, array( $this, 'showLicensePurchaseInformation'), 99, 2 );
+		add_action( 'after_plugin_row_' . NEXT_AD_INT_PLUGIN_FILE, array( $this, 'showLicensePurchaseInformation'), 99, 2 );
 
 		// do as few checks as possible
 		if (($pagenow == 'plugins.php') && isset($_REQUEST['activate']) && ($_REQUEST['activate'] == 'true')) {

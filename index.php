@@ -24,7 +24,7 @@ define('ADI_PREFIX', 'adi2_');
 define('NEXT_AD_INT_PATH', dirname(__FILE__));
 define('ADI_URL', plugins_url('', __FILE__));
 define('ADI_I18N', 'ad-integration-2.0');
-define('ADI_PLUGIN_FILE', plugin_basename(NEXT_AD_INT_PATH . '/index.php'));
+define('NEXT_AD_INT_PLUGIN_FILE', plugin_basename(NEXT_AD_INT_PATH . '/index.php'));
 
 require_once NEXT_AD_INT_PATH . '/Autoloader.php';
 $autoLoader = new Adi_Autoloader();

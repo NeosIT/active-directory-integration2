@@ -40,8 +40,8 @@ class Adi_Configuration_Import_Ui_ExtendPluginList
 	public function register()
 	{
 		// register the actions only for ADI v2 and no other plug-in entry
-		add_filter('plugin_action_links_' . ADI_PLUGIN_FILE, array($this, 'extendPluginActions'), 10, 5);
-		add_filter('network_admin_plugin_action_links_' . ADI_PLUGIN_FILE, array($this, 'extendPluginActions'), 10, 5);
+		add_filter('plugin_action_links_' . NEXT_AD_INT_PLUGIN_FILE, array($this, 'extendPluginActions'), 10, 5);
+		add_filter('network_admin_plugin_action_links_' . NEXT_AD_INT_PLUGIN_FILE, array($this, 'extendPluginActions'), 10, 5);
 
 		// make the export available
 		add_action('admin_post_' . self::ACTION, array($this, 'exportPreviousConfiguration'));
