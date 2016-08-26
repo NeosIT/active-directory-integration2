@@ -146,7 +146,7 @@ class Core_Encryption
 		$newMac = hash_hmac(self::MAC_HASH, $iv . $plainText, $key);
 
 		// 'new' $mac and the 'old' $mac must be identical
-		if (!hash_equals($mac, $newMac)) {
+		if (!next_ad_int_hash_equals($mac, $newMac)) {
 			return false;
 		}
 
