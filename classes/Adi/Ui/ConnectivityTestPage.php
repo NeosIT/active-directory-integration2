@@ -81,7 +81,7 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 	 */
 	public function getTitle()
 	{
-		return esc_html__('Test authentication', ADI_I18N);
+		return esc_html__('Test authentication', NEXT_AD_INT_I18N);
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 
 		// before test connection check nonce
 		if (!wp_verify_nonce($_POST['security'], self::NONCE)) {
-			$message = __('You do not have sufficient permissions.', ADI_I18N);
+			$message = __('You do not have sufficient permissions.', NEXT_AD_INT_I18N);
 			wp_die($message);
 		}
 
@@ -125,9 +125,9 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 		$this->output = explode("<br />", $information['output']);
 
 		if ($information['authentication_result']) {
-			$this->result = esc_html__('User logged on.', ADI_I18N);
+			$this->result = esc_html__('User logged on.', NEXT_AD_INT_I18N);
 		} else {
-			$this->result = esc_html__('Logon failed.', ADI_I18N);
+			$this->result = esc_html__('Logon failed.', NEXT_AD_INT_I18N);
 		}
 
 		return array(

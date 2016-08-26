@@ -46,10 +46,10 @@ class Multisite_Ui_BlogConfigurationController
 		try {
 			$this->saveBlogOptionsInternal($options);
 		} catch (Exception $e) {
-			return Core_Message::error(__('An error occurred while saving the configuration.', ADI_I18N))->toArray();
+			return Core_Message::error(__('An error occurred while saving the configuration.', NEXT_AD_INT_I18N))->toArray();
 		}
 
-		return Core_Message::success(__('The configuration has been saved successfully.', ADI_I18N))->toArray();
+		return Core_Message::success(__('The configuration has been saved successfully.', NEXT_AD_INT_I18N))->toArray();
 	}
 
 	/**

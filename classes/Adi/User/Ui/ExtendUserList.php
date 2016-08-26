@@ -69,8 +69,8 @@ class Adi_User_Ui_ExtendUserList
 	 */
 	public function addColumns($columns)
 	{
-		$columns[$this->__columnIsAdiUser()] = __('ADI User', ADI_I18N);
-		$columns[$this->__columnUserDisabled()] = __('Disabled', ADI_I18N);
+		$columns[$this->__columnIsAdiUser()] = __('ADI User', NEXT_AD_INT_I18N);
+		$columns[$this->__columnUserDisabled()] = __('Disabled', NEXT_AD_INT_I18N);
 
 		return $columns;
 	}
@@ -130,7 +130,7 @@ class Adi_User_Ui_ExtendUserList
 
 		// fallback message
 		if (!$reason || !is_string($reason) || strlen($reason) === 0){
-			$reason = __('User is disabled by ADI 2.0.', ADI_I18N);
+			$reason = __('User is disabled by ADI 2.0.', NEXT_AD_INT_I18N);
 		}
 
 		if ($isUserDisabled) {

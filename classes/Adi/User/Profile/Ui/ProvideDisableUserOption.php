@@ -90,7 +90,7 @@ class Adi_User_Profile_Ui_ProvideDisableUserOption
 			//disable user
 			$username = get_userdata($userId);
 			$message = sprintf(
-				__('User manually disabled by "%s" with the ID %s.', ADI_I18N), $username->user_login, $userId
+				__('User manually disabled by "%s" with the ID %s.', NEXT_AD_INT_I18N), $username->user_login, $userId
 			);
 			$this->userManager->disable($userId, $message);
 

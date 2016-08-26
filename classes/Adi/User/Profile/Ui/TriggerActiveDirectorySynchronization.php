@@ -160,7 +160,7 @@ class Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 		if (!$ldapConnectionDetails) {
 			$this->errors[] = array(
 				'syncToAd_no_password',
-				__('No password given, so additional attributes have not been written back to Active Directory', ADI_I18N),
+				__('No password given, so additional attributes have not been written back to Active Directory', NEXT_AD_INT_I18N),
 			);
 
 			return false;
@@ -177,7 +177,7 @@ class Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 		if (!$status) {
 			$this->errors[] = array(
 				'active_directory_integration_wrong_password',
-				__('Error on writing additional attributes back to Active Directory. Please contact your WordPress administrator?', ADI_I18N),
+				__('Error on writing additional attributes back to Active Directory. Please contact your WordPress administrator?', NEXT_AD_INT_I18N),
 			);
 
 			return false;

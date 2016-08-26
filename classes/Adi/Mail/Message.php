@@ -49,7 +49,7 @@ class Adi_Mail_Message
 
 	public function getSubject()
 	{
-		return '[' . $this->blogName . '] ' . __('Account blocked', ADI_I18N);
+		return '[' . $this->blogName . '] ' . __('Account blocked', NEXT_AD_INT_I18N);
 	}
 
 	public function getBody()
@@ -84,7 +84,7 @@ class Adi_Mail_Message
 	public function getBodyElement($number)
 	{
 		$element = self::$bodyElements[$number];
-		$element = __($element, ADI_I18N);
+		$element = __($element, NEXT_AD_INT_I18N);
 		$element .= "\r\n";
 
 		return $element;

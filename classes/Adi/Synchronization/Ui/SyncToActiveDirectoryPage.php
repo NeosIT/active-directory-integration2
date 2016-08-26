@@ -56,7 +56,7 @@ class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Pa
 	 */
 	public function getTitle()
 	{
-		return esc_html__(self::TITLE, ADI_I18N);
+		return esc_html__(self::TITLE, NEXT_AD_INT_I18N);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Pa
 
 		$security =  Core_Util_ArrayUtil::get('security', $post, '');
 		if (!wp_verify_nonce($security, self::NONCE)) {
-			$message = __('You do not have sufficient permissions to access this page.', ADI_I18N);
+			$message = __('You do not have sufficient permissions to access this page.', NEXT_AD_INT_I18N);
 			wp_die($message);
 		}
 
@@ -109,9 +109,9 @@ class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Pa
 		$this->log = explode("<br />",$this->log);
 
 		if ($result) {
-			$this->result = esc_html__('Sync to AD succeeded.', ADI_I18N);
+			$this->result = esc_html__('Sync to AD succeeded.', NEXT_AD_INT_I18N);
 		} else {
-			$this->result = esc_html__('Sync to AD failed.', ADI_I18N);
+			$this->result = esc_html__('Sync to AD failed.', NEXT_AD_INT_I18N);
 		}
 
 		return array(

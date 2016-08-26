@@ -56,7 +56,7 @@ class Adi_Synchronization_Ui_SyncToWordPressPage extends Multisite_View_Page_Abs
 	 */
 	public function getTitle()
 	{
-		return esc_html__(self::TITLE, ADI_I18N);
+		return esc_html__(self::TITLE, NEXT_AD_INT_I18N);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Adi_Synchronization_Ui_SyncToWordPressPage extends Multisite_View_Page_Abs
 
 		$security = Core_Util_ArrayUtil::get('security', $post, '');
 		if (!wp_verify_nonce($security, self::NONCE)) {
-			$message = esc_html__('You do not have sufficient permissions to access this page.', ADI_I18N);
+			$message = esc_html__('You do not have sufficient permissions to access this page.', NEXT_AD_INT_I18N);
 			wp_die($message);
 		}
 
@@ -107,9 +107,9 @@ class Adi_Synchronization_Ui_SyncToWordPressPage extends Multisite_View_Page_Abs
 
 
 		if ($status) {
-			$this->result = esc_html__('Sync to WordPress succeeded.', ADI_I18N);
+			$this->result = esc_html__('Sync to WordPress succeeded.', NEXT_AD_INT_I18N);
 		} else {
-			$this->result = esc_html__('Sync to WordPress failed.', ADI_I18N);
+			$this->result = esc_html__('Sync to WordPress failed.', NEXT_AD_INT_I18N);
 		}
 
 		return array(

@@ -25,7 +25,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction('load_plugin_textdomain', array(
 			'args'  => array(
-				ADI_I18N,
+				NEXT_AD_INT_I18N,
 				false,
 				NEXT_AD_INT_PATH . '/languages/',
 			),

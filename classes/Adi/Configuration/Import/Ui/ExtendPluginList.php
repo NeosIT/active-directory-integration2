@@ -61,7 +61,7 @@ class Adi_Configuration_Import_Ui_ExtendPluginList
 		$networkExportAllowed = ($this->isNetworkExportAllowed() && is_network_admin());
 
 		if ($networkExportAllowed || $this->isSingleSiteExportAllowed()) {
-			$actions['adi_v1_configuration_export'] = '<a href="' . admin_url('admin-post.php?action=' . self::ACTION) . '">' . __('Download ADI v1 configuration', ADI_I18N) . '</a>';
+			$actions['adi_v1_configuration_export'] = '<a href="' . admin_url('admin-post.php?action=' . self::ACTION) . '">' . __('Download ADI v1 configuration', NEXT_AD_INT_I18N) . '</a>';
 		}
 
 		return $actions;

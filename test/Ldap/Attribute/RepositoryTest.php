@@ -22,7 +22,7 @@ class Ut_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 
 		\WP_Mock::wpFunction(
 			'__', array(
-				'args'       => array(WP_Mock\Functions::type('string'), ADI_I18N),
+				'args'       => array(WP_Mock\Functions::type('string'), NEXT_AD_INT_I18N),
 				'return_arg' => 0,
 			)
 		);

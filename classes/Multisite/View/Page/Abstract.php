@@ -78,7 +78,7 @@ abstract class Multisite_View_Page_Abstract implements Multisite_View_Page
 	protected function checkCapability()
 	{
 		if (!$this->currentUserHasCapability()) {
-			$message = esc_html__('You do not have sufficient permissions to access this page.', ADI_I18N);
+			$message = esc_html__('You do not have sufficient permissions to access this page.', NEXT_AD_INT_I18N);
 			wp_die($message);
 		}
 	}

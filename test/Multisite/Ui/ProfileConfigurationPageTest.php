@@ -747,19 +747,19 @@ class Ut_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTest
 		$permissionItems = array(
 			0 => array(
 				"value" => "0",
-				"description" => __("Input field is invisible.", ADI_I18N),
+				"description" => __("Input field is invisible.", NEXT_AD_INT_I18N),
 			),
 			1 => array(
 				"value" => "1",
-				"description" => __("Deactivated and option value not shown.", ADI_I18N),
+				"description" => __("Deactivated and option value not shown.", NEXT_AD_INT_I18N),
 			),
 			2 => array(
 				"value" => "2",
-				"description" => __("Deactivated and option value shown.", ADI_I18N),
+				"description" => __("Deactivated and option value shown.", NEXT_AD_INT_I18N),
 			),
 			3 => array(
 				"value" => "3",
-				"description" => __("Blog admin sets the option value.", ADI_I18N),
+				"description" => __("Blog admin sets the option value.", NEXT_AD_INT_I18N),
 			),
 		);
 

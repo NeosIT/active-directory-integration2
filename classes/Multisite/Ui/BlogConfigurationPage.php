@@ -69,7 +69,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	 */
 	public function getTitle()
 	{
-		return esc_html__('Configuration', ADI_I18N);
+		return esc_html__('Configuration', NEXT_AD_INT_I18N);
 	}
 
 	/**
@@ -518,11 +518,11 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		if (null === $this->validator) {
 			$validator = $this->getSharedValidator();
 
-			$message = __('Username has to contain a suffix.', ADI_I18N);
-			$invalidValueMessage = __('The given value is invalid.', ADI_I18N);
+			$message = __('Username has to contain a suffix.', NEXT_AD_INT_I18N);
+			$invalidValueMessage = __('The given value is invalid.', NEXT_AD_INT_I18N);
 
 			// PROFILE
-			$notEmptyMessage = __('This value must not be empty.', ADI_I18N);
+			$notEmptyMessage = __('This value must not be empty.', NEXT_AD_INT_I18N);
 			$notEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($notEmptyMessage);
 			$validator->addRule(Adi_Configuration_Options::PROFILE_NAME, $notEmptyRule);
 
@@ -534,27 +534,27 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			// USER
 			$accountSuffixMessage = __(
 				'Account Suffix does not match the required style. (e.g. "@company.local")',
-				ADI_I18N
+				NEXT_AD_INT_I18N
 			);
 			$accountSuffixRule = new Multisite_Validator_Rule_AccountSuffix($accountSuffixMessage, '@');
 			$validator->addRule(Adi_Configuration_Options::ACCOUNT_SUFFIX, $accountSuffixRule);
 
-			$defaultEmailDomainMessage = __('Please remove the "@", it will be added automatically.', ADI_I18N);
+			$defaultEmailDomainMessage = __('Please remove the "@", it will be added automatically.', NEXT_AD_INT_I18N);
 			$defaultEmailDomainRule = new Multisite_Validator_Rule_DefaultEmailDomain($defaultEmailDomainMessage);
 			$validator->addRule(Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN, $defaultEmailDomainRule);
 
 			// SECURITY
-			$maxLoginAttempts = __('Maximum login attempts has to be numeric and cannot be negative.', ADI_I18N);
+			$maxLoginAttempts = __('Maximum login attempts has to be numeric and cannot be negative.', NEXT_AD_INT_I18N);
 			$maxLoginAttemptsRule = new Multisite_Validator_Rule_PositiveNumericOrZero($maxLoginAttempts);
 			$validator->addRule(Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS, $maxLoginAttemptsRule);
 
-			$blockTimeMessage = __('Blocking Time has to be numeric and cannot be negative.', ADI_I18N);
+			$blockTimeMessage = __('Blocking Time has to be numeric and cannot be negative.', NEXT_AD_INT_I18N);
 			$blockTimeRule = new Multisite_Validator_Rule_PositiveNumericOrZero($blockTimeMessage);
 			$validator->addRule(Adi_Configuration_Options::BLOCK_TIME, $blockTimeRule);
 
 			$adminEmailMessage = __(
 				'Admin email does not match the required style. (e.g. "admin@company.local")',
-				ADI_I18N
+				NEXT_AD_INT_I18N
 			);
 			$adminEmailRule = new Multisite_Validator_Rule_AdminEmail($adminEmailMessage, '@');
 			$validator->addRule(Adi_Configuration_Options::ADMIN_EMAIL, $adminEmailRule);
@@ -562,7 +562,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			// SSO username
 			$ssoServiceAccountUserSuffixRule = new Multisite_Validator_Rule_Suffix($message, '@');
 
-			$ssoServiceAccountUserNotEmptyMessage = __('Username must not be empty.', ADI_I18N);
+			$ssoServiceAccountUserNotEmptyMessage = __('Username must not be empty.', NEXT_AD_INT_I18N);
 			$ssoServiceAccountUserNotEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace(
 				$ssoServiceAccountUserNotEmptyMessage
 			);
@@ -574,7 +574,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$validator->addRule(Adi_Configuration_Options::SSO_USER, $ssoServiceAccountUsernameConditionalRules);
 
 			// SSO password
-			$ssoServiceAccountPasswordNotEmptyMessage = __('Password must not be empty.', ADI_I18N);
+			$ssoServiceAccountPasswordNotEmptyMessage = __('Password must not be empty.', NEXT_AD_INT_I18N);
 			$ssoServiceAccountPasswordNotEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace(
 				$ssoServiceAccountPasswordNotEmptyMessage
 			);
@@ -590,14 +590,14 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$validator->addRule(Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE, $ssoEnvironmentVariableRule);
 
 			// PERMISSIONS
-			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', ADI_I18N);
+			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', NEXT_AD_INT_I18N);
 			$disallowedRoleRule = new Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig($disallowedRoleMessage);
 			$validator->addRule(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
 
 			// ATTRIBUTES
 			$noDefaultAttributeNameMessage = __(
 				'Cannot use default attribute names for custom attribute mapping.',
-				ADI_I18N
+				NEXT_AD_INT_I18N
 			);
 			$noDefaultAttributeNameRule = new Multisite_Validator_Rule_NoDefaultAttributeName(
 				$noDefaultAttributeNameMessage
@@ -606,16 +606,16 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 
 			$attributeMappingNullMessage = __(
 				'Ad Attribute / Data Type / WordPress Attribute cannot be empty!',
-				ADI_I18N
+				NEXT_AD_INT_I18N
 			);
 			$attributeMappingNullRule = new Multisite_Validator_Rule_AttributeMappingNull($attributeMappingNullMessage);
 			$validator->addRule(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $attributeMappingNullRule);
 
-			$metakeyConflictMessage = __('You cannot use the same WordPress Attribute multiple times.', ADI_I18N);
+			$metakeyConflictMessage = __('You cannot use the same WordPress Attribute multiple times.', NEXT_AD_INT_I18N);
 			$metakeyConflictRule = new Multisite_Validator_Rule_WordPressMetakeyConflict($metakeyConflictMessage);
 			$validator->addRule(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $metakeyConflictRule);
 
-			$adAttributeConflictMessage = __('You cannot use the same Ad Attribute multiple times.', ADI_I18N);
+			$adAttributeConflictMessage = __('You cannot use the same Ad Attribute multiple times.', NEXT_AD_INT_I18N);
 			$adAttributeConflictRule = new Multisite_Validator_Rule_AdAttributeConflict($adAttributeConflictMessage);
 			$validator->addRule(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $adAttributeConflictRule);
 
@@ -654,18 +654,18 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$validator = $this->getSharedValidator();
 
 			$verifyUsernameMessage = __(
-				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', ADI_I18N
+				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', NEXT_AD_INT_I18N
 			);
 			$verifyUsernameRule = new Multisite_Validator_Rule_AdminEmail($verifyUsernameMessage, '@');
 			$validator->addRule(Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameRule);
 
 			$verifyUsernameEmptyMessage = __(
-				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', ADI_I18N
+				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', NEXT_AD_INT_I18N
 			);
 			$verifyUsernameEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyUsernameEmptyMessage);
 			$validator->addRule(Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameEmptyRule);
 
-			$verifyPasswordMessage = __('Verification Password cannot be empty.', ADI_I18N);
+			$verifyPasswordMessage = __('Verification Password cannot be empty.', NEXT_AD_INT_I18N);
 			$verifyPasswordRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyPasswordMessage);
 			$validator->addRule(Adi_Configuration_Options::VERIFICATION_PASSWORD, $verifyPasswordRule);
 
@@ -683,11 +683,11 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		$validator = new Core_Validator();
 
 		// ENVIRONMENT
-		$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', ADI_I18N);
+		$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', NEXT_AD_INT_I18N);
 		$portRule = new Multisite_Validator_Rule_Port($portMessage);
 		$validator->addRule(Adi_Configuration_Options::PORT, $portRule);
 
-		$networkTimeoutMessage = __('Network timeout has to be numeric and cannot be negative.', ADI_I18N);
+		$networkTimeoutMessage = __('Network timeout has to be numeric and cannot be negative.', NEXT_AD_INT_I18N);
 		$networkTimeoutRule = new Multisite_Validator_Rule_PositiveNumericOrZero($networkTimeoutMessage);
 		$validator->addRule(Adi_Configuration_Options::NETWORK_TIMEOUT, $networkTimeoutRule);
 

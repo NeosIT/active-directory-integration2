@@ -212,17 +212,17 @@ class Adi_Synchronization_ActiveDirectory extends Adi_Synchronization_Abstract
 	 */
 	public function assertSynchronizationAvailable($userId, $isOwnProfile) {
 		if (!$this->isEnabled()) {
-			throw new Exception(__("Synchronization is not enabled", ADI_I18N));
+			throw new Exception(__("Synchronization is not enabled", NEXT_AD_INT_I18N));
 		}
 
 		$isUserSynchronizable = $this->isSynchronizable($userId);
 
 		if (!$isUserSynchronizable) {
-			throw new Exception(__("This user does not have a corresponding Active Directory account", ADI_I18N));
+			throw new Exception(__("This user does not have a corresponding Active Directory account", NEXT_AD_INT_I18N));
 		}
 
 		if (!$isOwnProfile && !$this->isServiceAccountEnabled()) {
-			throw new Exception(__("This user is not editable because there is no Sync To AD service account available", ADI_I18N));
+			throw new Exception(__("This user is not editable because there is no Sync To AD service account available", NEXT_AD_INT_I18N));
 		}
 
 		return true;

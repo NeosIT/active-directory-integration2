@@ -46,7 +46,7 @@ class Multisite_Ui_BlogProfileRelationshipPage extends Multisite_View_Page_Abstr
 	 */
 	public function getTitle()
 	{
-		return esc_html__('Profile assignment', ADI_I18N);
+		return esc_html__('Profile assignment', NEXT_AD_INT_I18N);
 	}
 
 	/**

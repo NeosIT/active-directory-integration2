@@ -97,7 +97,7 @@ class Adi_User_Profile_Ui_PreventEmailChange
 				$errors = new WP_Error(
 					'prevent email change', __(
 						"You must not change your email address. The plugin 'Active Directory Integration' prevents it.",
-						ADI_I18N
+						NEXT_AD_INT_I18N
 					)
 				);
 			}
