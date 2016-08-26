@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
 define('NEXT_AD_INT_PLUGIN_VERSION', '2.0');
 define('ADI_PREFIX', 'adi2_');
 define('NEXT_AD_INT_PATH', dirname(__FILE__));
-define('ADI_URL', plugins_url('', __FILE__));
+define('NEXT_AD_INT_URL', plugins_url('', __FILE__));
 define('NEXT_AD_INT_I18N', 'ad-integration-2.0');
 define('NEXT_AD_INT_PLUGIN_FILE', plugin_basename(__FILE__));
 

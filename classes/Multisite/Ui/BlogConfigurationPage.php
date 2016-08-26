@@ -118,57 +118,57 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		$this->loadSharedAdminScriptsAndStyle();
 
 		wp_enqueue_script(
-			'adi2_blog_options_service_persistence', ADI_URL .
+			'adi2_blog_options_service_persistence', NEXT_AD_INT_URL .
 			'/js/app/blog-options/services/persistence.service.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
 			'adi2_blog_options_service_data',
-			ADI_URL . '/js/app/blog-options/services/data.service.js', array(), self::VERSION_BLOG_OPTIONS_JS
+			NEXT_AD_INT_URL . '/js/app/blog-options/services/data.service.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 
 		// add the controller js files
 		wp_enqueue_script(
-			'adi2_blog_options_controller_blog', ADI_URL .
+			'adi2_blog_options_controller_blog', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/blog.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_ajax', ADI_URL .
+			'adi2_blog_options_controller_ajax', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/ajax.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_general', ADI_URL .
+			'adi2_blog_options_controller_general', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/general.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_environment', ADI_URL .
+			'adi2_blog_options_controller_environment', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/environment.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_user', ADI_URL .
+			'adi2_blog_options_controller_user', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/user.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_password', ADI_URL .
+			'adi2_blog_options_controller_password', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/password.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_permission', ADI_URL .
+			'adi2_blog_options_controller_permission', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/permission.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_security', ADI_URL .
+			'adi2_blog_options_controller_security', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/security.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_attributes', ADI_URL .
+			'adi2_blog_options_controller_attributes', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/attributes.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_sync_to_ad', ADI_URL .
+			'adi2_blog_options_controller_sync_to_ad', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/sync-to-ad.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_sync_to_wordpress', ADI_URL .
+			'adi2_blog_options_controller_sync_to_wordpress', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/sync-to-wordpress.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 	}
@@ -180,66 +180,66 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	{
 		wp_enqueue_script("jquery");
 
-		wp_enqueue_script('adi2_page', ADI_URL . '/js/page.js', array('jquery'), Multisite_Ui::VERSION_PAGE_JS);
+		wp_enqueue_script('adi2_page', NEXT_AD_INT_URL . '/js/page.js', array('jquery'), Multisite_Ui::VERSION_PAGE_JS);
 
 		wp_enqueue_script(
-			'angular.min', ADI_URL . '/js/libraries/angular.min.js',
+			'angular.min', NEXT_AD_INT_URL . '/js/libraries/angular.min.js',
 			array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
-			'ng-alertify', ADI_URL . '/js/libraries/ng-alertify.js',
+			'ng-alertify', NEXT_AD_INT_URL . '/js/libraries/ng-alertify.js',
 			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
-			'ng-notify', ADI_URL . '/js/libraries/ng-notify.min.js',
+			'ng-notify', NEXT_AD_INT_URL . '/js/libraries/ng-notify.min.js',
 			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS
 		);
-		wp_enqueue_script('ng-busy', ADI_URL . '/js/libraries/angular-busy.min.js',
+		wp_enqueue_script('ng-busy', NEXT_AD_INT_URL . '/js/libraries/angular-busy.min.js',
 			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS);
 
 		wp_enqueue_script(
-			'adi2_shared_util_array', ADI_URL . '/js/app/shared/utils/array.util.js',
+			'adi2_shared_util_array', NEXT_AD_INT_URL . '/js/app/shared/utils/array.util.js',
 			array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
-			'adi2_shared_util_value', ADI_URL . '/js/app/shared/utils/value.util.js',
+			'adi2_shared_util_value', NEXT_AD_INT_URL . '/js/app/shared/utils/value.util.js',
 			array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 
-		wp_enqueue_script('adi2_app_module', ADI_URL . '/js/app/app.module.js', array(), Multisite_Ui::VERSION_PAGE_JS);
-		wp_enqueue_script('adi2_app_config', ADI_URL . '/js/app/app.config.js', array(), Multisite_Ui::VERSION_PAGE_JS);
+		wp_enqueue_script('adi2_app_module', NEXT_AD_INT_URL . '/js/app/app.module.js', array(), Multisite_Ui::VERSION_PAGE_JS);
+		wp_enqueue_script('adi2_app_config', NEXT_AD_INT_URL . '/js/app/app.config.js', array(), Multisite_Ui::VERSION_PAGE_JS);
 
 		// add the service js files
 		wp_enqueue_script(
 			'adi2_shared_service_browser',
-			ADI_URL . '/js/app/shared/services/browser.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
+			NEXT_AD_INT_URL . '/js/app/shared/services/browser.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
 			'adi2_shared_service_template',
-			ADI_URL . '/js/app/shared/services/template.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
+			NEXT_AD_INT_URL . '/js/app/shared/services/template.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
 			'adi2_shared_service_notification',
-			ADI_URL . '/js/app/shared/services/notification.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
+			NEXT_AD_INT_URL . '/js/app/shared/services/notification.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
 			'adi2_shared_service_list',
-			ADI_URL . '/js/app/shared/services/list.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
+			NEXT_AD_INT_URL . '/js/app/shared/services/list.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 
 		wp_enqueue_script(
-			'selectizejs', ADI_URL . '/js/libraries/selectize.min.js',
+			'selectizejs', NEXT_AD_INT_URL . '/js/libraries/selectize.min.js',
 			array('jquery'), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
-			'selectizeFix', ADI_URL . '/js/libraries/fixed-angular-selectize-3.0.1.js',
+			'selectizeFix', NEXT_AD_INT_URL . '/js/libraries/fixed-angular-selectize-3.0.1.js',
 			array('selectizejs', 'angular.min'), Multisite_Ui::VERSION_PAGE_JS
 		);
 
-		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS);
-		wp_enqueue_style('ng-notify', ADI_URL . '/css/ng-notify.min.css', array(), Multisite_Ui::VERSION_CSS);
-		wp_enqueue_style('selectizecss', ADI_URL . '/css/selectize.css', array(), Multisite_Ui::VERSION_CSS);
-		wp_enqueue_style('alertify.min', ADI_URL . '/css/alertify.min.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('ng-notify', NEXT_AD_INT_URL . '/css/ng-notify.min.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('selectizecss', NEXT_AD_INT_URL . '/css/selectize.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('alertify.min', NEXT_AD_INT_URL . '/css/alertify.min.css', array(), Multisite_Ui::VERSION_CSS);
 	}
 
 	/**

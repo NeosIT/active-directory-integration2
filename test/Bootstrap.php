@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 	define('ABSPATH', '');
 	define('NEXT_AD_INT_PLUGIN_VERSION', '2.0');
 	define('ADI_PREFIX', 'adi2_');
-	define('ADI_URL', '');
+	define('NEXT_AD_INT_URL', '');
 	define('NEXT_AD_INT_I18N', 'ad-integration-2.0');
 	define('AUTH_SALT', '</q|_f-py65|-Cy*E)9$]}jI/x1KqLMIF_rc1g]`=vsa`9RjA,r1ufr(lM2L*YBp');
 	define('OBJECT', 987);

@@ -128,7 +128,7 @@ class Adi_Synchronization_Ui_SyncToWordPressPage extends Multisite_View_Page_Abs
 			return;
 		}
 
-		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS);
 	}
 
 	/**

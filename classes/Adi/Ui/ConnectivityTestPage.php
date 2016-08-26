@@ -261,7 +261,7 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 			return;
 		}
 
-		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS);
 	}
 
 	/**
