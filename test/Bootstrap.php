@@ -81,6 +81,10 @@ if (!defined('ABSPATH')) {
 		
 	}
 
+	class WP_MS_Sites_List_Table {
+
+    }
+
 	// now we can mock this empty class instead of creating a mock from an non existing class
     // this is a workaround for a bug https://github.com/sebastianbergmann/phpunit-mock-objects/issues/321
 	class BlueprintClass {
