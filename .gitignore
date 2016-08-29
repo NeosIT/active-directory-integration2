@@ -6,3 +6,4 @@ twig/**
 test/build/**
 test-*.bat
 ant-*.bat
+/.project

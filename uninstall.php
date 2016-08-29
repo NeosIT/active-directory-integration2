@@ -7,36 +7,46 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 	wp_die('Plugin uninstalling is not authorized.');
 }
 
-require_once 'init-autoloader.php';
+require_once 'constants.php';
+require_once ADI_PATH . '/Autoloader.php';
+$autoLoader = new Adi_Autoloader();
+$autoLoader->register();
 
 global $wpdb;
-$tables = array($wpdb->options);
+$prefix = ADI_PREFIX;
+
+// delete entries from all options tables
 if (is_multisite()){
-	$tables = array_map($tables, $wpdb->blogs);
+    // add options table for the first blog
+    $tables = array($wpdb->base_prefix . 'options');
+
+    // get all sites
+    global $wp_version;
+    if ( version_compare( $wp_version, '4.6.0', '>=')) {
+        $sites = get_sites();
+    } else {
+        $sites = wp_get_sites();
+    }
+
+    // add all other options tables
+    for ($i = 2; $i <= sizeof($sites); $i++) {
+        array_push($tables, $wpdb->base_prefix . $i . '_options');
+    }
+} else {
+    $tables = array($wpdb->options);
 }
-
-$prefixes = array(
-	ADI_PREFIX . Multisite_Configuration_Persistence_BlogConfigurationRepository::PREFIX,
-	ADI_PREFIX . Adi_Authentication_Persistence_FailedLoginRepository::PREFIX_LOGIN_ATTEMPTS,
-	ADI_PREFIX . Adi_Authentication_Persistence_FailedLoginRepository::PREFIX_BLOCKED_TIME,
-	ADI_PREFIX . Multisite_Configuration_Persistence_ProfileConfigurationRepository::PREFIX_VALUE,
-	ADI_PREFIX . Multisite_Configuration_Persistence_ProfileConfigurationRepository::PREFIX_PERMISSION,
-	ADI_PREFIX . Multisite_Configuration_Persistence_ProfileRepository::PREFIX_NAME,
-	ADI_PREFIX . Multisite_Configuration_Persistence_ProfileRepository::PREFIX_DESCRIPTION,
-);
-
-$backupTables = array();
 
 foreach($tables as $table) {
-	$backupTable = array();
-
-	foreach($prefixes as $prefix) {
-		$values = $wpdb->get_results( "SELECT option_name, option_value FROM $table WHERE option_name LIKE '$prefix%';", 'ARRAY_A' );
-		$backupTable = array_merge($backupTable, $values);
-		$wpdb->query("DELETE FROM $table WHERE option_name LIKE '$prefix%';");
-	}
-
-	$backupTables[$table] = $backupTable;
+    $sql = "DELETE FROM $table WHERE option_name LIKE '$prefix%';";
+    $wpdb->query($sql);
 }
 
-var_dump($backupTables);
+// delete entries from sitemeta
+if (is_multisite()) {
+    $sql = "DELETE FROM $wpdb->sitemeta WHERE meta_key LIKE '$prefix%';";
+    $wpdb->query($sql);
+}
+
+// delete all usermeta entries
+$sql = "DELETE FROM $wpdb->usermeta WHERE meta_key LIKE '$prefix%';";
+$wpdb->query($sql);
