@@ -27,12 +27,15 @@ define('ADI_I18N', 'ad-integration-2.0');
 define('ADI_PLUGIN_NAME', 'active-directory-integration2');
 define('ADI_PLUGIN_FILE', ADI_PLUGIN_NAME . '/index.php');
 
-require_once ADI_PATH . '/Autoloader.php';
+require_once 'Autoloader.php';
 $autoLoader = new Adi_Autoloader();
 $autoLoader->register();
 
 require_once 'functions.php';
-require_once ADI_PATH . '/vendor/apache/log4php/src/main/php/Logger.php';
+
+if (!class_exists('Logger')) {
+    require_once 'vendor/apache/log4php/src/main/php/Logger.php';
+}
 
 $requirements = new NextADInt_Adi_Requirements();
 if (!$requirements->check()) {
