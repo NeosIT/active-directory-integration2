@@ -39,13 +39,10 @@ $adiPlugin = new Adi_Init();
 register_activation_hook(__FILE__, array($adiPlugin, 'activation'));
 register_uninstall_hook(__FILE__, array('Adi_Init' /* static */, 'uninstall'));
 
-add_action('plugins_loaded', 'angular_ajax_params_to_post');
+add_action('plugins_loaded', 'next_ad_int_angular_ajax_params_to_post');
 
 // register any hooks after the plug-in has been activated e.g. to display notices for a migration of options
 add_action('admin_init', array($adiPlugin, 'postActivation'));
-
-// TODO: remove / move
-add_action( 'plugins_loaded', 'angular_ajax_params_to_post' );
 
 // --- Normal Blog / Single Site ---
 // execute the plugin and their hooks after the 'plugins_loaded' hook has been called
@@ -57,4 +54,3 @@ add_action('plugins_loaded', array($adiPlugin, 'run'));
 // another possible solution would be using the hook 'redirect_network_admin_request' from network/admin.php but
 // the loading of the menu happens to early
 add_action('plugins_loaded', array($adiPlugin, 'runMultisite'));
-

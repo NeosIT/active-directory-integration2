@@ -124,7 +124,7 @@ class Adi_Cron_UrlTrigger
 		}
 
 		$expectedCode = $this->configuration->getOptionValue($optionName);
-		if ( ! hash_equals($authCode, $expectedCode)) {
+		if ( ! next_ad_int_hash_equals($authCode, $expectedCode)) {
 			$this->output('AuthCode is not correct.');
 
 			return false;
