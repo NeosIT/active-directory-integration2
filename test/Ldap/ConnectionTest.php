@@ -60,7 +60,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('createConfiguration', 'createAdLdap', 'getAdLdap'));
 
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$config = array(
 			'account_suffix'     => '',
@@ -114,7 +114,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 			'ad_password'        => '*** protected password ***',
 		);
 
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setUsername('tobi');
 		$connectionDetails->setPassword('Streng Geheim');
 
@@ -136,7 +136,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setBaseDn('custom');
 
 		$actual = $sut->getBaseDn($connectionDetails);
@@ -150,7 +150,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -168,7 +168,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setDomainControllers('custom;custom2');
 
 		$actual = $sut->getDomainControllers($connectionDetails);
@@ -182,7 +182,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getDomainControllersWithEncryption'));
 
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -202,7 +202,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setPort('custom');
 
 		$actual = $sut->getAdPort($connectionDetails);
@@ -216,7 +216,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -234,7 +234,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setEncryption(NextADInt_Multisite_Option_Encryption::LDAPS);
 
 		$actual = $sut->getUseTls($connectionDetails);
@@ -248,7 +248,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getEncryption'));
 
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$this->expects($sut, $this->once(), 'getEncryption', $connectionDetails, NextADInt_Multisite_Option_Encryption::STARTTLS);
 
@@ -263,7 +263,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setNetworkTimeout(5);
 
 		$actual = $sut->getNetworkTimeout($connectionDetails);
@@ -277,7 +277,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')

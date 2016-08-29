@@ -44,7 +44,7 @@ abstract class NextADInt_Adi_Synchronization_Abstract
 		$this->configuration = $configuration;
 		$this->connection = $connection;
 		$this->attributeService = $attributeService;
-		$this->connectionDetails = new NextADInt_Ldap_Connection();
+		$this->connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$this->logger = Logger::getLogger(__CLASS__);
 	}
@@ -80,7 +80,7 @@ abstract class NextADInt_Adi_Synchronization_Abstract
 	 */
 	public function connectToAdLdap($username, $password)
 	{
-		$this->connectionDetails = new NextADInt_Ldap_Connection();
+		$this->connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$this->connectionDetails->setUsername($username);
 		$this->connectionDetails->setPassword($password);
 

@@ -40,7 +40,7 @@ class NextADInt_Adi_Authentication_VerificationService
 	 */
 	public function findActiveDirectoryDomainSid($data)
 	{
-		$config = new NextADInt_Ldap_Connection();
+		$config = new NextADInt_Ldap_ConnectionDetails();
 		$config->setDomainControllers($data["domain_controllers"]);
 		$config->setPort($data["port"]);
 		$config->setEncryption($data["encryption"]);

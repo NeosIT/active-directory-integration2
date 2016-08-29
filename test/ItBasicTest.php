@@ -77,7 +77,7 @@ abstract class It_BasicTest extends Ut_BasicTest
 	 */
 	protected function createAdConnectionDetails()
 	{
-		$this->connectionDetails = new NextADInt_Ldap_Connection();
+		$this->connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$this->connectionDetails->setBaseDn(get_cfg_var('AD_BASE_DN'));
 		$this->connectionDetails->setDomainControllers(get_cfg_var('AD_ENDPOINT'));

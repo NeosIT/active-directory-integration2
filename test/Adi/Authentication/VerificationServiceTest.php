@@ -68,7 +68,7 @@ class Ut_NextADInt_Adi_Authentication_VerificationServiceTest extends Ut_BasicTe
 			'verification_password' => 'password'
 		);
 		
-		$config = new NextADInt_Ldap_Connection();
+		$config = new NextADInt_Ldap_ConnectionDetails();
 		$config->setDomainControllers($data["domain_controllers"]);
 		$config->setPort($data["port"]);
 		$config->setEncryption($data["encryption"]);
