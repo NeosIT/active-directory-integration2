@@ -20,7 +20,7 @@ if (!class_exists('WP_MS_Sites_List_Table')) {
  */
 class NextADInt_Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
 {
-	const ADI_SITE_NAME_COLUMN = 'adi-site-name';
+	const NEXT_AD_INT_SITE_NAME_COLUMN = 'next-ad-int-site-name';
 
 	/**
 	 * Multisite_Ui_Table_BlogTable constructor.
@@ -51,7 +51,7 @@ class NextADInt_Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Ta
 	 */
 	public function addContent($columnName, $blogId)
 	{
-		if ($columnName == self::ADI_SITE_NAME_COLUMN) {
+		if ($columnName == self::NEXT_AD_INT_SITE_NAME_COLUMN) {
 			$details = get_blog_details($blogId);
 
 			if ($details && !empty($details->blogname)) {
@@ -71,7 +71,7 @@ class NextADInt_Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Ta
 	{
 		$sites_columns = array(
 			'cb'                        => '<input type="checkbox" />',
-			self::ADI_SITE_NAME_COLUMN 	=> __('Site Name', NEXT_AD_INT_I18N),
+			self::NEXT_AD_INT_SITE_NAME_COLUMN 	=> __('Site Name', NEXT_AD_INT_I18N),
 			'blogname'                  => __('URL', NEXT_AD_INT_I18N),
 		);
 
@@ -208,7 +208,8 @@ class NextADInt_Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Ta
         global $wp_version;
         if ( version_compare( $wp_version, '4.5.0', '>=')) {
             foreach ($this->items as $key => $value) {
-                $this->items[$key] = WP_Site::get_instance($value['site_id']);
+                // ADI-336
+                $this->items[$key] = WP_Site::get_instance($value['blog_id']);
             }
         }
 

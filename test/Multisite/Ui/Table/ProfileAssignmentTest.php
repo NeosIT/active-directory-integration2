@@ -51,7 +51,7 @@ class Ut_NextADInt_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 
 		$expected = array(
 			'cb'                                                       => '<input type="checkbox" />',
-			NextADInt_Multisite_Ui_Table_ProfileAssignment::ADI_SITE_NAME_COLUMN => 'Site Name',
+			NextADInt_Multisite_Ui_Table_ProfileAssignment::NEXT_AD_INT_SITE_NAME_COLUMN => 'Site Name',
 			'blogname'                                                 => 'URL',
 		);
 
@@ -123,7 +123,7 @@ class Ut_NextADInt_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 
 		$this->expectOutputString('BLOG');
 
-		$sut->addContent(NextADInt_Multisite_Ui_Table_ProfileAssignment::ADI_SITE_NAME_COLUMN, 666);
+		$sut->addContent(NextADInt_Multisite_Ui_Table_ProfileAssignment::NEXT_AD_INT_SITE_NAME_COLUMN, 666);
 	}
 
 }
