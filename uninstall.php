@@ -21,6 +21,7 @@ if (is_multisite()){
     $tables = array($wpdb->base_prefix . 'options');
 
     // get all sites
+    global $wp_version;
     if ( version_compare( $wp_version, '4.6.0', '<=')) {
         $sites = get_sites();
     } else {
