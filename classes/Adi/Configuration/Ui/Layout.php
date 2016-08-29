@@ -52,10 +52,10 @@ class NextADInt_Adi_Configuration_Ui_Layout
 	private static function create()
 	{
 		return array(
-			__('Profile', ADI_I18N) => array(
+			__('Profile', NEXT_AD_INT_I18N) => array(
 				self::ANGULAR_CONTROLLER => 'GeneralController',
 				self::MULTISITE_ONLY => false,
-				__('Profile Options', ADI_I18N) => array(
+				__('Profile Options', NEXT_AD_INT_I18N) => array(
 					self::OPTIONS => array(
 						NextADInt_Adi_Configuration_Options::PROFILE_NAME,
 						NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY,
@@ -63,13 +63,13 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 					self::DESCRIPTION => __(
 						'On this page you can configure whether ADI should be enabled for a specific profile or not.',
-						ADI_I18N
+						NEXT_AD_INT_I18N
 					),
 				),
-				__('Menu', ADI_I18N) => array(
+				__('Menu', NEXT_AD_INT_I18N) => array(
 					self::DESCRIPTION => __(
 						'It is also possible to only disable certain ADI features.',
-						ADI_I18N
+						NEXT_AD_INT_I18N
 					),
 					self::OPTIONS => array(
 						NextADInt_Adi_Configuration_Options::SHOW_MENU_TEST_AUTHENTICATION,
@@ -79,14 +79,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Environment', ADI_I18N)  => array(
+			__('Environment', NEXT_AD_INT_I18N)  => array(
 				// Group Name
 				self::ANGULAR_CONTROLLER => 'EnvironmentController',
 				self::MULTISITE_ONLY => false,
-				__('Active Directory Environment', ADI_I18N) => array(
+				__('Active Directory Environment', NEXT_AD_INT_I18N) => array(
 					self::DESCRIPTION => __(
 						'On this page you can configure the connection details for your Active Directory.',
-						ADI_I18N
+						NEXT_AD_INT_I18N
 					),
 					// Option elements in group
 					self::OPTIONS => array(
@@ -97,10 +97,10 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::BASE_DN
 					),
 				),
-				__('Verify Credentials', ADI_I18N) => array(
+				__('Verify Credentials', NEXT_AD_INT_I18N) => array(
 					self::DESCRIPTION => __(
 						'Connect your WordPress site or profile to a domain.',
-						ADI_I18N
+						NEXT_AD_INT_I18N
 					),
 					self::OPTIONS => array(
 						NextADInt_Adi_Configuration_Options::VERIFICATION_USERNAME,
@@ -110,14 +110,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('User', ADI_I18N)             => array(
+			__('User', NEXT_AD_INT_I18N)             => array(
 				// Group Name
 				self::ANGULAR_CONTROLLER => 'UserController',
 				self::MULTISITE_ONLY => false,
-				__('User Settings', ADI_I18N) => array(
+				__('User Settings', NEXT_AD_INT_I18N) => array(
 					self::DESCRIPTION => __(
 						'On this page you can configure how users should be created, updated and displayed. You can also prevent specific users from authenticating against the Active Directory. ',
-						ADI_I18N
+						NEXT_AD_INT_I18N
 					),
 					// Option elements in group
 					self::OPTIONS => array(
@@ -136,14 +136,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Password', ADI_I18N)        => array(
+			__('Password', NEXT_AD_INT_I18N)        => array(
 				self::ANGULAR_CONTROLLER => 'PasswordController',
 				self::MULTISITE_ONLY => false,
 				// Group name
-				__('Password', ADI_I18N) => array(
+				__('Password', NEXT_AD_INT_I18N) => array(
 					self::DESCRIPTION => __(
 						'The password configuration page allows you to configure if users should be able to change their password, how failed authentications should be handled and so on.',
-						ADI_I18N
+						NEXT_AD_INT_I18N
 					),
 					// Option elements in group
 					self::OPTIONS => array(
@@ -156,14 +156,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Permissions', ADI_I18N) => array(
+			__('Permissions', NEXT_AD_INT_I18N) => array(
 				self::ANGULAR_CONTROLLER => 'PermissionController',
 				self::MULTISITE_ONLY => false,
 				// Group name
-				__('Permissions', ADI_I18N) => array(
+				__('Permissions', NEXT_AD_INT_I18N) => array(
 					self::DESCRIPTION => __(
 						'On this page you can configure whether only specific Active Directory Security groups should be granted access to WordPress. You can also define if certain Active Directory security groups should have WordPress role permissions by default.',
-						ADI_I18N
+						NEXT_AD_INT_I18N
 					),
 					// Option elements in group
 					self::OPTIONS => array(
@@ -174,14 +174,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Security', ADI_I18N) => array(
+			__('Security', NEXT_AD_INT_I18N) => array(
 				self::ANGULAR_CONTROLLER => 'SecurityController',
 				self::MULTISITE_ONLY => false,
 				// Group name
-				__('Single Sign On', ADI_I18N) => array(
+				__('Single Sign On', NEXT_AD_INT_I18N) => array(
 					self::DESCRIPTION => __(
 						'Single Sign On Configuration',
-						ADI_I18N
+						NEXT_AD_INT_I18N
 					),
 					// Option elements in group
 					self::OPTIONS => array(
@@ -192,11 +192,11 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 				),
 				// Group name
-				__('Brute-Force-Protection', ADI_I18N) => array(
+				__('Brute-Force-Protection', NEXT_AD_INT_I18N) => array(
 					// Group description
 					self::DESCRIPTION => __(
 						'For security reasons you can use the following options to prevent brute force attacks on your user accounts.',
-						ADI_I18N
+						NEXT_AD_INT_I18N
 					),
 					// Group elements in group
 					self::OPTIONS     => array(
@@ -209,23 +209,23 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Attributes', ADI_I18N) => array(
+			__('Attributes', NEXT_AD_INT_I18N) => array(
 				self::ANGULAR_CONTROLLER => 'AttributesController',
 				self::MULTISITE_ONLY => false,
 				// Group description
-				__('Attributes', ADI_I18N) => array(
+				__('Attributes', NEXT_AD_INT_I18N) => array(
 					// Group description
 					self::DESCRIPTION => array(
 						__(
 							'User attributes from the Active Directory are stored as User Meta Data. These attributes can then be used in your themes and they can be shown on the profile page of your users.',
-							ADI_I18N
+							NEXT_AD_INT_I18N
 						),
 						__(
 							'The attributes are only stored in the WordPress database if you activate "Automatic User Creation" and are only updated if you activate "Automatic User Update" on tab "User".',
-							ADI_I18N
+							NEXT_AD_INT_I18N
 						),
 						'',
-						sprintf(__('The following WordPress attributes are reserved by ADI and cannot be used: %s', ADI_I18N), implode(', ', NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys())),
+						sprintf(__('The following WordPress attributes are reserved by ADI and cannot be used: %s', NEXT_AD_INT_I18N), implode(', ', NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys())),
 					),
 					// Group elements in group
 					self::OPTIONS     => array(
@@ -234,14 +234,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Sync to AD', ADI_I18N)        => array(
+			__('Sync to AD', NEXT_AD_INT_I18N)        => array(
 				self::ANGULAR_CONTROLLER => 'SyncToAdController',
 				self::MULTISITE_ONLY => false,
 				// Group name
-				__('Sync To Active Directory', ADI_I18N) => array(
+				__('Sync To Active Directory', NEXT_AD_INT_I18N) => array(
 					self::DESCRIPTION => __(
 						'Synchronize WordPress profiles back to Active Directory.',
-						ADI_I18N
+						NEXT_AD_INT_I18N
 					),
 					// Group elements in group
 					self::OPTIONS => array(
@@ -254,15 +254,15 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Sync to WordPress', ADI_I18N)      => array(
+			__('Sync to WordPress', NEXT_AD_INT_I18N)      => array(
 				self::ANGULAR_CONTROLLER => 'SyncToWordpressController',
 				self::MULTISITE_ONLY => false,
 				// Group name
-				__('Sync To WordPress', ADI_I18N) => array(
+				__('Sync To WordPress', NEXT_AD_INT_I18N) => array(
 					// Group description
 					self::DESCRIPTION => __(
 						'You can import/update the users from Active Directory, for example by using a cron job.',
-						ADI_I18N
+						NEXT_AD_INT_I18N
 					),
 					// Group elements in group
 					self::OPTIONS     => array(

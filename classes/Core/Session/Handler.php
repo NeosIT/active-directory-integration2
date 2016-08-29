@@ -108,11 +108,11 @@ class NextADInt_Core_Session_Handler
 	 */
 	protected function normalizeKey($key)
 	{
-		if (NextADInt_Core_Util_StringUtil::startsWith(ADI_PREFIX, $key)) {
+		if (NextADInt_Core_Util_StringUtil::startsWith(NEXT_AD_INT_PREFIX, $key)) {
 			return $key;
 		}
 
-		return ADI_PREFIX . $key;
+		return NEXT_AD_INT_PREFIX . $key;
 	}
 
 	/**

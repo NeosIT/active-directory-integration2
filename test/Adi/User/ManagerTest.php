@@ -145,7 +145,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function findByActiveDirectoryUsername_itFallsbackToUserPrincipalName()
 	{
-		$sut = $this->sut();
+		$sut = $this->sut(array('findBySAMAccountName'));
 		$wpUser = (object)(array('ID' => 1));
 
 		$this->behave($sut, 'findBySAMAccountName', false);
@@ -164,7 +164,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function findByActiveDirectoryUsername_itUsesSAMAccountNameForUserLogin_whenEverythingFails()
 	{
-		$sut = $this->sut();
+		$sut = $this->sut(array('findBySAMAccountName'));
 		$wpUser = (object)(array('ID' => 1));
 
 		$this->behave($sut, 'findBySAMAccountName', false);
@@ -680,7 +680,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('update')
-			->with(666, ADI_PREFIX . 'account_suffix', '@test.ad');
+			->with(666, NEXT_AD_INT_PREFIX . 'account_suffix', '@test.ad');
 
 		$sut->update($adiUser);
 	}
@@ -804,7 +804,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
-		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$adiUser = $this->createMockWithMethods('NextADInt_Adi_User', array('getId', 'getUsername'));
 		$adiUser->expects($this->once())
 			->method('getId')
 			->willReturn(1);
@@ -1308,7 +1308,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with(666, ADI_PREFIX . 'samaccountname', true)
+			->with(666, NEXT_AD_INT_PREFIX . 'samaccountname', true)
 			->willReturn('usr');
 
 		$this->assertTrue($sut->hasActiveDirectoryAccount('username'));
@@ -1331,7 +1331,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with(666, ADI_PREFIX . 'samaccountname', true)
+			->with(666, NEXT_AD_INT_PREFIX . 'samaccountname', true)
 			->willReturn('usr');
 
 		$this->assertTrue($sut->hasActiveDirectoryAccount($this->wpUser));
@@ -1353,7 +1353,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with(666, ADI_PREFIX . 'samaccountname', true)
+			->with(666, NEXT_AD_INT_PREFIX . 'samaccountname', true)
 			->willReturn('usr');
 
 		// co-check empty
@@ -1374,7 +1374,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with($userId, ADI_PREFIX . 'user_disabled_email', true)
+			->with($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true)
 			->willReturn('test@test.com');
 
 		$this->userRepository->expects($this->once())
@@ -1407,7 +1407,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with($userId, ADI_PREFIX . 'user_disabled_email', true)
+			->with($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true)
 			->willReturn('test@test.com');
 
 		$this->userRepository->expects($this->once())

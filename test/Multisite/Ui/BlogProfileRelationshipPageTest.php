@@ -62,7 +62,7 @@ class Ut_NextADInt_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_Basic
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = ADI_PREFIX . 'blog_profile_relationship';
+		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
 		$returnedValue = $sut->getSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -75,7 +75,7 @@ class Ut_NextADInt_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_Basic
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = ADI_PREFIX . 'blog_profile_relationship';
+		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
 		$returnedValue = $sut->wpAjaxSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -115,13 +115,13 @@ class Ut_NextADInt_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_Basic
 	public function loadJavaScriptAdmin()
 	{
 		$sut = $this->sut(null);
-		$hook = ADI_PREFIX . 'blog_profile_relationship';
+		$hook = NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args'  => array(
 					'adi2_blog_profile_association',
-					ADI_URL . '/js/blog-profile-relationship.js',
+					NEXT_AD_INT_URL . '/js/blog-profile-relationship.js',
 					array('jquery'),
 					NextADInt_Multisite_Ui_BlogProfileRelationshipPage::VERSION_BLOG_PROFILE_RELATIONSHIP_JS,
 				),
@@ -131,7 +131,7 @@ class Ut_NextADInt_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_Basic
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args'  => array('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS),
+				'args'  => array('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);

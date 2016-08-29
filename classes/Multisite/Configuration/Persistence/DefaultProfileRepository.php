@@ -49,6 +49,6 @@ class NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository
 	 */
 	protected function getProfileOptionName()
 	{
-		return ADI_PREFIX . NextADInt_Multisite_Configuration_Persistence_ProfileRepository::PREFIX . self::SUFFIX_DEFAULT;
+		return NEXT_AD_INT_PREFIX . NextADInt_Multisite_Configuration_Persistence_ProfileRepository::PREFIX . self::SUFFIX_DEFAULT;
 	}
 }

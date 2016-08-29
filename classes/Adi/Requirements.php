@@ -192,9 +192,9 @@ class NextADInt_Adi_Requirements
     public function requireMcrypt($showErrors = true)
     {
         // mb_strings php module
-        if (!Core_Util::native()->isLoaded(self::MODULE_MCRYPT)) {
+        if (!NextADInt_Core_Util::native()->isLoaded(self::MODULE_MCRYPT)) {
             if ($showErrors) {
-                add_action(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+                add_action(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
                     $this, 'missingMcrypt',
                 ));
             }

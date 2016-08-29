@@ -239,10 +239,10 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
         // mock away static methods
         $this->internalNative->expects($this->once())
             ->method('isLoaded')
-            ->with(Adi_Requirements::MODULE_MCRYPT)
+            ->with(NextADInt_Adi_Requirements::MODULE_MCRYPT)
             ->willReturn(false);
 
-        WP_Mock::expectActionAdded(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+        WP_Mock::expectActionAdded(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
             $sut, 'missingMcrypt',
         ));
 
@@ -258,7 +258,7 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
         // mock away static methods
         $this->internalNative->expects($this->once())
             ->method('isLoaded')
-            ->with(Adi_Requirements::MODULE_MCRYPT)
+            ->with(NextADInt_Adi_Requirements::MODULE_MCRYPT)
             ->willReturn(true);
 
         $sut->requireMcrypt(true);

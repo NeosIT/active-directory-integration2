@@ -46,7 +46,7 @@ class NextADInt_Multisite_Ui_BlogProfileRelationshipPage extends NextADInt_Multi
 	 */
 	public function getTitle()
 	{
-		return esc_html__('Profile assignment', ADI_I18N);
+		return esc_html__('Profile assignment', NEXT_AD_INT_I18N);
 	}
 
 	/**
@@ -76,7 +76,7 @@ class NextADInt_Multisite_Ui_BlogProfileRelationshipPage extends NextADInt_Multi
 	 */
 	public static function buildSlug()
 	{
-		return ADI_PREFIX . 'blog_profile_relationship';
+		return NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
 	}
 
 	/**
@@ -102,11 +102,11 @@ class NextADInt_Multisite_Ui_BlogProfileRelationshipPage extends NextADInt_Multi
 		}
 
 		wp_enqueue_script(
-			'adi2_blog_profile_association', ADI_URL . '/js/blog-profile-relationship.js', array('jquery'),
+			'adi2_blog_profile_association', NEXT_AD_INT_URL . '/js/blog-profile-relationship.js', array('jquery'),
 			self::VERSION_BLOG_PROFILE_RELATIONSHIP_JS
 		);
 
-		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
 	}
 
 	/**

@@ -56,7 +56,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 	 */
 	public function getTitle()
 	{
-		return esc_html__(self::TITLE, ADI_I18N);
+		return esc_html__(self::TITLE, NEXT_AD_INT_I18N);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 
 		$security =  NextADInt_Core_Util_ArrayUtil::get('security', $post, '');
 		if (!wp_verify_nonce($security, self::NONCE)) {
-			$message = __('You do not have sufficient permissions to access this page.', ADI_I18N);
+			$message = __('You do not have sufficient permissions to access this page.', NEXT_AD_INT_I18N);
 			wp_die($message);
 		}
 
@@ -109,9 +109,9 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		$this->log = explode("<br />",$this->log);
 
 		if ($result) {
-			$this->result = esc_html__('Sync to AD succeeded.', ADI_I18N);
+			$this->result = esc_html__('Sync to AD succeeded.', NEXT_AD_INT_I18N);
 		} else {
-			$this->result = esc_html__('Sync to AD failed.', ADI_I18N);
+			$this->result = esc_html__('Sync to AD failed.', NEXT_AD_INT_I18N);
 		}
 
 		return array(
@@ -130,7 +130,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 			return;
 		}
 
-		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
 	}
 
 	/**
@@ -140,7 +140,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 	 */
 	public function getSlug()
 	{
-		return ADI_PREFIX . self::SLUG;
+		return NEXT_AD_INT_PREFIX . self::SLUG;
 	}
 
 	/**

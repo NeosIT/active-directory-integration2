@@ -13,7 +13,7 @@ $autoLoader = new NextADInt_Autoloader();
 $autoLoader->register();
 
 global $wpdb;
-$prefix = ADI_PREFIX;
+$prefix = NEXT_AD_INT_PREFIX;
 
 // delete entries from all options tables
 if (is_multisite()){

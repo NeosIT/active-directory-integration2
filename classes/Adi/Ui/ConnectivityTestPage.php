@@ -81,7 +81,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	 */
 	public function getTitle()
 	{
-		return esc_html__('Test authentication', ADI_I18N);
+		return esc_html__('Test authentication', NEXT_AD_INT_I18N);
 	}
 
 	/**
@@ -114,7 +114,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 
 		// before test connection check nonce
 		if (!wp_verify_nonce($_POST['security'], self::NONCE)) {
-			$message = __('You do not have sufficient permissions.', ADI_I18N);
+			$message = __('You do not have sufficient permissions.', NEXT_AD_INT_I18N);
 			wp_die($message);
 		}
 
@@ -125,9 +125,9 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$this->output = explode("<br />", $information['output']);
 
 		if ($information['authentication_result']) {
-			$this->result = esc_html__('User logged on.', ADI_I18N);
+			$this->result = esc_html__('User logged on.', NEXT_AD_INT_I18N);
 		} else {
-			$this->result = esc_html__('Logon failed.', ADI_I18N);
+			$this->result = esc_html__('Logon failed.', NEXT_AD_INT_I18N);
 		}
 
 		return array(
@@ -192,7 +192,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		return array(
 			array('PHP', json_encode(phpversion())),
 			array('WordPress', json_encode($wp_version)),
-			array('Active Directory Integration', json_encode(ADI_PLUGIN_VERSION)),
+			array('Active Directory Integration', json_encode(NEXT_AD_INT_PLUGIN_VERSION)),
 			array('Operating System', json_encode(php_uname())),
 			array('Web Server', json_encode(php_sapi_name())),
 			array('adLDAP', json_encode(adLDAP::VERSION)),
@@ -261,7 +261,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 			return;
 		}
 
-		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
 	}
 
 	/**
@@ -271,7 +271,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	 */
 	public function getSlug()
 	{
-		return ADI_PREFIX . 'test_connection';
+		return NEXT_AD_INT_PREFIX . 'test_connection';
 	}
 
 	/**

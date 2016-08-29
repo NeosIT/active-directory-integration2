@@ -143,13 +143,13 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 		
 		
 		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+				'args'   => array('1', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
 				'times'  => '1',
 				'return' => "1234")
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
+				'args'   => array('1', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
 				'times'  => '1',
 				'return' => "S-1234")
 		);
@@ -190,13 +190,13 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+				'args'   => array('1', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
 				'times'  => '1',
 				'return' => "1234")
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
+				'args'   => array('1', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
 				'times'  => '1',
 				'return' => "S-1234")
 		);
@@ -235,11 +235,11 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 		
 		$args = array(
 			'blog_id'    => '1',
-			'meta_key'   => ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+			'meta_key'   => NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
-					'key'     => ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+					'key'     => NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 					'value'   => '',
 					'compare' => '!=',
 				),
@@ -266,13 +266,13 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 		);		
 
 		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
+				'args'   => array('1', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
 				'times'  => '1',
 				'return' => "S-1234")
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('2', ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
+				'args'   => array('2', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
 				'times'  => '1',
 				'return' => "S-4321")
 		);
