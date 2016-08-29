@@ -22,7 +22,7 @@ if (is_multisite()){
 
     // get all sites
     global $wp_version;
-    if ( version_compare( $wp_version, '4.6.0', '<=')) {
+    if ( version_compare( $wp_version, '4.6.0', '>=')) {
         $sites = get_sites();
     } else {
         $sites = wp_get_sites();
