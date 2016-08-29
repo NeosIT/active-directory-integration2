@@ -89,7 +89,6 @@ class Ut_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
 		$sut = $this->sut(array('display'));
 
 		$nonce = 'some_nonce';
-		$this->createMock('WP_MS_Sites_List_Table');
 		$table = $this->createMock('Multisite_Ui_Table_ProfileAssignment');
 
 		WP_Mock::wpFunction('wp_create_nonce', array(

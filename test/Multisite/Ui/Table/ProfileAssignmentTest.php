@@ -10,10 +10,6 @@ class Ut_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 	public function setUp()
 	{
 		parent::setUp();
-
-		if (!class_exists('WP_MS_Sites_List_Table')) {
-			$this->createMock('WP_MS_Sites_List_Table');
-		}
 	}
 
 	public function tearDown()

@@ -93,7 +93,7 @@ class Ut_Multisite_Ui_BlogProfileRelationshipControllerTest extends Ut_BasicTest
 			->willReturn(false);
 
 		$this->defaultProfileRepository->expects($this->never())
-			->method('saveDefaultProfile')
+			->method('saveProfileId')
 			->with(1);
 
 		$sut->saveDefaultProfile(1);

@@ -207,14 +207,14 @@ class Ut_Cron_UrlTriggerTest extends Ut_BasicTest
 	 */
 	public function dispatchAction_withBulkMode1_dispatchTosyncToWordpress()
 	{
-		$sut = $this->sut(array('synchronize', 'syncToAd'));
+		$sut = $this->sut(null);
 
 		$this->syncToWordPress->expects($this->once())
 			->method('synchronize')
 			->with();
 
 		$this->syncToActiveDirectory->expects($this->never())
-			->method('syncToAd');
+			->method('synchronize');
 
 		$sut->dispatchAction(22222, 1);
 	}

@@ -38,7 +38,7 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 	 * @test
 	 */
 	public function check_itSucceeds() {
-		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
+		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireMcrypt', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
 		$showErrors = true;
 
 		WP_Mock::wpFunction('is_multisite', array(
@@ -58,6 +58,10 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 			->method('requireMbstring')
 			->with($showErrors);
 
+        $sut->expects($this->once())
+            ->method('requireMcrypt')
+            ->with($showErrors);
+
 		$sut->expects($this->once())
 			->method('preventTooManySites')
 			->with($showErrors);
@@ -76,7 +80,7 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 	 * @test
 	 */
 	public function check_itPreventsSiteActivation_whenIncludeActivationCheckIsEnabled() {
-		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
+		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireMcrypt', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
 		$showErrors = true;
 
 		WP_Mock::wpFunction('is_multisite', array(
@@ -223,6 +227,42 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 
 		$sut->requireMbstring(true);
 	}
+
+    /**
+     * @test
+     * @expectedException RequirementException
+     */
+    public function requireMcrypt_itFails_ifExtensionIsNotLoaded()
+    {
+        $sut = $this->sut();
+
+        // mock away static methods
+        $this->internalNative->expects($this->once())
+            ->method('isLoaded')
+            ->with(Adi_Requirements::MODULE_MCRYPT)
+            ->willReturn(false);
+
+        WP_Mock::expectActionAdded(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+            $sut, 'missingMcrypt',
+        ));
+
+        $sut->requireMcrypt(true);
+    }
+
+    /**
+     * @test
+     */
+    public function requireMcrypt_itSucceeds() {
+        $sut = $this->sut();
+
+        // mock away static methods
+        $this->internalNative->expects($this->once())
+            ->method('isLoaded')
+            ->with(Adi_Requirements::MODULE_MCRYPT)
+            ->willReturn(true);
+
+        $sut->requireMcrypt(true);
+    }
 
 	/**
 	 * @test

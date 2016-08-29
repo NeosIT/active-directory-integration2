@@ -155,10 +155,7 @@ class Ut_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_BasicTest
 			'option_permission' => '1'
 		);
 
-		$this->profileConfigurationRepository->expects($this->never())
-			->method('persistSanitized');
-
-		$actual = $sut->validateOption("some_stuff", $option);
+		$actual = $sut->validateOption('some_stuff', $option);
 		$this->assertEquals(false, $actual);
 	}
 
@@ -173,9 +170,6 @@ class Ut_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_BasicTest
 			'option_value' => '389',
 		);
 
-		$this->profileConfigurationRepository->expects($this->never())
-			->method('persistSanitized');
-
 		$actual = $sut->validateOption('port', $option);
 		$this->assertEquals(false, $actual);
 	}
@@ -188,15 +182,26 @@ class Ut_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$option = array(
-			'port' => $option = array(
-				'option_permission' => '1'
-			)
+            'option_permission' => '1'
 		);
-
-		$this->profileConfigurationRepository->expects($this->never())
-			->method('persistSanitized');
 
 		$actual = $sut->validateOption('port', $option);
 		$this->assertEquals(false, $actual);
 	}
+
+    /**
+     * @test
+     */
+    public function validateOption_metadataNotEmpty_returnTrue()
+    {
+        $sut = $this->sut(null);
+
+        $option = array(
+            'option_value' => '389',
+            'option_permission' => '1'
+        );
+
+        $actual = $sut->validateOption('port', $option);
+        $this->assertEquals(true, $actual);
+    }
 }

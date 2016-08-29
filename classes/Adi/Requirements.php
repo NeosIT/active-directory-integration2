@@ -28,6 +28,7 @@ class Adi_Requirements
 	const WORDPRESS_VERSION = '4.0';
 	const MODULE_LDAP = 'ldap';
 	const MODULE_MBSTRING = 'mbstring';
+    const MODULE_MCRYPT = 'mcrypt';
 	const DEPRECATED_ADI_PLUGIN_NAME = 'active-directory-integration/ad-integration.php';
 
 	public function __construct()
@@ -50,6 +51,7 @@ class Adi_Requirements
 			$this->requireWordPressVersion($showErrors);
 			$this->requireLdap($showErrors);
 			$this->requireMbstring($showErrors);
+            $this->requireMcrypt($showErrors);
 
 			// check if this WordPress instance has more than 10,000 blogs/sites
 			if (is_multisite()) {
@@ -168,7 +170,6 @@ class Adi_Requirements
 		}
 	}
 
-
 	/**
 	 * Display the error message for the missing mb_string extension.
 	 */
@@ -180,6 +181,39 @@ class Adi_Requirements
 			<p>For further information please visit <a href=\"https://secure.php.net/manual/en/mbstring.installation.php\">https://secure.php.net/manual/en/mbstring.installation.php</a>.</p>
         </div>";
 	}
+
+    /**
+     * mbstring module must be loaded
+     *
+     * @param bool $showErrors
+     *
+     * @throws RequirementException
+     */
+    public function requireMcrypt($showErrors = true)
+    {
+        // mb_strings php module
+        if (!Core_Util::native()->isLoaded(self::MODULE_MCRYPT)) {
+            if ($showErrors) {
+                add_action(Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+                    $this, 'missingMcrypt',
+                ));
+            }
+
+            throw new RequirementException();
+        }
+    }
+
+    /**
+     * Display the error message for the missing mb_string extension.
+     */
+    public function missingMcrypt()
+    {
+        echo "
+        <div class=\"error\">
+			<p>The 'Active Directory Integration' plugin requires the PHP module 'mcrypt' for encrypting passwords and storing configuration. You have to enable it.</p>
+			<p>For further information please visit <a href=\"https://secure.php.net/manual/de/mcrypt.setup.php\">https://secure.php.net/manual/de/mcrypt.setup.php</a>.</p>
+        </div>";
+    }
 
 	/**
 	 * Large networks are not supported

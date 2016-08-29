@@ -376,7 +376,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	 */
 	public function updateRoles_handlesSuperAdminRoleDifferent()
 	{
-		$wpUser = $this->createMock('WP_User');
+		$wpUser = $this->createMockWithMethods('WP_User', array('add_role'));
 		$roles = array(Adi_Role_Manager::ROLE_SUPER_ADMIN);
 
 		$sut = $this->sut(array('grantSuperAdminRole'));

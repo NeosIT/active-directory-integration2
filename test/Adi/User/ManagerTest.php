@@ -145,7 +145,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function findByActiveDirectoryUsername_itFallsbackToUserPrincipalName()
 	{
-		$sut = $this->sut();
+		$sut = $this->sut(array('findBySAMAccountName'));
 		$wpUser = (object)(array('ID' => 1));
 
 		$this->behave($sut, 'findBySAMAccountName', false);
@@ -164,7 +164,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function findByActiveDirectoryUsername_itUsesSAMAccountNameForUserLogin_whenEverythingFails()
 	{
-		$sut = $this->sut();
+		$sut = $this->sut(array('findBySAMAccountName'));
 		$wpUser = (object)(array('ID' => 1));
 
 		$this->behave($sut, 'findBySAMAccountName', false);
@@ -804,7 +804,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
-		$adiUser = $this->createMock('Adi_User');
+		$adiUser = $this->createMockWithMethods('Adi_User', array('getId', 'getUsername'));
 		$adiUser->expects($this->once())
 			->method('getId')
 			->willReturn(1);

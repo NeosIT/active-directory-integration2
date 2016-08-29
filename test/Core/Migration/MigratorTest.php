@@ -46,8 +46,6 @@ class Ut_Core_Migration_MigratorTest extends Ut_BasicTest
 
 		$this->dependencyContainer = $this->createMock('Adi_Dependencies');
 		$this->migrationRepository = $this->createMock('Core_Migration_Persistence_MigrationRepository');
-
-		$this->createMock('Migration_MigrationStub');
 	}
 
 	/**

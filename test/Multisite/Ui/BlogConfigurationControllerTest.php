@@ -173,14 +173,14 @@ class Ut_Multisite_Ui_BlogConfigurationControllerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function persistOption_noMetadata_returnFalse()
+	public function validateOption_noMetadata_returnFalse()
 	{
 		$sut = $this->sut(null);
 
-		$this->blogConfigurationRepository->expects($this->never())
-			->method('persistSanitized');
+		$this->optionProvider->expects($this->never())
+			->method('existOption');
 
-		$actual = $sut->validateOption("some_invalid_stuff", array('option_value' => '389'));
+		$actual = $sut->validateOption("some_invalid_stuff", null);
 		$this->assertEquals(false, $actual);
 	}
 

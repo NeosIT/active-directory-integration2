@@ -116,7 +116,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 			->willReturn(false);
 
 		// Sync to AD is disabled;
-		$this->syncToActiveDirectory->expects($this->never())
+		$sut->expects($this->never())
 			->method('triggerSyncToActiveDirectory');
 
 		$returnedValue = $sut->updateProfile($userId, $isOwnProfile);

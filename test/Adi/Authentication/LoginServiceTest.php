@@ -541,7 +541,7 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	 */
 	public function bruteForceProtection_userIsNotBlocked()
 	{
-		$sut = $this->sut();
+		$sut = $this->sut(null);
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('isUserBlocked')
@@ -549,7 +549,7 @@ class Ut_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->willReturn(false);
 
 		$this->mailNotification->expects($this->never())
-			->method('sendEmailNotification');
+			->method('sendNotifications');
 
 		$sut->bruteForceProtection('test');
 	}
