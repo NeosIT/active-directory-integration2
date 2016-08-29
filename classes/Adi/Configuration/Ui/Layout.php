@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Configuration_Ui_Layout')) {
+if (class_exists('NextADInt_Adi_Configuration_Ui_Layout')) {
 	return;
 }
 
 /**
- * Adi_Configuration_Ui_Layout contains the structure of the setting pages.
+ * NextADInt_Adi_Configuration_Ui_Layout contains the structure of the setting pages.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_Configuration_Ui_Layout
+class NextADInt_Adi_Configuration_Ui_Layout
 {
 	const DESCRIPTION = 'description';
 	const OPTIONS = 'options';
@@ -57,9 +57,9 @@ class Adi_Configuration_Ui_Layout
 				self::MULTISITE_ONLY => false,
 				__('Profile Options', ADI_I18N) => array(
 					self::OPTIONS => array(
-						Adi_Configuration_Options::PROFILE_NAME,
-						Adi_Configuration_Options::SUPPORT_LICENSE_KEY,
-						Adi_Configuration_Options::IS_ACTIVE,
+						NextADInt_Adi_Configuration_Options::PROFILE_NAME,
+						NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY,
+						NextADInt_Adi_Configuration_Options::IS_ACTIVE,
 					),
 					self::DESCRIPTION => __(
 						'On this page you can configure whether ADI should be enabled for a specific profile or not.',
@@ -72,9 +72,9 @@ class Adi_Configuration_Ui_Layout
 						ADI_I18N
 					),
 					self::OPTIONS => array(
-						Adi_Configuration_Options::SHOW_MENU_TEST_AUTHENTICATION,
-						Adi_Configuration_Options::SHOW_MENU_SYNC_TO_AD,
-						Adi_Configuration_Options::SHOW_MENU_SYNC_TO_WORDPRESS
+						NextADInt_Adi_Configuration_Options::SHOW_MENU_TEST_AUTHENTICATION,
+						NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_AD,
+						NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_WORDPRESS
 					)
 				),
 			),
@@ -90,11 +90,11 @@ class Adi_Configuration_Ui_Layout
 					),
 					// Option elements in group
 					self::OPTIONS => array(
-						Adi_Configuration_Options::DOMAIN_CONTROLLERS,
-						Adi_Configuration_Options::PORT,
-						Adi_Configuration_Options::ENCRYPTION,
-						Adi_Configuration_Options::NETWORK_TIMEOUT,
-						Adi_Configuration_Options::BASE_DN
+						NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS,
+						NextADInt_Adi_Configuration_Options::PORT,
+						NextADInt_Adi_Configuration_Options::ENCRYPTION,
+						NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT,
+						NextADInt_Adi_Configuration_Options::BASE_DN
 					),
 				),
 				__('Verify Credentials', ADI_I18N) => array(
@@ -103,9 +103,9 @@ class Adi_Configuration_Ui_Layout
 						ADI_I18N
 					),
 					self::OPTIONS => array(
-						Adi_Configuration_Options::VERIFICATION_USERNAME,
-						Adi_Configuration_Options::VERIFICATION_PASSWORD,
-						Adi_Configuration_Options::DOMAIN_SID
+						NextADInt_Adi_Configuration_Options::VERIFICATION_USERNAME,
+						NextADInt_Adi_Configuration_Options::VERIFICATION_PASSWORD,
+						NextADInt_Adi_Configuration_Options::DOMAIN_SID
 					)
 				),
 			),
@@ -121,17 +121,17 @@ class Adi_Configuration_Ui_Layout
 					),
 					// Option elements in group
 					self::OPTIONS => array(
-						Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION,
-						Adi_Configuration_Options::ACCOUNT_SUFFIX,
-						Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS,
-						Adi_Configuration_Options::AUTO_CREATE_USER,
-						Adi_Configuration_Options::AUTO_UPDATE_USER,
-						Adi_Configuration_Options::AUTO_UPDATE_DESCRIPTION,
-						Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN,
-						Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION,
-						Adi_Configuration_Options::PREVENT_EMAIL_CHANGE,
-						Adi_Configuration_Options::NAME_PATTERN,
-						Adi_Configuration_Options::SHOW_USER_STATUS,
+						NextADInt_Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION,
+						NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX,
+						NextADInt_Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS,
+						NextADInt_Adi_Configuration_Options::AUTO_CREATE_USER,
+						NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER,
+						NextADInt_Adi_Configuration_Options::AUTO_UPDATE_DESCRIPTION,
+						NextADInt_Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN,
+						NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION,
+						NextADInt_Adi_Configuration_Options::PREVENT_EMAIL_CHANGE,
+						NextADInt_Adi_Configuration_Options::NAME_PATTERN,
+						NextADInt_Adi_Configuration_Options::SHOW_USER_STATUS,
 					),
 				),
 			),
@@ -147,11 +147,11 @@ class Adi_Configuration_Ui_Layout
 					),
 					// Option elements in group
 					self::OPTIONS => array(
-						Adi_Configuration_Options::NO_RANDOM_PASSWORD,
-						Adi_Configuration_Options::ENABLE_PASSWORD_CHANGE,
-						Adi_Configuration_Options::FALLBACK_TO_LOCAL_PASSWORD,
-						Adi_Configuration_Options::AUTO_UPDATE_PASSWORD,
-						Adi_Configuration_Options::ENABLE_LOST_PASSWORD_RECOVERY,
+						NextADInt_Adi_Configuration_Options::NO_RANDOM_PASSWORD,
+						NextADInt_Adi_Configuration_Options::ENABLE_PASSWORD_CHANGE,
+						NextADInt_Adi_Configuration_Options::FALLBACK_TO_LOCAL_PASSWORD,
+						NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD,
+						NextADInt_Adi_Configuration_Options::ENABLE_LOST_PASSWORD_RECOVERY,
 					),
 				),
 			),
@@ -167,9 +167,9 @@ class Adi_Configuration_Ui_Layout
 					),
 					// Option elements in group
 					self::OPTIONS => array(
-						Adi_Configuration_Options::AUTHORIZE_BY_GROUP,
-						Adi_Configuration_Options::AUTHORIZATION_GROUP,
-						Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS,
+						NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP,
+						NextADInt_Adi_Configuration_Options::AUTHORIZATION_GROUP,
+						NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS,
 					),
 				),
 			),
@@ -185,10 +185,10 @@ class Adi_Configuration_Ui_Layout
 					),
 					// Option elements in group
 					self::OPTIONS => array(
-						Adi_Configuration_Options::SSO_ENABLED,
-						Adi_Configuration_Options::SSO_USER,
-						Adi_Configuration_Options::SSO_PASSWORD,
-						Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE,
+						NextADInt_Adi_Configuration_Options::SSO_ENABLED,
+						NextADInt_Adi_Configuration_Options::SSO_USER,
+						NextADInt_Adi_Configuration_Options::SSO_PASSWORD,
+						NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE,
 					),
 				),
 				// Group name
@@ -200,11 +200,11 @@ class Adi_Configuration_Ui_Layout
 					),
 					// Group elements in group
 					self::OPTIONS     => array(
-						Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS,
-						Adi_Configuration_Options::BLOCK_TIME,
-						Adi_Configuration_Options::USER_NOTIFICATION,
-						Adi_Configuration_Options::ADMIN_NOTIFICATION,
-						Adi_Configuration_Options::ADMIN_EMAIL,
+						NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS,
+						NextADInt_Adi_Configuration_Options::BLOCK_TIME,
+						NextADInt_Adi_Configuration_Options::USER_NOTIFICATION,
+						NextADInt_Adi_Configuration_Options::ADMIN_NOTIFICATION,
+						NextADInt_Adi_Configuration_Options::ADMIN_EMAIL,
 					),
 				),
 			),
@@ -225,11 +225,11 @@ class Adi_Configuration_Ui_Layout
 							ADI_I18N
 						),
 						'',
-						sprintf(__('The following WordPress attributes are reserved by ADI and cannot be used: %s', ADI_I18N), implode(', ', Ldap_Attribute_Repository::getDefaultAttributeMetaKeys())),
+						sprintf(__('The following WordPress attributes are reserved by ADI and cannot be used: %s', ADI_I18N), implode(', ', NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys())),
 					),
 					// Group elements in group
 					self::OPTIONS     => array(
-						Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES,
+						NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES,
 					),
 				),
 			),
@@ -245,11 +245,11 @@ class Adi_Configuration_Ui_Layout
 					),
 					// Group elements in group
 					self::OPTIONS => array(
-						Adi_Configuration_Options::SYNC_TO_AD_ENABLED,
-						Adi_Configuration_Options::SYNC_TO_AD_USE_GLOBAL_USER,
-						Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER,
-						Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD,
-						Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE,
+						NextADInt_Adi_Configuration_Options::SYNC_TO_AD_ENABLED,
+						NextADInt_Adi_Configuration_Options::SYNC_TO_AD_USE_GLOBAL_USER,
+						NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER,
+						NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD,
+						NextADInt_Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE,
 					),
 				),
 			),
@@ -266,12 +266,12 @@ class Adi_Configuration_Ui_Layout
 					),
 					// Group elements in group
 					self::OPTIONS     => array(
-						Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED,
-						Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS,
-						Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER,
-						Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD,
-						Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS,
-						Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE,
+						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED,
+						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS,
+						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER,
+						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD,
+						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS,
+						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE,
 					),
 				),
 			),

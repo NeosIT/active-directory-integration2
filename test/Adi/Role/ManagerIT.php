@@ -8,25 +8,25 @@
  */
 class It_Role_ManagerIT extends It_BasicTest
 {
-	/* @var Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/* @var Ldap_Connection */
+	/* @var NextADInt_Ldap_Connection */
 	private $connection;
 
-	/* @var Ldap_ConnectionDetails */
+	/* @var NextADInt_Ldap_Connection */
 	protected $connectionDetails;
 
-	/* @var Adi_Role_Manager */
+	/* @var NextADInt_Adi_Role_Manager */
 	private $sut;
 
 	public function setUp()
 	{
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
 
-		$this->connection = new Ldap_Connection($this->configuration);
+		$this->connection = new NextADInt_Ldap_Connection($this->configuration);
 		$this->connectionDetails = $this->createAdConnectionDetails();
-		$this->sut = new Adi_Role_Manager($this->configuration, $this->connection);
+		$this->sut = new NextADInt_Adi_Role_Manager($this->configuration, $this->connection);
 		$this->connection->connect($this->connectionDetails);
 		$this->prepareActiveDirectory($this->connection->getAdLdap());
 	}

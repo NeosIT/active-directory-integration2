@@ -10,7 +10,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 {
 	public static function setUpBeforeClass()
 	{
-		Core_Logger::disableLogging();
+		NextADInt_Core_Logger::disableLogging();
 	}
 
 	public function setUp()
@@ -175,7 +175,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function createMockedNative()
 	{
-		return $this->getMockBuilder('Core_Util_Internal_Native')
+		return $this->getMockBuilder('NextADInt_Core_Util_Internal_Native')
 			->disableOriginalConstructor()
 			->getMock();
 	}

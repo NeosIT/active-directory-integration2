@@ -4,20 +4,20 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_BasicTest
 {
-	/** @var Multisite_Configuration_Persistence_ProfileConfigurationRepository| PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository| PHPUnit_Framework_MockObject_MockObject */
 	private $profileConfigurationRepository;
 
-	/** @var  Multisite_Option_Provider */
+	/** @var  NextADInt_Multisite_Option_Provider */
 	private $optionProvider;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->optionProvider = new Adi_Configuration_Options();
-		$this->profileConfigurationRepository = $this->createMock('Multisite_Configuration_Persistence_ProfileConfigurationRepository');
+		$this->optionProvider = new NextADInt_Adi_Configuration_Options();
+		$this->profileConfigurationRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository');
 	}
 
 	public function tearDown()
@@ -28,11 +28,11 @@ class Ut_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_BasicTest
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Ui_ProfileConfigurationController|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Ui_ProfileConfigurationController|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Ui_ProfileConfigurationController')
+		return $this->getMockBuilder('NextADInt_Multisite_Ui_ProfileConfigurationController')
 			->setConstructorArgs(array(
 				$this->profileConfigurationRepository,
 				$this->optionProvider

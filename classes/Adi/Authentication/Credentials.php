@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Authentication_Credentials')) {
+if (class_exists('NextADInt_Adi_Authentication_Credentials')) {
 	return;
 }
 
 /**
- * Adi_Authentication_Credentials encapsulates login credentials
+ * NextADInt_Adi_Authentication_Credentials encapsulates login credentials
  *
  * @author  Christopher Klein <ckl@neos-it.de>
  * @access public
  */
-class Adi_Authentication_Credentials
+class NextADInt_Adi_Authentication_Credentials
 {
 	/** @var string */
 	private $login;
@@ -31,7 +31,7 @@ class Adi_Authentication_Credentials
 	private $password;
 
 	/**
-	 * Adi_Authentication_Credentials constructor.
+	 * NextADInt_Adi_Authentication_Credentials constructor.
 	 *
 	 * @param string $login Login in form 'username' (sAMAccountName) or 'username@domain' (userPrincipalName)
 	 * @param string $password
@@ -62,7 +62,7 @@ class Adi_Authentication_Credentials
 
 	public function setUserPrincipalName($userPrincipalName)
 	{
-		Core_Assert::notEmpty($userPrincipalName, "userPrincipalName must not be empty");
+		NextADInt_Core_Assert::notEmpty($userPrincipalName, "userPrincipalName must not be empty");
 		$userPrincipalName = strtolower(trim($userPrincipalName));
 
 		$parts = explode('@', $userPrincipalName);

@@ -6,9 +6,9 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Multisite_Configuration_Persistence_ProfileRepositoryIT extends Ut_DatabaseTest
+class NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryIT extends Ut_DatabaseTest
 {
-	/* @var Core_Persistence_WordPressRepository|PHPUnit_Framework_MockObject_MockObject basicCommands */
+	/* @var NextADInt_Core_Persistence_WordPressRepository|PHPUnit_Framework_MockObject_MockObject basicCommands */
 	private $wordPressRepository;
 
 	public function setUp()
@@ -28,7 +28,7 @@ class Multisite_Configuration_Persistence_ProfileRepositoryIT extends Ut_Databas
 		global $pdo;
 		$pdo = $this->getConnection()->getConnection();
 
-		$mock = $this->createMock('Core_Persistence_WordPressRepository');
+		$mock = $this->createMock('NextADInt_Core_Persistence_WordPressRepository');
 
 		$mock->expects($this->any())
 			->method('getTableOptions')
@@ -70,11 +70,11 @@ class Multisite_Configuration_Persistence_ProfileRepositoryIT extends Ut_Databas
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods)
 	{
-		return $this->getMockBuilder('Multisite_Configuration_Persistence_ProfileRepository')
+		return $this->getMockBuilder('NextADInt_Multisite_Configuration_Persistence_ProfileRepository')
 			->setConstructorArgs(
 				array(
 					null,

@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Authentication_Persistence_FailedLoginRepository')) {
+if (class_exists('NextADInt_Adi_Authentication_Persistence_FailedLoginRepository')) {
 	return;
 }
 
 /**
- * Adi_Authentication_Persistence_FailedLoginRepository stores the failed login attempts and the block time of an user.
+ * NextADInt_Adi_Authentication_Persistence_FailedLoginRepository stores the failed login attempts and the block time of an user.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access  public
  */
-class Adi_Authentication_Persistence_FailedLoginRepository
+class NextADInt_Adi_Authentication_Persistence_FailedLoginRepository
 {
 	const PREFIX = 'fl_';
 	const PREFIX_LOGIN_ATTEMPTS = 'la_';

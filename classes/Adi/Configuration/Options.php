@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Configuration_Options')) {
+if (class_exists('NextADInt_Adi_Configuration_Options')) {
 	return;
 }
 
 /**
- * Adi_Configuration_Options contains names and the structure of elements displayed on the settings page.
+ * NextADInt_Adi_Configuration_Options contains names and the structure of elements displayed on the settings page.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access  public
  */
-class Adi_Configuration_Options implements Multisite_Option_Provider
+class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_Provider
 {
 	// General
 	const PROFILE_NAME = 'profile_name';
@@ -166,7 +166,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 		$data = $this->getAll();
 
 		return array_filter($data, function($item) {
-			return (!$item[Multisite_Option_Attribute::TRANSIENT]);
+			return (!$item[NextADInt_Multisite_Option_Attribute::TRANSIENT]);
 		});
 	}
 
@@ -190,27 +190,27 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 	 */
 	private static function generate()
 	{
-		$title = Multisite_Option_Attribute::TITLE;
-		$type = Multisite_Option_Attribute::TYPE;
-		$description = Multisite_Option_Attribute::DESCRIPTION;
-		$detail = Multisite_Option_Attribute::DETAIL;
-		$elements = Multisite_Option_Attribute::ELEMENTS;
+		$title = NextADInt_Multisite_Option_Attribute::TITLE;
+		$type = NextADInt_Multisite_Option_Attribute::TYPE;
+		$description = NextADInt_Multisite_Option_Attribute::DESCRIPTION;
+		$detail = NextADInt_Multisite_Option_Attribute::DETAIL;
+		$elements = NextADInt_Multisite_Option_Attribute::ELEMENTS;
 
 		// the key for the default value
-		$default = Multisite_Option_Attribute::DEFAULT_VALUE;
+		$default = NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE;
 
-		$disabled = Multisite_Option_Attribute::DISABLED;
-		$disabledMessage = Multisite_Option_Attribute::DISABLED_MESSAGE;
+		$disabled = NextADInt_Multisite_Option_Attribute::DISABLED;
+		$disabledMessage = NextADInt_Multisite_Option_Attribute::DISABLED_MESSAGE;
 
-		$sanitizer = Multisite_Option_Attribute::SANITIZER;
-		$angularAttributes = Multisite_Option_Attribute::ANGULAR_ATTRIBUTES;
-		$showPermission = Multisite_Option_Attribute::SHOW_PERMISSION;
-		$transient = Multisite_Option_Attribute::TRANSIENT;
+		$sanitizer = NextADInt_Multisite_Option_Attribute::SANITIZER;
+		$angularAttributes = NextADInt_Multisite_Option_Attribute::ANGULAR_ATTRIBUTES;
+		$showPermission = NextADInt_Multisite_Option_Attribute::SHOW_PERMISSION;
+		$transient = NextADInt_Multisite_Option_Attribute::TRANSIENT;
 
 		return array(
 			self::PROFILE_NAME      => array(
 				$title          => __('Profile name:', ADI_I18N),
-				$type        => Multisite_Option_Type::TEXT,
+				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
 					'Name for the current profile',
 					ADI_I18N
@@ -227,7 +227,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			),
 			self::SUPPORT_LICENSE_KEY      => array(
 				$title          => __('Support license key:', ADI_I18N),
-				$type        => Multisite_Option_Type::TEXT,
+				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
 					"Please enter your support license key here, if you have a paid ADI 2.0 license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
 					ADI_I18N
@@ -244,7 +244,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			),
 			self::IS_ACTIVE         => array(
 				$title 		=> __('Enable ADI', ADI_I18N),
-				$type		=> Multisite_Option_Type::CHECKBOX,
+				$type		=> NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'Enable/Disable Active Directory Integration',
 					ADI_I18N
@@ -263,7 +263,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 					'Enable "Test authentication"',
 					ADI_I18N
 				),
-				$type		=> Multisite_Option_Type::CHECKBOX,
+				$type		=> NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'Enable/Disable Test authentication',
 					ADI_I18N
@@ -282,7 +282,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 					'Enable "Sync to AD"',
 					ADI_I18N
 				),
-				$type		=> Multisite_Option_Type::CHECKBOX,
+				$type		=> NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'Enable/Disable Sync to AD',
 					ADI_I18N
@@ -301,7 +301,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 					'Enable "Sync to WordPress"',
 					ADI_I18N
 				),
-				$type		=> Multisite_Option_Type::CHECKBOX,
+				$type		=> NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'Enable/Disable Sync to WordPress',
 					ADI_I18N
@@ -318,7 +318,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Domain Controllers (separate with semicolons)
 			self::DOMAIN_CONTROLLERS            => array(
 				$title       => __('Domain controllers', ADI_I18N),
-				$type        => Multisite_Option_Type::EDITABLE_LIST,
+				$type        => NextADInt_Multisite_Option_Type::EDITABLE_LIST,
 				$description => __(
 					'Domain controllers which will be used to authenticate and authorize the users',
 					ADI_I18N
@@ -336,7 +336,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Port on which AD listens (default 389)
 			self::PORT                          => array(
 				$title       => __('Port', ADI_I18N),
-				$type        => Multisite_Option_Type::NUMBER,
+				$type        => NextADInt_Multisite_Option_Type::NUMBER,
 				$description => __('Port on which Active Directory listens. Unencrypted LDAP or STARTTLS uses port 389. LDAPS listens on port 636.', ADI_I18N),
 				$detail      => __(
 					'This option defines the Active Directory communication port and is by default set to 389.',
@@ -351,11 +351,11 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Secure the connection between the Drupal and the LDAP servers using START_TLS.
 			self::ENCRYPTION => array(
 				$title             => __('Use encryption', ADI_I18N),
-				$type              => Multisite_Option_Type::SELECT,
+				$type              => NextADInt_Multisite_Option_Type::SELECT,
 				$elements          => array(
-					__('None', ADI_I18N)     => Multisite_Option_Encryption::NONE,
-					__('STARTTLS', ADI_I18N) => Multisite_Option_Encryption::STARTTLS,
-					__('LDAPS', ADI_I18N)    => Multisite_Option_Encryption::LDAPS,
+					__('None', ADI_I18N)     => NextADInt_Multisite_Option_Encryption::NONE,
+					__('STARTTLS', ADI_I18N) => NextADInt_Multisite_Option_Encryption::STARTTLS,
+					__('LDAPS', ADI_I18N)    => NextADInt_Multisite_Option_Encryption::LDAPS,
 				),
 				$description       => __('This option handles the encryption type for the LDAP connection.', ADI_I18N),
 				$detail            => array(
@@ -375,7 +375,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// network timeout (LDAP_OPT_NETWORK_TIMEOUT) in seconds
 			self::NETWORK_TIMEOUT               => array(
 				$title       => __('LDAP network timeout', ADI_I18N),
-				$type        => Multisite_Option_Type::NUMBER,
+				$type        => NextADInt_Multisite_Option_Type::NUMBER,
 				$description => __(
 					'Seconds after the connection attempt to Active Directory times out. After this period WordPress falls back to local authentication. By default it is set to "5".',
 					ADI_I18N
@@ -393,7 +393,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// LDAP/AD BASE DN
 			self::BASE_DN                       => array(
 				$title       => __('Base DN', ADI_I18N),
-				$type        => Multisite_Option_Type::TEXT,
+				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
 					'Base DN (e.g. "ou=unit,dc=domain,dc=tld" or "cn=users,dc=domain,dc=tld")', ADI_I18N
 				),
@@ -417,7 +417,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// VERIFICATION USERNAME
 			self::VERIFICATION_USERNAME            => array(
 				$title       => __('Username', ADI_I18N),
-				$type        => Multisite_Option_Type::TEXT,
+				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
 					'Username used to authenticated against the Active Directory in order to connect your WordPress site or profile to a domain (e.g. administration@test.ad)', ADI_I18N
 				),
@@ -436,7 +436,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// VERIFICATION PASSWORD
 			self::VERIFICATION_PASSWORD            => array(
 				$title       => __('Password', ADI_I18N),
-				$type        => Multisite_Option_Type::VERIFICATION_PASSWORD,
+				$type        => NextADInt_Multisite_Option_Type::VERIFICATION_PASSWORD,
 				$description => __(
 					'Password used to authenticate against the Active Directory in order to connect your WordPress site or profile to a domain.' , ADI_I18N
 				),
@@ -455,7 +455,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// DOMAINS ID
 			self::DOMAIN_SID           => array(
 				$title       => __('Domain Sid', ADI_I18N),
-				$type        => Multisite_Option_Type::DOMAIN_SID,
+				$type        => NextADInt_Multisite_Option_Type::DOMAIN_SID,
 				$description => __(
 					'Shows whether the current WordPress site is connected to an AD domain or not.', ADI_I18N
 				),
@@ -474,7 +474,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// this usernames will always be excluded from ADI authentication
 			self::EXCLUDE_USERNAMES_FROM_AUTHENTICATION => array(
 				$title		=> __('Exclude usernames from authentication', ADI_I18N),
-				$type		=> Multisite_Option_Type::EDITABLE_LIST,
+				$type		=> NextADInt_Multisite_Option_Type::EDITABLE_LIST,
 				$description	=> __(
 					'Entered usernames will always be excluded from ADI login authentication. Usernames are case-insensitive.',
 					ADI_I18N
@@ -493,7 +493,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// account Suffix (will be appended to all usernames created in WordPress, as well as used in the Active Directory authentication process
 			self::ACCOUNT_SUFFIX                   => array(
 				$title       => __('Account suffix', ADI_I18N),
-				$type        => Multisite_Option_Type::EDITABLE_LIST,
+				$type        => NextADInt_Multisite_Option_Type::EDITABLE_LIST,
 				$description => __(
 					'This suffix will be appended to all usernames during the Active Directory authentication process, e.g. "@company.local".',
 					ADI_I18N
@@ -522,7 +522,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Should the sAMAccountName be used for newly created users instead of the UserPrincipalName?
 			self::USE_SAMACCOUNTNAME_FOR_NEW_USERS => array(
 				$title       => __('Use sAMAccountName for newly created users', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'If checked, the sAMAccountName will be set as username for newly created users.',
 					ADI_I18N
@@ -540,7 +540,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Should a new user be created automatically if not already in the WordPress database?
 			self::AUTO_CREATE_USER              => array(
 				$title       => __('Automatic user creation', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'If enabled, users will be created in your WordPress instance after they have successful authenticated.',
 					ADI_I18N
@@ -561,7 +561,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Should the users be updated in the WordPress database everytime they logon? (Works only if automatic user creation is set.
 			self::AUTO_UPDATE_USER              => array(
 				$title       => __('Automatic user synchronization', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __('After a successful login the WordPress profile of the user will be automatically synchronized with his Active Directory account.',
 					ADI_I18N),
 				$detail      => array(
@@ -580,7 +580,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Update users description if $_auto_update_user is true
 			self::AUTO_UPDATE_DESCRIPTION       => array(
 				$title       => __('Automatic update user description', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'Automatically updates the description of users who login and new created users', ADI_I18N
 				),
@@ -597,7 +597,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Default Email Domain (eg. 'domain.tld')
 			self::DEFAULT_EMAIL_DOMAIN          => array(
 				$title       => __('Default email domain', ADI_I18N),
-				$type        => Multisite_Option_Type::TEXT,
+				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
 					'If the Active Directory attribute "mail" is blank, a user\'s email will be set to username@ValueOfThisTextbox.',
 					ADI_I18N
@@ -615,7 +615,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// How to deal with duplicate email addresses
 			self::DUPLICATE_EMAIL_PREVENTION    => array(
 				$title       => __('Email address conflict handling', ADI_I18N),
-				$type        => Multisite_Option_Type::SELECT,
+				$type        => NextADInt_Multisite_Option_Type::SELECT,
 				$elements    => array(
 					__('Prevent (recommended)', ADI_I18N) => 'prevent',
 					__('Allow (UNSAFE)', ADI_I18N)        => 'allow',
@@ -642,7 +642,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Prevent email change by ADI Users (not for admins)
 			self::PREVENT_EMAIL_CHANGE          => array(
 				$title       => __('Prevent email change', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'Prevents users authenticated by Active Directory from changing their email address in WordPress.',
 					ADI_I18N
@@ -664,7 +664,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Possible values: description, displayname, mail, sn, cn, givenname, samaccountname, givenname sn
 			self::NAME_PATTERN                  => array(
 				$title       => __('Display name', ADI_I18N),
-				$type        => Multisite_Option_Type::SELECT,
+				$type        => NextADInt_Multisite_Option_Type::SELECT,
 				$elements    => array(
 					__('sAMAccountName (the username)', ADI_I18N)     => 'samaccountname',
 					__('displayName', ADI_I18N)                       => 'displayname',
@@ -692,7 +692,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// show disabled and ADI user status on user list
 			self::SHOW_USER_STATUS              => array(
 				$title       => __('Show user status', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __('Show additional columns (<em>ADI User</em>, <em>disabled</em>) in WordPress\' users list.',
 					ADI_I18N),
 				$detail      => __('Show additional columns', ADI_I18N),
@@ -704,7 +704,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Use the real password when a user is created
 			self::NO_RANDOM_PASSWORD            => array(
 				$title       => __('Set local password on first successful login', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'The first time a user logs on his local password will be equated with the password he used to authenticate against the Active Directory.',
 					ADI_I18N
@@ -726,7 +726,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Enable/Disable password changes
 			self::ENABLE_PASSWORD_CHANGE        => array(
 				$title       => __('Allow local password changes', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'Enabling this option allows users to change their local WordPress password.',
 					ADI_I18N
@@ -747,7 +747,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Update password on every successful login
 			self::AUTO_UPDATE_PASSWORD          => array(
 				$title       => __('Automatic password update', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'This option updates the local password every time a user successfully logs in.',
 					ADI_I18N
@@ -773,7 +773,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Check Login authorization by group membership
 			self::AUTHORIZE_BY_GROUP            => array(
 				$title       => __('Authorize by group membership', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'This option authorizes only members of the given Active Directory security groups to gain access to WordPress.',
 					ADI_I18N
@@ -791,7 +791,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Group name for authorization.
 			self::AUTHORIZATION_GROUP           => array(
 				$title       => __('Authorization group(s)', ADI_I18N),
-				$type        => Multisite_Option_Type::EDITABLE_LIST,
+				$type        => NextADInt_Multisite_Option_Type::EDITABLE_LIST,
 				$description => __(
 					'If not empty, only the defined security groups have access to WordPress.',
 					ADI_I18N
@@ -813,7 +813,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Role Equivalent Groups (wp-role1=ad-group1;wp-role2=ad-group2;...)
 			self::ROLE_EQUIVALENT_GROUPS        => array(
 				$title       => __('Role equivalent groups', ADI_I18N),
-				$type        => Multisite_Option_Type::TABLE,
+				$type        => NextADInt_Multisite_Option_Type::TABLE,
 				$description => __(
 					'List of one or multiple Active Directory security groups which correspond to WordPress\' roles.',
 					ADI_I18N
@@ -848,7 +848,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// use local (WordPress) password as fallback if authentication against AD fails
 			self::FALLBACK_TO_LOCAL_PASSWORD    => array(
 				$title       => __('Fallback to local password', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'Fallback to local(WordPress) password check if Active Directory authentication fails.', ADI_I18N
 				),
@@ -871,7 +871,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Enable lost password recovery
 			self::ENABLE_LOST_PASSWORD_RECOVERY => array(
 				$title       => __('Enable lost password recovery', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __('The user can reset his password in the login screen.', ADI_I18N),
 				$detail      => __(
 					'Enabling this option will allow users to reset their local password in the login screen.',
@@ -886,7 +886,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Settings for Autologin
 			self::SSO_ENABLED                           => array(
 				$title             => __('Enable SSO', ADI_I18N),
-				$type              => Multisite_Option_Type::CHECKBOX,
+				$type              => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description       => __(
 					'This option will grant users the possibility to Single Sign On WordPress once they got authenticated against Active Directory.',
 					ADI_I18N
@@ -903,7 +903,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			),
 			self::SSO_USER                              => array(
 				$title             => __('Service account username', ADI_I18N),
-				$type              => Multisite_Option_Type::TEXT,
+				$type              => NextADInt_Multisite_Option_Type::TEXT,
 				$description       => __(
 					'Username of an Active Directory account with read permissions for the users in the Active Directory (e.g. "ldapuser@company.local").',
 					ADI_I18N
@@ -920,7 +920,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			),
 			self::SSO_PASSWORD                          => array(
 				$title             => __('Service account password', ADI_I18N),
-				$type              => Multisite_Option_Type::PASSWORD,
+				$type              => NextADInt_Multisite_Option_Type::PASSWORD,
 				$description       => __('Password of an Active Directory account with read permissions for the users in the Active Directory.',
 					ADI_I18N),
 				$detail            => __(
@@ -935,10 +935,10 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			),
 			self::SSO_ENVIRONMENT_VARIABLE              => array(
 				$title             => __('Username variable', ADI_I18N),
-				$type              => Multisite_Option_Type::SELECT,
+				$type              => NextADInt_Multisite_Option_Type::SELECT,
 				$elements          => array(
-					Adi_Authentication_SingleSignOn_Variable::REMOTE_USER   => Adi_Authentication_SingleSignOn_Variable::REMOTE_USER,
-					Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER => Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER,
+					NextADInt_Adi_Authentication_SingleSignOn_Variable::REMOTE_USER   => NextADInt_Adi_Authentication_SingleSignOn_Variable::REMOTE_USER,
+					NextADInt_Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER => NextADInt_Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER,
 				),
 				$description       => __(
 					'The PHP server variable which is used by the web server to retrieve the current user!',
@@ -947,16 +947,16 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				$detail            => array(
 					sprintf(
 						__('%s: The default server variable.', ADI_I18N),
-						Adi_Authentication_SingleSignOn_Variable::REMOTE_USER
+						NextADInt_Adi_Authentication_SingleSignOn_Variable::REMOTE_USER
 					),
 					sprintf(
 						__('%s: Is used when working with proxies. The variable "REMOTE_USER" must be forwarded from the proxy.',
 							ADI_I18N),
-						Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER
+						NextADInt_Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER
 					),
 				),
 				$angularAttributes => 'ng-disabled="((!option.sso) || ((permission.sso == 2) || (permission.sso == 1))',
-				$default           => Adi_Authentication_SingleSignOn_Variable::REMOTE_USER,
+				$default           => NextADInt_Adi_Authentication_SingleSignOn_Variable::REMOTE_USER,
 				$sanitizer         => array('selection', 0),
 				$showPermission    => true,
 				$transient         => false,
@@ -964,7 +964,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Maximum number of failed login attempts before the account is blocked
 			self::MAX_LOGIN_ATTEMPTS            => array(
 				$title       => __('Maximum number of allowed login attempts', ADI_I18N),
-				$type        => Multisite_Option_Type::NUMBER,
+				$type        => NextADInt_Multisite_Option_Type::NUMBER,
 				$description => __(
 					'Maximum number of failed login attempts before a user account is blocked. If empty or "0" <em>Brute Force Protection</em> is disabled.',
 					ADI_I18N
@@ -992,7 +992,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Number of seconds an account is blocked after the maximum number of failed login attempts is reached.
 			self::BLOCK_TIME                    => array(
 				$title       => __('Blocking time', ADI_I18N),
-				$type        => Multisite_Option_Type::NUMBER,
+				$type        => NextADInt_Multisite_Option_Type::NUMBER,
 				$description => __(
 					'Time in seconds for which the account is blocked if too many failed login attempts occurred.',
 					ADI_I18N
@@ -1010,7 +1010,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Send email to user if his account is blocked.
 			self::USER_NOTIFICATION             => array(
 				$title       => __('Notify users of blocked account', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __('Notify user by e-mail when his account has been blocked.', ADI_I18N),
 				$detail      => __(
 					'If enabled *ADI* notifies the user by email about the circumstance that his account has been blocked.',
@@ -1025,7 +1025,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Send email to admin if a user account is blocked.
 			self::ADMIN_NOTIFICATION            => array(
 				$title       => __('Notify admins of blocked account', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __('Notify admin(s) by e-mail when an user account has been blocked.', ADI_I18N),
 				$detail      => __(
 					'Enabling this option will notify the admin(s) about blocked user accounts as well.', ADI_I18N
@@ -1039,7 +1039,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Administrator's email address(es) where notifications should be sent to.
 			self::ADMIN_EMAIL                   => array(
 				$title       => __('Email addresses for notifications', ADI_I18N),
-				$type        => Multisite_Option_Type::EDITABLE_LIST,
+				$type        => NextADInt_Multisite_Option_Type::EDITABLE_LIST,
 				$description => __(
 					'Given email addresses will recieve emails for admin notifications.',
 					ADI_I18N
@@ -1062,18 +1062,18 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			//   whencreated:time
 			self::ADDITIONAL_USER_ATTRIBUTES    => array(
 				$title                                         => __('Additional User Attributes', ADI_I18N),
-				$type                                          => Multisite_Option_Type::CUSTOM,
-				Multisite_Option_Attribute::TYPE_STRUCTURE => array(
+				$type                                          => NextADInt_Multisite_Option_Type::CUSTOM,
+				NextADInt_Multisite_Option_Attribute::TYPE_STRUCTURE => array(
 					// first input field; the user can use a well known user attribute or can use his own user attribute
 					array(
-						$type        => Multisite_Option_Type::COMBOBOX,
+						$type        => NextADInt_Multisite_Option_Type::COMBOBOX,
 						$description => __('AD User Attribute:', ADI_I18N),
-						$elements    => Ldap_Attribute_Description::findAll(),
+						$elements    => NextADInt_Ldap_Attribute_Description::findAll(),
 						$sanitizer   => array('string', false, true, true),
 					),
 					// second input field; the user can only should between certain data types
 					array(
-						$type        => Multisite_Option_Type::SELECT,
+						$type        => NextADInt_Multisite_Option_Type::SELECT,
 						$description => __('Data Type:', ADI_I18N),
 						$elements    => array(
 							__('Only a text', ADI_I18N)         => 'string',
@@ -1089,7 +1089,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 						$sanitizer   => array('selection'),
 					),
 					array(
-						$type        => Multisite_Option_Type::TEXT,
+						$type        => NextADInt_Multisite_Option_Type::TEXT,
 						$description => __('User Meta Key:', ADI_I18N),
 						$sanitizer   => array('string'),
 					),
@@ -1113,7 +1113,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Enable Sync to AD
 			self::SYNC_TO_AD_ENABLED                 => array(
 				$title       => __('Enable sync to AD', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'Synchronize the user\'s WordPress profile back to Active Directory.',
 					ADI_I18N
@@ -1135,7 +1135,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Use global Sync to AD User
 			self::SYNC_TO_AD_USE_GLOBAL_USER => array(
 				$title       => __('Use Sync To AD service account', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'By enabling this option users will not be asked for their Active Directory password when updating their WordPress user profile. Instead a central Active Directory service account is used.<br />If this option is <strong>disabled</strong>, you have to configure your Active Directory properyly.',
 					ADI_I18N
@@ -1163,7 +1163,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Account name of global Sync to AD user
 			self::SYNC_TO_AD_GLOBAL_USER     => array(
 				$title       => __('Service account username', ADI_I18N),
-				$type        => Multisite_Option_Type::TEXT,
+				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
 					'Username of an Active Directory account with write permissions for the users in the Active Directory (e.g. administrator@company.local).',
 					ADI_I18N
@@ -1181,7 +1181,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Password of global Dd user
 			self::SYNC_TO_AD_GLOBAL_PASSWORD => array(
 				$title       => __('Service account password', ADI_I18N),
-				$type        => Multisite_Option_Type::PASSWORD,
+				$type        => NextADInt_Multisite_Option_Type::PASSWORD,
 				$description => __(
 					'Password for Sync To AD service account. Leave empty if password should not be changed.', ADI_I18N
 				),
@@ -1198,7 +1198,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// AUTHCODE for Sync to AD. Sync to AD will only work, if this AUTHCODE is send as a post-parameter to the blog index.php
 			self::SYNC_TO_AD_AUTHCODE       => array(
 				$title       => __('Auth code', ADI_I18N),
-				$type        => Multisite_Option_Type::AUTHCODE,
+				$type        => NextADInt_Multisite_Option_Type::AUTHCODE,
 				$description => __(
 					'This code is needed for Sync to AD.',
 					ADI_I18N
@@ -1209,7 +1209,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 				),
 				$angularAttributes => 'ng-disabled="((!option.sync_to_ad) || ((permission.sync_to_ad_authcode == 2) || (permission.sync_to_ad_authcode == 1))',
 				$default => '',
-				Multisite_Option_Attribute::PERSIST_DEFAULT_VALUE => true,
+				NextADInt_Multisite_Option_Attribute::PERSIST_DEFAULT_VALUE => true,
 				$sanitizer   => array('authcode'),
 				$showPermission                                   => true,
 				$transient                                        => false,
@@ -1217,7 +1217,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// enable Sync to WordPress
 			self::SYNC_TO_WORDPRESS_ENABLED  => array(
 				$title       => __('Enable sync to WordPress', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'Enabling this option will allow ADI to sync users from the Active Directory to the WordPress Database.',
 					ADI_I18N
@@ -1241,14 +1241,14 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// AUTHCODE for Sync to WordPress. Sync to WordPress will only work, if this AUTHCODE is send as a post-parameter to the blog index.php
 			self::SYNC_TO_WORDPRESS_AUTHCODE        => array(
 				$title       => __('Auth code', ADI_I18N),
-				$type        => Multisite_Option_Type::AUTHCODE,
+				$type        => NextADInt_Multisite_Option_Type::AUTHCODE,
 				$description => __('This code is needed for Sync to WordPress.', ADI_I18N),
 				$detail      => __(
 					'This code is needed for Sync to WordPress.',
 					ADI_I18N
 				),
 				$default => '',
-				Multisite_Option_Attribute::PERSIST_DEFAULT_VALUE => true,
+				NextADInt_Multisite_Option_Attribute::PERSIST_DEFAULT_VALUE => true,
 				$angularAttributes => 'ng-disabled="((!option.sync_to_wordpress_enabled) || ((permission.sync_to_wordpress_authcode == 2) || (permission.sync_to_wordpress_authcode == 1))',
 				$sanitizer   => array('authcode'),
 				$showPermission                                   => true,
@@ -1257,7 +1257,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Import members of these security groups (separated by semicolons)
 			self::SYNC_TO_WORDPRESS_SECURITY_GROUPS => array(
 				$title       => __('Import members of security groups', ADI_I18N),
-				$type        => Multisite_Option_Type::EDITABLE_LIST,
+				$type        => NextADInt_Multisite_Option_Type::EDITABLE_LIST,
 				$description => __(
 					'The members of the security groups entered here will be imported. See documentation how to import members of Domain Users or Domain Administrators.',
 					ADI_I18N
@@ -1281,7 +1281,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// name of Sync to WordPress User in Active Directory
 			self::SYNC_TO_WORDPRESS_USER     => array(
 				$title       => __('Service account username', ADI_I18N),
-				$type        => Multisite_Option_Type::TEXT,
+				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
 					'Username of an Active Directory account with read permissions for the users in the Active Directory (e.g. "ldapuser@company.local").',
 					ADI_I18N
@@ -1299,7 +1299,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// password for Sync to WordPress User (will be stored encrypted)
 			self::SYNC_TO_WORDPRESS_PASSWORD      => array(
 				$title       => __('Service account password', ADI_I18N),
-				$type        => Multisite_Option_Type::PASSWORD,
+				$type        => NextADInt_Multisite_Option_Type::PASSWORD,
 				$description => __('Password for Sync to WordPress User.', ADI_I18N),
 				$detail      => __(
 					'As you already defined the Sync to WordPress service account username before you now have to define the password for this user as well.',
@@ -1314,7 +1314,7 @@ class Adi_Configuration_Options implements Multisite_Option_Provider
 			// Prevent email change by ADI Users (not for admins)
 			self::SYNC_TO_WORDPRESS_DISABLE_USERS => array(
 				$title       => __('Automatic deactivate users', ADI_I18N),
-				$type        => Multisite_Option_Type::CHECKBOX,
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'Deactivated users can only be re-activated manually by administrators on their users profile page or by using the *Sync to WordPress* feature.',
 					ADI_I18N

@@ -6,7 +6,7 @@
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class Ut_Core_Validator_ResultTest extends Ut_BasicTest
+class Ut_NextADInt_Core_Validator_ResultTest extends Ut_BasicTest
 {
 	public function setUp()
 	{
@@ -19,11 +19,11 @@ class Ut_Core_Validator_ResultTest extends Ut_BasicTest
 	}
 
 	/**
-	 * @return Core_Validator_Result| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Core_Validator_Result| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Core_Validator_Result')
+		return $this->getMockBuilder('NextADInt_Core_Validator_Result')
 			->setMethods($methods)
 			->getMock();
 	}

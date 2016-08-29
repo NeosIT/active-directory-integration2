@@ -1,20 +1,20 @@
 <?php
 
 /**
- * Ut_Ldap_Attribute_ServiceTest
+ * Ut_NextADInt_Ldap_Attribute_ServiceTest
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
+class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 {
-	/* @var Ldap_Attribute_Repository|PHPUnit_Framework_MockObject_MockObject $configuration */
+	/* @var NextADInt_Ldap_Attribute_Repository|PHPUnit_Framework_MockObject_MockObject $configuration */
 	private $attributeRepository;
 
 	/**
-	 * @var Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection
+	 * @var NextADInt_Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection
 	 */
 	private $ldapConnection;
 
@@ -25,8 +25,8 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 
 	public function setUp()
 	{
-		$this->attributeRepository = $this->createMock('Ldap_Attribute_Repository');
-		$this->ldapConnection = $this->createMock('Ldap_Connection');
+		$this->attributeRepository = $this->createMock('NextADInt_Ldap_Attribute_Repository');
+		$this->ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
 
 		if (!class_exists('adLDAP')) {
 			//get adLdap
@@ -53,11 +53,11 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	/**
 	 * @param $methods
 	 *
-	 * @return Ldap_Attribute_Service|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Ldap_Attribute_Service|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods)
 	{
-		return $this->getMockBuilder('Ldap_Attribute_Service')
+		return $this->getMockBuilder('NextADInt_Ldap_Attribute_Service')
 			->setConstructorArgs(
 				array(
 					$this->ldapConnection,
@@ -101,15 +101,15 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('findLdapAttributesOfUsername'));
 
-		$attribute = new Ldap_Attribute();
+		$attribute = new NextADInt_Ldap_Attribute();
 		$attribute->setMetakey('meta');
 		$attribute->setDescription('desc');
 		$attribute->setType('string');
 		$attribute->setSyncable(true);
 		$attribute->setViewable(true);
 
-		$expected = new Ldap_Attributes(false, array($attribute));
-		$credentials = new Adi_Authentication_Credentials('sam@test.ad', 'pw');
+		$expected = new NextADInt_Ldap_Attributes(false, array($attribute));
+		$credentials = new NextADInt_Adi_Authentication_Credentials('sam@test.ad', 'pw');
 
 		$sut->expects($this->exactly(3))
 			->method('findLdapAttributesOfUsername')
@@ -137,7 +137,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 			),
 		);
 
-		$actual = Ldap_Attribute_Service::getLdapAttribute('cn', $attributeValues);
+		$actual = NextADInt_Ldap_Attribute_Service::getLdapAttribute('cn', $attributeValues);
 		$this->assertEquals('AlbeTrem4', $actual);
 	}
 
@@ -155,7 +155,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 
 		$expected = "123456789" . "\n" . "987654321";
 
-		$actual = Ldap_Attribute_Service::getLdapAttribute('telephonenumber', $attributeValues);
+		$actual = NextADInt_Ldap_Attribute_Service::getLdapAttribute('telephonenumber', $attributeValues);
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -168,7 +168,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 			'cn' => 'Hugo68',
 		);
 
-		$actual = Ldap_Attribute_Service::getLdapAttribute('cn', $attributeValues);
+		$actual = NextADInt_Ldap_Attribute_Service::getLdapAttribute('cn', $attributeValues);
 		$this->assertEquals('Hugo68', $actual);
 	}
 
@@ -181,7 +181,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 			'cn' => 'Hugo68',
 		);
 
-		$actual = Ldap_Attribute_Service::getLdapAttribute('telephonenumber', $attributeValues);
+		$actual = NextADInt_Ldap_Attribute_Service::getLdapAttribute('telephonenumber', $attributeValues);
 		$this->assertEquals('', $actual);
 	}
 
@@ -190,7 +190,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	 */
 	public function getLdapValue_withList_delegateToRightMethod()
 	{
-		$metaObject = new Ldap_Attribute();
+		$metaObject = new NextADInt_Ldap_Attribute();
 		$metaObject->setMetakey('metaKey');
 		$metaObject->setType('list');
 
@@ -203,7 +203,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 			'coolValue',
 		);
 
-		$actual = Ldap_Attribute_Service::getLdapValue($metaObject, $adResponse);
+		$actual = NextADInt_Ldap_Attribute_Service::getLdapValue($metaObject, $adResponse);
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -212,7 +212,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	 */
 	public function getLdapValue_withString_returnArrayWithString()
 	{
-		$metaObject = new Ldap_Attribute();
+		$metaObject = new NextADInt_Ldap_Attribute();
 		$metaObject->setMetakey('metaKey');
 		$metaObject->setType('string');
 
@@ -220,7 +220,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 			'metaKey' => array('someValue'),
 		);
 
-		$actual = Ldap_Attribute_Service::getLdapValue($metaObject, $adResponse);
+		$actual = NextADInt_Ldap_Attribute_Service::getLdapValue($metaObject, $adResponse);
 		$this->assertEquals($adResponse['metaKey'], $actual);
 	}
 
@@ -229,7 +229,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	 */
 	public function getLdapValue_withEmptyValue_returnArrayWithSpace()
 	{
-		$metaObject = new Ldap_Attribute();
+		$metaObject = new NextADInt_Ldap_Attribute();
 		$metaObject->setMetakey('metaKey');
 		$metaObject->setType('string');
 
@@ -237,7 +237,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 			'metaKey' => '',
 		);
 
-		$actual = Ldap_Attribute_Service::getLdapValue($metaObject, $adResponse);
+		$actual = NextADInt_Ldap_Attribute_Service::getLdapValue($metaObject, $adResponse);
 		$this->assertEquals(array(' '), $actual);
 	}
 
@@ -246,7 +246,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	 */
 	public function getLdapValue_withNonArrayResult_returnArrayWithResult()
 	{
-		$metaObject = new Ldap_Attribute();
+		$metaObject = new NextADInt_Ldap_Attribute();
 		$metaObject->setMetakey('metaKey');
 		$metaObject->setType('string');
 
@@ -254,7 +254,7 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 			'metaKey' => 'Krabbenburger Geheimformel',
 		);
 
-		$actual = Ldap_Attribute_Service::getLdapValue($metaObject, $adResponse);
+		$actual = NextADInt_Ldap_Attribute_Service::getLdapValue($metaObject, $adResponse);
 		$this->assertEquals(array($adResponse['metaKey']), $actual);
 	}
 

@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Role_Mapping')) {
+if (class_exists('NextADInt_Adi_Role_Mapping')) {
 	return;
 }
 
 /**
- * Adi_Role_Mapping holds the mappings between Active Directory security groups and WordPress roles
+ * NextADInt_Adi_Role_Mapping holds the mappings between Active Directory security groups and WordPress roles
  *
  * @author Christopher Klein <ckl@neos-it.de>
  * @access public
  */
-class Adi_Role_Mapping
+class NextADInt_Adi_Role_Mapping
 {
 	/**
 	 * @var array
@@ -31,7 +31,7 @@ class Adi_Role_Mapping
 	private $username;
 
 	/**
-	 * Adi_Role_Mapping constructor.
+	 * NextADInt_Adi_Role_Mapping constructor.
 	 *
 	 * @param string $username
 	 */
@@ -116,9 +116,9 @@ class Adi_Role_Mapping
 	/**
 	 * Merge the given $roleMapping into this object.
 	 * 
-	 * @param Adi_Role_Mapping $roleMapping
+	 * @param NextADInt_Adi_Role_Mapping $roleMapping
 	 */
-	public function merge(Adi_Role_Mapping $roleMapping)
+	public function merge(NextADInt_Adi_Role_Mapping $roleMapping)
 	{
 		$this->securityGroups += $roleMapping->getSecurityGroups();
 		$this->wordPressRoles += $roleMapping->getWordPressRoles();

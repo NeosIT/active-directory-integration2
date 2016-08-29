@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest')) {
+if (class_exists('Ut_NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest')) {
 	return;
 }
 
@@ -11,7 +11,7 @@ if (class_exists('Ut_Multisite_Configuration_Persistence_DefaultProfileRepositor
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @access private
  */
-class Ut_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest extends Ut_BasicTest
 {
 	public function setUp()
 	{
@@ -26,11 +26,11 @@ class Ut_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest extend
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Configuration_Persistence_DefaultProfileRepository|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Configuration_Persistence_DefaultProfileRepository')
+		return $this->getMockBuilder('NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository')
 			->setConstructorArgs(array())
 			->setMethods($methods)
 			->getMock();

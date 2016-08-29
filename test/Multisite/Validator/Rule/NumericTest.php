@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Multisite_Validator_Rule_NumericTest')) {
+if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_NumericTest')) {
 	return;
 }
 
@@ -14,7 +14,7 @@ if (class_exists('Ut_Multisite_Validator_Rule_NumericTest')) {
  *
  * @access
  */
-class Ut_Multisite_Validator_Rule_NumericTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Validator_Rule_NumericTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'Validation failed.';
 
@@ -32,11 +32,11 @@ class Ut_Multisite_Validator_Rule_NumericTest extends Ut_BasicTest
 	 * @param $methods
 	 * @param $msg string
 	 *
-	 * @return Multisite_Validator_Rule_Numeric|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Validator_Rule_Numeric|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Validator_Rule_Numeric')
+		return $this->getMockBuilder('NextADInt_Multisite_Validator_Rule_Numeric')
 			->setConstructorArgs(
 				array(
 					self::VALIDATION_MESSAGE,

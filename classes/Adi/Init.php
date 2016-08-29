@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Adi_Init sets up all classes and their dependencies.
+ * NextADInt_Adi_Init sets up all classes and their dependencies.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
@@ -9,10 +9,10 @@
  *
  * @access public
  */
-class Adi_Init
+class NextADInt_Adi_Init
 {
 	/**
-	 * @var Adi_Dependencies
+	 * @var NextADInt_Adi_Dependencies
 	 */
 	private $dependencyContainer;
 
@@ -34,8 +34,8 @@ class Adi_Init
 	 */
 	public function activation()
 	{
-		Core_Logger::displayAndLogMessages();
-		Core_Logger::setLevel(LoggerLevel::getLevelError());
+		NextADInt_Core_Logger::displayAndLogMessages();
+		NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelError());
 
 		$requirements = $this->dc()->getRequirements();
 
@@ -53,7 +53,7 @@ class Adi_Init
 
 			if (is_numeric($profileId)) {
 				$currentUser = wp_get_current_user();
-				$optionName = Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION;
+				$optionName = NextADInt_Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION;
 				$optionValue = $currentUser->user_login;
 
 				if (is_multisite()) {
@@ -95,7 +95,7 @@ class Adi_Init
 	public function showLicensePurchaseInformation($file, $pluginData) {
 		if (is_plugin_active('active-directory-integration2/index.php')) {
 			$configurationService = $this->dc()->getConfigurationService();
-			$licenseKey = $configurationService->getOptionValue(Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
+			$licenseKey = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
 
 			if (empty($licenseKey)) {
 				echo "<tr><td colspan='3' style='vertical-align: middle; background-color: #ef693e; color: #fff'>" . __("Please purchase a valid Active Directory Integration 2 support license from <a href='https://www.active-directory-wp.com/' style='color: #fff; text-decoration: underline'>https://www.active-directory-wp.com/</a> to support this plug-in.") ."</td>";
@@ -128,8 +128,8 @@ class Adi_Init
 			return;
 		}
 
-		Core_Logger::logMessages();
-		Core_Logger::setLevel(LoggerLevel::getLevelAll());
+		NextADInt_Core_Logger::logMessages();
+		NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelAll());
 
 		// load internationalization (i18n)
 		load_plugin_textdomain(ADI_I18N, false, ADI_PLUGIN_NAME . '/languages/');
@@ -183,7 +183,7 @@ class Adi_Init
 	function registerCore()
 	{
 		// if the current request should trigger a synchronization of Active Directory or WordPress
-		if (Adi_Cron_UrlTrigger::getSyncMode($_POST) !== false) {
+		if (NextADInt_Adi_Cron_UrlTrigger::getSyncMode($_POST) !== false) {
 			$this->registerUrlTriggerHook();
 
 			// further hooks must not be executed b/c the trigger is the only runnable method
@@ -341,12 +341,12 @@ class Adi_Init
 	 * Return the dependency container.
 	 *
 	 * @access private
-	 * @return Adi_Dependencies
+	 * @return NextADInt_Adi_Dependencies
 	 */
 	function dc()
 	{
 		if ($this->dependencyContainer == null) {
-			$this->dependencyContainer = new Adi_Dependencies();
+			$this->dependencyContainer = new NextADInt_Adi_Dependencies();
 		}
 
 		return $this->dependencyContainer;
@@ -359,7 +359,7 @@ class Adi_Init
 	 */
 	function isOnNetworkDashboard()
 	{
-		return Multisite_Util::isOnNetworkDashboard();
+		return NextADInt_Multisite_Util::isOnNetworkDashboard();
 	}
 
 	/**
@@ -368,7 +368,7 @@ class Adi_Init
 	 */
 	function isActive()
 	{
-		return (bool)$this->dc()->getConfiguration()->getOptionValue(Adi_Configuration_Options::IS_ACTIVE);
+		return (bool)$this->dc()->getConfiguration()->getOptionValue(NextADInt_Adi_Configuration_Options::IS_ACTIVE);
 	}
 
 	/**
@@ -378,7 +378,7 @@ class Adi_Init
 	 */
 	function isSsoEnabled()
 	{
-		return (bool)$this->dc()->getConfiguration()->getOptionValue(Adi_Configuration_Options::SSO_ENABLED);
+		return (bool)$this->dc()->getConfiguration()->getOptionValue(NextADInt_Adi_Configuration_Options::SSO_ENABLED);
 	}
 
 	/**

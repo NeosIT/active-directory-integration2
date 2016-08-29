@@ -3,31 +3,31 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Ui_BlogConfigurationController')) {
+if (class_exists('NextADInt_Multisite_Ui_BlogConfigurationController')) {
 	return;
 }
 
 /**
- * Multisite_Ui_BlogConfigurationController validates and persists option values entered
+ * NextADInt_Multisite_Ui_BlogConfigurationController validates and persists option values entered
  * at the blog settings page.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access  public
  */
-class Multisite_Ui_BlogConfigurationController
+class NextADInt_Multisite_Ui_BlogConfigurationController
 {
-	/* @var Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository */
+	/* @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository */
 	private $blogConfigurationRepository;
 
-	/* @var Multisite_Option_Provider */
+	/* @var NextADInt_Multisite_Option_Provider */
 	private $optionProvider;
 
 	/**
-	 * @param Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository
-	 * @param Multisite_Option_Provider                                       $optionProvider
+	 * @param NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository
+	 * @param NextADInt_Multisite_Option_Provider                                       $optionProvider
 	 */
-	public function __construct(Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
-		Multisite_Option_Provider $optionProvider
+	public function __construct(NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
+		NextADInt_Multisite_Option_Provider $optionProvider
 	) {
 		$this->blogConfigurationRepository = $blogConfigurationRepository;
 		$this->optionProvider = $optionProvider;
@@ -46,10 +46,10 @@ class Multisite_Ui_BlogConfigurationController
 		try {
 			$this->saveBlogOptionsInternal($options);
 		} catch (Exception $e) {
-			return Core_Message::error(__('An error occurred while saving the configuration.', ADI_I18N))->toArray();
+			return NextADInt_Core_Message::error(__('An error occurred while saving the configuration.', ADI_I18N))->toArray();
 		}
 
-		return Core_Message::success(__('The configuration has been saved successfully.', ADI_I18N))->toArray();
+		return NextADInt_Core_Message::success(__('The configuration has been saved successfully.', ADI_I18N))->toArray();
 	}
 
 	/**

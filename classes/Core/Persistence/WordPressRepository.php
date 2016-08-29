@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Persistence_WordPressRepository')) {
+if (class_exists('NextADInt_Core_Persistence_WordPressRepository')) {
 	return;
 }
 
 /**
- * Core_Persistence_WordPressRepository contains help methods for finding/persisting data to the database.
+ * NextADInt_Core_Persistence_WordPressRepository contains help methods for finding/persisting data to the database.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Core_Persistence_WordPressRepository
+class NextADInt_Core_Persistence_WordPressRepository
 {
 
 	/**

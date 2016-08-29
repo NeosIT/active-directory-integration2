@@ -4,20 +4,20 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 {
-	/* @var Multisite_View_TwigContainer|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_View_TwigContainer|PHPUnit_Framework_MockObject_MockObject */
 	private $twigContainer;
 
-	/* @var Multisite_Ui_BlogConfigurationController|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Ui_BlogConfigurationController|PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationController;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->twigContainer = $this->createMock('Multisite_View_TwigContainer');
-		$this->blogConfigurationController = $this->createMock('Multisite_Ui_BlogConfigurationController');
+		$this->twigContainer = $this->createMock('NextADInt_Multisite_View_TwigContainer');
+		$this->blogConfigurationController = $this->createMock('NextADInt_Multisite_Ui_BlogConfigurationController');
 	}
 
 	public function tearDown()
@@ -40,11 +40,11 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Multisite_Ui_BlogConfigurationPage| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Ui_BlogConfigurationPage| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Ui_BlogConfigurationPage')
+		return $this->getMockBuilder('NextADInt_Multisite_Ui_BlogConfigurationPage')
 			->setConstructorArgs(
 				array(
 					$this->twigContainer,
@@ -92,7 +92,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_create_nonce', array(
-				'args' => Multisite_Ui_BlogConfigurationPage::NONCE,
+				'args' => NextADInt_Multisite_Ui_BlogConfigurationPage::NONCE,
 				'times' => 1,
 				'return' => $nonce,
 			)
@@ -100,7 +100,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('display')
-			->with(Multisite_Ui_BlogConfigurationPage::TEMPLATE, array('nonce' => $nonce));
+			->with(NextADInt_Multisite_Ui_BlogConfigurationPage::TEMPLATE, array('nonce' => $nonce));
 
 		$sut->renderAdmin();
 	}
@@ -127,7 +127,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 				'args' => array(
 					'adi2_page', ADI_URL . '/js/page.js',
 					array('jquery'),
-					Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -139,7 +139,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'angular.min',
 					ADI_URL . '/js/libraries/angular.min.js',
 					array(),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -151,7 +151,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'ng-alertify',
 					ADI_URL . '/js/libraries/ng-alertify.js',
 					array('angular.min'),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -163,7 +163,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'ng-notify',
 					ADI_URL . '/js/libraries/ng-notify.min.js',
 					array('angular.min'),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -175,7 +175,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'ng-busy',
 					ADI_URL . '/js/libraries/angular-busy.min.js',
 					array('angular.min'),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -187,7 +187,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_shared_util_array',
 					ADI_URL . '/js/app/shared/utils/array.util.js',
 					array(),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -198,7 +198,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_shared_util_value',
 					ADI_URL . '/js/app/shared/utils/value.util.js',
 					array(),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -210,7 +210,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_app_module',
 					ADI_URL . '/js/app/app.module.js',
 					array(),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -221,7 +221,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_app_config',
 					ADI_URL . '/js/app/app.config.js',
 					array(),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -233,7 +233,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_shared_service_browser',
 					ADI_URL . '/js/app/shared/services/browser.service.js',
 					array(),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -245,7 +245,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_shared_service_template',
 					ADI_URL . '/js/app/shared/services/template.service.js',
 					array(),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -257,7 +257,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_shared_service_notification',
 					ADI_URL . '/js/app/shared/services/notification.service.js',
 					array(),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -268,7 +268,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_service_persistence',
 					ADI_URL . '/js/app/blog-options/services/persistence.service.js',
 					array(),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -279,7 +279,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_shared_service_list',
 					ADI_URL . '/js/app/shared/services/list.service.js',
 					array(),
-					Multisite_Ui::VERSION_PAGE_JS,
+                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -290,7 +290,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_service_data',
 					ADI_URL . '/js/app/blog-options/services/data.service.js',
 					array(),
-					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
 			)
@@ -303,7 +303,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_controller_blog',
 					ADI_URL . '/js/app/blog-options/controllers/blog.controller.js',
 					array(),
-					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
 			)
@@ -314,7 +314,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_controller_ajax',
 					ADI_URL . '/js/app/blog-options/controllers/ajax.controller.js',
 					array(),
-					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
 			)
@@ -325,7 +325,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_controller_general',
 					ADI_URL . '/js/app/blog-options/controllers/general.controller.js',
 					array(),
-					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
 			)
@@ -336,7 +336,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_controller_environment',
 					ADI_URL . '/js/app/blog-options/controllers/environment.controller.js',
 					array(),
-					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
 			)
@@ -347,7 +347,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_controller_user',
 					ADI_URL . '/js/app/blog-options/controllers/user.controller.js',
 					array(),
-					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
 			)
@@ -358,7 +358,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_controller_password',
 					ADI_URL . '/js/app/blog-options/controllers/password.controller.js',
 					array(),
-					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
 			)
@@ -369,7 +369,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_controller_permission',
 					ADI_URL . '/js/app/blog-options/controllers/permission.controller.js',
 					array(),
-					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
 			)
@@ -380,7 +380,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_controller_security',
 					ADI_URL . '/js/app/blog-options/controllers/security.controller.js',
 					array(),
-					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
 			)
@@ -391,7 +391,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_controller_attributes',
 					ADI_URL . '/js/app/blog-options/controllers/attributes.controller.js',
 					array(),
-					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
 			)
@@ -402,7 +402,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_controller_sync_to_ad',
 					ADI_URL . '/js/app/blog-options/controllers/sync-to-ad.controller.js',
 					array(),
-					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
 			)
@@ -413,7 +413,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'adi2_blog_options_controller_sync_to_wordpress',
 					ADI_URL . '/js/app/blog-options/controllers/sync-to-wordpress.controller.js',
 					array(),
-					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
 			)
@@ -425,7 +425,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'selectizejs',
 					ADI_URL . '/js/libraries/selectize.min.js',
 					array('jquery'),
-					Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -438,7 +438,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'selectizeFix',
 					ADI_URL . '/js/libraries/fixed-angular-selectize-3.0.1.js',
 					array('selectizejs', 'angular.min'),
-					Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -446,7 +446,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args' => array('adi2', ADI_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS),
+				'args' => array('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
@@ -457,7 +457,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'ng-notify',
 					ADI_URL . '/css/ng-notify.min.css',
 					array(),
-					Multisite_Ui::VERSION_CSS,
+					NextADInt_Multisite_Ui::VERSION_CSS,
 				),
 				'times' => 1,
 			)
@@ -469,7 +469,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'selectizecss',
 					ADI_URL . '/css/selectize.css',
 					array(),
-					Multisite_Ui::VERSION_CSS,
+					NextADInt_Multisite_Ui::VERSION_CSS,
 				),
 				'times' => 1,
 			)
@@ -481,7 +481,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'alertify.min',
 					ADI_URL . '/css/alertify.min.css',
 					array(),
-					Multisite_Ui::VERSION_CSS,
+					NextADInt_Multisite_Ui::VERSION_CSS,
 				),
 				'times' => 1,
 			)
@@ -593,13 +593,13 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	 */
 	public function routeRequest_withExistingMapping_triggersMethod()
 	{
-		$sut = $this->sut(array(Multisite_Ui_BlogConfigurationPage::SUB_ACTION_GENERATE_AUTHCODE));
+		$sut = $this->sut(array(NextADInt_Multisite_Ui_BlogConfigurationPage::SUB_ACTION_GENERATE_AUTHCODE));
 
 		$sut->expects($this->once())
-			->method(Multisite_Ui_BlogConfigurationPage::SUB_ACTION_GENERATE_AUTHCODE)
+			->method(NextADInt_Multisite_Ui_BlogConfigurationPage::SUB_ACTION_GENERATE_AUTHCODE)
 			->with(array());
 
-		$subAction = Multisite_Ui_BlogConfigurationPage::SUB_ACTION_GENERATE_AUTHCODE;
+		$subAction = NextADInt_Multisite_Ui_BlogConfigurationPage::SUB_ACTION_GENERATE_AUTHCODE;
 
 		$this->invokeMethod($sut, 'routeRequest', array($subAction, array()));
 	}
@@ -614,22 +614,22 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$data = array(
 			'domain_controllers' => array(
 				'option_value' => 'test',
-				'option_permission' => Multisite_Configuration_Service::EDITABLE
+				'option_permission' => NextADInt_Multisite_Configuration_Service::EDITABLE
 			),
 			'port' => array(
 				'option_value' => 'test',
-				'option_permission' => Multisite_Configuration_Service::REPLACE_OPTION_WITH_DEFAULT_TEXT
+				'option_permission' => NextADInt_Multisite_Configuration_Service::REPLACE_OPTION_WITH_DEFAULT_TEXT
 			),
 		);
 
 		$expected = array(
 			'domain_controllers' => array(
 				'option_value' => 'test',
-				'option_permission' => Multisite_Configuration_Service::EDITABLE
+				'option_permission' => NextADInt_Multisite_Configuration_Service::EDITABLE
 			),
 			'port' => array(
 				'option_value' => '',
-				'option_permission' => Multisite_Configuration_Service::REPLACE_OPTION_WITH_DEFAULT_TEXT
+				'option_permission' => NextADInt_Multisite_Configuration_Service::REPLACE_OPTION_WITH_DEFAULT_TEXT
 			),
 		);
 
@@ -641,9 +641,9 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 
 		$this->assertEquals(array(
 			'options' => $expected,
-			'ldapAttributes' => Ldap_Attribute_Description::findAll(),
-			'dataTypes' => Ldap_Attribute_Repository::findAllAttributeTypes(),
-			'wpRoles'        => Adi_Role_Manager::getRoles(),
+			'ldapAttributes' => NextADInt_Ldap_Attribute_Description::findAll(),
+			'dataTypes' => NextADInt_Ldap_Attribute_Repository::findAllAttributeTypes(),
+			'wpRoles'        => NextADInt_Adi_Role_Manager::getRoles(),
 		), $result);
 	}
 
@@ -707,7 +707,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 
 		$result = array('test' => 'error');
 
-		$validationResult = $this->createMock('Core_Validator_Result');
+		$validationResult = $this->createMock('NextADInt_Core_Validator_Result');
 		$validationResult->expects($this->once())
 			->method('isValid')
 			->willReturn(true);
@@ -716,7 +716,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			->method('getResult')
 			->willReturn($result);
 
-		$validator = $this->createMock('Core_Validator');
+		$validator = $this->createMock('NextADInt_Core_Validator');
 		$validator->expects($this->once())
 			->method('validate')
 			->willReturn($validationResult);
@@ -743,25 +743,25 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$rules = $validator->getValidationRules();
 
 		$this->assertCount(16, $rules);
-		$this->assertInstanceOf('Multisite_Validator_Rule_Conditional', $rules[Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_Conditional', $rules[Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_AccountSuffix', $rules[Adi_Configuration_Options::ACCOUNT_SUFFIX][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_NoDefaultAttributeName', $rules[Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_AttributeMappingNull', $rules[Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][1]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_WordPressMetakeyConflict', $rules[Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][2]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_AdAttributeConflict', $rules[Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][3]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_DefaultEmailDomain', $rules[Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_AdminEmail', $rules[Adi_Configuration_Options::ADMIN_EMAIL][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_Port', $rules[Adi_Configuration_Options::PORT][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_PositiveNumericOrZero', $rules[Adi_Configuration_Options::NETWORK_TIMEOUT][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_PositiveNumericOrZero', $rules[Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_PositiveNumericOrZero', $rules[Adi_Configuration_Options::BLOCK_TIME][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[Adi_Configuration_Options::PROFILE_NAME][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig', $rules[Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_SelectValueValid', $rules[Adi_Configuration_Options::ENCRYPTION][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_SelectValueValid', $rules[Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_Conditional', $rules[Adi_Configuration_Options::SSO_USER][0]);
-		$this->assertInstanceOf('Multisite_Validator_Rule_Conditional', $rules[Adi_Configuration_Options::SSO_PASSWORD][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_AccountSuffix', $rules[NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NoDefaultAttributeName', $rules[NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_AttributeMappingNull', $rules[NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][1]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_WordPressMetakeyConflict', $rules[NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][2]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_AdAttributeConflict', $rules[NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][3]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_DefaultEmailDomain', $rules[NextADInt_Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_AdminEmail', $rules[NextADInt_Adi_Configuration_Options::ADMIN_EMAIL][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Port', $rules[NextADInt_Adi_Configuration_Options::PORT][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero', $rules[NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero', $rules[NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero', $rules[NextADInt_Adi_Configuration_Options::BLOCK_TIME][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::PROFILE_NAME][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig', $rules[NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_SelectValueValid', $rules[NextADInt_Adi_Configuration_Options::ENCRYPTION][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_SelectValueValid', $rules[NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SSO_USER][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SSO_PASSWORD][0]);
 	}
 
 	/**

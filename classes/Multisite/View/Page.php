@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_View_Page')) {
+if (class_exists('NextADInt_Multisite_View_Page')) {
 	return;
 }
 
@@ -15,7 +15,7 @@ if (class_exists('Multisite_View_Page')) {
  *
  * @access public
  */
-interface Multisite_View_Page
+interface NextADInt_Multisite_View_Page
 {
 	/**
 	 * Get the page title.

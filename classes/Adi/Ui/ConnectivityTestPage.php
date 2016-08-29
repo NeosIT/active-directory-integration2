@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Ui_ConnectivityTestPage')) {
+if (class_exists('NextADInt_Adi_Ui_ConnectivityTestPage')) {
 	return;
 }
 
@@ -18,19 +18,19 @@ if (class_exists('Adi_Ui_ConnectivityTestPage')) {
  *
  * @access public
  */
-class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
+class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Page_Abstract
 {
 	const CAPABILITY = 'manage_options';
 	const TEMPLATE = 'test-connection.twig';
 	const NONCE = 'Active Directory Integration Test Authentication Nonce';
 
-	/* @var Multisite_Configuration_Service $configuration */
+	/* @var NextADInt_Multisite_Configuration_Service $configuration */
 	private $configuration;
 
-	/* @var Ldap_Attribute_Service $attributeService */
+	/* @var NextADInt_Ldap_Attribute_Service $attributeService */
 	private $attributeService;
 
-	/** @var Adi_User_Manager $userManager */
+	/** @var NextADInt_Adi_User_Manager $userManager */
 	private $userManager;
 
 	/* @var Logger $logger */
@@ -42,26 +42,26 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 	/** @var string $output */
 	private $output;
 
-	/** @var Adi_Role_Manager */
+	/** @var NextADInt_Adi_Role_Manager */
 	private $roleManager;
 
-	/** @var  Ldap_Connection */
+	/** @var  NextADInt_Ldap_Connection */
 	private $ldapConnection;
 
 	/**
-	 * @param Multisite_View_TwigContainer $twigContainer
-	 * @param Multisite_Configuration_Service $configuration
-	 * @param Ldap_Connection $ldapConnection
-	 * @param Ldap_Attribute_Service $attributeService
-	 * @param Adi_User_Manager $userManager
-	 * @param Adi_Role_Manager $roleManager
+	 * @param NextADInt_Multisite_View_TwigContainer $twigContainer
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Ldap_Connection $ldapConnection
+	 * @param NextADInt_Ldap_Attribute_Service $attributeService
+	 * @param NextADInt_Adi_User_Manager $userManager
+	 * @param NextADInt_Adi_Role_Manager $roleManager
 	 */
-	public function __construct(Multisite_View_TwigContainer $twigContainer,
-								Multisite_Configuration_Service $configuration,
-								Ldap_Connection $ldapConnection,
-								Ldap_Attribute_Service $attributeService,
-								Adi_User_Manager $userManager,
-								Adi_Role_Manager $roleManager)
+	public function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer,
+								NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Ldap_Connection $ldapConnection,
+								NextADInt_Ldap_Attribute_Service $attributeService,
+								NextADInt_Adi_User_Manager $userManager,
+								NextADInt_Adi_Role_Manager $roleManager)
 	{
 		parent::__construct($twigContainer);
 
@@ -146,7 +146,7 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 	function collectInformation($username, $password)
 	{
 		ob_start();
-		Core_Logger::displayAndLogMessages();
+		NextADInt_Core_Logger::displayAndLogMessages();
 
 		// detect support-id
 		$supportData = $this->detectSupportData();
@@ -166,7 +166,7 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 		$this->logger->info('*** Establishing Active Directory connection ***');
 		$authenticationResult = $this->connectToActiveDirectory($username, $password);
 
-		Core_Logger::logMessages();
+		NextADInt_Core_Logger::logMessages();
 		$output = ob_get_contents();
 
 		ob_end_clean();
@@ -206,7 +206,7 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 	 */
 	function detectSupportData()
 	{
-		$supportId = $this->configuration->getOptionValue(Adi_Configuration_Options::SUPPORT_LICENSE_KEY, get_current_blog_id());
+		$supportId = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY, get_current_blog_id());
 		$siteUrl = get_site_url();
 		$siteName = get_bloginfo('name');
 		
@@ -231,7 +231,7 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 	function connectToActiveDirectory($username, $password)
 	{
 		// create login authenticator with custom logger
-		$loginAuthenticator = new Adi_Authentication_LoginService(
+		$loginAuthenticator = new NextADInt_Adi_Authentication_LoginService(
 			null,
 			$this->configuration,
 			$this->ldapConnection,
@@ -261,7 +261,7 @@ class Adi_Ui_ConnectivityTestPage extends Multisite_View_Page_Abstract
 			return;
 		}
 
-		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
 	}
 
 	/**

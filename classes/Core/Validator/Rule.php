@@ -3,14 +3,14 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Validator_Rule')) {
+if (class_exists('NextADInt_Core_Validator_Rule')) {
 	return;
 }
 
 /**
- * Core_Validator_Rule provides the validate method for our rules.
+ * NextADInt_Core_Validator_Rule provides the validate method for our rules.
  */
-interface Core_Validator_Rule
+interface NextADInt_Core_Validator_Rule
 {
 	/**
 	 * Validate the given data.

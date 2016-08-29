@@ -6,14 +6,14 @@
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class Adi_Ui_Menu_AbstractStub extends Adi_Ui_Menu_Abstract {
+class NextADInt_Adi_Ui_Menu_AbstractStub extends NextADInt_Adi_Ui_Menu_Abstract {
 	public function register() {}
 }
 
-class Ut_Adi_Ui_Menu_AbstractTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Ui_Menu_AbstractTest extends Ut_BasicTest
 {
 	/**
-	 * @var Multisite_Option_Provider
+	 * @var NextADInt_Multisite_Option_Provider
 	 */
 	private $optionProvider;
 
@@ -21,7 +21,7 @@ class Ut_Adi_Ui_Menu_AbstractTest extends Ut_BasicTest
 	{
 		parent::setUp();
 
-		$this->optionProvider = $this->createMock('Multisite_Option_Provider');
+		$this->optionProvider = $this->createMock('NextADInt_Multisite_Option_Provider');
 	}
 
 	public function tearDown()
@@ -33,11 +33,11 @@ class Ut_Adi_Ui_Menu_AbstractTest extends Ut_BasicTest
 	 *
 	 * @param null $methods
 	 *
-	 * @return Ut_Adi_Ui_Menu_AbstractTest|PHPUnit_Framework_MockObject_MockObject
+	 * @return Ut_NextADInt_Adi_Ui_Menu_AbstractTest|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Ui_Menu_AbstractStub')
+		return $this->getMockBuilder('NextADInt_Adi_Ui_Menu_AbstractStub')
 			->setConstructorArgs(
 				array(
 					$this->optionProvider
@@ -110,7 +110,7 @@ class Ut_Adi_Ui_Menu_AbstractTest extends Ut_BasicTest
 		$permission = null;
 		$callbackMethodName = 'renderAdmin';
 
-		$page = $this->getMockBuilder('Multisite_View_Page')->setMethods(array(
+		$page = $this->getMockBuilder('NextADInt_Multisite_View_Page')->setMethods(array(
 			'getTitle', 'getSlug', 'wpAjaxSlug',
 		))->getMock();
 

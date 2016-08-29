@@ -4,14 +4,14 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Multisite_Option_AttributeTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Option_AttributeTest extends Ut_BasicTest
 {
 	/**
 	 * @test
 	 */
 	public function checkConstantValues()
 	{
-		$sut = new ReflectionClass('Multisite_Option_Attribute');
+		$sut = new ReflectionClass('NextADInt_Multisite_Option_Attribute');
 		$actual = $sut->getConstants();
 
 		$expected = array(

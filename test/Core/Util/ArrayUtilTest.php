@@ -4,7 +4,7 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Core_Util_ArrayUtilTest extends Ut_BasicTest
+class Ut_NextADInt_Core_Util_ArrayUtilTest extends Ut_BasicTest
 {
 	/**
 	 * @test
@@ -15,7 +15,7 @@ class Ut_Core_Util_ArrayUtilTest extends Ut_BasicTest
 		$key = 'key';
 		$data = array($key => $expected);
 
-		$actual = Core_Util_ArrayUtil::get($key, $data, 'fallback');
+		$actual = NextADInt_Core_Util_ArrayUtil::get($key, $data, 'fallback');
 
 		$this->assertSame($expected, $actual);
 	}
@@ -29,7 +29,7 @@ class Ut_Core_Util_ArrayUtilTest extends Ut_BasicTest
 		$key = 'key';
 		$data = array('some other key' => 'some other value');
 
-		$actual = Core_Util_ArrayUtil::get($key, $data, $expected);
+		$actual = NextADInt_Core_Util_ArrayUtil::get($key, $data, $expected);
 
 		$this->assertSame($expected, $actual);
 	}
@@ -39,7 +39,7 @@ class Ut_Core_Util_ArrayUtilTest extends Ut_BasicTest
 	 */
 	public function containsIgnoreCase_itIgnoresCase()
 	{
-		$actual = Core_Util_ArrayUtil::containsIgnoreCase('hello', array('HeLlO', 'WoRlD'));
+		$actual = NextADInt_Core_Util_ArrayUtil::containsIgnoreCase('hello', array('HeLlO', 'WoRlD'));
 
 		$this->assertTrue($actual);
 	}
@@ -53,7 +53,7 @@ class Ut_Core_Util_ArrayUtilTest extends Ut_BasicTest
 		$compareValue = 'compare value';
 		$array = array($key => $compareValue);
 
-		$actual = Core_Util_ArrayUtil::compareKey($key, $compareValue, $array);
+		$actual = NextADInt_Core_Util_ArrayUtil::compareKey($key, $compareValue, $array);
 
 		$this->assertTrue($actual);
 	}
@@ -67,7 +67,7 @@ class Ut_Core_Util_ArrayUtilTest extends Ut_BasicTest
 		$key = 'key';
 		$compareValue = 'compare value';
 
-		$actual = Core_Util_ArrayUtil::compareKey($key, $compareValue, $array);
+		$actual = NextADInt_Core_Util_ArrayUtil::compareKey($key, $compareValue, $array);
 
 		$this->assertFalse($actual);
 	}
@@ -80,7 +80,7 @@ class Ut_Core_Util_ArrayUtilTest extends Ut_BasicTest
 		$array = array('key1' => 1, 'key2' => 2, 'key3' => 3);
 		$expected = array(2, 3);
 
-		$actual = Core_Util_ArrayUtil::filter(function($value, $key) {
+		$actual = NextADInt_Core_Util_ArrayUtil::filter(function($value, $key) {
 			return (2 <= $value);
 		}, $array, false);
 
@@ -95,7 +95,7 @@ class Ut_Core_Util_ArrayUtilTest extends Ut_BasicTest
 		$array = array('key1' => 1, 'key2' => 2, 'key3' => 3);
 		$expected = array('key2' => 2, 'key3' => 3);
 
-		$actual = Core_Util_ArrayUtil::filter(function($value, $key) {
+		$actual = NextADInt_Core_Util_ArrayUtil::filter(function($value, $key) {
 			return (2 <= $value);
 		}, $array, true);
 
@@ -107,7 +107,7 @@ class Ut_Core_Util_ArrayUtilTest extends Ut_BasicTest
 	 */
 	public function findFirstOrDefault_withoutElementsAndWithoutDefault_returnsNull()
 	{
-		$actual = Core_Util_ArrayUtil::findFirstOrDefault(array());
+		$actual = NextADInt_Core_Util_ArrayUtil::findFirstOrDefault(array());
 
 		$this->assertNull($actual);
 	}
@@ -117,7 +117,7 @@ class Ut_Core_Util_ArrayUtilTest extends Ut_BasicTest
 	 */
 	public function findFirstOrDefault_withoutElementsAndWithDefault_returnsDefault()
 	{
-		$actual = Core_Util_ArrayUtil::findFirstOrDefault(array(), false);
+		$actual = NextADInt_Core_Util_ArrayUtil::findFirstOrDefault(array(), false);
 
 		$this->assertFalse($actual);
 	}
@@ -127,7 +127,7 @@ class Ut_Core_Util_ArrayUtilTest extends Ut_BasicTest
 	 */
 	public function findFirstOrDefault_withElement_returnsElement()
 	{
-		$actual = Core_Util_ArrayUtil::findFirstOrDefault(array('test'));
+		$actual = NextADInt_Core_Util_ArrayUtil::findFirstOrDefault(array('test'));
 
 		$this->assertEquals('test', $actual);
 	}
@@ -137,7 +137,7 @@ class Ut_Core_Util_ArrayUtilTest extends Ut_BasicTest
 	 */
 	public function findFirstOrDefault_withMultipleElements_returnsFirstElement()
 	{
-		$actual = Core_Util_ArrayUtil::findFirstOrDefault(array('hello', 'world'));
+		$actual = NextADInt_Core_Util_ArrayUtil::findFirstOrDefault(array('hello', 'world'));
 
 		$this->assertEquals('hello', $actual);
 	}

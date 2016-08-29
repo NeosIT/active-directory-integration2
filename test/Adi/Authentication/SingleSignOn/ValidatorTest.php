@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Authentication_SingleSignOn_ValidatorTest')) {
+if (class_exists('NextADInt_Adi_Authentication_SingleSignOn_ValidatorTest')) {
 	return;
 }
 
@@ -14,39 +14,39 @@ if (class_exists('Adi_Authentication_SingleSignOn_ValidatorTest')) {
  *
  * @access
  */
-class Ut_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_BasicTest
 {
-	/* @var Core_Session_Handler|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
+	/* @var NextADInt_Core_Session_Handler|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
 	private $sessionHandler;
 
-	/* @var Core_Util_Internal_Native|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
+	/* @var NextADInt_Core_Util_Internal_Native|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
 	private $native;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->sessionHandler = $this->createMock('Core_Session_Handler');
+		$this->sessionHandler = $this->createMock('NextADInt_Core_Session_Handler');
 
 		// mock away our internal php calls
 		$this->native = $this->createMockedNative();
-		Core_Util::native($this->native);
+		NextADInt_Core_Util::native($this->native);
 	}
 
 	public function tearDown()
 	{
 		parent::tearDown();
-		Core_Util::native(null);
+		NextADInt_Core_Util::native(null);
 	}
 
 	/**
 	 * @param null $methods
 	 *
-	 * @return Adi_Authentication_SingleSignOn_Validator|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Authentication_SingleSignOn_Validator|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Authentication_SingleSignOn_Validator')
+		return $this->getMockBuilder('NextADInt_Adi_Authentication_SingleSignOn_Validator')
 			->setConstructorArgs(array())
 			->setMethods($methods)
 			->getMock();
@@ -59,8 +59,8 @@ class Ut_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
-		/** @var Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection */
-		$ldapConnection = $this->createMock('Ldap_Connection');
+		/** @var NextADInt_Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection */
+		$ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
 		$this->behave($ldapConnection, 'isConnected', true);
 
 		$sut->validateLdapConnection($ldapConnection);
@@ -75,8 +75,8 @@ class Ut_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_BasicTest
 
 		$this->expectAuthenticationException('Cannot connect to ldap. Check the connection.');
 
-		/** @var Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection */
-		$ldapConnection = $this->createMock('Ldap_Connection');
+		/** @var NextADInt_Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection */
+		$ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
 		$this->behave($ldapConnection, 'isConnected', false);
 
 		$sut->validateLdapConnection($ldapConnection);
@@ -134,12 +134,12 @@ class Ut_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_BasicTest
 	 */
 	public function validateAuthenticationState_withoutFailedAuthentication_doesNotThrowException()
 	{
-		$credentials = new Adi_Authentication_Credentials('max@test.ad');
+		$credentials = new NextADInt_Adi_Authentication_Credentials('max@test.ad');
 		$sut = $this->sut(array('getSessionHandler'));
 
 		$this->sessionHandler->expects($this->once())
 			->method('getValue')
-			->with(Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN)
+			->with(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN)
 			->willReturn(null);
 
 		$this->behave($sut, 'getSessionHandler', $this->sessionHandler);
@@ -152,14 +152,14 @@ class Ut_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_BasicTest
 	 */
 	public function validateAuthenticationState_withFailedAuthentication_throwsException()
 	{
-		$credentials = new Adi_Authentication_Credentials('max@test.ad');
+		$credentials = new NextADInt_Adi_Authentication_Credentials('max@test.ad');
 		$sut = $this->sut(array('getSessionHandler'));
 
 		$this->expectAuthenticationException('User has already failed to authenticate. Stop retrying.');
 
 		$this->sessionHandler->expects($this->once())
 			->method('getValue')
-			->with(Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN)
+			->with(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN)
 			->willReturn($credentials->getUserPrincipalName());
 
 		$this->behave($sut, 'getSessionHandler', $this->sessionHandler);
@@ -176,7 +176,7 @@ class Ut_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_BasicTest
 
 		$this->sessionHandler->expects($this->once())
 			->method('getValue')
-			->with(Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT, false)
+			->with(NextADInt_Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT, false)
 			->willReturn(false);
 
 		$this->behave($sut, 'getSessionHandler', $this->sessionHandler);
@@ -195,7 +195,7 @@ class Ut_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_BasicTest
 
 		$this->sessionHandler->expects($this->once())
 			->method('getValue')
-			->with(Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT, false)
+			->with(NextADInt_Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT, false)
 			->willReturn(true);
 
 		$this->behave($sut, 'getSessionHandler', $this->sessionHandler);
@@ -240,12 +240,12 @@ class Ut_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_BasicTest
 	}
 
 	/**
-	 * Expect our {@link Adi_Authentication_Exception} to be thrown.
+	 * Expect our {@link NextADInt_Adi_Authentication_Exception} to be thrown.
 	 *
 	 * @param $expectedMessage
 	 */
 	private function expectAuthenticationException($expectedMessage)
 	{
-		$this->expectExceptionThrown('Adi_Authentication_Exception', $expectedMessage);
+		$this->expectExceptionThrown('NextADInt_Adi_Authentication_Exception', $expectedMessage);
 	}
 }

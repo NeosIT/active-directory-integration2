@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_User_Persistence_Repository')) {
+if (class_exists('NextADInt_Adi_User_Persistence_Repository')) {
 	return;
 }
 
 /**
- * Adi_User_Persistence_Repository interacts with the {@see WP_User} data.
+ * NextADInt_Adi_User_Persistence_Repository interacts with the {@see WP_User} data.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Adi_User_Persistence_Repository')) {
  *
  * @access
  */
-class Adi_User_Persistence_Repository
+class NextADInt_Adi_User_Persistence_Repository
 {
 	/** @var Logger */
 	private $logger;
@@ -142,7 +142,7 @@ class Adi_User_Persistence_Repository
 	{
 		$result = $this->findByMetaKey(ADI_PREFIX . self::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME, $sAMAccountName);
 
-		return Core_Util_ArrayUtil::findFirstOrDefault($result, false);
+		return NextADInt_Core_Util_ArrayUtil::findFirstOrDefault($result, false);
 	}
 
 	/**
@@ -167,7 +167,7 @@ class Adi_User_Persistence_Repository
 	{
 		$result = $this->findByMetaKey(ADI_PREFIX . self::META_KEY_OBJECT_GUID, $guid);
 
-		return Core_Util_ArrayUtil::findFirstOrDefault($result, false);
+		return NextADInt_Core_Util_ArrayUtil::findFirstOrDefault($result, false);
 	}
 
 	/**
@@ -228,20 +228,20 @@ class Adi_User_Persistence_Repository
 	}
 
 	/**
-	 * @param Adi_User $user
+	 * @param NextADInt_Adi_User $user
 	 *
 	 * @return int|WP_Error
 	 *
-	 * @throws Core_Exception_WordPressErrorException
+	 * @throws NextADInt_Core_Exception_WordPressErrorException
 	 */
-	public function create(Adi_User $user)
+	public function create(NextADInt_Adi_User $user)
 	{
 		$result = wp_create_user($user->getUserLogin(), $user->getCredentials()->getPassword());
 
 		if (is_wp_error($result)) {
 			// log error
 			$this->logger->error("Can not create user '{$user->getUserLogin()}' because of: " . json_encode($result));
-			Core_Util_ExceptionUtil::handleWordPressErrorAsException($result);
+			NextADInt_Core_Util_ExceptionUtil::handleWordPressErrorAsException($result);
 		}
 
 		$this->logger->debug("Create user '{$user->getUserLogin()}'.");
@@ -250,12 +250,12 @@ class Adi_User_Persistence_Repository
 	}
 
 	/**
-	 * @param Adi_User $user
+	 * @param NextADInt_Adi_User $user
 	 * @param array $userData
 	 *
 	 * @return int|WP_Error
 	 */
-	public function update(Adi_User $user, $userData)
+	public function update(NextADInt_Adi_User $user, $userData)
 	{
 		$result = wp_update_user($userData);
 

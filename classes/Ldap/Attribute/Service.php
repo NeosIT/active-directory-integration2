@@ -3,26 +3,26 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ldap_Attribute_Service')) {
+if (class_exists('NextADInt_Ldap_Attribute_Service')) {
 	return;
 }
 
 /**
- * Ldap_Attribute_Service acts as a gateway for whitelisted LDAP attributes which are allowed to read in the frontend and posted to the backend.
+ * NextADInt_Ldap_Attribute_Service acts as a gateway for whitelisted LDAP attributes which are allowed to read in the frontend and posted to the backend.
  * The administrator can whitelist different attributes on a per blog or per multisite base.
  *
  * @author Tobias Hellmann <tobias.hellmann@neos-it.de>
  * @access private
  */
-class Ldap_Attribute_Service
+class NextADInt_Ldap_Attribute_Service
 {
 	/**
-	 * @var Ldap_Attribute_Repository
+	 * @var NextADInt_Ldap_Attribute_Repository
 	 */
 	private $attributeRepository;
 
 	/**
-	 * @var Ldap_Connection
+	 * @var NextADInt_Ldap_Connection
 	 */
 	private $ldapConnection;
 
@@ -30,12 +30,12 @@ class Ldap_Attribute_Service
 	private $logger;
 
 	/**
-	 * Ldap_Attribute_Service constructor.
+	 * NextADInt_Ldap_Attribute_Service constructor.
 	 *
-	 * @param Ldap_Connection           $ldapConnection
-	 * @param Ldap_Attribute_Repository $attributeRepository
+	 * @param NextADInt_Ldap_Connection           $ldapConnection
+	 * @param NextADInt_Ldap_Attribute_Repository $attributeRepository
 	 */
-	public function __construct(Ldap_Connection $ldapConnection, Ldap_Attribute_Repository $attributeRepository)
+	public function __construct(NextADInt_Ldap_Connection $ldapConnection, NextADInt_Ldap_Attribute_Repository $attributeRepository)
 	{
 		$this->attributeRepository = $attributeRepository;
 		$this->ldapConnection = $ldapConnection;
@@ -57,7 +57,7 @@ class Ldap_Attribute_Service
 	 */
 	function parseLdapResponse($attributeNames = array(), $ldapData)
 	{
-		Core_Assert::notNull($attributeNames);
+		NextADInt_Core_Assert::notNull($attributeNames);
 
 		$sanitizedValues = array();
 
@@ -99,17 +99,17 @@ class Ldap_Attribute_Service
 		}
 
 		// if our attribute is registered as a binary string, we convert it to a real string
-		if (Core_Util_ArrayUtil::containsIgnoreCase($attributeName,
-			Ldap_Attribute_Repository::findAllBinaryAttributes())
+		if (NextADInt_Core_Util_ArrayUtil::containsIgnoreCase($attributeName,
+			NextADInt_Ldap_Attribute_Repository::findAllBinaryAttributes())
 		) {
-			$sanitizedValue = Core_Util_StringUtil::binaryToGuid($sanitizedValue);
+			$sanitizedValue = NextADInt_Core_Util_StringUtil::binaryToGuid($sanitizedValue);
 		}
 
 		return $sanitizedValue;
 	}
 
 	/**
-	 * @param Ldap_Attribute $attribute
+	 * @param NextADInt_Ldap_Attribute $attribute
 	 * @param array          $ldapData
 	 *
 	 * @return array
@@ -121,7 +121,7 @@ class Ldap_Attribute_Service
 
 		// if $type is a list, then split the string value
 		if ('list' === $attribute->getType()) {
-			$syncValue = Core_Util_StringUtil::splitText($value);
+			$syncValue = NextADInt_Core_Util_StringUtil::splitText($value);
 		} else {
 			$syncValue = $value;
 		}
@@ -145,7 +145,7 @@ class Ldap_Attribute_Service
 	 * @param string $username GUID, sAMAccountName or userPrincipalName
 	 * @param bool   $isGUID
 	 *
-	 * @return Ldap_Attributes
+	 * @return NextADInt_Ldap_Attributes
 	 */
 	public function findLdapAttributesOfUsername($username, $isGUID = false)
 	{
@@ -153,18 +153,18 @@ class Ldap_Attribute_Service
 		$raw = $this->ldapConnection->findAttributesOfUser($username, $attributeNames, $isGUID);
 		$filtered = $this->parseLdapResponse($attributeNames, $raw);
 
-		return new Ldap_Attributes($raw, $filtered);
+		return new NextADInt_Ldap_Attributes($raw, $filtered);
 	}
 
 	/**
 	 * Find the LDAP attributes for the given credentials or guid.
 	 *
-	 * @param Adi_Authentication_Credentials $credentials
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 * @param string                         $guid
 	 *
-	 * @return Ldap_Attributes
+	 * @return NextADInt_Ldap_Attributes
 	 */
-	public function findLdapAttributesOfUser(Adi_Authentication_Credentials $credentials, $guid)
+	public function findLdapAttributesOfUser(NextADInt_Adi_Authentication_Credentials $credentials, $guid)
 	{
 		$ldapAttributes = $this->findLdapAttributesOfUsername($guid, true);
 
@@ -188,7 +188,7 @@ class Ldap_Attribute_Service
 	 *
 	 * @param string $username
 	 * @param boolean $isGuid
-	 * @return Ldap_Attributes
+	 * @return NextADInt_Ldap_Attributes
 	 */
 	public function getObjectSid($username, $isGuid = false)
 	{
@@ -202,7 +202,7 @@ class Ldap_Attribute_Service
 	}
 
 	/**
-	 * @return Ldap_Attribute_Repository
+	 * @return NextADInt_Ldap_Attribute_Repository
 	 */
 	public function getRepository()
 	{

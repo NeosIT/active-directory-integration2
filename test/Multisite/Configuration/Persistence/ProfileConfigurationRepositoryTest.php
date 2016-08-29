@@ -1,21 +1,21 @@
 <?php
-class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest extends Ut_BasicTest
 {
-	/* @var Multisite_Option_Sanitizer|PHPUnit_Framework_MockObject_MockObject $sanitizer */
+	/* @var NextADInt_Multisite_Option_Sanitizer|PHPUnit_Framework_MockObject_MockObject $sanitizer */
 	private $sanitizer;
 
-	/* @var Core_Encryption|PHPUnit_Framework_MockObject_MockObject $encryptionHandler */
+	/* @var NextADInt_Core_Encryption|PHPUnit_Framework_MockObject_MockObject $encryptionHandler */
 	private $encryptionHandler;
 
-	/** @var Multisite_Option_Provider */
+	/** @var NextADInt_Multisite_Option_Provider */
 	private $optionProvider;
 
 	public function setUp()
 	{
 		parent::setUp();
-		$this->sanitizer = parent::createMock('Multisite_Option_Sanitizer');
-		$this->encryptionHandler = parent::createMock('Core_Encryption');
-		$this->optionProvider = new Adi_Configuration_Options();
+		$this->sanitizer = parent::createMock('NextADInt_Multisite_Option_Sanitizer');
+		$this->encryptionHandler = parent::createMock('NextADInt_Core_Encryption');
+		$this->optionProvider = new NextADInt_Adi_Configuration_Options();
 	}
 
 	public function tearDown()
@@ -26,11 +26,11 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Configuration_Persistence_ProfileConfigurationRepository|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods)
 	{
-		return $this->getMockBuilder('Multisite_Configuration_Persistence_ProfileConfigurationRepository')
+		return $this->getMockBuilder('NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository')
 			->setConstructorArgs(
 				array(
 					$this->sanitizer,
@@ -51,7 +51,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 
 		$sut->expects($this->once())
 			->method('findValue')
-			->with(999, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
+			->with(999, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
 			->willReturn('abba');
 
 		$this->encryptionHandler->expects($this->once())
@@ -64,7 +64,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 			->with('encrypted')
 			->willReturn('encrypted');
 
-		$actual = $sut->findSanitizedValue(999, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
+		$actual = $sut->findSanitizedValue(999, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 		$this->assertEquals('encrypted', $actual);
 	}
 
@@ -75,19 +75,19 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 	{
 		$sut = $this->sut(array('findValue'));
 
-		$meta = $this->optionProvider->get(Adi_Configuration_Options::DOMAIN_CONTROLLERS);
+		$meta = $this->optionProvider->get(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS);
 
 		$sut->expects($this->once())
 			->method('findValue')
-			->with(999, Adi_Configuration_Options::DOMAIN_CONTROLLERS)
+			->with(999, NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS)
 			->willReturn('  a@b.de  ');
 
 		$this->sanitizer->expects($this->once())
 			->method('sanitize')
-			->with('  a@b.de  ', $meta[Multisite_Option_Attribute::SANITIZER], $meta)
+			->with('  a@b.de  ', $meta[NextADInt_Multisite_Option_Attribute::SANITIZER], $meta)
 			->willReturn('a@b.de');
 
-		$actual = $sut->findSanitizedValue(999, Adi_Configuration_Options::DOMAIN_CONTROLLERS);
+		$actual = $sut->findSanitizedValue(999, NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS);
 		$this->assertEquals('a@b.de', $actual);
 	}
 
@@ -97,11 +97,11 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 	public function findValueSanitized_optionMustBeDecryptedAndSanitize_returnValue()
 	{
 		$sut = $this->sut(array('findValue'));
-		$meta =  $this->optionProvider->get(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
+		$meta =  $this->optionProvider->get(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 
 		$sut->expects($this->once())
 			->method('findValue')
-			->with(999, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
+			->with(999, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
 			->willReturn('encrypted');
 
 		$this->encryptionHandler->expects($this->once())
@@ -111,10 +111,10 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 
 		$this->sanitizer->expects($this->once())
 			->method('sanitize')
-			->with('  a@b.de  ',  $meta[Multisite_Option_Attribute::SANITIZER], $meta)
+			->with('  a@b.de  ',  $meta[NextADInt_Multisite_Option_Attribute::SANITIZER], $meta)
 			->willReturn('a@b.de');
 
-		$actual = $sut->findSanitizedValue(999, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
+		$actual = $sut->findSanitizedValue(999, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 		$this->assertEquals('a@b.de', $actual);
 	}
 
@@ -147,19 +147,19 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 	{
 		$sut = $this->sut(array('persistValue'));
 
-		$meta = $this->optionProvider->get(Adi_Configuration_Options::DOMAIN_CONTROLLERS);
+		$meta = $this->optionProvider->get(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS);
 
 		$this->sanitizer->expects($this->once())
 			->method('sanitize')
-			->with('8078', $meta[Multisite_Option_Attribute::SANITIZER], $meta)
+			->with('8078', $meta[NextADInt_Multisite_Option_Attribute::SANITIZER], $meta)
 			->willReturn('sanitized');
 
 		$sut->expects($this->once())
 			->method('persistValue')
-			->with(87, Adi_Configuration_Options::DOMAIN_CONTROLLERS, 'sanitized')
+			->with(87, NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS, 'sanitized')
 			->willReturn(true);
 
-		$actual = $sut->persistSanitizedValue(87, Adi_Configuration_Options::DOMAIN_CONTROLLERS, '8078');
+		$actual = $sut->persistSanitizedValue(87, NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS, '8078');
 		$this->assertEquals(true, $actual);
 	}
 
@@ -182,10 +182,10 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 
 		$sut->expects($this->once())
 			->method('persistValue')
-			->with(87, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, 'encrypted')
+			->with(87, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, 'encrypted')
 			->willReturn(true);
 
-		$actual = $sut->persistSanitizedValue(87, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '8078');
+		$actual = $sut->persistSanitizedValue(87, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '8078');
 		$this->assertEquals(true, $actual);
 	}
 
@@ -196,11 +196,11 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 	{
 		$sut = $this->sut(array('persistValue'));
 
-		$meta =  $this->optionProvider->get(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
+		$meta =  $this->optionProvider->get(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 
 		$this->sanitizer->expects($this->once())
 			->method('sanitize')
-			->with('8078', $meta[Multisite_Option_Attribute::SANITIZER], $meta)
+			->with('8078', $meta[NextADInt_Multisite_Option_Attribute::SANITIZER], $meta)
 			->willReturn('sanitized');
 
 		$this->encryptionHandler->expects($this->once())
@@ -210,10 +210,10 @@ class Ut_Multisite_Configuration_Persistence_ProfileConfigurationRepositoryTest 
 
 		$sut->expects($this->once())
 			->method('persistValue')
-			->with(87, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, 'encrypted')
+			->with(87, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, 'encrypted')
 			->willReturn(true);
 
-		$actual = $sut->persistSanitizedValue(87, Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '8078');
+		$actual = $sut->persistSanitizedValue(87, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, '8078');
 		$this->assertEquals(true, $actual);
 	}
 

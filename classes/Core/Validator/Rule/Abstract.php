@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Validator_Rule_Abstract')) {
+if (class_exists('NextADInt_Core_Validator_Rule_Abstract')) {
 	return;
 }
 
 /**
- * Core_Validator_Rule_Abstract provides the base functionality for our rules.
+ * NextADInt_Core_Validator_Rule_Abstract provides the base functionality for our rules.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Core_Validator_Rule_Abstract')) {
  *
  * @access public
  */
-abstract class Core_Validator_Rule_Abstract implements Core_Validator_Rule
+abstract class NextADInt_Core_Validator_Rule_Abstract implements NextADInt_Core_Validator_Rule
 {
 	/**
 	 * The message that will be returned, if the validation failed.
@@ -26,7 +26,7 @@ abstract class Core_Validator_Rule_Abstract implements Core_Validator_Rule
 	private $msg;
 
 	/**
-	 * Core_Validator_Rule_Abstract constructor.
+	 * NextADInt_Core_Validator_Rule_Abstract constructor.
 	 *
 	 * @param string $msg
 	 */

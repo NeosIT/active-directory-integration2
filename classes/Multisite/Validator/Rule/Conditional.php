@@ -3,21 +3,21 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_Conditional')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_Conditional')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_Conditional runs the given rule only under certain conditions.
+ * NextADInt_Multisite_Validator_Rule_Conditional runs the given rule only under certain conditions.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access
  */
-class Multisite_Validator_Rule_Conditional extends Core_Validator_Rule_Abstract
+class NextADInt_Multisite_Validator_Rule_Conditional extends NextADInt_Core_Validator_Rule_Abstract
 {
 	/**
-	 * @var Core_Validator_Rule[]
+	 * @var NextADInt_Core_Validator_Rule[]
 	 */
 	private $rules = array();
 
@@ -29,9 +29,9 @@ class Multisite_Validator_Rule_Conditional extends Core_Validator_Rule_Abstract
 	private $propertyCondition;
 
 	/**
-	 * Multisite_Validator_Rule_Conditional constructor.
+	 * NextADInt_Multisite_Validator_Rule_Conditional constructor.
 	 *
-	 * @param Core_Validator_Rule[] $rules
+	 * @param NextADInt_Core_Validator_Rule[] $rules
 	 * @param array                 $propertyCondition
 	 */
 	public function __construct($rules, array $propertyCondition)

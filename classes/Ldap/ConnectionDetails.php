@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ldap_ConnectionDetails')) {
+if (class_exists('NextADInt_Ldap_ConnectionDetails')) {
 	return;
 }
 
 /**
- * Ldap_ConnectionDetails contains all details for an LDAP connection to the Active Directory.
+ * NextADInt_Ldap_Connection contains all details for an LDAP connection to the Active Directory.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Ldap_ConnectionDetails
+class NextADInt_Ldap_ConnectionDetails
 {
 	private $baseDn = null;
 	private $domainControllers = null;
@@ -99,8 +99,8 @@ class Ldap_ConnectionDetails
 			$encryption = 'none';
 		}
 
-		Core_Assert::condition(
-			in_array(strtolower($encryption), Multisite_Option_Encryption::getValues()),
+		NextADInt_Core_Assert::condition(
+			in_array(strtolower($encryption), NextADInt_Multisite_Option_Encryption::getValues()),
 			'Encryption type must be one of none, starttls or ldaps');
 
 		$this->encryption = $encryption;

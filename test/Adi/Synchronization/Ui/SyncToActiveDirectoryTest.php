@@ -8,22 +8,22 @@
  */
 class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 {
-	/* @var Multisite_View_TwigContainer | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_View_TwigContainer | PHPUnit_Framework_MockObject_MockObject */
 	private $twigContainer;
 
-	/* @var Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/* @var Adi_Synchronization_ActiveDirectory | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Adi_Synchronization_ActiveDirectory | PHPUnit_Framework_MockObject_MockObject */
 	private $syncToActiveDirectory;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->twigContainer = $this->createMock('Multisite_View_TwigContainer');
-		$this->syncToActiveDirectory = $this->createMock('Adi_Synchronization_ActiveDirectory');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->twigContainer = $this->createMock('NextADInt_Multisite_View_TwigContainer');
+		$this->syncToActiveDirectory = $this->createMock('NextADInt_Adi_Synchronization_ActiveDirectory');
 	}
 
 	public function tearDown()
@@ -33,11 +33,11 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Adi_Synchronization_Ui_SyncToActiveDirectoryPage | PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage | PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Synchronization_Ui_SyncToActiveDirectoryPage')
+		return $this->getMockBuilder('NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage')
 			->setConstructorArgs(
 				array(
 					$this->twigContainer,
@@ -57,7 +57,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$returnedTitle = $sut->getTitle();
-		$this->assertEquals(Adi_Synchronization_Ui_SyncToActiveDirectoryPage::TITLE, $returnedTitle);
+		$this->assertEquals(NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage::TITLE, $returnedTitle);
 	}
 
 	/**
@@ -68,7 +68,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$returnedValue = $sut->getSlug();
-		$this->assertEquals(ADI_PREFIX . Adi_Synchronization_Ui_SyncToActiveDirectoryPage::SLUG, $returnedValue);
+		$this->assertEquals(ADI_PREFIX . NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage::SLUG, $returnedValue);
 	}
 
 	/**
@@ -79,7 +79,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$returnedValue = $sut->wpAjaxSlug();
-		$this->assertEquals(Adi_Synchronization_Ui_SyncToActiveDirectoryPage::AJAX_SLUG, $returnedValue);
+		$this->assertEquals(NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage::AJAX_SLUG, $returnedValue);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$returnedValue = $this->invokeMethod($sut, 'getCapability', array());
-		$this->assertEquals(Adi_Synchronization_Ui_SyncToActiveDirectoryPage::CAPABILITY, $returnedValue);
+		$this->assertEquals(NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage::CAPABILITY, $returnedValue);
 	}
 
 	/**
@@ -110,7 +110,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_create_nonce', array(
-				'args'  => Adi_Synchronization_Ui_SyncToActiveDirectoryPage::NONCE,
+				'args'  => NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage::NONCE,
 				'times' => 1,
 				'return' => $nonce
 			)
@@ -118,7 +118,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE)
+			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE)
 			->willReturn($authCode);
 
 		WP_Mock::wpFunction(
@@ -138,7 +138,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('display')
-			->with(Adi_Synchronization_Ui_SyncToActiveDirectoryPage::TEMPLATE, array(
+			->with(NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage::TEMPLATE, array(
 				'nonce' => $nonce, 
 				'authCode' => $authCode, 
 				'blogUrl' => $blogUrl,
@@ -159,7 +159,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args'  => array('adi2', ADI_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS),
+				'args'  => array('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
@@ -206,7 +206,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 		);
 
 		WP_Mock::wpFunction('wp_verify_nonce', array(
-			'args'   => array('invalid', Adi_Synchronization_Ui_SyncToActiveDirectoryPage::NONCE),
+			'args'   => array('invalid', NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage::NONCE),
 			'times'  => '1',
 			'return' => false)
 		);

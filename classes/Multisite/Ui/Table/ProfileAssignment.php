@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Ui_Table_ProfileAssignment')) {
+if (class_exists('NextADInt_Multisite_Ui_Table_ProfileAssignment')) {
 	return;
 }
 
@@ -12,13 +12,13 @@ if (!class_exists('WP_MS_Sites_List_Table')) {
 }
 
 /**
- * Multisite_Ui_Table_ProfileAssignment displays the table with all blogs and their assigned ADI profile.
+ * NextADInt_Multisite_Ui_Table_ProfileAssignment displays the table with all blogs and their assigned ADI profile.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access
  */
-class Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
+class NextADInt_Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
 {
 	const ADI_SITE_NAME_COLUMN = 'adi-site-name';
 

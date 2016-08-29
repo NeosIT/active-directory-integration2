@@ -3,7 +3,7 @@ if ( ! defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Cron_UrlTrigger')) {
+if (class_exists('NextADInt_Adi_Cron_UrlTrigger')) {
 	return;
 }
 
@@ -15,7 +15,7 @@ if (class_exists('Adi_Cron_UrlTrigger')) {
 * @author Tobias Hellmann <the@neos-it.de>
 * @access public
 */
-class Adi_Cron_UrlTrigger
+class NextADInt_Adi_Cron_UrlTrigger
 {
 	const TASK = 'adi2-task';
 	const AUTH_CODE = 'auth-code';
@@ -24,25 +24,25 @@ class Adi_Cron_UrlTrigger
 	const SYNC_TO_WORDPRESS = 'sync-to-wordpress';
 	const SYNC_TO_AD = 'sync-to-ad';
 
-	/* @var Multisite_Configuration_Service */
+	/* @var NextADInt_Multisite_Configuration_Service */
 	private $configuration;
 
-	/* @var Adi_Synchronization_ActiveDirectory */
+	/* @var NextADInt_Adi_Synchronization_ActiveDirectory */
 	private $syncToActiveDirectory;
 
-	/* @var Adi_Synchronization_WordPress */
+	/* @var NextADInt_Adi_Synchronization_WordPress */
 	private $syncToWordPress;
 
 	/**
-	 * Adi_Cron_UrlTrigger constructor.
+	 * NextADInt_Adi_Cron_UrlTrigger constructor.
 	 *
-	 * @param Multisite_Configuration_Service $configuration
-	 * @param Adi_Synchronization_ActiveDirectory  $syncToActiveDirectory
-	 * @param Adi_Synchronization_WordPress  $syncToWordPress
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Adi_Synchronization_ActiveDirectory  $syncToActiveDirectory
+	 * @param NextADInt_Adi_Synchronization_WordPress  $syncToWordPress
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration,
-								Adi_Synchronization_ActiveDirectory $syncToActiveDirectory,
-								Adi_Synchronization_WordPress $syncToWordPress)
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Adi_Synchronization_ActiveDirectory $syncToActiveDirectory,
+								NextADInt_Adi_Synchronization_WordPress $syncToWordPress)
 	{
 		$this->configuration = $configuration;
 		$this->syncToActiveDirectory = $syncToActiveDirectory;
@@ -77,12 +77,12 @@ class Adi_Cron_UrlTrigger
 			return;
 		}
 
-		$authCode = Core_Util_ArrayUtil::get(self::AUTH_CODE, $post, false);
+		$authCode = NextADInt_Core_Util_ArrayUtil::get(self::AUTH_CODE, $post, false);
 		if ( ! $this->validateAuthCode($authCode, $syncMode)) {
 			return;
 		}
 
-		$userId = Core_Util_ArrayUtil::get(self::USER_ID, $post, false);
+		$userId = NextADInt_Core_Util_ArrayUtil::get(self::USER_ID, $post, false);
 		$this->dispatchAction($userId, $syncMode);
 	}
 
@@ -95,7 +95,7 @@ class Adi_Cron_UrlTrigger
 	 */
 	public static function getSyncMode($post)
 	{
-		$task = Core_Util_ArrayUtil::get(self::TASK, $post, false);
+		$task = NextADInt_Core_Util_ArrayUtil::get(self::TASK, $post, false);
 
 		switch ($task) {
 			case self::SYNC_TO_WORDPRESS:
@@ -118,9 +118,9 @@ class Adi_Cron_UrlTrigger
 	public function validateAuthCode($authCode, $syncMode)
 	{
 		if ($syncMode === 1) {
-			$optionName = Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE;
+			$optionName = NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE;
 		} else {
-			$optionName = Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE;
+			$optionName = NextADInt_Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE;
 		}
 
 		$expectedCode = $this->configuration->getOptionValue($optionName);

@@ -3,29 +3,29 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Configuration_ImportService')) {
+if (class_exists('NextADInt_Adi_Configuration_ImportService')) {
 	return;
 }
 
 /**
- * Adi_Configuration_ImportService imports options the first ADI version and translate it to ADI 2 options.
+ * NextADInt_Adi_Configuration_ImportService imports options the first ADI version and translate it to ADI 2 options.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
  *
  * @access public
  */
-class Adi_Configuration_ImportService
+class NextADInt_Adi_Configuration_ImportService
 {
 	const OLD_VERSION_KEY = "AD_Integration_version";
 
-	/** @var Multisite_Configuration_Persistence_BlogConfigurationRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository */
 	private $blogConfigurationRepository;
 
-	/** @var Multisite_Configuration_Service */
+	/** @var NextADInt_Multisite_Configuration_Service */
 	private $configuration;
 
-	/** @var Multisite_Option_Provider */
+	/** @var NextADInt_Multisite_Option_Provider */
 	private $optionProvider;
 
 	/**
@@ -34,27 +34,27 @@ class Adi_Configuration_ImportService
 	 */
 	private static $optionNameMapping = array(
 		'display_name'               => 'name_pattern',
-		'syncback'                   => Adi_Configuration_Options::SYNC_TO_AD_ENABLED,
-		'syncback_use_global_user'   => Adi_Configuration_Options::SYNC_TO_AD_USE_GLOBAL_USER,
-		'syncback_global_user'       => Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER,
-		'syncback_global_pwd'        => Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD,
-		'bulkimport_enabled'         => Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED,
-		'bulkimport_authcode'        => Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE,
-		'bulkimport_security_groups' => Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS,
-		'bulkimport_user'            => Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER,
-		'bulkimport_pwd'             => Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD,
+		'syncback'                   => NextADInt_Adi_Configuration_Options::SYNC_TO_AD_ENABLED,
+		'syncback_use_global_user'   => NextADInt_Adi_Configuration_Options::SYNC_TO_AD_USE_GLOBAL_USER,
+		'syncback_global_user'       => NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER,
+		'syncback_global_pwd'        => NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD,
+		'bulkimport_enabled'         => NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED,
+		'bulkimport_authcode'        => NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE,
+		'bulkimport_security_groups' => NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS,
+		'bulkimport_user'            => NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER,
+		'bulkimport_pwd'             => NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD,
 	);
 
 	/**
 	 * Converter constructor.
 	 *
-	 * @param Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository
-	 * @param Multisite_Configuration_Service                                 $configuration
-	 * @param Multisite_Option_Provider                                       $optionProvider
+	 * @param NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository
+	 * @param NextADInt_Multisite_Configuration_Service                                 $configuration
+	 * @param NextADInt_Multisite_Option_Provider                                       $optionProvider
 	 */
-	public function __construct(Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
-		Multisite_Configuration_Service $configuration,
-		Multisite_Option_Provider $optionProvider
+	public function __construct(NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
+		NextADInt_Multisite_Configuration_Service $configuration,
+		NextADInt_Multisite_Option_Provider $optionProvider
 	) {
 		$this->blogConfigurationRepository = $blogConfigurationRepository;
 		$this->configuration = $configuration;
@@ -210,7 +210,7 @@ class Adi_Configuration_ImportService
 	{
 		// the installed version is newer than the current version?
 		if ($version) {
-			return Core_Util::native()->compare($version, ADI_PLUGIN_VERSION, '<');
+			return NextADInt_Core_Util::native()->compare($version, ADI_PLUGIN_VERSION, '<');
 		}
 
 		return false;
@@ -303,7 +303,7 @@ class Adi_Configuration_ImportService
 		}
 
 		$this->blogConfigurationRepository->persistSanitizedValue($siteId,
-			Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $configurationString);
+			NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $configurationString);
 	}
 
 	/**
@@ -330,12 +330,12 @@ class Adi_Configuration_ImportService
 			$wordpressAttribute = sizeof($settings) >= 3 ? $settings[2] : $adAttribute;
 
 			$r[$adAttribute] = array(
-				Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE                 => $type,
-				Adi_Configuration_Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE  => $wordpressAttribute,
-				Adi_Configuration_Options::ATTRIBUTES_COLUMN_OVERWRITE_EMPTY      => $overwriteEmpty,
-				Adi_Configuration_Options::ATTRIBUTES_COLUMN_DESCRIPTION          => '',
-				Adi_Configuration_Options::ATTRIBUTES_COLUMN_SYNC_TO_AD           => false,
-				Adi_Configuration_Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => false,
+				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE                 => $type,
+				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE  => $wordpressAttribute,
+				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_OVERWRITE_EMPTY      => $overwriteEmpty,
+				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_DESCRIPTION          => '',
+				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_SYNC_TO_AD           => false,
+				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => false,
 			);
 		}
 
@@ -421,7 +421,7 @@ class Adi_Configuration_ImportService
 
 
 		// for old multi-site installations
-		if (Core_Util::native()->compare($previousVersion, '1.1.5', '<=')) {
+		if (NextADInt_Core_Util::native()->compare($previousVersion, '1.1.5', '<=')) {
 			// for 1.1.5 and older
 			return get_blog_option($siteId, $optionKey);
 		}

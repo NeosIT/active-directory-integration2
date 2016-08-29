@@ -3,32 +3,32 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Authentication_SingleSignOn_Validator')) {
+if (class_exists('NextADInt_Adi_Authentication_SingleSignOn_Validator')) {
 	return;
 }
 
 /**
- * Adi_Authentication_SingleSignOn_Validator provides validation methods. These validation methods will be used during
+ * NextADInt_Adi_Authentication_SingleSignOn_Validator provides validation methods. These validation methods will be used during
  * the single sign on procedure.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access
  */
-class Adi_Authentication_SingleSignOn_Validator
+class NextADInt_Adi_Authentication_SingleSignOn_Validator
 {
-	const FAILED_SSO_UPN = Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN;
+	const FAILED_SSO_UPN = NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN;
 
-	const USER_LOGGED_OUT = Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT;
+	const USER_LOGGED_OUT = NextADInt_Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT;
 
 	/**
-	 * Check if the given {@link Ldap_Connection} is connected.
+	 * Check if the given {@link NextADInt_Ldap_Connection} is connected.
 	 *
 	 * @param $ldapConnection
 	 *
-	 * @throws Adi_Authentication_Exception
+	 * @throws NextADInt_Adi_Authentication_Exception
 	 */
-	public function validateLdapConnection(Ldap_Connection $ldapConnection)
+	public function validateLdapConnection(NextADInt_Ldap_Connection $ldapConnection)
 	{
 		if (!$ldapConnection->isConnected()) {
 			$this->throwAuthenticationException('Cannot connect to ldap. Check the connection.');
@@ -40,7 +40,7 @@ class Adi_Authentication_SingleSignOn_Validator
 	 *
 	 * @param $user
 	 *
-	 * @throws Adi_Authentication_Exception
+	 * @throws NextADInt_Adi_Authentication_Exception
 	 */
 	public function validateUser($user)
 	{
@@ -54,7 +54,7 @@ class Adi_Authentication_SingleSignOn_Validator
 	 *
 	 * @param $profile
 	 *
-	 * @throws Adi_Authentication_Exception
+	 * @throws NextADInt_Adi_Authentication_Exception
 	 */
 	public function validateProfile($profile)
 	{
@@ -66,11 +66,11 @@ class Adi_Authentication_SingleSignOn_Validator
 	/**
 	 * Check if the authentication has not failed.
 	 *
-	 * @param Adi_Authentication_Credentials $credentials
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 *
-	 * @throws Adi_Authentication_Exception
+	 * @throws NextADInt_Adi_Authentication_Exception
 	 */
-	public function validateAuthenticationState(Adi_Authentication_Credentials $credentials)
+	public function validateAuthenticationState(NextADInt_Adi_Authentication_Credentials $credentials)
 	{
 		$failedAuthenticateUsername = $this->getSessionHandler()->getValue(self::FAILED_SSO_UPN);
 
@@ -82,7 +82,7 @@ class Adi_Authentication_SingleSignOn_Validator
 	/**
 	 * Check if the user logged did not log out manually.
 	 *
-	 * @throws Adi_Authentication_Exception if the user logged out manually.
+	 * @throws NextADInt_Adi_Authentication_Exception if the user logged out manually.
 	 */
 	public function validateLogoutState()
 	{
@@ -96,34 +96,34 @@ class Adi_Authentication_SingleSignOn_Validator
 	/**
 	 * Check if the user is on a valid page.
 	 *
-	 * @throws Adi_Authentication_Exception if the user is on the logout page
+	 * @throws NextADInt_Adi_Authentication_Exception if the user is on the logout page
 	 */
 	public function validateUrl()
 	{
-		if ('logout' === Core_Util_ArrayUtil::get('action', $_GET, false)) {
+		if ('logout' === NextADInt_Core_Util_ArrayUtil::get('action', $_GET, false)) {
 			$this->throwAuthenticationException('User cannot be logged in on logout action.');
 		}
 	}
 
 	/**
-	 * Simple method for throwing a {@link Adi_Authentication_Exception}.
+	 * Simple method for throwing a {@link NextADInt_Adi_Authentication_Exception}.
 	 *
 	 * @param $message
 	 *
-	 * @throws Adi_Authentication_Exception
+	 * @throws NextADInt_Adi_Authentication_Exception
 	 */
 	protected function throwAuthenticationException($message)
 	{
-		throw new Adi_Authentication_Exception($message);
+		throw new NextADInt_Adi_Authentication_Exception($message);
 	}
 
 	/**
 	 * Return the current session handler.
 	 *
-	 * @return Core_Session_Handler
+	 * @return NextADInt_Core_Session_Handler
 	 */
 	protected function getSessionHandler()
 	{
-		return Core_Session_Handler::getInstance();
+		return NextADInt_Core_Session_Handler::getInstance();
 	}
 }

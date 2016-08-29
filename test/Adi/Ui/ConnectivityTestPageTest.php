@@ -6,36 +6,36 @@
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class Ut_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 {
-	/* @var Multisite_View_TwigContainer|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_View_TwigContainer|PHPUnit_Framework_MockObject_MockObject */
 	private $twigContainer;
 
-	/* @var Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $configuration */
+	/* @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $configuration */
 	private $configuration;
 
-	/** @var Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection */
+	/** @var NextADInt_Ldap_Connection|PHPUnit_Framework_MockObject_MockObject $ldapConnection */
 	private $ldapConnection;
 
-	/* @var Ldap_Attribute_Service|PHPUnit_Framework_MockObject_MockObject $attributes */
+	/* @var NextADInt_Ldap_Attribute_Service|PHPUnit_Framework_MockObject_MockObject $attributes */
 	private $attributeService;
 
-	/** @var Adi_User_Manager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Adi_User_Manager|PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
-	/** @var Adi_Role_Manager|PHPUnit_Framework_MockObject_MockObject $roleManager */
+	/** @var NextADInt_Adi_Role_Manager|PHPUnit_Framework_MockObject_MockObject $roleManager */
 	private $roleManager;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->twigContainer = $this->createMock('Multisite_View_TwigContainer');
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->ldapConnection = $this->createMock('Ldap_Connection');
-		$this->attributeService = $this->createMock('Ldap_Attribute_Service');
-		$this->userManager = $this->createMock('Adi_User_Manager');
-		$this->roleManager = $this->createMock('Adi_Role_Manager');
+		$this->twigContainer = $this->createMock('NextADInt_Multisite_View_TwigContainer');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
+		$this->attributeService = $this->createMock('NextADInt_Ldap_Attribute_Service');
+		$this->userManager = $this->createMock('NextADInt_Adi_User_Manager');
+		$this->roleManager = $this->createMock('NextADInt_Adi_Role_Manager');
 	}
 
 	public function tearDown()
@@ -58,11 +58,11 @@ class Ut_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Adi_Ui_ConnectivityTestPage| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Ui_ConnectivityTestPage| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Ui_ConnectivityTestPage')
+		return $this->getMockBuilder('NextADInt_Adi_Ui_ConnectivityTestPage')
 			->setConstructorArgs(
 				array(
 					$this->twigContainer,
@@ -144,7 +144,7 @@ class Ut_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args'  => array('adi2', ADI_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS),
+				'args'  => array('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
@@ -270,7 +270,7 @@ class Ut_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 		
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SUPPORT_LICENSE_KEY, 1)
+			->with(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY, 1)
 			->willReturn('123');
 
 		WP_Mock::wpFunction('get_current_blog_id', array(
@@ -310,7 +310,7 @@ class Ut_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SUPPORT_LICENSE_KEY, 1)
+			->with(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY, 1)
 			->willReturn('');
 
 		WP_Mock::wpFunction('get_current_blog_id', array(

@@ -1,27 +1,27 @@
 <?php
 
 /**
- * It_Ldap_Connection
+ * It_NextADInt_Ldap_Connection
  *
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class It_Ldap_ConnectionIT extends It_BasicTest
+class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 {
-	/* @var Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/* @var Ldap_Connection */
+	/* @var NextADInt_Ldap_Connection */
 	private $ldapConnection;
 
-	/* @var Ldap_ConnectionDetails */
+	/* @var NextADInt_Ldap_Connection */
 	protected $connectionDetails;
 
 	public function setUp()
 	{
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
 
-		$this->ldapConnection = new Ldap_Connection($this->configuration);
+		$this->ldapConnection = new NextADInt_Ldap_Connection($this->configuration);
 		$this->connectionDetails = $this->createAdConnectionDetails();
 		$this->ldapConnection->connect($this->connectionDetails);
 		$this->prepareActiveDirectory($this->ldapConnection->getAdLdap());
@@ -276,8 +276,8 @@ class It_Ldap_ConnectionIT extends It_BasicTest
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
 			->withConsecutive(
-				array(Adi_Configuration_Options::DOMAIN_CONTROLLERS),
-				array(Adi_Configuration_Options::PORT)
+				array(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS),
+				array(NextADInt_Adi_Configuration_Options::PORT)
 			)
 			->will(
 				$this->onConsecutiveCalls(

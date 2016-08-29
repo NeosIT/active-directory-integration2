@@ -3,33 +3,33 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Ui_ProfileController')) {
+if (class_exists('NextADInt_Multisite_Ui_ProfileController')) {
 	return;
 }
 
 /**
- * Multisite_Ui_ProfileController validates and stores the creation/change/delete of a profile.
+ * NextADInt_Multisite_Ui_ProfileController validates and stores the creation/change/delete of a profile.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access  public
  */
-class Multisite_Ui_ProfileController
+class NextADInt_Multisite_Ui_ProfileController
 {
-	/* @var Multisite_Configuration_Persistence_ProfileRepository $profileRepository */
+	/* @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository $profileRepository */
 	private $profileRepository;
-	/* @var Multisite_Configuration_Persistence_BlogConfigurationRepository */
+	/* @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository */
 	private $blogConfigurationRepository;
-	/** @var Multisite_Configuration_Persistence_DefaultProfileRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository */
 	private $defaultProfileRepository;
 
 	/**
-	 * @param Multisite_Configuration_Persistence_ProfileRepository           $profileRepository
-	 * @param Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository
-	 * @param Multisite_Configuration_Persistence_DefaultProfileRepository    $defaultProfileRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_ProfileRepository           $profileRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository    $defaultProfileRepository
 	 */
-	public function __construct(Multisite_Configuration_Persistence_ProfileRepository $profileRepository,
-		Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
-		Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository
+	public function __construct(NextADInt_Multisite_Configuration_Persistence_ProfileRepository $profileRepository,
+		NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
+		NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository
 	) {
 		$this->profileRepository = $profileRepository;
 		$this->blogConfigurationRepository = $blogConfigurationRepository;
@@ -154,10 +154,10 @@ class Multisite_Ui_ProfileController
 		try {
 			$this->profileRepository->delete($id);
 		} catch (Exception $e) {
-			return Core_Message::error(__('An error occurred while deleting the profile.', ADI_I18N))->toArray();
+			return NextADInt_Core_Message::error(__('An error occurred while deleting the profile.', ADI_I18N))->toArray();
 		}
 
-		return Core_Message::success(__('The profile was deleted successfully.', ADI_I18N))->toArray();
+		return NextADInt_Core_Message::success(__('The profile was deleted successfully.', ADI_I18N))->toArray();
 	}
 
 	/**

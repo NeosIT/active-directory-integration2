@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_PositiveNumericOrZero')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero')) {
 	return;
 }
 
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Validator_Rule_PositiveNumericOrZero')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_PositiveNumericOrZero extends Multisite_Validator_Rule_Numeric
+class NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero extends NextADInt_Multisite_Validator_Rule_Numeric
 {
 	/**
 	 * Validate the given data and check if it is zero or a position number.

@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_User_Ui_ExtendUserList')) {
+if (class_exists('NextADInt_Adi_User_Ui_ExtendUserList')) {
 	return;
 }
 
@@ -13,17 +13,17 @@ if (class_exists('Adi_User_Ui_ExtendUserList')) {
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_User_Ui_ExtendUserList
+class NextADInt_Adi_User_Ui_ExtendUserList
 {
 	/**
-	 * @var Multisite_Configuration_Service
+	 * @var NextADInt_Multisite_Configuration_Service
 	 */
 	private $configuration;
 
 	/**
-	 * @param Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration)
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration)
 	{
 		$this->configuration = $configuration;
 	}
@@ -34,7 +34,7 @@ class Adi_User_Ui_ExtendUserList
 	public function register()
 	{
 		// escape if SHOW_USER_STATUS is false
-		if (!$this->configuration->getOptionValue(Adi_Configuration_Options::SHOW_USER_STATUS)) {
+		if (!$this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SHOW_USER_STATUS)) {
 			return;
 		}
 

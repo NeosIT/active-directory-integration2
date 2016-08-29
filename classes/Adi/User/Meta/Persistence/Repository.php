@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_User_Meta_Persistence_Repository')) {
+if (class_exists('NextADInt_Adi_User_Meta_Persistence_Repository')) {
 	return;
 }
 
 /**
- * Adi_User_Meta_Persistence_Repository interacts with the user meta data of the internal WordPress table wp_user_meta.
+ * NextADInt_Adi_User_Meta_Persistence_Repository interacts with the user meta data of the internal WordPress table wp_user_meta.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access public
  */
-class Adi_User_Meta_Persistence_Repository
+class NextADInt_Adi_User_Meta_Persistence_Repository
 {
 	/** @var Logger $logger */
 	private $logger;

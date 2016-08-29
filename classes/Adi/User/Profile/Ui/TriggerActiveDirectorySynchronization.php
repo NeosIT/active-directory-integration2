@@ -3,25 +3,25 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('User_Profile_Ui_TriggerActiveDirectorySynchronization')) {
+if (class_exists('NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization')) {
 	return;
 }
 
 /**
- * Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization Provides the possibility to sync the current user back to the Ad.
+ * NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization Provides the possibility to sync the current user back to the Ad.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
+class NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 {
-	/* @var Multisite_Configuration_Service */
+	/* @var NextADInt_Multisite_Configuration_Service */
 	private $configuration;
 
-	/* @var Adi_Synchronization_ActiveDirectory */
+	/* @var NextADInt_Adi_Synchronization_ActiveDirectory */
 	private $syncToActiveDirectory;
 
-	/* @var Ldap_Attribute_Repository */
+	/* @var NextADInt_Ldap_Attribute_Repository */
 	private $attributeRepository;
 
 	/* @var Logger */
@@ -35,14 +35,14 @@ class Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 	const FORM_PASSWORD = 'active_directory_password';
 
 	/**
-	 * @param Multisite_Configuration_Service $configuration
-	 * @param Adi_Synchronization_ActiveDirectory $syncToActiveDirectory
-	 * @param Ldap_Attribute_Repository  $attributeRepository
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Adi_Synchronization_ActiveDirectory $syncToActiveDirectory
+	 * @param NextADInt_Ldap_Attribute_Repository  $attributeRepository
 	 * @param array $errors array containing errors for unit testing
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration,
-								Adi_Synchronization_ActiveDirectory $syncToActiveDirectory,
-								Ldap_Attribute_Repository $attributeRepository,
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Adi_Synchronization_ActiveDirectory $syncToActiveDirectory,
+								NextADInt_Ldap_Attribute_Repository $attributeRepository,
 								$errors = array()) {
 		$this->configuration = $configuration;
 		$this->syncToActiveDirectory = $syncToActiveDirectory;
@@ -112,7 +112,7 @@ class Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 	 */
 	public function updateWordPressProfile($userId, $data)
 	{
-		/* @var $attributes Ldap_Attribute */
+		/* @var $attributes NextADInt_Ldap_Attribute */
 		$attributes = $this->attributeRepository->filterWhitelistedAttributes(true);
 
 		foreach ($attributes as $attributeName => $attribute) {
@@ -239,7 +239,7 @@ class Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 
 		// use personal_account_suffix
 		$personalAccountSuffix = trim(get_user_meta($userId, ADI_PREFIX . 'account_suffix', true));
-		$optionAccountSuffix = trim($this->configuration->getOptionValue(Adi_Configuration_Options::ACCOUNT_SUFFIX));
+		$optionAccountSuffix = trim($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX));
 		
 		if (!$personalAccountSuffix && !$optionAccountSuffix && strpos($username, '@') !== false) {
 			$parts = explode('@', $username);
@@ -268,7 +268,7 @@ class Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 			return $personalAccountSuffix;
 		}
 		
-		$optionAccountSuffix = trim($this->configuration->getOptionValue(Adi_Configuration_Options::ACCOUNT_SUFFIX));
+		$optionAccountSuffix = trim($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX));
 		
 		if ($optionAccountSuffix) {
 			// choose first possible account suffix (this should never happen)

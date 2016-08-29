@@ -3,14 +3,14 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Adi_Authentication_SingleSignOn_VariableTest')) {
+if (class_exists('Ut_NextADInt_Adi_Authentication_SingleSignOn_VariableTest')) {
 	return;
 }
 
 /**
- * Ut_Adi_Authentication_SingleSignOn_VariableTest TODO short description
+ * Ut_NextADInt_Adi_Authentication_SingleSignOn_VariableTest TODO short description
  *
- * Ut_Adi_Authentication_SingleSignOn_VariableTest TODO long description
+ * Ut_NextADInt_Adi_Authentication_SingleSignOn_VariableTest TODO long description
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -18,7 +18,7 @@ if (class_exists('Ut_Adi_Authentication_SingleSignOn_VariableTest')) {
  *
  * @access
  */
-class Ut_Adi_Authentication_SingleSignOn_VariableTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Authentication_SingleSignOn_VariableTest extends Ut_BasicTest
 {
 	/**
 	 * @test
@@ -26,11 +26,11 @@ class Ut_Adi_Authentication_SingleSignOn_VariableTest extends Ut_BasicTest
 	public function getValues_returnsExpectedResult()
 	{
 		$expected = array(
-			Adi_Authentication_SingleSignOn_Variable::REMOTE_USER,
-			Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER,
+			NextADInt_Adi_Authentication_SingleSignOn_Variable::REMOTE_USER,
+			NextADInt_Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER,
 		);
 
-		$actual = Adi_Authentication_SingleSignOn_Variable::getValues();
+		$actual = NextADInt_Adi_Authentication_SingleSignOn_Variable::getValues();
 
 		$this->assertEquals($expected, $actual);
 	}

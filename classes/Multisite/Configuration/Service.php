@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Configuration_Service')) {
+if (class_exists('NextADInt_Multisite_Configuration_Service')) {
 	return;
 }
 
@@ -15,19 +15,19 @@ if (class_exists('Multisite_Configuration_Service')) {
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Multisite_Configuration_Service
+class NextADInt_Multisite_Configuration_Service
 {
 	/**
-	 * @var Multisite_Configuration_Persistence_BlogConfigurationRepository
+	 * @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository
 	 */
 	private $blogConfigurationRepository;
 
 	/**
-	 * @var Multisite_Configuration_Persistence_ProfileConfigurationRepository
+	 * @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository
 	 */
 	private $profileConfigurationRepository;
 
-	/** @var Multisite_Configuration_Persistence_ProfileRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository */
 	private $profileRepository;
 
 	/**
@@ -55,13 +55,13 @@ class Multisite_Configuration_Service
 
 
 	/**
-	 * @param Multisite_Configuration_Persistence_BlogConfigurationRepository    $blogConfigurationRepository
-	 * @param Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
-	 * @param Multisite_Configuration_Persistence_ProfileRepository              $profileRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository    $blogConfigurationRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_ProfileRepository              $profileRepository
 	 */
-	public function __construct(Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
-								Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
-								Multisite_Configuration_Persistence_ProfileRepository $profileRepository
+	public function __construct(NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
+								NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
+								NextADInt_Multisite_Configuration_Persistence_ProfileRepository $profileRepository
 	) {
 		$this->blogConfigurationRepository = $blogConfigurationRepository;
 		$this->profileConfigurationRepository = $profileConfigurationRepository;
@@ -103,7 +103,7 @@ class Multisite_Configuration_Service
 	{
 		$option = $this->getOption($optionName, $blogId);
 
-		return Core_Util_ArrayUtil::get('option_value', $option);
+		return NextADInt_Core_Util_ArrayUtil::get('option_value', $option);
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Multisite_Configuration_Service
 		$profileHasLinkedDomain = false;
 
 		if ($profileId != null) {
-			$profileDomainSid = $this->getProfileOptionValue(Adi_Configuration_Options::DOMAIN_SID, $blogId);
+			$profileDomainSid = $this->getProfileOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID, $blogId);
 
 			if (!empty($profileDomainSid)) {
 				$profileHasLinkedDomain = true;
@@ -146,8 +146,8 @@ class Multisite_Configuration_Service
 		if ($profileHasLinkedDomain && $this->isEnvironmentOption($optionName)) {
 			$optionValue = $profileOptionValue;
 
-			if ($permission == Multisite_Configuration_Service::EDITABLE) {
-				$permission = Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN;
+			if ($permission == NextADInt_Multisite_Configuration_Service::EDITABLE) {
+				$permission = NextADInt_Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN;
 			}
 		}
 		else {
@@ -200,7 +200,7 @@ class Multisite_Configuration_Service
 	 */
 	protected function getValue($permission, $profileOptionValue, $blogOptionValue)
 	{
-		if ($permission < Multisite_Configuration_Service::EDITABLE) {
+		if ($permission < NextADInt_Multisite_Configuration_Service::EDITABLE) {
 			return $profileOptionValue;
 		}
 
@@ -209,7 +209,7 @@ class Multisite_Configuration_Service
 
 	/**
 	 * In a MultiSide WordPress installation this method returns the option_permission from the profile option.
-	 * In a normal WordPress installation this method returns always Multisite_Configuration_Service::EDITABLE.
+	 * In a normal WordPress installation this method returns always NextADInt_Multisite_Configuration_Service::EDITABLE.
 	 *
 	 * Do not call this method from the outside.
 	 *
@@ -224,7 +224,7 @@ class Multisite_Configuration_Service
 			return $this->profileConfigurationRepository->findSanitizedPermission($profileId, $optionName);
 		}
 
-		return Multisite_Configuration_Service::EDITABLE;
+		return NextADInt_Multisite_Configuration_Service::EDITABLE;
 	}
 
 	/**
@@ -307,9 +307,9 @@ class Multisite_Configuration_Service
 	{
 		$profileName = $this->profileRepository->findName($profileId);
 
-		$options[Adi_Configuration_Options::PROFILE_NAME] = array(
+		$options[NextADInt_Adi_Configuration_Options::PROFILE_NAME] = array(
 			'option_value'      => $profileName,
-			'option_permission' => Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN,
+			'option_permission' => NextADInt_Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN,
 		);
 
 		return $options;
@@ -324,14 +324,14 @@ class Multisite_Configuration_Service
 	 */
 	public function isEnvironmentOption($optionName)
 	{
-		$arrEnvironmentOptions = array(Adi_Configuration_Options::DOMAIN_CONTROLLERS,
-			Adi_Configuration_Options::PORT,
-			Adi_Configuration_Options::USE_TLS,
-			Adi_Configuration_Options::NETWORK_TIMEOUT,
-			Adi_Configuration_Options::BASE_DN,
-			Adi_Configuration_Options::DOMAIN_SID,
-			Adi_Configuration_Options::VERIFICATION_USERNAME,
-			Adi_Configuration_Options::VERIFICATION_PASSWORD,
+		$arrEnvironmentOptions = array(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS,
+			NextADInt_Adi_Configuration_Options::PORT,
+			NextADInt_Adi_Configuration_Options::USE_TLS,
+			NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT,
+			NextADInt_Adi_Configuration_Options::BASE_DN,
+			NextADInt_Adi_Configuration_Options::DOMAIN_SID,
+			NextADInt_Adi_Configuration_Options::VERIFICATION_USERNAME,
+			NextADInt_Adi_Configuration_Options::VERIFICATION_PASSWORD,
 		); //TODO move somewhere else
 
 		// TODO better solution would be to get viewable configuration through Layout class. But this introduces new

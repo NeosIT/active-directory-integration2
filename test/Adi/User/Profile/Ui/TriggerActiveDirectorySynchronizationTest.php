@@ -5,24 +5,24 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/* @var Adi_Synchronization_ActiveDirectory | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Adi_Synchronization_ActiveDirectory | PHPUnit_Framework_MockObject_MockObject */
 	private $syncToActiveDirectory;
 
-	/* @var Ldap_Attribute_Repository | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Ldap_Attribute_Repository | PHPUnit_Framework_MockObject_MockObject */
 	private $attributeRepository;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->syncToActiveDirectory = $this->createMock('Adi_Synchronization_ActiveDirectory');
-		$this->attributeRepository = $this->createMock('Ldap_Attribute_Repository');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->syncToActiveDirectory = $this->createMock('NextADInt_Adi_Synchronization_ActiveDirectory');
+		$this->attributeRepository = $this->createMock('NextADInt_Ldap_Attribute_Repository');
 	}
 
 	public function tearDown()
@@ -32,11 +32,11 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 
 	/**
 	 *
-	 * @return Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null, $errors = array())
 	{
-		return $this->getMockBuilder('Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization')
+		return $this->getMockBuilder('NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization')
 			->setConstructorArgs(
 				array(
 					$this->configuration,
@@ -170,7 +170,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 
 		$userId = 1;
 
-		$cn = new Ldap_Attribute();
+		$cn = new NextADInt_Ldap_Attribute();
 		$cn->setMetakey('meta_cn');
 
 		$attributes = array(
@@ -279,7 +279,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 			->with($wpUserdata, 'password')
 			->willReturn(null);
 
-		$actual = $sut->triggerSyncToActiveDirectory(1, array(ADI_PREFIX . Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization::FORM_PASSWORD => 'password'));
+		$actual = $sut->triggerSyncToActiveDirectory(1, array(ADI_PREFIX . NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization::FORM_PASSWORD => 'password'));
 		$this->assertEquals(false, $actual);
 	}
 
@@ -331,7 +331,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::ACCOUNT_SUFFIX)
+			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX)
 			->willReturn('');
 
 		$username = $sut->getUsername(654, 'the@the-test.local');
@@ -353,7 +353,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::ACCOUNT_SUFFIX)
+			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX)
 			->willReturn('@the-test2.local');
 
 		$username = $sut->getUsername(654, 'the@the-test.local');
@@ -399,7 +399,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::ACCOUNT_SUFFIX)
+			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX)
 			->willReturn($optionSuffix);
 
 		$returnedValue = $sut->getAccountSuffix($userId, $userName);
@@ -425,7 +425,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::ACCOUNT_SUFFIX)
+			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX)
 			->willReturn('');
 
 		$returnedValue = $sut->getAccountSuffix($userId, $userName);
@@ -450,7 +450,7 @@ class Ut_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest extends Ut_Ba
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::ACCOUNT_SUFFIX)
+			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX)
 			->willReturn('');
 
 		$returnedValue = $sut->getAccountSuffix($userId, $userName);

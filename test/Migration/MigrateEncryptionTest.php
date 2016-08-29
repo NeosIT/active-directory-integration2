@@ -1,37 +1,37 @@
 <?php
 
 /**
- * Ut_Ldap_ConnectionTest
+ * Ut_NextADInt_Ldap_ConnectionTest
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Migration_MigrateEncryptionTest extends Ut_BasicTest
+class Ut_NextADInt_Migration_MigrateEncryptionTest extends Ut_BasicTest
 {
 	const LDAPS_PREFIX = 'ldaps://';
 
-	/** @var Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject $profileRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject $profileRepository */
 	private $profileRepository;
 
-	/** @var Multisite_Configuration_Persistence_ProfileConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $profileConfigurationRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $profileConfigurationRepository */
 	private $profileConfigurationRepository;
 
-	/** @var Multisite_Configuration_Persistence_BlogConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $blogConfigurationRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $blogConfigurationRepository */
 	private $blogConfigurationRepository;
 
-	/** @var Adi_Dependencies|PHPUnit_Framework_MockObject_MockObject $dependencyContainer */
+	/** @var NextADInt_Adi_Dependencies|PHPUnit_Framework_MockObject_MockObject $dependencyContainer */
 	private $dependencyContainer;
 
 	public function setUp()
 	{
 
 		parent::setUp();
-		$this->dependencyContainer = parent::createMock('Adi_Dependencies');
+		$this->dependencyContainer = parent::createMock('NextADInt_Adi_Dependencies');
 
 
-		$this->profileRepository = parent::createMock('Multisite_Configuration_Persistence_ProfileRepository');
-		$this->profileConfigurationRepository = parent::createMock('Multisite_Configuration_Persistence_ProfileConfigurationRepository');
-		$this->blogConfigurationRepository = parent::createMock('Multisite_Configuration_Persistence_BlogConfigurationRepository');
+		$this->profileRepository = parent::createMock('NextADInt_Multisite_Configuration_Persistence_ProfileRepository');
+		$this->profileConfigurationRepository = parent::createMock('NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository');
+		$this->blogConfigurationRepository = parent::createMock('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository');
 
 		$this->dependencyContainer->expects($this->once())
 			->method('getProfileRepository')
@@ -54,11 +54,11 @@ class Ut_Migration_MigrateEncryptionTest extends Ut_BasicTest
 	/**
 	 * @param $methods
 	 *
-	 * @return Migration_MigrateEncryption|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Migration_MigrateEncryption|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods)
 	{
-		return $connection = $this->getMockBuilder('Migration_MigrateEncryption')
+		return $connection = $this->getMockBuilder('NextADInt_Migration_MigrateEncryption')
 			->setConstructorArgs(array(
 				$this->dependencyContainer,
 			))
@@ -155,8 +155,8 @@ class Ut_Migration_MigrateEncryptionTest extends Ut_BasicTest
 		$this->blogConfigurationRepository->expects($this->exactly(2))
 			->method('findSanitizedValue')
 			->withConsecutive(
-				array(1, Adi_Configuration_Options::DOMAIN_CONTROLLERS),
-				array(1, Adi_Configuration_Options::USE_TLS)
+				array(1, NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS),
+				array(1, NextADInt_Adi_Configuration_Options::USE_TLS)
 			)
 			->will($this->onConsecutiveCalls(
 				'127.0.0.1',
@@ -168,7 +168,7 @@ class Ut_Migration_MigrateEncryptionTest extends Ut_BasicTest
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('persistSanitizedValue')
-			->with(1, Adi_Configuration_Options::ENCRYPTION, 'starttls');
+			->with(1, NextADInt_Adi_Configuration_Options::ENCRYPTION, 'starttls');
 
 
 		$sut->execute();
@@ -188,8 +188,8 @@ class Ut_Migration_MigrateEncryptionTest extends Ut_BasicTest
 		$this->blogConfigurationRepository->expects($this->exactly(2))
 			->method('findSanitizedValue')
 			->withConsecutive(
-				array(1, Adi_Configuration_Options::DOMAIN_CONTROLLERS),
-				array(1, Adi_Configuration_Options::USE_TLS)
+				array(1, NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS),
+				array(1, NextADInt_Adi_Configuration_Options::USE_TLS)
 			)
 			->will($this->onConsecutiveCalls(
 				'127.0.0.1',
@@ -201,7 +201,7 @@ class Ut_Migration_MigrateEncryptionTest extends Ut_BasicTest
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('persistSanitizedValue')
-			->with(1, Adi_Configuration_Options::ENCRYPTION, 'none');
+			->with(1, NextADInt_Adi_Configuration_Options::ENCRYPTION, 'none');
 
 
 		$sut->execute();
@@ -221,8 +221,8 @@ class Ut_Migration_MigrateEncryptionTest extends Ut_BasicTest
 		$this->blogConfigurationRepository->expects($this->exactly(2))
 			->method('findSanitizedValue')
 			->withConsecutive(
-				array(1, Adi_Configuration_Options::DOMAIN_CONTROLLERS),
-				array(1, Adi_Configuration_Options::USE_TLS)
+				array(1, NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS),
+				array(1, NextADInt_Adi_Configuration_Options::USE_TLS)
 			)
 			->will($this->onConsecutiveCalls(
 				'ldaps://127.0.0.1',
@@ -235,9 +235,9 @@ class Ut_Migration_MigrateEncryptionTest extends Ut_BasicTest
 		$this->blogConfigurationRepository->expects($this->exactly(3))
 			->method('persistSanitizedValue')
 			->withConsecutive(
-				array(1, Adi_Configuration_Options::PORT, 636),
-				array(1, Adi_Configuration_Options::DOMAIN_CONTROLLERS, '127.0.0.1'),
-				array(1, Adi_Configuration_Options::ENCRYPTION, Multisite_Option_Encryption::LDAPS)
+				array(1, NextADInt_Adi_Configuration_Options::PORT, 636),
+				array(1, NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS, '127.0.0.1'),
+				array(1, NextADInt_Adi_Configuration_Options::ENCRYPTION, NextADInt_Multisite_Option_Encryption::LDAPS)
 			)
 			->will($this->onConsecutiveCalls(
 				'127.0.0.1',

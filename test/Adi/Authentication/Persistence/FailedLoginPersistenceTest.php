@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Ut_Adi_Authentication_Persistence_FailedLoginRepositoryTest
+ * Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class Ut_Adi_Authentication_Persistence_FailedLoginRepositoryTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest extends Ut_BasicTest
 {
 	public function setUp()
 	{
@@ -21,11 +21,11 @@ class Ut_Adi_Authentication_Persistence_FailedLoginRepositoryTest extends Ut_Bas
 	}
 
 	/**
-	 * @return Adi_Authentication_Persistence_FailedLoginRepository|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Authentication_Persistence_FailedLoginRepository|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Authentication_Persistence_FailedLoginRepository')
+		return $this->getMockBuilder('NextADInt_Adi_Authentication_Persistence_FailedLoginRepository')
 			->setConstructorArgs(array())
 			->setMethods($methods)
 			->getMock();

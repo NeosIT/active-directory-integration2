@@ -4,24 +4,24 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Multisite_Ui_BlogConfigurationControllerTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Ui_BlogConfigurationControllerTest extends Ut_BasicTest
 {
-	/**  @var Multisite_Configuration_Persistence_BlogConfigurationRepository| PHPUnit_Framework_MockObject_MockObject */
+	/**  @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository| PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationRepository;
 
-	/**  @var Multisite_Option_Provider| PHPUnit_Framework_MockObject_MockObject */
+	/**  @var NextADInt_Multisite_Option_Provider| PHPUnit_Framework_MockObject_MockObject */
 	private $optionProvider;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->blogConfigurationRepository = $this->getMockBuilder('Multisite_Configuration_Persistence_BlogConfigurationRepository')
+		$this->blogConfigurationRepository = $this->getMockBuilder('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository')
 			->disableOriginalConstructor()
 			->setMethods(array('persistSanitizedValue'))
 			->getMock();
 
-		$this->optionProvider = $this->createMock('Multisite_Option_Provider');
+		$this->optionProvider = $this->createMock('NextADInt_Multisite_Option_Provider');
 	}
 
 	public function tearDown()
@@ -32,11 +32,11 @@ class Ut_Multisite_Ui_BlogConfigurationControllerTest extends Ut_BasicTest
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Ui_BlogConfigurationController|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Ui_BlogConfigurationController|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods)
 	{
-		return $this->getMockBuilder('Multisite_Ui_BlogConfigurationController')
+		return $this->getMockBuilder('NextADInt_Multisite_Ui_BlogConfigurationController')
 			->setConstructorArgs(array(
 				$this->blogConfigurationRepository,
 				$this->optionProvider))

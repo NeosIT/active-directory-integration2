@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_NoDefaultAttributeName')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_NoDefaultAttributeName')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_NoDefaultAttributeName provides a validation to prevent that a user overrides the default
+ * NextADInt_Multisite_Validator_Rule_NoDefaultAttributeName provides a validation to prevent that a user overrides the default
  * attributes.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
@@ -17,7 +17,7 @@ if (class_exists('Multisite_Validator_Rule_NoDefaultAttributeName')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_NoDefaultAttributeName extends Core_Validator_Rule_Abstract
+class NextADInt_Multisite_Validator_Rule_NoDefaultAttributeName extends NextADInt_Core_Validator_Rule_Abstract
 {
 	/**
 	 * Validate the given data.
@@ -44,7 +44,7 @@ class Multisite_Validator_Rule_NoDefaultAttributeName extends Core_Validator_Rul
 	}
 
 	/**
-	 * Simple delegation to {@see Ldap_Attribute_Repository::convertAttributeMapping}.
+	 * Simple delegation to {@see NextADInt_Ldap_Attribute_Repository::convertAttributeMapping}.
 	 *
 	 * @param $attributeString
 	 *
@@ -52,7 +52,7 @@ class Multisite_Validator_Rule_NoDefaultAttributeName extends Core_Validator_Rul
 	 */
 	protected function convertAttributeMapping($attributeString)
 	{
-		return Ldap_Attribute_Repository::convertAttributeMapping($attributeString);
+		return NextADInt_Ldap_Attribute_Repository::convertAttributeMapping($attributeString);
 	}
 
 	/**
@@ -62,6 +62,6 @@ class Multisite_Validator_Rule_NoDefaultAttributeName extends Core_Validator_Rul
 	 */
 	protected function getForbiddenAttributeNames()
 	{
-		return Ldap_Attribute_Repository::getDefaultAttributeMetaKeys();
+		return NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys();
 	}
 }

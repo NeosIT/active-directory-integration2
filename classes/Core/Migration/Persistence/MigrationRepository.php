@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Migration_Persistence_MigrationRepository')) {
+if (class_exists('NextADInt_Core_Migration_Persistence_MigrationRepository')) {
 	return;
 }
 
 /**
- * Core_Migration_Persistence_MigrationRepository provides access to the migration data to check if various migrations
+ * NextADInt_Core_Migration_Persistence_MigrationRepository provides access to the migration data to check if various migrations
  * have already been migrated.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Core_Migration_Persistence_MigrationRepository')) {
  *
  * @access
  */
-class Core_Migration_Persistence_MigrationRepository
+class NextADInt_Core_Migration_Persistence_MigrationRepository
 {
 	const MIGRATION = 'migration';
 

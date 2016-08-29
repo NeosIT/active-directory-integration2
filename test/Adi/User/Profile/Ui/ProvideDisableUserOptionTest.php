@@ -4,23 +4,23 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_BasicTest
 {
-	/* @var Multisite_View_TwigContainer| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_View_TwigContainer| PHPUnit_Framework_MockObject_MockObject */
 	private $twigContainer;
 
 	/* @var Twig_Environment|PHPUnit_Framework_MockObject_MockObject */
 	private $twig;
 
-	/* @var Adi_User_Profile_Ui_ProvideDisableUserOption| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption| PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->twigContainer = parent::createMock('Multisite_View_TwigContainer');
-		$this->userManager = parent::createMock('Adi_User_Manager');
+		$this->twigContainer = parent::createMock('NextADInt_Multisite_View_TwigContainer');
+		$this->userManager = parent::createMock('NextADInt_Adi_User_Manager');
 		$this->twig = parent::createMock('Twig_Environment');
 	}
 
@@ -31,11 +31,11 @@ class Ut_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Adi_User_Profile_Ui_ProvideDisableUserOption| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_User_Profile_Ui_ProvideDisableUserOption')
+		return $this->getMockBuilder('NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption')
 			->setConstructorArgs(
 				array(
 					$this->twigContainer,

@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Migration_Configuration_Abstract')) {
+if (class_exists('NextADInt_Core_Migration_Configuration_Abstract')) {
 	return;
 }
 
@@ -13,18 +13,18 @@ if (class_exists('Core_Migration_Configuration_Abstract')) {
  * @author Sebastian Weinert <swe@neos-it.de>
  * @author Danny Meißner <dme@neos-it.de>
  */
-abstract class Core_Migration_Configuration_Abstract extends Core_Migration_Abstract
+abstract class NextADInt_Core_Migration_Configuration_Abstract extends NextADInt_Core_Migration_Abstract
 {
-	/** @var Multisite_Configuration_Persistence_ProfileRepository $profileRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository $profileRepository */
 	protected $profileRepository;
 
-	/** @var Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository */
 	protected $profileConfigurationRepository;
 
-	/** @var Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository */
 	protected $blogConfigurationRepository;
 
-	public function __construct(Adi_Dependencies $dependencyContainer)
+	public function __construct(NextADInt_Adi_Dependencies $dependencyContainer)
 	{
 		parent::__construct($dependencyContainer);
 
@@ -75,7 +75,7 @@ abstract class Core_Migration_Configuration_Abstract extends Core_Migration_Abst
 		}
 	}
 
-	abstract protected function migrateConfig(Multisite_Configuration_Persistence_ConfigurationRepository $configurationRepository,
+	abstract protected function migrateConfig(NextADInt_Multisite_Configuration_Persistence_ConfigurationRepository $configurationRepository,
 											  $blogId
 	);
 

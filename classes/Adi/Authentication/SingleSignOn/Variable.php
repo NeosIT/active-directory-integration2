@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Authentication_SingleSignOn_Variable')) {
+if (class_exists('NextADInt_Adi_Authentication_SingleSignOn_Variable')) {
 	return;
 }
 
 /**
- * Adi_Authentication_SingleSignOn_Variable contains all environment identifiers which could point to SSO user principle.
+ * NextADInt_Adi_Authentication_SingleSignOn_Variable contains all environment identifiers which could point to SSO user principle.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access
  */
-class Adi_Authentication_SingleSignOn_Variable
+class NextADInt_Adi_Authentication_SingleSignOn_Variable
 {
 	const REMOTE_USER = 'REMOTE_USER';
 

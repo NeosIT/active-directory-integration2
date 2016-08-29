@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Configuration_Persistence_DefaultProfileRepository')) {
+if (class_exists('NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository')) {
 	return;
 }
 
 /**
- * Multisite_Configuration_Persistence_ProfileRepository creates and updates the default profile.
+ * NextADInt_Multisite_Configuration_Persistence_ProfileRepository creates and updates the default profile.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access public
  */
-class Multisite_Configuration_Persistence_DefaultProfileRepository
+class NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository
 {
 	const SUFFIX_DEFAULT = 'default';
 
@@ -49,6 +49,6 @@ class Multisite_Configuration_Persistence_DefaultProfileRepository
 	 */
 	protected function getProfileOptionName()
 	{
-		return ADI_PREFIX . Multisite_Configuration_Persistence_ProfileRepository::PREFIX . self::SUFFIX_DEFAULT;
+		return ADI_PREFIX . NextADInt_Multisite_Configuration_Persistence_ProfileRepository::PREFIX . self::SUFFIX_DEFAULT;
 	}
 }

@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Exception')) {
+if (class_exists('NextADInt_Core_Exception')) {
 	return;
 }
 
@@ -14,6 +14,6 @@ if (class_exists('Core_Exception')) {
  *
  * @access
  */
-class Core_Exception extends Exception
+class NextADInt_Core_Exception extends Exception
 {
 }

@@ -3,7 +3,7 @@
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @access private
  */
-class Ut_Adi_User_Meta_Persistence_RepositoryTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_User_Meta_Persistence_RepositoryTest extends Ut_BasicTest
 {
 	public function setUp()
 	{
@@ -148,15 +148,15 @@ class Ut_Adi_User_Meta_Persistence_RepositoryTest extends Ut_BasicTest
 	}
 
 	/**
-	 * Create a partial mock for our {@see Adi_User_Meta_Persistence_Repository}.
+	 * Create a partial mock for our {@see NextADInt_Adi_User_Meta_Persistence_Repository}.
 	 *
 	 * @param $methods
 	 *
-	 * @return Adi_User_Meta_Persistence_Repository|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_User_Meta_Persistence_Repository|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function sut($methods)
 	{
-		return $this->getMockBuilder('Adi_User_Meta_Persistence_Repository')
+		return $this->getMockBuilder('NextADInt_Adi_User_Meta_Persistence_Repository')
 			->setConstructorArgs(array())
 			->setMethods($methods)
 			->getMock();

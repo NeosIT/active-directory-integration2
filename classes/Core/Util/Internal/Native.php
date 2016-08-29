@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Util_Internal_Native')) {
+if (class_exists('NextADInt_Core_Util_Internal_Native')) {
 	return;
 }
 
 /**
- * Core_Util_Internal_Native contains wrapper methods which delegates to internal PHP functions.
+ * NextADInt_Core_Util_Internal_Native contains wrapper methods which delegates to internal PHP functions.
  * This is required to get the test infrastructure working.
  * In addition to that we can delegate to different methods depending upon the current used PHP version.
  *
@@ -17,7 +17,7 @@ if (class_exists('Core_Util_Internal_Native')) {
  *
  * @access public
  */
-class Core_Util_Internal_Native
+class NextADInt_Core_Util_Internal_Native
 {
 	private function __clone()
 	{

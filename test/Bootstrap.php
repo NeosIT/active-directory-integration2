@@ -97,7 +97,7 @@ for ($i = 0; $i < 9; $i++) {
 define('ADI_PATH', $path);
 // define the plugin name
 $subPath = explode(DIRECTORY_SEPARATOR, ADI_PATH);
-DEFINE('ADI_PLUGIN_NAME', array_pop($subPath));
+define('ADI_PLUGIN_NAME', array_pop($subPath));
 
 require_once "$path/Autoloader.php";
 $autoLoader = new Adi_Autoloader();

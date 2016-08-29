@@ -3,42 +3,42 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('User_Profile_Ui_ShowLdapAttributes')) {
+if (class_exists('NextADInt_Adi_User_Profile_Ui_ShowLdapAttributes')) {
 	return;
 }
 
 /**
- * Adi_User_Profile_Ui_ShowLdapAttributes adds adAttributes to the userProfile Template
+ * NextADInt_Adi_User_Profile_Ui_ShowLdapAttributes adds adAttributes to the userProfile Template
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_User_Profile_Ui_ShowLdapAttributes
+class NextADInt_Adi_User_Profile_Ui_ShowLdapAttributes
 {
 	const TEMPLATE_NAME = 'user-profile-ad-attributes.twig';
 
-	/* @var Multisite_Configuration_Service */
+	/* @var NextADInt_Multisite_Configuration_Service */
 	private $configuration;
 
-	/* @var Multisite_View_TwigContainer */
+	/* @var NextADInt_Multisite_View_TwigContainer */
 	private $twigContainer;
 
-	/* @var Ldap_Attribute_Repository */
+	/* @var NextADInt_Ldap_Attribute_Repository */
 	private $attributeRepository;
 
-	/** @var  Adi_Synchronization_ActiveDirectory */
+	/** @var  NextADInt_Adi_Synchronization_ActiveDirectory */
 	private $syncToActiveDirectory;
 
 	/**
-	 * @param Multisite_Configuration_Service $configuration
-	 * @param Multisite_View_TwigContainer $twigContainer
-	 * @param Ldap_Attribute_Repository  $attributeRepository
-	 * @param Adi_Synchronization_ActiveDirectory $syncToActiveDirectory
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Multisite_View_TwigContainer $twigContainer
+	 * @param NextADInt_Ldap_Attribute_Repository  $attributeRepository
+	 * @param NextADInt_Adi_Synchronization_ActiveDirectory $syncToActiveDirectory
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration,
-								Multisite_View_TwigContainer $twigContainer,
-								Ldap_Attribute_Repository $attributeRepository,
-								Adi_Synchronization_ActiveDirectory $syncToActiveDirectory)
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Multisite_View_TwigContainer $twigContainer,
+								NextADInt_Ldap_Attribute_Repository $attributeRepository,
+								NextADInt_Adi_Synchronization_ActiveDirectory $syncToActiveDirectory)
 	{
 		$this->configuration = $configuration;
 		$this->twigContainer = $twigContainer;
@@ -82,7 +82,7 @@ class Adi_User_Profile_Ui_ShowLdapAttributes
 	 */
 	public function isShowAttributesEnabled()
 	{
-		return $this->configuration->getOptionValue(Adi_Configuration_Options::SHOW_ATTRIBUTES);
+		return $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SHOW_ATTRIBUTES);
 	}
 
 	/**
@@ -176,7 +176,7 @@ class Adi_User_Profile_Ui_ShowLdapAttributes
 	/**
 	 * Create the view model for a single Ldap_Attribute
 	 *
-	 * @param Ldap_Attribute $attribute
+	 * @param NextADInt_Ldap_Attribute $attribute
 	 * @param WP_User $user
 	 * @param bool $isEditable
 	 *

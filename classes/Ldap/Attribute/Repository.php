@@ -3,21 +3,21 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ldap_Attribute_Repository')) {
+if (class_exists('NextADInt_Ldap_Attribute_Repository')) {
 	return;
 }
 
 /**
- * Ldap_Attribute_Repository provides access to LDAP/AD attributes and their definitions.
+ * NextADInt_Ldap_Attribute_Repository provides access to LDAP/AD attributes and their definitions.
  * Definitions describes <strong>how<strong> an LDAP attribute is represented in the upper layer.
  * Ldap_Attribute objects are instantiated with help of the attribute definitions.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Ldap_Attribute_Repository
+class NextADInt_Ldap_Attribute_Repository
 {
-	/* @var Multisite_Configuration_Service */
+	/* @var NextADInt_Multisite_Configuration_Service */
 	private $configuration;
 
 	// contains custom attribute definitions
@@ -30,11 +30,11 @@ class Ldap_Attribute_Repository
 	private $whitelistedAttributes = null;
 
 	/**
-	 * Ldap_Attribute_Repository constructor.
+	 * NextADInt_Ldap_Attribute_Repository constructor.
 	 *
-	 * @param Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration)
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration)
 	{
 		$this->configuration = $configuration;
 	}
@@ -98,7 +98,7 @@ class Ldap_Attribute_Repository
 	public function getCustomAttributeDefinitions()
 	{
 		if (null === $this->customAttributeDefinitions) {
-			$this->customAttributeDefinitions = $this->findAttributeDefinitions(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES);
+			$this->customAttributeDefinitions = $this->findAttributeDefinitions(NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES);
 		}
 
 		return $this->customAttributeDefinitions;
@@ -267,7 +267,7 @@ class Ldap_Attribute_Repository
 		$filteredAttributes = array();
 		$whitelistedAttributes = $this->getWhitelistedAttributes();
 
-		/* @var $attribute Ldap_Attribute */
+		/* @var $attribute NextADInt_Ldap_Attribute */
 		foreach ($whitelistedAttributes as $attributeName => $attribute) {
 			if (null === $show || $attribute->isViewable() === $show) {
 				$filteredAttributes[$attributeName] = $attribute;
@@ -286,7 +286,7 @@ class Ldap_Attribute_Repository
 	{
 		$r = array();
 
-		/** @var $attribute Ldap_Attribute */
+		/** @var $attribute NextADInt_Ldap_Attribute */
 		foreach ($this->getWhitelistedAttributes() as $ldapAttributeName => $attribute) {
 			if ($attribute->isSyncable()) {
 				$r[$ldapAttributeName] = $attribute;
@@ -303,7 +303,7 @@ class Ldap_Attribute_Repository
 	 * @param string $attributeName
 	 *
 	 * @access package
-	 * @return Ldap_Attribute
+	 * @return NextADInt_Ldap_Attribute
 	 */
 	public function createAttribute($attribute, $attributeName)
 	{
@@ -311,13 +311,13 @@ class Ldap_Attribute_Repository
 
 		$type = self::resolveType($attribute);
 		$metaKey = self::resolveWordPressAttribute($attribute, $defaultMetaKey);
-		$description = Ldap_Attribute_Description::find($attributeName, $attributeName);
+		$description = NextADInt_Ldap_Attribute_Description::find($attributeName, $attributeName);
 
 		$sync = self::resolveSyncToAd($attribute);
 		$show = self::resolveViewInUserProfile($attribute);
 
 		// create object
-		$metaObject = new Ldap_Attribute();
+		$metaObject = new NextADInt_Ldap_Attribute();
 		$metaObject->setType($type);
 		$metaObject->setMetakey($metaKey);
 		$metaObject->setDescription($description);
@@ -337,7 +337,7 @@ class Ldap_Attribute_Repository
 	 */
 	public static function resolveType($array)
 	{
-		$type = Core_Util_ArrayUtil::get(Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE, $array, 'string');
+		$type = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE, $array, 'string');
 		$type = strtolower(trim($type));
 
 		if (!in_array($type, self::$wellKnownAttributeTypes)) {
@@ -369,7 +369,7 @@ class Ldap_Attribute_Repository
 	 */
 	public static function resolveWordPressAttribute($array, $default = '')
 	{
-		$value = Core_Util_ArrayUtil::get(Adi_Configuration_Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE, $array,
+		$value = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE, $array,
 			$default);
 
 		return trim($value);
@@ -384,7 +384,7 @@ class Ldap_Attribute_Repository
 	 */
 	public static function resolveSyncToAd($array)
 	{
-		$val = Core_Util_ArrayUtil::get(Adi_Configuration_Options::ATTRIBUTES_COLUMN_SYNC_TO_AD, $array, false);
+		$val = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_SYNC_TO_AD, $array, false);
 
 		return ($val === 'true');
 	}
@@ -398,7 +398,7 @@ class Ldap_Attribute_Repository
 	 */
 	public static function resolveViewInUserProfile($array)
 	{
-		$val = Core_Util_ArrayUtil::get(Adi_Configuration_Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE, $array,
+		$val = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE, $array,
 			false);
 
 		return ($val === 'true');
@@ -419,7 +419,7 @@ class Ldap_Attribute_Repository
 			return $additionalInformation[1];
 		}
 
-		return Ldap_Attribute_Description::find($metaKey, $metaKey);
+		return NextADInt_Ldap_Attribute_Description::find($metaKey, $metaKey);
 	}
 
 	/**
@@ -432,7 +432,7 @@ class Ldap_Attribute_Repository
 		$attributes = self::getDefaultAttributeNames();
 
 		return array_map(function($attribute) {
-			return Ldap_Attribute_Repository::resolveDefaultAttributeMetaKey($attribute);
+			return NextADInt_Ldap_Attribute_Repository::resolveDefaultAttributeMetaKey($attribute);
 		}, $attributes);
 	}
 

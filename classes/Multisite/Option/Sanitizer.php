@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Option_Sanitizer')) {
+if (class_exists('NextADInt_Multisite_Option_Sanitizer')) {
 	return;
 }
 
@@ -13,7 +13,7 @@ if (class_exists('Multisite_Option_Sanitizer')) {
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Multisite_Option_Sanitizer
+class NextADInt_Multisite_Option_Sanitizer
 {
 	/**
 	 * This method sanitize a value.
@@ -23,7 +23,7 @@ class Multisite_Option_Sanitizer
 	 *
 	 * @param mixed $value not sanitized value
 	 * @param array $array array('methodForSanitizing', parameters for the method...)
-	 * @param mixed $optionElement option metadata form Adi_Configuration_Options
+	 * @param mixed $optionElement option metadata form NextADInt_Adi_Configuration_Options
 	 * @param bool $saveOption will this value be saved or be requested
 	 *
 	 * @return bool|mixed
@@ -89,7 +89,7 @@ class Multisite_Option_Sanitizer
 
 	/**
 	 * Do not call this method directly. Use the method sanitize instead.
-	 * sanitize($valueToSanitize, array('integerRange', $optionalMin, $optionalMax), Adi_Configuration_Options::get(...))
+	 * sanitize($valueToSanitize, array('integerRange', $optionalMin, $optionalMax), NextADInt_Adi_Configuration_Options::get(...))
 	 *
 	 * This method prevent too low or too high numbers. In these cases, the default value will be returned.
 	 *
@@ -101,8 +101,8 @@ class Multisite_Option_Sanitizer
 	 */
 	function integerRange($value, $userParams, $optionData)
 	{
-		$min = Core_Util_ArrayUtil::get(0, $userParams, '');
-		$max = Core_Util_ArrayUtil::get(1, $userParams, '');
+		$min = NextADInt_Core_Util_ArrayUtil::get(0, $userParams, '');
+		$max = NextADInt_Core_Util_ArrayUtil::get(1, $userParams, '');
 
 		$value = $this->integer($value, null, null);
 		if ($value && (!is_integer($min) || $value >= $min) && (!is_integer($max) || $value <= $max)) {
@@ -114,7 +114,7 @@ class Multisite_Option_Sanitizer
 
 	/**
 	 * Do not call this method directly. Use the method sanitize instead.
-	 * sanitize($valueToSanitize, array('integer'), Adi_Configuration_Options::get(...))
+	 * sanitize($valueToSanitize, array('integer'), NextADInt_Adi_Configuration_Options::get(...))
 	 *
 	 * This method tries to convert $value to a number. If it fails, the default value will used.
 	 *
@@ -152,8 +152,8 @@ class Multisite_Option_Sanitizer
 	 */
 	function accumulation($value, $userParams, $optionData)
 	{
-		$separator = Core_Util_ArrayUtil::get(0, $userParams, ';');
-		$subMethod = Core_Util_ArrayUtil::get(1, $userParams);
+		$separator = NextADInt_Core_Util_ArrayUtil::get(0, $userParams, ';');
+		$subMethod = NextADInt_Core_Util_ArrayUtil::get(1, $userParams);
 
 		$parts = explode($separator, $value);
 		$results = array();
@@ -185,9 +185,9 @@ class Multisite_Option_Sanitizer
 	 */
 	function valueAssignment($value, $userParams, $optionData)
 	{
-		$separator = Core_Util_ArrayUtil::get(0,$userParams, '=');
-		$leftLowercase = Core_Util_ArrayUtil::get(1, $userParams, false);
-		$rightLowercase = Core_Util_ArrayUtil::get(2, $userParams, true);
+		$separator = NextADInt_Core_Util_ArrayUtil::get(0,$userParams, '=');
+		$leftLowercase = NextADInt_Core_Util_ArrayUtil::get(1, $userParams, false);
+		$rightLowercase = NextADInt_Core_Util_ArrayUtil::get(2, $userParams, true);
 
 		$parts = explode($separator, $value);
 		if (2 !== sizeof($parts)) {
@@ -216,9 +216,9 @@ class Multisite_Option_Sanitizer
 	 */
 	function string($value, $userParams, $optionData)
 	{
-		$lowercase = Core_Util_ArrayUtil::get(0, $userParams, false);
-		$trim = Core_Util_ArrayUtil::get(1, $userParams, true);
-		$nonEmpty = Core_Util_ArrayUtil::get(2, $userParams, false);
+		$lowercase = NextADInt_Core_Util_ArrayUtil::get(0, $userParams, false);
+		$trim = NextADInt_Core_Util_ArrayUtil::get(1, $userParams, true);
+		$nonEmpty = NextADInt_Core_Util_ArrayUtil::get(2, $userParams, false);
 
 		if (!is_string($value) && !is_numeric($value) && !is_bool($value)) {
 			return $this->getDefaultValue($optionData);
@@ -253,8 +253,8 @@ class Multisite_Option_Sanitizer
 	 */
 	function selection($value, $userParams, $optionData)
 	{
-		$validStrings = Core_Util_ArrayUtil::get(
-			Multisite_Option_Attribute::ELEMENTS, $optionData, array()
+		$validStrings = NextADInt_Core_Util_ArrayUtil::get(
+			NextADInt_Multisite_Option_Attribute::ELEMENTS, $optionData, array()
 		);
 
 		$value = trim($value);
@@ -272,15 +272,15 @@ class Multisite_Option_Sanitizer
 
 	function custom2($value, $userParams, $optionData)
 	{
-		$lineSeparator = Core_Util_ArrayUtil::get(0, $userParams, "\n");
-		$unitSeparator = Core_Util_ArrayUtil::get(1, $userParams, ':');
+		$lineSeparator = NextADInt_Core_Util_ArrayUtil::get(0, $userParams, "\n");
+		$unitSeparator = NextADInt_Core_Util_ArrayUtil::get(1, $userParams, ':');
 
-		$units = Core_Util_ArrayUtil::get(
-			Multisite_Option_Attribute::TYPE_STRUCTURE, $optionData, array()
+		$units = NextADInt_Core_Util_ArrayUtil::get(
+			NextADInt_Multisite_Option_Attribute::TYPE_STRUCTURE, $optionData, array()
 		);
 
 		$sanitizedValue = '';
-		$lines = Core_Util_StringUtil::split($value, "\n");
+		$lines = NextADInt_Core_Util_StringUtil::split($value, "\n");
 
 		foreach ($lines as $line) {
 			$sanitizedLine = $this->sanitizeLine();
@@ -312,6 +312,6 @@ class Multisite_Option_Sanitizer
 
 	public function getDefaultValue($optionData)
 	{
-		return Core_Util_ArrayUtil::get(Multisite_Option_Attribute::DEFAULT_VALUE, $optionData);
+		return NextADInt_Core_Util_ArrayUtil::get(NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE, $optionData);
 	}
 }

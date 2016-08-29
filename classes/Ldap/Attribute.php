@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ldap_Attribute')) {
+if (class_exists('NextADInt_Ldap_Attribute')) {
 	return;
 }
 
@@ -13,7 +13,7 @@ if (class_exists('Ldap_Attribute')) {
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Ldap_Attribute
+class NextADInt_Ldap_Attribute
 {
 	private $type;
 

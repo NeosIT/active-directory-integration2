@@ -6,28 +6,28 @@
  * @author  Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class Ut_Multisite_Configuration_Persistence_ProfileRepositoryTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Persistence_ProfileConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $profileConfigurationRepository */
+	/* @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $profileConfigurationRepository */
 	private $profileConfigurationRepository;
 
-	/* @var Multisite_Configuration_Persistence_BlogConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $blogConfigurationRepository */
+	/* @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $blogConfigurationRepository */
 	private $blogConfigurationRepository;
 
-	/* @var Core_Persistence_WordPressRepository|PHPUnit_Framework_MockObject_MockObject $wordPressRepository */
+	/* @var NextADInt_Core_Persistence_WordPressRepository|PHPUnit_Framework_MockObject_MockObject $wordPressRepository */
 	private $wordPressRepository;
 
-	/* @var Multisite_Option_Provider */
+	/* @var NextADInt_Multisite_Option_Provider */
 	private $optionProvider;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->profileConfigurationRepository = parent::createMock('Multisite_Configuration_Persistence_ProfileConfigurationRepository');
-		$this->blogConfigurationRepository = parent::createMock('Multisite_Configuration_Persistence_BlogConfigurationRepository');
-		$this->wordPressRepository = parent::createMock('Core_Persistence_WordPressRepository');
-		$this->optionProvider = new Adi_Configuration_Options();
+		$this->profileConfigurationRepository = parent::createMock('NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository');
+		$this->blogConfigurationRepository = parent::createMock('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository');
+		$this->wordPressRepository = parent::createMock('NextADInt_Core_Persistence_WordPressRepository');
+		$this->optionProvider = new NextADInt_Adi_Configuration_Options();
 	}
 
 	public function tearDown()
@@ -38,11 +38,11 @@ class Ut_Multisite_Configuration_Persistence_ProfileRepositoryTest extends Ut_Ba
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Configuration_Persistence_ProfileRepository')
+		return $this->getMockBuilder('NextADInt_Multisite_Configuration_Persistence_ProfileRepository')
 			->setConstructorArgs(
 				array(
 					$this->profileConfigurationRepository,
@@ -62,7 +62,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileRepositoryTest extends Ut_Ba
 	{
 		$sut = $this->sut();
 
-		$result = $this->invokeMethod($sut, 'getProfileOption', array(1, Multisite_Configuration_Persistence_ProfileRepository::PREFIX_NAME));
+		$result = $this->invokeMethod($sut, 'getProfileOption', array(1, NextADInt_Multisite_Configuration_Persistence_ProfileRepository::PREFIX_NAME));
 
 		$this->assertEquals('adi2_p_n_1', $result);
 	}
@@ -75,7 +75,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileRepositoryTest extends Ut_Ba
 		$sut = $this->sut();
 
 		$result = $this->invokeMethod($sut, 'getOptionNameByMapping', array(
-			Adi_Configuration_Options::PROFILE_NAME,
+			NextADInt_Adi_Configuration_Options::PROFILE_NAME,
 			1,
 		));
 
@@ -160,7 +160,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileRepositoryTest extends Ut_Ba
 
 		$sut->expects($this->once())
 			->method('getProfileOption')
-			->with(1, Multisite_Configuration_Persistence_ProfileRepository::PREFIX_NAME)
+			->with(1, NextADInt_Multisite_Configuration_Persistence_ProfileRepository::PREFIX_NAME)
 			->willReturn('name');
 
 		WP_Mock::wpFunction(
@@ -185,7 +185,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileRepositoryTest extends Ut_Ba
 
 		$sut->expects($this->once())
 			->method('getProfileOption')
-			->with(1, Multisite_Configuration_Persistence_ProfileRepository::PREFIX_DESCRIPTION)
+			->with(1, NextADInt_Multisite_Configuration_Persistence_ProfileRepository::PREFIX_DESCRIPTION)
 			->willReturn('desc');
 
 		WP_Mock::wpFunction(
@@ -241,13 +241,13 @@ class Ut_Multisite_Configuration_Persistence_ProfileRepositoryTest extends Ut_Ba
 		$sut = $this->sut(array('getProfileOption', 'getOptionNameByMapping'));
 
 		$data = array(
-			Adi_Configuration_Options::PROFILE_NAME => array('option_value' => 'test'),
+			NextADInt_Adi_Configuration_Options::PROFILE_NAME => array('option_value' => 'test'),
 			'show'                                  => array('option_value' => 'show'),
 		);
 
 		$sut->expects($this->once())
 			->method('getProfileOption')
-			->with(1, Multisite_Configuration_Persistence_ProfileRepository::PREFIX_NAME)
+			->with(1, NextADInt_Multisite_Configuration_Persistence_ProfileRepository::PREFIX_NAME)
 			->willReturn('name');
 
 		WP_Mock::wpFunction(
@@ -261,7 +261,7 @@ class Ut_Multisite_Configuration_Persistence_ProfileRepositoryTest extends Ut_Ba
 		$sut->expects($this->exactly(2))
 			->method('getOptionNameByMapping')
 			->withConsecutive(
-				array(Adi_Configuration_Options::PROFILE_NAME, 1),
+				array(NextADInt_Adi_Configuration_Options::PROFILE_NAME, 1),
 				array('show', 1)
 			)
 			->willReturnOnConsecutiveCalls(
@@ -296,14 +296,14 @@ class Ut_Multisite_Configuration_Persistence_ProfileRepositoryTest extends Ut_Ba
 		$sut = $this->sut(array('getOptionNameByMapping'));
 
 		$data = array(
-			Adi_Configuration_Options::PROFILE_NAME => array('option_value' => 'test'),
+			NextADInt_Adi_Configuration_Options::PROFILE_NAME => array('option_value' => 'test'),
 			'show'                                  => array('option_value' => 'show'),
 		);
 
 		$sut->expects($this->exactly(2))
 			->method('getOptionNameByMapping')
 			->withConsecutive(
-				array(Adi_Configuration_Options::PROFILE_NAME, 1),
+				array(NextADInt_Adi_Configuration_Options::PROFILE_NAME, 1),
 				array('show', 1)
 			)
 			->willReturnOnConsecutiveCalls(
@@ -423,11 +423,11 @@ class Ut_Multisite_Configuration_Persistence_ProfileRepositoryTest extends Ut_Ba
 
 		$this->profileConfigurationRepository->expects($this->at(0))
 			->method('deleteValue')
-			->with(5, Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
+			->with(5, NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
 
 		$this->profileConfigurationRepository->expects($this->at(1))
 			->method('deletePermission')
-			->with(5, Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
+			->with(5, NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('deleteProfileAssociations')

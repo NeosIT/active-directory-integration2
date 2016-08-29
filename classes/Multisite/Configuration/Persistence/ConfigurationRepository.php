@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Configuration_Persistence_ConfigurationRepository')) {
+if (class_exists('NextADInt_Multisite_Configuration_Persistence_ConfigurationRepository')) {
 	return;
 }
 
 /**
- * Interface Multisite_Configuration_Persistence_ConfigurationRepository
+ * Interface NextADInt_Multisite_Configuration_Persistence_ConfigurationRepository
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @author  Danny Meißner <dme@neos-it.de>
  */
-interface Multisite_Configuration_Persistence_ConfigurationRepository
+interface NextADInt_Multisite_Configuration_Persistence_ConfigurationRepository
 {
 	/**
 	 * Find the value of the given option

@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Option_Type')) {
+if (class_exists('NextADInt_Multisite_Option_Type')) {
 	return;
 }
 
 /**
- * Multisite_Option_Type contains all option types.
+ * NextADInt_Multisite_Option_Type contains all option types.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Multisite_Option_Type
+class NextADInt_Multisite_Option_Type
 {
 	const TEXT = 'text';
 	const NUMBER = 'number';

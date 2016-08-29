@@ -9,7 +9,7 @@
 abstract class It_BasicTest extends Ut_BasicTest
 {
 	// AD Connection Details
-	/* @var Ldap_ConnectionDetails $connectionDetails */
+	/* @var NextADInt_Ldap_Connection $connectionDetails */
 	protected $connectionDetails;
 
 	// User Group and OU names used to build and delete the AD objects to work with
@@ -71,13 +71,13 @@ abstract class It_BasicTest extends Ut_BasicTest
 		);
 
 	/**
-	 * Create Ldap_ConnectionDetails to establish a connection to a Active Directory server
+	 * Create NextADInt_Ldap_Connection to establish a connection to a Active Directory server
 	 *
-	 * @return Ldap_ConnectionDetails
+	 * @return NextADInt_Ldap_Connection
 	 */
 	protected function createAdConnectionDetails()
 	{
-		$this->connectionDetails = new Ldap_ConnectionDetails();
+		$this->connectionDetails = new NextADInt_Ldap_Connection();
 
 		$this->connectionDetails->setBaseDn(get_cfg_var('AD_BASE_DN'));
 		$this->connectionDetails->setDomainControllers(get_cfg_var('AD_ENDPOINT'));

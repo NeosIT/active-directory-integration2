@@ -4,19 +4,19 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service| PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
 	/**
-	 * @return Adi_User_Profile_Ui_PreventEmailChange
+	 * @return NextADInt_Adi_User_Profile_Ui_PreventEmailChange
 	 */
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
 	}
 
 	public function tearDown()
@@ -26,11 +26,11 @@ class Ut_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Adi_User_Profile_Ui_PreventEmailChange| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_User_Profile_Ui_PreventEmailChange| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_User_Profile_Ui_PreventEmailChange')
+		return $this->getMockBuilder('NextADInt_Adi_User_Profile_Ui_PreventEmailChange')
 			->setConstructorArgs(
 				array(
 					$this->configuration
@@ -49,7 +49,7 @@ class Ut_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::PREVENT_EMAIL_CHANGE)
+			->with(NextADInt_Adi_Configuration_Options::PREVENT_EMAIL_CHANGE)
 			->willReturn(false);
 
 		$sut->register();
@@ -64,7 +64,7 @@ class Ut_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::PREVENT_EMAIL_CHANGE)
+			->with(NextADInt_Adi_Configuration_Options::PREVENT_EMAIL_CHANGE)
 			->willReturn(true);
 
 		\WP_Mock::expectActionAdded('show_user_profile', array($sut, 'disableEmailField'));

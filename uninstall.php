@@ -16,13 +16,13 @@ if (is_multisite()){
 }
 
 $prefixes = array(
-	ADI_PREFIX . Multisite_Configuration_Persistence_BlogConfigurationRepository::PREFIX,
-	ADI_PREFIX . Adi_Authentication_Persistence_FailedLoginRepository::PREFIX_LOGIN_ATTEMPTS,
-	ADI_PREFIX . Adi_Authentication_Persistence_FailedLoginRepository::PREFIX_BLOCKED_TIME,
-	ADI_PREFIX . Multisite_Configuration_Persistence_ProfileConfigurationRepository::PREFIX_VALUE,
-	ADI_PREFIX . Multisite_Configuration_Persistence_ProfileConfigurationRepository::PREFIX_PERMISSION,
-	ADI_PREFIX . Multisite_Configuration_Persistence_ProfileRepository::PREFIX_NAME,
-	ADI_PREFIX . Multisite_Configuration_Persistence_ProfileRepository::PREFIX_DESCRIPTION,
+	ADI_PREFIX . NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository::PREFIX,
+	ADI_PREFIX . NextADInt_Adi_Authentication_Persistence_FailedLoginRepository::PREFIX_LOGIN_ATTEMPTS,
+	ADI_PREFIX . NextADInt_Adi_Authentication_Persistence_FailedLoginRepository::PREFIX_BLOCKED_TIME,
+	ADI_PREFIX . NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository::PREFIX_VALUE,
+	ADI_PREFIX . NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository::PREFIX_PERMISSION,
+	ADI_PREFIX . NextADInt_Multisite_Configuration_Persistence_ProfileRepository::PREFIX_NAME,
+	ADI_PREFIX . NextADInt_Multisite_Configuration_Persistence_ProfileRepository::PREFIX_DESCRIPTION,
 );
 
 $backupTables = array();

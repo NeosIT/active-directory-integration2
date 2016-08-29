@@ -3,63 +3,63 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_View_TwigContainer')) {
+if (class_exists('NextADInt_Multisite_View_TwigContainer')) {
 	return;
 }
 
 /**
- * Multisite_View_TwigContainer provides the basic configuration for twig and registers all necessary function and filter.
+ * NextADInt_Multisite_View_TwigContainer provides the basic configuration for twig and registers all necessary function and filter.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
  *
  * @access public
  */
-class Multisite_View_TwigContainer
+class NextADInt_Multisite_View_TwigContainer
 {
 	/** @var \Twig_Environment $twig */
 	private $twig;
 
-	/** @var Multisite_Configuration_Service $configuration */
+	/** @var NextADInt_Multisite_Configuration_Service $configuration */
 	private $configuration;
 
-	/** @var Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository */
 	private $blogConfigurationRepository;
 
-	/** @var Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository */
 	private $profileConfigurationRepository;
 
-	/** @var Multisite_Configuration_Persistence_ProfileRepository $profileRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository $profileRepository */
 	private $profileRepository;
 
-	/** @var  Multisite_Option_Provider $optionProvider */
+	/** @var  NextADInt_Multisite_Option_Provider $optionProvider */
 	private $optionProvider;
 
-	/** @var Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository */
 	private $defaultProfileRepository;
 
-	/** @var Adi_Authentication_VerificationService $verificationService */
+	/** @var NextADInt_Adi_Authentication_VerificationService $verificationService */
 	private $verificationService;
 
 	/** @var bool */
 	private $isProfileConnectedToDomain;
 
 	/**
-	 * @param Multisite_Configuration_Persistence_BlogConfigurationRepository    $blogConfigurationRepository
-	 * @param Multisite_Configuration_Service                                    $configuration
-	 * @param Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
-	 * @param Multisite_Configuration_Persistence_ProfileRepository              $profileRepository
-	 * @param Multisite_Configuration_Persistence_DefaultProfileRepository       $defaultProfileRepository
-	 * @param Multisite_Option_Provider                                          $optionProvider
-	 * @param Adi_Authentication_VerificationService                             $verificationService
+	 * @param NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository    $blogConfigurationRepository
+	 * @param NextADInt_Multisite_Configuration_Service                                    $configuration
+	 * @param NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_ProfileRepository              $profileRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository       $defaultProfileRepository
+	 * @param NextADInt_Multisite_Option_Provider                                          $optionProvider
+	 * @param NextADInt_Adi_Authentication_VerificationService                             $verificationService
 	 */
-	public function __construct(Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
-								Multisite_Configuration_Service $configuration,
-								Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
-								Multisite_Configuration_Persistence_ProfileRepository $profileRepository,
-								Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository,
-								Multisite_Option_Provider $optionProvider,
-								Adi_Authentication_VerificationService $verificationService
+	public function __construct(NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository $blogConfigurationRepository,
+								NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
+								NextADInt_Multisite_Configuration_Persistence_ProfileRepository $profileRepository,
+								NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository,
+								NextADInt_Multisite_Option_Provider $optionProvider,
+								NextADInt_Adi_Authentication_VerificationService $verificationService
 	) {
 		$this->blogConfigurationRepository = $blogConfigurationRepository;
 		$this->configuration = $configuration;
@@ -126,7 +126,7 @@ class Multisite_View_TwigContainer
 
 		$loader = new Twig_Loader_Filesystem(ADI_PATH . '/views');
 
-		$twigOptions = $this->getTwigOptions(Core_Util_Internal_Environment::isProductive());
+		$twigOptions = $this->getTwigOptions(NextADInt_Core_Util_Internal_Environment::isProductive());
 
 		$this->twig = new Twig_Environment($loader, $twigOptions);
 
@@ -138,7 +138,7 @@ class Multisite_View_TwigContainer
 		// meta data for options like metadata or grouping
 		$this->addSimpleTwigFunction('isPermissionEnabled', array($this, 'isPermissionEnabled'));
 		$this->addSimpleTwigFunction('getMetadata', array($this, 'getMetadata'));
-		$this->addSimpleTwigFunction('getOptionsGrouping', 'Adi_Configuration_Ui_Layout::get');
+		$this->addSimpleTwigFunction('getOptionsGrouping', 'NextADInt_Adi_Configuration_Ui_Layout::get');
 
 		// option meta data like value, permission etc.
 		$this->addSimpleTwigFunction('getOptionPermission', array($this, 'getOptionPermission'));
@@ -245,11 +245,11 @@ class Multisite_View_TwigContainer
 	{
 		$isNetworkDashboard = $this->isOnNetworkDashboard();
 
-		if ($optionGroup[Adi_Configuration_Ui_Layout::MULTISITE_ONLY] && $isNetworkDashboard) {
+		if ($optionGroup[NextADInt_Adi_Configuration_Ui_Layout::MULTISITE_ONLY] && $isNetworkDashboard) {
 			return true;
 		}
 
-		if (!$optionGroup[Adi_Configuration_Ui_Layout::MULTISITE_ONLY]) {
+		if (!$optionGroup[NextADInt_Adi_Configuration_Ui_Layout::MULTISITE_ONLY]) {
 			return true;
 		}
 
@@ -257,13 +257,13 @@ class Multisite_View_TwigContainer
 	}
 
 	/**
-	 * Simple delegate to {@see Multisite_Util::isOnNetworkDashboard()}.
+	 * Simple delegate to {@see NextADInt_Multisite_Util::isOnNetworkDashboard()}.
 	 *
 	 * @return bool
 	 */
 	public function isOnNetworkDashboard()
 	{
-		return Multisite_Util::isOnNetworkDashboard();
+		return NextADInt_Multisite_Util::isOnNetworkDashboard();
 	}
 
 	/**
@@ -353,7 +353,7 @@ class Multisite_View_TwigContainer
 		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
 
 		if ($this->isProfileConnectedToDomain == null) {
-			$domainSidBuffer = $this->getOptionValue(Adi_Configuration_Options::DOMAIN_SID, $profileId);
+			$domainSidBuffer = $this->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID, $profileId);
 
 			if ($domainSidBuffer != '' && $domainSidBuffer != null) {
 				$this->isProfileConnectedToDomain = true;
@@ -407,11 +407,11 @@ class Multisite_View_TwigContainer
 	 */
 	public function getMetadata($optionName, $attribute)
 	{
-		$constantName = "Multisite_Option_Attribute::$attribute";
+		$constantName = "NextADInt_Multisite_Option_Attribute::$attribute";
 		$constant = constant($constantName);
 		$metadata = $this->optionProvider->get($optionName);
 
-		$value = Core_Util_ArrayUtil::get($constant, $metadata, '');
+		$value = NextADInt_Core_Util_ArrayUtil::get($constant, $metadata, '');
 
 		return $value;
 	}

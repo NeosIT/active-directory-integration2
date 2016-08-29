@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ldap_Attribute_Description')) {
+if (class_exists('NextADInt_Ldap_Attribute_Description')) {
 	return;
 }
 
 /**
- * Ldap_Attribute_Description contains the translated descriptions for common Active Directory/LDAP attributes.
+ * NextADInt_Ldap_Attribute_Description contains the translated descriptions for common Active Directory/LDAP attributes.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ldap_Attribute_Description
+class NextADInt_Ldap_Attribute_Description
 {
 	private static $descriptions = null;
 	

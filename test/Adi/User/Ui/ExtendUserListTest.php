@@ -4,14 +4,14 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
 	public function setUp()
 	{
-		$this->configuration = $this->getMockBuilder('Multisite_Configuration_Service')
+		$this->configuration = $this->getMockBuilder('NextADInt_Multisite_Configuration_Service')
 			->disableOriginalConstructor()
 			->setMethods(array('getOptionValue'))
 			->getMock();
@@ -39,7 +39,7 @@ class Ut_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SHOW_USER_STATUS)
+			->with(NextADInt_Adi_Configuration_Options::SHOW_USER_STATUS)
 			->willReturn(false);
 
 		$returnedValue = $sut->register();
@@ -48,11 +48,11 @@ class Ut_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Adi_User_Ui_ExtendUserList| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_User_Ui_ExtendUserList| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_User_Ui_ExtendUserList')
+		return $this->getMockBuilder('NextADInt_Adi_User_Ui_ExtendUserList')
 			->setConstructorArgs(
 				array(
 					$this->configuration
@@ -71,7 +71,7 @@ class Ut_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SHOW_USER_STATUS)
+			->with(NextADInt_Adi_Configuration_Options::SHOW_USER_STATUS)
 			->willReturn(true);
 
 		\WP_Mock::expectFilterAdded('manage_users_columns', array($sut, 'addColumns'));

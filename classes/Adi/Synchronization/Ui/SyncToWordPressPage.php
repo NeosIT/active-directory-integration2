@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Synchronization_Ui_SyncToWordPressPage')) {
+if (class_exists('NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage')) {
 	return;
 }
 
@@ -16,7 +16,7 @@ if (class_exists('Adi_Synchronization_Ui_SyncToWordPressPage')) {
  *
  * @access public
  */
-class Adi_Synchronization_Ui_SyncToWordPressPage extends Multisite_View_Page_Abstract
+class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Multisite_View_Page_Abstract
 {
 	const TITLE = 'Sync to WordPress';
 	const SLUG = 'sync_to_wordpress';
@@ -26,22 +26,22 @@ class Adi_Synchronization_Ui_SyncToWordPressPage extends Multisite_View_Page_Abs
 	const NONCE = 'Active Directory Integration Sync to WordPress Nonce';
 
 
-	/* @var Adi_Synchronization_WordPress $syncToWordPress*/
+	/* @var NextADInt_Adi_Synchronization_WordPress $syncToWordPress*/
 	private $syncToWordPress;
-	/** @var Multisite_Configuration_Service $configuration */
+	/** @var NextADInt_Multisite_Configuration_Service $configuration */
 	private $configuration;
 
 	private $result;
 	private $log;
 
 	/**
-	 * @param Multisite_View_TwigContainer            $twigContainer
-	 * @param Adi_Synchronization_WordPress        $syncToWordPress
-	 * @param Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Multisite_View_TwigContainer            $twigContainer
+	 * @param NextADInt_Adi_Synchronization_WordPress        $syncToWordPress
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
 	 */
-	public function __construct(Multisite_View_TwigContainer $twigContainer,
-								Adi_Synchronization_WordPress $syncToWordPress,
-								Multisite_Configuration_Service $configuration)
+	public function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer,
+								NextADInt_Adi_Synchronization_WordPress $syncToWordPress,
+								NextADInt_Multisite_Configuration_Service $configuration)
 	{
 		parent::__construct($twigContainer);
 
@@ -69,7 +69,7 @@ class Adi_Synchronization_Ui_SyncToWordPressPage extends Multisite_View_Page_Abs
 		$params = $this->processData($_POST);
 		// add nonce for security
 		$params['nonce'] = wp_create_nonce(self::NONCE);
-		$params['authCode'] = $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE);
+		$params['authCode'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE);
 		$params['blogUrl'] = get_site_url(get_current_blog_id());
 		$params['message'] = $this->result;
 		$params['log'] = $this->log;
@@ -89,16 +89,16 @@ class Adi_Synchronization_Ui_SyncToWordPressPage extends Multisite_View_Page_Abs
 			return array();
 		}
 
-		$security = Core_Util_ArrayUtil::get('security', $post, '');
+		$security = NextADInt_Core_Util_ArrayUtil::get('security', $post, '');
 		if (!wp_verify_nonce($security, self::NONCE)) {
 			$message = esc_html__('You do not have sufficient permissions to access this page.', ADI_I18N);
 			wp_die($message);
 		}
 
 		ob_start();
-		Core_Logger::displayAndLogMessages();
+		NextADInt_Core_Logger::displayAndLogMessages();
 		$status = $this->syncToWordPress->synchronize();
-		Core_Logger::logMessages();
+		NextADInt_Core_Logger::logMessages();
 		$this->log = ob_get_contents();
 		ob_end_clean();
 
@@ -128,7 +128,7 @@ class Adi_Synchronization_Ui_SyncToWordPressPage extends Multisite_View_Page_Abs
 			return;
 		}
 
-		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
 	}
 
 	/**

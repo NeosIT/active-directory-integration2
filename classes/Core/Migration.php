@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (interface_exists('Core_Migration')) {
+if (interface_exists('NextADInt_Core_Migration')) {
 	return;
 }
 
@@ -13,7 +13,7 @@ if (interface_exists('Core_Migration')) {
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access  public
  */
-interface Core_Migration
+interface NextADInt_Core_Migration
 {
 	/**
 	 * Get the position for this migration.

@@ -4,18 +4,18 @@
  * @author Christopher Klein <ckl@neos-it.de>
  * @access private
  */
-class Ut_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Persistence_BlogConfigurationRepository | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository | PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationRepository;
 
-	/* @var Multisite_Configuration_Persistence_ProfileRepository | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository | PHPUnit_Framework_MockObject_MockObject */
 	private $profileRepository;
 
 	public function setUp()
 	{
-		$this->blogConfigurationRepository = $this->createMock('Multisite_Configuration_Persistence_BlogConfigurationRepository');
-		$this->profileRepository = $this->createMock('Multisite_Configuration_Persistence_ProfileRepository');
+		$this->blogConfigurationRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository');
+		$this->profileRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_ProfileRepository');
 
 		WP_Mock::setUp();
 
@@ -33,11 +33,11 @@ class Ut_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Adi_Multisite_Site_Ui_ExtendSiteList| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Multisite_Site_Ui_ExtendSiteList')
+		return $this->getMockBuilder('NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList')
 			->setConstructorArgs(
 				array(
 					$this->blogConfigurationRepository,
@@ -70,7 +70,7 @@ class Ut_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
 
 		$actual = $sut->addColumns(array());
 
-		$this->assertTrue(isset($actual[Adi_Multisite_Site_Ui_ExtendSiteList::ADI_PROFILE_COLUMN]));
+		$this->assertTrue(isset($actual[NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList::ADI_PROFILE_COLUMN]));
 	}
 
 	/**
@@ -98,7 +98,7 @@ class Ut_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
 
 		$this->expectOutputString('name');
 
-		$sut->addContent(Adi_Multisite_Site_Ui_ExtendSiteList::ADI_PROFILE_COLUMN, 666);
+		$sut->addContent(NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList::ADI_PROFILE_COLUMN, 666);
 	}
 
 	/**
@@ -126,7 +126,7 @@ class Ut_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
 
 		$this->expectOutputString('name (default profile)');
 
-		$sut->addContent(Adi_Multisite_Site_Ui_ExtendSiteList::ADI_PROFILE_COLUMN, 666);
+		$sut->addContent(NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList::ADI_PROFILE_COLUMN, 666);
 	}
 
 	/**
@@ -154,6 +154,6 @@ class Ut_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
 
 		$this->expectOutputString('<em>None assigned</em>');
 
-		$sut->addContent(Adi_Multisite_Site_Ui_ExtendSiteList::ADI_PROFILE_COLUMN, 666);
+		$sut->addContent(NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList::ADI_PROFILE_COLUMN, 666);
 	}
 }

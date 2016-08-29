@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_AccountSuffix')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_AccountSuffix')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_AccountSuffix validates that the given value is a suffix.
+ * NextADInt_Multisite_Validator_Rule_AccountSuffix validates that the given value is a suffix.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Validator_Rule_AccountSuffix')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_AccountSuffix extends Multisite_Validator_Rule_Suffix
+class NextADInt_Multisite_Validator_Rule_AccountSuffix extends NextADInt_Multisite_Validator_Rule_Suffix
 {
 	/**
 	 * Validate the given data.
