@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Validator')) {
+if (class_exists('NextADInt_Core_Validator')) {
 	return;
 }
 
 /**
- * The Core_Validator class uses custom validation rules to allow validation.
+ * The NextADInt_Core_Validator class uses custom validation rules to allow validation.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Core_Validator')) {
  *
  * @access public
  */
-class Core_Validator
+class NextADInt_Core_Validator
 {
 	/**
 	 * An array of all validation rules registered.
@@ -26,15 +26,15 @@ class Core_Validator
 	private $validationRules = array();
 
 	/**
-	 * Validate the given data and return a new {@see Core_Validator_Result}.
+	 * Validate the given data and return a new {@see NextADInt_Core_Validator_Result}.
 	 *
 	 * @param array $data
 	 *
-	 * @return Core_Validator_Result
+	 * @return NextADInt_Core_Validator_Result
 	 */
 	public function validate($data)
 	{
-		$result = new Core_Validator_Result();
+		$result = new NextADInt_Core_Validator_Result();
 
 		foreach ($this->validationRules as $name => $rules) {
 			if (!isset($data[$name])) {
@@ -49,7 +49,7 @@ class Core_Validator
 			}
 
 			foreach ($rules as $rule) {
-				/** @var Core_Validator_Rule $rule */
+				/** @var NextADInt_Core_Validator_Rule $rule */
 				$validationResult = $rule->validate($value, $data);
 
 				if (true !== $validationResult) {
@@ -65,9 +65,9 @@ class Core_Validator
 	 * Add a new rule to our registered rules.
 	 *
 	 * @param string $name
-	 * @param Core_Validator_Rule $rule
+	 * @param NextADInt_Core_Validator_Rule $rule
 	 */
-	public function addRule($name, Core_Validator_Rule $rule)
+	public function addRule($name, NextADInt_Core_Validator_Rule $rule)
 	{
 		if (!isset($this->validationRules[$name])) {
 			$this->validationRules[$name] = array();

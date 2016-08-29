@@ -4,20 +4,20 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
 {
-	/* @var Multisite_View_TwigContainer|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_View_TwigContainer|PHPUnit_Framework_MockObject_MockObject */
 	private $twigContainer;
 
-	/* @var Multisite_Ui_BlogProfileRelationshipController| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Ui_BlogProfileRelationshipController| PHPUnit_Framework_MockObject_MockObject */
 	private $blogProfileRelationshipController;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->twigContainer = $this->createMock('Multisite_View_TwigContainer');
-		$this->blogProfileRelationshipController = $this->createMock('Multisite_Ui_BlogProfileRelationshipController');
+		$this->twigContainer = $this->createMock('NextADInt_Multisite_View_TwigContainer');
+		$this->blogProfileRelationshipController = $this->createMock('NextADInt_Multisite_Ui_BlogProfileRelationshipController');
 	}
 
 	public function tearDown()
@@ -40,11 +40,11 @@ class Ut_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Multisite_Ui_BlogProfileRelationshipPage| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Ui_BlogProfileRelationshipPage| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Ui_BlogProfileRelationshipPage')
+		return $this->getMockBuilder('NextADInt_Multisite_Ui_BlogProfileRelationshipPage')
 			->setConstructorArgs(
 				array(
 					$this->twigContainer,
@@ -62,7 +62,7 @@ class Ut_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
+		$expectedReturn = ADI_PREFIX . 'blog_profile_relationship';
 		$returnedValue = $sut->getSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -75,7 +75,7 @@ class Ut_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
+		$expectedReturn = ADI_PREFIX . 'blog_profile_relationship';
 		$returnedValue = $sut->wpAjaxSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -89,10 +89,11 @@ class Ut_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
 		$sut = $this->sut(array('display'));
 
 		$nonce = 'some_nonce';
-		$table = $this->createMock('Multisite_Ui_Table_ProfileAssignment');
+		$this->createMock('WP_MS_Sites_List_Table');
+		$table = $this->createMock('NextADInt_Multisite_Ui_Table_ProfileAssignment');
 
 		WP_Mock::wpFunction('wp_create_nonce', array(
-			'args'   => Multisite_Ui_BlogProfileRelationshipPage::NONCE,
+			'args'   => NextADInt_Multisite_Ui_BlogProfileRelationshipPage::NONCE,
 			'times'  => 1,
 			'return' => $nonce,
 		));
@@ -103,7 +104,7 @@ class Ut_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('display')
-			->with(Multisite_Ui_BlogProfileRelationshipPage::TEMPLATE, array('nonce' => $nonce, 'table' => $table));
+			->with(NextADInt_Multisite_Ui_BlogProfileRelationshipPage::TEMPLATE, array('nonce' => $nonce, 'table' => $table));
 
 		$sut->renderNetwork();
 	}
@@ -114,15 +115,15 @@ class Ut_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
 	public function loadJavaScriptAdmin()
 	{
 		$sut = $this->sut(null);
-		$hook = NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
+		$hook = ADI_PREFIX . 'blog_profile_relationship';
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args'  => array(
 					'adi2_blog_profile_association',
-					NEXT_AD_INT_URL . '/js/blog-profile-relationship.js',
+					ADI_URL . '/js/blog-profile-relationship.js',
 					array('jquery'),
-					Multisite_Ui_BlogProfileRelationshipPage::VERSION_BLOG_PROFILE_RELATIONSHIP_JS,
+					NextADInt_Multisite_Ui_BlogProfileRelationshipPage::VERSION_BLOG_PROFILE_RELATIONSHIP_JS,
 				),
 				'times' => 1,
 			)
@@ -130,7 +131,7 @@ class Ut_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args'  => array('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS),
+				'args'  => array('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);

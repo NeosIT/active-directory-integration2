@@ -1,35 +1,35 @@
 <?php
 
 /**
- * Ut_Ldap_ConnectionTest
+ * Ut_NextADInt_Ldap_ConnectionTest
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Migration_MigrateUseSamAccountNameForNewCreatedUsersTest extends Ut_BasicTest
+class Ut_NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsersTest extends Ut_BasicTest
 {
 
-	/** @var Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject $profileRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject $profileRepository */
 	private $profileRepository;
 
-	/** @var Multisite_Configuration_Persistence_ProfileConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $profileConfigurationRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $profileConfigurationRepository */
 	private $profileConfigurationRepository;
 
-	/** @var Multisite_Configuration_Persistence_BlogConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $blogConfigurationRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository|PHPUnit_Framework_MockObject_MockObject $blogConfigurationRepository */
 	private $blogConfigurationRepository;
 
-	/** @var Adi_Dependencies|PHPUnit_Framework_MockObject_MockObject $dependencyContainer */
+	/** @var NextADInt_Adi_Dependencies|PHPUnit_Framework_MockObject_MockObject $dependencyContainer */
 	private $dependencyContainer;
 
 	public function setUp()
 	{
 		parent::setUp();
-		$this->dependencyContainer = parent::createMock('Adi_Dependencies');
+		$this->dependencyContainer = parent::createMock('NextADInt_Adi_Dependencies');
 
 
-		$this->profileRepository = parent::createMock('Multisite_Configuration_Persistence_ProfileRepository');
-		$this->profileConfigurationRepository = parent::createMock('Multisite_Configuration_Persistence_ProfileConfigurationRepository');
-		$this->blogConfigurationRepository = parent::createMock('Multisite_Configuration_Persistence_BlogConfigurationRepository');
+		$this->profileRepository = parent::createMock('NextADInt_Multisite_Configuration_Persistence_ProfileRepository');
+		$this->profileConfigurationRepository = parent::createMock('NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository');
+		$this->blogConfigurationRepository = parent::createMock('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository');
 
 		$this->dependencyContainer->expects($this->once())
 			->method('getProfileRepository')
@@ -52,11 +52,11 @@ class Ut_Migration_MigrateUseSamAccountNameForNewCreatedUsersTest extends Ut_Bas
 	/**
 	 * @param $methods
 	 *
-	 * @return Migration_MigrateUseSamAccountNameForNewCreatedUsers|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsers|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $connection = $this->getMockBuilder('Migration_MigrateUseSamAccountNameForNewCreatedUsers')
+		return $connection = $this->getMockBuilder('NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsers')
 			->setConstructorArgs(array(
 				$this->dependencyContainer,
 			))
@@ -120,12 +120,12 @@ class Ut_Migration_MigrateUseSamAccountNameForNewCreatedUsersTest extends Ut_Bas
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('findSanitizedValue')
-			->with(1, Migration_MigrateUseSamAccountNameForNewCreatedUsers::APPEND_SUFFIX_TO_NEW_USERS)
+			->with(1, NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsers::APPEND_SUFFIX_TO_NEW_USERS)
 			->willReturn('');
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('persistSanitizedValue')
-			->with(1, Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS, 1);
+			->with(1, NextADInt_Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS, 1);
 
 		$this->invokeMethod($sut, 'migrateValue', array($this->blogConfigurationRepository, 1));
 	}
@@ -139,12 +139,12 @@ class Ut_Migration_MigrateUseSamAccountNameForNewCreatedUsersTest extends Ut_Bas
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('findSanitizedValue')
-			->with(1, Migration_MigrateUseSamAccountNameForNewCreatedUsers::APPEND_SUFFIX_TO_NEW_USERS)
+			->with(1, NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsers::APPEND_SUFFIX_TO_NEW_USERS)
 			->willReturn(1);
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('persistSanitizedValue')
-			->with(1, Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS, '');
+			->with(1, NextADInt_Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS, '');
 
 		$this->invokeMethod($sut, 'migrateValue', array($this->blogConfigurationRepository, 1));
 	}
@@ -159,7 +159,7 @@ class Ut_Migration_MigrateUseSamAccountNameForNewCreatedUsersTest extends Ut_Bas
 
 		$this->profileConfigurationRepository->expects($this->once())
 			->method('findSanitizedPermission')
-			->with(1, Migration_MigrateUseSamAccountNameForNewCreatedUsers::APPEND_SUFFIX_TO_NEW_USERS)
+			->with(1, NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsers::APPEND_SUFFIX_TO_NEW_USERS)
 			->willReturn(false);
 
 		$this->profileConfigurationRepository->expects($this->never())
@@ -177,12 +177,12 @@ class Ut_Migration_MigrateUseSamAccountNameForNewCreatedUsersTest extends Ut_Bas
 
 		$this->profileConfigurationRepository->expects($this->once())
 			->method('findSanitizedPermission')
-			->with(1, Migration_MigrateUseSamAccountNameForNewCreatedUsers::APPEND_SUFFIX_TO_NEW_USERS)
+			->with(1, NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsers::APPEND_SUFFIX_TO_NEW_USERS)
 			->willReturn(2);
 
 		$this->profileConfigurationRepository->expects($this->once())
 			->method('persistSanitizedPermission')
-			->with(1, Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS, 2);
+			->with(1, NextADInt_Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS, 2);
 
 		$this->invokeMethod($sut, 'migratePermission', array($this->profileConfigurationRepository, 1));
 	}

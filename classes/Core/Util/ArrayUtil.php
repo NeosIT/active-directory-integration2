@@ -3,19 +3,19 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Util_ArrayUtil')) {
+if (class_exists('NextADInt_Core_Util_ArrayUtil')) {
 	return;
 }
 
 /**
- * Core_Util_ArrayUtil provides helper functions for interacting with arrays.
+ * NextADInt_Core_Util_ArrayUtil provides helper functions for interacting with arrays.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
  *
  * @access public
  */
-class Core_Util_ArrayUtil
+class NextADInt_Core_Util_ArrayUtil
 {
 	private function __construct()
 	{

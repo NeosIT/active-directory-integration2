@@ -6,22 +6,22 @@
  */
 class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Persistence_BlogConfigurationRepository| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository| PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationRepository;
 
-	/* @var Multisite_Configuration_Persistence_ProfileConfigurationRepository| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository| PHPUnit_Framework_MockObject_MockObject */
 	private $profileConfigurationRepository;
 
-	/* @var Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject $profileRepository */
+	/* @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject $profileRepository */
 	private $profileRepository;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->blogConfigurationRepository = $this->createMock('Multisite_Configuration_Persistence_BlogConfigurationRepository');
-		$this->profileConfigurationRepository = $this->createMock('Multisite_Configuration_Persistence_ProfileConfigurationRepository');
-		$this->profileRepository = $this->createMock('Multisite_Configuration_Persistence_ProfileRepository');
+		$this->blogConfigurationRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository');
+		$this->profileConfigurationRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository');
+		$this->profileRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_ProfileRepository');
 	}
 
 	public function tearDown()
@@ -31,11 +31,11 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Multisite_Configuration_Service| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Configuration_Service| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Configuration_Service')
+		return $this->getMockBuilder('NextADInt_Multisite_Configuration_Service')
 			->setConstructorArgs(
 				array(
 					$this->blogConfigurationRepository,
@@ -180,8 +180,8 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 		$sut->expects($this->exactly(2))
 			->method('getProfileOptionValue')
 			->withConsecutive(
-				array(Adi_Configuration_Options::DOMAIN_SID, 44),
-				array(Adi_Configuration_Options::PORT, 44)
+				array(NextADInt_Adi_Configuration_Options::DOMAIN_SID, 44),
+				array(NextADInt_Adi_Configuration_Options::PORT, 44)
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -229,8 +229,8 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 		$sut->expects($this->exactly(2))
 			->method('getProfileOptionValue')
 			->withConsecutive(
-				array(Adi_Configuration_Options::DOMAIN_SID, 44),
-				array(Adi_Configuration_Options::PORT, 44)
+				array(NextADInt_Adi_Configuration_Options::DOMAIN_SID, 44),
+				array(NextADInt_Adi_Configuration_Options::PORT, 44)
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -380,9 +380,9 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 			->willReturn('name');
 
 		$expected = array(
-			Adi_Configuration_Options::PROFILE_NAME => array(
+			NextADInt_Adi_Configuration_Options::PROFILE_NAME => array(
 				'option_value'      => 'name',
-				'option_permission' => Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN,
+				'option_permission' => NextADInt_Multisite_Configuration_Service::DISABLED_FOR_BLOG_ADMIN,
 			),
 		);
 
@@ -398,7 +398,7 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$actual = $sut->isEnvironmentOption(Adi_Configuration_Options::PORT);
+		$actual = $sut->isEnvironmentOption(NextADInt_Adi_Configuration_Options::PORT);
 		$this->assertTrue($actual);
 	}
 
@@ -409,7 +409,7 @@ class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$actual = $sut->isEnvironmentOption(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER);
+		$actual = $sut->isEnvironmentOption(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER);
 		$this->assertFalse($actual);
 	}
 

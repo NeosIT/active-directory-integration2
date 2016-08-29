@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Multisite_Validator_Rule_PositiveNumericOrZeroTest')) {
+if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfigTest')) {
 	return;
 }
 
@@ -14,7 +14,7 @@ if (class_exists('Ut_Multisite_Validator_Rule_PositiveNumericOrZeroTest')) {
  *
  * @access
  */
-class Ut_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfigTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfigTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'Validation failed!';
 
@@ -31,11 +31,11 @@ class Ut_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfigTest extends Ut_
 	/**
 	 * @param null $methods
 	 *
-	 * @return Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig')
+		return $this->getMockBuilder('NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig')
 			->setConstructorArgs(
 				array(
 					self::VALIDATION_MESSAGE,
@@ -94,7 +94,7 @@ class Ut_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfigTest extends Ut_
 
 		$sut->expects($this->once())
 			->method('getWpRoles')
-			->willReturn(array(Adi_Role_Manager::ROLE_SUPER_ADMIN));
+			->willReturn(array(NextADInt_Adi_Role_Manager::ROLE_SUPER_ADMIN));
 
 		$actual = $sut->validate('', array());
 

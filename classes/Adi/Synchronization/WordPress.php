@@ -3,14 +3,14 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Synchronization_WordPress')) {
+if (class_exists('NextADInt_Adi_Synchronization_WordPress')) {
 	return;
 }
 
 /**
- * Adi_Synchronization_WordPress sync the Active Directory users and their attribute values with WordPress.
+ * NextADInt_Adi_Synchronization_WordPress sync the Active Directory users and their attribute values with WordPress.
  *
- * Adi_Synchronization_WordPress get all users from the Active Directory and WordPress. Then each user will be updated
+ * NextADInt_Adi_Synchronization_WordPress get all users from the Active Directory and WordPress. Then each user will be updated
  * or created with the attribute values supplied by the Active Directory
  *
  * @author Tobias Hellmann <the@neos-it.de>
@@ -18,7 +18,7 @@ if (class_exists('Adi_Synchronization_WordPress')) {
  * @author Danny Meißner <dme@neos-it.de>
  * @access public
  */
-class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
+class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronization_Abstract
 {
 	// userAccountControl Flags
 	const UF_ACCOUNT_DISABLE = 2;
@@ -33,13 +33,13 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 	// = UF_INTERDOMAIN_TRUST_ACCOUNT + UF_WORKSTATION_TRUST_ACCOUNT + UF_SERVER_TRUST_ACCOUNT + UF_MNS_LOGON_ACCOUNT + UF_PARTIAL_SECRETS_ACCOUNT
 	const NO_UF_NORMAL_ACCOUNT = 67254272;
 
-	/* @var Adi_User_Manager */
+	/* @var NextADInt_Adi_User_Manager */
 	private $userManager;
 
-	/* @var Adi_Role_Manager */
+	/* @var NextADInt_Adi_Role_Manager */
 	private $roleManager;
 
-	/* @var Adi_User_Helper */
+	/* @var NextADInt_Adi_User_Helper */
 	private $userHelper;
 
 	/* @var Logger $logger */
@@ -52,19 +52,19 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 	private $wordpressDbTimeCounter;
 
 	/**
-	 * @param Adi_User_Manager                $userManager
-	 * @param Adi_User_Helper                 $userHelper
-	 * @param Multisite_Configuration_Service $configuration
-	 * @param Ldap_Connection                 $connection
-	 * @param Ldap_Attribute_Service          $attributeService
-	 * @param Adi_Role_Manager                $roleManager
+	 * @param NextADInt_Adi_User_Manager                $userManager
+	 * @param NextADInt_Adi_User_Helper                 $userHelper
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Ldap_Connection                 $connection
+	 * @param NextADInt_Ldap_Attribute_Service          $attributeService
+	 * @param NextADInt_Adi_Role_Manager                $roleManager
 	 */
-	public function __construct(Adi_User_Manager $userManager,
-		Adi_User_Helper $userHelper,
-		Multisite_Configuration_Service $configuration,
-		Ldap_Connection $connection,
-		Ldap_Attribute_Service $attributeService,
-		Adi_Role_Manager $roleManager
+	public function __construct(NextADInt_Adi_User_Manager $userManager,
+		NextADInt_Adi_User_Helper $userHelper,
+		NextADInt_Multisite_Configuration_Service $configuration,
+		NextADInt_Ldap_Connection $connection,
+		NextADInt_Ldap_Attribute_Service $attributeService,
+		NextADInt_Adi_Role_Manager $roleManager
 	) {
 		parent::__construct($configuration, $connection, $attributeService);
 
@@ -100,7 +100,7 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 			$failedSync = 0;
 
 			foreach ($users as $guid => $sAMAccountName) {
-				$status = $this->synchronizeUser(new Adi_Authentication_Credentials($sAMAccountName), $guid);
+				$status = $this->synchronizeUser(new NextADInt_Adi_Authentication_Credentials($sAMAccountName), $guid);
 
 				switch ($status) {
 					case 0:
@@ -130,7 +130,7 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 	 */
 	protected function prepareForSync()
 	{
-		$enabled = $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED);
+		$enabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED);
 		if (!$enabled) {
 			$this->logger->info('Sync to WordPress is disabled.');
 
@@ -140,8 +140,8 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 		$this->logger->info('Start of Sync to WordPress');
 		$this->startTimer();
 
-		$username = $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER);
-		$password = $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD);
+		$username = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER);
+		$password = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD);
 
 		if (empty($username) && empty($password)) {
 			$this->logger->error('Sync to WordPress service account user or password not set.');
@@ -173,7 +173,7 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 	{
 
 		$groups = trim(
-			$this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS)
+			$this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS)
 		);
 		$activeDirectoryUsers = $this->connection->findAllMembersOfGroups($groups);
 		$convertedActiveDirectoryUsers = $this->convertActiveDirectoryUsers($activeDirectoryUsers);
@@ -196,7 +196,7 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 
 		foreach ($adUsers AS $adUser) {
 			$attributes = $this->attributeService->findLdapAttributesOfUsername($adUser);
-			$guid = $attributes->getFilteredValue(Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID);
+			$guid = $attributes->getFilteredValue(NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID);
 
 			$result[strtolower($guid)] = $adUser;
 		}
@@ -287,17 +287,17 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 	/**
 	 * Convert an Active Directory user to a WordPress user
 	 *
-	 * @param Adi_Authentication_Credentials $credentials
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 *
 	 * @return bool|string
 	 * @throws Exception
 	 */
-	public function synchronizeUser(Adi_Authentication_Credentials $credentials, $guid)
+	public function synchronizeUser(NextADInt_Adi_Authentication_Credentials $credentials, $guid)
 	{
-		Core_Assert::notNull($credentials);
+		NextADInt_Core_Assert::notNull($credentials);
 
 		$synchronizeDisabledAccounts = $this->configuration->getOptionValue(
-			Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS
+			NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS
 		);
 
 		$startTimerLdap = time();
@@ -341,13 +341,13 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 	 * Create or update an user.
 	 * Due to the different requirements for login and synchronization we cannot use a common base.
 	 *
-	 * @param Adi_User $adiUser
+	 * @param NextADInt_Adi_User $adiUser
 	 *
 	 * @return int 0=created,1=updated,-1=error
 	 */
-	protected function createOrUpdateUser(Adi_User $adiUser)
+	protected function createOrUpdateUser(NextADInt_Adi_User $adiUser)
 	{
-		Core_Assert::notNull($adiUser);
+		NextADInt_Core_Assert::notNull($adiUser);
 
 		if (!$adiUser->getId()) {
 			$startTimer = time();
@@ -375,11 +375,11 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 	 * </ul>
 	 * If one of those checks matches, the account is disabled.
 	 *
-	 * @param Adi_User $adiUser
+	 * @param NextADInt_Adi_User $adiUser
 	 *
 	 * @return bool
 	 */
-	public function checkAccountRestrictions(Adi_User $adiUser)
+	public function checkAccountRestrictions(NextADInt_Adi_User $adiUser)
 	{
 		$rawLdapAttributes = $adiUser->getLdapAttributes()->getRaw();
 		$username = $adiUser->getCredentials()->getSAMAccountName();
@@ -431,12 +431,12 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 	 * If the AD account has the status "Enabled", this status will be always synchronized to WordPress.
 	 * If the AD account has the status "Locked/Disabled" this status will be only synchronized with "Sync to WordPress > Automatich deactivate users".
 	 *
-	 * @param Adi_User $adiUser
+	 * @param NextADInt_Adi_User $adiUser
 	 * @param bool     $synchronizeDisabledAccounts
 	 *
 	 * @return bool
 	 */
-	public function synchronizeAccountStatus(Adi_User $adiUser, $synchronizeDisabledAccounts)
+	public function synchronizeAccountStatus(NextADInt_Adi_User $adiUser, $synchronizeDisabledAccounts)
 	{
 		$uac = $this->userAccountControl($adiUser->getLdapAttributes()->getRaw());
 

@@ -3,58 +3,58 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_User_Manager')) {
+if (class_exists('NextADInt_Adi_User_Manager')) {
 	return;
 }
 
 /**
- * Adi_User_Manager creates and updates user. It also provides information about the users and enables/disables them.
+ * NextADInt_Adi_User_Manager creates and updates user. It also provides information about the users and enables/disables them.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_User_Manager
+class NextADInt_Adi_User_Manager
 {
-	/* @var Multisite_Configuration_Service */
+	/* @var NextADInt_Multisite_Configuration_Service */
 	private $configuration;
 
-	/* @var Ldap_Attribute_Service */
+	/* @var NextADInt_Ldap_Attribute_Service */
 	private $attributeService;
 
-	/* @var Adi_User_Helper */
+	/* @var NextADInt_Adi_User_Helper */
 	private $userHelper;
 
-	/* @var Ldap_Attribute_Repository */
+	/* @var NextADInt_Ldap_Attribute_Repository */
 	private $attributeRepository;
 
-	/* @var Adi_Role_Manager */
+	/* @var NextADInt_Adi_Role_Manager */
 	private $roleManager;
 
 	/* @var Logger */
 	private $logger;
 
-	/** @var Adi_User_Persistence_Repository */
+	/** @var NextADInt_Adi_User_Persistence_Repository */
 	private $userRepository;
 
-	/** @var Adi_User_Meta_Persistence_Repository */
+	/** @var NextADInt_Adi_User_Meta_Persistence_Repository */
 	private $metaRepository;
 
 	/**
-	 * @param Multisite_Configuration_Service $configuration
-	 * @param Ldap_Attribute_Service $attributeService
-	 * @param Adi_User_Helper $userHelper
-	 * @param Ldap_Attribute_Repository $attributeRepository
-	 * @param Adi_Role_Manager $roleManager
-	 * @param Adi_User_Meta_Persistence_Repository $metaRepository
-	 * @param Adi_User_Persistence_Repository $userRepository
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Ldap_Attribute_Service $attributeService
+	 * @param NextADInt_Adi_User_Helper $userHelper
+	 * @param NextADInt_Ldap_Attribute_Repository $attributeRepository
+	 * @param NextADInt_Adi_Role_Manager $roleManager
+	 * @param NextADInt_Adi_User_Meta_Persistence_Repository $metaRepository
+	 * @param NextADInt_Adi_User_Persistence_Repository $userRepository
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration,
-								Ldap_Attribute_Service $attributeService,
-								Adi_User_Helper $userHelper,
-								Ldap_Attribute_Repository $attributeRepository,
-								Adi_Role_Manager $roleManager,
-								Adi_User_Meta_Persistence_Repository $metaRepository,
-								Adi_User_Persistence_Repository $userRepository
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Ldap_Attribute_Service $attributeService,
+								NextADInt_Adi_User_Helper $userHelper,
+								NextADInt_Ldap_Attribute_Repository $attributeRepository,
+								NextADInt_Adi_Role_Manager $roleManager,
+								NextADInt_Adi_User_Meta_Persistence_Repository $metaRepository,
+								NextADInt_Adi_User_Persistence_Repository $userRepository
 	)
 	{
 		$this->configuration = $configuration;
@@ -77,7 +77,7 @@ class Adi_User_Manager
 	 */
 	public function findById($userId)
 	{
-		Core_Assert::validId($userId);
+		NextADInt_Core_Assert::validId($userId);
 
 		return $this->userRepository->findById($userId);
 	}
@@ -98,8 +98,8 @@ class Adi_User_Manager
 	 */
 	public function findByActiveDirectoryUsername($sAMAccountName, $userPrincipalName)
 	{
-		Core_Assert::notEmpty($sAMAccountName, "sAMAccountName must not be empty");
-		Core_Assert::notEmpty($userPrincipalName, "userPrincipalName must not be empty");
+		NextADInt_Core_Assert::notEmpty($sAMAccountName, "sAMAccountName must not be empty");
+		NextADInt_Core_Assert::notEmpty($userPrincipalName, "userPrincipalName must not be empty");
 
 		// the wp_user_meta.samaccountname has the highest priority: user has been already added by ADI
 		$wpUser = $this->userRepository->findBySAMAccountName($sAMAccountName);
@@ -134,26 +134,26 @@ class Adi_User_Manager
 	 */
 	public function isDisabled($userId)
 	{
-		Core_Assert::validId($userId);
+		NextADInt_Core_Assert::validId($userId);
 
 		return $this->metaRepository->isUserDisabled($userId);
 	}
 
 	/**
-	 * Create a new Adi_User instance based upon the given Adi_Authentication_Credentials object
+	 * Create a new NextADInt_Adi_User instance based upon the given NextADInt_Adi_Authentication_Credentials object
 	 * The role mappings and LDAP attributes of the user will be automatically populated.
 	 *
-	 * @param Adi_Authentication_Credentials $credentials not null
-	 * @param Ldap_Attributes $ldapAttributes
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials not null
+	 * @param NextADInt_Ldap_Attributes $ldapAttributes
 	 *
-	 * @return Adi_User
+	 * @return NextADInt_Adi_User
 	 */
-	public function createAdiUser(Adi_Authentication_Credentials $credentials, Ldap_Attributes $ldapAttributes)
+	public function createAdiUser(NextADInt_Adi_Authentication_Credentials $credentials, NextADInt_Ldap_Attributes $ldapAttributes)
 	{
-		Core_Assert::notNull($credentials, "credentials must not be null");
-		Core_Assert::notNull($ldapAttributes, "ldapAttributes must not be null");
+		NextADInt_Core_Assert::notNull($credentials, "credentials must not be null");
+		NextADInt_Core_Assert::notNull($ldapAttributes, "ldapAttributes must not be null");
 
-		$guid = $ldapAttributes->getFilteredValue(Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID);
+		$guid = $ldapAttributes->getFilteredValue(NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID);
 		$wpUser = $this->userRepository->findByObjectGuid($guid);
 
 		if (!$wpUser) {
@@ -163,7 +163,7 @@ class Adi_User_Manager
 
 		$roleMapping = $this->roleManager->createRoleMapping($credentials->getSAMAccountName());
 
-		$r = new Adi_User($credentials, $ldapAttributes);
+		$r = new NextADInt_Adi_User($credentials, $ldapAttributes);
 
 		$r->setRoleMapping($roleMapping);
 
@@ -181,15 +181,15 @@ class Adi_User_Manager
 	/**
 	 * Create a new {@see WP_User} and persist it.
 	 *
-	 * @param Adi_User $user
+	 * @param NextADInt_Adi_User $user
 	 * @param bool $syncToWordPress
 	 * @param bool $writeUserMeta
 	 *
 	 * @return WP_User|WP_Error WP_User if creation has been a success
 	 */
-	public function create(Adi_User $user, $syncToWordPress = false, $writeUserMeta = true)
+	public function create(NextADInt_Adi_User $user, $syncToWordPress = false, $writeUserMeta = true)
 	{
-		Core_Assert::notNull($user, "user must not be null");
+		NextADInt_Core_Assert::notNull($user, "user must not be null");
 
 		try {
 			$credentials = $user->getCredentials();
@@ -218,12 +218,12 @@ class Adi_User_Manager
 
 			// create a new user and assign the id to the user object
 			$userId = $this->userRepository->create($user);
-			Core_Util_ExceptionUtil::handleWordPressErrorAsException($userId);
+			NextADInt_Core_Util_ExceptionUtil::handleWordPressErrorAsException($userId);
 			$user->setId($userId);
 
 			// call updateUser to sync attributes
 			return $this->update($user, $syncToWordPress, $writeUserMeta);
-		} catch (Core_Exception_WordPressErrorException $e) {
+		} catch (NextADInt_Core_Exception_WordPressErrorException $e) {
 			return $e->getWordPressError();
 		}
 	}
@@ -236,7 +236,7 @@ class Adi_User_Manager
 	function useSamAccountNameForNewUsers()
 	{
 		// Use samAccountName for new created users ?
-		$useSamAccountNameForNewUsers = $this->configuration->getOptionValue(Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS);
+		$useSamAccountNameForNewUsers = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS);
 
 		return (bool)$useSamAccountNameForNewUsers;
 	}
@@ -249,34 +249,34 @@ class Adi_User_Manager
 	 * @param string $username
 	 * @param string $email
 	 *
-	 * @throws Core_Exception_WordPressErrorException
+	 * @throws NextADInt_Core_Exception_WordPressErrorException
 	 */
 	protected function checkDuplicateEmail($username, $email)
 	{
 		// get the duplicate email prevention and check if the email is already existing
-		$prevention = $this->configuration->getOptionValue(Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION);
+		$prevention = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION);
 		$emailAlreadyExists = $this->userRepository->isEmailExisting($email);
 
-		if (Adi_User_DuplicateEmailPrevention::PREVENT == $prevention && $emailAlreadyExists) {
+		if (NextADInt_Adi_User_DuplicateEmailPrevention::PREVENT == $prevention && $emailAlreadyExists) {
 			// Duplicate emails should be prevented and the email is already existing. So we throw an exception with
 			// our WP_Error
 			$error = new WP_Error('duplicateEmailPrevention', "Can not create user '$username' because he uses an existing email address.");
-			Core_Util_ExceptionUtil::handleWordPressErrorAsException($error);
+			NextADInt_Core_Util_ExceptionUtil::handleWordPressErrorAsException($error);
 		}
 	}
 
 	/**
 	 * Update user information of an existing user
 	 *
-	 * @param Adi_User $user
+	 * @param NextADInt_Adi_User $user
 	 * @param boolean $syncToWordPress
 	 * @param boolean $writeUserMeta
 	 *
 	 * @return WP_User|WP_Error Updated WordPress user or WP_Error if updating failed
 	 */
-	public function update(Adi_User $user, $syncToWordPress = false, $writeUserMeta = true)
+	public function update(NextADInt_Adi_User $user, $syncToWordPress = false, $writeUserMeta = true)
 	{
-		Core_Assert::notNull($user, "user must not be null");
+		NextADInt_Core_Assert::notNull($user, "user must not be null");
 
 		try {
 			$credentials = $user->getCredentials();
@@ -296,7 +296,7 @@ class Adi_User_Manager
 			}
 
 			// update the user account suffix
-			$this->metaRepository->update($user->getId(), NEXT_AD_INT_PREFIX . 'account_suffix',
+			$this->metaRepository->update($user->getId(), ADI_PREFIX . 'account_suffix',
 				'@' . $credentials->getUpnSuffix());
 
 			// update users email
@@ -308,27 +308,27 @@ class Adi_User_Manager
 			$this->updatePassword($user->getId(), $credentials->getPassword(), $syncToWordPress);
 
 			return $this->findById($user->getId());
-		} catch (Core_Exception_WordPressErrorException $e) {
+		} catch (NextADInt_Core_Exception_WordPressErrorException $e) {
 			return $e->getWordPressError();
 		}
 	}
 
 	/**
-	 * Check if the given {@see Adi_User} has an ID. If not an exception will be thrown.
+	 * Check if the given {@see NextADInt_Adi_User} has an ID. If not an exception will be thrown.
 	 *
-	 * @param Adi_User $user
+	 * @param NextADInt_Adi_User $user
 	 *
-	 * @throws Core_Exception_WordPressErrorException
+	 * @throws NextADInt_Core_Exception_WordPressErrorException
 	 */
-	protected function assertUserExisting(Adi_User $user)
+	protected function assertUserExisting(NextADInt_Adi_User $user)
 	{
-		Core_Assert::notNull($user, "user must not be null");
+		NextADInt_Core_Assert::notNull($user, "user must not be null");
 
 		if (!$user->getId()) {
 			$error = new WP_Error("WordPress User '{
 				$user}' does not exist.");
 
-			Core_Util_ExceptionUtil::handleWordPressErrorAsException($error);
+			NextADInt_Core_Util_ExceptionUtil::handleWordPressErrorAsException($error);
 		}
 	}
 
@@ -341,10 +341,10 @@ class Adi_User_Manager
 	 */
 	protected function updatePassword($userId, $password, $syncToWordPress)
 	{
-		Core_Assert::notNull($userId, "userId must be a valid id");
+		NextADInt_Core_Assert::notNull($userId, "userId must be a valid id");
 
 		// update users password
-		$autoUpdatePassword = $this->configuration->getOptionValue(Adi_Configuration_Options::AUTO_UPDATE_PASSWORD);
+		$autoUpdatePassword = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD);
 
 		if ($autoUpdatePassword && !$syncToWordPress) {
 			$this->logger->debug('Setting local password to the one used for this login.');
@@ -362,14 +362,14 @@ class Adi_User_Manager
 	}
 
 	/**
-	 * Update the user, sAMAccountName and roles with by using the {@see Adi_User::getAttributeValues()) and
-	 * {@see Adi_User::getRoleMapping()).
+	 * Update the user, sAMAccountName and roles with by using the {@see NextADInt_Adi_User::getAttributeValues()) and
+	 * {@see NextADInt_Adi_User::getRoleMapping()).
 	 *
-	 * @param Adi_User $user
+	 * @param NextADInt_Adi_User $user
 	 */
-	protected function updateWordPressAccount(Adi_User $user)
+	protected function updateWordPressAccount(NextADInt_Adi_User $user)
 	{
-		Core_Assert::notNull($user, "user must not be null");
+		NextADInt_Core_Assert::notNull($user, "user must not be null");
 
 		$userData = $this->userHelper->getEnrichedUserData($user);
 
@@ -396,8 +396,8 @@ class Adi_User_Manager
 	 */
 	public function updateSAMAccountName($userId, $sAMAccountName)
 	{
-		Core_Assert::validId($userId, "userId must be valid id");
-		Core_Assert::notEmpty($sAMAccountName, "sAAMccountName must not be empty");
+		NextADInt_Core_Assert::validId($userId, "userId must be valid id");
+		NextADInt_Core_Assert::notEmpty($sAMAccountName, "sAAMccountName must not be empty");
 
 		$this->logger->info("Updating sAMAccountName of user '$userId' to '$sAMAccountName'");
 
@@ -409,13 +409,13 @@ class Adi_User_Manager
 	 * Update the roles for the given $userId.
 	 *
 	 * @param integer $userId
-	 * @param Adi_Role_Mapping $roleMapping
+	 * @param NextADInt_Adi_Role_Mapping $roleMapping
 	 * @param bool $isNewUser
 	 */
-	public function updateUserRoles($userId, Adi_Role_Mapping $roleMapping, $isNewUser = false)
+	public function updateUserRoles($userId, NextADInt_Adi_Role_Mapping $roleMapping, $isNewUser = false)
 	{
-		Core_Assert::validId($userId, "userId is not valid: $userId");
-		Core_Assert::notNull($roleMapping, "roleMapping must not be null");
+		NextADInt_Core_Assert::validId($userId, "userId is not valid: $userId");
+		NextADInt_Core_Assert::notNull($roleMapping, "roleMapping must not be null");
 
 		$this->logger->info("Updating user roles for $userId : " . $roleMapping);
 
@@ -433,12 +433,12 @@ class Adi_User_Manager
 	 */
 	protected function updateUserMetaDataFromActiveDirectory($userId, $ldapAttributes)
 	{
-		Core_Assert::validId($userId, 'userId must be a valid id');
-		Core_Assert::notNull($ldapAttributes, "ldapAttributes must not be null");
+		NextADInt_Core_Assert::validId($userId, 'userId must be a valid id');
+		NextADInt_Core_Assert::notNull($ldapAttributes, "ldapAttributes must not be null");
 
 		// should empty user metas be override
 		$userMetaEmptyOverwrite = $this->configuration->getOptionValue(
-			Adi_Configuration_Options::USERMETA_EMPTY_OVERWRITE
+			NextADInt_Adi_Configuration_Options::USERMETA_EMPTY_OVERWRITE
 		);
 		$attributeWhiteList = $this->attributeRepository->getWhitelistedAttributes();
 
@@ -452,11 +452,11 @@ class Adi_User_Manager
 		// iterate over all userAttributeValues
 		foreach ($filteredAttributes as $name => $value) {
 			// get type and metaKey
-			/* @var $attribute Ldap_Attribute */
-			$attribute = Core_Util_ArrayUtil::get($name, $attributeWhiteList, false);
+			/* @var $attribute NextADInt_Ldap_Attribute */
+			$attribute = NextADInt_Core_Util_ArrayUtil::get($name, $attributeWhiteList, false);
 
 			// conversion/formatting
-			$value = Ldap_Attribute_Converter::formatAttributeValue($attribute->getType(), $value);
+			$value = NextADInt_Ldap_Attribute_Converter::formatAttributeValue($attribute->getType(), $value);
 
 			// set value if $value is not empty or $userMetaEmptyOverwrite is true
 			$message = "Set AD attribute '$name' (ADI " . $attribute . ") to " . print_r($value, true);
@@ -476,16 +476,16 @@ class Adi_User_Manager
 	 */
 	protected function filterDisallowedAttributes($ldapAttributes, $whitelist)
 	{
-		Core_Assert::notNull($ldapAttributes, "ldapAttributes must not be null");
-		Core_Assert::notNull($whitelist, "whitelist must not be null");
+		NextADInt_Core_Assert::notNull($ldapAttributes, "ldapAttributes must not be null");
+		NextADInt_Core_Assert::notNull($whitelist, "whitelist must not be null");
 
 		// workaround: $this in closures are only allowed as of PHP 5.4
 		$host = &$this;
 
-		return Core_Util_ArrayUtil::filter(
+		return NextADInt_Core_Util_ArrayUtil::filter(
 			function ($value, $name) use ($whitelist, $host) {
-				/* @var $attribute Ldap_Attribute */
-				$attribute = Core_Util_ArrayUtil::get($name, $whitelist, false);
+				/* @var $attribute NextADInt_Ldap_Attribute */
+				$attribute = NextADInt_Core_Util_ArrayUtil::get($name, $whitelist, false);
 
 				if (!$attribute) {
 					$message = "$name is empty. Local value left unchanged.";
@@ -513,13 +513,13 @@ class Adi_User_Manager
 		// workaround: $this in closures are only allowed as of PHP 5.4
 		$host = &$this;
 
-		return Core_Util_ArrayUtil::filter(
+		return NextADInt_Core_Util_ArrayUtil::filter(
 			function ($value, $name) use ($whitelist, $userMetaEmptyOverwrite, $host) {
-				/* @var $attribute Ldap_Attribute */
-				$attribute = Core_Util_ArrayUtil::get($name, $whitelist, false);
+				/* @var $attribute NextADInt_Ldap_Attribute */
+				$attribute = NextADInt_Core_Util_ArrayUtil::get($name, $whitelist, false);
 
 				// conversion/formatting
-				$value = Ldap_Attribute_Converter::formatAttributeValue($attribute->getType(), $value);
+				$value = NextADInt_Ldap_Attribute_Converter::formatAttributeValue($attribute->getType(), $value);
 				$value = trim($value);
 
 				if (empty($value) && !$userMetaEmptyOverwrite) {
@@ -537,10 +537,10 @@ class Adi_User_Manager
 	/**
 	 * Update email address for user $userId.
 	 *
-	 * @param Adi_User $user
+	 * @param NextADInt_Adi_User $user
 	 * @param string $email
 	 */
-	protected function updateEmail(Adi_User $user, $email)
+	protected function updateEmail(NextADInt_Adi_User $user, $email)
 	{
 		// exit if $email is not an email address
 		if (!is_email($email)) {
@@ -573,12 +573,12 @@ class Adi_User_Manager
 	protected function getEmailForUpdate(WP_User $userData, $email)
 	{
 		$duplicateEmailPrevention = $this->configuration->getOptionValue(
-			Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION
+			NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION
 		);
 
 		// Check if duplicate emails are allowed. If duplicate emails are allowed set WP_IMPORTING to TRUE
 		// to force WordPress to take a duplicated email.
-		if (Adi_User_DuplicateEmailPrevention::ALLOW == $duplicateEmailPrevention) {
+		if (NextADInt_Adi_User_DuplicateEmailPrevention::ALLOW == $duplicateEmailPrevention) {
 			if (!defined('WP_IMPORTING')) {
 				define('WP_IMPORTING', true); // This is a dirty hack. See wp-includes/registration.php
 			}
@@ -592,7 +592,7 @@ class Adi_User_Manager
 		}
 
 		// Check if the user has no email and an email should be created
-		if (Adi_User_DuplicateEmailPrevention::CREATE == $duplicateEmailPrevention && !$userData->user_email) {
+		if (NextADInt_Adi_User_DuplicateEmailPrevention::CREATE == $duplicateEmailPrevention && !$userData->user_email) {
 			$newEmail = $this->userHelper->createUniqueEmailAddress($email);
 			$this->logger->debug("Duplicate email address prevention: email changed from '$email' to '$newEmail'.");
 
@@ -629,7 +629,7 @@ class Adi_User_Manager
 			return false;
 		}
 
-		$result = $this->metaRepository->find($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true);
+		$result = $this->metaRepository->find($userId, ADI_PREFIX . 'samaccountname', true);
 
 		return (!empty($result));
 	}
@@ -641,11 +641,11 @@ class Adi_User_Manager
 	 */
 	public function enable($userId)
 	{
-		Core_Assert::validId($userId);
+		NextADInt_Core_Assert::validId($userId);
 
 		// It is very likely that the email is already restored (e.g. by the user update/creation in SyncToWordpress).
 		// But if the AD has no email for the user then the old email will be restored.
-		$email = $this->metaRepository->find($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true);
+		$email = $this->metaRepository->find($userId, ADI_PREFIX . 'user_disabled_email', true);
 		$userData = $this->userRepository->findById($userId);
 
 		$this->metaRepository->enableUser($userData);
@@ -682,7 +682,7 @@ class Adi_User_Manager
 	public function migratePreviousVersion()
 	{
 		$oldSamAccountNameProperty = 'adi_samaccountname';
-		$newSamAccountNameProperty = NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME;
+		$newSamAccountNameProperty = ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME;
 		$wpUsers = $this->userRepository->findByMetaKey($oldSamAccountNameProperty);
 
 		$migrated = 0;

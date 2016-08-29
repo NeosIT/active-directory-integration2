@@ -4,47 +4,47 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Persistence_BlogConfigurationRepository |PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository |PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationRepository;
 
-	/* @var Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/* @var Core_Util_Internal_Native|\Mockery\MockInterface */
+	/* @var NextADInt_Core_Util_Internal_Native|\Mockery\MockInterface */
 	private $internalNative;
 
-	/* @var Multisite_Option_Provider|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Option_Provider|PHPUnit_Framework_MockObject_MockObject */
 	private $optionProvider;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->blogConfigurationRepository = $this->createMock('Multisite_Configuration_Persistence_BlogConfigurationRepository');
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->optionProvider = new Adi_Configuration_Options();
+		$this->blogConfigurationRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->optionProvider = new NextADInt_Adi_Configuration_Options();
 
 		// mock native functions
 		$this->internalNative = $this->createMockedNative();
-		Core_Util::native($this->internalNative);
+		NextADInt_Core_Util::native($this->internalNative);
 	}
 
 	public function tearDown()
 	{
 		parent::tearDown();
 		// release mocked native functions
-		Core_Util::native(null);
+		NextADInt_Core_Util::native(null);
 	}
 
 	/**
 	 *
-	 * @return Adi_Configuration_ImportService| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Configuration_ImportService| PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Configuration_ImportService')
+		return $this->getMockBuilder('NextADInt_Adi_Configuration_ImportService')
 			->setConstructorArgs(
 				array(
 					$this->blogConfigurationRepository,
@@ -263,7 +263,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction('get_site_option', array(
 			'args' => array(
-				Adi_Configuration_ImportService::OLD_VERSION_KEY,
+				NextADInt_Adi_Configuration_ImportService::OLD_VERSION_KEY,
 				false
 			),
 			'return' => 666,
@@ -285,7 +285,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 		WP_Mock::wpFunction('get_blog_option', array(
 			'args' => array(
 				555,
-				Adi_Configuration_ImportService::OLD_VERSION_KEY,
+				NextADInt_Adi_Configuration_ImportService::OLD_VERSION_KEY,
 				false
 			),
 			'return' => 666,
@@ -303,7 +303,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction('get_option', array(
 			'args' => array(
-				Adi_Configuration_ImportService::OLD_VERSION_KEY,
+				NextADInt_Adi_Configuration_ImportService::OLD_VERSION_KEY,
 				false
 			),
 			'return' => 666,
@@ -329,7 +329,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction('get_site_option', array(
 			'args'   => array(
-				Adi_Configuration_ImportService::OLD_VERSION_KEY, false,
+				NextADInt_Adi_Configuration_ImportService::OLD_VERSION_KEY, false,
 			),
 			'return' => $expected,
 		));
@@ -417,7 +417,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 			->with('1.1.7', NEXT_AD_INT_PLUGIN_VERSION, '<')
 			->willReturn(true);
 
-		$this->assertTrue(Adi_Configuration_ImportService::isPreviousVersion('1.1.7'));
+		$this->assertTrue(NextADInt_Adi_Configuration_ImportService::isPreviousVersion('1.1.7'));
 	}
 
 	/**
@@ -430,7 +430,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 			->with('2.1', NEXT_AD_INT_PLUGIN_VERSION, '<')
 			->willReturn(false);
 
-		$this->assertFalse(Adi_Configuration_ImportService::isPreviousVersion('2.1'));
+		$this->assertFalse(NextADInt_Adi_Configuration_ImportService::isPreviousVersion('2.1'));
 	}
 
 	/**
@@ -608,16 +608,16 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 	 */
 	public function convertOptionName_itConvertsAllOldOptionNames()
 	{
-		$this->assertEquals('name_pattern', Adi_Configuration_ImportService::convertOptionName('display_name'));
-		$this->assertEquals(Adi_Configuration_Options::SYNC_TO_AD_ENABLED, Adi_Configuration_ImportService::convertOptionName('syncback'));
-		$this->assertEquals(Adi_Configuration_Options::SYNC_TO_AD_USE_GLOBAL_USER, Adi_Configuration_ImportService::convertOptionName('syncback_use_global_user'));
-		$this->assertEquals(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER, Adi_Configuration_ImportService::convertOptionName('syncback_global_user'));
-		$this->assertEquals(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, Adi_Configuration_ImportService::convertOptionName('syncback_global_pwd'));
-		$this->assertEquals(Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED, Adi_Configuration_ImportService::convertOptionName('bulkimport_enabled'));
-		$this->assertEquals(Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE, Adi_Configuration_ImportService::convertOptionName('bulkimport_authcode'));
-		$this->assertEquals(Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS, Adi_Configuration_ImportService::convertOptionName('bulkimport_security_groups'));
-		$this->assertEquals(Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER, Adi_Configuration_ImportService::convertOptionName('bulkimport_user'));
-		$this->assertEquals(Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD, Adi_Configuration_ImportService::convertOptionName('bulkimport_pwd'));
+		$this->assertEquals('name_pattern', NextADInt_Adi_Configuration_ImportService::convertOptionName('display_name'));
+		$this->assertEquals(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_ENABLED, NextADInt_Adi_Configuration_ImportService::convertOptionName('syncback'));
+		$this->assertEquals(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_USE_GLOBAL_USER, NextADInt_Adi_Configuration_ImportService::convertOptionName('syncback_use_global_user'));
+		$this->assertEquals(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER, NextADInt_Adi_Configuration_ImportService::convertOptionName('syncback_global_user'));
+		$this->assertEquals(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD, NextADInt_Adi_Configuration_ImportService::convertOptionName('syncback_global_pwd'));
+		$this->assertEquals(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED, NextADInt_Adi_Configuration_ImportService::convertOptionName('bulkimport_enabled'));
+		$this->assertEquals(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE, NextADInt_Adi_Configuration_ImportService::convertOptionName('bulkimport_authcode'));
+		$this->assertEquals(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS, NextADInt_Adi_Configuration_ImportService::convertOptionName('bulkimport_security_groups'));
+		$this->assertEquals(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER, NextADInt_Adi_Configuration_ImportService::convertOptionName('bulkimport_user'));
+		$this->assertEquals(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD, NextADInt_Adi_Configuration_ImportService::convertOptionName('bulkimport_pwd'));
 	}
 
 	/**
@@ -625,7 +625,7 @@ class Ut_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 	 */
 	public function convertOptionName_itReturnsTheSameName_whenNotExistent()
 	{
-		$this->assertEquals('new_option_name', Adi_Configuration_ImportService::convertOptionName('new_option_name'));
+		$this->assertEquals('new_option_name', NextADInt_Adi_Configuration_ImportService::convertOptionName('new_option_name'));
 	}
 
 	/**

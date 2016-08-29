@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ldap_Attribute_Converter')) {
+if (class_exists('NextADInt_Ldap_Attribute_Converter')) {
 	return;
 }
 
@@ -15,7 +15,7 @@ if (class_exists('Ldap_Attribute_Converter')) {
  * @author  Danny Meißner <dme@neos-it.de>
  * @access  private
  */
-class Ldap_Attribute_Converter
+class NextADInt_Ldap_Attribute_Converter
 {
 	private function __construct()
 	{

@@ -6,41 +6,41 @@
  * @author  Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_View_TwigContainerTest extends Ut_BasicTest
 {
-	/** @var Multisite_Configuration_Persistence_BlogConfigurationRepository |PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository |PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationRepository;
 
-	/** @var Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/** @var Multisite_Configuration_Persistence_ProfileConfigurationRepository|PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository|PHPUnit_Framework_MockObject_MockObject */
 	private $profileConfigurationRepository;
 
-	/** @var Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository|PHPUnit_Framework_MockObject_MockObject */
 	private $profileRepository;
 
-	/** @var Multisite_Configuration_Persistence_DefaultProfileRepository|PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository|PHPUnit_Framework_MockObject_MockObject */
 	private $defaultProfileRepository;
 
-	/** @var Multisite_Option_Provider|PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Option_Provider|PHPUnit_Framework_MockObject_MockObject */
 	private $optionProvider;
 	
-	/** @var Adi_Authentication_VerificationService|PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Adi_Authentication_VerificationService|PHPUnit_Framework_MockObject_MockObject */
 	private $verificationService;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->blogConfigurationRepository = $this->createMock('Multisite_Configuration_Persistence_BlogConfigurationRepository');
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->profileRepository = $this->createMock('Multisite_Configuration_Persistence_ProfileRepository');
-		$this->profileConfigurationRepository = $this->createMock('Multisite_Configuration_Persistence_ProfileConfigurationRepository');
+		$this->blogConfigurationRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->profileRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_ProfileRepository');
+		$this->profileConfigurationRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository');
 		$this->defaultProfileRepository = $this->createMock
-		('Multisite_Configuration_Persistence_DefaultProfileRepository');
-		$this->optionProvider = $this->createMock('Multisite_Option_Provider');
-		$this->verificationService = $this->createMock('Adi_Authentication_VerificationService');
+		('NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository');
+		$this->optionProvider = $this->createMock('NextADInt_Multisite_Option_Provider');
+		$this->verificationService = $this->createMock('NextADInt_Adi_Authentication_VerificationService');
 	}
 
 	public function tearDown()
@@ -121,7 +121,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 
 		$this->assertEquals(array($sut, 'getMetadata'), $twig->getFunction('getMetadata')->getCallable());
 		$this->assertEquals(
-			Adi_Configuration_Ui_Layout::get(), call_user_func($twig->getFunction('getOptionsGrouping')->getCallable())
+			NextADInt_Adi_Configuration_Ui_Layout::get(), call_user_func($twig->getFunction('getOptionsGrouping')->getCallable())
 		);
 		$this->assertEquals(
 			array($sut, 'getOptionPermission'), $twig->getFunction('getOptionPermission')->getCallable()
@@ -159,7 +159,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 			->method('isOnNetworkDashboard')
 			->willReturn(true);
 
-		$optionGroup = array(Adi_Configuration_Ui_Layout::MULTISITE_ONLY => true);
+		$optionGroup = array(NextADInt_Adi_Configuration_Ui_Layout::MULTISITE_ONLY => true);
 
 		$result = $sut->isOptionGroupVisible($optionGroup);
 
@@ -177,7 +177,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 			->method('isOnNetworkDashboard')
 			->willReturn(false);
 
-		$optionGroup = array(Adi_Configuration_Ui_Layout::MULTISITE_ONLY => true);
+		$optionGroup = array(NextADInt_Adi_Configuration_Ui_Layout::MULTISITE_ONLY => true);
 
 		$result = $sut->isOptionGroupVisible($optionGroup);
 
@@ -195,7 +195,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 			->method('isOnNetworkDashboard')
 			->willReturn(true);
 
-		$optionGroup = array(Adi_Configuration_Ui_Layout::MULTISITE_ONLY => false);
+		$optionGroup = array(NextADInt_Adi_Configuration_Ui_Layout::MULTISITE_ONLY => false);
 
 		$result = $sut->isOptionGroupVisible($optionGroup);
 
@@ -213,7 +213,7 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 			->method('isOnNetworkDashboard')
 			->willReturn(false);
 
-		$optionGroup = array(Adi_Configuration_Ui_Layout::MULTISITE_ONLY => false);
+		$optionGroup = array(NextADInt_Adi_Configuration_Ui_Layout::MULTISITE_ONLY => false);
 
 		$result = $sut->isOptionGroupVisible($optionGroup);
 
@@ -583,11 +583,11 @@ class Ut_Multisite_View_TwigContainerTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Multisite_View_TwigContainer| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_View_TwigContainer| PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_View_TwigContainer')
+		return $this->getMockBuilder('NextADInt_Multisite_View_TwigContainer')
 			->setConstructorArgs(
 				array(
 					$this->blogConfigurationRepository,

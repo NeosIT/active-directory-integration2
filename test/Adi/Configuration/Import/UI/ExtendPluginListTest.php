@@ -4,10 +4,10 @@
  * @author Christopher Klein <ckl@neos-it.de>
  * @access private
  */
-class Ut_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_BasicTest
 {
 	/**
-	 * @var Adi_Configuration_ImportService
+	 * @var NextADInt_Adi_Configuration_ImportService
 	 */
 	private $importService;
 
@@ -15,7 +15,7 @@ class Ut_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_BasicTest
 	{
 		parent::setUp();
 
-		$this->importService = $this->createMock('Adi_Configuration_ImportService');
+		$this->importService = $this->createMock('NextADInt_Adi_Configuration_ImportService');
 	}
 
 	public function tearDown()
@@ -25,11 +25,11 @@ class Ut_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Adi_Configuration_Import_Ui_ExtendPluginList| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList| PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Configuration_Import_Ui_ExtendPluginList')
+		return $this->getMockBuilder('NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList')
 			->setConstructorArgs(
 				array(
 					$this->importService,
@@ -46,9 +46,9 @@ class Ut_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::expectFilterAdded('plugin_action_links_' . NEXT_AD_INT_PLUGIN_FILE, array($sut, 'extendPluginActions'), 10, 5);
-		\WP_Mock::expectFilterAdded('network_admin_plugin_action_links_' . NEXT_AD_INT_PLUGIN_FILE, array($sut, 'extendPluginActions'), 10, 5);
-		\WP_Mock::expectActionAdded('admin_post_' . Adi_Configuration_Import_Ui_ExtendPluginList::ACTION, array($sut, 'exportPreviousConfiguration'));
+		\WP_Mock::expectFilterAdded('plugin_action_links_' . ADI_PLUGIN_FILE, array($sut, 'extendPluginActions'), 10, 5);
+		\WP_Mock::expectFilterAdded('network_admin_plugin_action_links_' . ADI_PLUGIN_FILE, array($sut, 'extendPluginActions'), 10, 5);
+		\WP_Mock::expectActionAdded('admin_post_' . NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList::ACTION, array($sut, 'exportPreviousConfiguration'));
 
 		$sut->register();
 	}

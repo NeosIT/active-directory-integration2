@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Ut_Ldap_Attribute_DescriptionTest
+ * Ut_NextADInt_Ldap_Attribute_DescriptionTest
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class Ut_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
+class Ut_NextADInt_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 {
 	public function setUp()
 	{
@@ -25,7 +25,7 @@ class Ut_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 	 */
 	public function findAll_callMethodForTheFirstTime_returnExpectedDescriptions()
 	{
-		$descriptions = Ldap_Attribute_Description::findAll();
+		$descriptions = NextADInt_Ldap_Attribute_Description::findAll();
 
 		$this->assertTrue(is_array($descriptions));
 		$this->assertEquals(35, sizeof($descriptions));
@@ -36,8 +36,8 @@ class Ut_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 	 */
 	public function findAll_callMethodForTheSecondTime_returnExpectedDescriptions()
 	{
-		Ldap_Attribute_Description::findAll();
-		$descriptions = Ldap_Attribute_Description::findAll();
+		NextADInt_Ldap_Attribute_Description::findAll();
+		$descriptions = NextADInt_Ldap_Attribute_Description::findAll();
 
 		$this->assertTrue(is_array($descriptions));
 		$this->assertEquals(35, sizeof($descriptions));
@@ -48,7 +48,7 @@ class Ut_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 	 */
 	public function find_withExistingAttribute_returnExpectedDescription()
 	{
-		$attribute = Ldap_Attribute_Description::find('cn', 'fallback');
+		$attribute = NextADInt_Ldap_Attribute_Description::find('cn', 'fallback');
 		$this->assertEquals('Common Name', $attribute);
 	}
 
@@ -57,7 +57,7 @@ class Ut_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 	 */
 	public function find_withNoExistingAttribute_returnFallback()
 	{
-		$attribute = Ldap_Attribute_Description::find('not_existing', 'fallback');
+		$attribute = NextADInt_Ldap_Attribute_Description::find('not_existing', 'fallback');
 		$this->assertEquals('fallback', $attribute);
 	}
 }

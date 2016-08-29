@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Synchronization_Ui_SyncToActiveDirectoryPage')) {
+if (class_exists('NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage')) {
 	return;
 }
 
@@ -15,7 +15,7 @@ if (class_exists('Adi_Synchronization_Ui_SyncToActiveDirectoryPage')) {
  *
  * @access public
  */
-class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Page_Abstract
+class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADInt_Multisite_View_Page_Abstract
 {
 	const TITLE = 'Sync to AD';
 	const SLUG = 'sync_to_ad';
@@ -24,10 +24,10 @@ class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Pa
 	const TEMPLATE = 'sync-to-ad.twig';
 	const NONCE = 'Active Directory Integration Sync to AD Nonce';
 
-	/* @var Adi_Synchronization_ActiveDirectory $syncToActiveDirectory */
+	/* @var NextADInt_Adi_Synchronization_ActiveDirectory $syncToActiveDirectory */
 	private $syncToActiveDirectory;
 
-	/** @var Multisite_Configuration_Service */
+	/** @var NextADInt_Multisite_Configuration_Service */
 	private $configuration;
 
 	private $result;
@@ -35,13 +35,13 @@ class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Pa
 
 
 	/**
-	 * @param Multisite_View_TwigContainer $twigContainer
-	 * @param Adi_Synchronization_ActiveDirectory $syncToActiveDirectory
-	 * @param Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Multisite_View_TwigContainer $twigContainer
+	 * @param NextADInt_Adi_Synchronization_ActiveDirectory $syncToActiveDirectory
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
 	 */
-	public function __construct(Multisite_View_TwigContainer $twigContainer,
-								Adi_Synchronization_ActiveDirectory $syncToActiveDirectory,
-								Multisite_Configuration_Service $configuration)
+	public function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer,
+								NextADInt_Adi_Synchronization_ActiveDirectory $syncToActiveDirectory,
+								NextADInt_Multisite_Configuration_Service $configuration)
 	{
 		parent::__construct($twigContainer);
 
@@ -56,7 +56,7 @@ class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Pa
 	 */
 	public function getTitle()
 	{
-		return esc_html__(self::TITLE, NEXT_AD_INT_I18N);
+		return esc_html__(self::TITLE, ADI_I18N);
 	}
 
 	/**
@@ -69,7 +69,7 @@ class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Pa
 		// get data from $_POST
 		$params = $this->processData($_POST);
 		$params['nonce'] = wp_create_nonce(self::NONCE); // add nonce for security
-		$params['authCode'] = $this->configuration->getOptionValue(Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE);
+		$params['authCode'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE);
 		$params['blogUrl'] = get_site_url(get_current_blog_id());
 		$params['message'] = $this->result;
 		$params['log'] = $this->log;
@@ -89,19 +89,19 @@ class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Pa
 			return array();
 		}
 
-		$security =  Core_Util_ArrayUtil::get('security', $post, '');
+		$security =  NextADInt_Core_Util_ArrayUtil::get('security', $post, '');
 		if (!wp_verify_nonce($security, self::NONCE)) {
-			$message = __('You do not have sufficient permissions to access this page.', NEXT_AD_INT_I18N);
+			$message = __('You do not have sufficient permissions to access this page.', ADI_I18N);
 			wp_die($message);
 		}
 
-		$userId = Core_Util_ArrayUtil::get('userid', $post, '');
+		$userId = NextADInt_Core_Util_ArrayUtil::get('userid', $post, '');
 
 		ob_start();
-		Core_Logger::displayAndLogMessages();
+		NextADInt_Core_Logger::displayAndLogMessages();
 		$result = $this->syncToActiveDirectory->synchronize($userId);
 
-		Core_Logger::logMessages();
+		NextADInt_Core_Logger::logMessages();
 		$this->log = ob_get_contents();
 		ob_end_clean();
 
@@ -109,9 +109,9 @@ class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Pa
 		$this->log = explode("<br />",$this->log);
 
 		if ($result) {
-			$this->result = esc_html__('Sync to AD succeeded.', NEXT_AD_INT_I18N);
+			$this->result = esc_html__('Sync to AD succeeded.', ADI_I18N);
 		} else {
-			$this->result = esc_html__('Sync to AD failed.', NEXT_AD_INT_I18N);
+			$this->result = esc_html__('Sync to AD failed.', ADI_I18N);
 		}
 
 		return array(
@@ -130,7 +130,7 @@ class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Pa
 			return;
 		}
 
-		wp_enqueue_style('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
 	}
 
 	/**
@@ -140,7 +140,7 @@ class Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends Multisite_View_Pa
 	 */
 	public function getSlug()
 	{
-		return NEXT_AD_INT_PREFIX . self::SLUG;
+		return ADI_PREFIX . self::SLUG;
 	}
 
 	/**

@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Message')) {
+if (class_exists('NextADInt_Core_Message')) {
 	return;
 }
 
 /**
- * Core_Message represents a message that can be shown in the frontend.
+ * NextADInt_Core_Message represents a message that can be shown in the frontend.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Core_Message')) {
  *
  * @access
  */
-class Core_Message
+class NextADInt_Core_Message
 {
 	/**
 	 * @var string $message
@@ -48,11 +48,11 @@ class Core_Message
 	 * @param       $message
 	 * @param array $additionalInformation
 	 *
-	 * @return Core_Message
+	 * @return NextADInt_Core_Message
 	 */
 	public static function success($message, $additionalInformation = array())
 	{
-		return new self($message, Core_Message_Type::SUCCESS, $additionalInformation);
+		return new self($message, NextADInt_Core_Message_Type::SUCCESS, $additionalInformation);
 	}
 
 	/**
@@ -61,11 +61,11 @@ class Core_Message
 	 * @param       $message
 	 * @param array $additionalInformation
 	 *
-	 * @return Core_Message
+	 * @return NextADInt_Core_Message
 	 */
 	public static function error($message, $additionalInformation = array())
 	{
-		return new self($message, Core_Message_Type::ERROR, $additionalInformation);
+		return new self($message, NextADInt_Core_Message_Type::ERROR, $additionalInformation);
 	}
 
 	/**

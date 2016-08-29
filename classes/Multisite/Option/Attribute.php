@@ -3,17 +3,17 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Option_Attribute')) {
+if (class_exists('NextADInt_Multisite_Option_Attribute')) {
 	return;
 }
 
 /**
- * Multisite_Option_Attribute contains meta names for options.
+ * NextADInt_Multisite_Option_Attribute contains meta names for options.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Multisite_Option_Attribute
+class NextADInt_Multisite_Option_Attribute
 {
 	const TITLE = 'title';
 	const TYPE = 'type';

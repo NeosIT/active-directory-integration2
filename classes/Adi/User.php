@@ -3,20 +3,20 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_User')) {
+if (class_exists('NextADInt_Adi_User')) {
 	return;
 }
 
 /**
- * Adi_User encapsulates a WordPress user and extends it with information provided by Active Directory.
+ * NextADInt_Adi_User encapsulates a WordPress user and extends it with information provided by Active Directory.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @access public
  */
-class Adi_User
+class NextADInt_Adi_User
 {
 	/**
-	 * @var Adi_Authentication_Credentials
+	 * @var NextADInt_Adi_Authentication_Credentials
 	 */
 	private $credentials = null;
 
@@ -26,10 +26,10 @@ class Adi_User
 	/** @var string WordPress user_login field */
 	private $user_login;
 
-	/** @var Ldap_Attributes */
+	/** @var NextADInt_Ldap_Attributes */
 	private $ldapAttributes;
 
-	/** @var Adi_Role_Mapping */
+	/** @var NextADInt_Adi_Role_Mapping */
 	private $roleMapping;
 
 	/**
@@ -39,19 +39,19 @@ class Adi_User
 
 
 	/**
-	 * Adi_User constructor.
+	 * NextADInt_Adi_User constructor.
 	 *
-	 * @param Adi_Authentication_Credentials $credentials
-	 * @param Ldap_Attributes $ldapAttributes
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
+	 * @param NextADInt_Ldap_Attributes $ldapAttributes
 	 */
-	public function  __construct(Adi_Authentication_Credentials $credentials, Ldap_Attributes $ldapAttributes)
+	public function  __construct(NextADInt_Adi_Authentication_Credentials $credentials, NextADInt_Ldap_Attributes $ldapAttributes)
 	{
 		$this->setCredentials($credentials);
 		$this->setLdapAttributes($ldapAttributes);
 	}
 
 	/**
-	 * @return Adi_Authentication_Credentials never be empty
+	 * @return NextADInt_Adi_Authentication_Credentials never be empty
 	 */
 	public function getCredentials()
 	{
@@ -59,14 +59,14 @@ class Adi_User
 	}
 
 	/**
-	 * @param Adi_Authentication_Credentials $credentials
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 * @throws Exception
 	 */
-	public function setCredentials(Adi_Authentication_Credentials $credentials)
+	public function setCredentials(NextADInt_Adi_Authentication_Credentials $credentials)
 	{
-		Core_Assert::notNull($credentials, "credentials must not be null");
-		Core_Assert::notEmpty($credentials->getUserPrincipalName(), "userPrincipalName must not be empty");
-		Core_Assert::notEmpty($credentials->getSAMAccountName(), "sAMAccountName must not be empty");
+		NextADInt_Core_Assert::notNull($credentials, "credentials must not be null");
+		NextADInt_Core_Assert::notEmpty($credentials->getUserPrincipalName(), "userPrincipalName must not be empty");
+		NextADInt_Core_Assert::notEmpty($credentials->getSAMAccountName(), "sAMAccountName must not be empty");
 
 		$this->credentials = $credentials;
 	}
@@ -89,22 +89,22 @@ class Adi_User
 
 	/**
 	 * Set LDAP attributes
-	 * @param Ldap_Attributes $ldapAttributes
+	 * @param NextADInt_Ldap_Attributes $ldapAttributes
 	 */
-	public function setLdapAttributes(Ldap_Attributes $ldapAttributes)
+	public function setLdapAttributes(NextADInt_Ldap_Attributes $ldapAttributes)
 	{
 		$this->ldapAttributes = $ldapAttributes;
 	}
 
 	/**
-	 * @return Ldap_Attributes never null; if ldapAttributes is not set a new instance will be returned
+	 * @return NextADInt_Ldap_Attributes never null; if ldapAttributes is not set a new instance will be returned
 	 */
 	public function getLdapAttributes() {
-		return $this->ldapAttributes ? $this->ldapAttributes : new Ldap_Attributes();
+		return $this->ldapAttributes ? $this->ldapAttributes : new NextADInt_Ldap_Attributes();
 	}
 
 	/**
-	 * @return Adi_Role_Mapping
+	 * @return NextADInt_Adi_Role_Mapping
 	 */
 	public function getRoleMapping()
 	{
@@ -112,7 +112,7 @@ class Adi_User
 	}
 
 	/**
-	 * @param Adi_Role_Mapping $roleMapping
+	 * @param NextADInt_Adi_Role_Mapping $roleMapping
 	 */
 	public function setRoleMapping($roleMapping)
 	{

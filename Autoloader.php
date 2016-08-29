@@ -16,6 +16,7 @@ class Adi_Autoloader
 	const SOURCE_FOLDER = 'classes';
 	const PHP_FILE_EXTENSION = '.php';
 	const NAMESPACE_SEPARATOR = '_';
+    const CLASS_PREFIX = 'NextADInt_';
 
 	/**
 	 * Register our load method as an autoloader function.
@@ -101,9 +102,10 @@ class Adi_Autoloader
 		$prefixes = array('Adi', 'Core', 'Ldap', 'Multisite', 'Migration');
 
 		foreach ($prefixes as $prefix) {
-			$len = strlen($prefix);
+		    $totalPrefix = self::CLASS_PREFIX . $prefix;
+			$len = strlen($totalPrefix);
 
-			if (strncmp($prefix, $class, $len) === 0) {
+			if (strncmp($totalPrefix, $class, $len) === 0) {
 				return true;
 			}
 		}
@@ -121,6 +123,7 @@ class Adi_Autoloader
 	 */
 	private function convertClassNameToPathArray($class, $namespaceSeparator)
 	{
+	    $class = substr($class, strlen(self::CLASS_PREFIX));
 		return explode($namespaceSeparator, $class);
 	}
 

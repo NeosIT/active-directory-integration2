@@ -4,7 +4,7 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Multisite_Option_SanitizerTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Option_SanitizerTest extends Ut_BasicTest
 {
 	public function setUp()
 	{
@@ -41,11 +41,11 @@ class Ut_Multisite_Option_SanitizerTest extends Ut_BasicTest
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Option_Sanitizer|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Option_Sanitizer|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods)
 	{
-		return $connection = $this->getMockBuilder('Multisite_Option_Sanitizer')
+		return $connection = $this->getMockBuilder('NextADInt_Multisite_Option_Sanitizer')
 			->setMethods($methods)
 			->getMock();
 	}
@@ -92,7 +92,7 @@ class Ut_Multisite_Option_SanitizerTest extends Ut_BasicTest
 			'integer' // name of the call-method
 		);
 		$metadata = array(
-			Multisite_Option_Attribute::DEFAULT_VALUE => 666
+			NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE => 666
 		);
 
 		$this->assertEquals(0, $sut->sanitize('0', $params, $metadata));
@@ -123,7 +123,7 @@ class Ut_Multisite_Option_SanitizerTest extends Ut_BasicTest
 			'email' // name of the call-method
 		);
 		$metadata = array(
-			Multisite_Option_Attribute::DEFAULT_VALUE => 'aa@bb.com'
+			NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE => 'aa@bb.com'
 		);
 
 		\WP_Mock::wpFunction(
@@ -156,7 +156,7 @@ class Ut_Multisite_Option_SanitizerTest extends Ut_BasicTest
 			'email' // name of the call-method
 		);
 		$metadata = array(
-			Multisite_Option_Attribute::DEFAULT_VALUE => 'aa@bb.com'
+			NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE => 'aa@bb.com'
 		);
 
 		\WP_Mock::wpFunction(
@@ -220,7 +220,7 @@ class Ut_Multisite_Option_SanitizerTest extends Ut_BasicTest
 			'integerRange', // name of the call-method
 		);
 		$metadata = array(
-			Multisite_Option_Attribute::DEFAULT_VALUE => 999
+			NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE => 999
 		);
 
 		$this->assertEquals(100, $sut->sanitize(100, $params, $metadata));
@@ -240,7 +240,7 @@ class Ut_Multisite_Option_SanitizerTest extends Ut_BasicTest
 			100, // left border
 		);
 		$metadata = array(
-			Multisite_Option_Attribute::DEFAULT_VALUE => 999
+			NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE => 999
 		);
 
 		$this->assertEquals(100, $sut->sanitize(100, $params, $metadata));
@@ -265,7 +265,7 @@ class Ut_Multisite_Option_SanitizerTest extends Ut_BasicTest
 			200 // right border
 		);
 		$metadata = array(
-			Multisite_Option_Attribute::DEFAULT_VALUE => 666
+			NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE => 666
 		);
 
 		$this->assertEquals(200, $sut->sanitize(200, $params, $metadata));
@@ -290,7 +290,7 @@ class Ut_Multisite_Option_SanitizerTest extends Ut_BasicTest
 			200 // right border
 		);
 		$metadata = array(
-			Multisite_Option_Attribute::DEFAULT_VALUE => 155
+			NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE => 155
 		);
 
 		$this->assertEquals(200, $sut->sanitize(200, $params, $metadata));
@@ -320,7 +320,7 @@ class Ut_Multisite_Option_SanitizerTest extends Ut_BasicTest
 			array('integer') // sub method
 		);
 		$metadata = array(
-			Multisite_Option_Attribute::DEFAULT_VALUE => 160
+			NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE => 160
 		);
 
 		$output = $sut->sanitize('1;2;1.1;abc;null;666', $params, $metadata);
@@ -336,7 +336,7 @@ class Ut_Multisite_Option_SanitizerTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$metadata = array(
-			Multisite_Option_Attribute::DEFAULT_VALUE => 'oh no'
+			NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE => 'oh no'
 		);
 
 		$this->assertEquals(
@@ -404,8 +404,8 @@ class Ut_Multisite_Option_SanitizerTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$metadata = array(
-			Multisite_Option_Attribute::DEFAULT_VALUE => 'Kaugummi',
-			Multisite_Option_Attribute::ELEMENTS      => array(
+			NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE => 'Kaugummi',
+			NextADInt_Multisite_Option_Attribute::ELEMENTS      => array(
 				'Bitterschokolade',
 				'Edelnougat',
 				'Honigkuchen'

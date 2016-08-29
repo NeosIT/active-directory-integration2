@@ -3,55 +3,55 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Configuration_Persistence_BlogConfigurationRepository')) {
+if (class_exists('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository')) {
 	return;
 }
 
 /**
- * Multisite_Configuration_Persistence_BlogConfigurationRepository finds or insert option values for a normal WordPress installation or for each sites of an
+ * NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository finds or insert option values for a normal WordPress installation or for each sites of an
  * network WordPress installation.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access  public
  */
-class Multisite_Configuration_Persistence_BlogConfigurationRepository implements Multisite_Configuration_Persistence_ConfigurationRepository
+class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository implements NextADInt_Multisite_Configuration_Persistence_ConfigurationRepository
 {
 	const PROFILE_ID = 'profile_id';
 	const PREFIX = 'bo_v_';
 
-	/* @var Multisite_Option_Sanitizer $sanitizer */
+	/* @var NextADInt_Multisite_Option_Sanitizer $sanitizer */
 	private $sanitizer;
 
-	/* @var Core_Encryption $encryptionHandler */
+	/* @var NextADInt_Core_Encryption $encryptionHandler */
 	private $encryptionHandler;
 
 	/* @var Logger $logger */
 	private $logger;
 
-	/** @var Multisite_Option_Provider $optionProvider */
+	/** @var NextADInt_Multisite_Option_Provider $optionProvider */
 	private $optionProvider;
 
-	/** @var Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository */
 	private $profileConfigurationRepository;
 
-	/** @var Multisite_Configuration_Persistence_ProfileRepository $profileRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository $profileRepository */
 	private $profileRepository;
 
-	/** @var Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository */
+	/** @var NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository */
 	private $defaultProfileRepository;
 
 	/**
-	 * @param Multisite_Option_Sanitizer                                         $sanitizer
-	 * @param Core_Encryption                                                    $encryptionHandler
-	 * @param Multisite_Option_Provider                                          $optionProvider
-	 * @param Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
-	 * @param Multisite_Configuration_Persistence_DefaultProfileRepository       $defaultProfileRepository
+	 * @param NextADInt_Multisite_Option_Sanitizer                                         $sanitizer
+	 * @param NextADInt_Core_Encryption                                                    $encryptionHandler
+	 * @param NextADInt_Multisite_Option_Provider                                          $optionProvider
+	 * @param NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository       $defaultProfileRepository
 	 */
-	public function __construct(Multisite_Option_Sanitizer $sanitizer,
-								Core_Encryption $encryptionHandler,
-								Multisite_Option_Provider $optionProvider,
-		Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
-		Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository
+	public function __construct(NextADInt_Multisite_Option_Sanitizer $sanitizer,
+								NextADInt_Core_Encryption $encryptionHandler,
+								NextADInt_Multisite_Option_Provider $optionProvider,
+		NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
+		NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository
 	) {
 		$this->sanitizer = $sanitizer;
 		$this->encryptionHandler = $encryptionHandler;
@@ -131,14 +131,14 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository implements
 			$optionValue = $this->getDefaultValue($siteSiteId, $optionName, $optionMetadata);
 		}
 
-		$type = Core_Util_ArrayUtil::get(Multisite_Option_Attribute::TYPE, $optionMetadata);
+		$type = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Multisite_Option_Attribute::TYPE, $optionMetadata);
 
-		if ($type === Multisite_Option_Type::PASSWORD) {
+		if ($type === NextADInt_Multisite_Option_Type::PASSWORD) {
 			$optionValue = $this->encryptionHandler->decrypt($optionValue);
 		}
 
-		if (isset($optionMetadata[Multisite_Option_Attribute::SANITIZER])) {
-			$params = $optionMetadata[Multisite_Option_Attribute::SANITIZER];
+		if (isset($optionMetadata[NextADInt_Multisite_Option_Attribute::SANITIZER])) {
+			$params = $optionMetadata[NextADInt_Multisite_Option_Attribute::SANITIZER];
 			$optionValue = $this->sanitizer->sanitize($optionValue, $params, $optionMetadata, false);
 		}
 
@@ -158,7 +158,7 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository implements
 		$profileId = $this->findProfileId($siteId);
 		$permission = $this->profileConfigurationRepository->findSanitizedPermission($profileId, $optionName);
 
-		if (Multisite_Configuration_Service::EDITABLE > $permission) {
+		if (NextADInt_Multisite_Configuration_Service::EDITABLE > $permission) {
 			return true;
 		}
 
@@ -177,11 +177,11 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository implements
 	 */
 	public function getDefaultValue($siteId, $optionName, $option)
 	{
-		$optionValue = $option[Multisite_Option_Attribute::DEFAULT_VALUE];
+		$optionValue = $option[NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE];
 
 		// generate with Sanitizer a new value, persist it and find it (again).
-		if (Core_Util_ArrayUtil::get(Multisite_Option_Attribute::PERSIST_DEFAULT_VALUE, $option, false)) {
-			$params = $option[Multisite_Option_Attribute::SANITIZER];
+		if (NextADInt_Core_Util_ArrayUtil::get(NextADInt_Multisite_Option_Attribute::PERSIST_DEFAULT_VALUE, $option, false)) {
+			$params = $option[NextADInt_Multisite_Option_Attribute::SANITIZER];
 			$optionValue = $this->sanitizer->sanitize($optionValue, $params, $option, true);
 
 			$this->persistSanitizedValue($siteId, $optionName, $optionValue);
@@ -228,14 +228,14 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository implements
 
 		$optionMetadata = $this->optionProvider->get($optionName);
 
-		if (isset($optionMetadata[Multisite_Option_Attribute::SANITIZER])) {
-			$params = $optionMetadata[Multisite_Option_Attribute::SANITIZER];
+		if (isset($optionMetadata[NextADInt_Multisite_Option_Attribute::SANITIZER])) {
+			$params = $optionMetadata[NextADInt_Multisite_Option_Attribute::SANITIZER];
 			$optionValue = $this->sanitizer->sanitize($optionValue, $params, $optionMetadata, true);
 		}
 
-		$type = Core_Util_ArrayUtil::get(Multisite_Option_Attribute::TYPE, $optionMetadata);
+		$type = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Multisite_Option_Attribute::TYPE, $optionMetadata);
 
-		if (Multisite_Option_Type::PASSWORD === $type) {
+		if (NextADInt_Multisite_Option_Type::PASSWORD === $type) {
 			$optionValue = $this->encryptionHandler->encrypt($optionValue);
 		}
 

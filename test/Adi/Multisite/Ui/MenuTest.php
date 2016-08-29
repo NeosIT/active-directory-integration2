@@ -4,20 +4,20 @@
  * @author Christopher Klein <ckl@neos-it.de>
  * @access private
  */
-class Ut_Adi_Multisite_Ui_MenuTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Multisite_Ui_MenuTest extends Ut_BasicTest
 {
-	/* @var Multisite_Ui_BlogProfileRelationshipPage | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Ui_BlogProfileRelationshipPage | PHPUnit_Framework_MockObject_MockObject */
 	private $blogProfileRelationshipPage;
 
-	/* @var Multisite_Ui_ProfileConfigurationPage | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Ui_ProfileConfigurationPage | PHPUnit_Framework_MockObject_MockObject */
 	private $profileConfigurationPage;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->blogProfileRelationshipPage = $this->createMock('Multisite_Ui_BlogProfileRelationshipPage');
-		$this->profileConfigurationPage = $this->createMock('Multisite_Ui_ProfileConfigurationPage');
+		$this->blogProfileRelationshipPage = $this->createMock('NextADInt_Multisite_Ui_BlogProfileRelationshipPage');
+		$this->profileConfigurationPage = $this->createMock('NextADInt_Multisite_Ui_ProfileConfigurationPage');
 	}
 
 	public function tearDown()
@@ -29,14 +29,14 @@ class Ut_Adi_Multisite_Ui_MenuTest extends Ut_BasicTest
 	 *
 	 * @param null $methods
 	 *
-	 * @return Adi_Multisite_Ui_Menu|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Multisite_Ui_Menu|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Multisite_Ui_Menu')
+		return $this->getMockBuilder('NextADInt_Adi_Multisite_Ui_Menu')
 			->setConstructorArgs(
 				array(
-					$this->createMock('Multisite_Option_Provider'),
+					$this->createMock('NextADInt_Multisite_Option_Provider'),
 					$this->blogProfileRelationshipPage,
 					$this->profileConfigurationPage,
 				)

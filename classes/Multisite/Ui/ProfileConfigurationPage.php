@@ -3,14 +3,14 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Ui_ProfileConfigurationPage')) {
+if (class_exists('NextADInt_Multisite_Ui_ProfileConfigurationPage')) {
 	return;
 }
 
 /**
- * Multisite_Ui_ProfileConfigurationPage represents the BlogOption page in WordPress.
+ * NextADInt_Multisite_Ui_ProfileConfigurationPage represents the BlogOption page in WordPress.
  *
- * Multisite_Ui_ProfileConfigurationPage holds the methods for interacting with WordPress, displaying the rendered template
+ * NextADInt_Multisite_Ui_ProfileConfigurationPage holds the methods for interacting with WordPress, displaying the rendered template
  * and saving the data.
  *
  * @author Tobias Hellmann <the@neos-it.de>
@@ -19,7 +19,7 @@ if (class_exists('Multisite_Ui_ProfileConfigurationPage')) {
  *
  * @access public
  */
-class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurationPage
+class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisite_Ui_BlogConfigurationPage
 {
 	const SUB_ACTION_GENERATE_AUTHCODE = 'generateNewAuthCode';
 	const SUB_ACTION_SAVE_PROFILE = 'saveProfile';
@@ -33,13 +33,13 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	const TEMPLATE = 'profile-rights-management.twig';
 	const NONCE = 'Active Directory Integration Profile Option Nonce';
 
-	/** @var Multisite_Ui_ProfileConfigurationController */
+	/** @var NextADInt_Multisite_Ui_ProfileConfigurationController */
 	private $profileConfigurationController;
 
-	/** @var Multisite_Ui_ProfileController */
+	/** @var NextADInt_Multisite_Ui_ProfileController */
 	private $profileController;
 
-	/** @var Multisite_Configuration_Service */
+	/** @var NextADInt_Multisite_Configuration_Service */
 	private $configuration;
 
 	/** @var array map the given subActions to the corresponding methods */
@@ -54,17 +54,17 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	);
 
 	/**
-	 * @param Multisite_View_TwigContainer                $twigContainer
-	 * @param Multisite_Ui_BlogConfigurationController    $blogConfigurationController
-	 * @param Multisite_Ui_ProfileConfigurationController $profileConfigurationController
-	 * @param Multisite_Ui_ProfileController              $profileController
-	 * @param Multisite_Configuration_Service             $configurationService
+	 * @param NextADInt_Multisite_View_TwigContainer                $twigContainer
+	 * @param NextADInt_Multisite_Ui_BlogConfigurationController    $blogConfigurationController
+	 * @param NextADInt_Multisite_Ui_ProfileConfigurationController $profileConfigurationController
+	 * @param NextADInt_Multisite_Ui_ProfileController              $profileController
+	 * @param NextADInt_Multisite_Configuration_Service             $configurationService
 	 */
-	public function __construct(Multisite_View_TwigContainer $twigContainer,
-								Multisite_Ui_BlogConfigurationController $blogConfigurationController,
-								Multisite_Ui_ProfileConfigurationController $profileConfigurationController,
-								Multisite_Ui_ProfileController $profileController,
-								Multisite_Configuration_Service $configurationService
+	public function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer,
+								NextADInt_Multisite_Ui_BlogConfigurationController $blogConfigurationController,
+								NextADInt_Multisite_Ui_ProfileConfigurationController $profileConfigurationController,
+								NextADInt_Multisite_Ui_ProfileController $profileController,
+								NextADInt_Multisite_Configuration_Service $configurationService
 	) {
 		parent::__construct($twigContainer, $blogConfigurationController);
 
@@ -108,12 +108,12 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	 */
 	public function renderNetwork()
 	{
-		$relativeUrl = add_query_arg('page', Multisite_Ui_BlogProfileRelationshipPage::buildSlug());
+		$relativeUrl = add_query_arg('page', NextADInt_Multisite_Ui_BlogProfileRelationshipPage::buildSlug());
 
 		$this->display(self::TEMPLATE, array(
 			'blog_profile_relationship_url' => $relativeUrl,
 			'nonce'                         => wp_create_nonce(self::NONCE), //create nonce for security
-			'blog_rel_nonce'                => wp_create_nonce(Multisite_Ui_BlogProfileRelationshipPage::NONCE),
+			'blog_rel_nonce'                => wp_create_nonce(NextADInt_Multisite_Ui_BlogProfileRelationshipPage::NONCE),
 		));
 	}
 
@@ -180,7 +180,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	}
 
 	/**
-	 * Get the data from our {@see $_POST} and send it to our {@see Multisite_Ui_ProfileController}.
+	 * Get the data from our {@see $_POST} and send it to our {@see NextADInt_Multisite_Ui_ProfileController}.
 	 *
 	 * @param array $postData
 	 *
@@ -197,7 +197,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	}
 
 	/**
-	 * Get the data from our {@see $_POST} and send it to our {@see Multisite_Ui_ProfileController}.
+	 * Get the data from our {@see $_POST} and send it to our {@see NextADInt_Multisite_Ui_ProfileController}.
 	 *
 	 * @param array $postData
 	 *
@@ -211,7 +211,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	}
 
 	/**
-	 * Get the data from our {@see $_POST} and send it to our {@see Multisite_Configuration_Service}.
+	 * Get the data from our {@see $_POST} and send it to our {@see NextADInt_Multisite_Configuration_Service}.
 	 *
 	 * @param array $postData
 	 *
@@ -260,7 +260,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	}
 
 	/**
-	 * Delegate call to {@link Multisite_Ui_ProfileConfigurationController#saveProfileOptions}.
+	 * Delegate call to {@link NextADInt_Multisite_Ui_ProfileConfigurationController#saveProfileOptions}.
 	 *
 	 * @param array $data
 	 * @param int|null $profileId
@@ -273,7 +273,7 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 	}
 
 	/**
-	 * Get the data from our {@see $_POST} and send it to our {@see Multisite_Ui_ProfileConfigurationController}.
+	 * Get the data from our {@see $_POST} and send it to our {@see NextADInt_Multisite_Ui_ProfileConfigurationController}.
 	 *
 	 * @param array $postData
 	 *
@@ -325,10 +325,10 @@ class Multisite_Ui_ProfileConfigurationPage extends Multisite_Ui_BlogConfigurati
 			'profiles'           => $this->profileController->findAll(),
 			'associatedProfiles' => $this->profileController->findAllProfileAssociations(),
 			'defaultProfileData' => $this->configuration->getProfileOptionsValues(-1),
-			'ldapAttributes'     => Ldap_Attribute_Description::findAll(),
-			'dataTypes'          => Ldap_Attribute_Repository::findAllAttributeTypes(),
+			'ldapAttributes'     => NextADInt_Ldap_Attribute_Description::findAll(),
+			'dataTypes'          => NextADInt_Ldap_Attribute_Repository::findAllAttributeTypes(),
 			'permissionItems'    => $this->getPermission(),
-			'wpRoles'        => Adi_Role_Manager::getRoles(),
+			'wpRoles'        => NextADInt_Adi_Role_Manager::getRoles(),
 		);
 	}
 

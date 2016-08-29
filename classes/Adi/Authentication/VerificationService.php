@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Authentication_VerificationService')) {
+if (class_exists('NextADInt_Adi_Authentication_VerificationService')) {
 	return;
 }
 
@@ -12,18 +12,18 @@ if (class_exists('Adi_Authentication_VerificationService')) {
  *
  * @author Danny Meißner <dme@neos-it.de>
  */
-class Adi_Authentication_VerificationService
+class NextADInt_Adi_Authentication_VerificationService
 {
 
-	/** @var  Ldap_Connection */
+	/** @var  NextADInt_Ldap_Connection */
 	private $ldapConnection;
 
 	/**
-	 * @param Ldap_Connection 			$ldapConnection
-	 * @param Ldap_Attribute_Repository $attributeRepository
+	 * @param NextADInt_Ldap_Connection 			$ldapConnection
+	 * @param NextADInt_Ldap_Attribute_Repository $attributeRepository
 	 */
-	public function __construct(Ldap_Connection $ldapConnection,
-								Ldap_Attribute_Repository $attributeRepository
+	public function __construct(NextADInt_Ldap_Connection $ldapConnection,
+								NextADInt_Ldap_Attribute_Repository $attributeRepository
 	)
 	{
 		$this->ldapConnection = $ldapConnection;
@@ -40,7 +40,7 @@ class Adi_Authentication_VerificationService
 	 */
 	public function findActiveDirectoryDomainSid($data)
 	{
-		$config = new Ldap_ConnectionDetails();
+		$config = new NextADInt_Ldap_ConnectionDetails();
 		$config->setDomainControllers($data["domain_controllers"]);
 		$config->setPort($data["port"]);
 		$config->setEncryption($data["encryption"]);
@@ -64,11 +64,11 @@ class Adi_Authentication_VerificationService
 	}
 
 	/**
-	 * Get Ldap_Attribute_Service for verification process
+	 * Get NextADInt_Ldap_Attribute_Service for verification process
 	 * 
-	 * @return Ldap_Attribute_Service
+	 * @return NextADInt_Ldap_Attribute_Service
 	 */
 	public function getCustomAttributeService() {
-		return new Ldap_Attribute_Service($this->ldapConnection, $this->attributeRepository);
+		return new NextADInt_Ldap_Attribute_Service($this->ldapConnection, $this->attributeRepository);
 	}
 }

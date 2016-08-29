@@ -7,22 +7,22 @@
  */
 class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/* @var Ldap_Connection | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Ldap_Connection | PHPUnit_Framework_MockObject_MockObject */
 	private $ldapConnection;
 
-	/* @var Ldap_Attribute_Service | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Ldap_Attribute_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $attributeService;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->ldapConnection = $this->createMock('Ldap_Connection');
-		$this->attributeService = $this->createMock('Ldap_Attribute_Service');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
+		$this->attributeService = $this->createMock('NextADInt_Ldap_Attribute_Service');
 	}
 
 	public function tearDown()
@@ -33,11 +33,11 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	/**
 	 * @param null $methods
 	 *
-	 * @return Adi_Synchronization_ActiveDirectory|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Synchronization_ActiveDirectory|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Synchronization_ActiveDirectory')
+		return $this->getMockBuilder('NextADInt_Adi_Synchronization_ActiveDirectory')
 			->setConstructorArgs(
 				array(
 					$this->attributeService,
@@ -56,10 +56,10 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('prepareForSync', 'getSyncableAttributes', 'getUsers', 'synchronizeUser', 'finishSynchronization'));
 
-		$attributes  = array('cn' => new Ldap_Attribute());
+		$attributes  = array('cn' => new NextADInt_Ldap_Attribute());
 		$users = array((object) array('ID' => 1));
 
-		$attributeRepository = $this->createMock('Ldap_Attribute_Repository');
+		$attributeRepository = $this->createMock('NextADInt_Ldap_Attribute_Repository');
 
 		$this->behave($this->attributeService, 'getRepository', $attributeRepository);
 		$this->behave($attributeRepository, 'getSyncableAttributes', $attributes);
@@ -238,7 +238,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('findAttributesOfUser'));
 
-		$attributes = array('cn' => new Ldap_Attribute());
+		$attributes = array('cn' => new NextADInt_Ldap_Attribute());
 		$attributesToSync = array('metakey_cn' => array('cn_value'));
 
 		$user = (object) array(
@@ -267,7 +267,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('findAttributesOfUser'));
 
-		$attributes = array('mail' => new Ldap_Attribute());
+		$attributes = array('mail' => new NextADInt_Ldap_Attribute());
 		$attributesToSync = array('metakey_mail' => array(''));
 
 		$user = (object) array(
@@ -299,7 +299,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$meta = new Ldap_Attribute();
+		$meta = new NextADInt_Ldap_Attribute();
 		$meta->setMetakey('adi2_mail');
 		$attributes = array('mail' => $meta);
 
@@ -372,7 +372,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SYNC_TO_AD_ENABLED)
+			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_ENABLED)
 			->willReturn(true);
 
 		$this->assertTrue($sut->isEnabled());
@@ -386,7 +386,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER)
+			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER)
 			->willReturn('username');
 
 		$this->assertEquals('username', $sut->getServiceAccountUsername());
@@ -400,7 +400,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
+			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
 			->willReturn('password');
 
 		$this->assertEquals('password', $sut->getServiceAccountPassword());

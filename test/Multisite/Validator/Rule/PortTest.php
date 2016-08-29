@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Multisite_Validator_Rule_PortTest')) {
+if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_PortTest')) {
 	return;
 }
 
@@ -14,7 +14,7 @@ if (class_exists('Ut_Multisite_Validator_Rule_PortTest')) {
  *
  * @access
  */
-class Ut_Multisite_Validator_Rule_PortTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Validator_Rule_PortTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'Port has to be numeric and in the range from 0 - 65535.';
 
@@ -32,11 +32,11 @@ class Ut_Multisite_Validator_Rule_PortTest extends Ut_BasicTest
 	 * @param $methods
 	 * @param $msg string
 	 *
-	 * @return Multisite_Validator_Rule_Port|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Validator_Rule_Port|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Validator_Rule_Port')
+		return $this->getMockBuilder('NextADInt_Multisite_Validator_Rule_Port')
 			->setConstructorArgs(
 				array(
 					self::VALIDATION_MESSAGE

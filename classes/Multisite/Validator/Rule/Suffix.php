@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_Suffix')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_Suffix')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_Suffix provides validation for a specific suffix.
+ * NextADInt_Multisite_Validator_Rule_Suffix provides validation for a specific suffix.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Validator_Rule_Suffix')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_Suffix extends Core_Validator_Rule_Abstract
+class NextADInt_Multisite_Validator_Rule_Suffix extends NextADInt_Core_Validator_Rule_Abstract
 {
 	/**
 	 * The suffix to check for.

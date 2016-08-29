@@ -1,6 +1,6 @@
 <?php
 
-class MigrationStubFail extends Migration_MigrateEncryption
+class MigrationStubFail extends NextADInt_Migration_MigrateEncryption
 {
 	public function execute()
 	{
@@ -13,7 +13,7 @@ class MigrationStubFail extends Migration_MigrateEncryption
 	}
 }
 
-class MigrationStubSuccess extends Migration_MigrateEncryption
+class MigrationStubSuccess extends NextADInt_Migration_MigrateEncryption
 {
 	public function execute()
 	{
@@ -35,27 +35,29 @@ class MigrationStubSuccess extends Migration_MigrateEncryption
  */
 class Ut_Core_Migration_MigratorTest extends Ut_BasicTest
 {
-	/** @var Adi_Dependencies | PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Adi_Dependencies | PHPUnit_Framework_MockObject_MockObject */
 	private $dependencyContainer;
-	/** @var Core_Migration_Persistence_MigrationRepository | PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Core_Migration_Persistence_MigrationRepository | PHPUnit_Framework_MockObject_MockObject */
 	private $migrationRepository;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->dependencyContainer = $this->createMock('Adi_Dependencies');
-		$this->migrationRepository = $this->createMock('Core_Migration_Persistence_MigrationRepository');
+		$this->dependencyContainer = $this->createMock('NextADInt_Adi_Dependencies');
+		$this->migrationRepository = $this->createMock('NextADInt_Core_Migration_Persistence_MigrationRepository');
+
+		//TODO $this->createMock('Migration_MigrationStub');
 	}
 
 	/**
 	 * @param null $methods
 	 *
-	 * @return Core_Migration_Service|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Core_Migration_Service|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Core_Migration_Service')
+		return $this->getMockBuilder('NextADInt_Core_Migration_Service')
 			->setConstructorArgs(array(
 				$this->dependencyContainer,
 				$this->migrationRepository,
@@ -76,7 +78,7 @@ class Ut_Core_Migration_MigratorTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('getMigrations')
 			->willReturn(array(
-				'Migration_MigrateEncryption',
+				'NextADInt_Migration_MigrateEncryption',
 				'MigrationStubFail',
 				'MigrationStubFail',
 			));
@@ -98,7 +100,7 @@ class Ut_Core_Migration_MigratorTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('getOrderedMigrations')
 			->willReturn(array(
-				1 => 'Migration_MigrateEncryption',
+				1 => 'NextADInt_Migration_MigrateEncryption',
 				3 => 'MigrationStubSuccess',
 			));
 
@@ -206,11 +208,11 @@ class Ut_Core_Migration_MigratorTest extends Ut_BasicTest
 			->method('getMigrations')
 			->willReturn(array(
 				'MigrationStubFail',
-				'Migration_MigrateEncryption',
+				'NextADInt_Migration_MigrateEncryption',
 			));
 
 		$expected = array(
-			1 => 'Migration_MigrateEncryption',
+			1 => 'NextADInt_Migration_MigrateEncryption',
 			2 => 'MigrationStubFail',
 		);
 		$actual = $this->invokeMethod($sut, 'getOrderedMigrations');
@@ -226,8 +228,8 @@ class Ut_Core_Migration_MigratorTest extends Ut_BasicTest
 		$sut = $this->sut();
 
 		$expected = array(
-			'Migration_MigrateEncryption',
-			'Migration_MigrateUseSamAccountNameForNewCreatedUsers'
+			'NextADInt_Migration_MigrateEncryption',
+			'NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsers'
 		);
 		$actual = $this->invokeMethod($sut, 'getMigrations');
 

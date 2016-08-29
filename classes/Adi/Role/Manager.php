@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Role_Manager')) {
+if (class_exists('NextADInt_Adi_Role_Manager')) {
 	return;
 }
 
 /**
- * Adi_Role_Manager creates and updates mappings between Active Directory security groups and WordPress roles.
+ * NextADInt_Adi_Role_Manager creates and updates mappings between Active Directory security groups and WordPress roles.
  * This class acts as a bridge between both systems
  *
  * @author Christopher Klein <ckl@neos-it.de>
  * @access public
  */
-class Adi_Role_Manager
+class NextADInt_Adi_Role_Manager
 {
 	const ROLE_SUPER_ADMIN = 'super admin';
 	const ROLE_ADMINISTRATOR = 'administrator';
@@ -22,10 +22,10 @@ class Adi_Role_Manager
 	const ROLE_CONTRIBUTOR = 'contributor';
 	const ROLE_SUBSCRIBER = 'subscriber';
 
-	/* @var Multisite_Configuration_Service */
+	/* @var NextADInt_Multisite_Configuration_Service */
 	private $configuration;
 
-	/* @var Ldap_Connection $ldapConnection */
+	/* @var NextADInt_Ldap_Connection $ldapConnection */
 	private $ldapConnection;
 
 	/* @var Logger */
@@ -35,11 +35,11 @@ class Adi_Role_Manager
 	private $mapping;
 
 	/**
-	 * @param Multisite_Configuration_Service $configuration
-	 * @param Ldap_Connection                 $ldapConnection
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Ldap_Connection                 $ldapConnection
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration,
-								Ldap_Connection $ldapConnection
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Ldap_Connection $ldapConnection
 	) {
 		$this->configuration = $configuration;
 		$this->ldapConnection = $ldapConnection;
@@ -53,12 +53,12 @@ class Adi_Role_Manager
 	 *
 	 * @param string $username
 	 *
-	 * @return Adi_Role_Mapping
+	 * @return NextADInt_Adi_Role_Mapping
 	 * @throws Exception
 	 */
 	public function createRoleMapping($username)
 	{
-		$roleMapping = new Adi_Role_Mapping($username);
+		$roleMapping = new NextADInt_Adi_Role_Mapping($username);
 		$securityGroups = $this->ldapConnection->getAdLdap()->user_groups($username);
 
 		$roleMapping->setSecurityGroups($securityGroups);
@@ -69,15 +69,15 @@ class Adi_Role_Manager
 	/**
 	 * Check if user is a member of at least one authorization group for the current blog
 	 *
-	 * @param Adi_Role_Mapping $roleMapping
+	 * @param NextADInt_Adi_Role_Mapping $roleMapping
 	 *
 	 * @return bool
 	 * @throws Exception
 	 */
-	public function isInAuthorizationGroup(Adi_Role_Mapping $roleMapping)
+	public function isInAuthorizationGroup(NextADInt_Adi_Role_Mapping $roleMapping)
 	{
-		$authorizationGroups = $this->configuration->getOptionValue(Adi_Configuration_Options::AUTHORIZATION_GROUP);
-		$expectedGroups = Core_Util_StringUtil::splitNonEmpty($authorizationGroups, ';');
+		$authorizationGroups = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTHORIZATION_GROUP);
+		$expectedGroups = NextADInt_Core_Util_StringUtil::splitNonEmpty($authorizationGroups, ';');
 
 		// ADI-248: if no authorization group has been defined, the login is always possible and there has not to be
 		// matching group
@@ -103,12 +103,12 @@ class Adi_Role_Manager
 	 * </ul>
 	 *
 	 * @param WP_User|false    $wpUser
-	 * @param Adi_Role_Mapping $roleMapping
+	 * @param NextADInt_Adi_Role_Mapping $roleMapping
 	 * @param bool             $isUserPreviouslyCreated has the user been previously created
 	 *
 	 * @return bool false if $wpUser was no valid user
 	 */
-	public function synchronizeRoles($wpUser, Adi_Role_Mapping $roleMapping, $isUserPreviouslyCreated = false)
+	public function synchronizeRoles($wpUser, NextADInt_Adi_Role_Mapping $roleMapping, $isUserPreviouslyCreated = false)
 	{
 		if (!$wpUser) {
 			return false;
@@ -209,7 +209,7 @@ class Adi_Role_Manager
 	protected function loadMultisiteFunctions()
 	{
 		$multiSiteFilePath = ABSPATH . 'wp-admin/includes/ms.php';
-		$coreUtil = Core_Util::native();
+		$coreUtil = NextADInt_Core_Util::native();
 
 		// check if the necessary function is already available
 		if ($coreUtil->isFunctionAvailable('grant_super_admin')) {
@@ -222,7 +222,7 @@ class Adi_Role_Manager
 		}
 
 		// at login the 'wp-admin/includes/ms.php' is not loaded
-		Core_Util::native()->includeOnce($multiSiteFilePath);
+		NextADInt_Core_Util::native()->includeOnce($multiSiteFilePath);
 	}
 
 	/**
@@ -234,11 +234,11 @@ class Adi_Role_Manager
 		if (empty($this->mapping) || is_null($this->mapping)) {
 			$this->mapping = array();
 
-			$groups = $this->configuration->getOptionValue(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS);
-			$groups = Core_Util_StringUtil::split($groups, ';');
+			$groups = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS);
+			$groups = NextADInt_Core_Util_StringUtil::split($groups, ';');
 
 			foreach ($groups as $group) {
-				$parts = Core_Util_StringUtil::split($group, '=');
+				$parts = NextADInt_Core_Util_StringUtil::split($group, '=');
 
 				if (sizeof($parts) !== 2) {
 					continue;
@@ -257,11 +257,11 @@ class Adi_Role_Manager
 	/**
 	 * Update the assigned WordPress roles of the user
 	 *
-	 * @param Adi_Role_Mapping $roleMapping
+	 * @param NextADInt_Adi_Role_Mapping $roleMapping
 	 *
-	 * @return Adi_Role_Mapping
+	 * @return NextADInt_Adi_Role_Mapping
 	 */
-	public function loadWordPressRoles(Adi_Role_Mapping $roleMapping)
+	public function loadWordPressRoles(NextADInt_Adi_Role_Mapping $roleMapping)
 	{
 		$roles = $this->getMappedWordPressRoles($roleMapping);
 		$roleMapping->setWordPressRoles($roles);
@@ -272,11 +272,11 @@ class Adi_Role_Manager
 	/**
 	 * Get all WordPress roles of the user which have been mapped to one or multiple of his group membership in the Active Directory
 	 *
-	 * @param Adi_Role_Mapping $roleMapping
+	 * @param NextADInt_Adi_Role_Mapping $roleMapping
 	 *
 	 * @return array with mapped WordPress roles
 	 */
-	public function getMappedWordPressRoles(Adi_Role_Mapping $roleMapping)
+	public function getMappedWordPressRoles(NextADInt_Adi_Role_Mapping $roleMapping)
 	{
 		$mappings = $this->getRoleEquivalentGroups();
 		$roles = array();

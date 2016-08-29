@@ -3,28 +3,28 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_User_Profile_Ui_PreventEmailChange')) {
+if (class_exists('NextADInt_Adi_User_Profile_Ui_PreventEmailChange')) {
 	return;
 }
 
 /**
- * Adi_User_Profile_Ui_PreventEmailChange prevents user from changing their email address.
+ * NextADInt_Adi_User_Profile_Ui_PreventEmailChange prevents user from changing their email address.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_User_Profile_Ui_PreventEmailChange
+class NextADInt_Adi_User_Profile_Ui_PreventEmailChange
 {
-	/* @var Multisite_Configuration_Service $configuration */
+	/* @var NextADInt_Multisite_Configuration_Service $configuration */
 	private $configuration;
 
 	/* @var Logger $logger */
 	private $logger;
 
 	/**
-	 * @param Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
 	 */
-	public function __construct(Multisite_Configuration_Service $configuration)
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration)
 	{
 		$this->configuration = $configuration;
 
@@ -37,7 +37,7 @@ class Adi_User_Profile_Ui_PreventEmailChange
 	public function register()
 	{
 		//if PREVENT_EMAIL_CHANGE is forbidden, then leave.
-		$preventEmailChange = $this->configuration->getOptionValue(Adi_Configuration_Options::PREVENT_EMAIL_CHANGE);
+		$preventEmailChange = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::PREVENT_EMAIL_CHANGE);
 		if (!$preventEmailChange) {
 			return;
 		}

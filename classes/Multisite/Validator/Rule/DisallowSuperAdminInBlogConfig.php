@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig')) {
 	return;
 }
 
@@ -17,7 +17,7 @@ if (class_exists('Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig extends Core_Validator_Rule_Abstract
+class NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig extends NextADInt_Core_Validator_Rule_Abstract
 {
 	/**
 	 * Validate the given data.
@@ -35,7 +35,7 @@ class Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig extends Core_Valid
 
 		$wpRoles = $this->getWpRoles($value);
 
-		if (!Core_Util_ArrayUtil::containsIgnoreCase(Adi_Role_Manager::ROLE_SUPER_ADMIN, $wpRoles)) {
+		if (!NextADInt_Core_Util_ArrayUtil::containsIgnoreCase(NextADInt_Adi_Role_Manager::ROLE_SUPER_ADMIN, $wpRoles)) {
 			return true;
 		}
 
@@ -52,12 +52,12 @@ class Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig extends Core_Valid
 	protected function getWpRoles($value)
 	{
 		// convert the given string into separate lines
-		$roleMappings = Core_Util_StringUtil::split($value, ';');
+		$roleMappings = NextADInt_Core_Util_StringUtil::split($value, ';');
 		// remove empty values from the array
 		$roleMappings = array_filter($roleMappings);
 
 		return array_map(function($roleMappingString) {
-			$roleMapping = Core_Util_StringUtil::split($roleMappingString, '=');
+			$roleMapping = NextADInt_Core_Util_StringUtil::split($roleMappingString, '=');
 
 			return $roleMapping[1];
 		}, $roleMappings);
@@ -70,6 +70,6 @@ class Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig extends Core_Valid
 	 */
 	protected function isOnNetworkDashboard()
 	{
-		return Multisite_Util::isOnNetworkDashboard();
+		return NextADInt_Multisite_Util::isOnNetworkDashboard();
 	}
 }

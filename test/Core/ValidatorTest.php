@@ -21,11 +21,11 @@ class Ut_Core_ValidatorTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Core_Validator| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Core_Validator| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Core_Validator')
+		return $this->getMockBuilder('NextADInt_Core_Validator')
 			->setMethods($methods)
 			->getMock();
 	}
@@ -35,12 +35,12 @@ class Ut_Core_ValidatorTest extends Ut_BasicTest
 	 */
 	public function validate_returnResult()
 	{
-		$expected = new Core_Validator_Result();
+		$expected = new NextADInt_Core_Validator_Result();
 		$expected->addValidationResult(
 			'sync_to_ad_global_user', 'Username has to contain a suffix.'
 		);
 
-		$suffixRule = new Multisite_Validator_Rule_Suffix(
+		$suffixRule = new NextADInt_Multisite_Validator_Rule_Suffix(
 			'Username has to contain a suffix.', '@'
 		);
 

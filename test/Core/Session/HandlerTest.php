@@ -5,10 +5,10 @@
  * @author Sebastian Weinert <swe@neos-it.de>
  * @author Danny Meißner <dme@neos-it.de>
  */
-class Ut_Core_Session_HandlerTest extends Ut_BasicTest
+class Ut_NextADInt_Core_Session_HandlerTest extends Ut_BasicTest
 {
 
-	/* @var Core_Util_Internal_Native|\Mockery\MockInterface */
+	/* @var NextADInt_Core_Util_Internal_Native|\Mockery\MockInterface */
 	private $internalNative;
 
 	public function setUp()
@@ -17,22 +17,22 @@ class Ut_Core_Session_HandlerTest extends Ut_BasicTest
 
 		// mock native functions
 		$this->internalNative = $this->createMockedNative();
-		Core_Util::native($this->internalNative);
+		NextADInt_Core_Util::native($this->internalNative);
 	}
 
 	public function tearDown()
 	{
 		parent::tearDown();
 		// release mocked native functions
-		Core_Util::native(null);
+		NextADInt_Core_Util::native(null);
 	}
 
 	/**
-	 * @return Core_Session_Handler| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Core_Session_Handler| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Core_Session_Handler')
+		return $this->getMockBuilder('NextADInt_Core_Session_Handler')
 			->disableOriginalConstructor()
 			->setMethods($methods)
 			->getMock();

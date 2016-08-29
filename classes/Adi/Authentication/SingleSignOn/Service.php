@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Authentication_SingleSignOn_Service')) {
+if (class_exists('NextADInt_Adi_Authentication_SingleSignOn_Service')) {
 	return;
 }
 
 /**
- * Adi_Authentication_SingleSignOn_Service handles the login procedure for single sign on.
+ * NextADInt_Adi_Authentication_SingleSignOn_Service handles the login procedure for single sign on.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access
  */
-class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginService
+class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Authentication_LoginService
 {
 	const FAILED_SSO_UPN = 'failedSsoUpn';
 
@@ -23,18 +23,18 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 	/** @var Logger */
 	private $logger;
 
-	/** @var Adi_Authentication_SingleSignOn_Validator */
+	/** @var NextADInt_Adi_Authentication_SingleSignOn_Validator */
 	private $validation;
 
-	public function __construct(Adi_Authentication_Persistence_FailedLoginRepository $failedLogin = null,
-								Multisite_Configuration_Service $configuration,
-								Ldap_Connection $ldapConnection,
-								Adi_User_Manager $userManager,
-								Adi_Mail_Notification $mailNotification = null,
-								Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
-								Ldap_Attribute_Service $attributeService,
-								Adi_Role_Manager $roleManager,
-								Adi_Authentication_SingleSignOn_Validator $validation
+	public function __construct(NextADInt_Adi_Authentication_Persistence_FailedLoginRepository $failedLogin = null,
+								NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Ldap_Connection $ldapConnection,
+								NextADInt_Adi_User_Manager $userManager,
+								NextADInt_Adi_Mail_Notification $mailNotification = null,
+								NextADInt_Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
+								NextADInt_Ldap_Attribute_Service $attributeService,
+								NextADInt_Adi_Role_Manager $roleManager,
+								NextADInt_Adi_Authentication_SingleSignOn_Validator $validation
 	) {
 		parent::__construct($failedLogin, $configuration, $ldapConnection, $userManager, $mailNotification,
 			$userBlockedMessage, $attributeService, $roleManager);
@@ -98,7 +98,7 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 			// if our user is authenticated and we have a WordPress user, we
 			$sessionHandler->clearValue(self::FAILED_SSO_UPN);
 			$this->loginUser($user);
-		} catch (Adi_Authentication_Exception $e) {
+		} catch (NextADInt_Adi_Authentication_Exception $e) {
 			$this->logger->error('User could not be authenticated using SSO.', $e);
 			$sessionHandler->setValue(self::FAILED_SSO_UPN, $credentials->getUserPrincipalName());
 
@@ -113,7 +113,7 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 	 */
 	protected function clearAuthenticationState()
 	{
-		if ('sso' === Core_Util_ArrayUtil::get('reauth', $_GET, false)) {
+		if ('sso' === NextADInt_Core_Util_ArrayUtil::get('reauth', $_GET, false)) {
 			$this->getSessionHandler()->clearValue(self::FAILED_SSO_UPN);
 			$this->getSessionHandler()->clearValue(self::USER_LOGGED_OUT);
 		}
@@ -126,9 +126,9 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 	 */
 	protected function findUsername()
 	{
-		$envVariable = $this->getConfiguration()->getOptionValue(Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE);
+		$envVariable = $this->getConfiguration()->getOptionValue(NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE);
 
-		return Core_Util_ArrayUtil::get($envVariable, $_SERVER);
+		return NextADInt_Core_Util_ArrayUtil::get($envVariable, $_SERVER);
 	}
 
 
@@ -137,7 +137,7 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 	 *
 	 * @param $profile
 	 *
-	 * @throws Adi_Authentication_Exception if the connection could not be opened
+	 * @throws NextADInt_Adi_Authentication_Exception if the connection could not be opened
 	 */
 	protected function openLdapConnection($profile)
 	{
@@ -162,7 +162,7 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 			return array($suffix);
 		}
 
-		return Core_Util_StringUtil::split($profile[Adi_Configuration_Options::ACCOUNT_SUFFIX], ';');
+		return NextADInt_Core_Util_StringUtil::split($profile[NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX], ';');
 	}
 
 	/**
@@ -192,7 +192,7 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 		}
 
 		// return the first found profile or null
-		return Core_Util_ArrayUtil::findFirstOrDefault($profiles, null);
+		return NextADInt_Core_Util_ArrayUtil::findFirstOrDefault($profiles, null);
 	}
 
 	/**
@@ -205,10 +205,10 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 	 */
 	protected function getProfilesForSuffix($suffix, $profiles)
 	{
-		return Core_Util_ArrayUtil::filter(function($profile) use ($suffix) {
-			$suffixes = Core_Util_StringUtil::split($profile[Adi_Configuration_Options::ACCOUNT_SUFFIX], ';');
+		return NextADInt_Core_Util_ArrayUtil::filter(function($profile) use ($suffix) {
+			$suffixes = NextADInt_Core_Util_StringUtil::split($profile[NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX], ';');
 
-			return (Core_Util_ArrayUtil::containsIgnoreCase($suffix, $suffixes));
+			return (NextADInt_Core_Util_ArrayUtil::containsIgnoreCase($suffix, $suffixes));
 		}, $profiles);
 	}
 
@@ -221,8 +221,8 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 	 */
 	protected function getProfilesWithoutSuffixSet($profiles)
 	{
-		return Core_Util_ArrayUtil::filter(function($profile) {
-			return Core_Util_StringUtil::isEmptyOrWhitespace($profile[Adi_Configuration_Options::ACCOUNT_SUFFIX]);
+		return NextADInt_Core_Util_ArrayUtil::filter(function($profile) {
+			return NextADInt_Core_Util_StringUtil::isEmptyOrWhitespace($profile[NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX]);
 		}, $profiles);
 	}
 
@@ -241,22 +241,22 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 	}
 
 	/**
-	 * Create new {@link Ldap_ConnectionDetails} using the given data from the profile.
+	 * Create new {@link NextADInt_Ldap_Connection} using the given data from the profile.
 	 *
 	 * @param $profile
 	 *
-	 * @return Ldap_ConnectionDetails
+	 * @return NextADInt_Ldap_ConnectionDetails
 	 */
 	protected function createConnectionDetailsFromProfile($profile)
 	{
-		$connection = new Ldap_ConnectionDetails();
-		$connection->setDomainControllers($profile[Adi_Configuration_Options::DOMAIN_CONTROLLERS]);
-		$connection->setPort($profile[Adi_Configuration_Options::PORT]);
-		$connection->setEncryption($profile[Adi_Configuration_Options::ENCRYPTION]);
-		$connection->setNetworkTimeout($profile[Adi_Configuration_Options::NETWORK_TIMEOUT]);
-		$connection->setBaseDn($profile[Adi_Configuration_Options::BASE_DN]);
-		$connection->setUsername($profile[Adi_Configuration_Options::SSO_USER]);
-		$connection->setPassword($profile[Adi_Configuration_Options::SSO_PASSWORD]);
+		$connection = new NextADInt_Ldap_ConnectionDetails();
+		$connection->setDomainControllers($profile[NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS]);
+		$connection->setPort($profile[NextADInt_Adi_Configuration_Options::PORT]);
+		$connection->setEncryption($profile[NextADInt_Adi_Configuration_Options::ENCRYPTION]);
+		$connection->setNetworkTimeout($profile[NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT]);
+		$connection->setBaseDn($profile[NextADInt_Adi_Configuration_Options::BASE_DN]);
+		$connection->setUsername($profile[NextADInt_Adi_Configuration_Options::SSO_USER]);
+		$connection->setPassword($profile[NextADInt_Adi_Configuration_Options::SSO_PASSWORD]);
 
 		return $connection;
 	}
@@ -286,29 +286,29 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 	{
 		// find all profiles with the given options and add them to our $profiles array
 		$profiles = $this->getConfiguration()->findAllProfiles(array(
-			Adi_Configuration_Options::ACCOUNT_SUFFIX,
-			Adi_Configuration_Options::SSO_ENABLED,
-			Adi_Configuration_Options::SSO_USER,
-			Adi_Configuration_Options::SSO_PASSWORD,
-			Adi_Configuration_Options::DOMAIN_CONTROLLERS,
-			Adi_Configuration_Options::PORT,
-			Adi_Configuration_Options::ENCRYPTION,
-			Adi_Configuration_Options::NETWORK_TIMEOUT,
-			Adi_Configuration_Options::BASE_DN,
-			Adi_Configuration_Options::SSO_USER,
-			Adi_Configuration_Options::SSO_PASSWORD,
+			NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX,
+			NextADInt_Adi_Configuration_Options::SSO_ENABLED,
+			NextADInt_Adi_Configuration_Options::SSO_USER,
+			NextADInt_Adi_Configuration_Options::SSO_PASSWORD,
+			NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS,
+			NextADInt_Adi_Configuration_Options::PORT,
+			NextADInt_Adi_Configuration_Options::ENCRYPTION,
+			NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT,
+			NextADInt_Adi_Configuration_Options::BASE_DN,
+			NextADInt_Adi_Configuration_Options::SSO_USER,
+			NextADInt_Adi_Configuration_Options::SSO_PASSWORD,
 		));
 
 		// get the current configuration and add it as first option
 		array_unshift($profiles, $this->getConfiguration()->getAllOptions());
 
 		// filter all profiles and get profiles with SSO enabled
-		$profiles = Core_Util_ArrayUtil::filter(function($profile) {
-			if (!isset($profile[Adi_Configuration_Options::SSO_ENABLED]['option_value'])) {
+		$profiles = NextADInt_Core_Util_ArrayUtil::filter(function($profile) {
+			if (!isset($profile[NextADInt_Adi_Configuration_Options::SSO_ENABLED]['option_value'])) {
 				return false;
 			}
 
-			return $profile[Adi_Configuration_Options::SSO_ENABLED]['option_value'] === true;
+			return $profile[NextADInt_Adi_Configuration_Options::SSO_ENABLED]['option_value'] === true;
 		}, $profiles);
 
 		return $this->normalizeProfiles($profiles);
@@ -324,9 +324,9 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 	protected function normalizeProfiles($profiles)
 	{
 		// go through all found profiles and normalize the values
-		return Core_Util_ArrayUtil::map(function($profile) {
+		return NextADInt_Core_Util_ArrayUtil::map(function($profile) {
 			// set the option_value as the real value
-			return Core_Util_ArrayUtil::map(function($profileOption) {
+			return NextADInt_Core_Util_ArrayUtil::map(function($profileOption) {
 				return $profileOption['option_value'];
 			}, $profile);
 		}, $profiles);
@@ -371,10 +371,10 @@ class Adi_Authentication_SingleSignOn_Service extends Adi_Authentication_LoginSe
 	/**
 	 * Return the current session handler.
 	 *
-	 * @return Core_Session_Handler
+	 * @return NextADInt_Core_Session_Handler
 	 */
 	protected function getSessionHandler()
 	{
-		return Core_Session_Handler::getInstance();
+		return NextADInt_Core_Session_Handler::getInstance();
 	}
 }

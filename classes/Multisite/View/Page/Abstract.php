@@ -3,29 +3,29 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_View_Page_Abstract')) {
+if (class_exists('NextADInt_Multisite_View_Page_Abstract')) {
 	return;
 }
 
 /**
- * Multisite_View_Page_Abstract provides the basic functionality for working with pages.
+ * NextADInt_Multisite_View_Page_Abstract provides the basic functionality for working with pages.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
  *
  * @access public
  */
-abstract class Multisite_View_Page_Abstract implements Multisite_View_Page
+abstract class NextADInt_Multisite_View_Page_Abstract implements NextADInt_Multisite_View_Page
 {
-	/** @var Multisite_View_TwigContainer */
+	/** @var NextADInt_Multisite_View_TwigContainer */
 	protected $twigContainer;
 
 	/**
 	 * Adi_Page_PageAbstract constructor.
 	 *
-	 * @param Multisite_View_TwigContainer $twigContainer
+	 * @param NextADInt_Multisite_View_TwigContainer $twigContainer
 	 */
-	protected function __construct(Multisite_View_TwigContainer $twigContainer)
+	protected function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer)
 	{
 		$this->twigContainer = $twigContainer;
 	}

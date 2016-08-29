@@ -4,20 +4,20 @@
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Adi_Authentication_PasswordValidationServiceTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Authentication_PasswordValidationServiceTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service| PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/* @var Adi_Authentication_LoginService| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Adi_Authentication_LoginService| PHPUnit_Framework_MockObject_MockObject */
 	private $loginService;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->loginService = $this->createMock('Adi_Authentication_LoginService');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->loginService = $this->createMock('NextADInt_Adi_Authentication_LoginService');
 	}
 
 	public function tearDown()
@@ -43,11 +43,11 @@ class Ut_Adi_Authentication_PasswordValidationServiceTest extends Ut_BasicTest
 	}
 
 	/**
-	 * @return Adi_Authentication_PasswordValidationService| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Authentication_PasswordValidationService| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Authentication_PasswordValidationService')
+		return $this->getMockBuilder('NextADInt_Adi_Authentication_PasswordValidationService')
 			->setConstructorArgs(
 				array(
 					$this->loginService,
@@ -129,7 +129,7 @@ class Ut_Adi_Authentication_PasswordValidationServiceTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::FALLBACK_TO_LOCAL_PASSWORD)
+			->with(NextADInt_Adi_Configuration_Options::FALLBACK_TO_LOCAL_PASSWORD)
 			->willReturn(true);
 
 		$returnedValue = $sut->overridePasswordCheck($check, null, null, $userId);
@@ -159,7 +159,7 @@ class Ut_Adi_Authentication_PasswordValidationServiceTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::FALLBACK_TO_LOCAL_PASSWORD)
+			->with(NextADInt_Adi_Configuration_Options::FALLBACK_TO_LOCAL_PASSWORD)
 			->willReturn(false);
 
 		$returnedValue = $sut->overridePasswordCheck(null, null, null, $userId);

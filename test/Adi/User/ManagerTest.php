@@ -4,30 +4,30 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Adi_User_ManagerTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/* @var Ldap_Attribute_Service|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Ldap_Attribute_Service|PHPUnit_Framework_MockObject_MockObject */
 	private $attributeService;
 
-	/* @var Adi_User_Helper| PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Adi_User_Helper| PHPUnit_Framework_MockObject_MockObject */
 	private $userHelper;
 
-	/* @var Ldap_Attribute_Repository|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Ldap_Attribute_Repository|PHPUnit_Framework_MockObject_MockObject */
 	private $attributeRepository;
 
-	/* @var Adi_Role_Manager|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Adi_Role_Manager|PHPUnit_Framework_MockObject_MockObject */
 	private $roleManager;
 
-	/** @var Adi_User_Meta_Persistence_Repository|PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Adi_User_Meta_Persistence_Repository|PHPUnit_Framework_MockObject_MockObject */
 	private $metaRepository;
 
-	/** @var Adi_User_Persistence_Repository|PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Adi_User_Persistence_Repository|PHPUnit_Framework_MockObject_MockObject */
 	private $userRepository;
 
-	/** @var Core_Util_ExceptionUtil|\Mockery\MockInterface */
+	/** @var NextADInt_Core_Util_ExceptionUtil|\Mockery\MockInterface */
 	private $exceptionUtil;
 
 	private $userData = array(
@@ -37,7 +37,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	private $userId = 1;
 
 	/**
-	 * @return Adi_User_Manager|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_User_Manager|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function setUp()
 	{
@@ -45,15 +45,15 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->wpUser = $this->createMock('WP_User');
 
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->attributeService = $this->createMock('Ldap_Attribute_Service');
-		$this->userHelper = $this->createMock('Adi_User_Helper');
-		$this->attributeRepository = $this->createMock('Ldap_Attribute_Repository');
-		$this->roleManager = $this->createMock('Adi_Role_Manager');
-		$this->metaRepository = $this->createMock('Adi_User_Meta_Persistence_Repository');
-		$this->userRepository = $this->createMock('Adi_User_Persistence_Repository');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->attributeService = $this->createMock('NextADInt_Ldap_Attribute_Service');
+		$this->userHelper = $this->createMock('NextADInt_Adi_User_Helper');
+		$this->attributeRepository = $this->createMock('NextADInt_Ldap_Attribute_Repository');
+		$this->roleManager = $this->createMock('NextADInt_Adi_Role_Manager');
+		$this->metaRepository = $this->createMock('NextADInt_Adi_User_Meta_Persistence_Repository');
+		$this->userRepository = $this->createMock('NextADInt_Adi_User_Persistence_Repository');
 
-		$this->exceptionUtil = $this->createUtilClassMock('Core_Util_ExceptionUtil');
+		$this->exceptionUtil = $this->createUtilClassMock('NextADInt_Core_Util_ExceptionUtil');
 	}
 
 	public function tearDown()
@@ -64,11 +64,11 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	/**
 	 * @param null $methods
 	 *
-	 * @return Adi_User_Manager|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_User_Manager|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		$r = $this->getMockBuilder('Adi_User_Manager')
+		$r = $this->getMockBuilder('NextADInt_Adi_User_Manager')
 			->setConstructorArgs(
 				array(
 					$this->configuration,
@@ -145,7 +145,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function findByActiveDirectoryUsername_itFallsbackToUserPrincipalName()
 	{
-		$sut = $this->sut(array('findBySAMAccountName'));
+		$sut = $this->sut();
 		$wpUser = (object)(array('ID' => 1));
 
 		$this->behave($sut, 'findBySAMAccountName', false);
@@ -164,7 +164,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function findByActiveDirectoryUsername_itUsesSAMAccountNameForUserLogin_whenEverythingFails()
 	{
-		$sut = $this->sut(array('findBySAMAccountName'));
+		$sut = $this->sut();
 		$wpUser = (object)(array('ID' => 1));
 
 		$this->behave($sut, 'findBySAMAccountName', false);
@@ -206,14 +206,14 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function createAdiUser_itMapsRoles()
 	{
-		$credentials = new Adi_Authentication_Credentials("username@test.ad", "password");
+		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
 		$sut = $this->sut();
 
 		$this->roleManager->expects($this->once())
 			->method('createRoleMapping')
 			->with('username');
 
-		$sut->createAdiUser($credentials, new Ldap_Attributes());
+		$sut->createAdiUser($credentials, new NextADInt_Ldap_Attributes());
 	}
 
 	/**
@@ -221,7 +221,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function createAdiUser_itFindsTheWordPressUser()
 	{
-		$credentials = new Adi_Authentication_Credentials("username@test.ad", "password");
+		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
 		$sut = $this->sut(array('findByActiveDirectoryUsername'));
 
 		$wpUser = (object)array('ID' => 1, 'user_login' => 'username');
@@ -231,7 +231,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 			->with('username', 'username@test.ad')
 			->willReturn($wpUser);
 
-		$actual = $sut->createAdiUser($credentials, new Ldap_Attributes());
+		$actual = $sut->createAdiUser($credentials, new NextADInt_Ldap_Attributes());
 		$this->assertEquals(1, $actual->getId());
 		$this->assertEquals('username', $actual->getUserLogin());
 	}
@@ -241,9 +241,9 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function createAdiUser_itCopiesCredentialValues()
 	{
-		$credentials = new Adi_Authentication_Credentials("username@test.ad", "password");
+		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
 		$sut = $this->sut(array('findByUsername'));
-		$ldapAttributes = new Ldap_Attributes();
+		$ldapAttributes = new NextADInt_Ldap_Attributes();
 
 		$actual = $sut->createAdiUser($credentials, $ldapAttributes);
 
@@ -271,8 +271,8 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 		$wpUser->ID = 1;
 		$wpUser->user_login = 'username';
 
-		$ldapAttributes = new Ldap_Attributes(array(), array('objectguid' => 'guid1'));
-		$credentials = new Adi_Authentication_Credentials("username@test.ad", "password");
+		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => 'guid1'));
+		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
 
 		$this->userRepository->expects($this->once())
 			->method('findByObjectGuid')
@@ -297,8 +297,8 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 		$wpUser->ID = 1;
 		$wpUser->user_login = 'username';
 
-		$ldapAttributes = new Ldap_Attributes(array(), array('objectguid' => 'guid1'));
-		$credentials = new Adi_Authentication_Credentials("username@test.ad", "password");
+		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => 'guid1'));
+		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
 
 		$this->userRepository->expects($this->once())
 			->method('findByObjectGuid')
@@ -320,10 +320,10 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('checkDuplicateEmail', 'update'));
 
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 
-		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
 		$this->behave($adiUser, 'getCredentials', $credentials);
 		$this->behave($credentials, 'getPassword', 'password');
 
@@ -354,16 +354,16 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('checkDuplicateEmail', 'update', 'appendSuffixToNewUser'));
 
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 
-		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
 		$this->behave($adiUser, 'getCredentials', $credentials);
 		$this->behave($credentials, 'getPassword', 'password');
 		$this->behave($credentials, 'getUserPrincipalName', 'userPrincipalName');
 
 		$this->behave($sut, 'appendSuffixToNewUser', true);
-		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
 		$this->behave($this->userRepository, 'create', 100);
 
 		$adiUser->expects($this->once())
@@ -384,13 +384,13 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('checkDuplicateEmail', 'update', 'appendSuffixToNewUser'));
 
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 		$ldapAttributes = array('email' => 'email@test.ad');
 
 		$this->behave($adiUser, 'getCredentials', $credentials);
 		$this->behave($credentials, 'getPassword', 'password');
-		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes(array(), $ldapAttributes));
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes(array(), $ldapAttributes));
 		$this->behave($credentials, 'getUserPrincipalName', 'userprincipalname');
 		$this->behave($this->userRepository, 'create', 100);
 
@@ -417,12 +417,12 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('checkDuplicateEmail', 'update', 'appendSuffixToNewUser'));
 
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 		$this->behave($adiUser, 'getCredentials', $credentials);
 		$this->behave($credentials, 'getPassword', 'password');
 
-		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
 		$this->behave($this->userRepository, 'create', 100);
 
 		$adiUser->expects($this->once())
@@ -443,12 +443,12 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('update'));
 
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 		$this->behave($adiUser, 'getCredentials', $credentials);
 		$this->behave($credentials, 'getPassword', 'password');
 
-		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
 		$this->behave($this->userRepository, 'create', 100);
 
 		$sut->expects($this->once())
@@ -470,7 +470,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 		$sut = $this->sut();
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS)
+			->with(NextADInt_Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS)
 			->willReturn('1');
 
 		$this->assertTrue($sut->useSamAccountNameForNewUsers());
@@ -485,8 +485,8 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(Adi_User_DuplicateEmailPrevention::PREVENT);
+			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
+			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::PREVENT);
 
 		$this->userRepository->expects($this->once())
 			->method('isEmailExisting')
@@ -508,8 +508,8 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(Adi_User_DuplicateEmailPrevention::PREVENT);
+			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
+			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::PREVENT);
 
 		$this->userRepository->expects($this->once())
 			->method('isEmailExisting')
@@ -531,8 +531,8 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(Adi_User_DuplicateEmailPrevention::ALLOW);
+			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
+			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::ALLOW);
 
 		$this->userRepository->expects($this->once())
 			->method('isEmailExisting')
@@ -560,10 +560,10 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 			'findById',
 		));
 
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 		$this->behave($adiUser, 'getCredentials', $credentials);
-		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
 
 		$sut->expects($this->once())
 			->method('disableEmailNotification');
@@ -586,10 +586,10 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 			'findById',
 		));
 
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 		$this->behave($adiUser, 'getCredentials', $credentials);
-		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
 
 		$sut->expects($this->once())
 			->method('assertUserExisting')
@@ -613,10 +613,10 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 			'findById',
 		));
 
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 		$this->behave($adiUser, 'getCredentials', $credentials);
-		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
 
 		$sut->expects($this->once())
 			->method('updateWordPressAccount')
@@ -641,10 +641,10 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 		));
 
 		$rawLdapAttributes = array('cn' => array('common_name'));
-		$ldapAttributes = new Ldap_Attributes(array(), $rawLdapAttributes);
+		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), $rawLdapAttributes);
 
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 		$this->behave($adiUser, 'getCredentials', $credentials);
 		$this->behave($adiUser, 'getLdapAttributes', $ldapAttributes);
 		$this->behave($adiUser, 'getId', 666);
@@ -671,16 +671,16 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 			'findById',
 		));
 
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 		$this->behave($adiUser, 'getCredentials', $credentials);
-		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
 		$this->behave($adiUser, 'getId', 666);
 		$this->behave($credentials, 'getUpnSuffix', 'test.ad');
 
 		$this->metaRepository->expects($this->once())
 			->method('update')
-			->with(666, NEXT_AD_INT_PREFIX . 'account_suffix', '@test.ad');
+			->with(666, ADI_PREFIX . 'account_suffix', '@test.ad');
 
 		$sut->update($adiUser);
 	}
@@ -700,10 +700,10 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 			'findById',
 		));
 
-		$ldapAttributes = new Ldap_Attributes();
+		$ldapAttributes = new NextADInt_Ldap_Attributes();
 
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 		$this->behave($adiUser, 'getCredentials', $credentials);
 		$this->behave($adiUser, 'getLdapAttributes', $ldapAttributes);
 		$this->behave($credentials, 'getSAMAccountName', 'samaccountname');
@@ -735,10 +735,10 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 			'findById',
 		));
 
-		$ldapAttributes = new Ldap_Attributes();
+		$ldapAttributes = new NextADInt_Ldap_Attributes();
 
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 		$this->behave($adiUser, 'getCredentials', $credentials);
 		$this->behave($adiUser, 'getLdapAttributes', $ldapAttributes);
 		$this->behave($adiUser, 'getId', 666);
@@ -767,10 +767,10 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 		));
 
 		$wpUser = (object)array('ID' => 666);
-		$adiUser = $this->createMock('Adi_User');
-		$credentials = $this->createMock('Adi_Authentication_Credentials');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
 		$this->behave($adiUser, 'getCredentials', $credentials);
-		$this->behave($adiUser, 'getLdapAttributes', new Ldap_Attributes());
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
 		$this->behave($adiUser, 'getId', 666);
 
 		$sut->expects($this->once())
@@ -789,7 +789,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
-		$adiUser = $this->createMock('Adi_User');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
 
 		$this->exceptionUtil->shouldReceive('handleWordPressErrorAsException')
 			->once();
@@ -804,7 +804,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
-		$adiUser = $this->createMockWithMethods('Adi_User', array('getId', 'getUsername'));
+		$adiUser = $this->createMock('NextADInt_Adi_User');
 		$adiUser->expects($this->once())
 			->method('getId')
 			->willReturn(1);
@@ -831,7 +831,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::AUTO_UPDATE_PASSWORD)
+			->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD)
 			->willReturn(true);
 
 		$this->userRepository->expects($this->once())
@@ -862,14 +862,14 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 		$sut = $this->sut(array('updateUserRoles', 'updateSAMAccountName'));
 
 		$userId = 66;
-		$roleMapping = new Adi_Role_Mapping("username");
+		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 
 		$attributes = array(
 			'objectGUID' => 'guid',
 		);
 
-		$credentials = new Adi_Authentication_Credentials('username');
-		$adiUser = new Adi_User($credentials, new Ldap_Attributes(array(), $attributes));
+		$credentials = new NextADInt_Adi_Authentication_Credentials('username');
+		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes(array(), $attributes));
 		$adiUser->setRoleMapping($roleMapping);
 		$adiUser->setId($userId);
 
@@ -907,7 +907,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
-		$roleMapping = $this->createMock('Adi_Role_Mapping');
+		$roleMapping = $this->createMock('NextADInt_Adi_Role_Mapping');
 
 		$this->userRepository->expects($this->once())
 			->method('findById')
@@ -928,7 +928,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('filterDisallowedAttributes', 'filterEmptyAttributes'));
 
-		$telephonenumber = new Ldap_Attribute();
+		$telephonenumber = new NextADInt_Ldap_Attribute();
 		$telephonenumber->setType('string');
 		$telephonenumber->setMetakey('t_n');
 
@@ -942,7 +942,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::USERMETA_EMPTY_OVERWRITE)
+			->with(NextADInt_Adi_Configuration_Options::USERMETA_EMPTY_OVERWRITE)
 			->willReturn(true);
 
 		$this->behave($this->attributeRepository, 'getWhitelistedAttributes', $attributes);
@@ -971,7 +971,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
-		$telephonenumber = new Ldap_Attribute();
+		$telephonenumber = new NextADInt_Ldap_Attribute();
 		$telephonenumber->setType('string');
 		$telephonenumber->setMetakey('t_n');
 
@@ -998,7 +998,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$telephonenumber = new Ldap_Attribute();
+		$telephonenumber = new NextADInt_Ldap_Attribute();
 		$telephonenumber->setType('string');
 		$telephonenumber->setMetakey('t_n');
 
@@ -1023,7 +1023,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$telephonenumber = new Ldap_Attribute();
+		$telephonenumber = new NextADInt_Ldap_Attribute();
 		$telephonenumber->setType('string');
 		$telephonenumber->setMetakey('t_n');
 
@@ -1047,7 +1047,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getEmailForUpdate'));
 
-		$adiUser = $this->createMock('Adi_User');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
 
 		WP_Mock::wpFunction('is_email', array(
 			'args'   => array('test@test.com'),
@@ -1074,7 +1074,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 		$email = 'test@test.com';
 		$this->wpUser->user_email = $email;
 
-		$adiUser = $this->createMock('Adi_User');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
 		$adiUser->expects($this->once())
 			->method('getId')
 			->willReturn(1);
@@ -1115,7 +1115,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 		$email = 'test@test.com';
 		$this->wpUser->user_email = $email;
 
-		$adiUser = $this->createMock('Adi_User');
+		$adiUser = $this->createMock('NextADInt_Adi_User');
 		$adiUser->expects($this->once())
 			->method('getId')
 			->willReturn(1);
@@ -1156,8 +1156,8 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(Adi_User_DuplicateEmailPrevention::ALLOW);
+			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
+			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::ALLOW);
 
 		$this->userRepository->expects($this->never())
 			->method('isEmailExisting')
@@ -1187,8 +1187,8 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(Adi_User_DuplicateEmailPrevention::PREVENT);
+			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
+			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::PREVENT);
 
 		$this->userRepository->expects($this->once())
 			->method('isEmailExisting')
@@ -1214,8 +1214,8 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(Adi_User_DuplicateEmailPrevention::CREATE);
+			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
+			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::CREATE);
 
 		$this->userRepository->expects($this->once())
 			->method('isEmailExisting')
@@ -1243,8 +1243,8 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(Adi_User_DuplicateEmailPrevention::CREATE);
+			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
+			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::CREATE);
 
 		$this->userRepository->expects($this->once())
 			->method('isEmailExisting')
@@ -1272,8 +1272,8 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(Adi_User_DuplicateEmailPrevention::PREVENT);
+			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
+			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::PREVENT);
 
 		$this->userRepository->expects($this->once())
 			->method('isEmailExisting')
@@ -1308,7 +1308,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with(666, NEXT_AD_INT_PREFIX . 'samaccountname', true)
+			->with(666, ADI_PREFIX . 'samaccountname', true)
 			->willReturn('usr');
 
 		$this->assertTrue($sut->hasActiveDirectoryAccount('username'));
@@ -1331,7 +1331,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with(666, NEXT_AD_INT_PREFIX . 'samaccountname', true)
+			->with(666, ADI_PREFIX . 'samaccountname', true)
 			->willReturn('usr');
 
 		$this->assertTrue($sut->hasActiveDirectoryAccount($this->wpUser));
@@ -1353,7 +1353,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with(666, NEXT_AD_INT_PREFIX . 'samaccountname', true)
+			->with(666, ADI_PREFIX . 'samaccountname', true)
 			->willReturn('usr');
 
 		// co-check empty
@@ -1374,7 +1374,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true)
+			->with($userId, ADI_PREFIX . 'user_disabled_email', true)
 			->willReturn('test@test.com');
 
 		$this->userRepository->expects($this->once())
@@ -1407,7 +1407,7 @@ class Ut_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true)
+			->with($userId, ADI_PREFIX . 'user_disabled_email', true)
 			->willReturn('test@test.com');
 
 		$this->userRepository->expects($this->once())

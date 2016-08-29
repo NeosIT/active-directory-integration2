@@ -3,51 +3,51 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_Ui_Menu')) {
+if (class_exists('NextADInt_Adi_Ui_Menu')) {
 	return;
 }
 
 /**
- * Adi_Ui_Menu registers menu entries for a single site installation.
+ * NextADInt_Adi_Ui_Menu registers menu entries for a single site installation.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
  *
  * @access public
  */
-class Adi_Ui_Menu extends Adi_Ui_Menu_Abstract
+class NextADInt_Adi_Ui_Menu extends NextADInt_Adi_Ui_Menu_Abstract
 {
-	/* @var Multisite_Configuration_Service $configuration */
+	/* @var NextADInt_Multisite_Configuration_Service $configuration */
 	private $configuration;
 
-	/** @var Multisite_Ui_BlogConfigurationPage | Multisite_View_Page */
+	/** @var NextADInt_Multisite_Ui_BlogConfigurationPage | NextADInt_Multisite_View_Page */
 	private $blogConfigurationPage;
 
-	/** @param Adi_Synchronization_Ui_SyncToWordPressPage | Adi_Page_PageInterface */
+	/** @param NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage | Adi_Page_PageInterface */
 	private $syncToWordPressPage;
 
-	/** @param Adi_Synchronization_Ui_SyncToActiveDirectoryPage | Adi_Page_PageInterface */
+	/** @param NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage | Adi_Page_PageInterface */
 	private $syncToActiveDirectoryPage;
 
-	/** @var Adi_Ui_ConnectivityTestPage | Multisite_View_Page */
+	/** @var NextADInt_Adi_Ui_ConnectivityTestPage | NextADInt_Multisite_View_Page */
 	private $connectivityTestPage;
 
 	/**
-	 * Adi_Ui_Menu constructor.
+	 * NextADInt_Adi_Ui_Menu constructor.
 	 *
-	 * @param Multisite_Option_Provider $optionProvider
-	 * @param Multisite_Configuration_Service $configuration
-	 * @param Multisite_Ui_BlogConfigurationPage $blogConfigurationPage
-	 * @param Adi_Ui_ConnectivityTestPage $connectivityTestPage
-	 * @param Adi_Synchronization_Ui_SyncToWordPressPage $syncToWordPressPage
-	 * @param Adi_Synchronization_Ui_SyncToActiveDirectoryPage $syncToActiveDirectoryPage
+	 * @param NextADInt_Multisite_Option_Provider $optionProvider
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Multisite_Ui_BlogConfigurationPage $blogConfigurationPage
+	 * @param NextADInt_Adi_Ui_ConnectivityTestPage $connectivityTestPage
+	 * @param NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage $syncToWordPressPage
+	 * @param NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage $syncToActiveDirectoryPage
 	 */
-	public function __construct(Multisite_Option_Provider $optionProvider,
-								Multisite_Configuration_Service $configuration,
-								Multisite_Ui_BlogConfigurationPage $blogConfigurationPage,
-								Adi_Ui_ConnectivityTestPage $connectivityTestPage,
-								Adi_Synchronization_Ui_SyncToWordPressPage $syncToWordPressPage,
-								Adi_Synchronization_Ui_SyncToActiveDirectoryPage $syncToActiveDirectoryPage) {
+	public function __construct(NextADInt_Multisite_Option_Provider $optionProvider,
+								NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Multisite_Ui_BlogConfigurationPage $blogConfigurationPage,
+								NextADInt_Adi_Ui_ConnectivityTestPage $connectivityTestPage,
+								NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage $syncToWordPressPage,
+								NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage $syncToActiveDirectoryPage) {
 		parent::__construct($optionProvider);
 
 		$this->configuration = $configuration;
@@ -62,7 +62,7 @@ class Adi_Ui_Menu extends Adi_Ui_Menu_Abstract
 	 */
 	public function register()
 	{
-		add_action(Adi_Ui_Actions::ADI_MENU_ADMIN_MENU, array($this, 'registerMenu'));
+		add_action(NextADInt_Adi_Ui_Actions::ADI_MENU_ADMIN_MENU, array($this, 'registerMenu'));
 
 		$this->addAjaxListener($this->blogConfigurationPage);
 	}
@@ -83,15 +83,15 @@ class Adi_Ui_Menu extends Adi_Ui_Menu_Abstract
 		// add sub menus
 		$blogOptionPage = $this->addSubMenu($mainMenuSlug, $permission, $this->blogConfigurationPage, $renderMethodName);
 
-		if ($this->configuration->getOptionValue(Adi_Configuration_Options::SHOW_MENU_TEST_AUTHENTICATION)) {
+		if ($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SHOW_MENU_TEST_AUTHENTICATION)) {
 			$this->addSubMenu($mainMenuSlug, $permission, $this->connectivityTestPage, $renderMethodName);
 		}
 
-		if ($this->configuration->getOptionValue(Adi_Configuration_Options::SHOW_MENU_SYNC_TO_AD)) {
+		if ($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_AD)) {
 			$this->addSubMenu($mainMenuSlug, $permission, $this->syncToActiveDirectoryPage, $renderMethodName);
 		}
 
-		if ($this->configuration->getOptionValue(Adi_Configuration_Options::SHOW_MENU_SYNC_TO_WORDPRESS)) {
+		if ($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_WORDPRESS)) {
 			$this->addSubMenu($mainMenuSlug, $permission, $this->syncToWordPressPage, $renderMethodName);
 		}
 

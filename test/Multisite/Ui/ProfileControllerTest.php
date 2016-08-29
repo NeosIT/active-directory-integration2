@@ -4,22 +4,22 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Multisite_Ui_ProfileControllerTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Ui_ProfileControllerTest extends Ut_BasicTest
 {
-	/** @var Multisite_Configuration_Persistence_ProfileRepository| PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository| PHPUnit_Framework_MockObject_MockObject */
 	private $profileRepository;
-	/** @var Multisite_Configuration_Persistence_BlogConfigurationRepository|PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository|PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationRepository;
-	/** @var Multisite_Configuration_Persistence_DefaultProfileRepository|PHPUnit_Framework_MockObject_MockObject */
+	/** @var NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository|PHPUnit_Framework_MockObject_MockObject */
 	private $defaultProfileRepository;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->profileRepository = $this->createMock('Multisite_Configuration_Persistence_ProfileRepository');
-		$this->blogConfigurationRepository = $this->createMock('Multisite_Configuration_Persistence_BlogConfigurationRepository');
-		$this->defaultProfileRepository = $this->createMock('Multisite_Configuration_Persistence_DefaultProfileRepository');
+		$this->profileRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_ProfileRepository');
+		$this->blogConfigurationRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository');
+		$this->defaultProfileRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository');
 	}
 
 	public function tearDown()
@@ -30,11 +30,11 @@ class Ut_Multisite_Ui_ProfileControllerTest extends Ut_BasicTest
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Ui_ProfileController|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Ui_ProfileController|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Ui_ProfileController')
+		return $this->getMockBuilder('NextADInt_Multisite_Ui_ProfileController')
 			->setConstructorArgs(array(
 				$this->profileRepository,
 				$this->blogConfigurationRepository,

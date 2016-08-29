@@ -3,19 +3,19 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Option_Encryption')) {
+if (class_exists('NextADInt_Multisite_Option_Encryption')) {
 	return;
 }
 
 /**
- * Multisite_Option_Encryption holds all values for our encryption type.
+ * NextADInt_Multisite_Option_Encryption holds all values for our encryption type.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @author  Danny Meißner <dme@neos-it.de>
  *
  * @access
  */
-class Multisite_Option_Encryption
+class NextADInt_Multisite_Option_Encryption
 {
 	const NONE = 'none',
 		STARTTLS = 'starttls',

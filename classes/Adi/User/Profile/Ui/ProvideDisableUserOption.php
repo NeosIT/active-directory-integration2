@@ -3,33 +3,33 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Adi_User_Profile_Ui_ProvideDisableUserOption')) {
+if (class_exists('NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption')) {
 	return;
 }
 
 /**
- * Adi_User_Profile_Ui_ProvideDisableUserOption Extend user profiles with the possibility of disabling the corresponding user.
+ * NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption Extend user profiles with the possibility of disabling the corresponding user.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
  */
-class Adi_User_Profile_Ui_ProvideDisableUserOption
+class NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption
 {
 	const CAPABILITY = 'manage_options';
 	const TEMPLATE_NAME = 'user-profile-option.twig';
 
-	/** @var Multisite_View_TwigContainer  */
+	/** @var NextADInt_Multisite_View_TwigContainer  */
 	private $twigContainer;
 
-	/** @var Adi_User_Manager */
+	/** @var NextADInt_Adi_User_Manager */
 	private $userManager;
 
 	/**
-	 * @param Multisite_View_TwigContainer $twigContainer
-	 * @param Adi_User_Manager $userManager
+	 * @param NextADInt_Multisite_View_TwigContainer $twigContainer
+	 * @param NextADInt_Adi_User_Manager $userManager
 	 */
-	public function __construct(Multisite_View_TwigContainer $twigContainer,
-								Adi_User_Manager $userManager)
+	public function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer,
+								NextADInt_Adi_User_Manager $userManager)
 	{
 		$this->twigContainer = $twigContainer;
 		$this->userManager = $userManager;

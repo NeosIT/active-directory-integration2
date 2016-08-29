@@ -27,17 +27,17 @@ $autoLoader->register();
 require_once NEXT_AD_INT_PATH . '/functions.php';
 require_once NEXT_AD_INT_PATH . '/vendor/apache/log4php/src/main/php/Logger.php';
 
-$requirements = new Adi_Requirements();
+$requirements = new NextADInt_Adi_Requirements();
 if (!$requirements->check()) {
 	return;
 }
 
 // start plugin
-$adiPlugin = new Adi_Init();
+$adiPlugin = new NextADInt_Adi_Init();
 
 // register basic hooks
 register_activation_hook(__FILE__, array($adiPlugin, 'activation'));
-register_uninstall_hook(__FILE__, array('Adi_Init' /* static */, 'uninstall'));
+register_uninstall_hook(__FILE__, array('NextADInt_Adi_Init' /* static */, 'uninstall'));
 
 add_action('plugins_loaded', 'next_ad_int_angular_ajax_params_to_post');
 

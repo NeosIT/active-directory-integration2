@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Adi_Synchronization_Stub is a stub for Adi_Synchronization_Abstract
+ * Adi_Synchronization_Stub is a stub for NextADInt_Adi_Synchronization_Abstract
  */
-class Adi_Synchronization_Stub extends Adi_Synchronization_Abstract
+class Adi_Synchronization_Stub extends NextADInt_Adi_Synchronization_Abstract
 {
-	public function __construct(Multisite_Configuration_Service $configuration, Ldap_Connection $connection, Ldap_Attribute_Service $attributeService)
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration, NextADInt_Ldap_Connection $connection, NextADInt_Ldap_Attribute_Service $attributeService)
 	{
 		parent::__construct($configuration, $connection, $attributeService);
 	}
@@ -17,19 +17,19 @@ class Adi_Synchronization_Stub extends Adi_Synchronization_Abstract
  */
 class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/* @var Ldap_Connection | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Ldap_Connection | PHPUnit_Framework_MockObject_MockObject */
 	private $ldapConnection;
 
-	/* @var Ldap_Attribute_Service | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Ldap_Attribute_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $attributeService;
 	
 	/* @var adLDAP | PHPUnit_Framework_MockObject_MockObject */
 	private $adLDAP;
 
-	/* @var Core_Util_Internal_Native|\Mockery\MockInterface */
+	/* @var NextADInt_Core_Util_Internal_Native|\Mockery\MockInterface */
 	private $internalNative;
 
 	public function setUp()
@@ -38,23 +38,23 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 
 		if (!class_exists('adLDAP')) {
 			//get adLdap
-			require_once NEXT_AD_INT_PATH . '/vendor/adLDAP/adLDAP.php';
+			require_once ADI_PATH . '/vendor/adLDAP/adLDAP.php';
 		}
 
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->ldapConnection = $this->createMock('Ldap_Connection');
-		$this->attributeService = $this->createMock('Ldap_Attribute_Service');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
+		$this->attributeService = $this->createMock('NextADInt_Ldap_Attribute_Service');
 		$this->adLDAP = parent::createMock('adLDAP');
 
 		// mock native functions
 		$this->internalNative = $this->createMockedNative();
-		Core_Util::native($this->internalNative);
+		NextADInt_Core_Util::native($this->internalNative);
 	}
 
 	public function tearDown()
 	{
 		parent::tearDown();
-		Core_Util::native(null);
+		NextADInt_Core_Util::native(null);
 	}
 
 	/**
@@ -109,7 +109,7 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 		
-		$connectionDetails = new Ldap_ConnectionDetails();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setUsername("administrator");
 		$connectionDetails->setPassword("password");
 		
@@ -143,13 +143,13 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 		
 		
 		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+				'args'   => array('1', ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
 				'times'  => '1',
 				'return' => "1234")
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
+				'args'   => array('1', ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
 				'times'  => '1',
 				'return' => "S-1234")
 		);
@@ -190,13 +190,13 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+				'args'   => array('1', ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
 				'times'  => '1',
 				'return' => "1234")
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
+				'args'   => array('1', ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
 				'times'  => '1',
 				'return' => "S-1234")
 		);
@@ -235,11 +235,11 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 		
 		$args = array(
 			'blog_id'    => '1',
-			'meta_key'   => NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+			'meta_key'   => ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
-					'key'     => NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+					'key'     => ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 					'value'   => '',
 					'compare' => '!=',
 				),
@@ -266,13 +266,13 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 		);		
 
 		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
+				'args'   => array('1', ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
 				'times'  => '1',
 				'return' => "S-1234")
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('2', NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
+				'args'   => array('2', ADI_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
 				'times'  => '1',
 				'return' => "S-4321")
 		);

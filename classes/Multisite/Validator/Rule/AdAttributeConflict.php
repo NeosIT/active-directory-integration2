@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_AdAttributeConflict')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_AdAttributeConflict')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_AdAttributeConflict prevents using the same Ad Attribute multiple times.
+ * NextADInt_Multisite_Validator_Rule_AdAttributeConflict prevents using the same Ad Attribute multiple times.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Validator_Rule_AdAttributeConflict')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_AdAttributeConflict extends Core_Validator_Rule_Abstract
+class NextADInt_Multisite_Validator_Rule_AdAttributeConflict extends NextADInt_Core_Validator_Rule_Abstract
 {
 	/**
 	 * Validate the given data.
@@ -38,7 +38,7 @@ class Multisite_Validator_Rule_AdAttributeConflict extends Core_Validator_Rule_A
 	}
 
 	/**
-	 * Simple delegation to {@see Ldap_Attribute_Repository::checkAttributeMapping}.
+	 * Simple delegation to {@see NextADInt_Ldap_Attribute_Repository::checkAttributeMapping}.
 	 *
 	 * @param $attributeString
 	 *
@@ -46,6 +46,6 @@ class Multisite_Validator_Rule_AdAttributeConflict extends Core_Validator_Rule_A
 	 */
 	protected function checkAttributeNamesForConflict($attributeString)
 	{
-		return Ldap_Attribute_Repository::checkAttributeNamesForConflict($attributeString);
+		return NextADInt_Ldap_Attribute_Repository::checkAttributeNamesForConflict($attributeString);
 	}
 }

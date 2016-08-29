@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Util')) {
+if (class_exists('NextADInt_Multisite_Util')) {
 	return;
 }
 
 /**
- * Multisite_Util TODO long description
+ * NextADInt_Multisite_Util TODO long description
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Util')) {
  *
  * @access
  */
-class Multisite_Util
+class NextADInt_Multisite_Util
 {
 	private function __construct()
 	{

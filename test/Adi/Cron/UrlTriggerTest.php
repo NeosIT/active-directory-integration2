@@ -8,21 +8,21 @@
  */
 class Ut_Cron_UrlTriggerTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $configuration */
+	/* @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $configuration */
 	private $configuration;
 
-	/* @var Adi_Synchronization_ActiveDirectory|PHPUnit_Framework_MockObject_MockObject $syncToActiveDirectory */
+	/* @var NextADInt_Adi_Synchronization_ActiveDirectory|PHPUnit_Framework_MockObject_MockObject $syncToActiveDirectory */
 	private $syncToActiveDirectory;
 
-	/* @var Adi_Synchronization_WordPress|PHPUnit_Framework_MockObject_MockObject $syncToWordPress */
+	/* @var NextADInt_Adi_Synchronization_WordPress|PHPUnit_Framework_MockObject_MockObject $syncToWordPress */
 	private $syncToWordPress;
 
 	public function setUp()
 	{
 		parent::setUp();
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->syncToActiveDirectory = $this->createMock('Adi_Synchronization_ActiveDirectory');
-		$this->syncToWordPress = $this->createMock('Adi_Synchronization_WordPress');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->syncToActiveDirectory = $this->createMock('NextADInt_Adi_Synchronization_ActiveDirectory');
+		$this->syncToWordPress = $this->createMock('NextADInt_Adi_Synchronization_WordPress');
 	}
 
 	public function tearDown()
@@ -33,11 +33,11 @@ class Ut_Cron_UrlTriggerTest extends Ut_BasicTest
 	/**
 	 * @param $methods
 	 *
-	 * @return Adi_Cron_UrlTrigger|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Cron_UrlTrigger|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods)
 	{
-		$class = 'Adi_Cron_UrlTrigger';
+		$class = 'NextADInt_Adi_Cron_UrlTrigger';
 		$constructor = array(
 			$this->configuration,
 			$this->syncToActiveDirectory,
@@ -179,7 +179,7 @@ class Ut_Cron_UrlTriggerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE)
+			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE)
 			->willReturn('einAnderesPassword');
 
 		$actual = $sut->validateAuthCode('ad84fd2', 1);
@@ -195,7 +195,7 @@ class Ut_Cron_UrlTriggerTest extends Ut_BasicTest
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE)
+			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE)
 			->willReturn('ad84fd2');
 
 		$actual = $sut->validateAuthCode('ad84fd2', 2);

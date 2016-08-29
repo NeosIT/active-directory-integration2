@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('NotEmpty')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace')) {
 	return;
 }
 
@@ -16,7 +16,7 @@ if (class_exists('NotEmpty')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_NotEmptyOrWhitespace extends Core_Validator_Rule_Abstract
+class NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace extends NextADInt_Core_Validator_Rule_Abstract
 {
 	/**
 	 * Validate the given data.

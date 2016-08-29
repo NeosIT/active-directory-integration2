@@ -5,7 +5,7 @@
  *
  * @access private
  */
-class Ut_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 {
 	public function setUp()
 	{
@@ -20,11 +20,11 @@ class Ut_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 	/**
 	 * @param null $methods
 	 *
-	 * @return Multisite_Ui_Table_ProfileAssignment|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Ui_Table_ProfileAssignment|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Ui_Table_ProfileAssignment')
+		return $this->getMockBuilder('NextADInt_Multisite_Ui_Table_ProfileAssignment')
 			->disableOriginalConstructor()
 			->setMethods($methods)
 			->getMock();
@@ -51,7 +51,7 @@ class Ut_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 
 		$expected = array(
 			'cb'                                                       => '<input type="checkbox" />',
-			Multisite_Ui_Table_ProfileAssignment::ADI_SITE_NAME_COLUMN => 'Site Name',
+			NextADInt_Multisite_Ui_Table_ProfileAssignment::ADI_SITE_NAME_COLUMN => 'Site Name',
 			'blogname'                                                 => 'URL',
 		);
 
@@ -123,7 +123,7 @@ class Ut_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 
 		$this->expectOutputString('BLOG');
 
-		$sut->addContent(Multisite_Ui_Table_ProfileAssignment::ADI_SITE_NAME_COLUMN, 666);
+		$sut->addContent(NextADInt_Multisite_Ui_Table_ProfileAssignment::ADI_SITE_NAME_COLUMN, 666);
 	}
 
 }

@@ -3,11 +3,11 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_Multisite_Validator_Rule_AdminEmailTest')) {
+if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_AdminEmailTest')) {
 	return;
 }
 
-class Ut_Multisite_Validator_Rule_AdminEmailTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Validator_Rule_AdminEmailTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'Username has to contain a suffix.';
 
@@ -24,11 +24,11 @@ class Ut_Multisite_Validator_Rule_AdminEmailTest extends Ut_BasicTest
 	/**
 	 * @param $methods
 	 *
-	 * @return Multisite_Validator_Rule_AdminEmail|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Validator_Rule_AdminEmail|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Multisite_Validator_Rule_AdminEmail')
+		return $this->getMockBuilder('NextADInt_Multisite_Validator_Rule_AdminEmail')
 			->setConstructorArgs(
 				array(
 					self::VALIDATION_MESSAGE, '@',

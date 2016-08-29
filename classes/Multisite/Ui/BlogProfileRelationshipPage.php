@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Ui_BlogProfileRelationshipPage')) {
+if (class_exists('NextADInt_Multisite_Ui_BlogProfileRelationshipPage')) {
 	return;
 }
 
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Ui_BlogProfileRelationshipPage')) {
  *
  * @access public
  */
-class Multisite_Ui_BlogProfileRelationshipPage extends Multisite_View_Page_Abstract
+class NextADInt_Multisite_Ui_BlogProfileRelationshipPage extends NextADInt_Multisite_View_Page_Abstract
 {
 	const VERSION_BLOG_PROFILE_RELATIONSHIP_JS = '1.0';
 
@@ -24,15 +24,15 @@ class Multisite_Ui_BlogProfileRelationshipPage extends Multisite_View_Page_Abstr
 	const TEMPLATE = 'blog-profile-relationship.twig';
 	const NONCE = 'Active Directory Integration Profile Assignment Nonce';
 
-	/** @var Multisite_Ui_BlogProfileRelationshipController */
+	/** @var NextADInt_Multisite_Ui_BlogProfileRelationshipController */
 	private $blogProfileRelationshipController;
 
 	/**
-	 * @param Multisite_View_TwigContainer                   $twigContainer
-	 * @param Multisite_Ui_BlogProfileRelationshipController $profileConfigurationRelationshipController
+	 * @param NextADInt_Multisite_View_TwigContainer                   $twigContainer
+	 * @param NextADInt_Multisite_Ui_BlogProfileRelationshipController $profileConfigurationRelationshipController
 	 */
-	public function __construct(Multisite_View_TwigContainer $twigContainer,
-		Multisite_Ui_BlogProfileRelationshipController $profileConfigurationRelationshipController
+	public function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer,
+		NextADInt_Multisite_Ui_BlogProfileRelationshipController $profileConfigurationRelationshipController
 	) {
 		parent::__construct($twigContainer);
 
@@ -46,7 +46,7 @@ class Multisite_Ui_BlogProfileRelationshipPage extends Multisite_View_Page_Abstr
 	 */
 	public function getTitle()
 	{
-		return esc_html__('Profile assignment', NEXT_AD_INT_I18N);
+		return esc_html__('Profile assignment', ADI_I18N);
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Multisite_Ui_BlogProfileRelationshipPage extends Multisite_View_Page_Abstr
 	 */
 	public static function buildSlug()
 	{
-		return NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
+		return ADI_PREFIX . 'blog_profile_relationship';
 	}
 
 	/**
@@ -102,11 +102,11 @@ class Multisite_Ui_BlogProfileRelationshipPage extends Multisite_View_Page_Abstr
 		}
 
 		wp_enqueue_script(
-			'adi2_blog_profile_association', NEXT_AD_INT_URL . '/js/blog-profile-relationship.js', array('jquery'),
+			'adi2_blog_profile_association', ADI_URL . '/js/blog-profile-relationship.js', array('jquery'),
 			self::VERSION_BLOG_PROFILE_RELATIONSHIP_JS
 		);
 
-		wp_enqueue_style('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
 	}
 
 	/**
@@ -134,7 +134,7 @@ class Multisite_Ui_BlogProfileRelationshipPage extends Multisite_View_Page_Abstr
 	}
 
 	/**
-	 * Check if the data for {@see Multisite_Ui_BlogProfileRelationshipController::saveBlogProfileAssociations(
+	 * Check if the data for {@see NextADInt_Multisite_Ui_BlogProfileRelationshipController::saveBlogProfileAssociations(
 	 * ($profileId, $blogIds) is given. If not, the action will <strong>not</strong> continue.
 	 *
 	 * @param array $data
@@ -149,7 +149,7 @@ class Multisite_Ui_BlogProfileRelationshipPage extends Multisite_View_Page_Abstr
 	}
 
 	/**
-	 * Check if the data for {@see Multisite_Ui_BlogProfileRelationshipController::saveDefaultProfile($profileId) is 
+	 * Check if the data for {@see NextADInt_Multisite_Ui_BlogProfileRelationshipController::saveDefaultProfile($profileId) is
 	 * given. If not, the action will <strong>not</strong> continue.
 	 *
 	 * @param array $data

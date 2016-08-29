@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Core_Assert')) {
+if (class_exists('NextADInt_Core_Assert')) {
 	return;
 }
 
 /**
- * Core_Assert provides simple assertions to ensure condiitions and restrictions.
+ * NextADInt_Core_Assert provides simple assertions to ensure condiitions and restrictions.
  *
  * @author Christopher Klein <ckl@neos-it.de>
  *
  * @access public
  */
-class Core_Assert
+class NextADInt_Core_Assert
 {
 	private function __construct()
 	{

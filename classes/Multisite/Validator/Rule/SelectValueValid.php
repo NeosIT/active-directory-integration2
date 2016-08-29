@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_SelectValueValid')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_SelectValueValid')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_SelectValueValid TODO short description
+ * NextADInt_Multisite_Validator_Rule_SelectValueValid TODO short description
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Validator_Rule_SelectValueValid')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_SelectValueValid extends Core_Validator_Rule_Abstract
+class NextADInt_Multisite_Validator_Rule_SelectValueValid extends NextADInt_Core_Validator_Rule_Abstract
 {
 	/**
 	 * @var array
@@ -24,7 +24,7 @@ class Multisite_Validator_Rule_SelectValueValid extends Core_Validator_Rule_Abst
 	private $validValues = array();
 
 	/**
-	 * Multisite_Validator_Rule_SelectValueValid constructor.
+	 * NextADInt_Multisite_Validator_Rule_SelectValueValid constructor.
 	 *
 	 * @param string $msg
 	 * @param array  $validValues

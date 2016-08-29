@@ -4,7 +4,7 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
+class Ut_NextADInt_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 {
 
 	public function setUp()
@@ -22,7 +22,7 @@ class Ut_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 	 */
 	public function getOptionsGrouping_isArray()
 	{
-		$optionsGrouping = Adi_Configuration_Ui_Layout::get();
+		$optionsGrouping = NextADInt_Adi_Configuration_Ui_Layout::get();
 		$this->assertTrue(is_array($optionsGrouping));
 	}
 
@@ -31,7 +31,7 @@ class Ut_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 	 */
 	public function getOptionGrouping_arrayNotEmpty()
 	{
-		$optionsGrouping = Adi_Configuration_Ui_Layout::get();
+		$optionsGrouping = NextADInt_Adi_Configuration_Ui_Layout::get();
 
 		$this->assertTrue(is_array($optionsGrouping));
 		$this->assertTrue(! empty($optionsGrouping));
@@ -42,7 +42,7 @@ class Ut_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 	 */
 	public function getOptionsGrouping_checkStructure()
 	{
-		$optionsGrouping = Adi_Configuration_Ui_Layout::get();
+		$optionsGrouping = NextADInt_Adi_Configuration_Ui_Layout::get();
 		$this->assertTrue(is_array($optionsGrouping));
 
 		$security = $optionsGrouping['Security'];
@@ -51,14 +51,14 @@ class Ut_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 		$bruteForce = $security['Brute-Force-Protection'];
 		$this->assertTrue(is_array($bruteForce));
 
-		$description = $bruteForce[Adi_Configuration_Ui_Layout::DESCRIPTION];
+		$description = $bruteForce[NextADInt_Adi_Configuration_Ui_Layout::DESCRIPTION];
 		$this->assertEquals(
 			'For security reasons you can use the following options to prevent brute force attacks on your user accounts.',
 			$description
 		);
 
-		$options = $bruteForce[Adi_Configuration_Ui_Layout::OPTIONS];
-		$this->assertEquals(Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS, $options[0]);
-		$this->assertEquals(Adi_Configuration_Options::ADMIN_EMAIL, $options[4]);
+		$options = $bruteForce[NextADInt_Adi_Configuration_Ui_Layout::OPTIONS];
+		$this->assertEquals(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS, $options[0]);
+		$this->assertEquals(NextADInt_Adi_Configuration_Options::ADMIN_EMAIL, $options[4]);
 	}
 }

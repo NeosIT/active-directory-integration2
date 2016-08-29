@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ldap_Attributes')) {
+if (class_exists('NextADInt_Ldap_Attributes')) {
 	return;
 }
 
@@ -13,7 +13,7 @@ if (class_exists('Ldap_Attributes')) {
  * @author Christopher Klein <ckl@neos-it.de>
  * @access public
  */
-class Ldap_Attributes
+class NextADInt_Ldap_Attributes
 {
 	/**
 	 * @var array

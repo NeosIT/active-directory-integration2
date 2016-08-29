@@ -1,20 +1,20 @@
 <?php
 
 /**
- * Ut_Ldap_ConnectionTest
+ * Ut_NextADInt_Ldap_ConnectionTest
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Ldap_ConnectionTest extends Ut_BasicTest
+class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 {
-	/* @var Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $attributes */
+	/* @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $attributes */
 	private $configuration;
 
 	/* @var adLDAP|PHPUnit_Framework_MockObject_MockObject $attributes */
 	private $adLDAP;
 
-	/* @var Core_Util_Internal_Native|\Mockery\MockInterface */
+	/* @var NextADInt_Core_Util_Internal_Native|\Mockery\MockInterface */
 	private $internalNative;
 
 	public function setUp()
@@ -25,29 +25,29 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 		}
 
 		parent::setUp();
-		$this->configuration = parent::createMock('Multisite_Configuration_Service');
+		$this->configuration = parent::createMock('NextADInt_Multisite_Configuration_Service');
 		$this->adLDAP = parent::createMock('adLDAP');
 
 		// mock native functions
 		$this->internalNative = $this->createMockedNative();
-		Core_Util::native($this->internalNative);
+		NextADInt_Core_Util::native($this->internalNative);
 	}
 
 	public function tearDown()
 	{
 		parent::tearDown();
 		// release mocked native functions
-		Core_Util::native(null);
+		NextADInt_Core_Util::native(null);
 	}
 
 	/**
 	 * @param $methods
 	 *
-	 * @return Ldap_Connection|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Ldap_Connection|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods)
 	{
-		return $connection = $this->getMockBuilder('Ldap_Connection')
+		return $connection = $this->getMockBuilder('NextADInt_Ldap_Connection')
 			->setConstructorArgs(array($this->configuration))
 			->setMethods($methods)
 			->getMock();
@@ -60,7 +60,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('createConfiguration', 'createAdLdap', 'getAdLdap'));
 
-		$connectionDetails = new Ldap_ConnectionDetails();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$config = array(
 			'account_suffix'     => '',
@@ -114,7 +114,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 			'ad_password'        => '*** protected password ***',
 		);
 
-		$connectionDetails = new Ldap_ConnectionDetails();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setUsername('tobi');
 		$connectionDetails->setPassword('Streng Geheim');
 
@@ -136,7 +136,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new Ldap_ConnectionDetails();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setBaseDn('custom');
 
 		$actual = $sut->getBaseDn($connectionDetails);
@@ -150,11 +150,11 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new Ldap_ConnectionDetails();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::BASE_DN)
+			->with(NextADInt_Adi_Configuration_Options::BASE_DN)
 			->willReturn('default');
 
 		$actual = $sut->getBaseDn($connectionDetails);
@@ -168,7 +168,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new Ldap_ConnectionDetails();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setDomainControllers('custom;custom2');
 
 		$actual = $sut->getDomainControllers($connectionDetails);
@@ -182,11 +182,11 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getDomainControllersWithEncryption'));
 
-		$connectionDetails = new Ldap_ConnectionDetails();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::DOMAIN_CONTROLLERS)
+			->with(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS)
 			->willReturn('default');
 
 		$this->expects($sut, $this->once(), 'getDomainControllersWithEncryption', $connectionDetails, array('default'));
@@ -202,7 +202,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new Ldap_ConnectionDetails();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setPort('custom');
 
 		$actual = $sut->getAdPort($connectionDetails);
@@ -216,11 +216,11 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new Ldap_ConnectionDetails();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::PORT)
+			->with(NextADInt_Adi_Configuration_Options::PORT)
 			->willReturn('default');
 
 		$actual = $sut->getAdPort($connectionDetails);
@@ -234,8 +234,8 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new Ldap_ConnectionDetails();
-		$connectionDetails->setEncryption(Multisite_Option_Encryption::LDAPS);
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails->setEncryption(NextADInt_Multisite_Option_Encryption::LDAPS);
 
 		$actual = $sut->getUseTls($connectionDetails);
 		$this->assertFalse($actual);
@@ -248,9 +248,9 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getEncryption'));
 
-		$connectionDetails = new Ldap_ConnectionDetails();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
-		$this->expects($sut, $this->once(), 'getEncryption', $connectionDetails, Multisite_Option_Encryption::STARTTLS);
+		$this->expects($sut, $this->once(), 'getEncryption', $connectionDetails, NextADInt_Multisite_Option_Encryption::STARTTLS);
 
 		$actual = $sut->getUseTls($connectionDetails);
 		$this->assertTrue($actual);
@@ -263,7 +263,7 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new Ldap_ConnectionDetails();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setNetworkTimeout(5);
 
 		$actual = $sut->getNetworkTimeout($connectionDetails);
@@ -277,11 +277,11 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new Ldap_ConnectionDetails();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::NETWORK_TIMEOUT)
+			->with(NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT)
 			->willReturn('default');
 
 		$actual = $sut->getNetworkTimeout($connectionDetails);
@@ -498,8 +498,8 @@ class Ut_Ldap_ConnectionTest extends Ut_BasicTest
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
 			->withConsecutive(
-				array(Adi_Configuration_Options::DOMAIN_CONTROLLERS),
-				array(Adi_Configuration_Options::PORT)
+				array(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS),
+				array(NextADInt_Adi_Configuration_Options::PORT)
 			)
 			->will(
 				$this->onConsecutiveCalls(

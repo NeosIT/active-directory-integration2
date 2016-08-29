@@ -8,22 +8,22 @@
  */
 class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 {
-	/* @var Multisite_View_TwigContainer|PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_View_TwigContainer|PHPUnit_Framework_MockObject_MockObject */
 	private $twigContainer;
 
-	/* @var Adi_Synchronization_WordPress |PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Adi_Synchronization_WordPress |PHPUnit_Framework_MockObject_MockObject */
 	private $syncToWordPress;
 
-	/* @var Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
+	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->twigContainer = $this->createMock('Multisite_View_TwigContainer');
-		$this->configuration = $this->createMock('Multisite_Configuration_Service');
-		$this->syncToWordPress = $this->createMock('Adi_Synchronization_WordPress');
+		$this->twigContainer = $this->createMock('NextADInt_Multisite_View_TwigContainer');
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->syncToWordPress = $this->createMock('NextADInt_Adi_Synchronization_WordPress');
 	}
 
 	public function tearDown()
@@ -33,11 +33,11 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 
 	/**
 	 *
-	 * @return Adi_Synchronization_Ui_SyncToWordPressPage| PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage| PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('Adi_Synchronization_Ui_SyncToWordPressPage')
+		return $this->getMockBuilder('NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage')
 			->setConstructorArgs(
 				array(
 					$this->twigContainer,
@@ -57,7 +57,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$returnedTitle = $sut->getTitle();
-		$this->assertEquals(Adi_Synchronization_Ui_SyncToWordPressPage::TITLE, $returnedTitle);
+		$this->assertEquals(NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::TITLE, $returnedTitle);
 	}
 
 	/**
@@ -68,7 +68,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$returnedValue = $sut->getSlug();
-		$this->assertEquals(NEXT_AD_INT_PREFIX . Adi_Synchronization_Ui_SyncToWordPressPage::SLUG, $returnedValue);
+		$this->assertEquals(ADI_PREFIX . NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::SLUG, $returnedValue);
 	}
 
 
@@ -80,7 +80,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		$sut = $this->sut(array('checkCapability', 'processData', 'display'));
 
 		$paramsFilled = array(
-			'nonce'    => Adi_Synchronization_Ui_SyncToWordPressPage::NONCE, //add nonce for security
+			'nonce'    => NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::NONCE, //add nonce for security
 			'authCode' => 'someAuthCode',
 			'blogUrl'  => 'www.testsite.it',
 			'message' => null,
@@ -92,14 +92,14 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 			->willReturn(array());
 
 		WP_Mock::wpFunction('wp_create_nonce', array(
-			'args'   => Adi_Synchronization_Ui_SyncToWordPressPage::NONCE,
+			'args'   => NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::NONCE,
 			'times'  => 1,
-			'return' => Adi_Synchronization_Ui_SyncToWordPressPage::NONCE)
+			'return' => NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::NONCE)
 		);
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE)
+			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE)
 			->willReturn('someAuthCode');
 
 		WP_Mock::wpFunction('get_current_blog_id', array(
@@ -115,7 +115,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('display')
-			->with(Adi_Synchronization_Ui_SyncToWordPressPage::TEMPLATE, $paramsFilled);
+			->with(NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::TEMPLATE, $paramsFilled);
 
 		$sut->renderAdmin();
 	}
@@ -126,11 +126,11 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 	public function loadJavaScriptAdmin_validHook_enqueueScript()
 	{
 		$sut = $this->sut(null);
-		$hook = NEXT_AD_INT_PREFIX . Adi_Synchronization_Ui_SyncToWordPressPage::SLUG;
+		$hook = ADI_PREFIX . NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::SLUG;
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args'  => array('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS),
+				'args'  => array('adi2', ADI_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
@@ -144,7 +144,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 	public function loadJavaScriptAdmin_invalidHook_doNothing()
 	{
 		$sut = $this->sut(null);
-		$hook = NEXT_AD_INT_PREFIX . 'some_stuff';
+		$hook = ADI_PREFIX . 'some_stuff';
 
 		WP_Mock::wpFunction('wp_enqueue_style', array(
 			'times' => 0)
@@ -179,7 +179,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		);
 
 		WP_Mock::wpFunction('wp_verify_nonce', array(
-			'args'   => array($post['security'], Adi_Synchronization_Ui_SyncToWordPressPage::NONCE),
+			'args'   => array($post['security'], NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::NONCE),
 			'times'  => 1,
 			'return' => false)
 		);
@@ -204,7 +204,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		);
 
 		WP_Mock::wpFunction('wp_verify_nonce', array(
-			'args'   => array($post['security'], Adi_Synchronization_Ui_SyncToWordPressPage::NONCE),
+			'args'   => array($post['security'], NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::NONCE),
 			'times'  => 1,
 			'return' => true)
 		);
@@ -234,6 +234,6 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$returnedTitle = $sut->wpAjaxSlug();
-		$this->assertEquals(Adi_Synchronization_Ui_SyncToWordPressPage::AJAX_SLUG, $returnedTitle);
+		$this->assertEquals(NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::AJAX_SLUG, $returnedTitle);
 	}
 }

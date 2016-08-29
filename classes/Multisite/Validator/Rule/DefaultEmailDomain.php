@@ -3,12 +3,12 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Multisite_Validator_Rule_DefaultEmailDomain')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_DefaultEmailDomain')) {
 	return;
 }
 
 /**
- * Multisite_Validator_Rule_DefaultEmailDomain prevents saving DefaultEmailDomain in the wrong style.
+ * NextADInt_Multisite_Validator_Rule_DefaultEmailDomain prevents saving DefaultEmailDomain in the wrong style.
  *
  * @author  Tobias Hellmann <the@neos-it.de>
  * @author  Sebastian Weinert <swe@neos-it.de>
@@ -16,7 +16,7 @@ if (class_exists('Multisite_Validator_Rule_DefaultEmailDomain')) {
  *
  * @access
  */
-class Multisite_Validator_Rule_DefaultEmailDomain extends Core_Validator_Rule_Abstract
+class NextADInt_Multisite_Validator_Rule_DefaultEmailDomain extends NextADInt_Core_Validator_Rule_Abstract
 {
 	/**
 	 * Validate the given data.
