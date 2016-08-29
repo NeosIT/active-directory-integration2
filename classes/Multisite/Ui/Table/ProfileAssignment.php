@@ -203,7 +203,16 @@ class NextADInt_Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Ta
 		$query .= " LIMIT " . intval(($pagenum - 1) * $per_page) . ", " . intval($per_page);
 		$this->items = $wpdb->get_results($query, ARRAY_A);
 
-		if (wp_is_large_network()) {
+        // after Wordpress 4.5 use WP_Site instead of an array
+        // ADI-335
+        global $wp_version;
+        if ( version_compare( $wp_version, '4.5.0', '>=')) {
+            foreach ($this->items as $key => $value) {
+                $this->items[$key] = WP_Site::get_instance($value['site_id']);
+            }
+        }
+
+        if (wp_is_large_network()) {
 			$total = count($this->items);
 		}
 
