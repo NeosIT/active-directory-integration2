@@ -154,10 +154,10 @@ class Multisite_Ui_ProfileController
 		try {
 			$this->profileRepository->delete($id);
 		} catch (Exception $e) {
-			return Core_Message::error(__('An error occurred while deleting the profile.', ADI_I18N))->toArray();
+			return Core_Message::error(__('An error occurred while deleting the profile.', NEXT_AD_INT_I18N))->toArray();
 		}
 
-		return Core_Message::success(__('The profile was deleted successfully.', ADI_I18N))->toArray();
+		return Core_Message::success(__('The profile was deleted successfully.', NEXT_AD_INT_I18N))->toArray();
 	}
 
 	/**

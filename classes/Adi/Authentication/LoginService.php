@@ -115,7 +115,7 @@ class Adi_Authentication_LoginService
 	public function disableLostPassword()
 	{
 		$message = esc_html__(
-			'Lost Password feature has been disabled by the "Active Directory Integration 2" plugin.', ADI_I18N
+			'Lost Password feature has been disabled by the "Active Directory Integration 2" plugin.', NEXT_AD_INT_I18N
 		);
 
 		wp_die($message);
@@ -530,7 +530,7 @@ class Adi_Authentication_LoginService
 			return new WP_Error(
 				'invalid_username', __(
 					$error,
-					ADI_I18N
+					NEXT_AD_INT_I18N
 				)
 			);
 		}

@@ -87,7 +87,7 @@ class Ut_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTest
 		$samaccountname = "testName";
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($user->ID, ADI_PREFIX . 'samaccountname', true),
+			'args'   => array($user->ID, NEXT_AD_INT_PREFIX . 'samaccountname', true),
 			'times'  => 1,
 			'return' => $samaccountname)
 		);
@@ -117,7 +117,7 @@ class Ut_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTest
 		$samaccountname = "testName";
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($user->ID, ADI_PREFIX . 'samaccountname', true),
+			'args'   => array($user->ID, NEXT_AD_INT_PREFIX . 'samaccountname', true),
 			'times'  => 1,
 			'return' => $samaccountname)
 		);
@@ -146,13 +146,13 @@ class Ut_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTest
 		);
 		$samaccountname = "testName";
 
-		$_POST[ADI_PREFIX . 'email_change'] = "someValue";
+		$_POST[NEXT_AD_INT_PREFIX . 'email_change'] = "someValue";
 
 		\WP_Mock::expectFilterAdded('send_password_change_email', '__return_false');
 		\WP_Mock::expectFilterAdded('send_email_change_email', '__return_false');
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($user->ID, ADI_PREFIX . 'samaccountname', true),
+			'args'   => array($user->ID, NEXT_AD_INT_PREFIX . 'samaccountname', true),
 			'times'  => 1,
 			'return' => $samaccountname)
 		);
@@ -198,7 +198,7 @@ class Ut_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTest
 		);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'samaccountname', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
 			'times'  => 1,
 			'return' => $samaccountname)
 		);
@@ -222,7 +222,7 @@ class Ut_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTest
 		$userId = 1;
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, ADI_PREFIX . 'samaccountname', true),
+			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
 			'times'  => 1,
 			'return' => '')
 		);
@@ -252,7 +252,7 @@ class Ut_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTest
 		);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($user->ID, ADI_PREFIX . 'samaccountname', true),
+			'args'   => array($user->ID, NEXT_AD_INT_PREFIX . 'samaccountname', true),
 			'times'  => 1,
 			'return' => 'TestUser')
 		);

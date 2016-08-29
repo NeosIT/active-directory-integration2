@@ -17,7 +17,7 @@ class Core_Persistence_WordPressRepository
 {
 
 	/**
-	 * Add WordPress base_prefix and ADI_Prefix to the table name and returns it.
+	 * Add WordPress base_prefix and NEXT_AD_INT_PREFIX to the table name and returns it.
 	 *
 	 * @param string $name
 	 *
@@ -28,7 +28,7 @@ class Core_Persistence_WordPressRepository
 		global $wpdb;
 		$basePrefix = $wpdb->base_prefix;
 
-		return $basePrefix . ADI_PREFIX . $name;
+		return $basePrefix . NEXT_AD_INT_PREFIX . $name;
 	}
 
 	/**

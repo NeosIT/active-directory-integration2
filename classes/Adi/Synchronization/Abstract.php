@@ -118,9 +118,9 @@ abstract class Adi_Synchronization_Abstract
 		$r = array();
 
 		foreach ($users as $user) {
-			$guid = get_user_meta($user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true);
+			$guid = get_user_meta($user->ID, NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true);
 			$userDomainSid = get_user_meta(
-				$user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
+				$user->ID, NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
 			);
 
 			if ($this->isVerifiedDomainMember($userDomainSid)) {
@@ -145,11 +145,11 @@ abstract class Adi_Synchronization_Abstract
 	{
 		$args = array(
 			'blog_id'    => get_current_blog_id(),
-			'meta_key'   => ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+			'meta_key'   => NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
-					'key'     => ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+					'key'     => NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 					'value'   => '',
 					'compare' => '!=',
 				),
@@ -166,7 +166,7 @@ abstract class Adi_Synchronization_Abstract
 
 		foreach ($users as $user) {
 			$userDomainSid = get_user_meta(
-				$user->ID, ADI_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
+				$user->ID, NEXT_AD_INT_PREFIX . Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
 			);
 
 			if ($this->isVerifiedDomainMember($userDomainSid)) {

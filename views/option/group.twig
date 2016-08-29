@@ -1,18 +1,18 @@
 {# macro for generating option groups for a single tab body#}
 {% macro create(optionGroups, isProfile) %}
-    {% set ADI_I18N = constant('ADI_I18N') %}
+    {% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
 
     <script type="application/javascript">
         document['adi2'] = document['adi2'] || {};
-        document['adi2']['auth-code-confirmation'] = '{{ 'Do you really want to regenerate a new AuthCode?'|__(ADI_I18N) }}';
-        document['adi2']['verification-status'] = '{{ 'WordPress Site is currently connected to Domain: '|__(ADI_I18N) }}';
-        document['adi2']['verification-successful'] = '{{ 'Verification successful! WordPress site is now connected to Domain: '|__(ADI_I18N) }}';
-        document['adi2']['verification-successful-notification'] = '{{ 'Verification successful!'|__(ADI_I18N) }}';
-        document['adi2']['verification-failed-notification'] = '{{ 'Verification failed! Please check your logfile for further information.'|__(ADI_I18N) }}';
+        document['adi2']['auth-code-confirmation'] = '{{ 'Do you really want to regenerate a new AuthCode?'|__(NEXT_AD_INT_I18N) }}';
+        document['adi2']['verification-status'] = '{{ 'WordPress Site is currently connected to Domain: '|__(NEXT_AD_INT_I18N) }}';
+        document['adi2']['verification-successful'] = '{{ 'Verification successful! WordPress site is now connected to Domain: '|__(NEXT_AD_INT_I18N) }}';
+        document['adi2']['verification-successful-notification'] = '{{ 'Verification successful!'|__(NEXT_AD_INT_I18N) }}';
+        document['adi2']['verification-failed-notification'] = '{{ 'Verification failed! Please check your logfile for further information.'|__(NEXT_AD_INT_I18N) }}';
     </script>
 
     {% import "option/lines.twig" as lines %}
-    {% set ADI_I18N = constant('ADI_I18N') %}
+    {% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
     {% set newNetwork = isOnNetworkDashboard() %}
 
     {# Add all option groups of the current tab #}
@@ -32,7 +32,7 @@
                 <table class="adi-permission-selection">
                     <tr>
                         <td>&nbsp;</td>
-                        <td>{{ 'Manage Permissions'|__(ADI_I18N) }}</td>
+                        <td>{{ 'Manage Permissions'|__(NEXT_AD_INT_I18N) }}</td>
                     </tr>
                 </table>
             {% endif %}

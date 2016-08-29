@@ -137,12 +137,12 @@ class Ut_Core_Session_HandlerTest extends Ut_BasicTest
 	public function clearValue_withKey_unsetKey()
 	{
 		$key = 'testKey';
-		$_SESSION[ADI_PREFIX . $key] = 'value';
+		$_SESSION[NEXT_AD_INT_PREFIX . $key] = 'value';
 
 		$sut = $this->sut(null);
 
 		$sut->clearValue($key);
 
-		$this->assertTrue(!isset($_SESSION[ADI_PREFIX . $key]));
+		$this->assertTrue(!isset($_SESSION[NEXT_AD_INT_PREFIX . $key]));
 	}
 }

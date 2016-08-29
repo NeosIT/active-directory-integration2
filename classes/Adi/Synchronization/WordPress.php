@@ -394,7 +394,7 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 
 		try {
 			if (!$isInActiveDirectory) {
-				throw new Exception(sprintf(__('User "%s" no longer found in Active Directory.', ADI_I18N), $username));
+				throw new Exception(sprintf(__('User "%s" no longer found in Active Directory.', NEXT_AD_INT_I18N), $username));
 			}
 
 			if (!$this->isNormalAccount($uac)) {
@@ -402,7 +402,7 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 					sprintf(
 						__(
 							'User "%s" has no normal Active Directory user account. Only user accounts can be synchronized.',
-							ADI_I18N
+							NEXT_AD_INT_I18N
 						), $username
 					)
 				);
@@ -411,7 +411,7 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 			if ($this->isSmartCardRequired($uac)) {
 				throw new Exception(
 					sprintf(
-						__('The account of user "%s" requires a smart card for login.', ADI_I18N),
+						__('The account of user "%s" requires a smart card for login.', NEXT_AD_INT_I18N),
 						$username
 					)
 				);
@@ -454,7 +454,7 @@ class Adi_Synchronization_WordPress extends Adi_Synchronization_Abstract
 		}
 
 		$this->logger->warn("Disabling user '{$adiUser->getUserLogin()}'.");
-		$message = sprintf(__('User "%s" is disabled in Active Directory.', ADI_I18N), $adiUser->getUserLogin());
+		$message = sprintf(__('User "%s" is disabled in Active Directory.', NEXT_AD_INT_I18N), $adiUser->getUserLogin());
 		$this->userManager->disable($adiUser->getId(), $message);
 
 		return false;

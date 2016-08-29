@@ -1,6 +1,6 @@
 {% macro create(optionName, isProfile, inputId, permissionSelectionId, network) %}
 
-    {% set ADI_I18N = constant('ADI_I18N') %}
+    {% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
     {% set permission = getOptionPermission(isProfile, optionName) %}
 
     {% set inline = getMetadata(optionName, 'INLINE')|join(' ') %}
@@ -29,10 +29,10 @@
             <td class="adi-zero-padding-left">
                 <table class="adi-role-equivalent">
                     <tr class="adi-role-equivalent-headline">
-                        <td>{{ 'Security group'|__(ADI_I18N) }}</td>
+                        <td>{{ 'Security group'|__(NEXT_AD_INT_I18N) }}</td>
                         <td class="adi-zero-padding-left" style="padding-right: 15px"><span
                                     class="nsp_dashicons dashicons dashicons-leftright"></span></td>
-                        <td class="adi-zero-padding-left">{{ 'WordPress role'|__(ADI_I18N) }}</td>
+                        <td class="adi-zero-padding-left">{{ 'WordPress role'|__(NEXT_AD_INT_I18N) }}</td>
                         <td>&nbsp;</td>
                     </tr>
                 </table>

@@ -12,13 +12,12 @@ if (!extension_loaded('ldap')) {
 if (!defined('ABSPATH')) {
 	// TODO move this and the definition in index.php to its own file so it can be included once
 	define('ABSPATH', '');
-	define('ADI_PLUGIN_VERSION', '2.0');
-	define('ADI_PREFIX', 'adi2_');
-	define('ADI_URL', '');
-	define('ADI_I18N', 'ad-integration-2.0');
+	define('NEXT_AD_INT_PLUGIN_VERSION', '2.0');
+	define('NEXT_AD_INT_PREFIX', 'adi2_');
+	define('NEXT_AD_INT_URL', '');
+	define('NEXT_AD_INT_I18N', 'ad-integration-2.0');
 	define('AUTH_SALT', '</q|_f-py65|-Cy*E)9$]}jI/x1KqLMIF_rc1g]`=vsa`9RjA,r1ufr(lM2L*YBp');
 	define('OBJECT', 987);
-	define('ADI_PLUGIN_FILE', 'active-directory-integration2/index.php');
 
 	// TODO in eigene Klassen auslagern
 	class WP_Error
@@ -104,7 +103,14 @@ for ($i = 0; $i < 9; $i++) {
 	}
 }
 
-define('ADI_PATH', $path);
+define('NEXT_AD_INT_PATH', $path);
+
+// get plugin folder name from path
+$pluginName = explode('/', $path);
+$pluginName = $pluginName[sizeof($pluginName) - 1];
+$pluginName = explode('\\', $pluginName);
+$pluginName = $pluginName[sizeof($pluginName) - 1];
+define('NEXT_AD_INT_PLUGIN_FILE', "$pluginName/index.php");
 
 require_once "$path/Autoloader.php";
 $autoLoader = new Adi_Autoloader();

@@ -71,7 +71,7 @@ class Multisite_Configuration_Persistence_BlogConfigurationRepository implements
 	 */
 	protected function getOptionName($optionName)
 	{
-		return ADI_PREFIX . self::PREFIX . $optionName;
+		return NEXT_AD_INT_PREFIX . self::PREFIX . $optionName;
 	}
 
 	/**

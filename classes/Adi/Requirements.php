@@ -70,7 +70,7 @@ class Adi_Requirements
 			Core_Util::native()->includeOnce(ABSPATH . 'wp-admin/includes/plugin.php');
 
 			// ensure that the plug-in has not been enabled
-			deactivate_plugins(ADI_PLUGIN_FILE);
+			deactivate_plugins(NEXT_AD_INT_PLUGIN_FILE);
 
 			return false;
 		}

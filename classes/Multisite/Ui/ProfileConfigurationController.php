@@ -46,10 +46,10 @@ class Multisite_Ui_ProfileConfigurationController
 		try {
 			$this->saveProfileOptionsInternal($options, $profile);
 		} catch (Exception $e) {
-			return Core_Message::error(__('An error occurred while saving the configuration.', ADI_I18N))->toArray();
+			return Core_Message::error(__('An error occurred while saving the configuration.', NEXT_AD_INT_I18N))->toArray();
 		}
 
-		return Core_Message::success(__('The configuration was saved successfully.', ADI_I18N))->toArray();
+		return Core_Message::success(__('The configuration was saved successfully.', NEXT_AD_INT_I18N))->toArray();
 	}
 
 	/**

@@ -104,7 +104,7 @@ class Ut_Adi_RequirementsTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction('deactivate_plugins', array(
 			'times'  => 1,
-			'return' => ADI_PLUGIN_FILE,
+			'return' => NEXT_AD_INT_PLUGIN_FILE,
 		));
 
 		// mock away static methods

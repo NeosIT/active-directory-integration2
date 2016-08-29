@@ -25,7 +25,7 @@ class Core_Migration_Persistence_MigrationRepository
 	 * @return string
 	 */
 	public static function getMigrationOption() {
-		return ADI_PREFIX . 'migration';
+		return NEXT_AD_INT_PREFIX . 'migration';
 	}
 
 	/**

@@ -48,7 +48,7 @@ class Adi_User_Ui_ExtendUserList
 	 * @return string
 	 */
 	public function __columnUserDisabled() {
-		return ADI_PREFIX . 'user_disabled';
+		return NEXT_AD_INT_PREFIX . 'user_disabled';
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Adi_User_Ui_ExtendUserList
 	 * @return string
 	 */
 	public function __columnIsAdiUser() {
-		return ADI_PREFIX . 'user';
+		return NEXT_AD_INT_PREFIX . 'user';
 	}
 
 	/**
@@ -69,8 +69,8 @@ class Adi_User_Ui_ExtendUserList
 	 */
 	public function addColumns($columns)
 	{
-		$columns[$this->__columnIsAdiUser()] = __('ADI User', ADI_I18N);
-		$columns[$this->__columnUserDisabled()] = __('Disabled', ADI_I18N);
+		$columns[$this->__columnIsAdiUser()] = __('ADI User', NEXT_AD_INT_I18N);
+		$columns[$this->__columnUserDisabled()] = __('Disabled', NEXT_AD_INT_I18N);
 
 		return $columns;
 	}
@@ -106,7 +106,7 @@ class Adi_User_Ui_ExtendUserList
 	 * @return string
 	 */
 	function renderIsAdiUserColumn($userId) {
-		$samAccountName = get_user_meta($userId, ADI_PREFIX . 'samaccountname', true);
+		$samAccountName = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true);
 
 		if ($samAccountName) {
 			// add a place holder?
@@ -126,11 +126,11 @@ class Adi_User_Ui_ExtendUserList
 	 */
 	function renderDisabledColumn($userId) {
 		$isUserDisabled = get_user_meta($userId, $this->__columnUserDisabled(), true);
-		$reason = get_user_meta($userId, ADI_PREFIX . 'user_disabled_reason', true);
+		$reason = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true);
 
 		// fallback message
 		if (!$reason || !is_string($reason) || strlen($reason) === 0){
-			$reason = __('User is disabled by ADI 2.0.', ADI_I18N);
+			$reason = __('User is disabled by ADI 2.0.', NEXT_AD_INT_I18N);
 		}
 
 		if ($isUserDisabled) {

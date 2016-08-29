@@ -96,22 +96,22 @@ class Adi_Configuration_ImportService
 				}
 
 				$output .= __('You are running inside a Multisite network installation. This requires you to add a new ADI profile or edit the default ADI profile.',
-					ADI_I18N);
+					NEXT_AD_INT_I18N);
 
 				if ($sitesToUpgrade > 0) {
 					$output .= sprintf(__('<strong>There are %d sites in your Multisite network which have a previous version of ADI running. Make sure to disable all existing installations and create a new profile for all of them!</strong>',
-						ADI_I18N), $sitesToUpgrade);
+						NEXT_AD_INT_I18N), $sitesToUpgrade);
 				}
 			} else {
 				// plug-in provided in network but not network-wide activated
 				$output .= __('Migration of previous ADI options are not supported when running in Multisite installations. Please verify the ADI v2 configuration',
-					ADI_I18N);
+					NEXT_AD_INT_I18N);
 			}
 		} else {
 			// single site installation
 			if ($this->getBlogVersion() !== false) {
 				$output .= __('Options of a previous ADI installation have been migrated. You <strong>must</strong> re-enter the credentials of <em>Sync to WordPress/AD</em> service accounts.',
-					ADI_I18N);
+					NEXT_AD_INT_I18N);
 			}
 		}
 
@@ -210,7 +210,7 @@ class Adi_Configuration_ImportService
 	{
 		// the installed version is newer than the current version?
 		if ($version) {
-			return Core_Util::native()->compare($version, ADI_PLUGIN_VERSION, '<');
+			return Core_Util::native()->compare($version, NEXT_AD_INT_PLUGIN_VERSION, '<');
 		}
 
 		return false;

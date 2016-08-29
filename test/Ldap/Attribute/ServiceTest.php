@@ -30,14 +30,14 @@ class Ut_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 
 		if (!class_exists('adLDAP')) {
 			//get adLdap
-			require_once ADI_PATH . '/vendor/adLDAP/adLDAP.php';
+			require_once NEXT_AD_INT_PATH . '/vendor/adLDAP/adLDAP.php';
 		}
 
 		WP_Mock::setUp();
 
 		WP_Mock::wpFunction(
 			'__', array(
-				'args'       => array(WP_Mock\Functions::type('string'), ADI_I18N),
+				'args'       => array(WP_Mock\Functions::type('string'), NEXT_AD_INT_I18N),
 				'return_arg' => 0,
 			)
 		);

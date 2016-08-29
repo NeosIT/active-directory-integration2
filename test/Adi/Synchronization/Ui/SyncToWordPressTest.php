@@ -68,7 +68,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$returnedValue = $sut->getSlug();
-		$this->assertEquals(ADI_PREFIX . Adi_Synchronization_Ui_SyncToWordPressPage::SLUG, $returnedValue);
+		$this->assertEquals(NEXT_AD_INT_PREFIX . Adi_Synchronization_Ui_SyncToWordPressPage::SLUG, $returnedValue);
 	}
 
 
@@ -126,11 +126,11 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 	public function loadJavaScriptAdmin_validHook_enqueueScript()
 	{
 		$sut = $this->sut(null);
-		$hook = ADI_PREFIX . Adi_Synchronization_Ui_SyncToWordPressPage::SLUG;
+		$hook = NEXT_AD_INT_PREFIX . Adi_Synchronization_Ui_SyncToWordPressPage::SLUG;
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args'  => array('adi2', ADI_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS),
+				'args'  => array('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
@@ -144,7 +144,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 	public function loadJavaScriptAdmin_invalidHook_doNothing()
 	{
 		$sut = $this->sut(null);
-		$hook = ADI_PREFIX . 'some_stuff';
+		$hook = NEXT_AD_INT_PREFIX . 'some_stuff';
 
 		WP_Mock::wpFunction('wp_enqueue_style', array(
 			'times' => 0)

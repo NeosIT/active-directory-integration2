@@ -62,7 +62,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = ADI_PREFIX . 'blog_options';
+		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_options';
 		$returnedValue = $sut->getSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -75,7 +75,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = ADI_PREFIX . 'blog_options';
+		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_options';
 		$returnedValue = $sut->wpAjaxSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -111,7 +111,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	public function loadAdminScriptsAndStyle()
 	{
 		$sut = $this->sut(null);
-		$hook = ADI_PREFIX . 'blog_options';
+		$hook = NEXT_AD_INT_PREFIX . 'blog_options';
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
@@ -125,7 +125,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_page', ADI_URL . '/js/page.js',
+					'adi2_page', NEXT_AD_INT_URL . '/js/page.js',
 					array('jquery'),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -137,7 +137,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'angular.min',
-					ADI_URL . '/js/libraries/angular.min.js',
+					NEXT_AD_INT_URL . '/js/libraries/angular.min.js',
 					array(),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -149,7 +149,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-alertify',
-					ADI_URL . '/js/libraries/ng-alertify.js',
+					NEXT_AD_INT_URL . '/js/libraries/ng-alertify.js',
 					array('angular.min'),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -161,7 +161,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-notify',
-					ADI_URL . '/js/libraries/ng-notify.min.js',
+					NEXT_AD_INT_URL . '/js/libraries/ng-notify.min.js',
 					array('angular.min'),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -173,7 +173,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-busy',
-					ADI_URL . '/js/libraries/angular-busy.min.js',
+					NEXT_AD_INT_URL . '/js/libraries/angular-busy.min.js',
 					array('angular.min'),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -185,7 +185,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args'  => array(
 					'adi2_shared_util_array',
-					ADI_URL . '/js/app/shared/utils/array.util.js',
+					NEXT_AD_INT_URL . '/js/app/shared/utils/array.util.js',
 					array(),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -196,7 +196,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_shared_util_value',
-					ADI_URL . '/js/app/shared/utils/value.util.js',
+					NEXT_AD_INT_URL . '/js/app/shared/utils/value.util.js',
 					array(),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -208,7 +208,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_app_module',
-					ADI_URL . '/js/app/app.module.js',
+					NEXT_AD_INT_URL . '/js/app/app.module.js',
 					array(),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -219,7 +219,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_app_config',
-					ADI_URL . '/js/app/app.config.js',
+					NEXT_AD_INT_URL . '/js/app/app.config.js',
 					array(),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -231,7 +231,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_shared_service_browser',
-					ADI_URL . '/js/app/shared/services/browser.service.js',
+					NEXT_AD_INT_URL . '/js/app/shared/services/browser.service.js',
 					array(),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -243,7 +243,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_shared_service_template',
-					ADI_URL . '/js/app/shared/services/template.service.js',
+					NEXT_AD_INT_URL . '/js/app/shared/services/template.service.js',
 					array(),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -255,7 +255,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_shared_service_notification',
-					ADI_URL . '/js/app/shared/services/notification.service.js',
+					NEXT_AD_INT_URL . '/js/app/shared/services/notification.service.js',
 					array(),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -266,7 +266,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_service_persistence',
-					ADI_URL . '/js/app/blog-options/services/persistence.service.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/services/persistence.service.js',
 					array(),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -277,7 +277,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_shared_service_list',
-					ADI_URL . '/js/app/shared/services/list.service.js',
+					NEXT_AD_INT_URL . '/js/app/shared/services/list.service.js',
 					array(),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -288,7 +288,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_service_data',
-					ADI_URL . '/js/app/blog-options/services/data.service.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/services/data.service.js',
 					array(),
 					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -301,7 +301,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_controller_blog',
-					ADI_URL . '/js/app/blog-options/controllers/blog.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/blog.controller.js',
 					array(),
 					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -312,7 +312,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_controller_ajax',
-					ADI_URL . '/js/app/blog-options/controllers/ajax.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/ajax.controller.js',
 					array(),
 					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -323,7 +323,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_controller_general',
-					ADI_URL . '/js/app/blog-options/controllers/general.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/general.controller.js',
 					array(),
 					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -334,7 +334,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_controller_environment',
-					ADI_URL . '/js/app/blog-options/controllers/environment.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/environment.controller.js',
 					array(),
 					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -345,7 +345,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_controller_user',
-					ADI_URL . '/js/app/blog-options/controllers/user.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/user.controller.js',
 					array(),
 					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -356,7 +356,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_controller_password',
-					ADI_URL . '/js/app/blog-options/controllers/password.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/password.controller.js',
 					array(),
 					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -367,7 +367,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_controller_permission',
-					ADI_URL . '/js/app/blog-options/controllers/permission.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/permission.controller.js',
 					array(),
 					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -378,7 +378,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_controller_security',
-					ADI_URL . '/js/app/blog-options/controllers/security.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/security.controller.js',
 					array(),
 					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -389,7 +389,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_controller_attributes',
-					ADI_URL . '/js/app/blog-options/controllers/attributes.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/attributes.controller.js',
 					array(),
 					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -400,7 +400,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_controller_sync_to_ad',
-					ADI_URL . '/js/app/blog-options/controllers/sync-to-ad.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/sync-to-ad.controller.js',
 					array(),
 					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -411,7 +411,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'adi2_blog_options_controller_sync_to_wordpress',
-					ADI_URL . '/js/app/blog-options/controllers/sync-to-wordpress.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/sync-to-wordpress.controller.js',
 					array(),
 					Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -423,7 +423,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'selectizejs',
-					ADI_URL . '/js/libraries/selectize.min.js',
+					NEXT_AD_INT_URL . '/js/libraries/selectize.min.js',
 					array('jquery'),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -436,7 +436,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'selectizeFix',
-					ADI_URL . '/js/libraries/fixed-angular-selectize-3.0.1.js',
+					NEXT_AD_INT_URL . '/js/libraries/fixed-angular-selectize-3.0.1.js',
 					array('selectizejs', 'angular.min'),
 					Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -446,7 +446,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args' => array('adi2', ADI_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS),
+				'args' => array('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
@@ -455,7 +455,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_style', array(
 				'args' => array(
 					'ng-notify',
-					ADI_URL . '/css/ng-notify.min.css',
+					NEXT_AD_INT_URL . '/css/ng-notify.min.css',
 					array(),
 					Multisite_Ui::VERSION_CSS,
 				),
@@ -467,7 +467,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_style', array(
 				'args' => array(
 					'selectizecss',
-					ADI_URL . '/css/selectize.css',
+					NEXT_AD_INT_URL . '/css/selectize.css',
 					array(),
 					Multisite_Ui::VERSION_CSS,
 				),
@@ -479,7 +479,7 @@ class Ut_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_style', array(
 				'args' => array(
 					'alertify.min',
-					ADI_URL . '/css/alertify.min.css',
+					NEXT_AD_INT_URL . '/css/alertify.min.css',
 					array(),
 					Multisite_Ui::VERSION_CSS,
 				),

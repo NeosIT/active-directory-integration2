@@ -119,12 +119,12 @@ class Multisite_View_TwigContainer
 	{
 		//register twig
 		if (!class_exists('Twig_Autoloader')) {
-			require_once(ADI_PATH . '/vendor/twig/twig/lib/Twig/Autoloader.php');
+			require_once(NEXT_AD_INT_PATH . '/vendor/twig/twig/lib/Twig/Autoloader.php');
 		}
 
 		Twig_Autoloader::register();
 
-		$loader = new Twig_Loader_Filesystem(ADI_PATH . '/views');
+		$loader = new Twig_Loader_Filesystem(NEXT_AD_INT_PATH . '/views');
 
 		$twigOptions = $this->getTwigOptions(Core_Util_Internal_Environment::isProductive());
 
@@ -169,7 +169,7 @@ class Multisite_View_TwigContainer
 		$result = array(
 			// ADI-272 / #7: errors occur if Twig cache directory is not writable in filesystem.
 			// You can enable the cache by uncomment the following line:
-			//'cache'            => ADI_PATH . '/twig/cache',
+			//'cache'            => NEXT_AD_INT_PATH . '/twig/cache',
 			'strict_variables' => true,
 		);
 

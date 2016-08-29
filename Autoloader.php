@@ -42,7 +42,7 @@ class Adi_Autoloader
 		//split path into pieces
 		$pathPieces = $this->convertClassNameToPathArray($class, self::NAMESPACE_SEPARATOR);
 		// convert the array with our path fragments to a absolute path
-		$directoryPath = $this->convertPathArrayToAbsolutePath($pathPieces, ADI_PATH . $classPath);
+		$directoryPath = $this->convertPathArrayToAbsolutePath($pathPieces, NEXT_AD_INT_PATH . $classPath);
 		// build the absolute file path using the created directory path
 		$file = $this->buildFilePath($directoryPath, $pathPieces);
 

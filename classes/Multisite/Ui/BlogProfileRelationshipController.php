@@ -161,7 +161,7 @@ class Multisite_Ui_BlogProfileRelationshipController
 	public function buildSiteTable()
 	{
 		$wpListTable = new Multisite_Ui_Table_ProfileAssignment(array(
-			'screen' => ADI_PREFIX . 'blog_profile_relationship',
+			'screen' => NEXT_AD_INT_PREFIX . 'blog_profile_relationship',
 		));
 
 		$wpListTable->register();

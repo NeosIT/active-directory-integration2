@@ -29,7 +29,7 @@ class Adi_Authentication_Ui_SingleSignOn
 	 */
 	public function generateLoginFooter()
 	{
-		$message = __('Log in with SSO', ADI_I18N);
+		$message = __('Log in with SSO', NEXT_AD_INT_I18N);
 		$url = esc_url(add_query_arg('reauth', 'sso'));
 		echo '<p><a href="' . $url . '">' . $message . '</a></p>';
 	}

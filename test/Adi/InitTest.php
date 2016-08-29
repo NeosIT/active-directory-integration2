@@ -25,9 +25,9 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction('load_plugin_textdomain', array(
 			'args'  => array(
-				ADI_I18N,
+				NEXT_AD_INT_I18N,
 				false,
-				ADI_PATH . '/languages/',
+				NEXT_AD_INT_PATH . '/languages/',
 			),
 			'times' => 1));
 
@@ -246,7 +246,7 @@ class Ut_Adi_InitTest extends Ut_BasicTest
 		$sut = $this->sut(array('dc'));
 		$dc = $this->mockDependencyContainer($sut);
 
-		WP_Mock::expectActionAdded('after_plugin_row_' . ADI_PLUGIN_FILE,
+		WP_Mock::expectActionAdded('after_plugin_row_' . NEXT_AD_INT_PLUGIN_FILE,
 			array($sut, 'showLicensePurchaseInformation'),
 		99,2);
 

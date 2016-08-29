@@ -1,4 +1,4 @@
-{% set ADI_I18N = constant('ADI_I18N') %}
+{% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
 {% if status is defined %}
     {% set logs = log  %}
     {% for logLine in logs %}
@@ -18,8 +18,8 @@
 <h1>{{ 'Sync to Active Directory'|__ }}</h1>
 
 <div>
-    {{ 'If you want to trigger Sync to Active Directory, you must know the URL to the index.php of your blog:'|__(ADI_I18N) }}</br>
-    {{ 'Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:'|__(ADI_I18N) }}</br>
+    {{ 'If you want to trigger Sync to Active Directory, you must know the URL to the index.php of your blog:'|__(NEXT_AD_INT_I18N) }}</br>
+    {{ 'Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:'|__(NEXT_AD_INT_I18N) }}</br>
     <code>curl --data "adi2-task=sync-to-ad&auth-code={{ authCode }}" {{ blogUrl }}/wp-admin/admin.php</code></br>
     <code>wget --post-data "adi2-task=sync-to-ad&auth-code={{ authCode }}" {{ blogUrl }}/wp-admin/admin.php</code>
 </div>
@@ -29,7 +29,7 @@
 <form method="post">
     <table class="form-table">
         <tr valign="top">
-            <th scope="row" class="nsp_short_form_table">{{ 'User-ID: (optional)'|__(ADI_I18N) }}</th>
+            <th scope="row" class="nsp_short_form_table">{{ 'User-ID: (optional)'|__(NEXT_AD_INT_I18N) }}</th>
             <td class="nsp_short_form_table">
                 <input type="text" name="userid"/>
             </td>
@@ -40,5 +40,5 @@
 
     <input type="hidden" name="security" value="{{ nonce }}"/>
     <input type="submit" name="syncToAd" class="button button-primary"
-           value="{{ status is defined ? 'Repeat WordPress to Active Directory synchronization'|__(ADI_I18N) : 'Start WordPress to Active Directory synchronization'|__(ADI_I18N) }}"/>
+           value="{{ status is defined ? 'Repeat WordPress to Active Directory synchronization'|__(NEXT_AD_INT_I18N) : 'Start WordPress to Active Directory synchronization'|__(NEXT_AD_INT_I18N) }}"/>
 </form>

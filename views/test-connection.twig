@@ -1,4 +1,4 @@
-{% set ADI_I18N = constant('ADI_I18N') %}
+{% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
 {% if status is defined %}
     {% set logs = log  %}
     {% for logLine in logs %}
@@ -15,25 +15,25 @@
     {% endif %}
 {% endif %}
 
-<h1>{{ 'Test Active Directory authentication'|__(ADI_I18N) }}</h1>
+<h1>{{ 'Test Active Directory authentication'|__(NEXT_AD_INT_I18N) }}</h1>
 
-<span>{{ 'Please enter the username and password for the account you want to authenticate with. After submitting the request you will get the debug output.'|__(ADI_I18N) }}</span>
+<span>{{ 'Please enter the username and password for the account you want to authenticate with. After submitting the request you will get the debug output.'|__(NEXT_AD_INT_I18N) }}</span>
 <br>
-<span>{{ 'For this page feature of blocking user accounts with failed login attempts is disabled. You do not have to worry about locking an account.'|__(ADI_I18N) }}</span>
+<span>{{ 'For this page feature of blocking user accounts with failed login attempts is disabled. You do not have to worry about locking an account.'|__(NEXT_AD_INT_I18N) }}</span>
 <br>
-<span>{{ 'Please note that the entered password is not masked.'|__(ADI_I18N) }}</span>
+<span>{{ 'Please note that the entered password is not masked.'|__(NEXT_AD_INT_I18N) }}</span>
 <br>
 
 <form method="post">
     <table class="form-table">
         <tr valign="top">
-            <th scope="row" class="nsp_short_form_table">{{ 'Username:'|__(ADI_I18N) }}</th>
+            <th scope="row" class="nsp_short_form_table">{{ 'Username:'|__(NEXT_AD_INT_I18N) }}</th>
             <td class="nsp_short_form_table">
                 <input type="text" name="username"/>
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row" class="nsp_short_form_table">{{ 'Password (will be shown):'|__(ADI_I18N) }}</th>
+            <th scope="row" class="nsp_short_form_table">{{ 'Password (will be shown):'|__(NEXT_AD_INT_I18N) }}</th>
             <td class="nsp_short_form_table">
                 <input type="text" name="password"/>
             </td>
@@ -42,5 +42,5 @@
 
     <input type="hidden" name="security" value="{{ nonce }}"/>
     <input type="submit" class="button button-primary"
-           value="{{ status is defined ? 'Try to authenticate again'|__(ADI_I18N) : 'Try to authenticate'|__(ADI_I18N) }}"/>
+           value="{{ status is defined ? 'Try to authenticate again'|__(NEXT_AD_INT_I18N) : 'Try to authenticate'|__(NEXT_AD_INT_I18N) }}"/>
 </form>

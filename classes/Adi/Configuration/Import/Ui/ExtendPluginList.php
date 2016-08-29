@@ -40,8 +40,8 @@ class Adi_Configuration_Import_Ui_ExtendPluginList
 	public function register()
 	{
 		// register the actions only for ADI v2 and no other plug-in entry
-		add_filter('plugin_action_links_' . ADI_PLUGIN_FILE, array($this, 'extendPluginActions'), 10, 5);
-		add_filter('network_admin_plugin_action_links_' . ADI_PLUGIN_FILE, array($this, 'extendPluginActions'), 10, 5);
+		add_filter('plugin_action_links_' . NEXT_AD_INT_PLUGIN_FILE, array($this, 'extendPluginActions'), 10, 5);
+		add_filter('network_admin_plugin_action_links_' . NEXT_AD_INT_PLUGIN_FILE, array($this, 'extendPluginActions'), 10, 5);
 
 		// make the export available
 		add_action('admin_post_' . self::ACTION, array($this, 'exportPreviousConfiguration'));
@@ -61,7 +61,7 @@ class Adi_Configuration_Import_Ui_ExtendPluginList
 		$networkExportAllowed = ($this->isNetworkExportAllowed() && is_network_admin());
 
 		if ($networkExportAllowed || $this->isSingleSiteExportAllowed()) {
-			$actions['adi_v1_configuration_export'] = '<a href="' . admin_url('admin-post.php?action=' . self::ACTION) . '">' . __('Download ADI v1 configuration', ADI_I18N) . '</a>';
+			$actions['adi_v1_configuration_export'] = '<a href="' . admin_url('admin-post.php?action=' . self::ACTION) . '">' . __('Download ADI v1 configuration', NEXT_AD_INT_I18N) . '</a>';
 		}
 
 		return $actions;

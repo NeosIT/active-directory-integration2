@@ -7,17 +7,17 @@
 {% set sites = getSites() %}
 {% set profileIDs = findAllProfileIds() %}
 {% set defaultProfileID = findDefaultProfileId() %}
-{% set ADI_I18N = constant('ADI_I18N') %}
-{% set searchText = 'Search'|__(ADI_I18N) %}
+{% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
+{% set searchText = 'Search'|__(NEXT_AD_INT_I18N) %}
 
-<h1>{{ 'Profile assignment'|__(ADI_I18N) }}</h1>
+<h1>{{ 'Profile assignment'|__(NEXT_AD_INT_I18N) }}</h1>
 
 <div class="wrap">
     <form method="post">
-        <span>{{ 'Default profile'|__(ADI_I18N) }}</span>
+        <span>{{ 'Default profile'|__(NEXT_AD_INT_I18N) }}</span>
         <span>
             <select name="profile">
-                <option value="-1">{{ '--- None assigned'|__(ADI_I18N) }}</option>
+                <option value="-1">{{ '--- None assigned'|__(NEXT_AD_INT_I18N) }}</option>
                 {% for profileID in profileIDs %}
                     {% if profileID == defaultProfileID %}
                         {% set selected = 'selected' %}
@@ -29,7 +29,7 @@
             </select>
         </span>
 
-        <button id="assignDefaultProfile" type="submit" class="button button-primary">{{ 'Apply'|__(ADI_I18N) }}</button>
+        <button id="assignDefaultProfile" type="submit" class="button button-primary">{{ 'Apply'|__(NEXT_AD_INT_I18N) }}</button>
     </form>
 </div>
 
@@ -38,16 +38,16 @@
         <div>{{ table.search_box(searchText, 'site-list') }}</div>
         <div>{{ table.display() }}</div>
         <div>
-            <div>{{ 'Change selected blogs to profile'|__(ADI_I18N) }}</div>
+            <div>{{ 'Change selected blogs to profile'|__(NEXT_AD_INT_I18N) }}</div>
             <div>
                 <select name="profile">
-                    <option value="-1">{{ '--- Use default profile'|__(ADI_I18N) }}</option>
+                    <option value="-1">{{ '--- Use default profile'|__(NEXT_AD_INT_I18N) }}</option>
                     {% for profileID in profileIDs %}
                         <option value="{{ profileID }}">{{ findProfileName(profileID) }}</option>
                     {% endfor %}
                 </select>
 
-                <button id="assignProfile" type="submit" class="button button-primary">{{ 'Apply'|__(ADI_I18N) }}</button>
+                <button id="assignProfile" type="submit" class="button button-primary">{{ 'Apply'|__(NEXT_AD_INT_I18N) }}</button>
             </div>
         </div>
     </form>

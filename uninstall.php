@@ -8,7 +8,7 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 }
 
 require_once 'constants.php';
-require_once ADI_PATH . '/Autoloader.php';
+require_once NEXT_AD_INT_PATH . '/Autoloader.php';
 $autoLoader = new Adi_Autoloader();
 $autoLoader->register();
 

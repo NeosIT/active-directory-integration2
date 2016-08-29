@@ -69,7 +69,7 @@ class Adi_Authentication_Ui_ShowBlockedMessage
 			)
 		);
 
-		$display = __("Your account is blocked for %s seconds.", ADI_I18N);
+		$display = __("Your account is blocked for %s seconds.", NEXT_AD_INT_I18N);
 		$display = sprintf($display, "<span id='secondsLeft'>$timeLeft</span>");
 
 		wp_die($display);

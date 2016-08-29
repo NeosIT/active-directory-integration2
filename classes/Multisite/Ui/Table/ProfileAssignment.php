@@ -60,7 +60,7 @@ class Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
 				return;
 			}
 
-			echo "<em>" . __('Cannot find valid site name.', ADI_I18N) . '</em>';
+			echo "<em>" . __('Cannot find valid site name.', NEXT_AD_INT_I18N) . '</em>';
 		}
 	}
 
@@ -71,8 +71,8 @@ class Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
 	{
 		$sites_columns = array(
 			'cb'                        => '<input type="checkbox" />',
-			self::ADI_SITE_NAME_COLUMN 	=> __('Site Name', ADI_I18N),
-			'blogname'                  => __('URL', ADI_I18N),
+			self::ADI_SITE_NAME_COLUMN 	=> __('Site Name', NEXT_AD_INT_I18N),
+			'blogname'                  => __('URL', NEXT_AD_INT_I18N),
 		);
 
 		/**
@@ -257,7 +257,7 @@ class Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Table
 		$blogname = untrailingslashit($blog['domain'] . $blog['path']);
 
 		echo sprintf('<label class="screen-reader-text" for="blog_%d">%s</label>', $blog['blog_id'],
-			sprintf(__('Select %s', ADI_I18N), $blogname)
+			sprintf(__('Select %s', NEXT_AD_INT_I18N), $blogname)
 		);
 
 		echo sprintf('<input type="checkbox" id="blog_%d" name="allblogs[]" value="%d" />', $blog['blog_id'],

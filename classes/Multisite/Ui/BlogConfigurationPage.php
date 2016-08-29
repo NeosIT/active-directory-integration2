@@ -69,7 +69,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	 */
 	public function getTitle()
 	{
-		return esc_html__('Configuration', ADI_I18N);
+		return esc_html__('Configuration', NEXT_AD_INT_I18N);
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	 */
 	public function getSlug()
 	{
-		return ADI_PREFIX . 'blog_options';
+		return NEXT_AD_INT_PREFIX . 'blog_options';
 	}
 
 	/**
@@ -118,57 +118,57 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		$this->loadSharedAdminScriptsAndStyle();
 
 		wp_enqueue_script(
-			'adi2_blog_options_service_persistence', ADI_URL .
+			'adi2_blog_options_service_persistence', NEXT_AD_INT_URL .
 			'/js/app/blog-options/services/persistence.service.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
 			'adi2_blog_options_service_data',
-			ADI_URL . '/js/app/blog-options/services/data.service.js', array(), self::VERSION_BLOG_OPTIONS_JS
+			NEXT_AD_INT_URL . '/js/app/blog-options/services/data.service.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 
 		// add the controller js files
 		wp_enqueue_script(
-			'adi2_blog_options_controller_blog', ADI_URL .
+			'adi2_blog_options_controller_blog', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/blog.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_ajax', ADI_URL .
+			'adi2_blog_options_controller_ajax', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/ajax.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_general', ADI_URL .
+			'adi2_blog_options_controller_general', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/general.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_environment', ADI_URL .
+			'adi2_blog_options_controller_environment', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/environment.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_user', ADI_URL .
+			'adi2_blog_options_controller_user', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/user.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_password', ADI_URL .
+			'adi2_blog_options_controller_password', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/password.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_permission', ADI_URL .
+			'adi2_blog_options_controller_permission', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/permission.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_security', ADI_URL .
+			'adi2_blog_options_controller_security', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/security.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_attributes', ADI_URL .
+			'adi2_blog_options_controller_attributes', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/attributes.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_sync_to_ad', ADI_URL .
+			'adi2_blog_options_controller_sync_to_ad', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/sync-to-ad.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
-			'adi2_blog_options_controller_sync_to_wordpress', ADI_URL .
+			'adi2_blog_options_controller_sync_to_wordpress', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/sync-to-wordpress.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 	}
@@ -180,66 +180,66 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 	{
 		wp_enqueue_script("jquery");
 
-		wp_enqueue_script('adi2_page', ADI_URL . '/js/page.js', array('jquery'), Multisite_Ui::VERSION_PAGE_JS);
+		wp_enqueue_script('adi2_page', NEXT_AD_INT_URL . '/js/page.js', array('jquery'), Multisite_Ui::VERSION_PAGE_JS);
 
 		wp_enqueue_script(
-			'angular.min', ADI_URL . '/js/libraries/angular.min.js',
+			'angular.min', NEXT_AD_INT_URL . '/js/libraries/angular.min.js',
 			array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
-			'ng-alertify', ADI_URL . '/js/libraries/ng-alertify.js',
+			'ng-alertify', NEXT_AD_INT_URL . '/js/libraries/ng-alertify.js',
 			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
-			'ng-notify', ADI_URL . '/js/libraries/ng-notify.min.js',
+			'ng-notify', NEXT_AD_INT_URL . '/js/libraries/ng-notify.min.js',
 			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS
 		);
-		wp_enqueue_script('ng-busy', ADI_URL . '/js/libraries/angular-busy.min.js',
+		wp_enqueue_script('ng-busy', NEXT_AD_INT_URL . '/js/libraries/angular-busy.min.js',
 			array('angular.min'), Multisite_Ui::VERSION_PAGE_JS);
 
 		wp_enqueue_script(
-			'adi2_shared_util_array', ADI_URL . '/js/app/shared/utils/array.util.js',
+			'adi2_shared_util_array', NEXT_AD_INT_URL . '/js/app/shared/utils/array.util.js',
 			array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
-			'adi2_shared_util_value', ADI_URL . '/js/app/shared/utils/value.util.js',
+			'adi2_shared_util_value', NEXT_AD_INT_URL . '/js/app/shared/utils/value.util.js',
 			array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 
-		wp_enqueue_script('adi2_app_module', ADI_URL . '/js/app/app.module.js', array(), Multisite_Ui::VERSION_PAGE_JS);
-		wp_enqueue_script('adi2_app_config', ADI_URL . '/js/app/app.config.js', array(), Multisite_Ui::VERSION_PAGE_JS);
+		wp_enqueue_script('adi2_app_module', NEXT_AD_INT_URL . '/js/app/app.module.js', array(), Multisite_Ui::VERSION_PAGE_JS);
+		wp_enqueue_script('adi2_app_config', NEXT_AD_INT_URL . '/js/app/app.config.js', array(), Multisite_Ui::VERSION_PAGE_JS);
 
 		// add the service js files
 		wp_enqueue_script(
 			'adi2_shared_service_browser',
-			ADI_URL . '/js/app/shared/services/browser.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
+			NEXT_AD_INT_URL . '/js/app/shared/services/browser.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
 			'adi2_shared_service_template',
-			ADI_URL . '/js/app/shared/services/template.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
+			NEXT_AD_INT_URL . '/js/app/shared/services/template.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
 			'adi2_shared_service_notification',
-			ADI_URL . '/js/app/shared/services/notification.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
+			NEXT_AD_INT_URL . '/js/app/shared/services/notification.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
 			'adi2_shared_service_list',
-			ADI_URL . '/js/app/shared/services/list.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
+			NEXT_AD_INT_URL . '/js/app/shared/services/list.service.js', array(), Multisite_Ui::VERSION_PAGE_JS
 		);
 
 		wp_enqueue_script(
-			'selectizejs', ADI_URL . '/js/libraries/selectize.min.js',
+			'selectizejs', NEXT_AD_INT_URL . '/js/libraries/selectize.min.js',
 			array('jquery'), Multisite_Ui::VERSION_PAGE_JS
 		);
 		wp_enqueue_script(
-			'selectizeFix', ADI_URL . '/js/libraries/fixed-angular-selectize-3.0.1.js',
+			'selectizeFix', NEXT_AD_INT_URL . '/js/libraries/fixed-angular-selectize-3.0.1.js',
 			array('selectizejs', 'angular.min'), Multisite_Ui::VERSION_PAGE_JS
 		);
 
-		wp_enqueue_style('adi2', ADI_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS);
-		wp_enqueue_style('ng-notify', ADI_URL . '/css/ng-notify.min.css', array(), Multisite_Ui::VERSION_CSS);
-		wp_enqueue_style('selectizecss', ADI_URL . '/css/selectize.css', array(), Multisite_Ui::VERSION_CSS);
-		wp_enqueue_style('alertify.min', ADI_URL . '/css/alertify.min.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('ng-notify', NEXT_AD_INT_URL . '/css/ng-notify.min.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('selectizecss', NEXT_AD_INT_URL . '/css/selectize.css', array(), Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('alertify.min', NEXT_AD_INT_URL . '/css/alertify.min.css', array(), Multisite_Ui::VERSION_CSS);
 	}
 
 	/**
@@ -518,11 +518,11 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		if (null === $this->validator) {
 			$validator = $this->getSharedValidator();
 
-			$message = __('Username has to contain a suffix.', ADI_I18N);
-			$invalidValueMessage = __('The given value is invalid.', ADI_I18N);
+			$message = __('Username has to contain a suffix.', NEXT_AD_INT_I18N);
+			$invalidValueMessage = __('The given value is invalid.', NEXT_AD_INT_I18N);
 
 			// PROFILE
-			$notEmptyMessage = __('This value must not be empty.', ADI_I18N);
+			$notEmptyMessage = __('This value must not be empty.', NEXT_AD_INT_I18N);
 			$notEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($notEmptyMessage);
 			$validator->addRule(Adi_Configuration_Options::PROFILE_NAME, $notEmptyRule);
 
@@ -534,27 +534,27 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			// USER
 			$accountSuffixMessage = __(
 				'Account Suffix does not match the required style. (e.g. "@company.local")',
-				ADI_I18N
+				NEXT_AD_INT_I18N
 			);
 			$accountSuffixRule = new Multisite_Validator_Rule_AccountSuffix($accountSuffixMessage, '@');
 			$validator->addRule(Adi_Configuration_Options::ACCOUNT_SUFFIX, $accountSuffixRule);
 
-			$defaultEmailDomainMessage = __('Please remove the "@", it will be added automatically.', ADI_I18N);
+			$defaultEmailDomainMessage = __('Please remove the "@", it will be added automatically.', NEXT_AD_INT_I18N);
 			$defaultEmailDomainRule = new Multisite_Validator_Rule_DefaultEmailDomain($defaultEmailDomainMessage);
 			$validator->addRule(Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN, $defaultEmailDomainRule);
 
 			// SECURITY
-			$maxLoginAttempts = __('Maximum login attempts has to be numeric and cannot be negative.', ADI_I18N);
+			$maxLoginAttempts = __('Maximum login attempts has to be numeric and cannot be negative.', NEXT_AD_INT_I18N);
 			$maxLoginAttemptsRule = new Multisite_Validator_Rule_PositiveNumericOrZero($maxLoginAttempts);
 			$validator->addRule(Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS, $maxLoginAttemptsRule);
 
-			$blockTimeMessage = __('Blocking Time has to be numeric and cannot be negative.', ADI_I18N);
+			$blockTimeMessage = __('Blocking Time has to be numeric and cannot be negative.', NEXT_AD_INT_I18N);
 			$blockTimeRule = new Multisite_Validator_Rule_PositiveNumericOrZero($blockTimeMessage);
 			$validator->addRule(Adi_Configuration_Options::BLOCK_TIME, $blockTimeRule);
 
 			$adminEmailMessage = __(
 				'Admin email does not match the required style. (e.g. "admin@company.local")',
-				ADI_I18N
+				NEXT_AD_INT_I18N
 			);
 			$adminEmailRule = new Multisite_Validator_Rule_AdminEmail($adminEmailMessage, '@');
 			$validator->addRule(Adi_Configuration_Options::ADMIN_EMAIL, $adminEmailRule);
@@ -562,7 +562,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			// SSO username
 			$ssoServiceAccountUserSuffixRule = new Multisite_Validator_Rule_Suffix($message, '@');
 
-			$ssoServiceAccountUserNotEmptyMessage = __('Username must not be empty.', ADI_I18N);
+			$ssoServiceAccountUserNotEmptyMessage = __('Username must not be empty.', NEXT_AD_INT_I18N);
 			$ssoServiceAccountUserNotEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace(
 				$ssoServiceAccountUserNotEmptyMessage
 			);
@@ -574,7 +574,7 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$validator->addRule(Adi_Configuration_Options::SSO_USER, $ssoServiceAccountUsernameConditionalRules);
 
 			// SSO password
-			$ssoServiceAccountPasswordNotEmptyMessage = __('Password must not be empty.', ADI_I18N);
+			$ssoServiceAccountPasswordNotEmptyMessage = __('Password must not be empty.', NEXT_AD_INT_I18N);
 			$ssoServiceAccountPasswordNotEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace(
 				$ssoServiceAccountPasswordNotEmptyMessage
 			);
@@ -590,14 +590,14 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$validator->addRule(Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE, $ssoEnvironmentVariableRule);
 
 			// PERMISSIONS
-			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', ADI_I18N);
+			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', NEXT_AD_INT_I18N);
 			$disallowedRoleRule = new Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig($disallowedRoleMessage);
 			$validator->addRule(Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
 
 			// ATTRIBUTES
 			$noDefaultAttributeNameMessage = __(
 				'Cannot use default attribute names for custom attribute mapping.',
-				ADI_I18N
+				NEXT_AD_INT_I18N
 			);
 			$noDefaultAttributeNameRule = new Multisite_Validator_Rule_NoDefaultAttributeName(
 				$noDefaultAttributeNameMessage
@@ -606,16 +606,16 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 
 			$attributeMappingNullMessage = __(
 				'Ad Attribute / Data Type / WordPress Attribute cannot be empty!',
-				ADI_I18N
+				NEXT_AD_INT_I18N
 			);
 			$attributeMappingNullRule = new Multisite_Validator_Rule_AttributeMappingNull($attributeMappingNullMessage);
 			$validator->addRule(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $attributeMappingNullRule);
 
-			$metakeyConflictMessage = __('You cannot use the same WordPress Attribute multiple times.', ADI_I18N);
+			$metakeyConflictMessage = __('You cannot use the same WordPress Attribute multiple times.', NEXT_AD_INT_I18N);
 			$metakeyConflictRule = new Multisite_Validator_Rule_WordPressMetakeyConflict($metakeyConflictMessage);
 			$validator->addRule(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $metakeyConflictRule);
 
-			$adAttributeConflictMessage = __('You cannot use the same Ad Attribute multiple times.', ADI_I18N);
+			$adAttributeConflictMessage = __('You cannot use the same Ad Attribute multiple times.', NEXT_AD_INT_I18N);
 			$adAttributeConflictRule = new Multisite_Validator_Rule_AdAttributeConflict($adAttributeConflictMessage);
 			$validator->addRule(Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $adAttributeConflictRule);
 
@@ -654,18 +654,18 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 			$validator = $this->getSharedValidator();
 
 			$verifyUsernameMessage = __(
-				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', ADI_I18N
+				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', NEXT_AD_INT_I18N
 			);
 			$verifyUsernameRule = new Multisite_Validator_Rule_AdminEmail($verifyUsernameMessage, '@');
 			$validator->addRule(Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameRule);
 
 			$verifyUsernameEmptyMessage = __(
-				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', ADI_I18N
+				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', NEXT_AD_INT_I18N
 			);
 			$verifyUsernameEmptyRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyUsernameEmptyMessage);
 			$validator->addRule(Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameEmptyRule);
 
-			$verifyPasswordMessage = __('Verification Password cannot be empty.', ADI_I18N);
+			$verifyPasswordMessage = __('Verification Password cannot be empty.', NEXT_AD_INT_I18N);
 			$verifyPasswordRule = new Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyPasswordMessage);
 			$validator->addRule(Adi_Configuration_Options::VERIFICATION_PASSWORD, $verifyPasswordRule);
 
@@ -683,11 +683,11 @@ class Multisite_Ui_BlogConfigurationPage extends Multisite_View_Page_Abstract
 		$validator = new Core_Validator();
 
 		// ENVIRONMENT
-		$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', ADI_I18N);
+		$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', NEXT_AD_INT_I18N);
 		$portRule = new Multisite_Validator_Rule_Port($portMessage);
 		$validator->addRule(Adi_Configuration_Options::PORT, $portRule);
 
-		$networkTimeoutMessage = __('Network timeout has to be numeric and cannot be negative.', ADI_I18N);
+		$networkTimeoutMessage = __('Network timeout has to be numeric and cannot be negative.', NEXT_AD_INT_I18N);
 		$networkTimeoutRule = new Multisite_Validator_Rule_PositiveNumericOrZero($networkTimeoutMessage);
 		$validator->addRule(Adi_Configuration_Options::NETWORK_TIMEOUT, $networkTimeoutRule);
 
