@@ -109,7 +109,7 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 		
-		$connectionDetails = new NextADInt_Ldap_Connection();
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setUsername("administrator");
 		$connectionDetails->setPassword("password");
 		
