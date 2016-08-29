@@ -20,12 +20,12 @@ if (!defined('ABSPATH')) {
 }
 
 require_once 'constants.php';
-require_once NEXT_AD_INT_PATH . '/Autoloader.php';
-$autoLoader = new Adi_Autoloader();
+require_once 'Autoloader.php';
+$autoLoader = new NextADInt_Autoloader();
 $autoLoader->register();
 
-require_once NEXT_AD_INT_PATH . '/functions.php';
-require_once NEXT_AD_INT_PATH . '/vendor/apache/log4php/src/main/php/Logger.php';
+require_once 'functions.php';
+require_once 'vendor/apache/log4php/src/main/php/Logger.php';
 
 $requirements = new NextADInt_Adi_Requirements();
 if (!$requirements->check()) {

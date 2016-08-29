@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
  *
  * @access
  */
-class Adi_Autoloader
+class NextADInt_Autoloader
 {
 	const SOURCE_FOLDER = 'classes';
 	const PHP_FILE_EXTENSION = '.php';

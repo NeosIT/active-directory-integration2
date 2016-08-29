@@ -9,7 +9,7 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 
 require_once 'constants.php';
 require_once NEXT_AD_INT_PATH . '/Autoloader.php';
-$autoLoader = new NextADInt_Adi_Autoloader();
+$autoLoader = new NextADInt_Autoloader();
 $autoLoader->register();
 
 global $wpdb;
