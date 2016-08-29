@@ -5,21 +5,21 @@
 {% set adi2_i18n_assign_new_profile = 'Assign to profile:'| __(NEXT_AD_INT_I18N) %}
 <!-- get nonce -->
 <script type="application/javascript">
-    document['adi2'] = document['adi2'] || {};
-    document['adi2']['security'] = '{{ nonce }}';
-    document['adi2']['blog-rel-security'] = '{{ blog_rel_nonce }}';
-    document['adi2']['new-profile'] = new adi2.model.Profile(null, '{{ 'New Profile'|__(NEXT_AD_INT_I18N) }}');
-    document['adi2']['none-profile'] = new adi2.model.Profile(-1, '{{ 'None'|__(NEXT_AD_INT_I18N) }}');
+    document['next_ad_int'] = document['next_ad_int'] || {};
+    document['next_ad_int']['security'] = '{{ nonce }}';
+    document['next_ad_int']['blog-rel-security'] = '{{ blog_rel_nonce }}';
+    document['next_ad_int']['new-profile'] = new next_ad_int.model.Profile(null, '{{ 'New Profile'|__(NEXT_AD_INT_I18N) }}');
+    document['next_ad_int']['none-profile'] = new next_ad_int.model.Profile(-1, '{{ 'None'|__(NEXT_AD_INT_I18N) }}');
 
     // I18N
-    document['adi2']['i18n'] = document['adi2']['i18n'] || {};
-    document['adi2']['i18n']['discard-changes'] = '{{ adi2_i18n_warning_discard_changes }}';
-    document['adi2']['i18n']['delete-profile'] = {
+    document['next_ad_int']['i18n'] = document['next_ad_int']['i18n'] || {};
+    document['next_ad_int']['i18n']['discard-changes'] = '{{ adi2_i18n_warning_discard_changes }}';
+    document['next_ad_int']['i18n']['delete-profile'] = {
         associatedSites: '{{ adi2_i18n_delete_profile_associated_sites }}',
         associated: '{{ adi2_i18n_delete_profile_associated }}'
     };
 </script>
-<div ng-app="adi2-module">
+<div ng-app="next_ad_int-module">
     <div ng-controller="ProfileController">
         <h1>Profile Options</h1>
         <span>{{ 'Configure Settings for Profile : '|__(NEXT_AD_INT_I18N) }}</span>
@@ -47,7 +47,7 @@
         <div class="alertify ng-hide" ng-hide="!show">
             <div class="dialog">
                 <div>
-                    <div id="adi2-modal-content">
+                    <div id="next_ad_int-modal-content">
                         {# show this template only if there a more than 5 or less than 1 associated profiles #}
                         <div ng-hide="showProfileList">
                             <p>{{ adi2_i18n_delete_profile_associated }}</p>

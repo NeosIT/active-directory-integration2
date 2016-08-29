@@ -1,7 +1,7 @@
 describe('ProfileController', function () {
     var sut, $scope, $timeout, $window, alertify, TemplateService, DataService, PersistService, BrowserService, ArrayUtil, deferred;
 
-    beforeEach(angular.mock.module('adi2-module'));
+    beforeEach(angular.mock.module('next_ad_int-module'));
 
     beforeEach(inject(function ($rootScope, $controller, _$q_, _$timeout_, _$window_, _alertify_, _DataService_, _PersistService_, formDirective, _TemplateService_, _BrowserService_) {
         $window = _$window_;
@@ -23,12 +23,12 @@ describe('ProfileController', function () {
             $attrs: {}
         });
 
-        ArrayUtil = adi2.util.ArrayUtil;
+        ArrayUtil = next_ad_int.util.ArrayUtil;
         deferred = _$q_.defer();
     }));
 
     it('#$scope.create adds new profile to $scope', function () {
-        var expectedProfile = new adi2.model.Profile(null, 'new-profile');
+        var expectedProfile = new next_ad_int.model.Profile(null, 'new-profile');
 
         spyOn($scope, '$broadcast');
         spyOn(angular, 'copy').and.returnValue(expectedProfile);

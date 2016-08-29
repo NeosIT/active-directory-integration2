@@ -1,8 +1,8 @@
 /**
  * UI utility class for assigning a profile to a to a site
  */
-document['adi2'] = document['adi2'] || {};
-document['adi2']['profile_of_blog'] = {};
+document['next_ad_int'] = document['next_ad_int'] || {};
+document['next_ad_int']['profile_of_blog'] = {};
 
 jQuery(document).ready(function () {
 
@@ -18,9 +18,9 @@ jQuery(document).ready(function () {
         };
 
         jQuery.post(ajaxurl, {
-            'action': 'adi2_blog_profile_relationship',
+            'action': 'next_ad_int_blog_profile_relationship',
             'data': data,
-            'security': document['adi2']['security']
+            'security': document['next_ad_int']['security']
         }, function (response) {
             if (response == 0) {
                 location.reload();
@@ -39,9 +39,9 @@ jQuery(document).ready(function () {
         };
 
         jQuery.post(ajaxurl, {
-            'action': 'adi2_blog_profile_relationship',
+            'action': 'next_ad_int_blog_profile_relationship',
             'data': data,
-            'security': document['adi2']['security']
+            'security': document['next_ad_int']['security']
         }, function (response) {
             if (response == 0) {
                 location.reload();

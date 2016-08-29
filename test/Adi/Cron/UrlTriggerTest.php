@@ -151,7 +151,7 @@ class Ut_Cron_UrlTriggerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$post = array('adi2-task' => 'sync-to-wordpress');
+		$post = array('next_ad_int-task' => 'sync-to-wordpress');
 
 		$actual = $sut->getSyncMode($post);
 		$this->assertEquals(1, $actual);
@@ -164,7 +164,7 @@ class Ut_Cron_UrlTriggerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$post = array('adi2-task' => 'sync-to-ad');
+		$post = array('next_ad_int-task' => 'sync-to-ad');
 
 		$actual = $sut->getSyncMode($post);
 		$this->assertEquals(2, $actual);

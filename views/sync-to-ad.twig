@@ -20,8 +20,8 @@
 <div>
     {{ 'If you want to trigger Sync to Active Directory, you must know the URL to the index.php of your blog:'|__(NEXT_AD_INT_I18N) }}</br>
     {{ 'Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:'|__(NEXT_AD_INT_I18N) }}</br>
-    <code>curl --data "adi2-task=sync-to-ad&auth-code={{ authCode }}" {{ blogUrl }}/wp-admin/admin.php</code></br>
-    <code>wget --post-data "adi2-task=sync-to-ad&auth-code={{ authCode }}" {{ blogUrl }}/wp-admin/admin.php</code>
+    <code>curl --data "next_ad_int-task=sync-to-ad&auth-code={{ authCode }}" {{ blogUrl }}/wp-admin/admin.php</code></br>
+    <code>wget --post-data "next_ad_int-task=sync-to-ad&auth-code={{ authCode }}" {{ blogUrl }}/wp-admin/admin.php</code>
 </div>
 
 <br>

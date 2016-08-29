@@ -32,14 +32,14 @@ jQuery(document).ready(function () {
         jQuery.post(
             ajaxurl,
             {
-                'action': 'adi2_profile',
+                'action': 'next_ad_int_profile',
                 'data': {
                     'type': 'change',
                     'id': id,
                     'name': name,
                     'description': description
                 },
-                'security': document['adi2']['security']
+                'security': document['next_ad_int']['security']
             },
             function (response) {
                 if (response == 0) {
@@ -64,12 +64,12 @@ jQuery(document).ready(function () {
         jQuery.post(
             ajaxurl,
             {
-                'action': 'adi2_profile',
+                'action': 'next_ad_int_profile',
                 'data': {
                     'type': 'delete',
                     'id': id
                 },
-                'security': document['adi2']['security']
+                'security': document['next_ad_int']['security']
             },
             function (response) {
                 if (response == 0) {
@@ -88,13 +88,13 @@ jQuery(document).ready(function () {
         jQuery.post(
             ajaxurl,
             {
-                'action': 'adi2_profile',
+                'action': 'next_ad_int_profile',
                 'data': {
                     'type': 'add',
                     'name': jQuery('#addProfileName').val(),
                     'description': jQuery('#addProfileDescription').val()
                 },
-                'security': document['adi2']['security']
+                'security': document['next_ad_int']['security']
             },
             function (response) {
                 if (response == 0) {

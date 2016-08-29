@@ -1,10 +1,10 @@
-var adi2 = adi2 || {};
-adi2.util = adi2.util || {};
+var next_ad_int = next_ad_int || {};
+next_ad_int.util = next_ad_int.util || {};
 
 /**
  * @type {{findItemReference, findNextToItem, findFirst, findLast, findNextToLast, remove, findByKey, containsOnlyNullValues}}
  */
-adi2.util.ArrayUtil = (function () {
+next_ad_int.util.ArrayUtil = (function () {
     return {
         findItemReference: findItemReference,
         findNextToItem: findNextToItem,

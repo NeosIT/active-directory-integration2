@@ -15,7 +15,7 @@
         $scope.optionsValues = [];
         $scope.ldapAttributes = [];
         $scope.dataTypes = [];
-        $scope.newWordpressAttribute = "adi2_";
+        $scope.newWordpressAttribute = "next_ad_int_";
 
         $scope.$on('dataTypes', function (event, data) {
             $scope.dataTypes = vm.parseDataTypes(data);
@@ -167,7 +167,7 @@
         vm.resetAddAttributeFields = function () {
             $scope.newAdAttribute = "";
             $scope.newDataType = "";
-            $scope.newWordpressAttribute = "adi2_";
+            $scope.newWordpressAttribute = "next_ad_int_";
             $scope.newDescription = "";
             $scope.newViewInUserProfile = false;
             $scope.newSyncToAd = false;

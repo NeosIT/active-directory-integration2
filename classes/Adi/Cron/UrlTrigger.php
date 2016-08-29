@@ -17,7 +17,7 @@ if (class_exists('NextADInt_Adi_Cron_UrlTrigger')) {
 */
 class NextADInt_Adi_Cron_UrlTrigger
 {
-	const TASK = 'adi2-task';
+	const TASK = 'next_ad_int-task';
 	const AUTH_CODE = 'auth-code';
 	const USER_ID = 'userid';
 

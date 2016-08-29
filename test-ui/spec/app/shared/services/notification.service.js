@@ -1,7 +1,7 @@
 describe('NotificationService', function () {
     var sut, ngNotity;
 
-    beforeEach(angular.mock.module('adi2-module'));
+    beforeEach(angular.mock.module('next_ad_int-module'));
 
     beforeEach(inject(function (_ngNotify_, _NotificationService_) {
         sut = _NotificationService_;

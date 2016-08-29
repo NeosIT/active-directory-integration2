@@ -1,7 +1,7 @@
 describe('GeneralController', function () {
     var sut, $rootScope, $scope, PersistenceService;
 
-    beforeEach(angular.mock.module('adi2-module'));
+    beforeEach(angular.mock.module('next_ad_int-module'));
 
     beforeEach(inject(function (_$rootScope_, $controller, _PersistService_) {
         $rootScope = _$rootScope_;

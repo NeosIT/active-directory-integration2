@@ -1,7 +1,7 @@
-var adi2 = adi2 || {};
-adi2.model = adi2.model || {};
+var next_ad_int = next_ad_int || {};
+next_ad_int.model = next_ad_int.model || {};
 
-adi2.model.Profile = (function () {
+next_ad_int.model.Profile = (function () {
     function Profile(id, name) {
         this.profileId = id;
         this.profileName = name;

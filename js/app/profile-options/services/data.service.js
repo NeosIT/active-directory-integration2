@@ -6,7 +6,7 @@
     function DataService($http, $result, ListService) {
         var vm = this,
             adminAjax = '../admin-ajax.php',
-            action = 'adi2_profile_options';
+            action = 'next_ad_int_profile_options';
 
         /**
          * Clean the given options from the angular data.
@@ -23,7 +23,7 @@
         vm.loadInitData = function () {
             return $http.post(adminAjax, {
                 action: action,
-                security: document.adi2.security,
+                security: document.next_ad_int.security,
                 subAction: 'loadProfiles'
             }).then($result);
         };
@@ -31,7 +31,7 @@
         vm.loadProfile = function (profileId) {
             return $http.post(adminAjax, {
                 action: action,
-                security: document.adi2.security,
+                security: document.next_ad_int.security,
                 profileId: profileId,
                 subAction: 'getProfileOptionsValues'
             }).then($result);
@@ -40,7 +40,7 @@
         vm.initialize = function () {
             return $http.post(adminAjax, {
                 action: action,
-                security: document.adi2.security,
+                security: document.next_ad_int.security,
                 init: 1,
                 subAction: 'getProfileOptionsValues'
             }).then($result);

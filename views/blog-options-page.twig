@@ -1,10 +1,10 @@
 {% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
 <!-- get nonce -->
 <script type="application/javascript">
-    document['adi2'] = document['adi2'] || {};
-    document['adi2']['security'] = '{{ nonce }}';
+    document['next_ad_int'] = document['next_ad_int'] || {};
+    document['next_ad_int']['security'] = '{{ nonce }}';
 </script>
-<div ng-app="adi2-module">
+<div ng-app="next_ad_int-module">
     <h1>{{ 'Active Directory Integration Blog Configuration'|__(NEXT_AD_INT_I18N) }}</h1>
 
     <div ng-controller="BlogController">

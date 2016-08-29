@@ -128,7 +128,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 			return;
 		}
 
-		wp_enqueue_style('adi2', NEXT_AD_INT_URL . '/css/adi2.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
 	}
 
 	/**

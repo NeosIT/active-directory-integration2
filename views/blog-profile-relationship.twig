@@ -1,7 +1,7 @@
 <!-- get nonce -->
 <script type="application/javascript">
-    document['adi2'] = document['adi2'] || {};
-    document['adi2']['security'] = '{{ nonce }}';
+    document['next_ad_int'] = document['next_ad_int'] || {};
+    document['next_ad_int']['security'] = '{{ nonce }}';
 </script>
 
 {% set sites = getSites() %}

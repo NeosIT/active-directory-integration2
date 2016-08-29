@@ -21,7 +21,7 @@ jQuery(document).ready(function () {
 
     jQuery('.save-blog-options').click(function () {
         var selectedProfileId = jQuery('#selectedProfile').val();
-        var options = document['adi2']['option_values'][selectedProfileId];
+        var options = document['next_ad_int']['option_values'][selectedProfileId];
         var result = {};
 
         jQuery.each(options, function (name, obj) {
@@ -34,12 +34,12 @@ jQuery(document).ready(function () {
         jQuery.post(
             ajaxurl,
             {
-                'action': 'adi2_profile_options',
+                'action': 'next_ad_int_profile_options',
                 'data': {
                     'options': result,
                     'profile': selectedProfileId
                 },
-                'security': document['adi2']['security']
+                'security': document['next_ad_int']['security']
             },
             function (response) {
                 if (response == 0) {

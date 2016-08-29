@@ -13,42 +13,42 @@
         {% set permission = getPermissionForOptionAndBlog(optionName) %}
     {% endif %}
 
-    {% if type == constant('Multisite_Option_Type::CHECKBOX') %}
+    {% if type == constant('NextADInt_Multisite_Option_Type::CHECKBOX') %}
 
         {% import "option/element/checkbox.twig" as checkbox %}
         {{ checkbox.create(optionName, permission, inputId) }}
 
-    {% elseif type == constant('Multisite_Option_Type::RADIO') %}
+    {% elseif type == constant('NextADInt_Multisite_Option_Type::RADIO') %}
 
         {% import "option/element/radio.twig" as radio %}
         {{ radio.create(optionName, permission, inputId) }}
 
-    {% elseif type == constant('Multisite_Option_Type::SELECT') %}
+    {% elseif type == constant('NextADInt_Multisite_Option_Type::SELECT') %}
 
         {% import "option/element/select.twig" as select %}
         {{ select.create(optionName, permission, inputId) }}
 
-    {% elseif type == constant('Multisite_Option_Type::AUTHCODE') %}
+    {% elseif type == constant('NextADInt_Multisite_Option_Type::AUTHCODE') %}
 
         {% import "option/element/authcode.twig" as authcode %}
         {{ authcode.create(optionName, permission, inputId) }}
 
-    {% elseif type == constant('Multisite_Option_Type::EDITABLE_LIST') %}
+    {% elseif type == constant('NextADInt_Multisite_Option_Type::EDITABLE_LIST') %}
 
         {% import "option/element/editable_list.twig" as editable_list %}
         {{ editable_list.create(optionName, permission, inputId) }}
 
-    {% elseif type == constant('Multisite_Option_Type::TABLE') %}
+    {% elseif type == constant('NextADInt_Multisite_Option_Type::TABLE') %}
 
         {% import "option/element/table.twig" as table %}
         {{ table.create(optionName, permission, inputId) }}
         
-    {% elseif type == constant('Multisite_Option_Type::VERIFICATION_PASSWORD') %}
+    {% elseif type == constant('NextADInt_Multisite_Option_Type::VERIFICATION_PASSWORD') %}
 
         {% import "option/element/verification_password.twig" as verification_password %}
         {{ verification_password.create(optionName, permission, inputId) }}
 
-    {% elseif type == constant('Multisite_Option_Type::DOMAIN_SID') %}
+    {% elseif type == constant('NextADInt_Multisite_Option_Type::DOMAIN_SID') %}
 
         {% import "option/element/domainsid.twig" as domainSid %}
         {{ domainSid.create(optionName, permission, inputId) }}

@@ -5,7 +5,7 @@ jQuery(document).ready(function () {
 
 
     jQuery('.save-blog-options').on('click', function () {
-        var options = document['adi2']['option_values']['blog'];
+        var options = document['next_ad_int']['option_values']['blog'];
         var result = {};
 
         jQuery.each(options, function (name, obj) {
@@ -17,9 +17,9 @@ jQuery(document).ready(function () {
         jQuery.post(
             ajaxurl,
             {
-                'action': 'adi2_blog_options',
+                'action': 'next_ad_int_blog_options',
                 'data': result,
-                'security': document['adi2']['security']
+                'security': document['next_ad_int']['security']
             },
             function (response) {
                 if (response == 0) {
@@ -29,7 +29,7 @@ jQuery(document).ready(function () {
                     window.location.href = url;
                 } else {
 
-                    var options = document['adi2']['option_values']['blog'];
+                    var options = document['next_ad_int']['option_values']['blog'];
                     var optionNames = [];
                     jQuery.each(options, function (name) {
                         optionNames.push(name);

@@ -15,8 +15,8 @@
             delete data.verification_status_message;
             
             return $http.post('admin-ajax.php', {
-                action: 'adi2_blog_options',
-                security: document.adi2.security,
+                action: 'next_ad_int_blog_options',
+                security: document.next_ad_int.security,
                 subAction: 'persistOptionsValues',
                 data: data
             }).then($result);

@@ -49,10 +49,10 @@
         });
 
         $scope.newAuthCode = function () {
-             alertify.confirm(document['adi2']['auth-code-confirmation'], function() {
+             alertify.confirm(document['next_ad_int']['auth-code-confirmation'], function() {
                 $http.post('admin-ajax.php', {
-                    action: 'adi2_blog_options',
-                    security: document.adi2.security,
+                    action: 'next_ad_int_blog_options',
+                    security: document.next_ad_int.security,
                     subAction: 'generateNewAuthCode'
                 }).then(function successCallback(response) {
                     $scope.option.sync_to_ad_authcode = response.data['newAuthCode'];

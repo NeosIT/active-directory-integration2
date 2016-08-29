@@ -6,7 +6,7 @@
     function DataService($http, $result, ListService) {
         var vm = this,
             adminAjax = 'admin-ajax.php',
-            action = 'adi2_profile_options';
+            action = 'next_ad_int_profile_options';
 
         /**
          * Get all permission options.
@@ -41,8 +41,8 @@
 
         vm.loadInitData = function () {
             return $http.post(adminAjax, {
-                action: 'adi2_blog_options',
-                security: document.adi2.security,
+                action: 'next_ad_int_blog_options',
+                security: document.next_ad_int.security,
                 subAction: 'getAllOptionsValues'
             }).then($result);
         };

@@ -1,8 +1,8 @@
-document['adi2'] = document['adi2'] || {};
-document['adi2']['model'] = document['adi2']['model'] || {};
-document['adi2']['model']['configuration'] = document['adi2']['model']['configuration'] || {};
+document['next_ad_int'] = document['next_ad_int'] || {};
+document['next_ad_int']['model'] = document['next_ad_int']['model'] || {};
+document['next_ad_int']['model']['configuration'] = document['next_ad_int']['model']['configuration'] || {};
 
-document['adi2']['model']['configuration']['SinglePropertyValue'] = (function () {
+document['next_ad_int']['model']['configuration']['SinglePropertyValue'] = (function () {
     function SinglePropertyValue() {
         this.option_value = '';
         this.option_permission = '';
@@ -11,7 +11,7 @@ document['adi2']['model']['configuration']['SinglePropertyValue'] = (function ()
     return SinglePropertyValue;
 })();
 
-document['adi2']['model']['configuration']['General'] = (function (SinglePropertyValue) {
+document['next_ad_int']['model']['configuration']['General'] = (function (SinglePropertyValue) {
     function General() {
         this.profile_name = new SinglePropertyValue();
         this.profile_is_active = new SinglePropertyValue();
@@ -22,4 +22,4 @@ document['adi2']['model']['configuration']['General'] = (function (SinglePropert
     }
     
     return General;
-})(document['adi2']['model']['configuration']['SinglePropertyValue']);
+})(document['next_ad_int']['model']['configuration']['SinglePropertyValue']);

@@ -1,7 +1,7 @@
-document['adi2'] = document['adi2'] || {};
-document['adi2']['option_values'] = {};
+document['next_ad_int'] = document['next_ad_int'] || {};
+document['next_ad_int']['option_values'] = {};
 
-document['adi2'].saveOptionValueCallback = function (prefix, optionName, inputId, inputType, permissionSelectId) {
+document['next_ad_int'].saveOptionValueCallback = function (prefix, optionName, inputId, inputType, permissionSelectId) {
     var valueCallback = function () {
         if (inputType == 'radio') {
             return jQuery('input:radio[name = "' + inputId + '"]:checked').val();
@@ -77,16 +77,16 @@ document['adi2'].saveOptionValueCallback = function (prefix, optionName, inputId
         }
     };
 
-    document['adi2']['option_values'][prefix] = document['adi2']['option_values'][prefix] || {};
-    document['adi2']['option_values'][prefix][optionName] = document['adi2']['option_values'][prefix][optionName] || {};
-    document['adi2']['option_values'][prefix][optionName]['option_value'] = valueCallback;
+    document['next_ad_int']['option_values'][prefix] = document['next_ad_int']['option_values'][prefix] || {};
+    document['next_ad_int']['option_values'][prefix][optionName] = document['next_ad_int']['option_values'][prefix][optionName] || {};
+    document['next_ad_int']['option_values'][prefix][optionName]['option_value'] = valueCallback;
 
     if (typeof permissionSelectId == "string") {
         var permissionCallback = function () {
             return parseInt(jQuery('#' + permissionSelectId).val());
         };
 
-        document['adi2']['option_values'][prefix][optionName]['option_permission'] = permissionCallback;
+        document['next_ad_int']['option_values'][prefix][optionName]['option_permission'] = permissionCallback;
     }
 };
 
@@ -194,7 +194,7 @@ jQuery(document).ready(function () {
     function showActiveHelpTabs() {
 
         //get all currently visible options from the current shown page
-        var options = jQuery('.adi2_option_line:visible');
+        var options = jQuery('.next_ad_int_option_line:visible');
 
         //get the left tab and the corresponding content div
         var tabs = jQuery('.contextual-help-tabs li');

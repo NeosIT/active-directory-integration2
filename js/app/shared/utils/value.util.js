@@ -1,10 +1,10 @@
-var adi2 = adi2 || {};
-adi2.util = adi2.util || {};
+var next_ad_int = next_ad_int || {};
+next_ad_int.util = next_ad_int.util || {};
 
 /**
  * @type {{findValue, findPermission}}
  */
-adi2.util.ValueHelper = (function (ArrayUtil) {
+next_ad_int.util.ValueHelper = (function (ArrayUtil) {
     return {
         findValue: findValue,
         findPermission: findPermission,
@@ -60,4 +60,4 @@ adi2.util.ValueHelper = (function (ArrayUtil) {
     function findMessage(name, dataArray) {
         return ArrayUtil.findByKey(name, dataArray);
     }
-})(adi2.util.ArrayUtil);
+})(next_ad_int.util.ArrayUtil);
