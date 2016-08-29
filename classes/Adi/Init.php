@@ -132,7 +132,7 @@ class Adi_Init
 		Core_Logger::setLevel(LoggerLevel::getLevelAll());
 
 		// load internationalization (i18n)
-		load_plugin_textdomain(ADI_I18N, false, ADI_PLUGIN_NAME . '/languages/');
+		load_plugin_textdomain(ADI_I18N, false, ADI_PATH . '/languages/');
 
 		$this->initialized = true;
 	}
