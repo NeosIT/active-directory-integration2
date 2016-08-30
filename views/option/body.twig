@@ -24,10 +24,10 @@
         <div id="{{ tabId }}" class="tab-body" style="{{ style }}" ng-controller="{{ optionGroups.angular_controller|raw }}">
             {{ group.create(optionGroups, isProfile) }}
         {% if isOnNetworkDashboard %}
-            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__(NEXT_AD_INT_I18N) }}" ng-disabled="isSaveDisabled" ng-click="$parent.save()">{{ 'Save'|__(NEXT_AD_INT_I18N) }}</button>
+            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__(NEXT_AD_INT_I18N) }}" not-busy-disabled="{{ '{{ isSaveDisabled }}' }}" ng-disabled="isSaveDisabled" ng-click="$parent.save()">{{ 'Save'|__(NEXT_AD_INT_I18N) }}</button>
             <span ng-hide="!isSaveDisabled" style="color: red">{{ 'You have to verify the connection to the AD before saving.'|__(NEXT_AD_INT_I18N) }}</span>
         {% else %}
-            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__(NEXT_AD_INT_I18N) }}" ng-disabled="(isSaveDisabled && permission.verification_username == 3 && permission.verification_password == 3)" ng-click="$parent.save()">{{ 'Save'|__(NEXT_AD_INT_I18N) }}</button>
+            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__(NEXT_AD_INT_I18N) }}" not-busy-disabled="{{ '{{ isSaveDisabled }}' }}" ng-disabled="(isSaveDisabled && permission.verification_username == 3 && permission.verification_password == 3)" ng-click="$parent.save()">{{ 'Save'|__(NEXT_AD_INT_I18N) }}</button>
             <span ng-hide="(!isSaveDisabled || permission.verification_username != 3 && permission.verification_password != 3)" style="color: red">{{ 'You have to verify the connection to the AD before saving.'|__(NEXT_AD_INT_I18N) }}</span>
         {% endif %}
         </div>
