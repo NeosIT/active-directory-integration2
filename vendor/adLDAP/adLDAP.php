@@ -845,13 +845,23 @@ class adLDAP {
 
 		// Search the directory for the members of a group
 		$info=$this->group_info($group,array("member", "cn"));
-        
+
         // check if group exist
         if ($info["count"] === 0) {
             return false;
         }
-        
-		$isNonPaginated = isset($info[0]["member"]) && ($info[0][1] === "member") && !isset($info[0][2]) /* member range not present */;
+
+        // check for pagination
+        if (!isset($info[0]["member"])) {
+            // this group has no members
+            return false;
+        } else if (!isset($info[0][2])) {
+            // this group has __no__ pagination entry like: $info[0][2] = 'member;range=0-1499'
+            $isNonPaginated = true;
+        } else {
+            // this group has pagination
+            $isNonPaginated = false;
+        }
 
 		if ($isNonPaginated) {
 			$users=$info[0]["member"];
