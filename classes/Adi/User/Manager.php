@@ -674,8 +674,8 @@ class NextADInt_Adi_User_Manager
 	}
 
 	/**
-	 * Migrate the adi_samaccountname user meta field to adi2_samaccountname.
-	 * The samaccountname is only migrated if there is no adi2_samaccountname field, otherwise any previous assignment of ADI would be overwritten.
+	 * Migrate the adi_samaccountname user meta field to next_ad_int_samaccountname.
+	 * The samaccountname is only migrated if there is no next_ad_int_samaccountname field, otherwise any previous assignment of ADI would be overwritten.
 	 *
 	 * @return int    number of migrated users
 	 */

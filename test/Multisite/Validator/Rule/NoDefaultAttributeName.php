@@ -10,9 +10,9 @@ if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_NoDefaultAttributeNameTe
 class Ut_NextADInt_Multisite_Validator_Rule_NoDefaultAttributeNameTest extends Ut_BasicTest
 {
 	/** @var string */
-	private $invalidTestString = 'givenname:string:adi2_samaccountname:first name:true:true:true';
+	private $invalidTestString = 'givenname:string:next_ad_int_samaccountname:first name:true:true:true';
 	/** @var string */
-	private $validTestString = 'givenname:string:adi2_first_name:first name:true:true:true';
+	private $validTestString = 'givenname:string:next_ad_int_first_name:first name:true:true:true';
 
 	public function setUp()
 	{

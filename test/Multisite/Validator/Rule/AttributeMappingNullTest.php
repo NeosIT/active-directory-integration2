@@ -100,7 +100,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_AttributeMappingNullTest extends Ut_
 		$sut = $this->sut(null);
 
 		$actual = $sut->validate(
-			"testAdAttribute1:string:adi2_:testDescription:0:0:0;testAdAttribute2:string:testWordpressAttribute1:testDescription:0:0:0",
+			"testAdAttribute1:string:next_ad_int_:testDescription:0:0:0;testAdAttribute2:string:testWordpressAttribute1:testDescription:0:0:0",
 			null
 		);
 

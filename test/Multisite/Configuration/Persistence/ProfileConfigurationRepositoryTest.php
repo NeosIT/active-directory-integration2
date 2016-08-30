@@ -127,11 +127,11 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 		$sut->expects($this->once())
 			->method('createUniqueOptionName')
 			->with(true, 66, 'port')
-			->willReturn('adi2_po_v_port');
+			->willReturn('next_ad_int_po_v_port');
 
 		\WP_Mock::wpFunction('get_site_option',array(
 			// the default value for option 'port' is always 389
-			'args' => array('adi2_po_v_port', '389'),
+			'args' => array('next_ad_int_po_v_port', '389'),
 			'times' => 1,
 			'return' => '389'
 		));
@@ -226,10 +226,10 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 		$sut->expects($this->once())
 			->method('createUniqueOptionName')
 			->with(true, 66, 'port')
-			->willReturn('adi2_po_v_port');
+			->willReturn('next_ad_int_po_v_port');
 
 		\WP_Mock::wpFunction('update_site_option',array(
-			'args' => array('adi2_po_v_port', '389'),
+			'args' => array('next_ad_int_po_v_port', '389'),
 			'times' => 1,
 			'return' => true
 		));
@@ -247,10 +247,10 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 		$sut->expects($this->once())
 			->method('createUniqueOptionName')
 			->with(true, 66, 'port')
-			->willReturn('adi2_po_v_port');
+			->willReturn('next_ad_int_po_v_port');
 
 		\WP_Mock::wpFunction('delete_site_option',array(
-			'args' => array('adi2_po_v_port'),
+			'args' => array('next_ad_int_po_v_port'),
 			'times' => 1,
 			'return' => '389'
 		));
@@ -298,10 +298,10 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 		$sut->expects($this->once())
 			->method('createUniqueOptionName')
 			->with(false, 66, 'port')
-			->willReturn('adi2_po_p_port');
+			->willReturn('next_ad_int_po_p_port');
 
 		\WP_Mock::wpFunction('get_site_option',array(
-			'args' => array('adi2_po_p_port', 3),
+			'args' => array('next_ad_int_po_p_port', 3),
 			'times' => 1,
 			'return' => '389'
 		));
@@ -347,10 +347,10 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 		$sut->expects($this->once())
 			->method('createUniqueOptionName')
 			->with(false, 66, 'port')
-			->willReturn('adi2_po_p_port');
+			->willReturn('next_ad_int_po_p_port');
 
 		\WP_Mock::wpFunction('update_site_option',array(
-			'args' => array('adi2_po_p_port', 2),
+			'args' => array('next_ad_int_po_p_port', 2),
 			'times' => 1,
 			'return' => true
 		));
@@ -368,10 +368,10 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 		$sut->expects($this->once())
 			->method('createUniqueOptionName')
 			->with(false, 66, 'port')
-			->willReturn('adi2_po_p_port');
+			->willReturn('next_ad_int_po_p_port');
 
 		\WP_Mock::wpFunction('delete_site_option',array(
-			'args' => array('adi2_po_p_port'),
+			'args' => array('next_ad_int_po_p_port'),
 			'times' => 1,
 			'return' => true
 		));

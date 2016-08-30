@@ -57,7 +57,7 @@ class NextADInt_Core_Session_Handler
 	}
 
 	/**
-	 * Save the given value in the session using the ADI2_ prefix and {@code $key} as key.
+	 * Save the given value in the session using the next_ad_int_ prefix and {@code $key} as key.
 	 *
 	 * @param $key
 	 * @param $value
@@ -69,7 +69,7 @@ class NextADInt_Core_Session_Handler
 	}
 
 	/**
-	 * Retrieve the value from the session using the ADI2_ prefix and {@code $key} as key.
+	 * Retrieve the value from the session using the next_ad_int_ prefix and {@code $key} as key.
 	 *
 	 * @param      $key
 	 * @param null $default

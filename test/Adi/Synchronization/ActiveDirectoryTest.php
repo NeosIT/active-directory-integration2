@@ -300,13 +300,13 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$meta = new NextADInt_Ldap_Attribute();
-		$meta->setMetakey('adi2_mail');
+		$meta->setMetakey('next_ad_int_mail');
 		$attributes = array('mail' => $meta);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
 			'args' => 879,
 			'times' => 1,
-			'return' => array('cn' => '666', 'adi2_mail' => 'mail@test.ad')
+			'return' => array('cn' => '666', 'next_ad_int_mail' => 'mail@test.ad')
 		));
 
 		$actual = $this->invokeMethod($sut, 'findAttributesOfUser', array(879, $attributes));

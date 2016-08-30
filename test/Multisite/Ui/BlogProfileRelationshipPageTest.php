@@ -120,7 +120,7 @@ class Ut_NextADInt_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_Basic
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args'  => array(
-					'adi2_blog_profile_association',
+					'next_ad_int_blog_profile_association',
 					NEXT_AD_INT_URL . '/js/blog-profile-relationship.js',
 					array('jquery'),
 					NextADInt_Multisite_Ui_BlogProfileRelationshipPage::VERSION_BLOG_PROFILE_RELATIONSHIP_JS,

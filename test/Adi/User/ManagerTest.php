@@ -1493,7 +1493,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$this->userRepository->expects($this->once())
 			->method('findUserMeta')
 			->with(666)
-			->willReturn(array('adi_samaccountname' => array('username'), 'adi2_samaccountname' => array('new_username')));
+			->willReturn(array('adi_samaccountname' => array('username'), 'next_ad_int_samaccountname' => array('new_username')));
 
 		$this->userRepository->expects($this->never())
 			->method('updateSAMAccountName');

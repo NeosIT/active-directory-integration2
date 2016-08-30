@@ -270,11 +270,11 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with('port')
-			->willReturn('adi2_bov_port');
+			->willReturn('next_ad_int_bov_port');
 
 		\WP_Mock::wpFunction(
 			'get_option', array(
-				'args'   => array('adi2_bov_port', false),
+				'args'   => array('next_ad_int_bov_port', false),
 				'times'  => 1,
 				'return' => true,
 			)
@@ -301,11 +301,11 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with('port')
-			->willReturn('adi2_bov_port');
+			->willReturn('next_ad_int_bov_port');
 
 		\WP_Mock::wpFunction(
 			'get_blog_option', array(
-				'args'   => array(6, 'adi2_bov_port', false),
+				'args'   => array(6, 'next_ad_int_bov_port', false),
 				'times'  => 1,
 				'return' => true,
 			)
@@ -420,11 +420,11 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with('port')
-			->willReturn('adi2_bov_port');
+			->willReturn('next_ad_int_bov_port');
 
 		\WP_Mock::wpFunction(
 			'update_option', array(
-				'args'   => array('adi2_bov_port', 'value', false),
+				'args'   => array('next_ad_int_bov_port', 'value', false),
 				'times'  => 1,
 				'return' => true,
 			)
@@ -451,11 +451,11 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with('port')
-			->willReturn('adi2_bov_port');
+			->willReturn('next_ad_int_bov_port');
 
 		\WP_Mock::wpFunction(
 			'update_blog_option', array(
-				'args'   => array(6, 'adi2_bov_port', 'value'),
+				'args'   => array(6, 'next_ad_int_bov_port', 'value'),
 				'times'  => 1,
 				'return' => true,
 			)
@@ -621,11 +621,11 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with('port')
-			->willReturn('adi2_bov_port');
+			->willReturn('next_ad_int_bov_port');
 
 		\WP_Mock::wpFunction(
 			'delete_option', array(
-				'args'   => array('adi2_bov_port'),
+				'args'   => array('next_ad_int_bov_port'),
 				'times'  => 1,
 				'return' => true,
 			)
@@ -652,10 +652,10 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with('port')
-			->willReturn('adi2_bov_port');
+			->willReturn('next_ad_int_bov_port');
 
 		\WP_Mock::wpFunction('delete_blog_option', array(
-				'args'   => array(6, 'adi2_bov_port'),
+				'args'   => array(6, 'next_ad_int_bov_port'),
 				'times'  => 1,
 				'return' => true)
 		);

@@ -85,21 +85,21 @@ class Ut_NextADInt_Adi_Multisite_Ui_MenuTest extends Ut_BasicTest
 		$networkMenu = 'Active Directory Integration';
 
 		WP_Mock::wpFunction('add_menu_page', array(
-			'args'  => array($networkMenu, $networkMenu, $permission, 'adi2_slug'),
+			'args'  => array($networkMenu, $networkMenu, $permission, 'next_ad_int_slug'),
 			'times' => '1',
 		));
 
 		$this->blogProfileRelationshipPage->expects($this->once())
 			->method('getSlug')
-			->willReturn('adi2_slug');
+			->willReturn('next_ad_int_slug');
 
 		$sut->expects($this->exactly(2))
 			->method('addSubMenu')
 			->withConsecutive(
-				array('adi2_slug', 'manage_network', $this->blogProfileRelationshipPage, 'renderNetwork'),
-				array('adi2_slug', 'manage_network', $this->profileConfigurationPage, 'renderNetwork')
+				array('next_ad_int_slug', 'manage_network', $this->blogProfileRelationshipPage, 'renderNetwork'),
+				array('next_ad_int_slug', 'manage_network', $this->profileConfigurationPage, 'renderNetwork')
 			)
-			->willReturn('adi2_page', '', '', '');
+			->willReturn('next_ad_int_page', '', '', '');
 
 		WP_Mock::expectActionAdded('admin_enqueue_scripts', array($sut, 'loadScriptsAndStyle'));
 

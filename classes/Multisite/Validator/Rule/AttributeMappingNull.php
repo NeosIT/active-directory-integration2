@@ -41,7 +41,7 @@ class NextADInt_Multisite_Validator_Rule_AttributeMappingNull extends NextADInt_
 				|| $attribute["type"] === "undefined"
 				|| $attribute["wordpress_attribute"] === ""
 				|| $attribute["wordpress_attribute"] === "undefined"
-				|| $attribute["wordpress_attribute"] === "adi2_";
+				|| $attribute["wordpress_attribute"] === "next_ad_int_";
 
 			if ($isEmpty) {
 				return $this->getMsg();

@@ -64,7 +64,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 
 		$result = $this->invokeMethod($sut, 'getProfileOption', array(1, NextADInt_Multisite_Configuration_Persistence_ProfileRepository::PREFIX_NAME));
 
-		$this->assertEquals('adi2_p_n_1', $result);
+		$this->assertEquals('next_ad_int_p_n_1', $result);
 	}
 
 	/**
@@ -79,7 +79,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 			1,
 		));
 
-		$this->assertEquals('adi2_p_n_1', $result);
+		$this->assertEquals('next_ad_int_p_n_1', $result);
 	}
 
 	/**
@@ -144,8 +144,8 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 
 		$this->wordPressRepository->expects($this->once())
 			->method('wpdb_get_col')
-			->with("SELECT meta_key FROM wp_sitemeta WHERE meta_key LIKE 'adi2_p_n_%';")
-			->willReturn(array('adi2_p_n_1', 'adi2_p_n_2'));
+			->with("SELECT meta_key FROM wp_sitemeta WHERE meta_key LIKE 'next_ad_int_p_n_%';")
+			->willReturn(array('next_ad_int_p_n_1', 'next_ad_int_p_n_2'));
 
 		$actual = $sut->findAllIds();
 		$this->assertEquals(array('1', '2'), $actual);
@@ -209,24 +209,24 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 		$sut = $this->sut(null);
 
 		\WP_Mock::wpFunction('get_site_option', array(
-			'args'   => array('adi2_p_n_1', false),
+			'args'   => array('next_ad_int_p_n_1', false),
 			'times'  => 1,
 			'return' => 'some value',
 		));
 
 		\WP_Mock::wpFunction('get_site_option', array(
-			'args'   => array('adi2_p_n_2', false),
+			'args'   => array('next_ad_int_p_n_2', false),
 			'times'  => 1,
 			'return' => false,
 		));
 
 		\WP_Mock::wpFunction('update_site_option', array(
-			'args'  => array('adi2_p_n_2', 'p-name'),
+			'args'  => array('next_ad_int_p_n_2', 'p-name'),
 			'times' => 1,
 		));
 
 		\WP_Mock::wpFunction('update_site_option', array(
-			'args'  => array('adi2_p_d_2', 'p-description'),
+			'args'  => array('next_ad_int_p_d_2', 'p-description'),
 			'times' => 1,
 		));
 
@@ -336,7 +336,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 		$sut = $this->sut(array('findAll', 'insert'));
 
 		\WP_Mock::wpFunction('get_site_option', array(
-			'args'   => array('adi2_p_n_1', false),
+			'args'   => array('next_ad_int_p_n_1', false),
 			'times'  => 1,
 			'return' => false,
 		));
@@ -359,7 +359,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 		$sut = $this->sut(array('findAll'));
 
 		\WP_Mock::wpFunction('get_site_option', array(
-			'args'   => array('adi2_p_n_1', false),
+			'args'   => array('next_ad_int_p_n_1', false),
 			'times'  => 1,
 			'return' => 'some value',
 		));
@@ -376,7 +376,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 		$sut = $this->sut(null);
 
 		\WP_Mock::wpFunction('update_site_option', array(
-			'args'   => array('adi2_p_n_5', 'new name'),
+			'args'   => array('next_ad_int_p_n_5', 'new name'),
 			'times'  => 1,
 			'return' => true,
 		));
@@ -393,7 +393,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 		$sut = $this->sut(null);
 
 		\WP_Mock::wpFunction('update_site_option', array(
-			'args'   => array('adi2_p_d_5', 'new description'),
+			'args'   => array('next_ad_int_p_d_5', 'new description'),
 			'times'  => 1,
 			'return' => true,
 		));
@@ -410,13 +410,13 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 		$sut = $this->sut(null);
 
 		\WP_Mock::wpFunction('delete_site_option', array(
-			'args'   => array('adi2_p_n_5'),
+			'args'   => array('next_ad_int_p_n_5'),
 			'times'  => 1,
 			'return' => true,
 		));
 
 		\WP_Mock::wpFunction('delete_site_option', array(
-			'args'   => array('adi2_p_d_5'),
+			'args'   => array('next_ad_int_p_d_5'),
 			'times'  => 1,
 			'return' => true,
 		));

@@ -132,7 +132,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest
 
 		$_POST = array(
 			'user_email'         => 'test@company.it',
-			'adi2_samaccountname' => 'testUser'
+			'next_ad_int_samaccountname' => 'testUser'
 		);
 
 		$isOwnProfile = true;

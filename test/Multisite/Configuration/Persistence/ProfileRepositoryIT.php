@@ -112,12 +112,12 @@ CREATE TABLE `wp_sitemeta` (
 ");
 
 		$pdo->exec("
-INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (1, 1, 'adi2_p_n_1', 'aaa');
-INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (2, 1, 'adi2_p_d_1', 'afda');
-INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (3, 1, 'adi2_p_n_2', 'afv');
-INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (4, 1, 'adi2_p_d_2', 'dfdf');
-INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (5, 1, 'adi2_p_n_3', 'dddd');
-INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (6, 1, 'adi2_p_d_3', 'aaa');
+INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (1, 1, 'next_ad_int_p_n_1', 'aaa');
+INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (2, 1, 'next_ad_int_p_d_1', 'afda');
+INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (3, 1, 'next_ad_int_p_n_2', 'afv');
+INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (4, 1, 'next_ad_int_p_d_2', 'dfdf');
+INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (5, 1, 'next_ad_int_p_n_3', 'dddd');
+INSERT INTO `wp_sitemeta` (`meta_id`, `site_id`, `meta_key`, `meta_value`) VALUES (6, 1, 'next_ad_int_p_d_3', 'aaa');
 ");
 
 		$actual = $sut->findAllIds();

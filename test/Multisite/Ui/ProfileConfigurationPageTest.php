@@ -161,7 +161,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_page', NEXT_AD_INT_URL . '/js/page.js',
+					'next_ad_int_page', NEXT_AD_INT_URL . '/js/page.js',
 					array('jquery'),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -220,7 +220,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args'  => array(
-					'adi2_shared_util_array',
+					'next_ad_int_shared_util_array',
 					NEXT_AD_INT_URL . '/js/app/shared/utils/array.util.js',
 					array(),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
@@ -231,7 +231,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_shared_util_value',
+					'next_ad_int_shared_util_value',
 					NEXT_AD_INT_URL . '/js/app/shared/utils/value.util.js',
 					array(),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
@@ -243,7 +243,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_app_module',
+					'next_ad_int_app_module',
 					NEXT_AD_INT_URL . '/js/app/app.module.js',
 					array(),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
@@ -254,7 +254,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_app_config',
+					'next_ad_int_app_config',
 					NEXT_AD_INT_URL . '/js/app/app.config.js',
 					array(),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
@@ -266,7 +266,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_shared_service_browser',
+					'next_ad_int_shared_service_browser',
 					NEXT_AD_INT_URL . '/js/app/shared/services/browser.service.js',
 					array(),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
@@ -278,7 +278,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_shared_service_template',
+					'next_ad_int_shared_service_template',
 					NEXT_AD_INT_URL . '/js/app/shared/services/template.service.js',
 					array(),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
@@ -290,7 +290,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_shared_service_notification',
+					'next_ad_int_shared_service_notification',
 					NEXT_AD_INT_URL . '/js/app/shared/services/notification.service.js',
 					array(),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
@@ -301,7 +301,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_service_persistence',
+					'next_ad_int_profile_options_service_persistence',
 					NEXT_AD_INT_URL . '/js/app/profile-options/services/persistence.service.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -312,7 +312,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_shared_service_list',
+					'next_ad_int_shared_service_list',
 					NEXT_AD_INT_URL . '/js/app/shared/services/list.service.js',
 					array(),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
@@ -323,7 +323,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_service_data',
+					'next_ad_int_profile_options_service_data',
 					NEXT_AD_INT_URL . '/js/app/profile-options/services/data.service.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -336,7 +336,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_controller_profile',
+					'next_ad_int_profile_options_controller_profile',
 					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/profile.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -348,7 +348,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_controller_delete',
+					'next_ad_int_profile_options_controller_delete',
 					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/delete.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -360,7 +360,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_controller_ajax',
+					'next_ad_int_profile_options_controller_ajax',
 					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/ajax.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -371,7 +371,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_controller_general',
+					'next_ad_int_profile_options_controller_general',
 					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/general.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -382,7 +382,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_controller_environment',
+					'next_ad_int_profile_options_controller_environment',
 					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/environment.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -393,7 +393,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_controller_user',
+					'next_ad_int_profile_options_controller_user',
 					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/user.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -404,7 +404,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_controller_password',
+					'next_ad_int_profile_options_controller_password',
 					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/password.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -415,7 +415,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_controller_permission',
+					'next_ad_int_profile_options_controller_permission',
 					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/permission.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -426,7 +426,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_controller_security',
+					'next_ad_int_profile_options_controller_security',
 					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/security.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -437,7 +437,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_controller_attributes',
+					'next_ad_int_profile_options_controller_attributes',
 					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/attributes.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -448,7 +448,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_controller_sync_to_ad',
+					'next_ad_int_profile_options_controller_sync_to_ad',
 					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/sync-to-ad.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -459,7 +459,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_profile_options_controller_sync_to_wordpress',
+					'next_ad_int_profile_options_controller_sync_to_wordpress',
 					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/sync-to-wordpress.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
@@ -471,7 +471,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'adi2_blog_options_model',
+					'next_ad_int_blog_options_model',
 					NEXT_AD_INT_URL . '/js/app/profile-options/models/profile.model.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,

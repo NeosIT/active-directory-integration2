@@ -212,10 +212,10 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with(true, 'hugo')
-			->willReturn('adi2_fl_la_hugo');
+			->willReturn('next_ad_int_fl_la_hugo');
 
 		\WP_Mock::wpFunction('get_site_option',array(
-			'args' => array('adi2_fl_la_hugo', 0),
+			'args' => array('next_ad_int_fl_la_hugo', 0),
 			'times' => 1,
 			'return' => $unixTime
 		));
@@ -236,10 +236,10 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with(true, 'hugo')
-			->willReturn('adi2_fl_la_hugo');
+			->willReturn('next_ad_int_fl_la_hugo');
 
 		\WP_Mock::wpFunction('update_site_option',array(
-			'args' => array('adi2_fl_la_hugo', $unixTime),
+			'args' => array('next_ad_int_fl_la_hugo', $unixTime),
 			'times' => 1,
 			'return' => true
 		));
@@ -258,10 +258,10 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with(true, 'hugo')
-			->willReturn('adi2_fl_la_hugo');
+			->willReturn('next_ad_int_fl_la_hugo');
 
 		\WP_Mock::wpFunction('delete_site_option',array(
-			'args' => 'adi2_fl_la_hugo',
+			'args' => 'next_ad_int_fl_la_hugo',
 			'times' => 1,
 			'return' => true
 		));
@@ -282,10 +282,10 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with(false, 'hugo')
-			->willReturn('adi2_fl_bt_hugo');
+			->willReturn('next_ad_int_fl_bt_hugo');
 
 		\WP_Mock::wpFunction('get_site_option',array(
-			'args' => array('adi2_fl_bt_hugo', 0),
+			'args' => array('next_ad_int_fl_bt_hugo', 0),
 			'times' => 1,
 			'return' => $unixTime
 		));
@@ -306,10 +306,10 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with(false, 'hugo')
-			->willReturn('adi2_fl_bt_hugo');
+			->willReturn('next_ad_int_fl_bt_hugo');
 
 		\WP_Mock::wpFunction('update_site_option',array(
-			'args' => array('adi2_fl_bt_hugo', $unixTime),
+			'args' => array('next_ad_int_fl_bt_hugo', $unixTime),
 			'times' => 1,
 			'return' => true
 		));
@@ -328,10 +328,10 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 		$sut->expects($this->once())
 			->method('getOptionName')
 			->with(false, 'hugo')
-			->willReturn('adi2_fl_bt_hugo');
+			->willReturn('next_ad_int_fl_bt_hugo');
 
 		\WP_Mock::wpFunction('delete_site_option',array(
-			'args' => 'adi2_fl_bt_hugo',
+			'args' => 'next_ad_int_fl_bt_hugo',
 			'times' => 1,
 			'return' => true
 		));

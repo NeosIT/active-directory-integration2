@@ -98,17 +98,17 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 
 		$this->blogConfigurationPage->expects($this->once())
 			->method('getSlug')
-			->willReturn('adi2_slug');
+			->willReturn('next_ad_int_slug');
 
 		WP_Mock::wpFunction('add_menu_page', array(
-			'args' => array('Active Directory Integration', 'Active Directory Integration', 'manage_options', 'adi2_slug'),
+			'args' => array('Active Directory Integration', 'Active Directory Integration', 'manage_options', 'next_ad_int_slug'),
 			'times' => 1
 		));
 
 		$sut->expects($this->once())
 			->method('addSubMenu')
-			->with('adi2_slug', 'manage_options', $this->blogConfigurationPage, 'renderAdmin')
-			->willReturn('adi2_blog_page', '', '', '');
+			->with('next_ad_int_slug', 'manage_options', $this->blogConfigurationPage, 'renderAdmin')
+			->willReturn('next_ad_int_blog_page', '', '', '');
 
 		// check methods
 		WP_Mock::expectActionAdded('admin_enqueue_scripts', array($sut, 'loadScriptsAndStyle'));
@@ -130,18 +130,18 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 
 		$this->blogConfigurationPage->expects($this->once())
 			->method('getSlug')
-			->willReturn('adi2_slug');
+			->willReturn('next_ad_int_slug');
 
 		WP_Mock::wpFunction('add_menu_page', array(
-			'args' => array('Active Directory Integration', 'Active Directory Integration', 'manage_options', 'adi2_slug'),
+			'args' => array('Active Directory Integration', 'Active Directory Integration', 'manage_options', 'next_ad_int_slug'),
 			'times' => 1
 		));
 
 		$sut->expects($this->exactly(2))
 			->method('addSubMenu')
 			->withConsecutive(
-				array('adi2_slug', 'manage_options', $this->blogConfigurationPage, 'renderAdmin'),
-				array('adi2_slug', 'manage_options', $this->connectivityTestPage, 'renderAdmin')
+				array('next_ad_int_slug', 'manage_options', $this->blogConfigurationPage, 'renderAdmin'),
+				array('next_ad_int_slug', 'manage_options', $this->connectivityTestPage, 'renderAdmin')
 			);
 
 		$sut->registerMenu();
@@ -161,18 +161,18 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 
 		$this->blogConfigurationPage->expects($this->once())
 			->method('getSlug')
-			->willReturn('adi2_slug');
+			->willReturn('next_ad_int_slug');
 
 		WP_Mock::wpFunction('add_menu_page', array(
-			'args' => array('Active Directory Integration', 'Active Directory Integration', 'manage_options', 'adi2_slug'),
+			'args' => array('Active Directory Integration', 'Active Directory Integration', 'manage_options', 'next_ad_int_slug'),
 			'times' => 1
 		));
 
 		$sut->expects($this->exactly(2))
 			->method('addSubMenu')
 			->withConsecutive(
-				array('adi2_slug', 'manage_options', $this->blogConfigurationPage, 'renderAdmin'),
-				array('adi2_slug', 'manage_options', $this->syncToActiveDirectoryPage, 'renderAdmin')
+				array('next_ad_int_slug', 'manage_options', $this->blogConfigurationPage, 'renderAdmin'),
+				array('next_ad_int_slug', 'manage_options', $this->syncToActiveDirectoryPage, 'renderAdmin')
 			);
 
 		$sut->registerMenu();
@@ -192,18 +192,18 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 
 		$this->blogConfigurationPage->expects($this->once())
 			->method('getSlug')
-			->willReturn('adi2_slug');
+			->willReturn('next_ad_int_slug');
 
 		WP_Mock::wpFunction('add_menu_page', array(
-			'args' => array('Active Directory Integration', 'Active Directory Integration', 'manage_options', 'adi2_slug'),
+			'args' => array('Active Directory Integration', 'Active Directory Integration', 'manage_options', 'next_ad_int_slug'),
 			'times' => 1
 		));
 
 		$sut->expects($this->exactly(2))
 			->method('addSubMenu')
 			->withConsecutive(
-				array('adi2_slug', 'manage_options', $this->blogConfigurationPage, 'renderAdmin'),
-				array('adi2_slug', 'manage_options', $this->syncToWordPressPage, 'renderAdmin')
+				array('next_ad_int_slug', 'manage_options', $this->blogConfigurationPage, 'renderAdmin'),
+				array('next_ad_int_slug', 'manage_options', $this->syncToWordPressPage, 'renderAdmin')
 			);
 
 		$sut->registerMenu();

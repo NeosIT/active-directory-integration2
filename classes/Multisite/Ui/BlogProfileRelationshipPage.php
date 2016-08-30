@@ -102,7 +102,7 @@ class NextADInt_Multisite_Ui_BlogProfileRelationshipPage extends NextADInt_Multi
 		}
 
 		wp_enqueue_script(
-			'adi2_blog_profile_association', NEXT_AD_INT_URL . '/js/blog-profile-relationship.js', array('jquery'),
+			'next_ad_int_blog_profile_association', NEXT_AD_INT_URL . '/js/blog-profile-relationship.js', array('jquery'),
 			self::VERSION_BLOG_PROFILE_RELATIONSHIP_JS
 		);
 

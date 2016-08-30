@@ -130,52 +130,52 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
 
 		parent::loadSharedAdminScriptsAndStyle();
 
-		wp_enqueue_script('adi2_profile_options_service_persistence',
+		wp_enqueue_script('next_ad_int_profile_options_service_persistence',
 			NEXT_AD_INT_URL . '/js/app/profile-options/services/persistence.service.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_service_data',
+		wp_enqueue_script('next_ad_int_profile_options_service_data',
 			NEXT_AD_INT_URL . '/js/app/profile-options/services/data.service.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
 
 		// add the controller js files
-		wp_enqueue_script('adi2_profile_options_controller_profile', NEXT_AD_INT_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_profile', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/profile.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_delete', NEXT_AD_INT_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_delete', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/delete.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_ajax', NEXT_AD_INT_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_ajax', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/ajax.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_general', NEXT_AD_INT_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_general', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/general.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_environment', NEXT_AD_INT_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_environment', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/environment.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_user', NEXT_AD_INT_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_user', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/user.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_password', NEXT_AD_INT_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_password', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/password.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_permission', NEXT_AD_INT_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_permission', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/permission.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_security', NEXT_AD_INT_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_security', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/security.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_attributes', NEXT_AD_INT_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_attributes', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/attributes.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_sync_to_ad', NEXT_AD_INT_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_sync_to_ad', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/sync-to-ad.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
-		wp_enqueue_script('adi2_profile_options_controller_sync_to_wordpress', NEXT_AD_INT_URL .
+		wp_enqueue_script('next_ad_int_profile_options_controller_sync_to_wordpress', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/sync-to-wordpress.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
 
-		wp_enqueue_script('adi2_blog_options_model', NEXT_AD_INT_URL . '/js/app/profile-options/models/profile.model.js',
+		wp_enqueue_script('next_ad_int_blog_options_model', NEXT_AD_INT_URL . '/js/app/profile-options/models/profile.model.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
 	}
 

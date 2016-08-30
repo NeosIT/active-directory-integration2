@@ -192,7 +192,7 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('findByMetaKey')
-			->with('adi2_samaccountname', 'sam')
+			->with('next_ad_int_samaccountname', 'sam')
 			->willReturn(array($wpUser));
 
 		$actual = $sut->findBySAMAccountName('sam');
@@ -209,7 +209,7 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('updateMetaKey')
-			->with(1, 'adi2_samaccountname', 'sam');
+			->with(1, 'next_ad_int_samaccountname', 'sam');
 
 		$sut->updateSAMAccountName(1, 'sam');
 	}
@@ -237,7 +237,7 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('findByMetaKey')
-			->with('adi2_objectguid', 'guid')
+			->with('next_ad_int_objectguid', 'guid')
 			->willReturn(array($wpUser));
 
 		$actual = $sut->findByObjectGuid('guid');
