@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Active Directory Integration 2
+Plugin Name: Next Active Directory Integration
 Plugin URI: https://www.active-directory-wp.com
 Description: This is the successor of the Active Directory Integration plug-in which allows you to authenticate, authorize, create and update users through Active Directory.
 Version: 2.0
