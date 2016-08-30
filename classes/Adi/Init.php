@@ -78,7 +78,7 @@ class NextADInt_Adi_Init
 		// do as few checks as possible
 		if (($pagenow == 'plugins.php') && isset($_REQUEST['activate']) && ($_REQUEST['activate'] == 'true')) {
 			// user views the 'plug-ins' page
-			if (is_plugin_active('active-directory-integration2/index.php')) {
+			if (is_plugin_active(NEXT_AD_INT_PLUGIN_FILE)) {
 				$optionsImporter = $this->dc()->getImportService();
 				$optionsImporter->registerPostActivation();
 			}
@@ -93,7 +93,7 @@ class NextADInt_Adi_Init
 	 * @param mixed $pluginData
 	 */
 	public function showLicensePurchaseInformation($file, $pluginData) {
-		if (is_plugin_active('active-directory-integration2/index.php')) {
+		if (is_plugin_active(NEXT_AD_INT_PLUGIN_FILE)) {
 			$configurationService = $this->dc()->getConfigurationService();
 			$licenseKey = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
 
