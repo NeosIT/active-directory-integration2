@@ -25,7 +25,10 @@ $autoLoader = new NextADInt_Autoloader();
 $autoLoader->register();
 
 require_once 'functions.php';
-require_once 'vendor/apache/log4php/src/main/php/Logger.php';
+
+if (!class_exists('Logger')) {
+    require_once 'vendor/apache/log4php/src/main/php/Logger.php';
+}
 
 $requirements = new NextADInt_Adi_Requirements();
 if (!$requirements->check()) {
