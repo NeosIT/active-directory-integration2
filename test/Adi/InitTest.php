@@ -215,7 +215,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 
 		WP_Mock::wpFunction('is_plugin_active', array(
-			'args'   => 'active-directory-integration2/index.php',
+			'args'   => NEXT_AD_INT_PLUGIN_FILE,
 			'times'  => 1,
 			'return' => true));
 
@@ -260,7 +260,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function showLicensePurchaseInformation_itShowsPurchaseInformation() {
 		WP_Mock::wpFunction('is_plugin_active', array(
-			'args'   => 'active-directory-integration2/index.php',
+			'args'   => NEXT_AD_INT_PLUGIN_FILE,
 			'times'  => 1,
 			'return' => true));
 
