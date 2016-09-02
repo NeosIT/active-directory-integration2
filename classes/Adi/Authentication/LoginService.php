@@ -234,8 +234,7 @@ class NextADInt_Adi_Authentication_LoginService
 		}
 
 		if ($this->isUsernameExcludedFromAuthentication($login)) {
-			$this->logger->debug('User \"' . $login
-				. '\" is explicitly excluded from Active Directory authentication by configuration setting');
+			$this->logger->debug("User '$login' is explicitly excluded from Active Directory authentication by configuration setting");
 
 			return false;
 		}
