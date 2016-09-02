@@ -46,8 +46,8 @@ class Ut_NextADInt_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_B
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::expectFilterAdded('plugin_action_links_' . ADI_PLUGIN_FILE, array($sut, 'extendPluginActions'), 10, 5);
-		\WP_Mock::expectFilterAdded('network_admin_plugin_action_links_' . ADI_PLUGIN_FILE, array($sut, 'extendPluginActions'), 10, 5);
+		\WP_Mock::expectFilterAdded('plugin_action_links_' . NEXT_AD_INT_PATH, array($sut, 'extendPluginActions'), 10, 5);
+		\WP_Mock::expectFilterAdded('network_admin_plugin_action_links_' . NEXT_AD_INT_PATH, array($sut, 'extendPluginActions'), 10, 5);
 		\WP_Mock::expectActionAdded('admin_post_' . NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList::ACTION, array($sut, 'exportPreviousConfiguration'));
 
 		$sut->register();
