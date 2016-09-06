@@ -33,6 +33,8 @@ class Ut_NextADInt_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 
 	public function tearDown()
 	{
+        global $wp_version;
+        unset($wp_version);
 		parent::tearDown();
 		// release mocked native functions
 		NextADInt_Core_Util::native(null);
@@ -124,6 +126,9 @@ class Ut_NextADInt_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 			'return' => true,
 		));
 
+        // NextADInt_Core_Util_Internal_WordPress::getSites() will call wp_get_sites when wp_version == 4.5
+        global $wp_version;
+        $wp_version = '4.5';
 		WP_Mock::wpFunction('wp_get_sites', array(
 			'times' => 1,
 			'return' => array(array('blog_id' => 1), array('blog_id' => 2)),

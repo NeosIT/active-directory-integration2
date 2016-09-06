@@ -84,7 +84,7 @@ class NextADInt_Adi_Configuration_ImportService
 		if (is_multisite()) {
 			if (is_network_admin()) {
 				// network activated plug-in
-				$sites = wp_get_sites();
+				$sites = NextADInt_Core_Util_Internal_WordPress::getSites();
 				$sitesToUpgrade = 0;
 
 				foreach ($sites as $site) {

@@ -5,16 +5,6 @@
  */
 class NextADInt_Core_Uninstaller
 {
-    public function getAllSites() {
-        global $wp_version;
-
-        if ( version_compare( $wp_version, '4.6', '>=')) {
-            return get_sites();
-        }
-
-        return wp_get_sites();
-    }
-
     public function getAllOptionTables() {
         global $wpdb;
 
@@ -22,7 +12,7 @@ class NextADInt_Core_Uninstaller
             return array($wpdb->options);
         }
 
-        $sites = $this->getAllSites();
+        $sites = NextADInt_Core_Util_Internal_WordPress::getSites();
         $firstOptionTable = $wpdb->base_prefix . 'options';
         $tables = array($firstOptionTable);
 
@@ -53,7 +43,7 @@ class NextADInt_Core_Uninstaller
         if (is_multisite()) {
             $this->deleteAllEntriesFromTable($wpdb->sitemeta, 'meta_key');
         }
-        
+
         $this->deleteAllEntriesFromTable($wpdb->usermeta, 'meta_key');
     }
 }

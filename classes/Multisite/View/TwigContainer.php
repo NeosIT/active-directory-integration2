@@ -212,7 +212,7 @@ class NextADInt_Multisite_View_TwigContainer
 	{
 		// get all profiles and all blogs
 		if (is_multisite()) {
-			return wp_get_sites(
+			return NextADInt_Core_Util_Internal_WordPress::getSites(
 				array(
 					'limit' => 9999,
 				)

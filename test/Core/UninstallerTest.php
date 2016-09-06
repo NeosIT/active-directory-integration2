@@ -57,20 +57,24 @@ class Ut_NextADInt_Core_UninstallerTest extends Ut_BasicTest
      */
     public function getAllOptionTables_withMultiSite_returnAllTables() {
         global $wpdb;
-        $wpdb = (object) array(
+        $wpdb = (object)array(
             'base_prefix' => 'wp_'
         );
 
-        $sut = $this->sut(array('getAllSites'));
+        $sut = $this->sut();
 
         \WP_Mock::wpFunction('is_multisite', array(
-                'times'  => 1,
+                'times' => 1,
                 'return' => true)
         );
 
-        $sut->expects($this->once())
-            ->method('getAllSites')
-            ->willReturn(array('obj1', 'obj2', 'obj3', 'obj4'));
+        // NextADInt_Core_Util_Internal_WordPress::getSites() will call wp_get_sites when wp_version == 4.5
+        global $wp_version;
+        $wp_version = '4.5';
+        \WP_Mock::wpFunction('wp_get_sites', array(
+                'times' => 1,
+                'return' => array('obj1', 'obj2', 'obj3', 'obj4'))
+        );
 
         $expected = $sut->getAllOptionTables();
         $this->assertEquals($expected, array('wp_options', 'wp_2_options', 'wp_3_options', 'wp_4_options'));

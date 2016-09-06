@@ -36,6 +36,8 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 
 	public function tearDown()
 	{
+        global $wp_version;
+        unset($wp_version);
 		parent::tearDown();
 	}
 
@@ -702,7 +704,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	/**
 	 * @test
 	 */
-	public function getSites_singleSite_returnDummy()
+	public function getSites_multiSite_returnDummy()
 	{
 		$sut = $this->sut(null);
 
@@ -720,6 +722,9 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 				'return' => true)
 		);
 
+        // NextADInt_Core_Util_Internal_WordPress::getSites() will call wp_get_sites when wp_version == 4.5
+        global $wp_version;
+        $wp_version = '4.5';
 		\WP_Mock::wpFunction('wp_get_sites', array(
 				'times'  => 1,
 				'return' => $sites)
@@ -731,7 +736,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	/**
 	 * @test
 	 */
-	public function getSites_multiSite_returnSites()
+	public function getSites_singleSite_returnSites()
 	{
 		$sut = $this->sut(null);
 

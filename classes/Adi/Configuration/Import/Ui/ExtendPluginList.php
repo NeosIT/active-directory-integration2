@@ -193,7 +193,7 @@ class NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList
 		}
 
 		// iterate over each of the installed sites of this network
-		$sites = wp_get_sites();
+		$sites = NextADInt_Core_Util_Internal_WordPress::getSites();
 
 		foreach ($sites as $site) {
 			$blogId = $site['blog_id'];

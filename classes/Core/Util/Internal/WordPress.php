@@ -28,14 +28,22 @@ class NextADInt_Core_Util_Internal_WordPress
      *
      * @return mixed
      */
-    public static function getSites()
+    public static function getSites($param = array())
     {
         global $wp_version;
 
         if ( version_compare( $wp_version, '4.6', '>=')) {
-            return get_sites();
+            $sites = get_sites($param);
+            $oldStyle = array();
+
+            // convert WP_Site to the old array style
+            foreach ($sites as $site) {
+                array_push($oldStyle, $site->to_array());
+            }
+
+            return $oldStyle;
         }
 
-        return wp_get_sites();
+        return wp_get_sites($param);
     }
 }

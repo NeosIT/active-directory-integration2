@@ -25,12 +25,21 @@ class Ut_NextADInt_Core_Util_Internal_WordPress extends Ut_BasicTest
         global $wp_version;
         $wp_version = '4.6';
 
+        $expected = array('blog_id' => 1);
+
+        $site = $this->createMockWithMethods('BlueprintClass', array('to_array'));
+        $site->expects($this->once())
+            ->method('to_array')
+            ->willReturn($expected);
+
         \WP_Mock::wpFunction('get_sites', array(
-                'times'  => 1)
+                'times'  => 1,
+                'return' => array($site))
         );
 
         // call function get_sites();
-        NextADInt_Core_Util_Internal_WordPress::getSites();
+        $actual = NextADInt_Core_Util_Internal_WordPress::getSites();
+        $this->assertEquals(array($expected), $actual);
     }
 
     /**
@@ -40,11 +49,17 @@ class Ut_NextADInt_Core_Util_Internal_WordPress extends Ut_BasicTest
         global $wp_version;
         $wp_version = '4.5.3';
 
+        $site = array(
+            'blog_id' => '1'
+        );
+
         \WP_Mock::wpFunction('wp_get_sites', array(
-                'times'  => 1)
+                'times'  => 1,
+                'return' => array($site))
         );
 
         // call function get_sites();
-        NextADInt_Core_Util_Internal_WordPress::getSites();
+        $actual = NextADInt_Core_Util_Internal_WordPress::getSites();
+        $this->assertEquals(array($site), $actual);
     }
 }

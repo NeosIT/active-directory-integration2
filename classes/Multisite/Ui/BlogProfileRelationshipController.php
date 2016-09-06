@@ -88,7 +88,7 @@ class NextADInt_Multisite_Ui_BlogProfileRelationshipController
 	public function getSites()
 	{
 		if (is_multisite()) {
-			return wp_get_sites(array('limit' => 9999));
+			return NextADInt_Core_Util_Internal_WordPress::getSites(array('limit' => 9999));
 		}
 
 		return array();

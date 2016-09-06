@@ -45,6 +45,8 @@ class Ut_NextADInt_Multisite_View_TwigContainerTest extends Ut_BasicTest
 
 	public function tearDown()
 	{
+        global $wp_version;
+        unset($wp_version);
 		parent::tearDown();
 	}
 
@@ -524,6 +526,9 @@ class Ut_NextADInt_Multisite_View_TwigContainerTest extends Ut_BasicTest
 				'return' => true,)
 		);
 
+        // NextADInt_Core_Util_Internal_WordPress::getSites() will call wp_get_sites when wp_version == 4.5
+        global $wp_version;
+        $wp_version = '4.5';
 		WP_Mock::wpFunction(
 			'wp_get_sites', array(
 				'args'   => array(array('limit' => 9999)),

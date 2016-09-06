@@ -286,6 +286,9 @@ class Ut_NextADInt_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_B
 			->method('getPreviousNetworkVersion')
 			->willReturn(false);
 
+        // NextADInt_Core_Util_Internal_WordPress::getSites() will call wp_get_sites when wp_version == 4.5
+        global $wp_version;
+        $wp_version = '4.5';
 		WP_Mock::wpFunction('wp_get_sites', array(
 			'times' => 1,
 			'return' => array(array('blog_id' => 555, 'domain' => 'domain', 'path' => 'path')),
