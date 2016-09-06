@@ -111,8 +111,8 @@ class NextADInt_Adi_Init
 	 */
 	public static function uninstall()
 	{
-		require_once NEXT_AD_INT_PATH . DIRECTORY_SEPARATOR . 'uninstall.php';
-	}
+        require_once NEXT_AD_INT_PATH . '/uninstall.php';
+    }
 
 	// ---
 	// main dependencies
