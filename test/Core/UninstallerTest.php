@@ -127,7 +127,36 @@ class Ut_NextADInt_Core_UninstallerTest extends Ut_BasicTest
     /**
      * @test
      */
-    public function removePluginSettings_callMethodsInRightOrder() {
+    public function removePluginSettings_fromSingleSite_callMethodsInRightOrder() {
+        global $wpdb;
+        $wpdb = (object) array(
+            'usermeta' => 'wp_usermeta'
+        );
+
+        $sut = $this->sut(array('getAllOptionTables', 'deleteAllEntriesFromTable'));
+
+        $sut->expects($this->once())
+            ->method('getAllOptionTables')
+            ->willReturn(array('wp_options'));
+
+        \WP_Mock::wpFunction('is_multisite', array(
+                'times'  => 1,
+                'return' => false)
+        );
+
+        $sut->expects($this->exactly(2))
+            ->method('deleteAllEntriesFromTable')
+            ->withConsecutive(
+                array('wp_options', 'option_name'),
+                array('wp_usermeta', 'meta_key'));
+
+        $sut->removePluginSettings();
+    }
+
+    /**
+     * @test
+     */
+    public function removePluginSettings_fromMultiSite_callMethodsInRightOrder() {
         global $wpdb;
         $wpdb = (object) array(
             'sitemeta' => 'wp_sitemeta',
@@ -139,6 +168,11 @@ class Ut_NextADInt_Core_UninstallerTest extends Ut_BasicTest
         $sut->expects($this->once())
             ->method('getAllOptionTables')
             ->willReturn(array('wp_options', 'wp_2_options'));
+
+        \WP_Mock::wpFunction('is_multisite', array(
+                'times'  => 1,
+                'return' => true)
+        );
 
         $sut->expects($this->exactly(4))
             ->method('deleteAllEntriesFromTable')
