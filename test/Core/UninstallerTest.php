@@ -35,38 +35,6 @@ class Ut_NextADInt_Core_UninstallerTest extends Ut_BasicTest
     /**
      * @test
      */
-    public function getAllSites_withWordpress4_6_shouldCallGetSites() {
-        global $wp_version;
-        $wp_version = '4.6';
-
-        $sut = $this->sut(null);
-
-        \WP_Mock::wpFunction('get_sites', array(
-            'times'  => 1)
-        );
-
-        $sut->getAllSites();
-    }
-
-    /**
-     * @test
-     */
-    public function getAllSites_withWordpress4_5_shouldCallWpGetSites() {
-        global $wp_version;
-        $wp_version = '4.5.3';
-
-        $sut = $this->sut(null);
-
-        \WP_Mock::wpFunction('wp_get_sites', array(
-            'times'  => 1)
-        );
-
-        $sut->getAllSites();
-    }
-
-    /**
-     * @test
-     */
     public function getAllOptionTables_withSingleSite_returnDefaultTable() {
         global $wpdb;
         $wpdb = (object) array(
