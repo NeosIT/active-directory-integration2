@@ -132,7 +132,7 @@ class NextADInt_Adi_Init
 		NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelAll());
 
 		// load internationalization (i18n)
-		load_plugin_textdomain(NEXT_AD_INT_I18N, false, NEXT_AD_INT_PATH . '/languages/');
+		load_plugin_textdomain(NEXT_AD_INT_I18N, false, plugin_basename(NEXT_AD_INT_PATH) . '/languages');
 
 		$this->initialized = true;
 	}

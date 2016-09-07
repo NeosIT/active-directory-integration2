@@ -255,4 +255,59 @@
 			</condition>
 		</fail>
 	</target>
+
+	<target name="minimize"
+			description="delete all unnecessary files for a normal WordPress user"
+			depends="clean">
+		<delete file="${basedir}/.gitignore"/>
+		<delete file="${basedir}/README.md"/>
+		<delete file="${basedir}/phpunit.xml"/>
+		<delete file="${basedir}/phpmd.xml"/>
+		<delete file="${basedir}/phpdox.xml"/>
+		<delete file="${basedir}/composer.json"/>
+		<delete file="${basedir}/composer.lock"/>
+		<delete file="${basedir}/logs/.gitignore"/>
+		<delete file="${basedir}/logs/debug.log"/>
+		<delete file="${basedir}/vendor/.gitignore"/>
+		<delete file="${basedir}/vendor/autoload.php"/>
+		<delete dir="${basedir}/.git"/>
+		<delete dir="${basedir}/.idea"/>
+		<delete dir="${basedir}/test-ui"/>
+		<delete dir="${basedir}/test"/>
+		<delete dir="${basedir}/vendor/composer"/>
+		<delete dir="${basedir}/vendor/apache/log4php/.git"/>
+		<delete>
+			<fileset dir="${basedir}/vendor/apache/log4php">
+				<include name="*"/>
+				<include name=".*"/>
+				<exclude name="CHANGELOG"/>
+				<exclude name="LICENSE"/>
+				<exclude name="NOTICE"/>
+				<exclude name="README"/>
+			</fileset>
+		</delete>
+		<delete dir="${basedir}/vendor/apache/log4php/src/assembly"/>
+		<delete dir="${basedir}/vendor/apache/log4php/src/changes"/>
+		<delete dir="${basedir}/vendor/apache/log4php/src/examples"/>
+		<delete dir="${basedir}/vendor/apache/log4php/src/site"/>
+		<delete dir="${basedir}/vendor/apache/log4php/src/test"/>
+		<delete>
+			<fileset dir="${basedir}/vendor/twig/twig">
+				<include name="*"/>
+				<include name=".*"/>
+				<exclude name="CHANGELOG"/>
+				<exclude name="LICENSE"/>
+				<exclude name="README.rst"/>
+			</fileset>
+		</delete>
+		<delete dir="${basedir}/vendor/twig/twig/doc"/>
+		<delete dir="${basedir}/vendor/twig/twig/ext"/>
+		<delete dir="${basedir}/vendor/twig/twig/test"/>
+		<delete dir="${basedir}/vendor/10up"/>
+		<delete dir="${basedir}/vendor/antecedent"/>
+		<delete dir="${basedir}/vendor/hamcrest"/>
+		<delete dir="${basedir}/vendor/mockery"/>
+		<!-- self destruction -->
+		<delete file="${basedir}/build.xml"/>
+	</target>
 </project>

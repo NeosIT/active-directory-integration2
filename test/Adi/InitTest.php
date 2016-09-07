@@ -23,11 +23,17 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
+        WP_Mock::wpFunction('plugin_basename', array(
+            'args' => array(NEXT_AD_INT_PATH),
+            'times' => 1,
+            'return' => 'active-directory-integration2'
+        ));
+
 		WP_Mock::wpFunction('load_plugin_textdomain', array(
 			'args'  => array(
 				NEXT_AD_INT_I18N,
 				false,
-				NEXT_AD_INT_PATH . '/languages/',
+				'active-directory-integration2/languages',
 			),
 			'times' => 1));
 

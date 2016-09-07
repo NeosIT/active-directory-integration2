@@ -3,7 +3,7 @@
 Plugin Name: Next Active Directory Integration
 Plugin URI: https://www.active-directory-wp.com
 Description: This is the successor of the Active Directory Integration plug-in which allows you to authenticate, authorize, create and update users through Active Directory.
-Version: 2.0
+Version: 2.0.1
 Author: NeosIT GmbH
 Author URI: http://www.neos-it.de/
 License: GPLv3
