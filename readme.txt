@@ -164,7 +164,7 @@ It is __not__ possible to activate *Next ADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
 = 2.0.2 =
-* FIX: SSO caused a PHP error during login (GitHub #13)
+* FIX: SSO caused a PHP error during login (GitHub #13 Thanks to Jason Taylor and Munnday (David Munn))
 
 = 2.0.1 =
 * FIX: missing german translation
