@@ -3,7 +3,7 @@ Contributors: NeosIT GmbH
 Tags: authentication, active directory, ldap, authorization, security, windows
 Requires at least: 4.0
 Tested up to: 4.6.0
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv3
 
 Next Active Directory Integration allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory.
@@ -17,6 +17,7 @@ You can easily import users from your Active Directory into your WordPress insta
 * Authenticating WordPress users against one or multiple AD Server
 * Authorizing users by Active Directory group memberships
 * Managing Active Directory authentication for WordPress Multisite installations
+* Single Sign On with Kerberos or NTLM
 * Automatically create and update WordPress users based upon their Active Directory membership
 * Mapping of Active Directory security groups to WordPress roles
 * Protection against brute force password hacking attacks
@@ -161,6 +162,9 @@ It is __not__ possible to activate *Next ADI* for a site inside a network.
 == Changelog ==
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
+
+= 2.0.1 =
+* FIX: missing german translation
 
 = 2.0.0 =
 * ADD: support for WordPress Multisite through profiles
