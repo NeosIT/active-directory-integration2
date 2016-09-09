@@ -618,6 +618,11 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->with('test')
 			->willReturn(1);
 
+        $this->configuration->expects($this->once())
+            ->method('getOptionValue')
+            ->with(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS)
+            ->willReturn(3);
+
 		$this->failedLoginRepository->expects($this->never())
 			->method('blockUser');
 
@@ -639,6 +644,19 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->method('findLoginAttempts')
 			->with('test')
 			->willReturn(4);
+
+        $this->configuration->expects($this->exactly(2))
+            ->method('getOptionValue')
+            ->withConsecutive(
+                array(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS),
+                array(NextADInt_Adi_Configuration_Options::BLOCK_TIME)
+            )
+            ->will(
+                $this->onConsecutiveCalls(
+                    3,
+                    30
+                )
+            );
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('blockUser')

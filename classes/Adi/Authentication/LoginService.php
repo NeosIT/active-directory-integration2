@@ -46,16 +46,6 @@ class NextADInt_Adi_Authentication_LoginService
 	 */
 	private $roleManager;
 
-	/**
-	 * only allow this number of failed login attempts
-	 */
-	const MAX_LOGIN_ATTEMPTS = 3;
-
-	/**
-	 * How long to block the user after a failed attempt in seconds
-	 */
-	const BLOCKING_TIME_IN_SECONDS = 30;
-
 	private $currentUserAuthenticated;
 
 	/**
@@ -388,6 +378,11 @@ class NextADInt_Adi_Authentication_LoginService
 			return;
 		}
 
+		// if brute force is disabled, then leave
+        if ($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS) === 0) {
+            return;
+        }
+
 		// if user is not blocked, then leave
 		if (!$this->failedLogin->isUserBlocked($username)) {
 			return;
@@ -433,8 +428,8 @@ class NextADInt_Adi_Authentication_LoginService
 
 			$totalAttempts = $this->failedLogin->findLoginAttempts($username);
 
-			if ($totalAttempts > NextADInt_Adi_Authentication_LoginService::MAX_LOGIN_ATTEMPTS) {
-				$this->failedLogin->blockUser($username, NextADInt_Adi_Authentication_LoginService::BLOCKING_TIME_IN_SECONDS);
+			if ($totalAttempts > $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS)) {
+				$this->failedLogin->blockUser($username, $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::BLOCK_TIME));
 			}
 		}
 	}
