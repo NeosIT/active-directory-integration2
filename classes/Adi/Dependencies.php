@@ -1089,17 +1089,18 @@ class NextADInt_Adi_Dependencies
 	}
 
 	/**
-	 * @var NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
+	 * @var NextADInt_Adi_Authentication_Ui_SingleSignOn
 	 */
 	private $ssoPage = null;
 
 	/**
-	 * @return NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
+	 * @return NextADInt_Adi_Authentication_Ui_SingleSignOn
 	 */
 	public function getSsoPage()
 	{
 		if ($this->ssoPage == null) {
-			$this->ssoPage = new NextADInt_Adi_Authentication_Ui_ShowBlockedMessage();
+		    // TODO SSO Error wp-login
+			$this->ssoPage = new NextADInt_Adi_Authentication_Ui_SingleSignOn();
 		}
 
 		return $this->ssoPage;

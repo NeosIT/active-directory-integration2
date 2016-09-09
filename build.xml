@@ -272,8 +272,10 @@
 		<delete file="${basedir}/vendor/autoload.php"/>
 		<delete dir="${basedir}/.git"/>
 		<delete dir="${basedir}/.idea"/>
+		<delete dir="${basedir}/build"/>
 		<delete dir="${basedir}/test-ui"/>
 		<delete dir="${basedir}/test"/>
+		<delete dir="${basedir}/vendor/bin"/>
 		<delete dir="${basedir}/vendor/composer"/>
 		<delete dir="${basedir}/vendor/apache/log4php/.git"/>
 		<delete>
