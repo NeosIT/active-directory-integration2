@@ -1,17 +1,14 @@
 # Next Active Directory Integration
-NADI is the successor of the WordPress Active Directory Integration plug-in.
+Next ADI is the successor of the WordPress [Active Directory Integration](https://wordpress.org/plugins/active-directory-integration/) plug-in.
 
 ## Running
-This plug-in is currently beta so please __do not use__ it in production.
+You can download the ready-to-use version from [WordPress.org](https://wordpress.org/plugins/next-active-directory-integration) or from the [SVN repository](https://plugins.svn.wordpress.org/next-active-directory-integration) hosted by WordPress.org.
 
-We will publish all required documentation in the next few weeks. More information can be found in our initial blog post: https://neos-it.de/2016/05/presenting-active-directory-integration-2
-
-## Development
+## Running (for developer)
 This Git repository has to be cloned inside the *wp-content/plugins* directory of your WordPress environment.
 
-After the cloning you have to update the dependencies with help of *Composer*.
-To install composer follow the instructions on https://getcomposer.org/download/.
-
+After the cloning you have to update the dependencies with help of *Composer* (execute `composer install` inside the cloned repository folder).
+To install composer follow the instructions on [https://getcomposer.org/download/](https://getcomposer.org/download/).
 	
 ### Testing
 Tests are made with PHPUnit. Get PHPUnit with
