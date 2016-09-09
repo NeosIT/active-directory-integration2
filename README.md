@@ -4,7 +4,7 @@ Next ADI is the successor of the WordPress [Active Directory Integration](https:
 ## Running
 You can download the ready-to-use version from [WordPress.org](https://wordpress.org/plugins/next-active-directory-integration) or from the [SVN repository](https://plugins.svn.wordpress.org/next-active-directory-integration) hosted by WordPress.org.
 
-## Running (for developer)
+## Running (for developers)
 This Git repository has to be cloned inside the *wp-content/plugins* directory of your WordPress environment.
 
 After the cloning you have to update the dependencies with help of *Composer* (execute `composer install` inside the cloned repository folder).
