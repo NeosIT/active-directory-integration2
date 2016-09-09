@@ -101,15 +101,27 @@ class NextADInt_Multisite_Option_Sanitizer
 	 */
 	function integerRange($value, $userParams, $optionData)
 	{
-		$min = NextADInt_Core_Util_ArrayUtil::get(0, $userParams, '');
-		$max = NextADInt_Core_Util_ArrayUtil::get(1, $userParams, '');
+        $min = NextADInt_Core_Util_ArrayUtil::get(0, $userParams, '');
+        $max = NextADInt_Core_Util_ArrayUtil::get(1, $userParams, '');
 
-		$value = $this->integer($value, null, null);
-		if ($value && (!is_integer($min) || $value >= $min) && (!is_integer($max) || $value <= $max)) {
-			return $value;
-		}
+        $value = $this->integer($value, null, null);
 
-		return $this->getDefaultValue($optionData);
+        // $value must be an integer
+        if (!is_integer($value)) {
+            return $this->getDefaultValue($optionData);
+        }
+
+        // $value is too low
+        if (is_integer($min) && $value < $min) {
+            return $this->getDefaultValue($optionData);
+        }
+
+        // $value is too high
+        if (is_integer($max) && $value > $max) {
+            return $this->getDefaultValue($optionData);
+        }
+
+        return $value;
 	}
 
 	/**
