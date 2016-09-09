@@ -1,10 +1,10 @@
 # Next Active Directory Integration
-Next ADI is the successor of the WordPress [Active Directory Integration](https://wordpress.org/plugins/active-directory-integration/) plug-in.
+Next Active Directory Integration allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory. Next ADI ist a complete rewrite of its predecessor Active Directory Integration](https://wordpress.org/plugins/active-directory-integration/). You can easily import users from your Active Directory into your WordPress instance and keep both synchronized through Next Active Directory Integration's features
 
 ## Running
 You can download the ready-to-use version from [WordPress.org](https://wordpress.org/plugins/next-active-directory-integration) or from the [SVN repository](https://plugins.svn.wordpress.org/next-active-directory-integration) hosted by WordPress.org.
 
-## Running (for developer)
+## Running (for developers)
 This Git repository has to be cloned inside the *wp-content/plugins* directory of your WordPress environment.
 
 After the cloning you have to update the dependencies with help of *Composer* (execute `composer install` inside the cloned repository folder).
