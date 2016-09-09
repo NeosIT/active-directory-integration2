@@ -3,18 +3,18 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('NextADInt_Adi_Authentication_Ui_ShowBlockedMessage')) {
+if (class_exists('NextADInt_Adi_Authentication_Ui_SingleSignOn')) {
 	return;
 }
 
 /**
- * NextADInt_Adi_Authentication_Ui_ShowBlockedMessage provides the functionality to display SSO related data in the frontend.
+ * NextADInt_Adi_Authentication_Ui_SingleSignOn provides the functionality to display SSO related data in the frontend.
  *
  * @author  Sebastian Weinert <swe@neos-it.de>
  *
  * @access
  */
-class NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
+class NextADInt_Adi_Authentication_Ui_SingleSignOn
 {
 	/**
 	 * Register our action to add the SSO link to the login page.

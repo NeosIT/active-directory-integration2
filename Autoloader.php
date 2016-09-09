@@ -93,7 +93,6 @@ class NextADInt_Autoloader
 	 * Check if the given class name starts with our ADI_ prefix.
 	 *
 	 * @param $class
-	 * @param $prefix
 	 *
 	 * @return bool
 	 */
