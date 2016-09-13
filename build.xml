@@ -9,6 +9,7 @@
 	<property name="phpmd" value="phpmd"/>
 	<property name="phpunit" value="phpunit.phar"/>
 	<property name="testsuite" value="unit" />
+	<property name="composer" value="composer" />
 	
 	<target name="full-build"
 		 depends="prepare,static-analysis,phpunit,phpdox,-check-failure"
@@ -256,9 +257,14 @@
 		</fail>
 	</target>
 
-	<target name="minimize"
-			description="delete all unnecessary files for a normal WordPress user"
+	<target name="prepare-for-publish"
+			description="make the plugin runnable and delete all unnecessary files"
 			depends="clean">
+		<exec executable="${php}">
+			<arg value="${composer}" />
+			<arg value="install" />
+			<arg value="--no-dev" />
+		</exec>
 		<delete file="${basedir}/.gitignore"/>
 		<delete file="${basedir}/README.md"/>
 		<delete file="${basedir}/phpunit.xml"/>
@@ -312,4 +318,16 @@
 		<!-- self destruction -->
 		<delete file="${basedir}/build.xml"/>
 	</target>
+
+    <target name="set-stable-version"
+            description="set the stable version in the readme.txt">
+        <replace file="readme.txt" token="REPLACE_BY_JENKINS_SCRIPT" value="${version}">
+        </replace>
+    </target>
+
+    <target name="set-current-version"
+            description="set the stable version in the index.php">
+        <replace file="index.php" token="REPLACE_BY_JENKINS_SCRIPT" value="${version}">
+        </replace>
+    </target>
 </project>

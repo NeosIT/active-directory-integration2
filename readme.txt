@@ -3,7 +3,7 @@ Contributors: NeosIT GmbH
 Tags: authentication, active directory, ldap, authorization, security, windows
 Requires at least: 4.0
 Tested up to: 4.6.0
-Stable tag: 2.0.3
+Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
 Next Active Directory Integration allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory.
@@ -136,15 +136,16 @@ If you are planning to use encryption for your LDAP connection - which we *highl
 	; required by LDAP/S and STARTTLS
 	extension=php_openssl.dll
 
-= Migration from ADI 1.x to *Next ADI* =
+= Migration from ADI 1.x to Next ADI =
 Please read [our migration guide](https://www.active-directory-wp.com/docs/Migration/index.html) carefully!
 
 = Installation =
 
 **Next ADI** can be easily installed from the [WordPress Plugin Directory](https://codex.wordpress.org/Managing_Plugins#Installing_Plugins).
 
-Visit https://wordpress.org/plugins/next-active-directory-integration/ and download the most recent released version of *Next ADI*
-- Unpack the folder to your *wordpress/wp-content/plugins* directory
+It is also possible to download the latest version from [https://downloads.wordpress.org/plugin/next-active-directory-integration.zip"](https://downloads.wordpress.org/plugin/next-active-directory-integration.zip) and unpack the folder to your *wordpress/wp-content/plugins* directory.
+
+Developers can clone the [Git Repository](https://github.com/NeosIT/active-directory-integration2) inside their *wordpress/wp-content/plugins* directory and download the dependencies with *composer*.
 
 = Single Site =
 - Visit your WordPress blog and login into your WordPress dashboard as *Administrator*
