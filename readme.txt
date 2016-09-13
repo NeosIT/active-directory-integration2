@@ -3,7 +3,7 @@ Contributors: NeosIT GmbH
 Tags: authentication, active directory, ldap, authorization, security, windows
 Requires at least: 4.0
 Tested up to: 4.6.0
-Stable tag: 2.0.3
+Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
 Next Active Directory Integration allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory.

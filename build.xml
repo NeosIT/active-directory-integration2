@@ -261,9 +261,9 @@
 			description="make the plugin runnable and delete all unnecessary files"
 			depends="clean">
 		<exec executable="${php}">
-			<arg path="${composer}" />
+			<arg value="${composer}" />
 			<arg value="install" />
-			<arg path="--no-dev" />
+			<arg value="--no-dev" />
 		</exec>
 		<delete file="${basedir}/.gitignore"/>
 		<delete file="${basedir}/README.md"/>
@@ -318,4 +318,16 @@
 		<!-- self destruction -->
 		<delete file="${basedir}/build.xml"/>
 	</target>
+
+    <target name="set-stable-version"
+            description="set the stable version in the readme.txt">
+        <replace file="readme.txt" token="REPLACE_BY_JENKINS_SCRIPT" value="${version}">
+        </replace>
+    </target>
+
+    <target name="set-current-version"
+            description="set the stable version in the index.php">
+        <replace file="index.php" token="REPLACE_BY_JENKINS_SCRIPT" value="${version}">
+        </replace>
+    </target>
 </project>
