@@ -43,7 +43,8 @@
                 prevent_email_change: $valueHelper.findValue("prevent_email_change", data),
                 duplicate_email_prevention: $valueHelper.findValue("duplicate_email_prevention", data),
                 name_pattern: $valueHelper.findValue("name_pattern", data),
-                show_user_status: $valueHelper.findValue("show_user_status", data)
+                show_user_status: $valueHelper.findValue("show_user_status", data),
+                allow_down_level_logon_name: $valueHelper.findValue("allow_down_level_logon_name", data)
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {
@@ -62,6 +63,7 @@
                 duplicate_email_prevention: $valueHelper.findPermission("duplicate_email_prevention", data),
                 name_pattern: $valueHelper.findPermission("name_pattern", data),
                 show_user_status: $valueHelper.findPermission("show_user_status", data),
+                allow_down_level_logon_name: $valueHelper.findPermission("allow_down_level_logon_name", data),
                 verification_username : $valueHelper.findPermission("verification_username", data),
                 verification_password : $valueHelper.findPermission("verification_password", data)
             };
@@ -81,7 +83,8 @@
                 prevent_email_change: $valueHelper.findMessage("prevent_email_change", data),
                 duplicate_email_prevention: $valueHelper.findMessage("duplicate_email_prevention", data),
                 name_pattern: $valueHelper.findMessage("name_pattern", data),
-                show_user_status: $valueHelper.findMessage("show_user_status", data)
+                show_user_status: $valueHelper.findMessage("show_user_status", data),
+                allow_down_level_logon_name: $valueHelper.findMessage("allow_down_level_logon_name", data)
             };
         });
 

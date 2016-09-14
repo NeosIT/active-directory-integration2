@@ -586,7 +586,7 @@ class NextADInt_Ldap_Connection
 		$users = array();
 
 		foreach ($members as $member) {
-			$userInfo = $adLdap->user_info($member);
+			$userInfo = $adLdap->user_info($member, array('objectsid'));
 			$userSid = $adLdap->convertObjectSidBinaryToString($userInfo[0]["objectsid"][0]);
 			
 			if (strpos($userSid, $siteDomainSid) !== false ) {

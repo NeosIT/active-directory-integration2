@@ -1,27 +1,24 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-06 14:01+0200\n"
-"PO-Revision-Date: 2016-07-06 14:06+0200\n"
+"PO-Revision-Date: 2016-09-19 09:19+0000\n"
 "Last-Translator: \n"
-"Language-Team: \n"
+"Language-Team: German\n"
 "Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Loco-Source-Locale: de_DE\n"
+"X-Generator: Loco - https://localise.biz/\n"
 "X-Poedit-KeywordsList: __;_e;esc_html__\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SearchPath-0: classes\n"
 "X-Poedit-SearchPath-1: views\n"
 "X-Poedit-SearchPath-2: twig\n"
+"X-Loco-Parser: loco_parse_po"
 
 #: classes/Adi/Authentication/LoginService.php:118
 msgid ""
@@ -76,19 +73,19 @@ msgstr ""
 
 #: classes/Adi/Configuration/ImportService.php:113
 msgid ""
-"Options of a previous ADI installation have been migrated. You <strong>must</"
-"strong> re-enter the credentials of <em>Sync to WordPress/AD</em> service "
-"accounts."
+"Options of a previous ADI installation have been migrated. You <strong>"
+"must</strong> re-enter the credentials of <em>Sync to WordPress/AD</em> "
+"service accounts."
 msgstr ""
 "Die Einstellungen einer vorher installierten ADI Version wurden übernommen. "
-"Sie <strong>müssen</strong> die Einstellungen für den <em>Sync to WordPress/"
-"AD</em> Service Account neu vornehmen."
+"Sie <strong>müssen</strong> die Einstellungen für den <em>Sync to "
+"WordPress/AD</em> Service Account neu vornehmen."
 
 #: classes/Adi/Configuration/Options.php:212
 msgid "Profile name:"
 msgstr "Profilname"
 
-#: classes/Adi/Configuration/Options.php:215
+#: classes/Adi/Configuration/Options.php:215 
 #: classes/Adi/Configuration/Options.php:219
 msgid "Name for the current profile"
 msgstr "Name des aktuellen Profils"
@@ -97,12 +94,12 @@ msgstr "Name des aktuellen Profils"
 msgid "Support license key:"
 msgstr "Support-Lizenzschlüssel"
 
-#: classes/Adi/Configuration/Options.php:232
+#: classes/Adi/Configuration/Options.php:232 
 #: classes/Adi/Configuration/Options.php:236
 msgid ""
 "Please enter your support license key here, if you have a paid ADI 2.0 "
-"license. It is required to receive support from <a href='https://neos-it."
-"de'>NeosIT GmbH</a>."
+"license. It is required to receive support from <a href='https://neos-it.de'>"
+"NeosIT GmbH</a>."
 msgstr ""
 "Bitte tragen Sie ihren Support-Lizenzschlüssel hier ein, wenn Sie eine "
 "bezahlte ADI 2.0 Lizenz besitzen. Der Lizenzschlüssel wird vorausgesetzt, um "
@@ -220,7 +217,7 @@ msgstr ""
 msgid "Use encryption"
 msgstr "Verschlüsslung benutzen"
 
-#: classes/Adi/Configuration/Options.php:356
+#: classes/Adi/Configuration/Options.php:356 
 #: twig/cache/3f/e8/e2e8f1c61e529e1a195642367c1515c638b42e8ad488d0db5f87fbbf6b94.php:46
 msgid "None"
 msgstr "Keine"
@@ -233,7 +230,7 @@ msgstr "STARTTLS"
 msgid "LDAPS"
 msgstr "LDAPS"
 
-#: classes/Adi/Configuration/Options.php:360
+#: classes/Adi/Configuration/Options.php:360 
 #: classes/Adi/Configuration/Options.php:362
 msgid "This option handles the encryption type for the LDAP connection."
 msgstr "Diese Option steuert den Verschlüsselungstyp für die LDAP Verbindung"
@@ -253,8 +250,8 @@ msgstr ""
 "STARTTLS: Das Aktivieren dieser Option führt dazu, dass TLS (Transport Layer "
 "Security) verwendet wird. TLS verschlüsselt den Datentransport zwischen dem "
 "Active Directory Server und WordPress. Wenn Sie STARTTLS benutzen wollen "
-"sollte die Option <em>Port</em> auf \"389\" gesetzt sein. Bitte beachten "
-"Sie, dass STARTTLS <strong>nicht</strong> das selbe ist wie LDAPS."
+"sollte die Option <em>Port</em> auf \"389\" gesetzt sein. Bitte beachten Sie,"
+" dass STARTTLS <strong>nicht</strong> das selbe ist wie LDAPS."
 
 #: classes/Adi/Configuration/Options.php:366
 msgid ""
@@ -359,8 +356,8 @@ msgstr ""
 "zwischen der WordPress Seite / dem WordPress Profil und einer Active "
 "Directory-Domäne herzustellen."
 
-#: classes/Adi/Configuration/Options.php:438
-#: classes/Adi/Configuration/Ui/Layout.php:139
+#: classes/Adi/Configuration/Options.php:438 
+#: classes/Adi/Configuration/Ui/Layout.php:139 
 #: classes/Adi/Configuration/Ui/Layout.php:143
 msgid "Password"
 msgstr "Passwort"
@@ -387,7 +384,7 @@ msgstr ""
 msgid "Domain Sid"
 msgstr "Domain SID"
 
-#: classes/Adi/Configuration/Options.php:460
+#: classes/Adi/Configuration/Options.php:460 
 #: classes/Adi/Configuration/Options.php:464
 msgid ""
 "Shows whether the current WordPress site is connected to an AD domain or not."
@@ -507,8 +504,8 @@ msgstr ""
 #: classes/Adi/Configuration/Options.php:553
 msgid "This option is separated from the Role Equivalent Groups option, below."
 msgstr ""
-"Diese Option hat keine Beziehungen zu den Berechtigungsgruppen von "
-"Benutzern, die Sie weiter unten in diesem Reiter finden können."
+"Diese Option hat keine Beziehungen zu den Berechtigungsgruppen von Benutzern,"
+" die Sie weiter unten in diesem Reiter finden können."
 
 #: classes/Adi/Configuration/Options.php:563
 msgid "Automatic user synchronization"
@@ -561,7 +558,7 @@ msgstr ""
 msgid "Default email domain"
 msgstr "Standard E-Mail Domain"
 
-#: classes/Adi/Configuration/Options.php:602
+#: classes/Adi/Configuration/Options.php:602 
 #: classes/Adi/Configuration/Options.php:606
 msgid ""
 "If the Active Directory attribute \"mail\" is blank, a user's email will be "
@@ -601,9 +598,8 @@ msgid ""
 "addresses in an installation."
 msgstr ""
 "Diese Option behandelt E-Mailadresskonflikte, die entstehen, wenn Benutzer "
-"in der WordPress Datenbank mit gleicher E-Mailadresse erstellt werden "
-"würden. WordPress erlaubt nur einzigartige E-Mailadressen in einer "
-"Installation."
+"in der WordPress Datenbank mit gleicher E-Mailadresse erstellt werden würden."
+" WordPress erlaubt nur einzigartige E-Mailadressen in einer Installation."
 
 #: classes/Adi/Configuration/Options.php:629
 msgid ""
@@ -650,7 +646,7 @@ msgstr ""
 msgid "This option does not apply to the administrator."
 msgstr "Diese Option betrifft nicht die Administratoren."
 
-#: classes/Adi/Configuration/Options.php:666
+#: classes/Adi/Configuration/Options.php:666 
 #: classes/Ldap/Attribute/Description.php:27
 msgid "Display name"
 msgstr "Anzeigename"
@@ -687,7 +683,7 @@ msgstr "CN (Common Name, der ganze Name)"
 msgid "mail"
 msgstr " mail (E-Mail)"
 
-#: classes/Adi/Configuration/Options.php:679
+#: classes/Adi/Configuration/Options.php:679 
 #: classes/Adi/Configuration/Options.php:683
 msgid ""
 "This option allows you to configure how users should be displayed at new "
@@ -754,7 +750,7 @@ msgstr ""
 msgid "Allow local password changes"
 msgstr "Erlaube lokale Passwortänderung"
 
-#: classes/Adi/Configuration/Options.php:731
+#: classes/Adi/Configuration/Options.php:731 
 #: classes/Adi/Configuration/Options.php:735
 msgid ""
 "Enabling this option allows users to change their local WordPress password."
@@ -818,9 +814,9 @@ msgid ""
 "Works only if <em>User &gt; Automatic user creation</em> and <em>User &gt; "
 "Automatic user synchronization</em> is enabled."
 msgstr ""
-"Funktioert nur wenn <em>Benutzer &gt; Automatisches Erstellen von Benutzern</"
-"em> und <em>Benutzer &gt; Automatisches Synchronisieren von Benutzern</"
-"em>aktiviert sind."
+"Funktioert nur wenn <em>Benutzer &gt; Automatisches Erstellen von "
+"Benutzern</em> und <em>Benutzer &gt; Automatisches Synchronisieren von "
+"Benutzern</em>aktiviert sind."
 
 #: classes/Adi/Configuration/Options.php:775
 msgid "Authorize by group membership"
@@ -837,8 +833,8 @@ msgstr ""
 #: classes/Adi/Configuration/Options.php:782
 msgid ""
 "This option authorizes only members of the given Active Directory security "
-"groups to gain access to WordPress. This authorization occurs <strong>after</"
-"strong> the authentication."
+"groups to gain access to WordPress. This authorization occurs <strong>"
+"after</strong> the authentication."
 msgstr ""
 "Diese Option autorisiert nur die Benutzer der angegebenen Active Directory-"
 "Sicherheitsgruppen sich in WordPress anzumelden. Die Autorisierung erfolgt "
@@ -864,9 +860,9 @@ msgid ""
 "Works only if \"User > Automatic user creation\" and \"User > Automatic user "
 "synchronization\" are enabled."
 msgstr ""
-"Funktioniert nur wenn <em>Benutzer > Automatisches Erstellen von Benutzern</"
-"em> und <em>Benutzer > Automatisches Synchronisieren von Benutzern</em> "
-"aktiviert sind."
+"Funktioniert nur wenn <em>Benutzer > Automatisches Erstellen von "
+"Benutzern</em> und <em>Benutzer > Automatisches Synchronisieren von "
+"Benutzern</em> aktiviert sind."
 
 #: classes/Adi/Configuration/Options.php:815
 msgid "Role equivalent groups"
@@ -909,9 +905,9 @@ msgstr "wordpressuser=contributor;"
 
 #: classes/Adi/Configuration/Options.php:832
 msgid ""
-"You can find a whole table of Roles and Capabilities at: <a href=http://"
-"codex.wordpress.org/Roles_and_Capabilities>http://codex.wordpress.org/"
-"Roles_and_Capabilities</a> (3.8 Capability vs. Role Table)"
+"You can find a whole table of Roles and Capabilities at: <a href=http:"
+"//codex.wordpress.org/Roles_and_Capabilities>http://codex.wordpress."
+"org/Roles_and_Capabilities</a> (3.8 Capability vs. Role Table)"
 msgstr ""
 "Sie finden eine komplette Übersicht der Rollen und Berechtigungen auf: <a "
 "href=http://codex.wordpress.org/Roles_and_Capabilities>http://codex."
@@ -982,7 +978,7 @@ msgstr ""
 msgid "Enable SSO"
 msgstr "SSO aktivieren"
 
-#: classes/Adi/Configuration/Options.php:891
+#: classes/Adi/Configuration/Options.php:891 
 #: classes/Adi/Configuration/Options.php:895
 msgid ""
 "This option will grant users the possibility to Single Sign On WordPress "
@@ -992,14 +988,14 @@ msgstr ""
 "verwenden, nachdem er erfolgreich gegen das Active Directory authentifiziert "
 "wurde."
 
-#: classes/Adi/Configuration/Options.php:905
-#: classes/Adi/Configuration/Options.php:1165
+#: classes/Adi/Configuration/Options.php:905 
+#: classes/Adi/Configuration/Options.php:1165 
 #: classes/Adi/Configuration/Options.php:1283
 msgid "Service account username"
 msgstr "Service Account Benutzername"
 
-#: classes/Adi/Configuration/Options.php:908
-#: classes/Adi/Configuration/Options.php:912
+#: classes/Adi/Configuration/Options.php:908 
+#: classes/Adi/Configuration/Options.php:912 
 #: classes/Adi/Configuration/Options.php:1286
 msgid ""
 "Username of an Active Directory account with read permissions for the users "
@@ -1008,13 +1004,13 @@ msgstr ""
 "Benutzername eines Active Directory-Benutzers mit Leserechten für alle "
 "Benutzer im Active Directory. Beispiel: 'ldapuser@company.local'"
 
-#: classes/Adi/Configuration/Options.php:922
-#: classes/Adi/Configuration/Options.php:1183
+#: classes/Adi/Configuration/Options.php:922 
+#: classes/Adi/Configuration/Options.php:1183 
 #: classes/Adi/Configuration/Options.php:1301
 msgid "Service account password"
 msgstr "Service Account Passwort"
 
-#: classes/Adi/Configuration/Options.php:924
+#: classes/Adi/Configuration/Options.php:924 
 #: classes/Adi/Configuration/Options.php:927
 msgid ""
 "Password of an Active Directory account with read permissions for the users "
@@ -1046,8 +1042,8 @@ msgid ""
 "%s: Is used when working with proxies. The variable \"REMOTE_USER\" must be "
 "forwarded from the proxy."
 msgstr ""
-"%s: Wird in Kombination mit einem Proxy verwendet. Die Variable \\"
-"\"REMOTE_USER\\\" muss vom Proxy weitergeleitet werden."
+"%s: Wird in Kombination mit einem Proxy verwendet. Die Variable "
+"\\\"REMOTE_USER\\\" muss vom Proxy weitergeleitet werden."
 
 #: classes/Adi/Configuration/Options.php:966
 msgid "Maximum number of allowed login attempts"
@@ -1068,8 +1064,8 @@ msgid ""
 "username and password combination before he gets blocked for the specific "
 "time."
 msgstr ""
-"Bitte geben Sie die Anzahl der Anmeldeversuche ein, die ein Benutzer "
-"besitzt, bevor er für die von ihnen angegebene Zeit gesperrt wird."
+"Bitte geben Sie die Anzahl der Anmeldeversuche ein, die ein Benutzer besitzt,"
+" bevor er für die von ihnen angegebene Zeit gesperrt wird."
 
 #: classes/Adi/Configuration/Options.php:978
 msgid "You can set the time below this option."
@@ -1149,8 +1145,8 @@ msgstr ""
 
 #: classes/Adi/Configuration/Options.php:1048
 msgid ""
-"If the admin notification event is triggered and no admin email has been "
-"set, the email is forwarded to the blog administrator's email address."
+"If the admin notification event is triggered and no admin email has been set,"
+" the email is forwarded to the blog administrator's email address."
 msgstr ""
 "Wenn eine Benachrichtigung für Administratoren ausgelöst wird und keine "
 "Administrator E-Mailadresse hinterlegt ist, wird stattdessen der Blog "
@@ -1251,15 +1247,14 @@ msgstr "Benutze Sync to AD Service Account"
 msgid ""
 "By enabling this option users will not be asked for their Active Directory "
 "password when updating their WordPress user profile. Instead a central "
-"Active Directory service account is used.<br />If this option is "
-"<strong>disabled</strong>, you have to configure your Active Directory "
-"properyly."
+"Active Directory service account is used.<br />If this option is <strong>"
+"disabled</strong>, you have to configure your Active Directory properyly."
 msgstr ""
 "Wenn Sie diese Option aktivieren, werden Benutzer die versuchen ihr "
 "WordPress-Profil zu aktualisieren <strong>nicht</strong> nach ihrem Active "
 "Directory Passwort gefragt. Stattdessen wird der zentral hinterlegte Active "
-"Directory Service Account Benutzer benutzt. <br />Wenn diese Option "
-"<strong>deaktiviert</strong> ist , müssen Sie dafür sorgen, dass ihr Active "
+"Directory Service Account Benutzer benutzt. <br />Wenn diese Option <strong>"
+"deaktiviert</strong> ist , müssen Sie dafür sorgen, dass ihr Active "
 "Directory richtig konfiguriert ist."
 
 #: classes/Adi/Configuration/Options.php:1145
@@ -1325,7 +1320,7 @@ msgstr ""
 "Diese Option definiert ein das Passwort für den <em>Sync To AD Service "
 "Account</em>."
 
-#: classes/Adi/Configuration/Options.php:1200
+#: classes/Adi/Configuration/Options.php:1200 
 #: classes/Adi/Configuration/Options.php:1243
 msgid "Auth code"
 msgstr "Auth Code"
@@ -1347,7 +1342,7 @@ msgstr ""
 msgid "Enable sync to WordPress"
 msgstr "Aktiviere Sync To WordPress"
 
-#: classes/Adi/Configuration/Options.php:1222
+#: classes/Adi/Configuration/Options.php:1222 
 #: classes/Adi/Configuration/Options.php:1227
 msgid ""
 "Enabling this option will allow ADI to sync users from the Active Directory "
@@ -1369,7 +1364,7 @@ msgstr ""
 "Datenbank immer mit den aktuellsten Daten aus ihrem Active Directory auf dem "
 "neuesten Stand gehalten."
 
-#: classes/Adi/Configuration/Options.php:1245
+#: classes/Adi/Configuration/Options.php:1245 
 #: classes/Adi/Configuration/Options.php:1247
 msgid "This code is needed for Sync to WordPress."
 msgstr "Dieser Code wird für <em>Sync to WordPress</em> benötigt."
@@ -1385,8 +1380,8 @@ msgid ""
 msgstr ""
 "Die Mitglieder der hier angegebenen Sicherheitsgruppen werden importiert. "
 "Bitte werfen Sie einen Blick in unsere Dokumentation, um zu verstehen, wie "
-"Sie Mitglieder der Sicheheitsgruppen <em>Domänen-Benutzer</em> und "
-"<em>Domänen Administratoren</em> importieren können."
+"Sie Mitglieder der Sicheheitsgruppen <em>Domänen-Benutzer</em> und <em>"
+"Domänen Administratoren</em> importieren können."
 
 #: classes/Adi/Configuration/Options.php:1267
 msgid ""
@@ -1431,22 +1426,22 @@ msgstr ""
 msgid "Automatic deactivate users"
 msgstr "Automatisches Deaktivieren von Benutzern"
 
-#: classes/Adi/Configuration/Options.php:1319
+#: classes/Adi/Configuration/Options.php:1319 
 #: classes/Adi/Configuration/Options.php:1323
 msgid ""
 "Deactivated users can only be re-activated manually by administrators on "
 "their users profile page or by using the *Sync to WordPress* feature."
 msgstr ""
 "Deaktivierte Benutzer können nur manuell durch einen Administrator über das "
-"WordPress-Benutzerprofil aktiviert werden oder durch das Benutzen der "
-"<em>Sync to WordPress</em>-Funktion."
+"WordPress-Benutzerprofil aktiviert werden oder durch das Benutzen der <em>"
+"Sync to WordPress</em>-Funktion."
 
 #: classes/Adi/Configuration/Options.php:1342
 msgid "AD Attribute"
 msgstr "AD Attribute"
 
-#: classes/Adi/Configuration/Options.php:1343
-#: classes/Ldap/Attribute/Description.php:28
+#: classes/Adi/Configuration/Options.php:1343 
+#: classes/Ldap/Attribute/Description.php:28 
 #: twig/cache/3a/85/3fc4beb7430d11563c22bf1942c54902b78fb230ed4342d6c73a3934f183.php:138
 msgid "Description"
 msgstr "Beschreibung"
@@ -1529,7 +1524,7 @@ msgstr ""
 "Möglichkeit haben sollen, ihr Passwort zu ändern, wie fehlgeschlagene "
 "Authentifizierungen behandelt werden sollen usw."
 
-#: classes/Adi/Configuration/Ui/Layout.php:159
+#: classes/Adi/Configuration/Ui/Layout.php:159 
 #: classes/Adi/Configuration/Ui/Layout.php:163
 msgid "Permissions"
 msgstr "Berechtigungen"
@@ -1570,7 +1565,7 @@ msgstr ""
 "Um die Sicherheit zu erhöhen, können Sie die folgenden Optionen nutzen, um "
 "Ihre Benutzer vor Brute-Force-Attacken zu schützen."
 
-#: classes/Adi/Configuration/Ui/Layout.php:212
+#: classes/Adi/Configuration/Ui/Layout.php:212 
 #: classes/Adi/Configuration/Ui/Layout.php:216
 msgid "Attributes"
 msgstr "Attribute"
@@ -1592,9 +1587,9 @@ msgid ""
 "User Update\" on tab \"User\"."
 msgstr ""
 "Die Attribute werden nur in der WordPress-Datenbank gespeichert, wenn Sie "
-"die Optionen <em>Automatisches Erstellen von Benutzern</em> und "
-"<em>Automatisches Aktuallisieren von Benutzern</em> unter dem Reiter "
-"<em>Benutzer</em> aktiviert haben."
+"die Optionen <em>Automatisches Erstellen von Benutzern</em> und <em>"
+"Automatisches Aktuallisieren von Benutzern</em> unter dem Reiter <em>"
+"Benutzer</em> aktiviert haben."
 
 #: classes/Adi/Configuration/Ui/Layout.php:228
 #, php-format
@@ -1616,7 +1611,7 @@ msgstr "Sync to Active Directory"
 msgid "Synchronize WordPress profiles back to Active Directory."
 msgstr "Synchronisiert WordPress-Profile zurück zum Active Directory"
 
-#: classes/Adi/Configuration/Ui/Layout.php:257
+#: classes/Adi/Configuration/Ui/Layout.php:257 
 #: twig/cache/95/b4/a53179ece39e6011ebac0a3ca74974676cda1fddff2771e380f9a9558083.php:65
 msgid "Sync to WordPress"
 msgstr "Sync to WordPress"
@@ -1641,9 +1636,9 @@ msgid ""
 "this plug-in."
 msgstr ""
 "Bitte erwerben Sie eine gültige Active Directory Integration 2 Support-"
-"Lizenz auf <a href='https://www.active-directory-wp.com/' style='color: "
-"#fff; text-decoration: underline'>https://www.active-directory-wp.com/</a> "
-"um dieses Plug-in zu unterstützen."
+"Lizenz auf <a href='https://www.active-directory-wp.com/' style='color: #fff;"
+" text-decoration: underline'>https://www.active-directory-wp.com/</a> um "
+"dieses Plug-in zu unterstützen."
 
 #: classes/Adi/Mail/Message.php:52
 msgid "Account blocked"
@@ -1682,8 +1677,8 @@ msgstr ""
 "Dieser Benutzer kann nicht bearbeitet werden, da kein <em>Sync to AD Service "
 "Account</em> hinterlegt wurde."
 
-#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:94
-#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:94
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:94 
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:94 
 #: classes/Multisite/View/Page/Abstract.php:81
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
@@ -1919,7 +1914,7 @@ msgstr "Manager"
 msgid "Direct reports"
 msgstr "Direct reports"
 
-#: classes/Multisite/Configuration/Persistence/ProfileRepository.php:154
+#: classes/Multisite/Configuration/Persistence/ProfileRepository.php:154 
 #: twig/cache/3f/e8/e2e8f1c61e529e1a195642367c1515c638b42e8ad488d0db5f87fbbf6b94.php:42
 msgid "New Profile"
 msgstr "Neues Profil"
@@ -1936,7 +1931,7 @@ msgstr ""
 "Dieses Profil wurde automatisch bei der Installation von ADI erstellt und "
 "kann ohne Probleme gelöscht werden."
 
-#: classes/Multisite/Ui/BlogConfigurationController.php:49
+#: classes/Multisite/Ui/BlogConfigurationController.php:49 
 #: classes/Multisite/Ui/ProfileConfigurationController.php:49
 msgid "An error occurred while saving the configuration."
 msgstr "Beim Speichern der Einstellungen ist ein Fehler aufgetreten."
@@ -2019,7 +2014,7 @@ msgstr "Sie können nicht das gleiche WordPress-Attribut mehrmals verwenden."
 msgid "You cannot use the same Ad Attribute multiple times."
 msgstr "Sie können nicht das gleiche Ad Attribut mehrmals verwenden."
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:657
+#: classes/Multisite/Ui/BlogConfigurationPage.php:657 
 #: classes/Multisite/Ui/BlogConfigurationPage.php:663
 msgid ""
 "Verification Username does not match the required style. (e.g. "
@@ -2040,7 +2035,7 @@ msgstr "Der Port muss eine Zahl zwischen 0 - 65535 sein."
 msgid "Network timeout has to be numeric and cannot be negative."
 msgstr "Der Netzwerk Timeout muss eine Zahl und nicht negativ sein."
 
-#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:49
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:49 
 #: twig/cache/a7/ed/06a7c8f5a5fd2172f8bff435cdf6b2ec972027cfb3733d265e913c693b47.php:43
 msgid "Profile assignment"
 msgstr "Profilzuweisung"
@@ -2103,6 +2098,7 @@ msgid "WordPress role"
 msgstr "WordPress-Rollen"
 
 #: twig/cache/25/ad/6409a39fb5a0c7e80bcb9f47877dffde967e13526846a63124f0b06e6f1d.php:25
+#:  
 #: twig/cache/25/ad/6409a39fb5a0c7e80bcb9f47877dffde967e13526846a63124f0b06e6f1d.php:32
 msgid "User Disabled"
 msgstr "Benutzer deaktiviert"
@@ -2131,16 +2127,19 @@ msgstr ""
 "nächsten Synchronisation ändern."
 
 #: twig/cache/29/5f/548180bff66024c838ef6714fb46ce20e5b72193dbd35a93789cf5546531.php:109
+#:  
 #: twig/cache/29/5f/548180bff66024c838ef6714fb46ce20e5b72193dbd35a93789cf5546531.php:121
 msgid "Please wait..."
 msgstr "Bitte warten..."
 
 #: twig/cache/29/5f/548180bff66024c838ef6714fb46ce20e5b72193dbd35a93789cf5546531.php:111
+#:  
 #: twig/cache/29/5f/548180bff66024c838ef6714fb46ce20e5b72193dbd35a93789cf5546531.php:123
 msgid "Save"
 msgstr "Speichern"
 
 #: twig/cache/29/5f/548180bff66024c838ef6714fb46ce20e5b72193dbd35a93789cf5546531.php:115
+#:  
 #: twig/cache/29/5f/548180bff66024c838ef6714fb46ce20e5b72193dbd35a93789cf5546531.php:127
 msgid "You have to verify the connection to the AD before saving."
 msgstr ""
@@ -2332,6 +2331,7 @@ msgstr ""
 "index.php Ihres Blogs kennen:"
 
 #: twig/cache/95/b4/a53179ece39e6011ebac0a3ca74974676cda1fddff2771e380f9a9558083.php:75
+#:  
 #: twig/cache/dd/cf/ba6aed8a6d4f4f9694ea71693aaeff4c51c7f84162a131bb6a07307ac33f.php:75
 msgid ""
 "Settings like auth-code etc. depends on the current blog. So be careful "
@@ -2362,6 +2362,7 @@ msgid "--- None assigned"
 msgstr "--- Nicht zugewiesen"
 
 #: twig/cache/a7/ed/06a7c8f5a5fd2172f8bff435cdf6b2ec972027cfb3733d265e913c693b47.php:97
+#:  
 #: twig/cache/a7/ed/06a7c8f5a5fd2172f8bff435cdf6b2ec972027cfb3733d265e913c693b47.php:144
 msgid "Apply"
 msgstr "Übernehmen"
@@ -2398,1021 +2399,24 @@ msgstr "Wiederhole <em>WordPress to Active Directory Synchronisation</em>"
 msgid "Start WordPress to Active Directory synchronization"
 msgstr "Starte <em>WordPress to Active Directory Synchronisation</em>"
 
-#~ msgid "Auto Login"
-#~ msgstr "Automatische Authentifizierung"
-
-#~ msgid ""
-#~ "This option will grant users the possibility to Single Sign On WordPress "
-#~ "once they got authenticated against Active Directory. (Not Implemented "
-#~ "Yet.)"
-#~ msgstr ""
-#~ "Dieser Option ermöglicht es dem Benutzer, sich über Single Sign On in "
-#~ "WordPress anzumelden. Vorausgesetzt ist eine bereits erfolgreiche "
-#~ "Authentifizierung am Active Directory (noch nicht implementiert)."
-
-#~ msgid "SSO"
-#~ msgstr "SSO"
-
-#~ msgid "Single Sign On Configuration (Not implemented, yet.)"
-#~ msgstr "Single Sign On Einstellungen (noch nicht implementiert)"
-
-#~ msgid ""
-#~ "Entered usernames will always be excluded from ADI login authentication."
-#~ msgstr ""
-#~ "Die eingetragenen Benutzernamen werden von der ADI Login-"
-#~ "Authentifizierung ausgeschlossen."
-
-#~ msgid "Use sAMAccountName for new created users"
-#~ msgstr "Benutze sAMAccountName für neu erstellte Benutzer"
-
-#~ msgid ""
-#~ "If checked, the sAMAccountName will be set as username for new created "
-#~ "users."
-#~ msgstr ""
-#~ "Wenn diese Option aktiviert ist wird ADI den sAMAccountName als "
-#~ "Benutzername in WordPress für neu erstellte Benutzer verwenden."
-
-#~ msgid ""
-#~ "Instead of using the user principal name for new created users, the "
-#~ "sAMAccountName will be used."
-#~ msgstr ""
-#~ "Anstelle des userPrincipalNames wird der sAMAccountName als Benutzername "
-#~ "für neu erstellte Benutzer gesetzt."
-
-#~ msgid "Append suffix to new users"
-#~ msgstr "Füge Suffix neuen Benutzern hinzu"
-
-#~ msgid ""
-#~ "If checked, the account suffix (see above) will be appended to the "
-#~ "usernames of new created users."
-#~ msgstr ""
-#~ "Durch das Aktivieren dieser Option wird das oben angegebene Suffix "
-#~ "automatisch allen neu erstellten Benutzern hinzugefügt."
-
-#~ msgid ""
-#~ "This option will automatically add the previously defined *Account "
-#~ "suffix* to all new created users. This means if you create the user "
-#~ "*newuser* and already have configured your account suffix e.g. *@company."
-#~ "local*, this option will automatically change the username to "
-#~ "*newuser@company.local*."
-#~ msgstr ""
-#~ "Durch das Aktivieren dieser Option wird das vorher definierte Suffix "
-#~ "automatisch allen neu erstellten Benutzern hinzugefügt. Das bedeutet, "
-#~ "dass wenn Sie einen neuen Benutzer erstellen (\"neuerbenutzer\") und "
-#~ "bereits die Option für das Account Suffix gesetzt haben (\"@company.local"
-#~ "\"), dann wird diese Option den Benutzernamen automatisch in "
-#~ "\"neuerbenutzer@company.local\" ändern."
-
-#~ msgid "Verification failed!"
-#~ msgstr "Verifizierung fehlgeschlagen!"
-
-#~ msgid "Example: @emea.company.local;@africa.company.local;@company.local"
-#~ msgstr "Beispiel: @emea.company.local;@africa.company.local;@company.local"
-
-#~ msgid ""
-#~ "Created users will obtain the role defined under \"New User Default Role"
-#~ "\" on the \"General Options\" tab."
-#~ msgstr ""
-#~ "Erstellten Benutzern wird automatisch die Rolle zugewiesen welche unter "
-#~ "'Neue Benutzer Standart Rolle' welche unter dem Reiter 'Allgmeine "
-#~ "Optionen' hinterlegt ist."
-
-#~ msgid ""
-#~ "This option will only work if you already enabled Automatic User Creation "
-#~ "and Automatic User Update. As the title says it will automatically update "
-#~ "the description of new created users and users who login."
-#~ msgstr ""
-#~ "Diese Option wird nur funktionieren wenn Sie bereits Automatische "
-#~ "Benutzer Erstellung und Automatische Benutzer Aktuallisierung aktiviert "
-#~ "haben. Wie der Titel schon sagt wird hierdurch die Beschreibung von neu "
-#~ "erstellten Benutzern und Benutzern, welche sich erfolgreich einloggen "
-#~ "aktuallisiert."
-
-#~ msgid ""
-#~ "If the Active Directory attribute \"mail\" is blank, a users email will "
-#~ "be set to username@ValueOfThisTextbox."
-#~ msgstr ""
-#~ "Wenn das Active Directory Attribut 'mail' leer ist, wird die E-Mail eines "
-#~ "Benutzers auf benutzername@WertdieserBox gesetzt."
-
-#~ msgid "Choose how to handle email address conflicts."
-#~ msgstr "Bitte wählen Sie aus wie E-Mail Konflikte gelöst werden sollen."
-
-#~ msgid ""
-#~ "Activating this option will forbid users authenticated by Active "
-#~ "Directory to change their email address in in Wordpress."
-#~ msgstr ""
-#~ "Durch das Aktivieren dieser Option wird ADI verhindern, dass Benutzer "
-#~ "welche sich gegenüber des Active Directory authentifiziert haben ihre E-"
-#~ "Mail Adresse in Wordpress ändern."
-
-#~ msgid "Choose user's Active Directory attribute to be used as display name."
-#~ msgstr ""
-#~ "Wählen Sie eine Active Directory Eigenschft aus, welche als displayName "
-#~ "verwendet werden soll."
-
-#~ msgid ""
-#~ "This option allows you to configurate how users should be displayed at "
-#~ "new posts/comments."
-#~ msgstr ""
-#~ "Diese Option bestimmt das Authentifizierungsmerkmal über welches "
-#~ "Kommentare/Beiträge Benutzern zugordnet werden können."
-
-#~ msgid ""
-#~ "First time a user logs on successfully to your site his local Wordpress "
-#~ "password is set to the one he used to authenticate against Active "
-#~ "Directory."
-#~ msgstr ""
-#~ "Setzt das lokale Wordpress Passwort mit dem zur ersten erfolgreichen "
-#~ "Authentifizierung gegen das Active Directory gleich"
-
-#~ msgid "Example: \"domain-users;WP-Users;test-users\""
-#~ msgstr "Beispiel: 'domain-users;WP-Users;test-users'"
-
-#~ msgid ""
-#~ "If option is enabled, users who failed authenticating against Active "
-#~ "Directory can authenticate again against the local wordpress password "
-#~ "check."
-#~ msgstr ""
-#~ "Wenn die Active Directory Authentifizierung fehlschlägt wird dem Benutzer "
-#~ "die Möglichkeit geboten sich über das Wordpress Authentifizierungssyste "
-#~ "zu authentifizieren."
-
-#~ msgid ""
-#~ "Turning this option on will allow users to reset their local password in "
-#~ "the login screen."
-#~ msgstr ""
-#~ "Durch das aktivieren dieser Option geben Sie Benutzern die Möglichkeit "
-#~ "ihr lokales Passwort auf der Authentifizierungsseite von Wordpress zurück "
-#~ "zu setzen."
-
-#~ msgid "Enables/Disables Auto Login"
-#~ msgstr "Aktiviert/Deaktiviert Automatische Authentifizierung"
-
-#~ msgid ""
-#~ "This option will grant users the possibility to Single Sign On Wordpress "
-#~ "once they got authenticated against Active Directory. (Not Implemented "
-#~ "Yet.)"
-#~ msgstr ""
-#~ "Dieser Option ermöglicht dem Benutzer eine Automatische Authentifizierung "
-#~ "wenn er sich vorher schon einmal gegen Active Directory bei einem anderen "
-#~ "Dienst authentifiziert hat."
-
-#~ msgid "Previous ADI version"
-#~ msgstr "Vorherige ADI Version"
-
-#~ msgid "Select previous ADI Options Version to be imported."
-#~ msgstr "Wählen Sie ihre zuvor verwendete Version von ADI aus."
-
-#~ msgid "ADI 1.5"
-#~ msgstr "ADI 1.5"
-
-#~ msgid "ADI 1.7 and 1.8"
-#~ msgstr "ADI 1.7 and 1.8"
-
-#~ msgid ""
-#~ "Please select the version of the ADI plugin you previously used if your "
-#~ "planning on importing your settings. Otherwise keep this selection box "
-#~ "empty."
-#~ msgstr ""
-#~ "Bitte wählen Sie ihre zuvor Verwendete Version von ADI aus wenn Sie "
-#~ "vorhaben ihre bereits in der alten Version konfigurierten Optionen zu "
-#~ "importieren. Möchten Sie ihre alten Konfigurationen nicht übernehmen, "
-#~ "lassen Sie dieses Feld einfach leer."
-
-#~ msgid "Auto import options"
-#~ msgstr "Automatischer Optionen Import"
-
-#~ msgid ""
-#~ "Automatically imports options from previous ADI versions when the plugin "
-#~ "is activated. (Please select a version first.)"
-#~ msgstr ""
-#~ "Diese Option importiert automatisch ihre konfigurierten Optionen welche "
-#~ "Sie in einer früheren Version von ADI genutzt haben. (Bitte wählen Sie "
-#~ "zuerst eine Version aus.)"
-
-#~ msgid ""
-#~ "If activated ADI will automatically import options from the database of "
-#~ "the above selected previously used ADI version. After turning this on you "
-#~ "have to press the safe button and restart the plugin."
-#~ msgstr ""
-#~ "ADI wird nach der Aktivierung dieser Option beim neustarten des Plugins "
-#~ "automatisch die von ihnen bereits in einer Vorgängerversion von ADI 2.0 "
-#~ "konfigurierten Optionen importieren."
-
-#~ msgid "E-mail addresses for notifications"
-#~ msgstr "E-Mail Adressen zur Benachrichtigung"
-
-#~ msgid ""
-#~ "Enter additional Active Directory attributes (one per line), followed by "
-#~ "their type and the associated meta key seperated by a colon (:)."
-#~ msgstr ""
-#~ "Fügen Sie zusätzliche Active Directory Attribute hinzu (eine pro Zeile), "
-#~ "gefolgt von ihrem Typ und dem dazugehörigen Meta Key, getrennt durch "
-#~ "einen Doppelpunkt (:)."
-
-#~ msgid ""
-#~ "Format: <i>&lt;attribute_name&gt;:&lt;type&gt;:&lt;meta key&gt;</i> where "
-#~ "<i>&lt;type&gt;</i> can be one of the following: <i>string, list, "
-#~ "integer, bool, octet, time, timestamp, cn</i>."
-#~ msgstr ""
-#~ "Format: <i>&lt;attribute_name&gt;:&lt;type&gt;:&lt;meta key&gt;</i> where "
-#~ "<i>&lt;type&gt;</i> can be one of the following: <i>string, list, "
-#~ "integer, bool, octet, time, timestamp, cn</i>."
-
-#~ msgid ""
-#~ "If no <i>&lt;meta key&gt;</i> is given the Active Directory attributes "
-#~ "will be stored as <i>adi_&lt;attribute_name&gt;</i>."
-#~ msgstr ""
-#~ "Wenn kein <i>&lt;meta key&gt;</i> gegeben ist werden die Active Directory "
-#~ "Attribute als <i>adi_&lt;attribute_name&gt;</i> gespeichert."
-
-#~ msgid ""
-#~ "lastlogon:timestamp:last_logon_time</br>whencreated:time:user_created_on</"
-#~ "br>homephone:string</br>otherhomephone:list</br>manager:cn"
-#~ msgstr ""
-#~ "lastlogon:timestamp:last_logon_time</br>whencreated:time:user_created_on</"
-#~ "br>homephone:string</br>otherhomephone:list</br>manager:cn"
-
-#~ msgid "Overwrite with empty values"
-#~ msgstr "Überschreibe mit leeren Werten"
-
-#~ msgid ""
-#~ "Overwrite local values even if the attribute values in Active Directory "
-#~ "are empty."
-#~ msgstr ""
-#~ "Überschreibt lokale Werte auch dann wenn die Attribute aus dem Active "
-#~ "Directory leer sind."
-
-#~ msgid "Show Attributes"
-#~ msgstr "Sichtbare Attribute"
-
-#~ msgid "Show user attributes from Active Directory in user profile."
-#~ msgstr ""
-#~ "Zeige Benutzer Attribute aus dem Active Directory im Wordpress Benutzer "
-#~ "Profile."
-
-#~ msgid ""
-#~ "If you enable this option, Active Directory attributes will be shown "
-#~ "automatically in the Wordpress user profile."
-#~ msgstr ""
-#~ "Durch die Aktivierung dieser Option werden Attribute aus dem Active "
-#~ "Directory automatisch im Wordpress Benutzer Profile angezeitgt."
-
-#~ msgid "Attributes to show"
-#~ msgstr "Zu zeigende Attribute"
-
-#~ msgid "Description:"
-#~ msgstr "Beschreibung:"
-
-#~ msgid "Synchronize with Active Directory:"
-#~ msgstr "Synchronisiere mit dem Active Directory:"
-
-#~ msgid ""
-#~ "Enter the Active Directory attributes (one per line) followed by a "
-#~ "description seperated by a colon (:) to be shown at the end of the user "
-#~ "profile page."
-#~ msgstr ""
-#~ "Definiere ein Active Directory Attribute (eine per Zeile) gefolgt von "
-#~ "einer Beschreibung. Trennen Sie beides durch die Verwendung eines "
-#~ "Doppelpunktes. Beides wird am Ende des Benutzerprofiles angezeigt."
-
-#~ msgid ""
-#~ "If no description is given the descriptions for standard attributes (see "
-#~ "below) is used. If there is no description for the attribute then the "
-#~ "attribute name itself will be displayed."
-#~ msgstr ""
-#~ "Wenn keine Beschreibung angegeben wird, wird die weiter unten angegebene "
-#~ "Beschreibung für Standartattribute verwentdet. "
-
-#~ msgid ""
-#~ "The attributes to be shown must appear on the list of Additional User "
-#~ "Attributes."
-#~ msgstr ""
-#~ "Das zu zeigende Attribut muss in der Liste von Weiteren Benutzer "
-#~ "Attributen  aufgeführt sein."
-
-#~ msgid ""
-#~ "If you enter something that is not in the list of Additional User "
-#~ "Attributes it will be treated as normal text. Use this to structure the "
-#~ "output."
-#~ msgstr ""
-#~ "Wenn Sie etwas eingeben, was nicht in der Liste' Weitere Benutzer "
-#~ "Attribute'  steht, wird es als normaler Text behandelt."
-
-#~ msgid ""
-#~ "lastlogon</br>whencreated:User Created on</br>&lt;h4&gt;A headline&lt;/"
-#~ "h4&gt;</br>homephone:Phone (home):*</br>otherhomephone::*</br>manager:"
-#~ "Manager"
-#~ msgstr ""
-#~ "lastlogon</br>whencreated:User Created on</br>&lt;h4&gt;A headline&lt;/"
-#~ "h4&gt;</br>homephone:Phone (home):*</br>otherhomephone::*</br>manager:"
-#~ "Manager"
-
-#~ msgid ""
-#~ "The authentication code is used to authenticate the global sync user "
-#~ "against the Active Directory. You can use numbers, lowercase and "
-#~ "uppercase letters. Do not use special characters because they can cause "
-#~ "problems (with curl etc.)"
-#~ msgstr ""
-#~ "Dieser Code wird benötigt um den Benutzer gegen das Active Directory zu "
-#~ "authentifizieren."
-
-#~ msgid ""
-#~ "Separate multiple groups by semicolon (e.g. \"company user;WP-Users;test-"
-#~ "users\")."
-#~ msgstr "Trennen sie mehrere Gruppen wieder durch ein Semikolon."
-
-#~ msgid ""
-#~ "In order for importing multiple users at once you have to define a user "
-#~ "with Active Directory users read permission."
-#~ msgstr ""
-#~ "Um mehrere Benutzer aus dem Active Directory gleichzeitig in die "
-#~ "Wordpress Datenbank zu Importieren muss ein Active Directory Benutzer mit "
-#~ "Leserechten für die Active Directory Benutzer angegeben werden."
-
-#~ msgid "Options Importer"
-#~ msgstr "Optionen Importer"
-
-#~ msgid "You can import your options from previous used ADI versions."
-#~ msgstr ""
-#~ "Sie können ihre Konfigurationen von Optionen älterer ADI Versionen "
-#~ "importieren."
-
-#~ msgid "Domain Controllers"
-#~ msgstr "Domänen Controller"
-
-#~ msgid ""
-#~ "Domain Controllers (separate with semicolons, e.g. \"dc1.company.local;"
-#~ "dc2.company.local\")"
-#~ msgstr ""
-#~ "Domänen Controllers (trennen Sie  bei der Verwendung mehrerer Controller "
-#~ "jeden Controller mit einem Semikolon. Beispiel: 'dc1.company.local;dc2."
-#~ "company.local'"
-
-#~ msgid ""
-#~ "The domain controller represents the Active Directory server used to "
-#~ "authenticate and authorize your users. You can find your currently set "
-#~ "domain controller via \"Start -> Run -> nslookup\"."
-#~ msgstr ""
-#~ "Unter dem Domänen Controller versteht man die Componente des Active "
-#~ "Directory Servers welche Änderungen an der Nutzer- und Computerdatenbank "
-#~ "vornimmt. Sie können ihren momentan gesetzten Domänen Controller finden "
-#~ "indem Sie folgende Schritte befolgen: 'Start -> Ausführen -> nslookup'"
-
-#~ msgid "Port on which the Active Directory listens (defaults to \"389\")."
-#~ msgstr "Port auf welchem Active Directory lauscht. (Standart: \"389\")."
-
-#~ msgid ""
-#~ "This option defines the Active Directory communication port and is "
-#~ "default set to 389."
-#~ msgstr ""
-#~ "Diese Option bestimmt den Active Directory kommunikations Port und ist "
-#~ "standartmäßig auf '389' gesetzt."
-
-#~ msgid "Use START_TLS"
-#~ msgstr "Benutze START_TLS"
-
-#~ msgid ""
-#~ "Secures the connection between the WordPress and the Active Directory "
-#~ "servers using START_TLS"
-#~ msgstr ""
-#~ "Sichert die Kommunikation zwischen dem Wordpress Server und dem Active "
-#~ "Directory Server indem das Verschlüsselungsprotokoll TLS verwendet wird."
-
-#~ msgid ""
-#~ "Enabling this option activates the TLS (Transport Layer Security), which "
-#~ "secures the data transport between your Active Directory Server and "
-#~ "Wordpress by encrypting the data. If you want to use START_TLS, the \"Port"
-#~ "\" option has to be set as default(\"389\")."
-#~ msgstr ""
-#~ "Durch das Aktivieren dieser Option, benutzt ADI zur Übertragung das "
-#~ "Verschlüsslungsprotokol TLS. Dadurch wird der Datenverkehr zwischen "
-#~ "Wordpress und Active Directory Server verschlüsselt."
-
-#~ msgid ""
-#~ "<b>You must enable the PHP module \"openssl\" before you can use "
-#~ "START_TLS.</b>"
-#~ msgstr ""
-#~ "<b> Sie müssen das PHP Modul \"openssl\" aktivieren bevor Sie  STARTE_TLS "
-#~ "benutzen können </b>"
-
-#~ msgid "LDAP Network Timeout"
-#~ msgstr "LDAP Netzwerk Timeout"
-
-#~ msgid ""
-#~ "Time in seconds after connection attempt to Active Directory times out "
-#~ "and WordPress falls back to local authorization (defaults to \"5\")."
-#~ msgstr ""
-#~ "Zeit in Sekunden nach einem Versuch eine Verbindung zum Active Directory "
-#~ "Server herzustellen, bevor auf lokale Authentifizierung zurückgegriffen "
-#~ "wird."
-
-#~ msgid ""
-#~ "This option describes the time in seconds, which has to pass after a "
-#~ "connection attempt to the Active Dirctory server before the the "
-#~ "connection times out and falls back to the local wordpress authorization. "
-#~ "The default value for this option is 5."
-#~ msgstr ""
-#~ "Diese Option beschreibt die Zeit in Sekunden, welche nach einem "
-#~ "Verbindungsversuch zum Active Directory Server vergehen muss, damit die "
-#~ "Authentifizierung fehlschlägt und der Benutzer sich über das lokale "
-#~ "Wordpress Login Systeme versuchen kann zu authentifizieren. Standartmäßig "
-#~ "beträgt die Zeit 5 Sekunden."
-
-#~ msgid "1. Access the your Active Directory Server via remote desktop."
-#~ msgstr ""
-#~ "1. Verbinden Sie sich zur ihrem Active Directory Server via remote desktop"
-
-#~ msgid "3. Doubleclick your controller -> rightclick Users -> Properties"
-#~ msgstr ""
-#~ "3. Doppelklicken Sie ihren Controller -> rechtsklicken Sie Benutzer -> "
-#~ "Eigenschaften"
-
-#~ msgid "Account Suffix"
-#~ msgstr "Account Suffix"
-
-#~ msgid ""
-#~ "This suffix will be appended to all usernames in the Active Directory "
-#~ "authentication process; e.g., \"@company.local\".)"
-#~ msgstr ""
-#~ "Das Account Suffix wird allen Benutzernamen im Active Directory "
-#~ "Authentifizierungsprozess hinzugefügt. Bespiel: \"@company.local\"."
-
-#~ msgid ""
-#~ "The Account Suffix is added to all usernames in the Active Directory "
-#~ "authentication process."
-#~ msgstr ""
-#~ "Das Account Suffix wird allen Benutzernamen im Active Directory "
-#~ "Authentigizierungsprozess hinzugefügt."
-
-#~ msgid ""
-#~ "Example: username: companyEmployerMax -> Active Directory authentication -"
-#~ "> companyEmployerMax@company.local"
-#~ msgstr ""
-#~ "Beispiel: Benutzername: MitarbeiterMax -> Active Directory "
-#~ "Authentifizierung -> MitarbeiterMax@company.local"
-
-#~ msgid "Do not forget to set the @."
-#~ msgstr "Vergessen Sie bitte nicht das @ zu setzen."
-
-#~ msgid ""
-#~ "If you have multiple account suffixes like @company.local, @emea.company."
-#~ "local and @africa.company.local seperate them by a semicolon (;) and put "
-#~ "the main (@company.local) at the last position."
-#~ msgstr ""
-#~ "Wenn Sie mehrere Account Suffixe benutzen wie zum Beispiel: @company."
-#~ "local, @emea.company.local und @africa.company.local, trennen Sie die "
-#~ "einzelnen Suffixe voneinander indem Sie ein Semikolon verwenden. Das "
-#~ "Hauptsuffix muss hierbei an letzter Stelle stehen."
-
-#~ msgid ""
-#~ "This option will automatically add the previously defined Account Suffix "
-#~ "to all new created users."
-#~ msgstr ""
-#~ "Diese Option sorgt dafür, dass das zuvor definierte Suffix automatisch "
-#~ "allen neu erstellten Benutzern hinzugefügt wird."
-
-#~ msgid "Auto Create User"
-#~ msgstr "Automatische Benutzer Erstellung"
-
-#~ msgid ""
-#~ "Automatically creates a new user if it´s not already existing in the "
-#~ "Wordpress database."
-#~ msgstr ""
-#~ "Benutzer werden automatisch erstellt wenn Sie noch nicht in der Wordpress "
-#~ "Datenbank existieren."
-
-#~ msgid "Auto Update User"
-#~ msgstr "Automatische Benutzer Aktuallisierung"
-
-#~ msgid "Updates users in the Wordpress database everytime they logon."
-#~ msgstr ""
-#~ "Aktuallisiert die zu einem Benutzer gehörenden Einträge in der Wordpress "
-#~ "Datenbank bei jedem Login."
-
-#~ msgid ""
-#~ "Enabling this option will result in ADI updating users in the Wordpress "
-#~ "database everytime they logon."
-#~ msgstr ""
-#~ "Durch das Aktivieren dieser Option wird ADI jedes mal die Wordpress "
-#~ "Datenbankeinträge mit den Active Directory Daten aktuallisieren, sobald "
-#~ "sich dieser einloggt."
-
-#~ msgid "Works only if \"Automatic User Creation\" is turned on."
-#~ msgstr ""
-#~ "Funktioniert nur wenn 'Automatische Benutzer Erstellung' aktiviert ist."
-
-#~ msgid "Auto Update User Description"
-#~ msgstr "Automatische Aktuallisierung der Benutzerbeschreibung"
-
-#~ msgid ""
-#~ "Works only if \"Automatic User Creation\" and \"Automatic User Update\" "
-#~ "is turned on."
-#~ msgstr ""
-#~ "Diese Option wird nur funktionieren wenn die Optionen Automatische "
-#~ "Benutzer Erstellung und Automatische Benutzer Aktuallisierung aktiviert "
-#~ "sind."
-
-#~ msgid "Email Address Conflict Handling"
-#~ msgstr "E-Mail Adressen Konfliktbehandlung"
-
-#~ msgid ""
-#~ "On this option you can configurate the handling of email address "
-#~ "conflicts."
-#~ msgstr "Diese Option gibt an wie E-Mail Konflikte gelöst werden sollen."
-
-#~ msgid ""
-#~ "Create: In case of conflict, the new user is created with a unique email "
-#~ "address."
-#~ msgstr ""
-#~ "Erstellen: Im Fall eines Konflikts wird der neue Benutzer mit einer neuen "
-#~ "einzigartigen E-Mail Adresse erstellt."
-
-#~ msgid "Prevent Email Change"
-#~ msgstr "Verhindere Änderung der E-Mail Adresse"
-
-#~ msgid "Show User Status"
-#~ msgstr "Zeige Benutzer Status"
-
-#~ msgid "Show additional columns (ADI User, disabled) in the user list."
-#~ msgstr ""
-#~ "Zeige weitere Spalten (ADI Benutzer, deaktiviert) in der Benutzer Liste."
-
-#~ msgid ""
-#~ "Allow users to change their local (<strong>non Active Directory</strong>) "
-#~ "WordPress password."
-#~ msgstr ""
-#~ "Diese Option erlaubt den Benutzern ihr lokales Wordpress Passwort zu "
-#~ "ändern. (<strong>Dabei handelt es sich NICHT um das Active Directory "
-#~ "Passwort</strong>) "
-
-#~ msgid ""
-#~ "Turning on this option will allow users to change their local wordpress "
-#~ "password."
-#~ msgstr "Setze lokales Passwort beim ersten Einloggen"
-
-#~ msgid ""
-#~ "This option has no effects on the Active Directory password and can only "
-#~ "be used if the Active Directory authentication times out/fails or if you "
-#~ "turned ."
-#~ msgstr ""
-#~ "Diese Option hat keine Auswirkung auf das Active Directory Passwort und "
-#~ "kann nur benutzt werden wenn die Authentifizierung gegen das Active "
-#~ "Directory fehlschlägt."
-
-#~ msgid "Set local password on first successfull logon"
-#~ msgstr ""
-#~ "Setzte lokales Wordpress Passwort bei erster erfolgreicher "
-#~ "Authentifizierung"
-
-#~ msgid ""
-#~ "The first time a user logs on, his local password will be equated with "
-#~ "the password he used to authenticate against the Active Directory."
-#~ msgstr ""
-#~ "Wenn ein Benutzer sich das erste mal erfolgreich einloggt wird sein "
-#~ "lokales Wordpress Passwort mit dem Passwort gleichgesetzt welches er bei "
-#~ "der erfolgreichen Authentifizierung gegen das Active Directory verwendet "
-#~ "hat."
-
-#~ msgid "Automatic Password Update"
-#~ msgstr "Automatische Passwort Aktuallisierung"
-
-#~ msgid ""
-#~ "Every time a user logs on successfully, his local WordPress password is "
-#~ "set to the one used to authenticate against Active Directory."
-#~ msgstr ""
-#~ "Jedes mal wenn sich ein Benutzer erfolgreich authentifiziert, wird sein "
-#~ "lokales Wordpress Passwort mit dem zur erfolgreichen Authentifizierung "
-#~ "verwendeten Passwort gleichgesetzt."
-
-#~ msgid ""
-#~ "This option will update the local password everytime a user successfully "
-#~ "logs on. This means if a user changed his Active Directory password and "
-#~ "successfully authenticates against Active Directory while trying to login "
-#~ "on Wordpress, his local wordpress password will be equated with the new "
-#~ "Active Directory password."
-#~ msgstr ""
-#~ "Diese Option wird das lokale Wordpress Passwort jedes mal mit dem "
-#~ "Passwort ersetzen, mit welchem sich der Benutzer erfolgreich gegen das "
-#~ "Active Directory Authentifizieren konnte."
-
-#~ msgid ""
-#~ "Note: Activating this option makes little sense when \"Enable local "
-#~ "password changes\" is turned on."
-#~ msgstr ""
-#~ "Hinweis: Es macht wenig Sinn diese Option zu aktivieren, sollte sie zuvor "
-#~ "bereits 'Erlaube lokale Passwort Änderung' aktiviert haben."
-
-#~ msgid ""
-#~ "Works only if \"Automatic User Creation\" and \"Automatic User Update\" "
-#~ "is turned on"
-#~ msgstr ""
-#~ "Funktioniert nur wenn \"Automatische Benutzer Erstellung\" und "
-#~ "\"Automatische Benutzer Aktuallisierung\" aktiviert sind."
-
-#~ msgid ""
-#~ "Activating this option will only grant members of the given group(s) "
-#~ "below the possibility to authenticate against Active Directory."
-#~ msgstr ""
-#~ "Nur Mitglieder der durch Sie bestimmten Gruppen habe die Möglichkeit sich "
-#~ "gegen das Active Directory zu authentifizieren."
-
-#~ msgid ""
-#~ "This option will only allow members of the given Active Directory groups "
-#~ "to authenticate."
-#~ msgstr ""
-#~ "Diese Option erlaubt es Migliedern der weiter unten bestimmten Gruppen "
-#~ "sich gegen das Active Directory zu authentifizieren."
-
-#~ msgid "Authorization groups"
-#~ msgstr "Authorisierungsgruppen"
-
-#~ msgid ""
-#~ "Seperate multiple groups by semicolon (e.g. \"domain-users;WP-Users;test-"
-#~ "users\")."
-#~ msgstr ""
-#~ "Sollten Sie mehrere Gruppen verwenden, trennen Sie diese bitte durch ein "
-#~ "Semikolon. Beispiel ('domain-users;WP-Users;test-users')"
-
-#~ msgid ""
-#~ "Please define your Authorization group(s) here. You can seperate multiple "
-#~ "groups by using a semicolon."
-#~ msgstr ""
-#~ "Bitte definieren Sie ihre Authorisierungsgruppen hier. Sie können mehrere "
-#~ "Gruppen angeben, indem Sie diese mit einem Semikolon voneinander trennen."
-
-#~ msgid "Role Equivalent Groups"
-#~ msgstr "Rollen Berechtigungsgruppen"
-
-#~ msgid ""
-#~ "List of Active Directory groups which correspond to WordPress user roles."
-#~ msgstr ""
-#~ "Liste von Active Directory Gruppen welche in direktem Bezug zu Wordpress "
-#~ "Benutzerrollen stehen."
-
-#~ msgid ""
-#~ "Please enter the names of the groups which correspond to Wordpress user "
-#~ "roles using the following schema. You have to seperate multiple groups by "
-#~ "using semicolon again."
-#~ msgstr ""
-#~ "Bitte geben Sie die Namen der Active Directory Gruppen an welche mit "
-#~ "Wordpress Benutzer Rollen Gruppen in Verbindung stehen sollen. Bei Angabe "
-#~ "mehrerer Gruppen, trennen Sie bitte wieder die Gruppen durch ein "
-#~ "Semikolon."
-
-#~ msgid "You can find a whole table of Roles and Capabilities at: "
-#~ msgstr ""
-#~ "Sie finden eine komplette Tabelle aller Wordpress Benutzergruppen und "
-#~ "Berechtigungen auf der folgenden Seite:"
-
-#~ msgid "<a href="
-#~ msgstr "<a href="
-
-#~ msgid "http://codex.wordpress.org/Roles_and_Capabilities"
-#~ msgstr "http://codex.wordpress.org/Roles_and_Capabilities"
-
-#~ msgid ">http://codex.wordpress.org/Roles_and_Capabilities</a>"
-#~ msgstr ">http://codex.wordpress.org/Roles_and_Capabilities</a>"
-
-#~ msgid " (3.8 Capability vs. Role Table)"
-#~ msgstr " (3.8 Capability vs. Role Table)"
-
-#~ msgid ""
-#~ "Maximum number of failed login attempts before a user account is blocked. "
-#~ "If empty or \"0\" Brute Force Protection is turned off."
-#~ msgstr ""
-#~ "Maximale Anzahl an fehlgeschlagenen Authentifizierungsversuchen bevor der "
-#~ "Account blockiert wird. Wenn dieses Feld leer oder '0' ist wird der Brute "
-#~ "Force Schutz ausgeschalten."
-
-#~ msgid ""
-#~ "Please enter the ammount of trys a user has to login with his correct "
-#~ "username and password combination before he gets blocked for the specific "
-#~ "time you can set below this option."
-#~ msgstr ""
-#~ "Bitte geben Sie die maximale Anzahl an Versuchen an, welche ein Benutzer "
-#~ "hat um sich erfolreich mit seinem Benutzernamen und Passwort zu "
-#~ "authentifizieren. Sollte diese Anzahl erreicht werden wird der Benutzer "
-#~ "Account für die weiter unten angegebene Zeit gesperrt."
-
-#~ msgid "Blocking Time"
-#~ msgstr "Sperrzeit"
-
-#~ msgid ""
-#~ "Number of seconds an account is blocked after the maximum number of "
-#~ "failed login attempts is reached."
-#~ msgstr ""
-#~ "Zeit in Sekunden wie lange ein Account gesperrt wird wenn die maximale "
-#~ "Anzahl an fehlgeschlagenen Authentifizierungen erreicht ist."
-
-#~ msgid ""
-#~ "On this option you can set the time a user is blocked after the above set "
-#~ "ammount of failed login attempts is reached."
-#~ msgstr ""
-#~ "Diese Option Beschreibt die Zeit in Sekunden für wie lange ein Benutzer "
-#~ "gesperrt wird wenn er die maximale Anzahl von Authentifizierungsversuchen "
-#~ "durch fehlerhafte Eingabe seiner Benutzerdaten erreicht hat."
-
-#~ msgid "User Notification"
-#~ msgstr "Benutzer Benachrichtigung"
-
-#~ msgid "Notify user by e-mail when his account is blocked."
-#~ msgstr "Benachrichtige Benutzer sobald ihr Account gesperrt wird"
-
-#~ msgid ""
-#~ "Activating this option will allow ADI to notify a user via email about "
-#~ "the circumstance that his account got blocked."
-#~ msgstr ""
-#~ "Das aktivieren dieser Option berechtigt ADI Benutzern eine E-Mail zu "
-#~ "senden, sollte ihr Account gesperrt werden."
-
-#~ msgid "Admin Notification"
-#~ msgstr "Admin Benachrichtigung"
-
-#~ msgid "Notify admin(s) by e-mail when an user account got blocked."
-#~ msgstr ""
-#~ "Informiert Administratoren per E-Mail wenn Benutzer Accounts gesperrt "
-#~ "werden."
-
-#~ msgid ""
-#~ "Enabling this option will notify the admin(s) about blocked user accounts "
-#~ "aswell."
-#~ msgstr ""
-#~ "Durch das Aktivieren dieser Option werden auch Admins per E-Mail darüber "
-#~ "benachrichtig wenn Benutzer Accounts gesperrt werden."
-
-#~ msgid ""
-#~ "Seperate multiple addresses by semicolon (e.g. \"admin@company.com;"
-#~ "me@mydomain.org\"). If left blank, notifications will be sent to the blog-"
-#~ "administrator only."
-#~ msgstr ""
-#~ "Trenne bei Angabe mehrerer E-Mail Adressen jede Adresse durch ein "
-#~ "Semikolon von der nächsten. Beispiel: 'admin@company.com;me@mydomain."
-#~ "org'. Sollte diese Angabe leer bleiben wird die Benachrichtigung "
-#~ "automatisch an die E-Mail des Blog Administrators gesendet. "
-
-#~ msgid ""
-#~ "This configurates the admin email, notifications are sent to. You can set "
-#~ "multiple email addresses if you seperate them by using a semicolon. If "
-#~ "this event gets triggered and no admin email is set, the email will be "
-#~ "provided to the blog administrator email address. Example: "
-#~ "\"admin@company.com;me@mydomain.org\""
-#~ msgstr ""
-#~ "Bei dieser Option können Sie die Admin E-Mail Adresse(n) definieren, an "
-#~ "welche Benachrichtigungen verschickt werden. Sie können mehrere E-Mail "
-#~ "Adressen angeben wenn Sie diese durch das Verwenden von einem Semikolon "
-#~ "voneinander trennen."
-
-#~ msgid ""
-#~ "If want to make some attributes editable and written back to Active "
-#~ "Directory on profile update add a trailing \":*\" (Sync Back must be "
-#~ "turned on, see below)."
-#~ msgstr ""
-#~ "Wenn Sie möchten das manche Attribute bearbeitbar sind und zurück in das "
-#~ "Active Directory übertragen werden, fügen Sie ein ':*' hinzu. (Sync back "
-#~ "zum Active Directory muss dafür aktiviert sein.)"
-
-#~ msgid "Sync Back to Active Directory"
-#~ msgstr "Sync Back zum Active Directory"
-
-#~ msgid ""
-#~ "Sync changed values of attributes marked with an asterisk (*) back to "
-#~ "Active Directory on update of user profile."
-#~ msgstr ""
-#~ "Synchronisiert veränderte Attribute, makiert durch ein Asterisk (*), "
-#~ "zurück in das Active Directory beim Aktuallisieren des Wordpress Benutzer "
-#~ "Profiles."
-
-#~ msgid ""
-#~ "By activating this option ADI will automatically syncronize edited values "
-#~ "of attributes back to the Active Directory."
-#~ msgstr ""
-#~ "Durch Aktivierung dieser Option wird ADI automatisch veränderte Attribute "
-#~ "aus dem Wordpress Benutzer Profile zum Active Directory übertragen."
-
-#~ msgid ""
-#~ "For this to happen you have to mark the attributes with an asterisk (*)."
-#~ msgstr "Dazu müssen diese durch ein Asterisk (*) makiert wurden sein."
-
-#~ msgid ""
-#~ "The Sync Back to Active Directory gets triggered whenever a user profile "
-#~ "gets updated."
-#~ msgstr ""
-#~ "Die Synchronisierung zurück zum Active Directory wird automatisch "
-#~ "aufgerufen wenn das Wordpress Benutzer Profil aktuallisiert wird."
-
-#~ msgid "Use Global Sync User"
-#~ msgstr "Benutze Global Sync User"
-
-#~ msgid ""
-#~ "Use a Global Sync User for all writes to Active Directory. Leave this "
-#~ "unchecked to ask for the users password on every sync back/profile update."
-#~ msgstr ""
-#~ "Benutzen sie einen Global Sync User um Attribute und andere Daten in ihr "
-#~ "Active Directory zu schreiben. Wenn diese Option nicht aktiviert wird "
-#~ "werden Benutzer bei jeder Aktuallisierung ihres Wordpress Profiles nach "
-#~ "ihrem Passwort gefragt."
-
-#~ msgid ""
-#~ "By NOT checking this option users will always get requested to enter "
-#~ "their password on every sync back/profile update."
-#~ msgstr ""
-#~ "Durch nicht Aktivierung dieser Option werden Benutzer jedes mal wenn sie "
-#~ "ihr Wordpress Profil aktuallisieren nach ihrem Passwort gefragt."
-
-#~ msgid ""
-#~ "NOTICE: The password of the Global Sync User is stored encrypted, but USE "
-#~ "AT YOUR OWN RISK. To avoid this you have to grant your users the "
-#~ "permission to change their own AD attributes. See FAQ for details."
-#~ msgstr ""
-#~ "HINWEIS: Das Passwort des Global Sync User wird verschlüsselt "
-#~ "gespeichert. Benutzen sie es auf eigene Gefahr. Um diese Risiko zu "
-#~ "verhindern, erlauben sie ihren Benutzern ihr Active Directory Attribute "
-#~ "selbst zu ändern. Für weitere Information werden sie einen Blick in die "
-#~ "FAQ."
-
-#~ msgid "Global Sync Username"
-#~ msgstr "Global Sync Username"
-
-#~ msgid ""
-#~ "If you define a Global Sync User with Active Directory users writing "
-#~ "permission, changes will automatically be written in the Active Directory "
-#~ "database through this user."
-#~ msgstr ""
-#~ "Durch das bestimmen eines Active Directory Benutzers mit Schreibrechten "
-#~ "für die Benutzer, werden Änderungen an Wordpress Benutzer Profilen "
-#~ "automatisch in die Active Directory Datenbank durch diesen Benutzer "
-#~ "geschrieben."
-
-#~ msgid "Global Sync User Password"
-#~ msgstr "Global Sync User Passwort"
-
-#~ msgid ""
-#~ "Password for Global Sync User. Leave empty if password should not be "
-#~ "changed."
-#~ msgstr ""
-#~ "Passwort für den Global Sync User. Lassen sie dieses Feld leer wenn sie "
-#~ "das Passwort nicht ändern möchten."
-
-#~ msgid ""
-#~ "This option defines a NEW password for the Global Sync User. Leave this "
-#~ "field blank if you do not want to change the password."
-#~ msgstr ""
-#~ "Diese Option bestimmt ein neues Passwort für den Global Sync User. Lassen "
-#~ "sie dieses Feld leer wenn sie das Passwort nicht ändern möchten."
-
-#~ msgid "Sync Back Auth Code"
-#~ msgstr "Sync Back Authentifizierungs Code"
-
-#~ msgid ""
-#~ "This code is needed for sync back. You can use numbers, lowercase and "
-#~ "uppercase letters. Do not use special characters because they can cause "
-#~ "problems (with curl etc.)"
-#~ msgstr ""
-#~ "Dieser Code wird benötigt um für die Synchronisation von Daten zurück zum "
-#~ "Active Directory. Benutzen sie keine Sonderzeichen da diese Probleme "
-#~ "verursachen können (durch curl z.b.)"
-
-#~ msgid "Enable Bulk Import and Update"
-#~ msgstr "Bulk Import & Update einschalten"
-
-#~ msgid ""
-#~ "Enabling this option will allow ADI to Import & Update users from the "
-#~ "Active Directory to the Wordpress Database."
-#~ msgstr ""
-#~ "Durch Aktivierung dieser Option ermöglichen sie ADI eine Masse an "
-#~ "Benutzern aus ihrem Active Directory in die Wordpress Datenbank zu "
-#~ "importieren bzw. diese zu aktuallisieren."
-
-#~ msgid ""
-#~ "Hint: You could use a cron job, which is nothing more than a timetable "
-#~ "executing the bulk import/update at from you defined times, to keep your "
-#~ "wordpress database always up to date with your Active Directory user "
-#~ "information."
-#~ msgstr ""
-#~ "Hinweis: Sie könnten zum Beispiel einen cron job benutzen. Dabei handelt "
-#~ "es sich um eine zeitliche Ausführung eines Bulk Imports bzw. eines Bulk "
-#~ "Updates von Benutzern zu von ihren bestimmten Zeiten. Dazu halten sie ihe "
-#~ "Wordpress Datenbank mit den Daten aus dem Active Directory immer auf dem "
-#~ "neuesten Stand."
-
-#~ msgid "Bulk User Auth Code"
-#~ msgstr "Bulk User Auth Code"
-
-#~ msgid ""
-#~ "This code is needed for bulk import. You can use numbers, lowercase and "
-#~ "uppercase letters. Do not use special characters because they can cause "
-#~ "problems (with curl etc.)"
-#~ msgstr ""
-#~ "Dieser Code wird benötigt um den oben beschriebenen Bulk  Import bzw. das "
-#~ "Bulk Update von Benutzern auszuführen. Bitte benutzen sie keine "
-#~ "Sonderzeichen da diese zu Problemen führen können."
-
-#~ msgid ""
-#~ "The members of the security groups entered here, will be imported or "
-#~ "updated automatically if the Bulk Import URL is opened"
-#~ msgstr ""
-#~ "Die Mitglieder der Sicherheitsgruppe, welche sie weiter unten definieren, "
-#~ "werden automatisch importiert bzw. aktuallisiert, wenn sich die Bulk "
-#~ "Import URL das nächste mal öffnet."
-
-#~ msgid ""
-#~ "Here you can enter security groups for their members to be imported/"
-#~ "updated automatically every time the Bulk Import URL is opened."
-#~ msgstr ""
-#~ "Hier können sie die Namen der Sicherheitsgruppen angeben, deren "
-#~ "Mitglieder Importiert bzw aktuallisiert werden sollen wenn die Bulk "
-#~ "Import URL das nächste mal aufgerufen wird."
-
-#~ msgid ""
-#~ "If you want to include the users of the built in user group \"domain users"
-#~ "\" you have to enter \"domain users;id:513\" (see FAQ for details)."
-#~ msgstr ""
-#~ "Wenn sie Mitglieder der eingebauten Benutzer Gruppe 'domain users' "
-#~ "importieren möchten, müssen sie sie über folgendes Schema importieren. "
-#~ "Beispiel:  'domain users;id:513' Werfen sie einen Blick in die FAQ für "
-#~ "weitere Informatione."
-
-#~ msgid "Bulk Import User"
-#~ msgstr "Bulk Import Username"
-
-#~ msgid "Bulk Import User Password"
-#~ msgstr "Bulk Import User Passwort"
-
-#~ msgid "Password for Bulk Import User."
-#~ msgstr "Passwort für den Bulk Import User."
-
-#~ msgid ""
-#~ "As you already defined the Bulk Import Username before you now have to "
-#~ "define the password for this user aswell."
-#~ msgstr ""
-#~ "Genauso wie sie bereits den Benutzernamen für den Bulk Import User "
-#~ "angegeben haben, müssen sie nun das Passwort für ihn angeben."
-
-#~ msgid "Auto Disable Users"
-#~ msgstr "Automatische Benutzer Deaktivierung"
-
-#~ msgid ""
-#~ "Disable users previously authenticated by ADI if they are not imported "
-#~ "anymore or if they are disabled in Active Directory."
-#~ msgstr ""
-#~ "Deaktiviert automatisch Benutzer welche zuvor gegen das Active Directory "
-#~ "authentifiziert wurden, nun aber nicht mehr importiert werden bzw im "
-#~ "Active Directory deaktiviert sind."
-
-#~ msgid ""
-#~ "Disabled users can only be reenabled manually by administrators on users "
-#~ "profile page or by Bulk Import."
-#~ msgstr ""
-#~ "Deaktivierte Benutzer können nur durch einen Administrator über ihr "
-#~ "Profile bzw. über den Bulk Import wieder aktiviert werden."
-
-#~ msgid "Important option reminder"
-#~ msgstr "Wichtige Erinnerungen"
-
-#~ msgid "Enable/Disable the important options reminder dialog."
-#~ msgstr ""
-#~ "Aktiviert/Deaktiviert das Popupfenster, welches Sie mit wichtigen "
-#~ "Informationen versorgt."
-
-#~ msgid ""
-#~ "By disabling this option the Dialog Messagebox reminding you about not "
-#~ "configurated important options will not appear anymore."
-#~ msgstr ""
-#~ "Durch deaktivierung dieser Option wird das Popupfenster welches sie über "
-#~ "wichtige nicht konfigurierte Optionen informiert, nicht mehr erscheinen."
-
-#~ msgid "Server"
-#~ msgstr "Server"
-
-#~ msgid "Active Directory Server"
-#~ msgstr "Active Directory Server"
-
-#~ msgid "User-Settings"
-#~ msgstr "Benutzer Einstellungen"
-
-#~ msgid "Passwords"
-#~ msgstr "Passwörter"
-
-#~ msgid "User Meta"
-#~ msgstr "User Meta"
-
-#~ msgid "Sync Back"
-#~ msgstr "Sync Back"
-
-#~ msgid "Bulk Import"
-#~ msgstr "Bulk Import"
-
-#~ msgid "User Bulk Import & Update"
-#~ msgstr "User Bulk Import & Update"
-
-#~ msgid "Notifications"
-#~ msgstr "Benachrichtigungen"
-
-#~ msgid ""
-#~ "On this tab you can configurate all the ADI message dialogs reminding you "
-#~ "about important things."
-#~ msgstr ""
-#~ "Unter diesem Reiter können sie alle Optionen konfigurieren welche mit "
-#~ "Benachrichtigungen über ADI zutun haben."
+msgid "Allow Down-Level Logon Name for login"
+msgstr "Erlaube Down-Level Logon Name für Login"
+
+msgid ""
+"Allow Down-Level Logon Name (also known as pre-Windows 2000 user logon name) "
+"like TEST\\klammer for login."
+msgstr ""
+"Erlaube Down-Level Logon Name (auch bekannt als pre-Windows 2000 user logon "
+"name) wie TEST\\klammer zum Login"
+
+msgid ""
+"This option is disabled by default because the Down-Level Logon Name is not "
+"unique."
+msgstr ""
+"Diese Option ist standardmäßig deaktiviert, weil der Down-Level Logon Name "
+"nicht zwingend einmalig sein muss."
+
+msgid "Make sure that nobody has an already used Down-Level Logon Name."
+msgstr ""
+"Stelle sicher, dass keine zwei Leute den gleichen Down-Level Logon Name "
+"verwenden."

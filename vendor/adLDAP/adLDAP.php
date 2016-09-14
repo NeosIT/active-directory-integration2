@@ -151,7 +151,7 @@ class adLDAP {
 
 	
 	protected $_last_used_dc = '';
-	
+
 	/**
 	 * Version info
 	 *
@@ -2486,7 +2486,7 @@ class adLDAP {
     * @param string $usersid User's Object SID
     * @return string
     */
-    protected function get_primary_group($gid, $usersid){
+    protected function get_primary_group($gid, $usersid) {
         if ($gid===NULL || $usersid===NULL){ return (false); }
         $r=false;
 
@@ -2496,7 +2496,12 @@ class adLDAP {
         $sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
         $entries = ldap_get_entries($this->_conn, $sr);
 
-        return $entries[0]['distinguishedname'][0];
+        // https://github.com/NeosIT/active-directory-integration2/issues/16
+        if ($entries['count'] >= 1) {
+            return $entries[0]['distinguishedname'][0];
+        }
+
+        return false;
      }
      
     /**

@@ -129,13 +129,17 @@ class NextADInt_Adi_Authentication_LoginService
 
 		$this->logger->info('A user tries to log in.');
 
+        // unquote backlash from username
+        // https://wordpress.org/support/topic/fatal-error-after-login-and-suffix-question/
+        $login = stripcslashes($login);
+
 		// login must not be empty or user must not be an admin
 		if (!$this->requiresActiveDirectoryAuthentication($login)) {
 			return false;
 		}
 
 		// login should be case insensitive
-		$password = stripslashes($password);;
+		$password = stripslashes($password);
 
 		$credentials = self::createCredentials($login, $password);
 		$suffixes = $this->detectAuthenticatableSuffixes($credentials->getUpnSuffix());
@@ -161,6 +165,12 @@ class NextADInt_Adi_Authentication_LoginService
 		NextADInt_Core_Assert::notNull($suffixes, "suffixes must not be null");
 
 		$this->logger->debug("$credentials' with authenticatable suffixes: '" . implode(", ", $suffixes) . "'.");
+
+        // add an empty account suffix for supporting usernames without an suffix like TEST\klammer
+        // https://github.com/NeosIT/active-directory-integration2/issues/
+        if ($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ALLOW_DOWN_LEVEL_LOGON_NAME)) {
+            $suffixes[] = '';
+        }
 
 		// authenticate at AD
 		foreach ($suffixes as $suffix) {
