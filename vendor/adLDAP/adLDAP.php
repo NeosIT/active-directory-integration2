@@ -2487,15 +2487,25 @@ class adLDAP {
     * @return string
     */
     protected function get_primary_group($gid, $usersid){
+        $logger = Logger::getLogger('adLDAP');
+        $logger->debug('get_primary_group $gid=' . print_r($gid, false));
+        $logger->debug('get_primary_group $usersid=' . print_r($usersid, false));
+
         if ($gid===NULL || $usersid===NULL){ return (false); }
         $r=false;
 
         $gsid = substr_replace($usersid,pack('V',$gid),strlen($usersid)-4,4);
+        $logger->debug('get_primary_group $gsid=' . print_r($gsid, false));
+
         $filter='(objectsid='.$this->getTextSID($gsid).')';
+        $logger->debug('get_primary_group $filter=' . print_r($filter, false));
+        $logger->debug('get_primary_group md5($filter)=' . print_r(md5($filter), false));
+
         $fields=array("samaccountname","distinguishedname");
         $sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
         $entries = ldap_get_entries($this->_conn, $sr);
 
+        $logger->debug('get_primary_group $entries=' . print_r($entries, false));
         return $entries[0]['distinguishedname'][0];
      }
      
