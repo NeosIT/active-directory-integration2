@@ -151,6 +151,8 @@ class adLDAP {
 
 	
 	protected $_last_used_dc = '';
+
+    public $logger;
 	
 	/**
 	 * Version info
@@ -398,6 +400,8 @@ class adLDAP {
         if ($this->ldap_supported() === false) {
             throw new adLDAPException('No LDAP support for PHP.  See: http://www.php.net/ldap');
         }
+
+        $this->logger = Logger::getLogger('adLDAP');
 
         return $this->connect();
     }
@@ -2486,26 +2490,25 @@ class adLDAP {
     * @param string $usersid User's Object SID
     * @return string
     */
-    protected function get_primary_group($gid, $usersid){
-        $logger = Logger::getLogger('adLDAP');
-        $logger->debug('get_primary_group $gid=' . print_r($gid, false));
-        $logger->debug('get_primary_group $usersid=' . print_r($usersid, false));
+    protected function get_primary_group($gid, $usersid) {
+        $this->logger->info('get_primary_group $gid=' . print_r($gid, true));
+        $this->logger->info('get_primary_group $usersid=' . print_r($usersid, true));
 
         if ($gid===NULL || $usersid===NULL){ return (false); }
         $r=false;
 
         $gsid = substr_replace($usersid,pack('V',$gid),strlen($usersid)-4,4);
-        $logger->debug('get_primary_group $gsid=' . print_r($gsid, false));
+        $this->logger->info('get_primary_group $gsid=' . print_r($gsid, true));
 
         $filter='(objectsid='.$this->getTextSID($gsid).')';
-        $logger->debug('get_primary_group $filter=' . print_r($filter, false));
-        $logger->debug('get_primary_group md5($filter)=' . print_r(md5($filter), false));
+        $this->logger->info('get_primary_group $filter=' . print_r($filter, true));
+        $this->logger->info('get_primary_group md5($filter)=' . print_r(md5($filter), true));
 
         $fields=array("samaccountname","distinguishedname");
         $sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
         $entries = ldap_get_entries($this->_conn, $sr);
 
-        $logger->debug('get_primary_group $entries=' . print_r($entries, false));
+        $this->logger->info('get_primary_group $entries=' . print_r($entries, true));
         return $entries[0]['distinguishedname'][0];
      }
      
