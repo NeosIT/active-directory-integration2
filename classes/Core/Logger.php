@@ -20,6 +20,8 @@ if (class_exists('NextADInt_Core_Logger')) {
 class NextADInt_Core_Logger
 {
 	const LOG_PATH = 'logs/debug.log';
+    const FILE_CONVERSION_PATTERN_FILTER = 'next_ad_int_file_conversion_pattern_filter';
+    const ECHO_CONVERSION_PATTERN_FILTER = 'next_ad_int_echo_conversion_pattern_filter';
 
 	private static $logging = true;
 
@@ -27,9 +29,7 @@ class NextADInt_Core_Logger
 		'class'  => 'LoggerAppenderFile',
 		'layout' => array(
 			'class' => 'LoggerLayoutPattern',
-			'params' => array(
-				'conversionPattern' => "[%-5level] %class::%method [line %line] %msg %ex\r\n"
-			)
+			'params' => array()
 		),
 		'params' => array(
 			'file'   => 'debug.log',
@@ -41,9 +41,7 @@ class NextADInt_Core_Logger
 		'class' => 'LoggerAppenderEcho',
 		'layout' => array(
 			'class' => 'LoggerLayoutPattern',
-			'params' => array(
-				'conversionPattern' => '[%-5level] %msg %ex<br />'
-			)
+			'params' => array()
 		),
 		'params' => array(
 			'htmlLineBreaks' => 'true',
@@ -70,12 +68,21 @@ class NextADInt_Core_Logger
 		if ($useFile) {
 			$config['rootLogger']['appenders'][] = 'file';
 			$config['appenders']['file'] = self::$fileConfig;
+
+            // set the conversionPattern
+            $pattern = apply_filters(NextADInt_Core_Logger::FILE_CONVERSION_PATTERN_FILTER, NEXT_AD_INT_FILE_CONVERSION_PATTERN);
+            $config['appenders']['file']['layout']['params']['conversionPattern'] = $pattern;
+
 			$config['appenders']['file']['params']['file'] = NEXT_AD_INT_PATH . '/' . self::LOG_PATH;
 		}
 
 		if ($useEcho) {
 			$config['rootLogger']['appenders'][] = 'echo';
 			$config['appenders']['echo'] = self::$echoConfig;
+
+            // set the conversionPattern
+            $pattern = apply_filters(NextADInt_Core_Logger::ECHO_CONVERSION_PATTERN_FILTER, NEXT_AD_INT_ECHO_CONVERSION_PATTERN);
+            $config['appenders']['echo']['layout']['params']['conversionPattern'] = $pattern;
 		}
 
 		return $config;
