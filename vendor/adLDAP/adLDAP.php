@@ -151,8 +151,6 @@ class adLDAP {
 
 	
 	protected $_last_used_dc = '';
-
-    public $logger;
 	
 	/**
 	 * Version info
@@ -400,8 +398,6 @@ class adLDAP {
         if ($this->ldap_supported() === false) {
             throw new adLDAPException('No LDAP support for PHP.  See: http://www.php.net/ldap');
         }
-
-        $this->logger = Logger::getLogger('adLDAP');
 
         return $this->connect();
     }
@@ -2490,7 +2486,7 @@ class adLDAP {
     * @param string $usersid User's Object SID
     * @return string
     */
-    protected function get_primary_group($gid, $usersid) {
+    protected function get_primary_group($gid, $usersid){
         if ($gid===NULL || $usersid===NULL){ return (false); }
         $r=false;
 
