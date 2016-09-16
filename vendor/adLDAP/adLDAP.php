@@ -2491,25 +2491,20 @@ class adLDAP {
     * @return string
     */
     protected function get_primary_group($gid, $usersid) {
-        $this->logger->info('get_primary_group $gid=' . print_r($gid, true));
-        $this->logger->info('get_primary_group $usersid=' . print_r($usersid, true));
-
         if ($gid===NULL || $usersid===NULL){ return (false); }
         $r=false;
 
         $gsid = substr_replace($usersid,pack('V',$gid),strlen($usersid)-4,4);
-        $this->logger->info('get_primary_group $gsid=' . print_r($gsid, true));
-
         $filter='(objectsid='.$this->getTextSID($gsid).')';
-        $this->logger->info('get_primary_group $filter=' . print_r($filter, true));
-        $this->logger->info('get_primary_group md5($filter)=' . print_r(md5($filter), true));
-
         $fields=array("samaccountname","distinguishedname");
         $sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
         $entries = ldap_get_entries($this->_conn, $sr);
 
-        $this->logger->info('get_primary_group $entries=' . print_r($entries, true));
-        return $entries[0]['distinguishedname'][0];
+        if ($entries['count'] >= 1) {
+            return $entries[0]['distinguishedname'][0];
+        }
+
+        return false;
      }
      
     /**
