@@ -46,6 +46,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const PREVENT_EMAIL_CHANGE = 'prevent_email_change';
 	const NAME_PATTERN = 'name_pattern';
 	const SHOW_USER_STATUS = 'show_user_status';
+    const ALLOW_DOWN_LEVEL_LOGON_NAME = 'allow_down_level_logon_name';
 
 	// User - Passwords
 	const ENABLE_PASSWORD_CHANGE = 'enable_password_change';
@@ -89,7 +90,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const SYNC_TO_WORDPRESS_PASSWORD = 'sync_to_wordpress_password';
 	const SYNC_TO_WORDPRESS_DISABLE_USERS = 'disable_users';
 
-	// New Features
+	// Single Sign On
 	const SSO_ENABLED = 'sso';
 	const SSO_USER = 'sso_user';
 	const SSO_PASSWORD = 'sso_password';
@@ -701,6 +702,29 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$showPermission => true,
 				$transient      => false,
 			),
+            // use local (WordPress) password as fallback if authentication against AD fails
+            self::FALLBACK_TO_LOCAL_PASSWORD    => array(
+                $title       => __('Fallback to local password', NEXT_AD_INT_I18N),
+                $type        => NextADInt_Multisite_Option_Type::CHECKBOX,
+                $description => __(
+                    'Fallback to local(WordPress) password check if Active Directory authentication fails.', NEXT_AD_INT_I18N
+                ),
+                $detail      => array(
+                    __(
+                        'If option is enabled, users who failed authenticating against Active Directory can authenticate again against the local WordPress password check.',
+                        NEXT_AD_INT_I18N
+                    ),
+                    __(
+                        'But this might be a security risk (for example, if the local password is outdated). <b>It\'s recommended to turn this off.</b>',
+                        NEXT_AD_INT_I18N
+                    ),
+                ),
+                $angularAttributes => '',
+                $default     => false,
+                $sanitizer   => array('boolean'),
+                $showPermission    => true,
+                $transient         => false,
+            ),
 			// Use the real password when a user is created
 			self::NO_RANDOM_PASSWORD            => array(
 				$title       => __('Set local password on first successful login', NEXT_AD_INT_I18N),
@@ -845,29 +869,21 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$showPermission    => true,
 				$transient         => false,
 			),
-			// use local (WordPress) password as fallback if authentication against AD fails
-			self::FALLBACK_TO_LOCAL_PASSWORD    => array(
-				$title       => __('Fallback to local password', NEXT_AD_INT_I18N),
-				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
-				$description => __(
-					'Fallback to local(WordPress) password check if Active Directory authentication fails.', NEXT_AD_INT_I18N
-				),
-				$detail      => array(
-					__(
-						'If option is enabled, users who failed authenticating against Active Directory can authenticate again against the local WordPress password check.',
-						NEXT_AD_INT_I18N
-					),
-					__(
-						'But this might be a security risk (for example, if the local password is outdated). <b>It\'s recommended to turn this off.</b>',
-						NEXT_AD_INT_I18N
-					),
-				),
-				$angularAttributes => '',
-				$default     => false,
-				$sanitizer   => array('boolean'),
-				$showPermission    => true,
-				$transient         => false,
-			),
+            // allow the pre-Windows 2000 user logon name
+            self::ALLOW_DOWN_LEVEL_LOGON_NAME => array(
+                $title => __('Allow Down-Level Logon Name for login', NEXT_AD_INT_I18N),
+                $type => NextADInt_Multisite_Option_Type::CHECKBOX,
+                $description => __('Allow Down-Level Logon Name (also known as pre-Windows 2000 user logon name) like TEST\klammer for login.', NEXT_AD_INT_I18N),
+                $detail => array(
+                    __('This option is disabled by default because the Down-Level Logon Name is not unique.', NEXT_AD_INT_I18N),
+                    __('Make sure that nobody has an already used Down-Level Logon Name.', NEXT_AD_INT_I18N),
+                ),
+                $angularAttributes => '',
+                $default => false,
+                $sanitizer => array('boolean'),
+                $showPermission => true,
+                $transient => false,
+            ),
 			// Enable lost password recovery
 			self::ENABLE_LOST_PASSWORD_RECOVERY => array(
 				$title       => __('Enable lost password recovery', NEXT_AD_INT_I18N),

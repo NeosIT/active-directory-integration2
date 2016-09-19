@@ -168,7 +168,9 @@ class NextADInt_Adi_Authentication_LoginService
 
         // add an empty account suffix for supporting usernames without an suffix like TEST\klammer
         // https://github.com/NeosIT/active-directory-integration2/issues/
-        $suffixes[] = '';
+        if ($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ALLOW_DOWN_LEVEL_LOGON_NAME)) {
+            $suffixes[] = '';
+        }
 
 		// authenticate at AD
 		foreach ($suffixes as $suffix) {
