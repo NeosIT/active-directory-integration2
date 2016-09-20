@@ -175,6 +175,26 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		$this->assertEquals($expected, $actual);
 	}
 
+    /**
+     * @test
+     */
+    public function findUsername_withDownLevelLogonName_unescapeEscapedUsername()
+    {
+        $sut = $this->sut();
+        $remoteVariable = 'REMOTE_USER';
+        $expected = 'TEST\klammer';
+        $_SERVER[$remoteVariable] = addslashes($expected); // WordPress call addslashes for every entry in $_SERVEr
+
+        $this->configuration->expects($this->once())
+            ->method('getOptionValue')
+            ->with(NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE)
+            ->willReturn($remoteVariable);
+
+        $actual = $this->invokeMethod($sut, 'findUsername');
+
+        $this->assertEquals($expected, $actual);
+    }
+
 	/**
 	 * @test
 	 */

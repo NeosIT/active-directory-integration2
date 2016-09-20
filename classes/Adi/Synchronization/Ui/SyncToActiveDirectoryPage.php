@@ -67,6 +67,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		$this->checkCapability();
 
 		// get data from $_POST
+        // dont unescape $_POST because only numbers and base64 values will be accessed
 		$params = $this->processData($_POST);
 		$params['nonce'] = wp_create_nonce(self::NONCE); // add nonce for security
 		$params['authCode'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE);
@@ -85,7 +86,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 	 */
 	public function processData($post)
 	{
-		if (!isset($post['syncToAd'])) {	//TODO bulkSyncBack ist nicht mehr erlaubt in $_POST
+		if (!isset($post['syncToAd'])) {
 			return array();
 		}
 

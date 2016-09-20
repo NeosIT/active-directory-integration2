@@ -230,11 +230,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title          => __('Support license key:', NEXT_AD_INT_I18N),
 				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
-					"Please enter your support license key here, if you have a paid ADI 2.0 license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
+					"Please enter your support license key here, if you have a paid Next ADI license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
 					NEXT_AD_INT_I18N
 				),
 				$detail      => __(
-					"Please enter your support license key here, if you have a paid ADI 2.0 license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
+					"Please enter your support license key here, if you have a paid Next ADI license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
 					NEXT_AD_INT_I18N
 				),
 				$sanitizer   => array('string'),

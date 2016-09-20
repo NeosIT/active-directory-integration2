@@ -123,6 +123,47 @@ class Ut_NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest
 		$this->assertTrue($returnedValue);
 	}
 
+    /**
+     * @test
+     */
+    public function updateProfile_withEscapedCharacters_unescapeThem()
+    {
+        $userId = 1;
+
+        $_POST = array(
+            'user_email'         => 'test@company.it',
+            'next_ad_int_samaccountname' => 'test\\\\User'
+        );
+
+        $isOwnProfile = true;
+
+        $sut = $this->sut(array('updateWordPressProfile', 'triggerSyncToActiveDirectory'));
+
+        $data = array(
+            'user_email'         => 'test@company.it',
+            'next_ad_int_samaccountname' => 'test\User'
+        );
+
+        \WP_Mock::expectActionAdded('user_profile_update_errors', array($sut, 'generateError'), 10, 3);
+
+        $sut->expects($this->once())
+            ->method('updateWordPressProfile')
+            ->with($userId, $data);
+
+        $this->syncToActiveDirectory->expects($this->once())
+            ->method('isEditable')
+            ->with($userId, $isOwnProfile)
+            ->willReturn(true);
+
+        $sut->expects($this->once())
+            ->method('triggerSyncToActiveDirectory')
+            ->with($userId, $data)
+            ->willReturn('ad-user updated');
+
+        $returnedValue = $sut->updateProfile($userId, true);
+        $this->assertEquals('ad-user updated', $returnedValue);
+    }
+
 	/**
 	 * @test
 	 */

@@ -66,6 +66,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 	{
 		$this->checkCapability();
 
+        // dont unescape $_POST because only base64 values will be accessed
 		$params = $this->processData($_POST);
 		// add nonce for security
 		$params['nonce'] = wp_create_nonce(self::NONCE);
