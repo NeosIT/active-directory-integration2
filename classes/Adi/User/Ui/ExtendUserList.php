@@ -130,7 +130,7 @@ class NextADInt_Adi_User_Ui_ExtendUserList
 
 		// fallback message
 		if (!$reason || !is_string($reason) || strlen($reason) === 0){
-			$reason = __('User is disabled by ADI 2.0.', NEXT_AD_INT_I18N);
+			$reason = __('User is disabled by Next ADI.', NEXT_AD_INT_I18N);
 		}
 
 		if ($isUserDisabled) {

@@ -171,6 +171,10 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			'next_ad_int_blog_options_controller_sync_to_wordpress', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/sync-to-wordpress.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
+		wp_enqueue_script(
+			'next_ad_int_blog_options_controller_logging', NEXT_AD_INT_URL .
+			'/js/app/blog-options/controllers/logging.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
+		);
 	}
 
 	/**
@@ -257,8 +261,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 
 		// ADI-357 unescape already escaped $_POST
 		$post = stripslashes_deep($_POST);
-
-		$subAction = (!empty($post['subAction'])) ? $post['subAction'] : '';
+        $subAction = (!empty($post['subAction'])) ? $post['subAction'] : '';
 
 		$result = $this->routeRequest($subAction, $post);
 
@@ -594,7 +597,8 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 
 			// PERMISSIONS
 			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', NEXT_AD_INT_I18N);
-			$disallowedRoleRule = new NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig($disallowedRoleMessage);
+            $invalidRoleMessage = __('At least one security group is associated with a non existing WordPress role. Please select an existing role for the group.', NEXT_AD_INT_I18N);
+			$disallowedRoleRule = new NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles(array($disallowedRoleMessage, $invalidRoleMessage));
 			$validator->addRule(NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
 
 			// ATTRIBUTES

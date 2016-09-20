@@ -59,22 +59,32 @@ if (!defined('ABSPATH')) {
 
 	class WP_Roles
 	{
-		private $role_names;
+		public $roles;
 
 		public function __construct()
 		{
-			$this->role_names = array(
-				'administrator' => 'Administrator',
-				'editor'        => 'Editor',
-				'author'        => 'Author',
-				'contributor'   => 'Contributor',
-				'subscriber'    => 'Subscriber',
+			$this->roles = array(
+				'administrator' => array(
+				    'name' => 'Administrator',
+                ),
+				'editor'        => array(
+				    'name' => 'Editor',
+                ),
+				'author'        => array(
+                    'name' => 'Author',
+                ),
+				'contributor'   => array(
+                    'name' => 'Contributor',
+                ),
+				'subscriber'    => array(
+                    'name' => 'Subscriber',
+                ),
 			);
 		}
 
 		public function is_role($role)
 		{
-			return isset($this->role_names[$role]);
+			return isset($this->roles[$role]);
 		}
 	}
 

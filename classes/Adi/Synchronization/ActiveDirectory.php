@@ -41,7 +41,7 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 	 * Get all attribute values of WordPress users and synchronize them with the corresponding Active Directory users.
 
 	 * @param int|null $userId if provided only the user with the given ID is synchronized
-	 * @param string|nuull $username username
+	 * @param string|null $username username
 	 * @param string|null $password password
 	 * @return bool
 	 */
@@ -86,6 +86,16 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 	 */
 	protected function prepareForSync($username = null, $password = null)
 	{
+		// ADI-354 (dme)
+		$loggingEnabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
+		$customPath = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH);
+
+		if (!$loggingEnabled) {
+			NextADInt_Core_Logger::displayMessages();;
+		} else {
+			NextADInt_Core_Logger::displayAndLogMessages($customPath);
+		}
+
 		if (!$this->isEnabled()) {
 			$this->logger->info('Sync to AD is disabled.');
 

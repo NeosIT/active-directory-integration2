@@ -164,9 +164,14 @@ It is __not__ possible to activate *Next ADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.0.7 =
+* ADD: custom user roles can be used in "Role equivalent groups"
+* ADD: the logger is disabled by default (and can be enabled inside the configuration)
+* ADD: log file path can be configured (default is wp-content/plugins/next-active-directory-integration/logs/debug.log)
+
 = 2.0.6 =
 * FIX: show activation notice only after activating this plugin (https://wordpress.org/support/topic/activate-plugin-notification-bug/ Thanks to bobchou9)
-* FIX: errors in SSO/verify-password by unescaping values in $_GET/$_POST/$_SERVER (which are already been escaped by WordPress) (GitHub #20 Thanks to plantjes)
+* FIX: SSO/verify-password errors by un-quoting values in $_GET/$_POST/$_SERVER. WordPress quotes all entries in $_GET/$_POST/$_SERVER automatically (GitHub #20 Thanks to plantjes)
 
 = 2.0.5 =
 * FIX: check if AD result is not empty before accessing distinguishedname (GitHub #16 Thanks to petterannerwall)

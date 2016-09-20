@@ -467,6 +467,17 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 				'times' => 1,
 			)
 		);
+		WP_Mock::wpFunction(
+			'wp_enqueue_script', array(
+				'args' => array(
+					'next_ad_int_profile_options_controller_logging',
+					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/logging.controller.js',
+					array(),
+					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
+				),
+				'times' => 1,
+			)
+		);
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
@@ -888,7 +899,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero', $rules[NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero', $rules[NextADInt_Adi_Configuration_Options::BLOCK_TIME][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::PROFILE_NAME][0]);
-		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig', $rules[NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles', $rules[NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_SelectValueValid', $rules[NextADInt_Adi_Configuration_Options::ENCRYPTION][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_SelectValueValid', $rules[NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SSO_USER][0]);

@@ -21,7 +21,12 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function initialize_loadsLanguageFile()
 	{
-		$sut = $this->sut();
+		$sut = $this->sut(array('dc'));
+		$dc = $this->mockDependencyContainer($sut);
+		$fakeService = $this->createInitializeEnvironment($dc);
+
+		$fakeService->expects($this->exactly(2))
+			->method('getOptionValue');
 
         WP_Mock::wpFunction('plugin_basename', array(
             'args' => array(NEXT_AD_INT_PATH),
@@ -43,7 +48,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	private function createActivationEnvironment($dc)
 	{
 		$fakeService = $this->createAnonymousMock(array('check', 'register', 'insertDefaultProfile', 'autoImport',
-			'migratePreviousVersion', 'persistSanitizedValue'));
+			'migratePreviousVersion', 'persistSanitizedValue', 'getOptionValue'));
 		$dc->expects($this->once())
 			->method('getRequirements')
 			->willReturn($fakeService);
@@ -60,6 +65,21 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 			->method('getProfileRepository')
 			->willReturn($fakeService);
 
+		$dc->expects($this->any())
+			->method('getConfiguration')
+			->willReturn($fakeService);
+
+		return $fakeService;
+	}
+
+	private function createInitializeEnvironment($dc)
+	{
+		$fakeService = $this->createAnonymousMock(array('getOptionValue'));
+
+		$dc->expects($this->any())
+			->method('getConfiguration')
+			->willReturn($fakeService);
+
 		return $fakeService;
 	}
 
@@ -73,6 +93,10 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 		$fakeService = $this->createActivationEnvironment($dc);
 
 		$this->behave($fakeService, 'check', false);
+
+
+		$fakeService->expects($this->once())
+			->method('getOptionValue');
 
 		$fakeService->expects($this->never())
 			->method('register');
@@ -317,14 +341,22 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 	/**
 	 * @test
-	 */
+	 */ //TODO Revisit
 	public function run_itDoesNotRegisterCore_whenNotActive()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'isActive', 'registerCore'));
 
+		$this->mockWordpressFunction('get_current_blog_id');
+		$this->mockWordpressFunction('is_multisite');
+		$this->mockWordpressFunction('get_option');
+		$this->mockWordpressFunction('get_site_option');
+
 		$sut->expects($this->once())
 			->method('isActive')
 			->willReturn(false);
+
+		$sut->expects($this->once())
+			->method('initialize');
 
 		$sut->expects($this->never())
 			->method('registerCore');

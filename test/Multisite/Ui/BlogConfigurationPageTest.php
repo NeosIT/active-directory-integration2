@@ -422,6 +422,18 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
+					'next_ad_int_blog_options_controller_logging',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/logging.controller.js',
+					array(),
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+				),
+				'times' => 1,
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'wp_enqueue_script', array(
+				'args' => array(
 					'selectizejs',
 					NEXT_AD_INT_URL . '/js/libraries/selectize.min.js',
 					array('jquery'),
@@ -580,6 +592,8 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 		$_POST['data'] = '';
 
+		$this->mockWordpressFunction('current_user_can');
+
 		WP_Mock::wpFunction(
 			'check_ajax_referer', array(
 				'args' => array('Active Directory Integration Configuration Nonce', 'security', true),
@@ -651,6 +665,8 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
+		$this->mockWordpressFunction('is_multisite');
+
 		$data = array(
 			'domain_controllers' => array(
 				'option_value' => 'test',
@@ -693,6 +709,8 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	public function generateNewAuthCode_returnsNewAuthCode()
 	{
 		$sut = $this->sut();
+
+		$this->mockWordpressFunction('wp_generate_password', array('times' => 1, 'return' => 'abc123'));
 
 		$result = $this->invokeMethod($sut, 'generateNewAuthCode');
 
@@ -797,7 +815,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero', $rules[NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero', $rules[NextADInt_Adi_Configuration_Options::BLOCK_TIME][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::PROFILE_NAME][0]);
-		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig', $rules[NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles', $rules[NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_SelectValueValid', $rules[NextADInt_Adi_Configuration_Options::ENCRYPTION][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_SelectValueValid', $rules[NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SSO_USER][0]);

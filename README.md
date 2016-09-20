@@ -51,6 +51,18 @@ Run > Edit Configurations > Defaults > PHPUnit
 - Test Runner options: `--test-suffix Test.php,IT.php`
 - Interpreter options: `-d AD_ENDPOINT=127.0.0.1 -d AD_PORT=389 -d AD_USERNAME=Administrator -d AD_PASSWORD=Pa$$w0rd -d AD_USE_TLS='' -d AD_SUFFIX=@test.ad -d AD_BASE_DN='DC=test,DC=ad'`
 
+#### Update translation
+
+After changing the next_ad_int-de_DE.po you have to build the next_ad_int-de_DE.mo and next_ad_int-de_DE_formal.mo file.
+```shell
+	# Execute this command inside the plugin root folder (with the index.php)
+	ant compile-all-languages
+	# or execute this:
+	ant -Dmsgfmt=/path/to/gettext/msgfmt compile-all-languages
+```
+Make sure that you have GNU gettext with msgfmt installed.
+
+It is also possible to generate the next_ad_int-de_DE.mo with Poedit (or some other .po tool). You can create a copy from the next_ad_int-de_DE.mo file and name it next_ad_int-de_DE_formal.mo.
 
 ### Continuous Integration
 Next ADI utilizes Ant for an easier CI process. The *build.xml* supports different targets. The main targets are

@@ -174,6 +174,9 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
 		wp_enqueue_script('next_ad_int_profile_options_controller_sync_to_wordpress', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/sync-to-wordpress.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
+		wp_enqueue_script('next_ad_int_profile_options_controller_logging', NEXT_AD_INT_URL .
+			'/js/app/profile-options/controllers/logging.controller.js',
+			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
 
 		wp_enqueue_script('next_ad_int_blog_options_model', NEXT_AD_INT_URL . '/js/app/profile-options/models/profile.model.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
