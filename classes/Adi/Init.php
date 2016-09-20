@@ -34,7 +34,14 @@ class NextADInt_Adi_Init
 	 */
 	public function activation()
 	{
-		NextADInt_Core_Logger::displayAndLogMessages();
+		$customPath = $this->dc()->getConfigurationService()->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
+
+		if ($customPath) {
+			NextADInt_Core_Logger::displayAndLogMessages($customPath);
+		} else {
+			NextADInt_Core_Logger::displayAndLogMessages();
+		}
+
 		NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelError());
 
 		$requirements = $this->dc()->getRequirements();
@@ -73,7 +80,7 @@ class NextADInt_Adi_Init
 		global $pagenow;
 
 		// show purchase support license information
-		add_action( 'after_plugin_row_' . NEXT_AD_INT_PLUGIN_FILE, array( $this, 'showLicensePurchaseInformation'), 99, 2 );
+		add_action('after_plugin_row_' . NEXT_AD_INT_PLUGIN_FILE, array($this, 'showLicensePurchaseInformation'), 99, 2);
 
 		// do as few checks as possible
 		if (($pagenow == 'plugins.php') && isset($_REQUEST['activate']) && ($_REQUEST['activate'] == 'true')) {
@@ -92,13 +99,14 @@ class NextADInt_Adi_Init
 	 * @param string $file
 	 * @param mixed $pluginData
 	 */
-	public function showLicensePurchaseInformation($file, $pluginData) {
+	public function showLicensePurchaseInformation($file, $pluginData)
+	{
 		if (is_plugin_active(NEXT_AD_INT_PLUGIN_FILE)) {
 			$configurationService = $this->dc()->getConfigurationService();
 			$licenseKey = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
 
 			if (empty($licenseKey)) {
-				echo "<tr><td colspan='3' style='vertical-align: middle; background-color: #ef693e; color: #fff'>" . __("Please purchase a valid Active Directory Integration 2 support license from <a href='https://www.active-directory-wp.com/' style='color: #fff; text-decoration: underline'>https://www.active-directory-wp.com/</a> to support this plug-in.") ."</td>";
+				echo "<tr><td colspan='3' style='vertical-align: middle; background-color: #ef693e; color: #fff'>" . __("Please purchase a valid Active Directory Integration 2 support license from <a href='https://www.active-directory-wp.com/' style='color: #fff; text-decoration: underline'>https://www.active-directory-wp.com/</a> to support this plug-in.") . "</td>";
 			}
 		}
 	}
@@ -111,8 +119,8 @@ class NextADInt_Adi_Init
 	 */
 	public static function uninstall()
 	{
-        require_once NEXT_AD_INT_PATH . '/uninstall.php';
-    }
+		require_once NEXT_AD_INT_PATH . '/uninstall.php';
+	}
 
 	// ---
 	// main dependencies
@@ -128,8 +136,23 @@ class NextADInt_Adi_Init
 			return;
 		}
 
-		NextADInt_Core_Logger::logMessages();
-		NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelAll());
+		// ADI-354 (dme)
+
+		$configurationService = $this->dc()->getConfiguration();
+		$enableLogging = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
+		$customPath = $configurationService->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
+
+		if ($customPath) {
+			NextADInt_Core_Logger::logMessages($customPath);
+		} else {
+			NextADInt_Core_Logger::logMessages();
+		}
+
+		if ($enableLogging) {
+			NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelAll());
+		} else {
+			NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelOff());
+		}
 
 		// load internationalization (i18n)
 		load_plugin_textdomain(NEXT_AD_INT_I18N, false, plugin_basename(NEXT_AD_INT_PATH) . '/languages');

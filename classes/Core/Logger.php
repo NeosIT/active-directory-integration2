@@ -19,7 +19,7 @@ if (class_exists('NextADInt_Core_Logger')) {
  */
 class NextADInt_Core_Logger
 {
-	const LOG_PATH = 'logs/debug.log';
+	const LOG_PATH = NEXT_AD_INT_PATH . '/' .'logs/debug.log';
     const FILE_CONVERSION_PATTERN_FILTER = 'next_ad_int_file_conversion_pattern_filter';
     const ECHO_CONVERSION_PATTERN_FILTER = 'next_ad_int_echo_conversion_pattern_filter';
 
@@ -60,9 +60,10 @@ class NextADInt_Core_Logger
 	 *
 	 * @param bool $useFile
 	 * @param bool $useEcho
+	 * @param string $path
 	 * @return array
 	 */
-	public static function createDefaultConfiguration($useFile, $useEcho) {
+	public static function createDefaultConfiguration($useFile, $useEcho, $path = self::LOG_PATH) {
 		$config = self::$generalConfig;
 
 		if ($useFile) {
@@ -73,7 +74,7 @@ class NextADInt_Core_Logger
             $pattern = apply_filters(NextADInt_Core_Logger::FILE_CONVERSION_PATTERN_FILTER, NEXT_AD_INT_FILE_CONVERSION_PATTERN);
             $config['appenders']['file']['layout']['params']['conversionPattern'] = $pattern;
 
-			$config['appenders']['file']['params']['file'] = NEXT_AD_INT_PATH . '/' . self::LOG_PATH;
+			$config['appenders']['file']['params']['file'] = $path;
 		}
 
 		if ($useEcho) {
@@ -91,24 +92,44 @@ class NextADInt_Core_Logger
 	/**
 	 * Enable file logging but disable screen logging
 	 */
-	public static function logMessages()
+	public static function logMessages($customPath = self::LOG_PATH)
 	{
 		Logger::resetConfiguration();
 
 		if (self::$logging) {
-			Logger::configure(self::createDefaultConfiguration(true, false));
+			if ($customPath !== self::LOG_PATH && $customPath != '') {
+				Logger::configure(self::createDefaultConfiguration(true, false, $customPath));
+			} else {
+				Logger::configure(self::createDefaultConfiguration(true, false));
+			}
+		}
+	}
+
+	/**
+	 * Disable file logging but enable screen logging
+	 */
+	public static function displayMessages()
+	{
+		Logger::resetConfiguration();
+
+		if (self::$logging) {
+			Logger::configure(self::createDefaultConfiguration(false, true));
 		}
 	}
 
 	/**
 	 * Enable file and screen logging
 	 */
-	public static function displayAndLogMessages()
+	public static function displayAndLogMessages($customPath = self::LOG_PATH)
 	{
 		Logger::resetConfiguration();
 
 		if (self::$logging) {
-			Logger::configure(self::createDefaultConfiguration(true, true));
+			if ($customPath !== self::LOG_PATH && $customPath != '') {
+				Logger::configure(self::createDefaultConfiguration(true, true, $customPath));
+			} else {
+				Logger::configure(self::createDefaultConfiguration(true, true));
+			}
 		}
 	}
 

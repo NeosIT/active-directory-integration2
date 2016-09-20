@@ -276,6 +276,24 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 				),
 			),
+			// Tab name
+			__('Logging', NEXT_AD_INT_I18N)      => array(
+				self::ANGULAR_CONTROLLER => 'LoggingController',
+				self::MULTISITE_ONLY => false,
+				// Group name
+				__('Logging', NEXT_AD_INT_I18N) => array(
+					// Group description
+					self::DESCRIPTION => __(
+						'On this tab you can configurate the NADI event logger.',
+						NEXT_AD_INT_I18N
+					),
+					// Group elements in group
+					self::OPTIONS     => array(
+						NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING,
+						NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH,
+					),
+				),
+			),
 		);
 	}
 }

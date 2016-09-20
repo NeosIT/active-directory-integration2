@@ -104,6 +104,10 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const ATTRIBUTES_COLUMN_SYNC_TO_AD = "sync_to_ad";
 	const ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE= "view_in_userprofile";
 
+	// Logger
+	const LOGGER_ENABLE_LOGGING = 'logger_enable_logging';
+	const LOGGER_CUSTOM_PATH = 'logger_custom_path';
+
 	// array containing all setting elements
 	private $optionsMetadata = array();
 
@@ -1342,6 +1346,42 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$angularAttributes => 'ng-disabled="((!option.sync_to_wordpress_enabled) || ((permission.disable_users == 2) || (permission.disable_users == 1))',
 				$default     => false,
 				$sanitizer   => array('boolean'),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			// Prevent email change by ADI Users (not for admins)
+			self::LOGGER_ENABLE_LOGGING => array(
+				$title       => __('Enable Logging', NEXT_AD_INT_I18N),
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
+				$description => __(
+					'If activated NADI will create a logfile.',
+					NEXT_AD_INT_I18N
+				),
+				$detail      => __(
+					'If activated NADI will create a logfile and start logging to it. Default path is "PLUGINPATH/logs/debug.log"',
+					NEXT_AD_INT_I18N
+				),
+				$angularAttributes => '',
+				$default     => false,
+				$sanitizer   => array('boolean'),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			// Prevent email change by ADI Users (not for admins)
+			self::LOGGER_CUSTOM_PATH => array(
+				$title       => __('Custom Path', NEXT_AD_INT_I18N),
+				$type        => NextADInt_Multisite_Option_Type::TEXT,
+				$description => __(
+					'If you don´t have permission for the default path on your system you can set a new path. The logfile will be created at the set location.',
+					NEXT_AD_INT_I18N
+				),
+				$detail      => __(
+					'If you don´t have permission for the default path on your system you can set a new path. The logfile will be created at the set location.',
+					NEXT_AD_INT_I18N
+				),
+				$angularAttributes => 'ng-disabled="((!option.logger_enable_logging) || ((permission.logger_enable_logging == 2) || (permission.logger_enable_logging == 1))',
+				$default     => '',
+				$sanitizer   => array('string'),
 				$showPermission    => true,
 				$transient         => false,
 			),

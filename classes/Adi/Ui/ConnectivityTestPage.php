@@ -145,8 +145,17 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	 */
 	function collectInformation($username, $password)
 	{
+		// ADI-354 (dme)
+		$loggingEnabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
+		$customPath = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH);
+		if ($loggingEnabled)
+		{
+			NextADInt_Core_Logger::displayAndLogMessages($customPath);
+		} else {
+			NextADInt_Core_Logger::displayMessages();
+		}
+
 		ob_start();
-		NextADInt_Core_Logger::displayAndLogMessages();
 
 		// detect support-id
 		$supportData = $this->detectSupportData();
