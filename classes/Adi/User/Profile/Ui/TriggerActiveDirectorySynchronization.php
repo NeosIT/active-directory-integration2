@@ -94,11 +94,14 @@ class NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 		// add an action, so we can show errors on profile page
 		add_action('user_profile_update_errors', array($this, 'generateError'), 10, 3);
 
+        // ADI-357 unescape already escaped $_POST
+        $post = stripslashes_deep($_POST);
+
 		// update user meta information
-		$this->updateWordPressProfile($userId, $_POST);
+		$this->updateWordPressProfile($userId, $post);
 
 		if ($this->syncToActiveDirectory->isEditable($userId, $isOwnProfile)) {
-			return $this->triggerSyncToActiveDirectory($userId, $_POST);
+			return $this->triggerSyncToActiveDirectory($userId, $post);
 		}
 
 		return true;

@@ -80,29 +80,30 @@ class NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption
 	 */
 	public function saveOption($userId)
 	{
-		//$value 0 => user should be unblocked
-		//$value 1 => user should be blocked
+		// $value 0 => user should be unblocked
+		// $value 1 => user should be blocked
+        // dont unescape $_POST because only numbers will be accessed
 		$value = $_POST[NEXT_AD_INT_PREFIX . 'user_disabled'];
 		$disabled = $this->userManager->isDisabled($userId);
 
-		//user is not blocked and he should be blocked
+		// user is not blocked and he should be blocked
 		if ($value === '1' && !$disabled) {
-			//disable user
+			// disable user
 			$username = get_userdata($userId);
 			$message = sprintf(
 				__('User manually disabled by "%s" with the ID %s.', NEXT_AD_INT_I18N), $username->user_login, $userId
 			);
 			$this->userManager->disable($userId, $message);
 
-			//use the new user email address
+			// use the new user email address
 			$user = get_user_by('id', $userId);
 			$_POST['email'] = $user->user_email;
 
 		} else if (!$value && $disabled) {
-			//enable user
+			// enable user
 			$this->userManager->enable($userId);
 
-			//use the new user email address
+			// use the new user email address
 			$user = get_user_by('id', $userId);
 			$_POST['email'] = $user->user_email;
 		}

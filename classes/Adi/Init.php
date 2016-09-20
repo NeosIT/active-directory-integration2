@@ -183,6 +183,7 @@ class NextADInt_Adi_Init
 	function registerCore()
 	{
 		// if the current request should trigger a synchronization of Active Directory or WordPress
+        // do not unescape the $_POST because only numbers will be accessed
 		if (NextADInt_Adi_Cron_UrlTrigger::getSyncMode($_POST) !== false) {
 			$this->registerUrlTriggerHook();
 

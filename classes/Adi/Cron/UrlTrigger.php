@@ -62,6 +62,7 @@ class NextADInt_Adi_Cron_UrlTrigger
 	 */
 	public function httpRequestEntryPoint()
 	{
+	    // dont unescape $_POST because only numbers and base64 values will be accessed
 		$this->processHttpRequest($_POST);
 	}
 

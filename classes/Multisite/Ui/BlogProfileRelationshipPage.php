@@ -114,20 +114,23 @@ class NextADInt_Multisite_Ui_BlogProfileRelationshipPage extends NextADInt_Multi
 	 */
 	public function wpAjaxListener()
 	{
-		//die if nonce is not valid
+		// die if nonce is not valid
 		$this->checkNonce();
 
-		//is $_POST does not contain data, then return
-		if (empty($_POST['data'])) {
+        // ADI-357 unescape already escaped $_POST
+        $post = stripslashes_deep($_POST);
+
+		// is $post does not contain data, then return
+		if (empty($post['data'])) {
 			return;
 		}
 
-		//if user has got insufficient permission, then leave
+		// if user has got insufficient permission, then leave
 		if (!$this->currentUserHasCapability()) {
 			return;
 		}
 
-		$data = $_POST['data'];
+		$data = $post['data'];
 
 		$this->saveBlogProfileAssociations($data);
 		$this->saveDefaultProfile($data);

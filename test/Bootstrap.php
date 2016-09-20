@@ -93,6 +93,29 @@ if (!defined('ABSPATH')) {
     }
 }
 
+// these three functions are copied from wp-includes/formatting.php
+function stripslashes_deep( $value ) {
+    return map_deep( $value, 'stripslashes_from_strings_only' );
+}
+function stripslashes_from_strings_only( $value ) {
+    return is_string($value) ? stripslashes($value) : $value;
+}
+function map_deep( $value, $callback ) {
+    if ( is_array( $value ) ) {
+        foreach ( $value as $index => $item ) {
+            $value[ $index ] = map_deep( $item, $callback );
+        }
+    } elseif ( is_object( $value ) ) {
+        $object_vars = get_object_vars( $value );
+        foreach ( $object_vars as $property_name => $property_value ) {
+            $value->$property_name = map_deep( $property_value, $callback );
+        }
+    } else {
+        $value = call_user_func( $callback, $value );
+    }
+    return $value;
+}
+
 // Jenkins does continuously fail with "allowed memory size of 134217728 bytes exhausted at..." during testing
 ini_set("memory_limit", "2G");
 
