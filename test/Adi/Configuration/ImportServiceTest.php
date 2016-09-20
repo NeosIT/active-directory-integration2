@@ -61,14 +61,46 @@ class Ut_NextADInt_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function registerPostActivation_itRegistersTheOutputOfMigrationNotices()
+	public function registerPostActivation_withTransient_itRegistersTheOutputOfMigrationNotices()
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::expectActionAdded('all_admin_notices', array($sut, 'createMigrationNotices'));
+        \WP_Mock::wpFunction( 'get_transient', array(
+            'times' => 1,
+            'args' => array( NextADInt_Adi_Init::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED),
+            'return' => true,
+        ));
+
+        \WP_Mock::expectActionAdded('all_admin_notices', array($sut, 'createMigrationNotices'));
+
+        \WP_Mock::wpFunction( 'delete_transient', array(
+            'times' => 1,
+            'args' => array( NextADInt_Adi_Init::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED)
+        ));
 
 		$sut->registerPostActivation();
 	}
+
+    /**
+     * @test
+     */
+    public function registerPostActivation_withoutTransient_doNothing()
+    {
+        $sut = $this->sut(null);
+
+        \WP_Mock::wpFunction( 'get_transient', array(
+            'times' => 1,
+            'args' => array( NextADInt_Adi_Init::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED),
+            'return' => false,
+        ));
+
+        \WP_Mock::wpFunction( 'delete_transient', array(
+            'times' => 0,
+            'args' => array( NextADInt_Adi_Init::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED)
+        ));
+
+        $sut->registerPostActivation();
+    }
 
 	/**
 	 * public function

@@ -77,6 +77,11 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 		$fakeService->expects($this->never())
 			->method('register');
 
+        \WP_Mock::wpFunction( 'set_transient', array(
+            'times' => 1,
+            'args' => array( NextADInt_Adi_Init::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED, true, 10)
+        ));
+
 		$sut->activation();
 	}
 
