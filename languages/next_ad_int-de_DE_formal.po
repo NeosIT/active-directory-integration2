@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-06 14:01+0200\n"
-"PO-Revision-Date: 2016-09-19 09:19+0000\n"
+"PO-Revision-Date: 2016-09-20 08:22+0000\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -65,7 +65,7 @@ msgstr ""
 #: classes/Adi/Configuration/ImportService.php:107
 msgid ""
 "Migration of previous ADI options are not supported when running in "
-"Multisite installations. Please verify the ADI v2 configuration"
+"Multisite installations. Please verify the Next ADI configuration"
 msgstr ""
 "Die Migration von älteren ADI Einstellungen wird für Multisite "
 "Installationen nicht unterstützt. Bitte überprüfen Sie die ADI v2 "
@@ -97,13 +97,13 @@ msgstr "Support-Lizenzschlüssel"
 #: classes/Adi/Configuration/Options.php:232 
 #: classes/Adi/Configuration/Options.php:236
 msgid ""
-"Please enter your support license key here, if you have a paid ADI 2.0 "
+"Please enter your support license key here, if you have a paid Next ADI "
 "license. It is required to receive support from <a href='https://neos-it.de'>"
 "NeosIT GmbH</a>."
 msgstr ""
 "Bitte tragen Sie ihren Support-Lizenzschlüssel hier ein, wenn Sie eine "
-"bezahlte ADI 2.0 Lizenz besitzen. Der Lizenzschlüssel wird vorausgesetzt, um "
-"Support durch <a href='https://neos-it.de'>NeosIT GmbH</a> zu erhalten."
+"bezahlte Next ADI Lizenz besitzen. Der Lizenzschlüssel wird vorausgesetzt, "
+"um Support durch <a href='https://neos-it.de'>NeosIT GmbH</a> zu erhalten."
 
 #: classes/Adi/Configuration/Options.php:246
 msgid "Enable ADI"
@@ -1630,8 +1630,8 @@ msgstr ""
 
 #: classes/Adi/Init.php:101
 msgid ""
-"Please purchase a valid Active Directory Integration 2 support license from "
-"<a href='https://www.active-directory-wp.com/' style='color: #fff; text-"
+"Please purchase a valid Next Active Directory Integration support license "
+"from <a href='https://www.active-directory-wp.com/' style='color: #fff; text-"
 "decoration: underline'>https://www.active-directory-wp.com/</a> to support "
 "this plug-in."
 msgstr ""
@@ -1779,8 +1779,8 @@ msgid "Disabled"
 msgstr "Deaktiviert"
 
 #: classes/Adi/User/Ui/ExtendUserList.php:133
-msgid "User is disabled by ADI 2.0."
-msgstr "Benutzer ist durch ADI 2.0 deaktiviert."
+msgid "User is disabled by Next ADI."
+msgstr "Benutzer ist durch Next ADI deaktiviert."
 
 #: classes/Ldap/Attribute/Description.php:23
 msgid "Common Name"
