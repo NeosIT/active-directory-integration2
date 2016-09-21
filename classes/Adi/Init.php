@@ -11,6 +11,8 @@
  */
 class NextADInt_Adi_Init
 {
+    const NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED = "next_ad_int_plugin_has_been_enabled";
+
 	/**
 	 * @var NextADInt_Adi_Dependencies
 	 */
@@ -34,6 +36,9 @@ class NextADInt_Adi_Init
 	 */
 	public function activation()
 	{
+        // add flag to WordPress cache for displaying the "plugin enabled" message
+        set_transient(NextADInt_Adi_Init::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED, true, 10);
+
 		NextADInt_Core_Logger::displayAndLogMessages();
 		NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelError());
 
@@ -98,7 +103,7 @@ class NextADInt_Adi_Init
 			$licenseKey = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
 
 			if (empty($licenseKey)) {
-				echo "<tr><td colspan='3' style='vertical-align: middle; background-color: #ef693e; color: #fff'>" . __("Please purchase a valid Active Directory Integration 2 support license from <a href='https://www.active-directory-wp.com/' style='color: #fff; text-decoration: underline'>https://www.active-directory-wp.com/</a> to support this plug-in.") ."</td>";
+				echo "<tr><td colspan='3' style='vertical-align: middle; background-color: #ef693e; color: #fff'>" . __("Please purchase a valid Next Active Directory Integration support license from <a href='https://www.active-directory-wp.com/' style='color: #fff; text-decoration: underline'>https://www.active-directory-wp.com/</a> to support this plug-in.") ."</td>";
 			}
 		}
 	}
