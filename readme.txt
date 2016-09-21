@@ -166,7 +166,7 @@ For detailed information you can visit the official [GitHub repository of Active
 
 = 2.0.6 =
 * FIX: show activation notice only after activating this plugin (https://wordpress.org/support/topic/activate-plugin-notification-bug/ Thanks to bobchou9)
-* FIX: errors in SSO/verify-password by unescaping values in $_GET/$_POST/$_SERVER (which are already been escaped by WordPress) (GitHub #20 Thanks to plantjes)
+* FIX: SSO/verify-password errors by un-quoting values in $_GET/$_POST/$_SERVER. WordPress quotes all entries in $_GET/$_POST/$_SERVER automatically (GitHub #20 Thanks to plantjes)
 
 = 2.0.5 =
 * FIX: check if AD result is not empty before accessing distinguishedname (GitHub #16 Thanks to petterannerwall)
