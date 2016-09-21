@@ -43,7 +43,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	private function createActivationEnvironment($dc)
 	{
 		$fakeService = $this->createAnonymousMock(array('check', 'register', 'insertDefaultProfile', 'autoImport',
-			'migratePreviousVersion', 'persistSanitizedValue'));
+			'migratePreviousVersion', 'persistSanitizedValue', 'getOptionValue'));
 		$dc->expects($this->once())
 			->method('getRequirements')
 			->willReturn($fakeService);
@@ -60,6 +60,10 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 			->method('getProfileRepository')
 			->willReturn($fakeService);
 
+		$dc->expects($this->any())
+			->method('getConfiguration')
+			->willReturn($fakeService);
+
 		return $fakeService;
 	}
 
@@ -73,6 +77,10 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 		$fakeService = $this->createActivationEnvironment($dc);
 
 		$this->behave($fakeService, 'check', false);
+
+
+		$fakeService->expects($this->once())
+			->method('getOptionValue');
 
 		$fakeService->expects($this->never())
 			->method('register');

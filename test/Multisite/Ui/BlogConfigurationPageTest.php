@@ -422,6 +422,18 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
+					'next_ad_int_blog_options_controller_logging',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/logging.controller.js',
+					array(),
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+				),
+				'times' => 1,
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'wp_enqueue_script', array(
+				'args' => array(
 					'selectizejs',
 					NEXT_AD_INT_URL . '/js/libraries/selectize.min.js',
 					array('jquery'),
