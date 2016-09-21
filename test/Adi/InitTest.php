@@ -21,7 +21,12 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function initialize_loadsLanguageFile()
 	{
-		$sut = $this->sut();
+		$sut = $this->sut(array('dc'));
+		$dc = $this->mockDependencyContainer($sut);
+		$fakeService = $this->createInitializeEnvironment($dc);
+
+		$fakeService->expects($this->exactly(2))
+			->method('getOptionValue');
 
         WP_Mock::wpFunction('plugin_basename', array(
             'args' => array(NEXT_AD_INT_PATH),
@@ -59,6 +64,17 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 		$dc->expects($this->any())
 			->method('getProfileRepository')
 			->willReturn($fakeService);
+
+		$dc->expects($this->any())
+			->method('getConfiguration')
+			->willReturn($fakeService);
+
+		return $fakeService;
+	}
+
+	private function createInitializeEnvironment($dc)
+	{
+		$fakeService = $this->createAnonymousMock(array('getOptionValue'));
 
 		$dc->expects($this->any())
 			->method('getConfiguration')
@@ -328,6 +344,9 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('isActive')
 			->willReturn(false);
+
+		$sut->expects($this->once())
+			->method('initialize');
 
 		$sut->expects($this->never())
 			->method('registerCore');

@@ -34,7 +34,8 @@ class NextADInt_Adi_Init
 	 */
 	public function activation()
 	{
-		$customPath = $this->dc()->getConfiguration()->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH);
+		$configService = $this->dc()->getConfiguration();
+		$customPath = $configService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH);
 
 		if ($customPath) {
 			NextADInt_Core_Logger::displayAndLogMessages($customPath);
