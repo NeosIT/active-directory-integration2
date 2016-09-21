@@ -165,7 +165,8 @@ It is __not__ possible to activate *Next ADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
 = 2.0.6 =
-* FIX: unescape values in $_GET/$_POST/$_SERVER which are already been escaped by WordPress (GitHub #20 Thanks to plantjes)
+* FIX: show activation notice only after activating this plugin (https://wordpress.org/support/topic/activate-plugin-notification-bug/ Thanks to bobchou9)
+* FIX: errors in SSO/verify-password by unescaping values in $_GET/$_POST/$_SERVER (which are already been escaped by WordPress) (GitHub #20 Thanks to plantjes)
 
 = 2.0.5 =
 * FIX: check if AD result is not empty before accessing distinguishedname (GitHub #16 Thanks to petterannerwall)
