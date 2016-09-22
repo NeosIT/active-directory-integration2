@@ -10,7 +10,8 @@
 	<property name="phpunit" value="phpunit.phar"/>
 	<property name="testsuite" value="unit" />
 	<property name="composer" value="composer" />
-	
+	<property name="msgfmt" value="msgfmt" />
+
 	<target name="full-build"
 		 depends="prepare,static-analysis,phpunit,phpdox,-check-failure"
 		 description="Performs static analysis, runs the tests, and generates project documentation"/>
@@ -257,9 +258,30 @@
 		</fail>
 	</target>
 
+	<target name="compile-all-languages"
+			description="compile all language files for php">
+		<copy file="languages/next_ad_int-de_DE.po" tofile="languages/next_ad_int-de_DE_formal.po"/>
+
+		<antcall target="compile-language">
+			<param name="fileName" value="next_ad_int-de_DE" />
+		</antcall>
+		<antcall target="compile-language">
+			<param name="fileName" value="next_ad_int-de_DE_formal" />
+		</antcall>
+	</target>
+
+	<target name="compile-language"
+			description="compile one language file for php">
+		<exec executable="${msgfmt}">
+			<arg value="languages/${fileName}.po" />
+			<arg value="-o"/>
+			<arg value="languages/${fileName}.mo" />
+		</exec>
+	</target>
+
 	<target name="prepare-for-publish"
 			description="make the plugin runnable and delete all unnecessary files"
-			depends="clean">
+			depends="clean,compile-all-languages">
 		<exec executable="${php}">
 			<arg value="${composer}" />
 			<arg value="install" />
