@@ -23,11 +23,14 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
 		$this->ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
 		$this->attributeService = $this->createMock('NextADInt_Ldap_Attribute_Service');
+
+		ob_start();
 	}
 
 	public function tearDown()
 	{
 		parent::tearDown();
+		ob_end_clean();
 	}
 
 	/**

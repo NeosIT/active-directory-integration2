@@ -37,11 +37,14 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$this->ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
 		$this->attributeService = $this->createMock('NextADInt_Ldap_Attribute_Service');
 		$this->roleManager = $this->createMock('NextADInt_Adi_Role_Manager');
+
+		ob_start();
 	}
 
 	public function tearDown()
 	{
 		parent::tearDown();
+		ob_end_clean();
 	}
 
 	/**
@@ -137,6 +140,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
+
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
 			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED)
@@ -144,6 +148,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
 		$this->assertEquals(false, $actual);
+
 	}
 
 	/**
