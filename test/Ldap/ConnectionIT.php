@@ -14,7 +14,7 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 	/* @var NextADInt_Ldap_Connection */
 	private $ldapConnection;
 
-	/* @var NextADInt_Ldap_Connection */
+	/* @var NextADInt_Ldap_ConnectionDetails */
 	protected $connectionDetails;
 
 	public function setUp()
@@ -50,8 +50,11 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 		$connectionDetails = $this->createAdConnectionDetails();
 		$connectionDetails->setPassword('wrongPa$$w0rd');
 
-		$this->ldapConnection->connect($this->connectionDetails);
-		$this->assertEquals(null, $this->ldapConnection->getAdLdap());
+		// Create a new Ldap Connection
+		$connection = new NextADInt_Ldap_Connection($this->configuration);
+		$connection->connect($connectionDetails);
+
+		$this->assertEquals(null, $connection->getAdLdap());
 	}
 
 	/**
@@ -75,26 +78,20 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 	/**
 	 * @test
 	 */
-	public function findCorrectSuffixForUser_withThreeSuffix_returnCorrectSuffix()
+	public function authenticateUser_withCorrectCredentials_returnTrue()
 	{
 		$this->ldapConnection->connect($this->connectionDetails);
-		$returnedValue = $this->ldapConnection->authenticate(
-			get_cfg_var('AD_USERNAME'), '@company.local;@it.local;' . get_cfg_var('AD_SUFFIX'),
-			$this->connectionDetails->getPassword()
-		);
+		$returnedValue = $this->ldapConnection->authenticate(get_cfg_var('AD_USERNAME'), get_cfg_var('AD_SUFFIX'), get_cfg_var('AD_PASSWORD'));
 
 		$this->assertTrue($returnedValue);
 	}
-
 	/**
 	 * @test
 	 */
-	public function findCorrectSuffixForUser_withThreeSuffix_returnFalse()
+	public function authenticateUser_withWrongCredentials_returnFalse()
 	{
 		$this->ldapConnection->connect($this->connectionDetails);
-		$returnedValue = $this->ldapConnection->authenticate(
-			get_cfg_var('AD_USERNAME'), '@company.local;@it.local;@test.ut', $this->connectionDetails->getPassword()
-		);
+		$returnedValue = $this->ldapConnection->authenticate(get_cfg_var('AD_USERNAME'), get_cfg_var('AD_SUFFIX'), 'password123s');
 
 		$this->assertFalse($returnedValue);
 	}
@@ -140,6 +137,12 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 	 */
 	public function findAllMembersOfGroup_withGroupName_returnMemberArray()
 	{
+		//Workaround to bypass domainSid check in IT
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(NextADInt_Adi_Configuration_Options::DOMAIN_SID)
+			->willReturn('S-1-5');
+
 		$this->ldapConnection->connect($this->connectionDetails);
 		$expectedMember = array(
 			strtolower($this->username1) => $this->username1
@@ -154,6 +157,12 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 	 */
 	public function findAllMembersOfGroups_withGroupName_returnMemberArray()
 	{
+		//Workaround to bypass domainSid check in IT
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(NextADInt_Adi_Configuration_Options::DOMAIN_SID)
+			->willReturn('S-1-5');
+
 		$this->ldapConnection->connect($this->connectionDetails);
 		$expectedMember = array(
 			strtolower($this->username1) => $this->username1,
@@ -161,6 +170,7 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 		);
 
 		$returnedValue = $this->ldapConnection->findAllMembersOfGroups($this->groupName1 . ";" . $this->groupName2);
+
 		$this->assertEquals($expectedMember, $returnedValue);
 	}
 
@@ -211,7 +221,7 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 			'base_dn' => $this->connectionDetails->getBaseDn(),
 			'domain_controllers' => array($this->connectionDetails->getDomainControllers()),
 			'ad_port' => $this->connectionDetails->getPort(),
-			'use_tls' => $this->connectionDetails->getUseStartTls(),
+			'use_tls' => '',
 			'network_timeout' => $this->connectionDetails->getNetworkTimeout(),
 			'ad_username' => $this->connectionDetails->getUsername(),
 			'ad_password' => $this->connectionDetails->getPassword()
@@ -247,14 +257,6 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 		$this->assertEquals($this->connectionDetails->getPort(), $returnedPort);
 	}
 
-	/**
-	 * @test
-	 */
-	public function getUseTls_withUseTlsNotNull_returnUseTls()
-	{
-		$returnedUseStartTls = $this->ldapConnection->getUseTls($this->connectionDetails);
-		$this->assertEquals($this->connectionDetails->getUseStartTls(), $returnedUseStartTls);
-	}
 
 	/**
 	 * @test
