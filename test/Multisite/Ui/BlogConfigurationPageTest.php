@@ -552,6 +552,8 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 		$_POST['data'] = '';
 
+		$this->mockWordpressFunction('current_user_can');
+
 		WP_Mock::wpFunction(
 			'check_ajax_referer', array(
 				'args' => array('Active Directory Integration Configuration Nonce', 'security', true),
@@ -623,6 +625,8 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
+		$this->mockWordpressFunction('is_multisite');
+
 		$data = array(
 			'domain_controllers' => array(
 				'option_value' => 'test',
@@ -665,6 +669,8 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	public function generateNewAuthCode_returnsNewAuthCode()
 	{
 		$sut = $this->sut();
+
+		$this->mockWordpressFunction('wp_generate_password', array('times' => 1, 'return' => 'abc123'));
 
 		$result = $this->invokeMethod($sut, 'generateNewAuthCode');
 

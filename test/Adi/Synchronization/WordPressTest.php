@@ -529,8 +529,6 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('checkAccountRestrictions', 'findLdapAttributesOfUser'));
 
-		$rawLdapAttributes = array('cn' => 'value');
-
 		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
 

@@ -336,10 +336,15 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 	/**
 	 * @test
-	 */
+	 */ //TODO Revisit
 	public function run_itDoesNotRegisterCore_whenNotActive()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'isActive', 'registerCore'));
+
+		$this->mockWordpressFunction('get_current_blog_id');
+		$this->mockWordpressFunction('is_multisite');
+		$this->mockWordpressFunction('get_option');
+		$this->mockWordpressFunction('get_site_option');
 
 		$sut->expects($this->once())
 			->method('isActive')
