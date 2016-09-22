@@ -1354,11 +1354,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Enable Logging', NEXT_AD_INT_I18N),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
-					'If activated NADI will create a logfile.',
+					'If activated, Next ADI will create a logfile at its default location "PLUGINPATH/logs/debug.log".',
 					NEXT_AD_INT_I18N
 				),
 				$detail      => __(
-					'If activated NADI will create a logfile and start logging to it. Default path is "PLUGINPATH/logs/debug.log"',
+					'If activated Next ADI will create a logfile and start logging to it. Default path is "PLUGINPATH/logs/debug.log".',
 					NEXT_AD_INT_I18N
 				),
 				$angularAttributes => '',
@@ -1372,11 +1372,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Custom Path', NEXT_AD_INT_I18N),
 				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
-					'If you don´t have permission for the default path on your system you can set a new path. The logfile will be created at the set location.',
+					'The logfile will be created at the set location. You have to enter the complete path including the name of the logfile. (e.g. custompath/logs/debug.log).',
 					NEXT_AD_INT_I18N
 				),
 				$detail      => __(
-					'If you don´t have permission for the default path on your system you can set a new path. The logfile will be created at the set location.',
+					'If you do not have permission for the default path on your system you can set a new path. The logfile will be created at the set location. You have to enter the complete path including the name of the logfile. (e.g. custompath/logs/debug.log).',
 					NEXT_AD_INT_I18N
 				),
 				$angularAttributes => 'ng-disabled="((!option.logger_enable_logging) || ((permission.logger_enable_logging == 2) || (permission.logger_enable_logging == 1))',

@@ -284,7 +284,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				__('Logging', NEXT_AD_INT_I18N) => array(
 					// Group description
 					self::DESCRIPTION => __(
-						'On this tab you can configurate the NADI event logger.',
+						'On this tab you can configure the Next ADI event logger.',
 						NEXT_AD_INT_I18N
 					),
 					// Group elements in group
