@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfigTest')) {
+if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles')) {
 	return;
 }
 
@@ -14,9 +14,10 @@ if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlog
  *
  * @access
  */
-class Ut_NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfigTest extends Ut_BasicTest
+class Ut_NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'Validation failed!';
+    const VALIDATION_MESSAGE_2 = 'Validation 2 failed!';
 
 	public function setUp()
 	{
@@ -31,14 +32,14 @@ class Ut_NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfigTest e
 	/**
 	 * @param null $methods
 	 *
-	 * @return NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig|PHPUnit_Framework_MockObject_MockObject
+	 * @return NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles|PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig')
+		return $this->getMockBuilder('NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles')
 			->setConstructorArgs(
 				array(
-					self::VALIDATION_MESSAGE,
+				    array(self::VALIDATION_MESSAGE, self::VALIDATION_MESSAGE_2),
 				)
 			)
 			->setMethods($methods)

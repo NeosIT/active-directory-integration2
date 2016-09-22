@@ -17,10 +17,6 @@ if (class_exists('NextADInt_Adi_Role_Manager')) {
 class NextADInt_Adi_Role_Manager
 {
 	const ROLE_SUPER_ADMIN = 'super admin';
-	const ROLE_ADMINISTRATOR = 'administrator';
-	const ROLE_EDITOR = 'editor';
-	const ROLE_CONTRIBUTOR = 'contributor';
-	const ROLE_SUBSCRIBER = 'subscriber';
 
 	/* @var NextADInt_Multisite_Configuration_Service */
 	private $configuration;
@@ -186,7 +182,9 @@ class NextADInt_Adi_Role_Manager
 
 			if ($availableRoles->is_role($role)) {
 				$wpUser->add_role($role);
-			}
+			} else {
+			    $this->logger->warn("Can not add role '$role' to " . $wpUser->user_login . " because the role does NOT exist.");
+            }
 		}
 
 		return true;
@@ -299,11 +297,15 @@ class NextADInt_Adi_Role_Manager
 	{
 		$result = array(
 			'super admin'   => self::ROLE_SUPER_ADMIN,
-			'administrator' => self::ROLE_ADMINISTRATOR,
-			'editor'        => self::ROLE_EDITOR,
-			'contributor'   => self::ROLE_CONTRIBUTOR,
-			'subscriber'    => self::ROLE_SUBSCRIBER,
 		);
+
+        $wpRoles = new WP_Roles();
+        foreach ($wpRoles->roles as $id => $object) {
+            if ($id === 'zocker') {
+                continue;
+            }
+            $result[$id] = $id;
+        }
 
 		// in a single site WordPress installation remove the super admin, b/c it does not exist
 		if (!is_multisite()) {

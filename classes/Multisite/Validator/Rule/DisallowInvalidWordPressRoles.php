@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-if (class_exists('NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig')) {
+if (class_exists('NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles')) {
 	return;
 }
 
@@ -17,7 +17,7 @@ if (class_exists('NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogCon
  *
  * @access
  */
-class NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig extends NextADInt_Core_Validator_Rule_Abstract
+class NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles extends NextADInt_Core_Validator_Rule_Abstract
 {
 	/**
 	 * Validate the given data.
@@ -29,18 +29,44 @@ class NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig extends 
 	 */
 	public function validate($value, $data)
 	{
+        $wpRoles = $this->getWpRoles($value);
+
+	    // check for invalid roles
+        if ($this->containsInvalidRoles($wpRoles)) {
+            $msg = $this->getMsg();
+            return $msg[1];
+        }
+
+        // check for super user in blog
 		if ($this->isOnNetworkDashboard()) {
 			return true;
 		}
 
-		$wpRoles = $this->getWpRoles($value);
-
-		if (!NextADInt_Core_Util_ArrayUtil::containsIgnoreCase(NextADInt_Adi_Role_Manager::ROLE_SUPER_ADMIN, $wpRoles)) {
-			return true;
+		if (NextADInt_Core_Util_ArrayUtil::containsIgnoreCase(NextADInt_Adi_Role_Manager::ROLE_SUPER_ADMIN, $wpRoles)) {
+		    $msg = $this->getMsg();
+            return $msg[0];
 		}
 
-		return $this->getMsg();
+		// all ok
+		return true;
 	}
+
+    /**
+     * Check if all @param $roles exist in the WordPress instance.
+     *
+     * @param $roles
+     * @return bool
+     */
+	protected function containsInvalidRoles($roles) {
+        $wpRoles = new WP_Roles();
+        foreach ($roles as $role) {
+            if (!$wpRoles->is_role($role) && $role !== NextADInt_Adi_Role_Manager::ROLE_SUPER_ADMIN) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 	/**
 	 * Convert the given list string and retrieve all WordPress roles.
