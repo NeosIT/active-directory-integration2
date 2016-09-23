@@ -10,7 +10,8 @@
 	<property name="phpunit" value="phpunit.phar"/>
 	<property name="testsuite" value="unit" />
 	<property name="composer" value="composer" />
-	
+	<property name="msgfmt" value="msgfmt" />
+
 	<target name="full-build"
 		 depends="prepare,static-analysis,phpunit,phpdox,-check-failure"
 		 description="Performs static analysis, runs the tests, and generates project documentation"/>
@@ -255,6 +256,27 @@
 				</not>
 			</condition>
 		</fail>
+	</target>
+
+	<target name="compile-all-languages"
+			description="compile all language files for php">
+		<antcall target="compile-language">
+			<param name="srcFile" value="next_ad_int-de_DE.po" />
+			<param name="desFile" value="next_ad_int-de_DE.mo" />
+		</antcall>
+		<antcall target="compile-language">
+			<param name="srcFile" value="next_ad_int-de_DE.po" />
+			<param name="desFile" value="next_ad_int-de_DE_formal.mo" />
+		</antcall>
+	</target>
+
+	<target name="compile-language"
+			description="compile one language file for php">
+		<exec executable="${msgfmt}">
+			<arg value="languages/${srcFile}" />
+			<arg value="-o"/>
+			<arg value="languages/${desFile}" />
+		</exec>
 	</target>
 
 	<target name="prepare-for-publish"
