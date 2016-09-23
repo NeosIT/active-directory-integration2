@@ -141,8 +141,10 @@ class NextADInt_Adi_Init
 			return;
 		}
 
-		// ADI-354 (dme)
+        // load internationalization (i18n)
+        load_plugin_textdomain(NEXT_AD_INT_I18N, false, plugin_basename(NEXT_AD_INT_PATH) . '/languages');
 
+		// ADI-354 (dme)
 		$configurationService = $this->dc()->getConfiguration();
 		$enableLogging = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
 		$customPath = $configurationService->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
@@ -158,9 +160,6 @@ class NextADInt_Adi_Init
 		} else {
 			NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelOff());
 		}
-
-		// load internationalization (i18n)
-		load_plugin_textdomain(NEXT_AD_INT_I18N, false, plugin_basename(NEXT_AD_INT_PATH) . '/languages');
 
 		$this->initialized = true;
 	}

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-23 14:47+0200\n"
-"PO-Revision-Date: 2016-09-23 14:47+0200\n"
+"POT-Creation-Date: 2016-09-23 15:32+0200\n"
+"PO-Revision-Date: 2016-09-23 15:32+0200\n"
 "Last-Translator: Tobias <the@noes-it.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -13,12 +13,117 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Loco-Source-Locale: de_DE\n"
 "X-Generator: Poedit 1.8.7.1\n"
-"X-Poedit-KeywordsList: __;_e;esc_html__\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
+"esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-Basepath: ..\n"
-"*X-Poedit-SearchPath-1: views\n"
-"*X-Poedit-SearchPath-2: twig\n"
-"*X-Loco-Parser: loco_parse_po\n"
-"X-Poedit-SearchPath-0: classes\n"
+"X-Loco-Parser: loco_parse_po\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: vendor\n"
+
+#: cache/2c/6d/1800f5f232bfa99920cad872b5c1518a3b7c9ab1fd5939db59869d71d88b.php:32
+msgid "Active Directory Integration Blog Configuration"
+msgstr "Active Directory Integration Blog Einstellungen"
+
+#: cache/4d/6f/acee8ca725b9eaf8b77565c9d3fc8c967a6490e1efc4120146ba14aacc8a.php:109
+msgid "Security group"
+msgstr "Sicherheitsgruppen"
+
+#: cache/4d/6f/acee8ca725b9eaf8b77565c9d3fc8c967a6490e1efc4120146ba14aacc8a.php:115
+msgid "WordPress role"
+msgstr "WordPress-Rollen"
+
+#: cache/4d/6f/acee8ca725b9eaf8b77565c9d3fc8c967a6490e1efc4120146ba14aacc8a.php:148
+msgid "Please select a role"
+msgstr "Bitte wähle eine Rolle aus"
+
+#: cache/7d/bf/aa84ea581d70359c701248eeb7f4c53b1a6242925c44ffaf057e726263b5.php:76
+msgid "No options exists"
+msgstr "Es existieren keine Optionen"
+
+#: cache/b1/1f/b1121883fa678769070d5d3e7d6e7a76eced7f26145322e7160259c76661.php:110
+msgid "Regenerate Auth Code"
+msgstr "Neuen Auth Code erstellen"
+
+#: cache/be/63/8338ec217312c4477fead495d5db6b16267bb6215de45022f09a594e4123.php:132
+msgid "Verify"
+msgstr "Verifizieren"
+
+#: cache/ca/10/16768bd04e47cf1bbe4901d7b3b8d6ce125dd27d656265d95e0a489d3032.php:41
+msgid "Do you really want to regenerate a new AuthCode?"
+msgstr "Möchten Sie wirklich einen neuen Auth Code generieren?"
+
+#: cache/ca/10/16768bd04e47cf1bbe4901d7b3b8d6ce125dd27d656265d95e0a489d3032.php:45
+msgid "WordPress Site is currently connected to Domain: "
+msgstr "WordPress Seite / Profil ist momentan mit folgender Domäne verbunden: "
+
+#: cache/ca/10/16768bd04e47cf1bbe4901d7b3b8d6ce125dd27d656265d95e0a489d3032.php:49
+msgid "Verification successful! WordPress site is now connected to Domain: "
+msgstr ""
+"Verifizierung erfolgreich! Ihr WordPress-Blog ist nun mit der folgenden "
+"Domäne verbunden: "
+
+#: cache/ca/10/16768bd04e47cf1bbe4901d7b3b8d6ce125dd27d656265d95e0a489d3032.php:53
+msgid "Verification successful!"
+msgstr "Verifizierung erfolgreich!"
+
+#: cache/ca/10/16768bd04e47cf1bbe4901d7b3b8d6ce125dd27d656265d95e0a489d3032.php:57
+msgid "Verification failed! Please check your logfile for further information."
+msgstr ""
+"Verifizierung fehlgeschlagen! Bitte überprüfen Sie die Log-Datei für weitere "
+"Informationen."
+
+#: cache/ca/10/16768bd04e47cf1bbe4901d7b3b8d6ce125dd27d656265d95e0a489d3032.php:112
+msgid "Manage Permissions"
+msgstr "Verwalte Berechtigungen"
+
+#: cache/ef/32/2d2019c2d29ec98332a5fbf8ddb332445755568f6d290f04fe5106e97d3a.php:126
+msgid "AD Attributes"
+msgstr "AD Attribute"
+
+#: cache/ef/32/2d2019c2d29ec98332a5fbf8ddb332445755568f6d290f04fe5106e97d3a.php:130
+msgid "Data Type"
+msgstr "Datentypen"
+
+#: cache/ef/32/2d2019c2d29ec98332a5fbf8ddb332445755568f6d290f04fe5106e97d3a.php:134
+msgid "Wordpress Attribute"
+msgstr "WordPress-Attribut"
+
+#: cache/ef/32/2d2019c2d29ec98332a5fbf8ddb332445755568f6d290f04fe5106e97d3a.php:138
+#: classes/Adi/Configuration/Options.php:1399
+#: classes/Ldap/Attribute/Description.php:28
+msgid "Description"
+msgstr "Beschreibung"
+
+#: cache/ef/32/2d2019c2d29ec98332a5fbf8ddb332445755568f6d290f04fe5106e97d3a.php:142
+msgid "View in User Profile"
+msgstr "In Benutzerprofil anzeigen"
+
+#: cache/ef/32/2d2019c2d29ec98332a5fbf8ddb332445755568f6d290f04fe5106e97d3a.php:146
+msgid "Sync to Ad"
+msgstr "Sync to Ad"
+
+#: cache/ef/32/2d2019c2d29ec98332a5fbf8ddb332445755568f6d290f04fe5106e97d3a.php:150
+msgid "Overwrite with empty value"
+msgstr "Mit leerem Wert überschreiben"
+
+#: cache/fd/98/ee2c8330aa0bd5167e3f8058a5d1bb66272768dea53a995bd244d243849e.php:109
+#: cache/fd/98/ee2c8330aa0bd5167e3f8058a5d1bb66272768dea53a995bd244d243849e.php:123
+msgid "Please wait..."
+msgstr "Bitte warten..."
+
+#: cache/fd/98/ee2c8330aa0bd5167e3f8058a5d1bb66272768dea53a995bd244d243849e.php:113
+#: cache/fd/98/ee2c8330aa0bd5167e3f8058a5d1bb66272768dea53a995bd244d243849e.php:127
+msgid "Save"
+msgstr "Speichern"
+
+#: cache/fd/98/ee2c8330aa0bd5167e3f8058a5d1bb66272768dea53a995bd244d243849e.php:117
+#: cache/fd/98/ee2c8330aa0bd5167e3f8058a5d1bb66272768dea53a995bd244d243849e.php:131
+msgid "You have to verify the connection to the AD before saving."
+msgstr ""
+"Sie müssen die Verbindung zu einer Domäne verifizieren bevor Sie speichern "
+"können."
 
 #: classes/Adi/Authentication/LoginService.php:108
 msgid ""
@@ -1516,11 +1621,6 @@ msgstr ""
 msgid "AD Attribute"
 msgstr "AD Attribute"
 
-#: classes/Adi/Configuration/Options.php:1399
-#: classes/Ldap/Attribute/Description.php:28
-msgid "Description"
-msgstr "Beschreibung"
-
 #: classes/Adi/Configuration/Ui/Layout.php:55
 msgid "Profile"
 msgstr "Profil"
@@ -2141,18 +2241,22 @@ msgid "Profile options"
 msgstr "Profiloptionen"
 
 #: classes/Multisite/Ui/ProfileConfigurationPage.php:349
+#: test/Multisite/Ui/ProfileConfigurationPageTest.php:761
 msgid "Input field is invisible."
 msgstr "Eingabefeld ist unsichtbar."
 
 #: classes/Multisite/Ui/ProfileConfigurationPage.php:353
+#: test/Multisite/Ui/ProfileConfigurationPageTest.php:765
 msgid "Deactivated and option value not shown."
 msgstr "Deaktiviert und Wert wird nicht angezeigt."
 
 #: classes/Multisite/Ui/ProfileConfigurationPage.php:357
+#: test/Multisite/Ui/ProfileConfigurationPageTest.php:769
 msgid "Deactivated and option value shown."
 msgstr "Deaktiviert und Wert wird angezeigt."
 
 #: classes/Multisite/Ui/ProfileConfigurationPage.php:361
+#: test/Multisite/Ui/ProfileConfigurationPageTest.php:773
 msgid "Blog admin sets the option value."
 msgstr "Blog-Administrator setzt den Wert."
 
@@ -2181,12 +2285,6 @@ msgstr "URL"
 msgid "Select %s"
 msgstr "Auswählen %s"
 
-#~ msgid "Security group"
-#~ msgstr "Sicherheitsgruppen"
-
-#~ msgid "WordPress role"
-#~ msgstr "WordPress-Rollen"
-
 #~ msgid "User Disabled"
 #~ msgstr "Benutzer deaktiviert"
 
@@ -2209,35 +2307,6 @@ msgstr "Auswählen %s"
 #~ "Achtung: Diese Option wird automatisch durch <em>Sync to WordPress</em> "
 #~ "aktiviert (bzw. deaktiviert). Der aktuelle Status kann sich also bei der "
 #~ "nächsten Synchronisation ändern."
-
-#~ msgid "Please wait..."
-#~ msgstr "Bitte warten..."
-
-#~ msgid "Save"
-#~ msgstr "Speichern"
-
-#~ msgid "You have to verify the connection to the AD before saving."
-#~ msgstr ""
-#~ "Sie müssen die Verbindung zu einer Domäne verifizieren bevor Sie "
-#~ "speichern können."
-
-#~ msgid "AD Attributes"
-#~ msgstr "AD Attribute"
-
-#~ msgid "Data Type"
-#~ msgstr "Datentypen"
-
-#~ msgid "Wordpress Attribute"
-#~ msgstr "WordPress-Attribut"
-
-#~ msgid "View in User Profile"
-#~ msgstr "In Benutzerprofil anzeigen"
-
-#~ msgid "Sync to Ad"
-#~ msgstr "Sync to Ad"
-
-#~ msgid "Overwrite with empty value"
-#~ msgstr "Mit leerem Wert überschreiben"
 
 #~ msgid ""
 #~ "The current profile contains unsaved changes. Are you sure you want to "
@@ -2327,42 +2396,6 @@ msgstr "Auswählen %s"
 #~ msgstr ""
 #~ "Das Profil kann nicht bearbeitet oder zum Active Directory synchronisiert "
 #~ "werden:"
-
-#~ msgid "Regenerate Auth Code"
-#~ msgstr "Neuen Auth Code erstellen"
-
-#~ msgid "Active Directory Integration Blog Configuration"
-#~ msgstr "Active Directory Integration Blog Einstellungen"
-
-#~ msgid "No options exists"
-#~ msgstr "Es existieren keine Optionen"
-
-#~ msgid "Verify"
-#~ msgstr "Verifizieren"
-
-#~ msgid "Do you really want to regenerate a new AuthCode?"
-#~ msgstr "Möchten Sie wirklich einen neuen Auth Code generieren?"
-
-#~ msgid "WordPress Site is currently connected to Domain: "
-#~ msgstr ""
-#~ "WordPress Seite / Profil ist momentan mit folgender Domäne verbunden: "
-
-#~ msgid "Verification successful! WordPress site is now connected to Domain: "
-#~ msgstr ""
-#~ "Verifizierung erfolgreich! Ihr WordPress-Blog ist nun mit der folgenden "
-#~ "Domäne verbunden: "
-
-#~ msgid "Verification successful!"
-#~ msgstr "Verifizierung erfolgreich!"
-
-#~ msgid ""
-#~ "Verification failed! Please check your logfile for further information."
-#~ msgstr ""
-#~ "Verifizierung fehlgeschlagen! Bitte überprüfen Sie die Log-Datei für "
-#~ "weitere Informationen."
-
-#~ msgid "Manage Permissions"
-#~ msgstr "Verwalte Berechtigungen"
 
 #~ msgid ""
 #~ "If you want to trigger Sync to WordPress, you must know the URL to the "
