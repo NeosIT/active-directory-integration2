@@ -815,7 +815,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero', $rules[NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero', $rules[NextADInt_Adi_Configuration_Options::BLOCK_TIME][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::PROFILE_NAME][0]);
-		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig', $rules[NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles', $rules[NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_SelectValueValid', $rules[NextADInt_Adi_Configuration_Options::ENCRYPTION][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_SelectValueValid', $rules[NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SSO_USER][0]);

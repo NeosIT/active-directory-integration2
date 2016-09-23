@@ -365,10 +365,6 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	public function roleConstants_haveCorrectValues()
 	{
 		$this->assertEquals('super admin', NextADInt_Adi_Role_Manager::ROLE_SUPER_ADMIN);
-		$this->assertEquals('administrator', NextADInt_Adi_Role_Manager::ROLE_ADMINISTRATOR);
-		$this->assertEquals('editor', NextADInt_Adi_Role_Manager::ROLE_EDITOR);
-		$this->assertEquals('contributor', NextADInt_Adi_Role_Manager::ROLE_CONTRIBUTOR);
-		$this->assertEquals('subscriber', NextADInt_Adi_Role_Manager::ROLE_SUBSCRIBER);
 	}
 
 	/**
@@ -461,10 +457,11 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 		));
 
 		$expected = array(
-			'administrator' => NextADInt_Adi_Role_Manager::ROLE_ADMINISTRATOR,
-			'editor'        => NextADInt_Adi_Role_Manager::ROLE_EDITOR,
-			'contributor'   => NextADInt_Adi_Role_Manager::ROLE_CONTRIBUTOR,
-			'subscriber'    => NextADInt_Adi_Role_Manager::ROLE_SUBSCRIBER,
+            'administrator' => 'administrator',
+            'editor'        => 'editor',
+            'contributor'   => 'contributor',
+            'subscriber'    => 'subscriber',
+            'author'        => 'author',
 		);
 		$actual = NextADInt_Adi_Role_Manager::getRoles();
 
@@ -482,11 +479,12 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 		));
 
 		$expected = array(
-			'super admin'   => NextADInt_Adi_Role_Manager::ROLE_SUPER_ADMIN,
-			'administrator' => NextADInt_Adi_Role_Manager::ROLE_ADMINISTRATOR,
-			'editor'        => NextADInt_Adi_Role_Manager::ROLE_EDITOR,
-			'contributor'   => NextADInt_Adi_Role_Manager::ROLE_CONTRIBUTOR,
-			'subscriber'    => NextADInt_Adi_Role_Manager::ROLE_SUBSCRIBER,
+			'super admin'   => 'super admin',
+            'administrator' => 'administrator',
+            'editor'        => 'editor',
+            'contributor'   => 'contributor',
+            'subscriber'    => 'subscriber',
+            'author'        => 'author',
 		);
 		$actual = NextADInt_Adi_Role_Manager::getRoles();
 

@@ -598,7 +598,8 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 
 			// PERMISSIONS
 			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', NEXT_AD_INT_I18N);
-			$disallowedRoleRule = new NextADInt_Multisite_Validator_Rule_DisallowSuperAdminInBlogConfig($disallowedRoleMessage);
+            $invalidRoleMessage = __('At least one security group is associated with a non existing WordPress role. Please select an existing role for the group.', NEXT_AD_INT_I18N);
+			$disallowedRoleRule = new NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles(array($disallowedRoleMessage, $invalidRoleMessage));
 			$validator->addRule(NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
 
 			// ATTRIBUTES
