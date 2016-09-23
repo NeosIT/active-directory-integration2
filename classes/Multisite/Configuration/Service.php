@@ -332,6 +332,7 @@ class NextADInt_Multisite_Configuration_Service
 			NextADInt_Adi_Configuration_Options::DOMAIN_SID,
 			NextADInt_Adi_Configuration_Options::VERIFICATION_USERNAME,
 			NextADInt_Adi_Configuration_Options::VERIFICATION_PASSWORD,
+			NextADInt_Adi_Configuration_Options::ENCRYPTION
 		); //TODO move somewhere else
 
 		// TODO better solution would be to get viewable configuration through Layout class. But this introduces new
