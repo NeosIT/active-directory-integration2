@@ -171,6 +171,10 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			'next_ad_int_blog_options_controller_sync_to_wordpress', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/sync-to-wordpress.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
+		wp_enqueue_script(
+			'next_ad_int_blog_options_controller_logging', NEXT_AD_INT_URL .
+			'/js/app/blog-options/controllers/logging.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
+		);
 	}
 
 	/**

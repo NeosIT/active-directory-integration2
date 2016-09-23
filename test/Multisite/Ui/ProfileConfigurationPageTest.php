@@ -467,6 +467,17 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 				'times' => 1,
 			)
 		);
+		WP_Mock::wpFunction(
+			'wp_enqueue_script', array(
+				'args' => array(
+					'next_ad_int_profile_options_controller_logging',
+					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/logging.controller.js',
+					array(),
+					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
+				),
+				'times' => 1,
+			)
+		);
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(

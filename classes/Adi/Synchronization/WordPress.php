@@ -51,6 +51,12 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	/* @var int */
 	private $wordpressDbTimeCounter;
 
+	/* @var boolean */
+	private $loggingEnabled;
+
+	/* @var string */
+	private $customPath;
+
 	/**
 	 * @param NextADInt_Adi_User_Manager                $userManager
 	 * @param NextADInt_Adi_User_Helper                 $userHelper
@@ -71,6 +77,9 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$this->userManager = $userManager;
 		$this->userHelper = $userHelper;
 		$this->roleManager = $roleManager;
+
+		$this->loggingEnabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
+		$this->customPath = $this->configuration->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
 
 		$this->logger = Logger::getLogger(__CLASS__);
 	}
@@ -130,6 +139,16 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 */
 	protected function prepareForSync()
 	{
+
+		// ADI-354 (dme)
+		if (!$this->loggingEnabled) {
+			NextADInt_Core_Logger::displayMessages();
+		} else {
+			NextADInt_Core_Logger::displayAndLogMessages($this->customPath);
+		}
+
+		NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelInfo());
+
 		$enabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED);
 		if (!$enabled) {
 			$this->logger->info('Sync to WordPress is disabled.');
@@ -158,8 +177,6 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 		$this->increaseExecutionTime();
 
-		Logger::getRootLogger()->setLevel(LoggerLevel::getLevelInfo());
-
 		return true;
 	}
 
@@ -177,9 +194,9 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		);
 		$activeDirectoryUsers = $this->connection->findAllMembersOfGroups($groups);
 		$convertedActiveDirectoryUsers = $this->convertActiveDirectoryUsers($activeDirectoryUsers);
-		
+
 		$wordPressUsers = $this->findActiveDirectoryUsernames();
-		
+
 		return array_merge($wordPressUsers, $convertedActiveDirectoryUsers);
 	}
 
@@ -304,10 +321,10 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 		// ADI-204: in contrast to the Login process we use the sAMAccountName in synchronization have the sAMAccountName
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, $guid);
-		
+
 		// ADI-235: add domain SID
 		$ldapAttributes->setDomainSid($this->connection->getDomainSid());
-		
+
 		$elapsedTimeLdap = time() - $startTimerLdap;
 		$this->ldapRequestTimeCounter = $this->ldapRequestTimeCounter + $elapsedTimeLdap;
 
@@ -469,7 +486,10 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 */
 	protected function finishSynchronization($addedUsers, $updatedUsers, $failedSync)
 	{
-		Logger::getRootLogger()->setLevel(LoggerLevel::getLevelDebug());
+		if ($this->loggingEnabled) {
+			NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelDebug());
+		}
+
 		$elapsedTime = $this->getElapsedTime();
 
 		$this->logger->info("$addedUsers users have been added to the WordPress database.");
