@@ -281,7 +281,7 @@
 
 	<target name="prepare-for-publish"
 			description="make the plugin runnable and delete all unnecessary files"
-			depends="clean,compile-all-languages">
+			depends="clean">
 		<exec executable="${php}">
 			<arg value="${composer}" />
 			<arg value="install" />
