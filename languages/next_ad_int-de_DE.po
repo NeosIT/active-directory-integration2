@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-23 14:31+0200\n"
-"PO-Revision-Date: 2016-09-23 14:38+0200\n"
+"POT-Creation-Date: 2016-09-23 14:47+0200\n"
+"PO-Revision-Date: 2016-09-23 14:47+0200\n"
 "Last-Translator: Tobias <the@noes-it.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1864,8 +1864,8 @@ msgid "Disabled"
 msgstr "Deaktiviert"
 
 #: classes/Adi/User/Ui/ExtendUserList.php:133
-msgid "User is disabled by ADI 2.0."
-msgstr ""
+msgid "User is disabled by Next ADI."
+msgstr "Benutzer ist durch Next ADI deaktiviert."
 
 #: classes/Ldap/Attribute/Description.php:23
 msgid "Common Name"
@@ -2080,26 +2080,35 @@ msgstr "Das Passwort darf nicht leer sein."
 msgid "The role super admin can only be set inside a profile."
 msgstr "Die Rolle \"super admin\" kann nur in einem Profil gesetzt werden."
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:606
+#: classes/Multisite/Ui/BlogConfigurationPage.php:601
+msgid ""
+"At least one security group is associated with a non existing WordPress "
+"role. Please select an existing role for the group."
+msgstr ""
+"Mindestens eine Sicherheitsgruppe ist mit einer nicht existierenden \n"
+"WordPress Rolle verknüpft. Bitte wähle für diese Gruppe eine existierende \n"
+"Rolle aus."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:607
 msgid "Cannot use default attribute names for custom attribute mapping."
 msgstr ""
 "Bitte verwenden Sie keine Default Attribut Namen für benutzerdefinierte "
 "Attribute."
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:615
+#: classes/Multisite/Ui/BlogConfigurationPage.php:616
 msgid "Ad Attribute / Data Type / WordPress Attribute cannot be empty!"
 msgstr "Ad Attribut / Daten Typ / WordPress Attribut darf nicht leer sein!"
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:621
+#: classes/Multisite/Ui/BlogConfigurationPage.php:622
 msgid "You cannot use the same WordPress Attribute multiple times."
 msgstr "Sie können nicht das gleiche WordPress-Attribut mehrmals verwenden."
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:625
+#: classes/Multisite/Ui/BlogConfigurationPage.php:626
 msgid "You cannot use the same Ad Attribute multiple times."
 msgstr "Sie können nicht das gleiche Ad Attribut mehrmals verwenden."
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:664
-#: classes/Multisite/Ui/BlogConfigurationPage.php:670
+#: classes/Multisite/Ui/BlogConfigurationPage.php:665
+#: classes/Multisite/Ui/BlogConfigurationPage.php:671
 msgid ""
 "Verification Username does not match the required style. (e.g. "
 "\"Administrator@test.ad\")"
@@ -2107,15 +2116,15 @@ msgstr ""
 "Der Benutzername entspricht nicht dem erwarteten Format (z. B. "
 "\"Administrator@test.ad\")"
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:675
+#: classes/Multisite/Ui/BlogConfigurationPage.php:676
 msgid "Verification Password cannot be empty."
 msgstr "Das Passwort darf nicht leer sein."
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:693
+#: classes/Multisite/Ui/BlogConfigurationPage.php:694
 msgid "Port has to be numeric and in the range from 0 - 65535."
 msgstr "Der Port muss eine Zahl zwischen 0 - 65535 sein."
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:697
+#: classes/Multisite/Ui/BlogConfigurationPage.php:698
 msgid "Network timeout has to be numeric and cannot be negative."
 msgstr "Der Netzwerk Timeout muss eine Zahl und nicht negativ sein."
 
@@ -2171,9 +2180,6 @@ msgstr "URL"
 #, php-format
 msgid "Select %s"
 msgstr "Auswählen %s"
-
-#~ msgid "User is disabled by Next ADI."
-#~ msgstr "Benutzer ist durch Next ADI deaktiviert."
 
 #~ msgid "Security group"
 #~ msgstr "Sicherheitsgruppen"
