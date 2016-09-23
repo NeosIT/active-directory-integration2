@@ -108,18 +108,21 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	 */
 	public function processData()
 	{
-		if (!isset($_POST['username']) || !isset($_POST['password'])) {
+        // ADI-357 unescape already escaped $_POST
+        $post = stripslashes_deep($_POST);
+
+		if (!isset($post['username']) || !isset($post['password'])) {
 			return array();
 		}
 
 		// before test connection check nonce
-		if (!wp_verify_nonce($_POST['security'], self::NONCE)) {
+		if (!wp_verify_nonce($post['security'], self::NONCE)) {
 			$message = __('You do not have sufficient permissions.', NEXT_AD_INT_I18N);
 			wp_die($message);
 		}
 
-		$username = $_POST['username'];
-		$password = $_POST['password'];
+		$username = $post['username'];
+		$password = $post['password'];
 
 		$information = $this->collectInformation($username, $password);
 		$this->output = explode("<br />", $information['output']);

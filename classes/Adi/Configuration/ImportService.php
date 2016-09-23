@@ -70,7 +70,10 @@ class NextADInt_Adi_Configuration_ImportService
 	 */
 	public function registerPostActivation()
 	{
-		add_action('all_admin_notices', array($this, 'createMigrationNotices'));
+        if (get_transient(NextADInt_Adi_Init::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED)) {
+            add_action('all_admin_notices', array($this, 'createMigrationNotices'));
+            delete_transient(NextADInt_Adi_Init::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED);
+        }
 	}
 
 	/**
@@ -104,7 +107,7 @@ class NextADInt_Adi_Configuration_ImportService
 				}
 			} else {
 				// plug-in provided in network but not network-wide activated
-				$output .= __('Migration of previous ADI options are not supported when running in Multisite installations. Please verify the ADI v2 configuration',
+				$output .= __('Migration of previous ADI options are not supported when running in Multisite installations. Please verify the Next ADI configuration',
 					NEXT_AD_INT_I18N);
 			}
 		} else {
@@ -115,7 +118,7 @@ class NextADInt_Adi_Configuration_ImportService
 			}
 		}
 
-		$html = "<div class='notice notice-warning'><h2>Active Directory Integration 2 has been activated</h2><p>"
+		$html = "<div class='notice notice-warning'><h2>Next Active Directory Integration has been activated</h2><p>"
 			. $output . "</p></div>";
 
 		echo $html;

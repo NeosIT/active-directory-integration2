@@ -127,8 +127,11 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	protected function findUsername()
 	{
 		$envVariable = $this->getConfiguration()->getOptionValue(NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE);
+        $username = NextADInt_Core_Util_ArrayUtil::get($envVariable, $_SERVER);
 
-		return NextADInt_Core_Util_ArrayUtil::get($envVariable, $_SERVER);
+        // ADI-357 unescape already escaped username
+        $unescape = stripslashes($username);
+		return $unescape;
 	}
 
 

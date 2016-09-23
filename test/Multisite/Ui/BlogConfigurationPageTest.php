@@ -503,6 +503,46 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$sut->loadAdminScriptsAndStyle($hook);
 	}
 
+    /**
+     * @test
+     */
+    public function wpAjaxListener_withEscapedCharacter_unescapeTheseCharacter() {
+        $sut = $this->sut(array('renderJson', 'routeRequest', 'currentUserHasCapability'));
+
+        $_POST['data'] = array(
+            "something" => array(
+                "option_value" => "something\'s special",   // WordPress auto escape character like '
+                "option_permission" => 3,
+            ),
+        );
+
+        $expected = array(
+            "something" => array(
+                "option_value" => "something's special",
+                "option_permission" => 3,
+            ),
+        );
+
+        $sut->expects($this->once())
+            ->method('currentUserHasCapability')
+            ->willReturn(true);
+
+        WP_Mock::wpFunction('check_ajax_referer', array(
+            'args' => array('Active Directory Integration Configuration Nonce', 'security', true),
+            'times' => 1,
+        ));
+
+        $sut->expects($this->once())
+            ->method('routeRequest')
+            ->willReturn($expected);
+
+        $sut->expects($this->once())
+            ->method('renderJson')
+            ->with($expected);
+
+        $sut->wpAjaxListener();
+    }
+
 	/**
 	 * @test
 	 */

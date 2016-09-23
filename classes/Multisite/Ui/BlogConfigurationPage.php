@@ -259,9 +259,12 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			return;
 		}
 
-		$subAction = (!empty($_POST['subAction'])) ? $_POST['subAction'] : '';
+		// ADI-357 unescape already escaped $_POST
+		$post = stripslashes_deep($_POST);
 
-		$result = $this->routeRequest($subAction, $_POST);
+		$subAction = (!empty($post['subAction'])) ? $post['subAction'] : '';
+
+		$result = $this->routeRequest($subAction, $post);
 
 		if (false !== $result) {
 			$this->renderJson($result);

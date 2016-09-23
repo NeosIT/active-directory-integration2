@@ -152,6 +152,45 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 		$sut->loadAdminScriptsAndStyle($hook);
 	}
 
+    /**
+     * @test
+     */
+    public function processData_withEscapedCharacter_unescapeThem()
+    {
+        $sut = $this->sut(array('printSystemEnvironment', 'connectToActiveDirectory', 'collectInformation'));
+        $collectInformationResult = array('output' => 'Test', 'authentication_result' => 666);
+
+        $_POST['username'] = 'test\\\\User'; // should be addslashes('test\User');
+        $_POST['password'] = "secret's";
+        $_POST['security'] = 'base64';
+
+        $expectedUsername = 'test\User';
+        $expectedPassword = "secret's";
+
+        WP_Mock::wpFunction(
+            'wp_verify_nonce', array(
+                'args'   => array($_POST['security'], 'Active Directory Integration Test Authentication Nonce'),
+                'times'  => 1,
+                'return' => true,
+            )
+        );
+
+        $sut->expects($this->once())
+            ->method('collectInformation')
+            ->with($expectedUsername, $expectedPassword)
+            ->willReturn($collectInformationResult);
+
+
+        $actual = $sut->processData();
+
+        $this->assertTrue(is_array($actual));
+        $output = $sut->getOutput();
+        // first line has to be the output
+        $this->assertTrue(strpos($output[0], $collectInformationResult['output']) !== false);
+        $this->assertEquals($collectInformationResult['authentication_result'], $actual['status']);
+
+    }
+
 	/**
 	 * @test
 	 */
