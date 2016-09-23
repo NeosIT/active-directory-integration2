@@ -128,6 +128,8 @@ class NextADInt_Multisite_View_TwigContainer
 
 		$twigOptions = $this->getTwigOptions(NextADInt_Core_Util_Internal_Environment::isProductive());
 
+        // $twigOptions['cache'] = NEXT_AD_INT_PATH . '/cache';
+
 		$this->twig = new Twig_Environment($loader, $twigOptions);
 
 		$this->addSimpleTwigFilter('__', '__');
