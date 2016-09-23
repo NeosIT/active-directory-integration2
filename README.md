@@ -51,7 +51,7 @@ Run > Edit Configurations > Defaults > PHPUnit
 - Test Runner options: `--test-suffix Test.php,IT.php`
 - Interpreter options: `-d AD_ENDPOINT=127.0.0.1 -d AD_PORT=389 -d AD_USERNAME=Administrator -d AD_PASSWORD=Pa$$w0rd -d AD_USE_TLS='' -d AD_SUFFIX=@test.ad -d AD_BASE_DN='DC=test,DC=ad'`
 
-#### Improve translation
+#### Update translation
 
 After changing the next_ad_int-de_DE.po you have to build the next_ad_int-de_DE.mo and next_ad_int-de_DE_formal.mo file.
 ```shell
