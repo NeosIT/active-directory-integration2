@@ -105,7 +105,7 @@ class NextADInt_Core_Logger
 	/**
 	 * Enable file logging but disable screen logging
 	 */
-	public static function logMessages($customPath)
+	public static function logMessages($customPath = '')
 	{
 		Logger::resetConfiguration();
 
@@ -133,7 +133,7 @@ class NextADInt_Core_Logger
 	/**
 	 * Enable file and screen logging
 	 */
-	public static function displayAndLogMessages($customPath)
+	public static function displayAndLogMessages($customPath = '')
 	{
 		Logger::resetConfiguration();
 
