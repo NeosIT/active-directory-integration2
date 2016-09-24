@@ -19,7 +19,7 @@ if (class_exists('NextADInt_Core_Logger')) {
  */
 class NextADInt_Core_Logger
 {
-	const LOG_PATH = NEXT_AD_INT_PATH . '/' .'logs/debug.log';
+    const RELATIVE_LOG_PATH = '/logs/debug.log';
     const FILE_CONVERSION_PATTERN_FILTER = 'next_ad_int_file_conversion_pattern_filter';
     const ECHO_CONVERSION_PATTERN_FILTER = 'next_ad_int_echo_conversion_pattern_filter';
 
@@ -55,6 +55,15 @@ class NextADInt_Core_Logger
 		'appenders' => array()
 	);
 
+	 /**
+         * Get default absolute path to log file
+         *
+         * @return string
+         */
+	public static function getDefaultLogPath() {
+		return NEXT_AD_INT_PATH . self::RELATIVE_LOG_PATH;
+	}
+
 	/**
 	 * Create default config
 	 *
@@ -63,7 +72,11 @@ class NextADInt_Core_Logger
 	 * @param string $path
 	 * @return array
 	 */
-	public static function createDefaultConfiguration($useFile, $useEcho, $path = self::LOG_PATH) {
+	public static function createDefaultConfiguration($useFile, $useEcho, $path) {
+		if (!$path) {
+			$path = self::getDefaultLogPath();
+		}
+
 		$config = self::$generalConfig;
 
 		if ($useFile) {
@@ -92,12 +105,12 @@ class NextADInt_Core_Logger
 	/**
 	 * Enable file logging but disable screen logging
 	 */
-	public static function logMessages($customPath = self::LOG_PATH)
+	public static function logMessages($customPath)
 	{
 		Logger::resetConfiguration();
 
 		if (self::$logging) {
-			if ($customPath !== self::LOG_PATH && $customPath != '') {
+			if ($customPath && ($customPath !== self::getDefaultLogPath())) {
 				Logger::configure(self::createDefaultConfiguration(true, false, $customPath));
 			} else {
 				Logger::configure(self::createDefaultConfiguration(true, false));
@@ -120,12 +133,12 @@ class NextADInt_Core_Logger
 	/**
 	 * Enable file and screen logging
 	 */
-	public static function displayAndLogMessages($customPath = self::LOG_PATH)
+	public static function displayAndLogMessages($customPath)
 	{
 		Logger::resetConfiguration();
 
 		if (self::$logging) {
-			if ($customPath !== self::LOG_PATH && $customPath != '') {
+			if ($customPath && ($customPath !== self::getDefaultLogPath())) {
 				Logger::configure(self::createDefaultConfiguration(true, true, $customPath));
 			} else {
 				Logger::configure(self::createDefaultConfiguration(true, true));
