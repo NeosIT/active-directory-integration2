@@ -115,9 +115,10 @@ Please purchase a support license and open a ticket.
 7. Attribute mapping from Active Directory to WordPress
 8. Sync to Active Directory
 9. Sync to WordPress
-10. Extend WordPress' user list with Active Directory information
-11. Profile assignment in WordPress Multisite
-12. Custom *Next ADI* profile in WordPress Multisite environment
+10. Logging
+11. Extend WordPress' user list with Active Directory information
+12. Profile assignment in WordPress Multisite
+13. Custom *Next ADI* profile in WordPress Multisite environment
 
 
 == Installation ==
