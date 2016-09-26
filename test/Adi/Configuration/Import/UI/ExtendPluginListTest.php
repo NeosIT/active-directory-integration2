@@ -301,7 +301,7 @@ class Ut_NextADInt_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_B
 
 		$sut->expects($this->once())
 			->method('dumpConfiguration')
-			->with(555, '1.1.5')
+			->with(555)
 			->willReturn($config);
 
 		$actual = $sut->dumpNetwork();

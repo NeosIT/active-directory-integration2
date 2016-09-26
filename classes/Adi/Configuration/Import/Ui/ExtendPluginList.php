@@ -207,7 +207,7 @@ class NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList
 				continue;
 			}
 
-			$r = array_merge($r, $this->dumpConfiguration($blogId, $version));
+			$r = array_merge($r, $this->dumpConfiguration($blogId));
 
 		}
 
