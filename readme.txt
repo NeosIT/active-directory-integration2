@@ -165,6 +165,12 @@ It is __not__ possible to activate *Next ADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.0.9 =
+* FIX: add missing default value for method parameter
+
+= 2.0.8 =
+* FIX: remove PHP 5.6 code (GitHub #22 Thanks to requincreative)
+
 = 2.0.7 =
 * ADD: custom user roles can be used in "Role equivalent groups"
 * ADD: the logger is disabled by default (and can be enabled inside the configuration)
