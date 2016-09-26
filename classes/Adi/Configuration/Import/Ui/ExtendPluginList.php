@@ -136,9 +136,10 @@ class NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList
 	 * Convert the provded configuration into a viewable string
 	 *
 	 * @param array $configuration
+     * @param string $version
 	 * @return array
 	 */
-	public function dumpConfiguration($configuration)
+	public function dumpConfiguration($configuration, $version)
 	{
 		$r = array();
 

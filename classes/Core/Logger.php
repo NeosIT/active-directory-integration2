@@ -72,7 +72,7 @@ class NextADInt_Core_Logger
 	 * @param string $path
 	 * @return array
 	 */
-	public static function createDefaultConfiguration($useFile, $useEcho, $path) {
+	public static function createDefaultConfiguration($useFile, $useEcho, $path = '') {
 		if (!$path) {
 			$path = self::getDefaultLogPath();
 		}
