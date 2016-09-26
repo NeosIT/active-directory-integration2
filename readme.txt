@@ -1,5 +1,5 @@
 ﻿=== Next Active Directory Integration ===
-Contributors: NeosIT GmbH
+Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows
 Requires at least: 4.0
 Tested up to: 4.6.0
