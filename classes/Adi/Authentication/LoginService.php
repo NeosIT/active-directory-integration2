@@ -129,6 +129,21 @@ class NextADInt_Adi_Authentication_LoginService
 
 		$this->logger->info('A user tries to log in.');
 
+		// ADI-367 Detect xmlrpc.php access
+		$xmlrpcEnabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ALLOW_XMLRPC_LOGIN);
+		$page = $_SERVER['PHP_SELF'];
+
+		if (strpos($page, 'xmlrpc.php') !== false) {
+
+			if (!$xmlrpcEnabled) {
+				$this->logger->warn("XML RPC Login detected ! Preventing further authentication.");
+				wp_die(__("Next Adi prevents XML RPC authentication!", NEXT_AD_INT_I18N));
+			} else {
+				$this->logger->warn("XML RPC Login detected ! XML RPC authentication is enabled. Continuing");
+			}
+
+		}
+
         // unquote backlash from username
         // https://wordpress.org/support/topic/fatal-error-after-login-and-suffix-question/
         $login = stripcslashes($login);

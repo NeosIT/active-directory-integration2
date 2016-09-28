@@ -32,13 +32,17 @@ class Ut_NextADInt_Adi_Authentication_Ui_ShowBlockedMessageTest extends Ut_Basic
 	/**
 	 * @test
 	 */
-	public function blockCurrentUser_die()
+	public function blockCurrentUser_executeShowBlockMessage()
 	{
 		$sut = $this->sut(array('showBlockMessage'));
 
-		\WP_Mock::wpFunction('wp_die', array(
-			'times' => 1)
-		);
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->willReturn(5);
+
+		$sut->expects($this->once())
+			->method('showBlockMessage')
+			->with(5);
 
 		$sut->blockCurrentUser();
 	}
@@ -82,7 +86,7 @@ class Ut_NextADInt_Adi_Authentication_Ui_ShowBlockedMessageTest extends Ut_Basic
 	/**
 	 * @test
 	 */
-	public function showBlockMessage()
+	public function showBlockMessage_forNormalAuthentification()
 	{
 		$sut = $this->sut(null);
 
@@ -98,8 +102,25 @@ class Ut_NextADInt_Adi_Authentication_Ui_ShowBlockedMessageTest extends Ut_Basic
 		);
 
 		WP_Mock::wpFunction('wp_die', array(
-			'args'  => 'Your account is blocked for <span id=\'secondsLeft\'>5</span> seconds.',
+			'args'  => 'Authentication denied by Next Active Directory Integration Brute Force Protection. <br> Your account is blocked for <span id=\'secondsLeft\'>5</span> seconds.',
 			'times' => '1')
+		);
+
+		$sut->showBlockMessage(5);
+	}
+
+	/**
+	 * @test
+	 */
+	public function showBlockMessage_forXmlRpc() {
+		$sut = $this->sut(null);
+		$timeLeft = 5;
+
+		$_SERVER['PHP_SELF'] = 'xmlrpc.php';
+
+		WP_Mock::wpFunction('wp_die', array(
+				'args'  => 'Authentication denied by Next Active Directory Integration Brute Force Protection. Your account is blocked for ' . $timeLeft . ' seconds.',
+				'times' => '1')
 		);
 
 		$sut->showBlockMessage(5);
