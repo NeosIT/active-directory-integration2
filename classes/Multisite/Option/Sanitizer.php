@@ -60,7 +60,7 @@ class NextADInt_Multisite_Option_Sanitizer
 			$value = $value["option_value"];
 		}
 
-		if (Core_Util_StringUtil::toLowerCase($value) === 'false') {
+		if (NextADInt_Core_Util_StringUtil::toLowerCase($value) === 'false') {
 			return false;
 		}
 
@@ -242,7 +242,7 @@ class NextADInt_Multisite_Option_Sanitizer
 		}
 
 		if ($lowercase) {
-			$value = Core_Util_StringUtil::toLowerCase($value);
+			$value = NextADInt_Core_Util_StringUtil::toLowerCase($value);
 		}
 
 		if ($nonEmpty && 0 === strlen($value)) {

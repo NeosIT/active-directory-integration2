@@ -125,7 +125,7 @@ abstract class NextADInt_Adi_Synchronization_Abstract
 
 			if ($this->isVerifiedDomainMember($userDomainSid)) {
 				$wpUsername = $user->user_login;
-				$r[Core_Util_StringUtil::toLowerCase($guid)] = $wpUsername;
+				$r[NextADInt_Core_Util_StringUtil::toLowerCase($guid)] = $wpUsername;
 			}
 		}
 

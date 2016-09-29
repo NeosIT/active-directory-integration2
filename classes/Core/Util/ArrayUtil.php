@@ -53,8 +53,8 @@ class NextADInt_Core_Util_ArrayUtil
 	 */
 	public static function containsIgnoreCase($needle, $haystack)
 	{
-		$lowerHaystack = array_map(array('Core_Util_StringUtil', 'toLowerCase'), $haystack);
-		$lowerNeedle = Core_Util_StringUtil::toLowerCase($needle);
+		$lowerHaystack = array_map(array('NextADInt_Core_Util_StringUtil', 'toLowerCase'), $haystack);
+		$lowerNeedle = NextADInt_Core_Util_StringUtil::toLowerCase($needle);
 
 		return in_array($lowerNeedle, $lowerHaystack);
 	}

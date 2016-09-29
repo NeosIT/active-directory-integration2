@@ -80,7 +80,7 @@ class NextADInt_Ldap_Attribute_Service
 	public static function getLdapAttribute($attributeName, $ldapData)
 	{
 		// default value
-		$attributeName = Core_Util_StringUtil::toLowerCase($attributeName);
+		$attributeName = NextADInt_Core_Util_StringUtil::toLowerCase($attributeName);
 		$sanitizedValue = '';
 
 		// check $attributeValues

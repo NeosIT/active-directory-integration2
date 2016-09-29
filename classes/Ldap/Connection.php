@@ -590,7 +590,7 @@ class NextADInt_Ldap_Connection
 			$userSid = $adLdap->convertObjectSidBinaryToString($userInfo[0]["objectsid"][0]);
 			
 			if (strpos($userSid, $siteDomainSid) !== false ) {
-				$users[NextAdInt_Core_Util_StringUtil::toLowerCase($member)] = $member;
+				$users[NextADInt_Core_Util_StringUtil::toLowerCase($member)] = $member;
 			}			
 		}
 

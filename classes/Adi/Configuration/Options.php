@@ -1387,31 +1387,4 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			),
 		);
 	}
-
-	/**
-	 * Return a table with common Active Directory user attribute names + descriptions
-	 *
-	 * @return string,
-	 */
-	public function commonActiveDirectoryAttributes()
-	{
-		$adAttribute = __('AD Attribute', NEXT_AD_INT_I18N);
-		$description = __('Description', NEXT_AD_INT_I18N);
-
-		$table
-			= "<table>
-<tr>
-    <th>$adAttribute</th>
-    <th>$description</th>
-</tr>";
-
-		$descriptions = Adit_Ad_AttributeDescriptions::findAll();
-		foreach ($descriptions as $attribute => $description) {
-			$table .= "<tr><th class='nsp_short_form_table'>$attribute</th><th class='nsp_short_form_table'>$description</th></tr>";
-		}
-
-		$table .= '</table>';
-
-		return $table;
-	}
 }

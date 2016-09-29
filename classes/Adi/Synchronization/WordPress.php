@@ -215,7 +215,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 			$attributes = $this->attributeService->findLdapAttributesOfUsername($adUser);
 			$guid = $attributes->getFilteredValue(NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID);
 
-			$result[Core_Util_StringUtil::toLowerCase($guid)] = $adUser;
+			$result[NextADInt_Core_Util_StringUtil::toLowerCase($guid)] = $adUser;
 		}
 
 		return $result;

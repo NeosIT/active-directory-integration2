@@ -298,7 +298,7 @@ class NextADInt_Multisite_Configuration_Service
 	/**
 	 * Find all option values, that are  part of the profile and not the profile configuration.
 	 *
-	 * @param numeric $profileId
+	 * @param number $profileId
 	 * @param array   $options
 	 *
 	 * @return mixed
