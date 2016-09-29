@@ -99,8 +99,8 @@ class NextADInt_Ldap_ConnectionDetails
 			$encryption = 'none';
 		}
 
-		NextADInt_Core_Assert::condition(
-			in_array(strtolower($encryption), NextADInt_Multisite_Option_Encryption::getValues()),
+        NextADInt_Core_Assert::condition(
+			in_array(NextADInt_Core_Util_StringUtil::toLowerCase($encryption), NextADInt_Multisite_Option_Encryption::getValues()),
 			'Encryption type must be one of none, starttls or ldaps');
 
 		$this->encryption = $encryption;

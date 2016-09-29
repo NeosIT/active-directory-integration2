@@ -53,7 +53,7 @@ class NextADInt_Adi_Authentication_Credentials
 	 */
 	public function setLogin($login)
 	{
-		$login = strtolower(trim($login));
+		$login = NextADInt_Core_Util_StringUtil::toLowerCase(trim($login));
 		$this->login = $login;
 
 		$this->setUserPrincipalName($login);
@@ -63,7 +63,7 @@ class NextADInt_Adi_Authentication_Credentials
 	public function setUserPrincipalName($userPrincipalName)
 	{
 		NextADInt_Core_Assert::notEmpty($userPrincipalName, "userPrincipalName must not be empty");
-		$userPrincipalName = strtolower(trim($userPrincipalName));
+		$userPrincipalName = NextADInt_Core_Util_StringUtil::toLowerCase(trim($userPrincipalName));
 
 		$parts = explode('@', $userPrincipalName);
 

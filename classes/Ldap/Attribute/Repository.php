@@ -338,7 +338,7 @@ class NextADInt_Ldap_Attribute_Repository
 	public static function resolveType($array)
 	{
 		$type = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE, $array, 'string');
-		$type = strtolower(trim($type));
+		$type = NextADInt_Core_Util_StringUtil::toLowerCase(trim($type));
 
 		if (!in_array($type, self::$wellKnownAttributeTypes)) {
 			return 'string';
@@ -356,7 +356,7 @@ class NextADInt_Ldap_Attribute_Repository
 	 */
 	public static function resolveDefaultAttributeMetaKey($attributeName)
 	{
-		return NEXT_AD_INT_PREFIX . strtolower($attributeName);
+		return NEXT_AD_INT_PREFIX . NextADInt_Core_Util_StringUtil::toLowerCase($attributeName);
 	}
 
 	/**

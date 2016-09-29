@@ -255,10 +255,10 @@ class NextADInt_Adi_Authentication_LoginService
 	 */
 	function isUsernameExcludedFromAuthentication($username)
 	{
-		$excludes = strtolower($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION));
+		$excludes = NextADInt_Core_Util_StringUtil::toLowerCase($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION));
 		$excludedUsernames = explode(';', $excludes);
 
-		return in_array(strtolower($username), $excludedUsernames);
+		return in_array(NextADInt_Core_Util_StringUtil::toLowerCase($username), $excludedUsernames);
 	}
 
 	/**

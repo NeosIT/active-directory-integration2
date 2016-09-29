@@ -120,8 +120,8 @@ class NextADInt_Core_Util_StringUtil
 	 */
 	public static function compareLowercase($string1, $string2)
 	{
-		$string1 = strtolower($string1);
-		$string2 = strtolower($string2);
+		$string1 = self::toLowerCase($string1);
+		$string2 = self::toLowerCase($string2);
 
 		return $string1 === $string2;
 	}
@@ -181,7 +181,7 @@ class NextADInt_Core_Util_StringUtil
 		$result .= '-' . substr($hexString, 16, 4);
 		$result .= '-' . substr($hexString, 20);
 
-		return strtolower($result);
+		return self::toLowerCase($result);
 	}
 
 	/**
@@ -246,5 +246,17 @@ class NextADInt_Core_Util_StringUtil
 	{
 		// search backwards starting from haystack length characters from the end
 		return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+	}
+
+	/**
+	 * Convert the given string to lowercase using {@link mb_strtolower}.
+	 *
+	 * @param $string
+	 *
+	 * @return mixed|string
+	 */
+	public static function toLowerCase($string)
+	{
+		return mb_strtolower($string);
 	}
 }

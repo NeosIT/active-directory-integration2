@@ -386,7 +386,7 @@ class NextADInt_Ldap_Connection
 		$sanitized = array();
 
 		foreach ($attributes as $attribute) {
-			$attribute = strtolower($attribute);
+			$attribute = NextADInt_Core_Util_StringUtil::toLowerCase($attribute);
 			$array = NextADInt_Core_Util_ArrayUtil::get($attribute, $userInfo);
 			$sanitized[$attribute] = NextADInt_Core_Util_ArrayUtil::get(0, $array);
 		}
@@ -590,7 +590,7 @@ class NextADInt_Ldap_Connection
 			$userSid = $adLdap->convertObjectSidBinaryToString($userInfo[0]["objectsid"][0]);
 			
 			if (strpos($userSid, $siteDomainSid) !== false ) {
-				$users[strtolower($member)] = $member;
+				$users[NextAdInt_Core_Util_StringUtil::toLowerCase($member)] = $member;
 			}			
 		}
 
