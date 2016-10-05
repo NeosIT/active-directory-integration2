@@ -80,5 +80,15 @@
         $scope.containsErrors = function () {
             return (!$arrayUtil.containsOnlyNullValues($scope.messages));
         };
+
+        $scope.save = function() {
+            // check if the input field is not empty
+            if($scope.new_admin_email != '') {
+                // add the input field value to the list of objects to be saved
+                ListService.addListItem($scope.new_admin_email, $scope.option.admin_email);
+                $scope.new_admin_email = '';
+            }
+            $scope.$parent.save();
+        };
     }
 })();

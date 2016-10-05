@@ -20,6 +20,15 @@
             });
         };
 
+        /**
+         * Method used for evaluating if a value is present
+         *
+         * @returns {boolean}
+         */
+        $scope.is_input_empty = function(input_value) {
+            return (input_value == '' || !input_value);
+        };
+
         function activate() {
             $scope.runningRequests++;
 
