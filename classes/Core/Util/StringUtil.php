@@ -151,14 +151,19 @@ class NextADInt_Core_Util_StringUtil
 	}
 
 	/**
-	 * Convert the given binary string into a real string.
+	 * Convert the given binary string into a real string. Same as in adldap.php
 	 *
 	 * @param $binaryString
 	 *
-	 * @return string
+	 * @return mixed
 	 */
 	public static function binaryToGuid($binaryString)
 	{
+		// Return null if binaryString is empty. (For example if user does not exist in Active Directory anymore.)
+		if (empty($binaryString)) {
+			return null;
+		}
+
 		$hexString = bin2hex($binaryString);
 		$result = '';
 
