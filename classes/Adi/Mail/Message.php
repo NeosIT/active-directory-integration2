@@ -15,7 +15,7 @@ if (class_exists('NextADInt_Adi_Mail_Message')) {
  */
 class NextADInt_Adi_Mail_Message
 {
-	private $blogDomain;
+	private $fromEmail;
 	private $blogUrl;
 	private $blogName;
 	private $firstName;
@@ -44,8 +44,13 @@ class NextADInt_Adi_Mail_Message
 
 	public function getHeader()
 	{
-		return 'From: "WordPress" <wordpress@' . $this->blogDomain . '>;' . "\r\n";
+		if (empty($this->fromEmail)) {
+			return '';
+		}
+
+		return 'From: "WordPress" <' . $this->fromEmail . '>;' . "\r\n";
 	}
+
 
 	public function getSubject()
 	{
@@ -93,17 +98,17 @@ class NextADInt_Adi_Mail_Message
 	/**
 	 * @return mixed
 	 */
-	public function getBlogDomain()
+	public function getFromEmail()
 	{
-		return $this->blogDomain;
+		return $this->fromEmail;
 	}
 
 	/**
-	 * @param mixed $blogDomain
+	 * @param mixed $fromEmail
 	 */
-	public function setBlogDomain($blogDomain)
+	public function setFromEmail($fromEmail)
 	{
-		$this->blogDomain = $blogDomain;
+		$this->fromEmail = $fromEmail;
 	}
 
 	/**

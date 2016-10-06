@@ -884,7 +884,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		$validator = $sut->getValidator();
 		$rules = $validator->getValidationRules();
 
-		$this->assertCount(16, $rules);
+		$this->assertCount(17, $rules);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_AccountSuffix', $rules[NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX][0]);
@@ -894,6 +894,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_AdAttributeConflict', $rules[NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES][3]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_DefaultEmailDomain', $rules[NextADInt_Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_AdminEmail', $rules[NextADInt_Adi_Configuration_Options::ADMIN_EMAIL][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_FromEmailAdress', $rules[NextADInt_Adi_Configuration_Options::FROM_EMAIL][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Port', $rules[NextADInt_Adi_Configuration_Options::PORT][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero', $rules[NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero', $rules[NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS][0]);

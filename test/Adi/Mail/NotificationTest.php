@@ -285,6 +285,17 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->method('getUserMeta')
 			->willReturn(array(''));
 
+		$this->configuration->expects($this->exactly(2))
+			->method('getOptionValue')
+			->withConsecutive(
+				array(NextADInt_Adi_Configuration_Options::FROM_EMAIL),
+				array(NextADInt_Adi_Configuration_Options::BLOCK_TIME)
+			)
+			->willReturnOnConsecutiveCalls(
+				'admin@test.local',
+				30
+			);
+
 		\WP_Mock::wpFunction('get_bloginfo', array(
 			'args' => 'url',
 			'return' => 'http://localhost/wordpress1/wordpress'
@@ -300,7 +311,52 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('localhost/wordpress1', $mail->getBlogDomain());
+				PHPUnit_Framework_Assert::assertEquals('admin@test.local', $mail->getFromEmail());
+				return true;
+			}));
+
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message());
+		$this->assertEquals(true, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function sendNotification_withUserMetaAndHttps_addBlogDomain()
+	{
+		$sut = $this->sut(array('getUserMeta', 'sendMails'));
+
+		$sut->expects($this->once())
+			->method('getUserMeta')
+			->willReturn(array(''));
+
+		$this->configuration->expects($this->exactly(2))
+			->method('getOptionValue')
+			->withConsecutive(
+				array(NextADInt_Adi_Configuration_Options::FROM_EMAIL),
+				array(NextADInt_Adi_Configuration_Options::BLOCK_TIME)
+			)
+			->willReturnOnConsecutiveCalls(
+				'',
+				30
+			);
+
+		\WP_Mock::wpFunction('get_bloginfo', array(
+			'args' => 'url',
+			'return' => 'https://localhost/wordpress1/wordpress'
+		));
+
+		\WP_Mock::wpFunction('get_bloginfo', array(
+			'args' => 'name',
+			'return' => ''
+		));
+
+		$sut->expects($this->once())
+			->method('sendMails')
+			->will($this->returnCallback(function ($mail) {
+				/* @var NextADInt_Adi_Mail_Message $mail */
+				// validate NextADInt_Adi_Mail_Message object
+				PHPUnit_Framework_Assert::assertEquals('', $mail->getFromEmail());
 				return true;
 			}));
 
@@ -355,10 +411,16 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 
 		\WP_Mock::wpFunction('get_bloginfo', array());
 
-		$this->configuration->expects($this->once())
-			->method('getOption')
-			->with(NextADInt_Adi_Configuration_Options::BLOCK_TIME)
-			->willReturn('30');
+		$this->configuration->expects($this->exactly(2))
+			->method('getOptionValue')
+			->withConsecutive(
+				array(NextADInt_Adi_Configuration_Options::FROM_EMAIL),
+				array(NextADInt_Adi_Configuration_Options::BLOCK_TIME)
+			)
+			->willReturnOnConsecutiveCalls(
+				'',
+				30
+			);
 
 		$sut->expects($this->once())
 			->method('sendMails')

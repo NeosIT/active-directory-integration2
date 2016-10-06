@@ -68,6 +68,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const USER_NOTIFICATION = 'user_notification';
 	const ADMIN_NOTIFICATION = 'admin_notification';
 	const ADMIN_EMAIL = 'admin_email';
+	const FROM_EMAIL = 'from_email';
 
 	// User Meta - User Meta
 	const ADDITIONAL_USER_ATTRIBUTES = 'additional_user_attributes';
@@ -1074,6 +1075,25 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$showPermission    => true,
 				$transient         => false,
 			),
+			// Email address for the header "from" field for the brute force proctection information email.
+			self::FROM_EMAIL     => array(
+				$title       => __('From email address', NEXT_AD_INT_I18N),
+				$type        => NextADInt_Multisite_Option_Type::TEXT,
+				$description => __(
+					'Email address the brute force protection information email should be send from.',
+					NEXT_AD_INT_I18N
+				),
+				$detail      => __(
+					'If you leave this field blank WordPress will build the "from email address" by itself. (wordpress@domain.local)',
+					NEXT_AD_INT_I18N
+				),
+				$angularAttributes => '',
+				$default     => '',
+				$sanitizer   => array('string'),
+				$showPermission    => true,
+				$transient         => false,
+			),
+
 			// List of additional user attributes that can be defined by the admin
 			// The attributes are seperated by a new line and have the format:
 			//   <Attribute name>:<type>

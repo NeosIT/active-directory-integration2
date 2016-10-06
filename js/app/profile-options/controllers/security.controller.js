@@ -34,6 +34,7 @@
                 user_notification: $valueHelper.findValue("user_notification", data),
                 admin_notification: $valueHelper.findValue("admin_notification", data),
                 admin_email: $valueHelper.findValue("admin_email", data).split(";"),
+                from_email: $valueHelper.findValue("from_email", data).split(";"),
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {
@@ -52,6 +53,7 @@
                 user_notification: $valueHelper.findPermission("user_notification", data),
                 admin_notification: $valueHelper.findPermission("admin_notification", data),
                 admin_email: $valueHelper.findPermission("admin_email", data),
+                from_email: $valueHelper.findPermission("from_email", data),
             };
         });
 
@@ -65,7 +67,8 @@
                 block_time: $valueHelper.findMessage("block_time", data),
                 user_notification: $valueHelper.findMessage("user_notification", data),
                 admin_notification: $valueHelper.findMessage("admin_notification", data),
-                admin_email: $valueHelper.findMessage("admin_email", data)
+                admin_email: $valueHelper.findMessage("admin_email", data),
+                from_email: $valueHelper.findMessage("from_email", data)
             };
         });
 

@@ -82,16 +82,19 @@ class NextADInt_Adi_Mail_Notification
 		}
 
 		$url = get_bloginfo('url');
-		$domain = preg_replace('/^(http:\/\/)(.+)\/.*$/i', '$2', $url);
+
+		// ADI-383 Github Issue #27 added check for http/https
+		$fromEmail = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::FROM_EMAIL);
+
 		$name = get_bloginfo('name');
-		$blockTime = $this->configuration->getOption(NextADInt_Adi_Configuration_Options::BLOCK_TIME);
+		$blockTime = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::BLOCK_TIME);
 		$remoteAddress = NextADInt_Core_Util_ArrayUtil::get('REMOTE_ADDR', $_SERVER, '');
 
 		$mail->setFirstName(NextADInt_Core_Util_ArrayUtil::get('firstName', $recipient, ''));
 		$mail->setSecondName(NextADInt_Core_Util_ArrayUtil::get('secondName', $recipient, ''));
 		$mail->setEmail(NextADInt_Core_Util_ArrayUtil::get('email', $recipient, ''));
 		$mail->setBlogUrl($url);
-		$mail->setBlogDomain($domain);
+		$mail->setFromEmail($fromEmail);
 		$mail->setBlogName($name);
 		$mail->setBlockTime($blockTime);
 		$mail->setRemoteAddress($remoteAddress);
