@@ -153,8 +153,8 @@ class NextADInt_Adi_User_Manager
 		NextADInt_Core_Assert::notNull($credentials, "credentials must not be null");
 		NextADInt_Core_Assert::notNull($ldapAttributes, "ldapAttributes must not be null");
 
-		$guid = $ldapAttributes->getFilteredValue(NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID);
-		$wpUser = $this->userRepository->findByObjectGuid($guid);
+		// NADIS-1: Changed findUserByGuid to findUserBySamAccountName to be able to detect the right user if no guid is available
+		$wpUser = $this->userRepository->findBySAMAccountName($credentials->getSAMAccountName());
 
 		if (!$wpUser) {
 			$wpUser = $this->findByActiveDirectoryUsername($credentials->getSAMAccountName(),
@@ -668,6 +668,8 @@ class NextADInt_Adi_User_Manager
 	{
 		$userData = $this->userRepository->findById($userId);
 		$this->metaRepository->disableUser($userData, $reason);
+
+		$this->logger->warn('Disabled user with user id ' . $userId . ' with reason: ' . $reason);
 
 		// delete e-mail from user
 		$this->userRepository->updateEmail($userId, '');

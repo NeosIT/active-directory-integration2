@@ -302,6 +302,32 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	}
 
 	/**
+	 * If guid is null user does not exist in Active Directory anymore.
+	 * Therefore disable user and set domain sid to "empty"
+	 *
+	 * @param $ldapAttributes NextADInt_Ldap_Attributes
+	 * @param $credentials NextADInt_Adi_Authentication_Credentials
+	 * @return int
+	 */
+	public function disableUserWithoutValidGuid($ldapAttributes, $credentials) {
+
+		if (null === $ldapAttributes->getFilteredValue('objectguid')) {
+
+			// Set domain sid to empty, to prevent non existing user from getting used for sync to wordpress
+			$ldapAttributes->setDomainSid('empty');
+
+			$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
+			$status = $this->createOrUpdateUser($adiUser);
+
+			$this->userManager->disable($adiUser->getId(), 'User no longer exists in Active Directory.');
+
+			$this->logger->warn('Removed domain sid for user ' . $credentials->getLogin());
+
+			return $status;
+		}
+	}
+
+	/**
 	 * Convert an Active Directory user to a WordPress user
 	 *
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
@@ -322,20 +348,31 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		// ADI-204: in contrast to the Login process we use the sAMAccountName in synchronization have the sAMAccountName
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, $guid);
 
+		// NADIS-1: Checking if guid of a user is valid, if not user does not exist in the active directory anymore. Therefore disable user, remove domain sid
+		$this->disableUserWithoutValidGuid($ldapAttributes, $credentials);
+
 		// ADI-235: add domain SID
 		$ldapAttributes->setDomainSid($this->connection->getDomainSid());
 
 		$elapsedTimeLdap = time() - $startTimerLdap;
 		$this->ldapRequestTimeCounter = $this->ldapRequestTimeCounter + $elapsedTimeLdap;
 
-		$credentials->setUserPrincipalName($ldapAttributes->getFilteredValue('userprincipalname'));
+		$userPrincipalName = $ldapAttributes->getFilteredValue('userprincipalname');
+
+		// NADIS-1: added check to prevent fatal error if userPrincipalName is empty
+		if (empty($userPrincipalName)) {
+			$this->logger->warn('UserPrincipalName for ' . $credentials->getLogin() . ' could not be found.');
+
+		} else {
+			$credentials->setUserPrincipalName($userPrincipalName);
+		}
 
 		$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
 
 		// check account restrictions
 		if ($synchronizeDisabledAccounts) {
 			if (!$this->checkAccountRestrictions($adiUser)) {
-				return false;
+				return 1;
 			}
 		}
 
