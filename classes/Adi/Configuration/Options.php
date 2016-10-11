@@ -68,6 +68,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const USER_NOTIFICATION = 'user_notification';
 	const ADMIN_NOTIFICATION = 'admin_notification';
 	const ADMIN_EMAIL = 'admin_email';
+	const ALLOW_XMLRPC_LOGIN = 'allow_xmlrpc_login';
 
 	// User Meta - User Meta
 	const ADDITIONAL_USER_ATTRIBUTES = 'additional_user_attributes';
@@ -1071,6 +1072,20 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$angularAttributes => '',
 				$default     => '',
 				$sanitizer   => array('accumulation', ';', array('email')),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			// Send email to admin if a user account is blocked.
+			self::ALLOW_XMLRPC_LOGIN            => array(
+				$title       => __('Allow Login via XMLRPC', NEXT_AD_INT_I18N),
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
+				$description => __('Allow Login via XMLRPC', NEXT_AD_INT_I18N),
+				$detail      => __(
+					'Allow Login via XMLRPC', NEXT_AD_INT_I18N
+				),
+				$angularAttributes => '',
+				$default     => false,
+				$sanitizer   => array('boolean'),
 				$showPermission    => true,
 				$transient         => false,
 			),
