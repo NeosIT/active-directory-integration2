@@ -210,6 +210,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 
 		$sanitizer = NextADInt_Multisite_Option_Attribute::SANITIZER;
 		$angularAttributes = NextADInt_Multisite_Option_Attribute::ANGULAR_ATTRIBUTES;
+        $angularButtonAttributes = NextADInt_Multisite_Option_Attribute::ANGULAR_BUTTON_ATTRIBUTES;
 		$showPermission = NextADInt_Multisite_Option_Attribute::SHOW_PERMISSION;
 		$transient = NextADInt_Multisite_Option_Attribute::TRANSIENT;
 
@@ -335,7 +336,8 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				),
 				$default     => '',
 				$angularAttributes => '',
-				$sanitizer   => array('string'),
+                $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_domain_controllers)"',
+                $sanitizer   => array('string'),
 				$showPermission => true,
 				$transient      => false,
 			),
@@ -492,7 +494,8 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					)
 				),
 				$default	=> '',
-				$sanitizer   => array('accumulation', ';', array('string', false, true)),
+                $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_exclude_usernames_from_authentication)"',
+                $sanitizer   => array('accumulation', ';', array('string', false, true)),
 				$showPermission => true,
 				$transient      => false,
 			),
@@ -520,7 +523,8 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					)
 				),
 				$angularAttributes => '',
-				$default     => '',
+                $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_account_suffix)"',
+                $default     => '',
 				$sanitizer   => array('accumulation', ';', array('string', false, true)),
 				$showPermission    => true,
 				$transient         => false,
@@ -834,7 +838,8 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 						NEXT_AD_INT_I18N),
 				),
 				$angularAttributes => 'ng-disabled="((!option.authorize_by_group) || ((permission.authorization_group == 2) || (permission.authorization_group == 1))',
-				$default     => '',
+                $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_authorization_group)"',
+                $default     => '',
 				$sanitizer   => array('accumulation', ';', array('string')),
 				$showPermission    => true,
 				$transient         => false,
@@ -869,7 +874,8 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					),
 				),
 				$angularAttributes => 'ng-disabled="(((permission.role_equivalent_groups == 2) || (permission.role_equivalent_groups == 1))',
-				$default     => '',
+                $angularButtonAttributes => "ng-class='{\"adi-button-hidden\": !(!\$parent.is_input_empty(newItemField1) && !\$parent.is_input_empty(newItemField2)) } '",
+                $default     => '',
 				$sanitizer   => array('accumulation', ';', array('valueAssignment', '=')),
 				$showPermission    => true,
 				$transient         => false,
@@ -1069,8 +1075,8 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					'If the admin notification event is triggered and no admin email has been set, the email is forwarded to the blog administrator\'s email address.',
 					NEXT_AD_INT_I18N
 				),
-				$angularAttributes => '',
-				$default     => '',
+                $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_admin_email)"',
+                $default     => '',
 				$sanitizer   => array('accumulation', ';', array('email')),
 				$showPermission    => true,
 				$transient         => false,
@@ -1140,7 +1146,8 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					),
 				),
 				$angularAttributes => 'ng-disabled="(((permission.additional_user_attributes == 1) || (permission.additional_user_attributes == 2))',
-				$default                                       => '',
+                $angularButtonAttributes => "ng-class='{\"adi-button-hidden\": !(is_input_complete()) } '",
+                $default                                       => '',
 				$sanitizer                                     => array('custom'), // all in lower case
 				$showPermission => true,
 				$transient      => false,
@@ -1310,7 +1317,8 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$default     => '',
 				$sanitizer   => array('accumulation', ';', array('string')),
 				$angularAttributes => 'ng-disabled="((!option.sync_to_wordpress_enabled) || ((permission.sync_to_wordpress_security_groups  == 2) || (permission.sync_to_wordpress_security_groups  == 1))',
-				$showPermission    => true,
+				$angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_sync_to_wordpress_security_groups)"',
+                $showPermission    => true,
 				$transient         => false,
 			),
 			// name of Sync to WordPress User in Active Directory

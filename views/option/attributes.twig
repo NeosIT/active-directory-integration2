@@ -6,6 +6,7 @@
     {% set optionDisabled = getMetadata(optionName, 'DISABLED') %}
     {% set type = getMetadata(optionName, 'TYPE') %}
     {% set angularAttributes = getMetadata(optionName, 'ANGULAR_ATTRIBUTES') %}
+    {% set angularButtonAttributes = getMetadata(optionName, 'ANGULAR_BUTTON_ATTRIBUTES') %}
     {% set newNetwork = isOnNetworkDashboard() %}
 
     {% if newNetwork %}
@@ -46,6 +47,47 @@
             <th style="width: 10%">{{ 'Overwrite with empty value'|__(NEXT_AD_INT_I18N) }}</th>
             <th style="width: 10%">&nbsp;</th>
         </tr>
+
+        <tr>
+            <td>
+                <selectize class="selectized" config='attributeConfig'
+                           options='ldapAttributes'
+                           ng-model="newAdAttribute" required="true"
+                           style="width: 200px" {{ disabled }} {{ angularAttributes|raw }}>
+                </selectize>
+            </td>
+            <td>
+
+                <selectize class="selectized" config='dataTypeConfig'
+                           options='dataTypes'
+                           ng-model="newDataType" required="true"
+                           style="width: 200px; z-index: 0;" {{ disabled }} {{ angularAttributes|raw }}>
+                </selectize>
+            </td>
+            <td>
+                <input type="text" ng-model="newWordpressAttribute" {{ disabled }}>
+            </td>
+            <td>
+                <input type="text" ng-model="newDescription" {{ disabled }}>
+            </td>
+            <td class="adi-align-center">
+                <input type="checkbox" ng-model="newViewInUserProfile"  {{ disabled }}>
+            </td>
+            <td class="adi-align-center">
+                <input type="checkbox" ng-model="newSyncToAd"  {{ disabled }}>
+            </td>
+            <td class="adi-align-center">
+                <input type="checkbox" ng-model="newOverwriteWithEmptyValue"  {{ disabled }}>
+            </td>
+            <td {{ angularButtonAttributes|raw }}>
+                <button class="button button-primary"
+                        ng-click="addAttribute(newAdAttribute, newDataType, newWordpressAttribute, newDescription, newViewInUserProfile, newSyncToAd, newOverwriteWithEmptyValue)"
+                        {{ disabled }} >
+                    <span class="nsp_dashicons dashicons dashicons-plus"></span>
+                </button>
+            </td>
+        </tr>
+
         <tr ng-repeat="(key, value) in option.additional_user_attributes.attributes track by key">
             <td>
                 <selectize class="selectized" {{ disabled }} {{ angularAttributes|raw }} config='attributeConfig'
@@ -82,45 +124,6 @@
             </td>
         </tr>
 
-        <tr>
-            <td>
-                <selectize class="selectized" config='attributeConfig'
-                           options='ldapAttributes'
-                           ng-model="newAdAttribute" required="true"
-                           style="width: 200px" {{ disabled }} {{ angularAttributes|raw }}>
-                </selectize>
-            </td>
-            <td>
-
-                <selectize class="selectized" config='dataTypeConfig'
-                           options='dataTypes'
-                           ng-model="newDataType" required="true"
-                           style="width: 200px; z-index: 0;" {{ disabled }} {{ angularAttributes|raw }}>
-                </selectize>
-            </td>
-            <td>
-                <input type="text" ng-model="newWordpressAttribute" {{ disabled }}>
-            </td>
-            <td>
-                <input type="text" ng-model="newDescription" {{ disabled }}>
-            </td>
-            <td class="adi-align-center">
-                <input type="checkbox" ng-model="newViewInUserProfile"  {{ disabled }}>
-            </td>
-            <td class="adi-align-center">
-                <input type="checkbox" ng-model="newSyncToAd"  {{ disabled }}>
-            </td>
-            <td class="adi-align-center">
-                <input type="checkbox" ng-model="newOverwriteWithEmptyValue"  {{ disabled }}>
-            </td>
-            <td>
-                <button class="button button-primary"
-                        ng-click="addAttribute(newAdAttribute, newDataType, newWordpressAttribute, newDescription, newViewInUserProfile, newSyncToAd, newOverwriteWithEmptyValue)"
-                        {{ disabled }} >
-                    <span class="nsp_dashicons dashicons dashicons-plus"></span>
-                </button>
-            </td>
-        </tr>
     </table>
 
     <p>

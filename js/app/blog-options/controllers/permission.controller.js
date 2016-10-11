@@ -12,6 +12,8 @@
 
         $scope.new_authorization_group = '';
 
+        $scope.newItemField1 = '';
+
         $scope.wpRoles = [];
 
         $scope.wpRolesConfig = {
@@ -163,5 +165,30 @@
         $scope.containsErrors = function () {
             return (!$arrayUtil.containsOnlyNullValues($scope.messages));
         };
+
+        /**
+         * Added by sfi
+         * This step is required, to add the input field vlaue to the list.
+         * This way the input value will be saved without having to press the plus icon. If this method is not present in a controller,
+         * the parent controller will be used (default).
+         */
+        $scope.save = function() {
+            // check if the input field is not empty
+            if($scope.new_authorization_group != '') {
+                // add the input field value to the list of objects to be saved
+                ListService.addListItem($scope.new_authorization_group, $scope.option.authorization_group);
+                $scope.new_authorization_group = '';
+            }
+
+            if($scope.newItemField1 != '' && $scope.newItemField2) {
+                console.log($scope.newItemField2);
+                $scope.addTableItem($scope.newItemField1, $scope.newItemField2);
+                $scope.newItemField1 = '';
+                $scope.newItemField2 = '';
+            }
+            // call parent save
+            $scope.$parent.save();
+        };
+
     }
 })();

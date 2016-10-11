@@ -102,5 +102,29 @@
         $scope.containsErrors = function () {
             return (!$arrayUtil.containsOnlyNullValues($scope.messages));
         };
+
+        /**
+         * Added by sfi
+         * This step is required, to add the input field vlaue to the list.
+         * This way the input value will be saved without having to press the plus icon. If this method is not present in a controller,
+         * the parent controller will be used (default).
+         */
+        $scope.save = function() {
+            // check if the input field is not empty
+            if($scope.new_account_suffix != '') {
+                // add the input field value to the list of objects to be saved
+                ListService.addListItem($scope.new_account_suffix, $scope.option.account_suffix);
+                $scope.new_account_suffix = '';
+            }
+
+            if($scope.new_exclude_usernames_from_authentication != '') {
+                // add the input field value to the list of objects to be saved
+                ListService.addListItem($scope.new_exclude_usernames_from_authentication, $scope.option.exclude_usernames_from_authentication);
+                $scope.new_exclude_usernames_from_authentication = '';
+            }
+
+            // call parent save
+            $scope.$parent.save();
+        };
     }
 })();
