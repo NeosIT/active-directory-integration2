@@ -415,9 +415,14 @@ class NextADInt_Adi_Init
 	 */
 	public function isOnLoginPage()
 	{
+
 		$page = $_SERVER['PHP_SELF'];
 		$required = "wp-login.php";
 
-		return (substr($page, -strlen($required)) == $required);
+		if (substr($page, -strlen($required)) == $required || strpos($page, 'xmlrpc.php') !== false) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

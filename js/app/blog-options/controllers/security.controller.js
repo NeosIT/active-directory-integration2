@@ -32,6 +32,7 @@
                 user_notification: $valueHelper.findValue("user_notification", data),
                 admin_notification: $valueHelper.findValue("admin_notification", data),
                 admin_email: $valueHelper.findValue("admin_email", data).split(";"),
+				allow_xmlrpc_login: $valueHelper.findValue("allow_xmlrpc_login", data),
                 from_email: $valueHelper.findValue("from_email", data).split(";")
             };
 
@@ -50,6 +51,7 @@
                 admin_notification: $valueHelper.findPermission("admin_notification", data),
                 admin_email: $valueHelper.findPermission("admin_email", data),
                 from_email: $valueHelper.findPermission("from_email", data),
+                allow_xmlrpc_login: $valueHelper.findPermission("allow_xmlrpc_login", data),
                 verification_username : $valueHelper.findPermission("verification_username", data),
                 verification_password : $valueHelper.findPermission("verification_password", data)
             };
@@ -67,6 +69,7 @@
                 admin_notification: $valueHelper.findMessage("admin_notification", data),
                 admin_email: $valueHelper.findMessage("admin_email", data),
                 from_email: $valueHelper.findMessage("from_email", data)
+                allow_xmlrpc_login: $valueHelper.findMessage("allow_xmlrpc_login", data),
             };
         });
 
@@ -82,6 +85,16 @@
 
         $scope.containsErrors = function () {
             return (!$arrayUtil.containsOnlyNullValues($scope.messages));
+        };
+
+        $scope.save = function() {
+            // check if the input field is not empty
+            if($scope.new_admin_email != '') {
+                // add the input field value to the list of objects to be saved
+                ListService.addListItem($scope.new_admin_email, $scope.option.admin_email);
+                $scope.new_admin_email = '';
+            }
+            $scope.$parent.save();
         };
     }
 })();

@@ -44,11 +44,6 @@ class NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 	 */
 	public function blockCurrentUser()
 	{
-		//TODO warum sollte die Sperranzeige denn nicht gezeigt werden, wenn WordPress eh beendet wird
-		if (LoggerLevel::OFF !== $this->logger->getLevel()) {
-			wp_die();
-		}
-
 		//show block message via wp_die
 		$blockTime = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::BLOCK_TIME);
 		
@@ -62,6 +57,13 @@ class NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 	 */
 	public function showBlockMessage($timeLeft)
 	{
+
+		if (strpos($_SERVER['PHP_SELF'], 'xmlrpc.php') !== false) {
+			$xmlRpcDisplay = __("Authentication denied by Next Active Directory Integration Brute Force Protection. Your account is blocked for $timeLeft seconds.", NEXT_AD_INT_I18N);
+			wp_die($xmlRpcDisplay);
+			return;
+		}
+
 		// animate the counter (add javaScript to file)
 		echo $this->twigContainer->getTwig()->render(
 			self::TEMPLATE_NAME, array(
@@ -69,7 +71,7 @@ class NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 			)
 		);
 
-		$display = __("Your account is blocked for %s seconds.", NEXT_AD_INT_I18N);
+		$display = __("Authentication denied by Next Active Directory Integration Brute Force Protection. <br> Your account is blocked for %s seconds.", NEXT_AD_INT_I18N);
 		$display = sprintf($display, "<span id='secondsLeft'>$timeLeft</span>");
 
 		wp_die($display);

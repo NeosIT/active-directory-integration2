@@ -207,6 +207,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::ADMIN_NOTIFICATION,
 						NextADInt_Adi_Configuration_Options::ADMIN_EMAIL,
 						NextADInt_Adi_Configuration_Options::FROM_EMAIL,
+						NextADInt_Adi_Configuration_Options::ALLOW_XMLRPC_LOGIN
 					),
 				),
 			),
