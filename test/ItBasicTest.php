@@ -73,7 +73,7 @@ abstract class It_BasicTest extends Ut_BasicTest
 	/**
 	 * Create NextADInt_Ldap_Connection to establish a connection to a Active Directory server
 	 *
-	 * @return NextADInt_Ldap_Connection
+	 * @return NextADInt_Ldap_ConnectionDetails
 	 */
 	protected function createAdConnectionDetails()
 	{
