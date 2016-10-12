@@ -413,8 +413,9 @@ class NextADInt_Adi_Authentication_LoginService
 			return;
 		}
 
+		// ADI-383 Added default parameter useLocalWordPressUser to prevent get_userMeta request to AD if user credentials are wrong
 		// send notification emails
-		$this->mailNotification->sendNotifications($username);
+		$this->mailNotification->sendNotifications($username, true);
 
 		// log details
 		$this->logger->error("Brute Force Alert: User '$username' has too many failed logins.");

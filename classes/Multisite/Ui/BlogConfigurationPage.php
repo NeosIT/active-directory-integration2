@@ -566,6 +566,13 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			$adminEmailRule = new NextADInt_Multisite_Validator_Rule_AdminEmail($adminEmailMessage, '@');
 			$validator->addRule(NextADInt_Adi_Configuration_Options::ADMIN_EMAIL, $adminEmailRule);
 
+			$fromEmailMessage = __(
+				'From email does not match the required style. (e.g. "wordpress@company.local")',
+				NEXT_AD_INT_I18N
+			);
+			$fromEmailRule = new NextADInt_Multisite_Validator_Rule_FromEmailAdress($fromEmailMessage, '@');
+			$validator->addRule(NextADInt_Adi_Configuration_Options::FROM_EMAIL, $fromEmailRule);
+
 			// SSO username
 			$ssoServiceAccountUserSuffixRule = new NextADInt_Multisite_Validator_Rule_Suffix($message, '@');
 

@@ -68,6 +68,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const USER_NOTIFICATION = 'user_notification';
 	const ADMIN_NOTIFICATION = 'admin_notification';
 	const ADMIN_EMAIL = 'admin_email';
+	const FROM_EMAIL = 'from_email';
 	const ALLOW_XMLRPC_LOGIN = 'allow_xmlrpc_login';
 
 	// User Meta - User Meta
@@ -337,7 +338,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$default     => '',
 				$angularAttributes => '',
                 $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_domain_controllers)"',
-                $sanitizer   => array('string'),
+				$sanitizer   => array('string'),
 				$showPermission => true,
 				$transient      => false,
 			),
@@ -495,7 +496,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				),
 				$default	=> '',
                 $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_exclude_usernames_from_authentication)"',
-                $sanitizer   => array('accumulation', ';', array('string', false, true)),
+				$sanitizer   => array('accumulation', ';', array('string', false, true)),
 				$showPermission => true,
 				$transient      => false,
 			),
@@ -524,7 +525,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				),
 				$angularAttributes => '',
                 $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_account_suffix)"',
-                $default     => '',
+				$default     => '',
 				$sanitizer   => array('accumulation', ';', array('string', false, true)),
 				$showPermission    => true,
 				$transient         => false,
@@ -839,7 +840,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				),
 				$angularAttributes => 'ng-disabled="((!option.authorize_by_group) || ((permission.authorization_group == 2) || (permission.authorization_group == 1))',
                 $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_authorization_group)"',
-                $default     => '',
+				$default     => '',
 				$sanitizer   => array('accumulation', ';', array('string')),
 				$showPermission    => true,
 				$transient         => false,
@@ -875,7 +876,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				),
 				$angularAttributes => 'ng-disabled="(((permission.role_equivalent_groups == 2) || (permission.role_equivalent_groups == 1))',
                 $angularButtonAttributes => "ng-class='{\"adi-button-hidden\": !(!\$parent.is_input_empty(newItemField1) && !\$parent.is_input_empty(newItemField2)) } '",
-                $default     => '',
+				$default     => '',
 				$sanitizer   => array('accumulation', ';', array('valueAssignment', '=')),
 				$showPermission    => true,
 				$transient         => false,
@@ -1076,25 +1077,44 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					NEXT_AD_INT_I18N
 				),
                 $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_admin_email)"',
-                $default     => '',
+                $angularAttributes => '',
+				$default     => '',
 				$sanitizer   => array('accumulation', ';', array('email')),
 				$showPermission    => true,
 				$transient         => false,
 			),
-			// Send email to admin if a user account is blocked.
-			self::ALLOW_XMLRPC_LOGIN            => array(
-				$title       => __('Allow Login via XMLRPC', NEXT_AD_INT_I18N),
-				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
-				$description => __('Allow Login via XMLRPC', NEXT_AD_INT_I18N),
+			// Email address for the header "from" field for the brute force proctection information email.
+			self::FROM_EMAIL     => array(
+				$title       => __('From email address', NEXT_AD_INT_I18N),
+				$type        => NextADInt_Multisite_Option_Type::TEXT,
+				$description => __(
+					'Email address the brute force protection information email should be send from.',
+					NEXT_AD_INT_I18N
+				),
 				$detail      => __(
-					'Allow Login via XMLRPC', NEXT_AD_INT_I18N
+					'If you leave this field blank WordPress will build the "from email address" by itself. (wordpress@domain.local)',
+					NEXT_AD_INT_I18N
 				),
 				$angularAttributes => '',
-				$default     => false,
-				$sanitizer   => array('boolean'),
+				$default     => '',
+				$sanitizer   => array('string'),
 				$showPermission    => true,
 				$transient         => false,
 			),
+            // Send email to admin if a user account is blocked.
+            self::ALLOW_XMLRPC_LOGIN            => array(
+                $title       => __('Allow Login via XMLRPC', NEXT_AD_INT_I18N),
+                $type        => NextADInt_Multisite_Option_Type::CHECKBOX,
+                $description => __('Allow Login via XMLRPC', NEXT_AD_INT_I18N),
+                $detail      => __(
+                    'Allow Login via XMLRPC', NEXT_AD_INT_I18N
+                ),
+                $angularAttributes => '',
+                $default     => false,
+                $sanitizer   => array('boolean'),
+                $showPermission    => true,
+                $transient         => false,
+            ),
 			// List of additional user attributes that can be defined by the admin
 			// The attributes are seperated by a new line and have the format:
 			//   <Attribute name>:<type>
@@ -1147,7 +1167,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				),
 				$angularAttributes => 'ng-disabled="(((permission.additional_user_attributes == 1) || (permission.additional_user_attributes == 2))',
                 $angularButtonAttributes => "ng-class='{\"adi-button-hidden\": !(is_input_complete()) } '",
-                $default                                       => '',
+				$default                                       => '',
 				$sanitizer                                     => array('custom'), // all in lower case
 				$showPermission => true,
 				$transient      => false,
@@ -1318,7 +1338,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$sanitizer   => array('accumulation', ';', array('string')),
 				$angularAttributes => 'ng-disabled="((!option.sync_to_wordpress_enabled) || ((permission.sync_to_wordpress_security_groups  == 2) || (permission.sync_to_wordpress_security_groups  == 1))',
 				$angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_sync_to_wordpress_security_groups)"',
-                $showPermission    => true,
+				$showPermission    => true,
 				$transient         => false,
 			),
 			// name of Sync to WordPress User in Active Directory

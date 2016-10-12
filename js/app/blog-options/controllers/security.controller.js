@@ -32,7 +32,8 @@
                 user_notification: $valueHelper.findValue("user_notification", data),
                 admin_notification: $valueHelper.findValue("admin_notification", data),
                 admin_email: $valueHelper.findValue("admin_email", data).split(";"),
-                allow_xmlrpc_login: $valueHelper.findValue("allow_xmlrpc_login", data),
+				allow_xmlrpc_login: $valueHelper.findValue("allow_xmlrpc_login", data),
+                from_email: $valueHelper.findValue("from_email", data).split(";")
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {
@@ -49,6 +50,7 @@
                 user_notification: $valueHelper.findPermission("user_notification", data),
                 admin_notification: $valueHelper.findPermission("admin_notification", data),
                 admin_email: $valueHelper.findPermission("admin_email", data),
+                from_email: $valueHelper.findPermission("from_email", data),
                 allow_xmlrpc_login: $valueHelper.findPermission("allow_xmlrpc_login", data),
                 verification_username : $valueHelper.findPermission("verification_username", data),
                 verification_password : $valueHelper.findPermission("verification_password", data)
@@ -66,7 +68,8 @@
                 user_notification: $valueHelper.findMessage("user_notification", data),
                 admin_notification: $valueHelper.findMessage("admin_notification", data),
                 admin_email: $valueHelper.findMessage("admin_email", data),
-                allow_xmlrpc_login: $valueHelper.findMessage("allow_xmlrpc_login", data),
+                from_email: $valueHelper.findMessage("from_email", data),
+                allow_xmlrpc_login: $valueHelper.findMessage("allow_xmlrpc_login", data)
             };
         });
 

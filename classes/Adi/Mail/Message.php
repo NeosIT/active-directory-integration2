@@ -15,7 +15,7 @@ if (class_exists('NextADInt_Adi_Mail_Message')) {
  */
 class NextADInt_Adi_Mail_Message
 {
-	private $blogDomain;
+	private $fromEmail;
 	private $blogUrl;
 	private $blogName;
 	private $firstName;
@@ -27,8 +27,8 @@ class NextADInt_Adi_Mail_Message
 	private $targetUser;
 
 	private static $bodyElements = array(
-		'Someone tried to login into the WordPress site "%s" (%s) with %s username "%s" - but in vain.',
-		'This account is associated with "%s %s" and the email address "s".',
+		'Someone tried to login into the WordPress site "%s" (%s) with %s username "%s" - but was stopped after too many wrong attempts.',
+		'This account is associated with "%s %s" and the email address "%s".',
 		'The login attempt was made from IP-Address: %s',
 		'For security reasons this account is now blocked for %d seconds.',
 		'PLEASE CONTACT AN ADMIN IF SOMEONE STILL TRIES TO LOGIN INTO YOUR ACCOUNT.',
@@ -44,8 +44,13 @@ class NextADInt_Adi_Mail_Message
 
 	public function getHeader()
 	{
-		return 'From: "WordPress" <wordpress@' . $this->blogDomain . '>;' . "\r\n";
+		if (empty($this->fromEmail)) {
+			return '';
+		}
+
+        return 'From: ' . $this->fromEmail;
 	}
+
 
 	public function getSubject()
 	{
@@ -93,17 +98,17 @@ class NextADInt_Adi_Mail_Message
 	/**
 	 * @return mixed
 	 */
-	public function getBlogDomain()
+	public function getFromEmail()
 	{
-		return $this->blogDomain;
+		return $this->fromEmail;
 	}
 
 	/**
-	 * @param mixed $blogDomain
+	 * @param mixed $fromEmail
 	 */
-	public function setBlogDomain($blogDomain)
+	public function setFromEmail($fromEmail)
 	{
-		$this->blogDomain = $blogDomain;
+		$this->fromEmail = $fromEmail;
 	}
 
 	/**
