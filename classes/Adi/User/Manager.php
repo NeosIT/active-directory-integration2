@@ -650,7 +650,8 @@ class NextADInt_Adi_User_Manager
 
 		$this->metaRepository->enableUser($userData);
 
-		if ($email && !$userData->user_email) {
+		// ADI-384: Changed from updateEmail with empty string to updateEmail with user_email + -DISABLED to prevent exception due WordPress email adress persist validation
+		if ($email && strpos($userData->user_email, '-DISABLED') !== false) {
 			$this->logger->info(
 				"Restore email of enabled user '$userData->user_login' ($userId). The current email '$userData->user_email' will be overridden."
 			);
@@ -669,8 +670,8 @@ class NextADInt_Adi_User_Manager
 		$userData = $this->userRepository->findById($userId);
 		$this->metaRepository->disableUser($userData, $reason);
 
-		// delete e-mail from user
-		$this->userRepository->updateEmail($userId, '');
+		// Change e-mail of user to be disabled to prevent him from restoring his password.
+		$this->userRepository->updateEmail($userId, $userData->user_email . '-DISABLED');
 	}
 
 	/**

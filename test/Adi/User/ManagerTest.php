@@ -1370,7 +1370,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$userId = 1;
 
 		$this->wpUser->user_login = 'user';
-		$this->wpUser->user_email = '';
+		$this->wpUser->user_email = 'test@test.com-DISABLED';
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
@@ -1435,6 +1435,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$userId = 1;
 		$reason = "Spam";
+		$this->wpUser->user_email = 'test@company.local';
 
 		$this->userRepository->expects($this->once())
 			->method('findById')
@@ -1447,7 +1448,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->userRepository->expects($this->once())
 			->method('updateEmail')
-			->with($userId, '');
+			->with($userId, $this->wpUser->user_email . '-DISABLED');
 
 		$sut->disable($userId, $reason);
 	}
