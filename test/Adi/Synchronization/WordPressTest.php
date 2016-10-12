@@ -554,7 +554,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 			->willReturn(false);
 
 		$actual = $sut->synchronizeUser($credentials, 'guid');
-		$this->assertEquals(false, $actual);
+		$this->assertEquals(1, $actual);
 	}
 
 	/**
@@ -570,7 +570,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->attributeService->expects($this->once())
 			->method('findLdapAttributesOfUser')
-			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad')));
+			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad', 'objectguid' => '123')));
 
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 
@@ -609,7 +609,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->attributeService->expects($this->once())
 			->method('findLdapAttributesOfUser')
-			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad')));
+			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad', 'objectguid' => '123')));
 
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 
@@ -652,7 +652,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->attributeService->expects($this->once())
 			->method('findLdapAttributesOfUser')
-			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad')));
+			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad', 'objectguid' => '123')));
 
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 
@@ -838,4 +838,57 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->invokeMethod($sut, 'finishSynchronization', array(3, 1, 6));
 	}
+
+	/**
+	 * @test
+	 */
+	public function disableUserWithoutValidGuid_withNullGuid() {
+
+		$sut = $this->sut(array('createOrUpdateUser'));
+
+		$ldapAttributes = $this->createMock('NextADInt_Ldap_Attributes');
+
+		$ldapAttributes->expects($this->once())
+			->method('getFilteredValue')
+			->with('objectguid')
+			->willReturn(null);
+
+		$credentials = new NextADInt_Adi_Authentication_Credentials('username', 'password');
+		$adiUser = new NextADInt_Adi_User($credentials, $ldapAttributes);
+		$adiUser->setId(123);
+
+		$ldapAttributes->expects($this->once())
+			->method('setDomainSid')
+			->with('empty');
+
+		$this->userManager->expects($this->once())
+			->method('createAdiUser')
+			->with($credentials, $ldapAttributes)
+			->willReturn($adiUser);
+
+		$sut->expects($this->once())
+			->method('createOrUpdateUser')
+			->with($adiUser)
+			->willReturn(1);
+
+		$this->userManager->expects($this->once())
+			->method('disable')
+			->with($adiUser->getId(), 'User no longer exists in Active Directory.');
+
+		$actual = $sut->disableUserWithoutValidGuid($ldapAttributes, $credentials);
+
+		$this->assertEquals(1, $actual);
+	}
+	/**
+	 * @test
+	 */
+	public function disableUserWithoutValidGuid_withValidGuid() {
+		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => '123'));
+		$credentials = new NextADInt_Adi_Authentication_Credentials('username', 'password');
+
+		$sut = $this->sut(null);
+
+		$sut->disableUserWithoutValidGuid($ldapAttributes, $credentials);
+	}
+
 }

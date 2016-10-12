@@ -216,5 +216,31 @@
             data["additional_user_attributes"] = vm.createAttributeDbString(data["additional_user_attributes"].attributes); //TODO Verbessern, daten werden im Feld "attributes" übergeben und nicht im Feld "option_value"
             return data;
         };
+
+        /**
+         * Added by sfi
+         * This step is required, to add the input field vlaue to the list.
+         * This way the input value will be saved without having to press the plus icon. If this method is not present in a controller,
+         * the parent controller will be used (default).
+         */
+        $scope.save = function() {
+            if($scope.newAdAttribute && $scope.newDataType && $scope.newWordpressAttribute != 'next_ad_int_' && $scope.newWordpressAttribute != '') {
+                $scope.addAttribute($scope.newAdAttribute, $scope.newDataType, $scope.newWordpressAttribute, $scope.newDescription, $scope.newViewInUserProfile, $scope.newSyncToAd, $scope.newOverwriteWithEmptyValue);
+                console.log('added', $scope.newAdAttribute, $scope.newDataType, $scope.newWordpressAttribute, $scope.newDescription, $scope.newViewInUserProfile, $scope.newSyncToAd, $scope.newOverwriteWithEmptyValue);
+                vm.resetAddAttributeFields();
+            }
+            // call parent save
+            $scope.$parent.save();
+        };
+
+        /**
+         * Due to the complexity this has been made a separate function.
+         * This will check, if all required values have been set.
+         *
+         * @returns {string|boolean}
+         */
+        $scope.is_input_complete = function() {
+            return $scope.newAdAttribute && $scope.newDataType && $scope.newWordpressAttribute != 'next_ad_int_' && $scope.newWordpressAttribute != '';
+        };
     }
 })();

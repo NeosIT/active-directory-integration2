@@ -8,6 +8,7 @@
     {% set optionDisabled = getMetadata(optionName, 'DISABLED') %}
     {% set type = getMetadata(optionName, 'TYPE') %}
     {% set angularAttributes = getMetadata(optionName, 'ANGULAR_ATTRIBUTES') %}
+    {% set angularButtonAttributes = getMetadata(optionName, 'ANGULAR_BUTTON_ATTRIBUTES') %}
 
     {% set newNetwork = isOnNetworkDashboard() %}
 
@@ -38,6 +39,36 @@
                 </table>
             </td>
         </tr>
+
+        <tr>
+            <td class="adi-role-equivalent-column">
+                <table class="adi-role-equivalent">
+                    <tr>
+                        <td class="adi-zero-padding-left">
+                            <input type="text" ng-model="newItemField1" {{ angularAttributes|raw }}>
+                        </td>
+                        <td>
+                            <span class="nsp_dashicons dashicons dashicons-leftright"></span>
+                        </td>
+                        <td>
+                            <selectize class="selectized" config='wpRolesConfig'
+                                       options='wpRoles'
+                                       ng-model="newItemField2" {{ angularAttributes|raw }} required="true"
+                                       style="width: 200px">
+                            </selectize>
+                        </td>
+
+                        <td {{ angularButtonAttributes|raw }}>
+                            <button class="button button-primary"
+                                    ng-click="addTableItem(newItemField1, newItemField2)" {{ angularAttributes|raw }} >
+                                <span class="nsp_dashicons dashicons dashicons-plus"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
         <tr ng-repeat="(key, value) in option.{{ optionName }}.groups track by key">
             <td class="adi-role-equivalent-column">
                 <table class="adi-role-equivalent">
@@ -60,34 +91,6 @@
                         <td>
                             <button class="button" ng-click="removeTableItem(key)" {{ angularAttributes|raw }}>
                                 <span class="nsp_dashicons dashicons dashicons-no-alt"></span>
-                            </button>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td class="adi-role-equivalent-column">
-                <table class="adi-role-equivalent">
-                    <tr>
-                        <td class="adi-zero-padding-left">
-                            <input type="text" ng-model="newItemField1" {{ angularAttributes|raw }}>
-                        </td>
-                        <td>
-                            <span class="nsp_dashicons dashicons dashicons-leftright"></span>
-                        </td>
-                        <td>
-                            <selectize class="selectized" config='wpRolesConfig'
-                                       options='wpRoles'
-                                       ng-model="newItemField2" {{ angularAttributes|raw }} required="true"
-                                       style="width: 200px">
-                            </selectize>
-                        </td>
-
-                        <td>
-                            <button class="button button-primary"
-                                    ng-click="addTableItem(newItemField1, newItemField2)" {{ angularAttributes|raw }}>
-                                <span class="nsp_dashicons dashicons dashicons-plus"></span>
                             </button>
                         </td>
                     </tr>

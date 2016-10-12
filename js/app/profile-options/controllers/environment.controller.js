@@ -84,6 +84,13 @@
 
         $scope.verify = function () {
 
+            // check if the input field is not empty
+            if($scope.new_domain_controllers != '') {
+                // add the input field value to the list of objects to be saved
+                ListService.addListItem($scope.new_domain_controllers, $scope.option.domain_controllers);
+                $scope.new_domain_controllers = '';
+            }
+
             var data = {
                 domain_controllers: ListService.parseListArrayToString($scope.option.domain_controllers),
                 port: $scope.option.port,
@@ -118,6 +125,23 @@
 
                 }
             });
+        }
+
+        /**
+         * Added by sfi
+         * This step is required, to add the input field vlaue to the list.
+         * This way the input value will be saved without having to press the plus icon. If this method is not present in a controller,
+         * the parent controller will be used (default).
+         */
+        $scope.save = function() {
+            // check if the input field is not empty
+            if($scope.new_domain_controllers != '') {
+                // add the input field value to the list of objects to be saved
+                ListService.addListItem($scope.new_domain_controllers, $scope.option.domain_controllers);
+                $scope.new_domain_controllers = '';
+            }
+            // call parent save
+            $scope.$parent.save();
         }
     }
 })();

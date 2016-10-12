@@ -27,7 +27,7 @@
                 sync_to_wordpress_password: $valueHelper.findValue("sync_to_wordpress_password", data),
                 sync_to_wordpress_security_groups: $valueHelper.findValue("sync_to_wordpress_security_groups", data).split(";"),
                 disable_users: $valueHelper.findValue("disable_users", data),
-                sync_to_wordpress_authcode: $valueHelper.findValue("sync_to_wordpress_authcode", data),
+                sync_to_wordpress_authcode: $valueHelper.findValue("sync_to_wordpress_authcode", data)
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {
@@ -87,6 +87,23 @@
 
         $scope.containsErrors = function () {
             return (!$arrayUtil.containsOnlyNullValues($scope.messages));
+        };
+
+        /**
+         * Added by sfi
+         * This step is required, to add the input field vlaue to the list.
+         * This way the input value will be saved without having to press the plus icon. If this method is not present in a controller,
+         * the parent controller will be used (default).
+         */
+        $scope.save = function() {
+            // check if the input field is not empty
+            if($scope.option.new_sync_to_wordpress_security_groups != '') {
+                // add the input field value to the list of objects to be saved
+                ListService.addListItem($scope.new_sync_to_wordpress_security_groups, $scope.option.sync_to_wordpress_security_groups);
+                $scope.new_sync_to_wordpress_security_groups = '';
+            }
+            // call parent save
+            $scope.$parent.save();
         };
     }
 })();

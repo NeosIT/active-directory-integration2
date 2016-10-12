@@ -263,7 +263,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function createAdiUser_itFindsUserByObjectGuid()
+	public function createAdiUser_itFindsUserBySamAccountName()
 	{
 		$sut = $this->sut(array('findByActiveDirectoryUsername'));
 
@@ -271,12 +271,12 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$wpUser->ID = 1;
 		$wpUser->user_login = 'username';
 
-		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => 'guid1'));
+		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('samAccountName' => 'username'));
 		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
 
 		$this->userRepository->expects($this->once())
-			->method('findByObjectGuid')
-			->with('guid1')
+			->method('findBySAMAccountName')
+			->with('username')
 			->willReturn($wpUser);
 
 		$sut->expects($this->never())
@@ -289,7 +289,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function createAdiUser_withoutUserFoundByGuid_itFindsUserByActiveDirectoryUsernameAsFallback()
+	public function createAdiUser_withoutUserFoundBySamAccountName_itFindsUserByActiveDirectoryUsernameAsFallback()
 	{
 		$sut = $this->sut(array('findByActiveDirectoryUsername'));
 
@@ -297,12 +297,12 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$wpUser->ID = 1;
 		$wpUser->user_login = 'username';
 
-		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => 'guid1'));
+		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('samAccountName' => 'username'));
 		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
 
 		$this->userRepository->expects($this->once())
-			->method('findByObjectGuid')
-			->with('guid1')
+			->method('findBySAMAccountName')
+			->with('username')
 			->willReturn(false);
 
 		$sut->expects($this->once())
