@@ -1077,6 +1077,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					NEXT_AD_INT_I18N
 				),
                 $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_admin_email)"',
+                $angularAttributes => '',
 				$default     => '',
 				$sanitizer   => array('accumulation', ';', array('email')),
 				$showPermission    => true,
@@ -1100,6 +1101,20 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$showPermission    => true,
 				$transient         => false,
 			),
+            // Send email to admin if a user account is blocked.
+            self::ALLOW_XMLRPC_LOGIN            => array(
+                $title       => __('Allow Login via XMLRPC', NEXT_AD_INT_I18N),
+                $type        => NextADInt_Multisite_Option_Type::CHECKBOX,
+                $description => __('Allow Login via XMLRPC', NEXT_AD_INT_I18N),
+                $detail      => __(
+                    'Allow Login via XMLRPC', NEXT_AD_INT_I18N
+                ),
+                $angularAttributes => '',
+                $default     => false,
+                $sanitizer   => array('boolean'),
+                $showPermission    => true,
+                $transient         => false,
+            ),
 			// List of additional user attributes that can be defined by the admin
 			// The attributes are seperated by a new line and have the format:
 			//   <Attribute name>:<type>

@@ -41,10 +41,12 @@ class NextADInt_Adi_Mail_Notification
 
 	/**
 	 * This method trigger the email dispatch for the user and/or for admins depending on the settings.
+	 * $useLocalWordPressUser will force user data to be looked up locally (ADI-383)
 	 *
 	 * @param string $username
+	 * @param bool $useLocalWordPressUser
 	 */
-	public function sendNotifications($username)
+	public function sendNotifications($username, $useLocalWordPressUser = false)
 	{
 		$userNotification = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::USER_NOTIFICATION);
 
@@ -52,7 +54,7 @@ class NextADInt_Adi_Mail_Notification
 			$mail = new NextADInt_Adi_Mail_Message();
 			$mail->setUsername($username);
 			$mail->setTargetUser(true);
-			$this->sendNotification($mail);
+			$this->sendNotification($mail, $useLocalWordPressUser);
 		}
 
 		$adminNotification = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ADMIN_NOTIFICATION);
@@ -61,7 +63,7 @@ class NextADInt_Adi_Mail_Notification
 			$mail = new NextADInt_Adi_Mail_Message();
 			$mail->setUsername($username);
 			$mail->setTargetUser(false);
-			$this->sendNotification($mail);
+			$this->sendNotification($mail, $useLocalWordPressUser);
 		}
 	}
 
@@ -70,12 +72,12 @@ class NextADInt_Adi_Mail_Notification
 	 * Prepares the NextADInt_Adi_Mail_Message and sends it.
 	 *
 	 * @param NextADInt_Adi_Mail_Message $mail
-	 *
+	 * @param bool $useLocalWordPressUser
 	 * @return bool
 	 */
-	public function sendNotification(NextADInt_Adi_Mail_Message $mail)
+	public function sendNotification(NextADInt_Adi_Mail_Message $mail, $useLocalWordPressUser = false)
 	{
-		$recipient = $this->getUserMeta($mail->getUsername());
+		$recipient = $this->getUserMeta($mail->getUsername(), $useLocalWordPressUser);
 
 		if (!$recipient) {
 			return false;
@@ -91,7 +93,7 @@ class NextADInt_Adi_Mail_Notification
 		$remoteAddress = NextADInt_Core_Util_ArrayUtil::get('REMOTE_ADDR', $_SERVER, '');
 
 		$mail->setFirstName(NextADInt_Core_Util_ArrayUtil::get('firstName', $recipient, ''));
-		$mail->setSecondName(NextADInt_Core_Util_ArrayUtil::get('secondName', $recipient, ''));
+		$mail->setSecondName(NextADInt_Core_Util_ArrayUtil::get('lastName', $recipient, ''));
 		$mail->setEmail(NextADInt_Core_Util_ArrayUtil::get('email', $recipient, ''));
 		$mail->setBlogUrl($url);
 		$mail->setFromEmail($fromEmail);
@@ -107,16 +109,18 @@ class NextADInt_Adi_Mail_Notification
 	/**
 	 * Do not call this method from the outside.
 	 * Get user attribute values either from WordPress (wp_usermeta) or from the Active Directory (depends on the settings).
+	 * ADI-383 Added default parameter useLocalWordPressUser to prevent get_userMeta request to AD if user credentials are wrong
 	 *
 	 * @param string $username
+	 * @param bool $useLocalWordPressUser
 	 *
 	 * @return array
 	 */
-	function getUserMeta($username)
+	function getUserMeta($username, $useLocalWordPressUser = false)
 	{
 		$autoCreateUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER);
 
-		if ($autoCreateUser && $this->ldapConnection->isConnected()) {
+		if ($autoCreateUser && $this->ldapConnection->isConnected() && !$useLocalWordPressUser) {
 			$values = $this->findADUserAttributeValues($username);
 			$source = 'AD';
 		} else {

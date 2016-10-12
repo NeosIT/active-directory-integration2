@@ -598,7 +598,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$this->mailNotification->expects($this->once())
 			->method('sendNotifications')
-			->with('hugo@test.local');
+			->with('hugo@test.local', true);
 
 		$this->userBlockedMessage->expects($this->once())
 			->method('blockCurrentUser');

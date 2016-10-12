@@ -194,7 +194,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('getUserMeta')
 			->willReturn(array(
-				'secondName' => 'habicht'
+				'lastName' => 'habicht'
 			));
 
 		\WP_Mock::wpFunction('get_bloginfo', array());

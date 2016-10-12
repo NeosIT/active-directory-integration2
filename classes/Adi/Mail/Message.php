@@ -27,8 +27,8 @@ class NextADInt_Adi_Mail_Message
 	private $targetUser;
 
 	private static $bodyElements = array(
-		'Someone tried to login into the WordPress site "%s" (%s) with %s username "%s" - but in vain.',
-		'This account is associated with "%s %s" and the email address "s".',
+		'Someone tried to login into the WordPress site "%s" (%s) with %s username "%s" - but was stopped after too many wrong attempts.',
+		'This account is associated with "%s %s" and the email address "%s".',
 		'The login attempt was made from IP-Address: %s',
 		'For security reasons this account is now blocked for %d seconds.',
 		'PLEASE CONTACT AN ADMIN IF SOMEONE STILL TRIES TO LOGIN INTO YOUR ACCOUNT.',
@@ -48,7 +48,7 @@ class NextADInt_Adi_Mail_Message
 			return '';
 		}
 
-		return 'From: "WordPress" <' . $this->fromEmail . '>;' . "\r\n";
+        return 'From: ' . $this->fromEmail;
 	}
 
 

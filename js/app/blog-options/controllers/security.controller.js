@@ -68,8 +68,8 @@
                 user_notification: $valueHelper.findMessage("user_notification", data),
                 admin_notification: $valueHelper.findMessage("admin_notification", data),
                 admin_email: $valueHelper.findMessage("admin_email", data),
-                from_email: $valueHelper.findMessage("from_email", data)
-                allow_xmlrpc_login: $valueHelper.findMessage("allow_xmlrpc_login", data),
+                from_email: $valueHelper.findMessage("from_email", data),
+                allow_xmlrpc_login: $valueHelper.findMessage("allow_xmlrpc_login", data)
             };
         });
 
