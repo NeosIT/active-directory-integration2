@@ -33,7 +33,7 @@
                 admin_notification: $valueHelper.findValue("admin_notification", data),
                 admin_email: $valueHelper.findValue("admin_email", data).split(";"),
 				allow_xmlrpc_login: $valueHelper.findValue("allow_xmlrpc_login", data),
-                from_email: $valueHelper.findValue("from_email", data).split(";")
+                from_email: $valueHelper.findValue("from_email", data)
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {
