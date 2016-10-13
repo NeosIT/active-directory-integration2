@@ -163,7 +163,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 	{
 		$sut = $this->sut(null);
 
-		$userMessage = "User manually disabled by \"TestUser\" with the ID 2.";
+		$userMessage = "User \"TestUser\" with ID \"2\" manually disabled by \"Admin\" with the ID \"1\".";
 
 		$userId = 2;
 
@@ -178,6 +178,12 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 		$userObject = (object)array(
 			'user_login' => 'TestUser',
 			'user_email' => 'test@company.it',
+		);
+
+		$userObject2 = (object)array(
+			'user_login' => 'Admin',
+			'user_email' => 'admin@company.it',
+			'ID' => 1,
 		);
 
 
@@ -196,6 +202,15 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 				'return' => $userObject,
 			)
 		);
+
+		\WP_Mock::wpFunction(
+			'wp_get_current_user', array(
+				'times'  => 1,
+				'return' => $userObject2,
+			)
+		);
+
+
 
 
 		$this->userManager->expects($this->once())

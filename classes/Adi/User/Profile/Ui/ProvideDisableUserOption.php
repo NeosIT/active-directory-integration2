@@ -88,10 +88,13 @@ class NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption
 
 		// user is not blocked and he should be blocked
 		if ($value === '1' && !$disabled) {
-			// disable user
-			$username = get_userdata($userId);
+
+			// Get data of the user to be disabled and of the current user
+			$disabledUser = get_userdata($userId);
+			$disabledBy = wp_get_current_user();
+
 			$message = sprintf(
-				__('User manually disabled by "%s" with the ID %s.', NEXT_AD_INT_I18N), $username->user_login, $userId
+				__('User "%s" with ID "%s" manually disabled by "%s" with the ID "%s".', NEXT_AD_INT_I18N), $disabledUser->user_login, $userId, $disabledBy->user_login, $disabledBy->ID
 			);
 			$this->userManager->disable($userId, $message);
 
