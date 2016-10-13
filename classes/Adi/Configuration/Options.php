@@ -967,6 +967,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$elements          => array(
 					NextADInt_Adi_Authentication_SingleSignOn_Variable::REMOTE_USER   => NextADInt_Adi_Authentication_SingleSignOn_Variable::REMOTE_USER,
 					NextADInt_Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER => NextADInt_Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER,
+                    NextADInt_Adi_Authentication_SingleSignOn_Variable::HTTP_X_REMOTE_USER => NextADInt_Adi_Authentication_SingleSignOn_Variable::HTTP_X_REMOTE_USER
 				),
 				$description       => __(
 					'The PHP server variable which is used by the web server to retrieve the current user!',
@@ -982,6 +983,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 							NEXT_AD_INT_I18N),
 						NextADInt_Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER
 					),
+                    sprintf(
+                        __('%s: All http headers are prefixed HTTP_ so that you can distinguish between them and environment variables.',
+                            NEXT_AD_INT_I18N),
+                        NextADInt_Adi_Authentication_SingleSignOn_Variable::HTTP_X_REMOTE_USER
+                    ),
 				),
 				$angularAttributes => 'ng-disabled="((!option.sso) || ((permission.sso == 2) || (permission.sso == 1))',
 				$default           => NextADInt_Adi_Authentication_SingleSignOn_Variable::REMOTE_USER,
