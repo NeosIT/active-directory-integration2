@@ -1060,7 +1060,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			self::ADMIN_NOTIFICATION            => array(
 				$title       => __('Notify admins of blocked account', NEXT_AD_INT_I18N),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
-				$description => __('Notify admin(s) by e-mail when an user account has been blocked.', NEXT_AD_INT_I18N),
+				$description => __('Notify admin(s) by e-mail when a user account has been blocked.', NEXT_AD_INT_I18N),
 				$detail      => __(
 					'Enabling this option will notify the admin(s) about blocked user accounts as well.', NEXT_AD_INT_I18N
 				),
