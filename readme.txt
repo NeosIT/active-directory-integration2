@@ -17,7 +17,7 @@ You can easily import users from your Active Directory into your WordPress insta
 * Authenticating WordPress users against one or multiple AD Server
 * Authorizing users by Active Directory group memberships
 * Managing Active Directory authentication for WordPress Multisite installations
-* Single Sign On with Kerberos or NTLM
+* Single Sign On with Kerberos sponsored by [Colt Technology Services](http://colt.net) and [Digital Elite](https://app.digitalelite.co.uk/)
 * Automatically create and update WordPress users based upon their Active Directory membership
 * Mapping of Active Directory security groups to WordPress roles
 * Protection against brute force password hacking attacks
@@ -33,6 +33,7 @@ You can easily import users from your Active Directory into your WordPress insta
 * and much much more
 
 Even if *Next ADI* is available for free we hope you purchase a support license to let us continue the work on Next Active Directory Integration.
+You can purchase commercial support licences at [https://www.active-directory-wp.com/shop-overview/](https://www.active-directory-wp.com/shop-overview/)
 
 = Requirements =
 
@@ -164,6 +165,15 @@ It is __not__ possible to activate *Next ADI* for a site inside a network.
 == Changelog ==
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
+
+= 2.0.10 =
+* ADD: option to enable/disable authentication using XML-RPC
+* FIX: reworked user interface
+* FIX: sync ends after deleted account is no longer present in Active Directory
+* FIX: integration tests
+* FIX: emails will not be sent to administrators (GitHub #27 Thanks to kyleflan)
+* FIX: users can now be disabled from WordPress
+* ADD: HTTP_X_REMOTE_USER is now an option in the SSO configuration (GitHub #29 Thanks to laughtonsm)
 
 = 2.0.9 =
 * FIX: add missing default value for method parameter
