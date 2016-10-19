@@ -101,6 +101,9 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$users = $this->findSynchronizableUsers();
 		$this->logger->debug('END: findSynchronizableUsers(): Duration:  ' .  time() - $startTime . ' seconds');
 
+		// ADI-145: provide API
+		$users = apply_filters(NEXT_AD_INT_PREFIX . 'ad2wp_filter_synchronizable_users', $users);
+
 		if (is_array($users) && !empty($users)) {
 			$this->logNumberOfUsers($users);
 
@@ -108,8 +111,8 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 			$updatedUsers = 0;
 			$failedSync = 0;
 
-			foreach ($users as $guid => $sAMAccountName) {
-				$status = $this->synchronizeUser(new NextADInt_Adi_Authentication_Credentials($sAMAccountName), $guid);
+			foreach ($users as $guid => $userPrincipalName) {
+				$status = $this->synchronizeUser(new NextADInt_Adi_Authentication_Credentials($userPrincipalName), $guid);
 
 				switch ($status) {
 					case 0:
@@ -181,20 +184,20 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	}
 
 	/**
-	 * Combines all usernames from WordPress and from Active Directory and returns their user data.
-	 * The sAMAccountName is used as identifier.
+	 * Combines all GUIDs from WordPress and from Active Directory
 	 *
-	 * @return array
+	 * @return array|hashmap key is Active Directory objectGUID, value is WordPress username
 	 */
 	protected function findSynchronizableUsers()
 	{
-
 		$groups = trim(
 			$this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS)
 		);
+
+		// find security group membership
 		$activeDirectoryUsers = $this->connection->findAllMembersOfGroups($groups);
 		$convertedActiveDirectoryUsers = $this->convertActiveDirectoryUsers($activeDirectoryUsers);
-
+		// find already existing local WordPress users with Active Directory membership
 		$wordPressUsers = $this->findActiveDirectoryUsernames();
 
 		return array_merge($wordPressUsers, $convertedActiveDirectoryUsers);
@@ -211,7 +214,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	{
 		$result = array();
 
-		foreach ($adUsers AS $adUser) {
+		foreach ($adUsers as $adUser) {
 			$attributes = $this->attributeService->findLdapAttributesOfUsername($adUser);
 			$guid = $attributes->getFilteredValue(NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID);
 
@@ -302,7 +305,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	}
 
 	/**
-	 * If guid is null user does not exist in Active Directory anymore.
+	 * If guid is null, the user does not exist in Active Directory anymore.
 	 * Therefore disable user and set domain sid to "empty"
 	 *
 	 * @param $ldapAttributes NextADInt_Ldap_Attributes
@@ -312,7 +315,6 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	public function disableUserWithoutValidGuid($ldapAttributes, $credentials) {
 
 		if (null === $ldapAttributes->getFilteredValue('objectguid')) {
-
 			// Set domain sid to empty, to prevent non existing user from getting used for sync to wordpress
 			$ldapAttributes->setDomainSid('empty');
 
@@ -331,7 +333,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 * Convert an Active Directory user to a WordPress user
 	 *
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
-	 *
+	 * @param string $guid
 	 * @return bool|string
 	 * @throws Exception
 	 */
@@ -345,10 +347,12 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 		$startTimerLdap = time();
 
-		// ADI-204: in contrast to the Login process we use the sAMAccountName in synchronization have the sAMAccountName
+		// TODO reduce complexity of this method.
+
+		// ADI-204: in contrast to the login process we use the guid to determine the LDAP attributes
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, $guid);
 
-		// NADIS-1: Checking if guid of a user is valid, if not user does not exist in the active directory anymore. Therefore disable user, remove domain sid
+		// NADIS-1: Checking if the GUID of a user is valid when user does not exist in the active directory anymore. Therefore, disable user and remove domain sid
 		$this->disableUserWithoutValidGuid($ldapAttributes, $credentials);
 
 		// ADI-235: add domain SID
@@ -377,18 +381,26 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		}
 
 		$startTimerWordPress = time();
-		$status = $this->createOrUpdateUser($adiUser);
+
+		// ADI-145: provide API
+		$adiUser = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_user_before_synchronize', $adiUser, $credentials, $ldapAttributes);
+
+		$syncStatus = $this->createOrUpdateUser($adiUser);
+
+		// ADI-145: provide API
+		do_action(NEXT_AD_INT_PREFIX . 'ad2wp_after_user_synchronize', $syncStatus, $adiUser, $credentials, $ldapAttributes);
+
 		$elapsedTimeWordPress = time() - $startTimerWordPress;
 		$this->wordpressDbTimeCounter = $this->wordpressDbTimeCounter + $elapsedTimeWordPress;
 
-		if (-1 === $status) {
+		if (-1 === $syncStatus) {
 			return -1;
 		}
 
 		// if option is enabled and user is disabled in AD, disable him in WordPress
 		$this->synchronizeAccountStatus($adiUser, $synchronizeDisabledAccounts);
 
-		return $status;
+		return $syncStatus;
 	}
 
 	/**

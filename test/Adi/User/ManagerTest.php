@@ -1428,6 +1428,43 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 	/**
 	 * @test
+	 * @issue ADI-145
+	 */
+	public function ADI_145_enable_itCallsAction_next_ad_int_user_after_enable()
+	{
+		$sut = $this->sut();
+
+		$userId = 1;
+
+		$this->wpUser->user_login = 'user';
+		$this->wpUser->user_email = 'test@test.com-DISABLED';
+
+		$this->metaRepository->expects($this->once())
+			->method('find')
+			->with($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true)
+			->willReturn('test@test.com');
+
+		$this->userRepository->expects($this->once())
+			->method('findById')
+			->with($userId)
+			->willReturn($this->wpUser);
+
+		$this->metaRepository->expects($this->once())
+			->method('enableUser')
+			->with($this->wpUser);
+
+		$this->userRepository->expects($this->once())
+			->method('updateEmail')
+			->with($userId, 'test@test.com');
+
+
+		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_enable', $this->wpUser, true);
+
+		$sut->enable($userId);
+	}
+
+	/**
+	 * @test
 	 */
 	public function disable_disablesUserAndRemovesEmail()
 	{
@@ -1449,6 +1486,28 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$this->userRepository->expects($this->once())
 			->method('updateEmail')
 			->with($userId, $this->wpUser->user_email . '-DISABLED');
+
+		$sut->disable($userId, $reason);
+	}
+
+	/**
+	 * @test
+	 * @issue ADI-145
+	 */
+	public function ADI_145_disable_itCallsAction_next_ad_int_user_after_disable()
+	{
+		$sut = $this->sut();
+
+		$userId = 1;
+		$this->wpUser->user_email = 'test@company.local';
+		$reason = "Spam";
+
+		$this->userRepository->expects($this->once())
+			->method('findById')
+			->with($userId)
+			->willReturn($this->wpUser);
+
+		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_disable', $this->wpUser);
 
 		$sut->disable($userId, $reason);
 	}
