@@ -62,6 +62,9 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 			return false;
 		}
 
+		// ADI-145: provide API
+		$users = apply_filters(NEXT_AD_INT_PREFIX . 'sync_wp2ad_filter_synchronizable_users', $users);
+
 		$updatedUsers = 0;
 
 		foreach ($users as $user) {
@@ -260,14 +263,14 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 	/**
 	 * Get all user meta values and sync them with the corresponding user in the active directory
 	 *
-	 * @param array $userData
-	 * @param array $attributes
+	 * @param WP_User $wpUser
+	 * @param array $allowedAttributes
 	 * @return bool
 	 */
-	protected function synchronizeUser($userData, $attributes)
+	protected function synchronizeUser($wpUser, $allowedAttributes)
 	{
-		$this->logger->info("WordPress Login (username (ID)): " . $userData->user_login . " (" . $userData->ID . ")");
-		$attributesToSync = $this->findAttributesOfUser($userData->ID, $attributes);
+		$this->logger->info("WordPress Login (username (ID)): " . $wpUser->user_login . " (" . $wpUser->ID . ")");
+		$attributesToSync = $this->findAttributesOfUser($wpUser->ID, $allowedAttributes);
 
 		foreach ($attributesToSync as $attributeName => $value)
 		{
@@ -276,8 +279,14 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 			}
 		}
 
-		$status = $this->connection->modifyUserWithoutSchema($userData->user_login, $attributesToSync);
-		
+		// ADI-145: provide API
+		$attributesToSync = apply_filters(NEXT_AD_INT_PREFIX . 'sync_wp2ad_filter_synchronizable_attributes', $attributesToSync, $wpUser, $allowedAttributes);
+
+		$status = $this->connection->modifyUserWithoutSchema($wpUser->user_login, $attributesToSync);
+
+		// ADI-145: provide API
+		do_action(NEXT_AD_INT_PREFIX . 'sync_wp2ad_after_user_synchronize', $status, $wpUser, $attributesToSync, $allowedAttributes);
+
 		return $status;
 	}
 
