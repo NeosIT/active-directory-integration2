@@ -234,6 +234,7 @@ class NextADInt_Adi_Authentication_LoginService
 		// don't use Active Directory for WordPress' admin user (ID 1)
 		$user = $this->getWordPressUser($login);
 
+		// ID == 1 is the first user in WordPress and therefore an administrator
 		if ($user && ($user->ID === 1)) {
 			$this->logger->debug('User with ID 1 will never be authenticated by this plugin.');
 
@@ -241,6 +242,8 @@ class NextADInt_Adi_Authentication_LoginService
 		}
 
 		if ($this->isUsernameExcludedFromAuthentication($login)) {
+			// ADI-393: Please note that by default the user who activated NADI must not be inevitably the first user/admin but can be another administrator
+			// Therefore, the administrator who activated NADI has been added to the excluded usernames. He can be removed after configuring and testing the plug-in.
 			$this->logger->debug("User '$login' is explicitly excluded from Active Directory authentication by configuration setting");
 
 			return false;

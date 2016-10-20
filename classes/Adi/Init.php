@@ -64,6 +64,8 @@ class NextADInt_Adi_Init
 			$userManager->migratePreviousVersion();
 
 			if (is_numeric($profileId)) {
+				// ADI-393: the current user will be added to the excluded usernames.
+				// At a later point we check for ID = 1 (local WordPress admin) but this user can be different from the current user (= another WordPress administrator).
 				$currentUser = wp_get_current_user();
 				$optionName = NextADInt_Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION;
 				$optionValue = $currentUser->user_login;
