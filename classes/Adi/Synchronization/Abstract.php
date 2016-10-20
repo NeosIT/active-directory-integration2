@@ -66,7 +66,7 @@ abstract class NextADInt_Adi_Synchronization_Abstract
 
 		$this->logger->warn(
 			'Can not increase PHP configuration option \'max_execution_time\' to '
-			. self::REQUIRED_EXECUTION_TIME_IN_SECONDS . ' seconds.'
+			. self::REQUIRED_EXECUTION_TIME_IN_SECONDS . ' seconds. This can happen when running PHP in safe mode. The only workaround is to turn off safe mode or change the time limit in the php.ini'
 		);
 	}
 
