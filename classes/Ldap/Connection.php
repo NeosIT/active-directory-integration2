@@ -359,7 +359,7 @@ class NextADInt_Ldap_Connection
 		$userInfo = $adLdap->user_info($username, $attributeNames, $isGUID);
 
 		if ($userInfo === false) {
-			$this->logger->warn("Attributes for '$username': could not be loaded. Does the sAMAccountName or userPrincipalName exist?");
+			$this->logger->warn("Attributes for '$username': could not be loaded. Does the sAMAccountName or userPrincipalName exist? Is the provided base DN valid?");
 
 			return false;
 		}
