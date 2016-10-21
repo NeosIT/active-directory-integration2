@@ -133,6 +133,17 @@ class NextADInt_Adi_Authentication_Credentials
 		return $this->password;
 	}
 
+
+    public function getNetbiosName() {
+        // TODO
+        return strpos($this->login, '\\') ? $this->login : null;
+//        if(strpos($mystring, $findme)) {
+//            return $this->login;
+//        } else {
+//            return null;
+//        }
+    }
+
 	/**
 	 * @return string
 	 */
