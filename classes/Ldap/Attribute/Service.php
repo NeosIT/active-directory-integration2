@@ -201,6 +201,12 @@ class NextADInt_Ldap_Attribute_Service
 		return $objectSid;
 	}
 
+	public function getnetBiosName($username) {
+		$netBiosName = $this->ldapConnection->findNetBiosName();
+
+		return $netBiosName;
+	}
+
 	/**
 	 * @return NextADInt_Ldap_Attribute_Repository
 	 */

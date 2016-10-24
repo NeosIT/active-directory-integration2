@@ -30,6 +30,7 @@
                 verification_username : '',
                 verification_password : '',
                 domain_sid: $valueHelper.findValue("domain_sid", data),
+                netBIOS_name: $valueHelper.findValue("netBIOS_name", data),
                 verification_status_message: ''
             };
 
@@ -45,7 +46,8 @@
                 base_dn: $valueHelper.findPermission('base_dn', data),
                 verification_username : $valueHelper.findPermission("verification_username", data),
                 verification_password : $valueHelper.findPermission("verification_password", data),
-                domain_sid: $valueHelper.findPermission("domain_sid", data)
+                domain_sid: $valueHelper.findPermission("domain_sid", data),
+                netBIOS_name: $valueHelper.findPermission("netBIOS_name", data)
             };
             
             if ($scope.option.domain_sid != '') {
@@ -62,7 +64,8 @@
                 base_dn: $valueHelper.findMessage('base_dn', data),
                 verification_username : $valueHelper.findMessage("verification_username", data),
                 verification_password : $valueHelper.findMessage("verification_password", data),
-                domain_sid: $valueHelper.findMessage("domain_sid", data)
+                domain_sid: $valueHelper.findMessage("domain_sid", data),
+                netBIOS_name: $valueHelper.findMessage("netBIOS_name", data)
             };
         });
 

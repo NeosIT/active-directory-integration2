@@ -372,6 +372,25 @@ class NextADInt_Ldap_Connection
 		return $userInfo;
 	}
 
+	public function findNetBiosName() {
+		$adLdap = $this->getAdLdap();
+
+		$this->logger->debug("Trying to find netBIOS name");
+		$filter = "netbiosname";
+		$netBIOS = $adLdap->get_configuration($filter);
+
+		if ($netBIOS === false) {
+			$this->logger->warn("No netBIOS name found");
+
+			return false;
+		}
+
+
+		$this->logger->debug("Found netBIOS name " . $netBIOS);
+
+		return $netBIOS;
+	}
+
 	/**
 	 * Lookup all requested attributes and instantly sanitize them.
 	 *

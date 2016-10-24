@@ -105,7 +105,8 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					self::OPTIONS => array(
 						NextADInt_Adi_Configuration_Options::VERIFICATION_USERNAME,
 						NextADInt_Adi_Configuration_Options::VERIFICATION_PASSWORD,
-						NextADInt_Adi_Configuration_Options::DOMAIN_SID
+						NextADInt_Adi_Configuration_Options::DOMAIN_SID,
+						NextADInt_Adi_Configuration_Options::NETBIOS_NAME
 					)
 				),
 			),

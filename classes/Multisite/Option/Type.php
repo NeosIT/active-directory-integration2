@@ -29,4 +29,5 @@ class NextADInt_Multisite_Option_Type
 	const TABLE = 'table';
 	const VERIFICATION_PASSWORD = 'verification_password';
 	const DOMAIN_SID = 'domain_sid';
+	const NETBIOS_NAME = 'netBIOS_name';
 }
