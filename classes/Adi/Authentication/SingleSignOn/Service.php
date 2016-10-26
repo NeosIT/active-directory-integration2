@@ -16,9 +16,15 @@ if (class_exists('NextADInt_Adi_Authentication_SingleSignOn_Service')) {
  */
 class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Authentication_LoginService
 {
+	/**
+	 * If Kerberos or certificate authentication failed
+	 */
 	const FAILED_SSO_UPN = 'failedSsoUpn';
 
-	const FAILED_SSO_NETBIOS_NAME = 'failedSsoNtlm';
+	/**
+	 * If NTLM authentication failed
+	 */
+	const FAILED_SSO_NETBIOS_NAME = 'failedSsoNetbios';
 
 	const USER_LOGGED_OUT = 'userLoggedOut';
 
@@ -82,20 +88,20 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 			$validation->validateAuthenticationState($credentials);
 			$validation->validateLogoutState();
 
+			$netbiosName = $credentials->getNetbiosName();
 
-			// TODO NextADInt_Adi_Authentication_Credentials muss um netbiosName und die Ermittlung des Namens erweitert werden
-			// has username format $nETBIOSName\$sAMAccountName?
-			$netBiosName = $credentials->getNetbiosName();
-			if (isset($netBiosName)) {
+			if (isset($netbiosName)) {
 				$credentials = $this->ntlmAuth($credentials, $validation);
 			} else {
 				// $username or $username@$upnSuffix
 				$credentials = $this->kerberosAuth($credentials, $validation);
 			}
-//
-//			// authenticate the given user and run the default procedure form the LoginService
+
+			// authenticate the given user and run the default procedure form the LoginService
 			$user = parent::authenticate(null, $credentials->getUserPrincipalName());
+
 			$validation->validateUser($user);
+
 			// if our user is authenticated and we have a WordPress user, we
 			$sessionHandler->clearValue(self::FAILED_SSO_UPN);
 			$this->loginUser($user);
@@ -105,11 +111,17 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 
 			return false;
 		}
+
 		return true;
 	}
 
 
-	// create new credentials based upon sAMAccountName or userPrincipalName
+	/**
+	 * create new credentials based upon sAMAccountName or userPrincipalName
+	 *
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
+	 * @return NextADInt_Adi_Authentication_Credentials
+	 */
 	function createUpnCredentials(NextADInt_Adi_Authentication_Credentials $credentials)
 	{
 		// findLdapAttributesOfUser tries both sAMAccountName and userPrincipalName
@@ -120,12 +132,19 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		return $credentials;
 	}
 
+	/**
+	 * Authenticate given credentials by using an internal lookup of the provided NETBIOS name.
+	 *
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
+	 * @param NextADInt_Adi_Authentication_SingleSignOn_Validator $validation
+	 * @return NextADInt_Adi_Authentication_Credentials
+	 */
 	function ntlmAuth(NextADInt_Adi_Authentication_Credentials $credentials, NextADInt_Adi_Authentication_SingleSignOn_Validator $validation)
 	{
 		$this->logger->info('SSO authentication triggered using NTLM for user ' . $credentials->getLogin());
 
 		// find assigned profile by previously detected nETBIOSName
-		$profile = $this->findConfigurationByNetbiosName($credentials->getNetbiosName());
+		$profile = $this->findBestConfigurationMatchForProfile(NextADInt_Adi_Configuration_Options::NETBIOS_NAME, $credentials->getNetbiosName());
 
 		// TODO self::FAILED_SSO_UPN muss um self::FAILED_SSO_NETBIOS_NAME erweitert werden
 		$validation->validateProfile($profile);
@@ -137,13 +156,22 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		return $credentials;
 	}
 
+	/**
+	 * Authenticate given credentials by using an internal lookup of the provided UPN suffix.
+	 *
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
+	 * @param NextADInt_Adi_Authentication_SingleSignOn_Validator $validation
+	 * @return NextADInt_Adi_Authentication_Credentials
+	 */
 	function kerberosAuth(NextADInt_Adi_Authentication_Credentials $credentials, NextADInt_Adi_Authentication_SingleSignOn_Validator $validation)
 	{
-		$this->logger->info('SSO authentication triggered using kerberos for user ' . $credentials->getLogin());
+		$this->logger->info('SSO authentication triggered using Kerberos for user ' . $credentials->getLogin());
+
+		// normalize our suffix, to prevent inconsistencies
+		$suffix = $this->normalizeSuffix($credentials->getUpnSuffix());
 
 		// get the profile and check if it is valid
-		// findCorrespondingConfiguration -> findConfigurationByUpnSuffix
-		$profile = $this->findCorrespondingConfiguration($credentials->getUpnSuffix());
+		$profile = $this->findBestConfigurationMatchForProfile(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX, $suffix);
 		$validation->validateProfile($profile);
 		$this->openLdapConnection($profile);
 
@@ -153,29 +181,6 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		}
 
 		return $credentials;
-	}
-
-	function findConfigurationByNetbiosName($netbiosName)
-	{
-		// normalize our suffix, to prevent inconsistencies
-		$netbiosName = $this->normalizeSuffix($netbiosName);
-		$ssoEnabledProfiles = $this->findSsoEnabledProfiles();
-
-		// find all profiles with our corresponding account suffix
-		$profiles = $this->getProfilesForSuffix($netbiosName, $ssoEnabledProfiles);
-
-		// if multiple profiles were found, log a warning and return the first result
-		if (sizeof($profiles) > 1) {
-			$this->logger->warn('Multiple profiles with the same account suffix and enabled SSO were found.');
-		}
-
-		// if no profile given suffix and sso enabled was found, search for profiles with SSO enabled and no suffixes
-		if (sizeof($profiles) == 0) {
-			$profiles = $this->getProfilesWithoutSuffixSet($ssoEnabledProfiles);
-		}
-
-		// return the first found profile or null
-		return NextADInt_Core_Util_ArrayUtil::findFirstOrDefault($profiles, null);
 	}
 
 	/**
@@ -199,10 +204,11 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		$envVariable = $this->getConfiguration()->getOptionValue(NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE);
 		$username = NextADInt_Core_Util_ArrayUtil::get($envVariable, $_SERVER);
 
-		$username = NextADInt_Core_Util_ArrayUtil::get('PHP_AUTH_USER', $_SERVER);
-
 		// ADI-357 unescape already escaped username
 		$unescape = stripslashes($username);
+
+		$this->logger->debug('SSO provided username for environment variable "'.  $envVariable . '" is "' . $username . "'");
+
 		return $unescape;
 	}
 
@@ -231,7 +237,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	 */
 	public function detectAuthenticatableSuffixes($suffix)
 	{
-		$profile = $this->findCorrespondingConfiguration($suffix);
+		$profile = $this->findBestConfigurationMatchForProfile(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX, $suffix);
 
 		if (null === $profile) {
 			return array($suffix);
@@ -241,29 +247,28 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	}
 
 	/**
-	 * Use the given {@code $suffix} and resolve a valid profile for authentication.
+	 * Find the profile with SSO enabled and its configuration option contains the provided value.
 	 *
-	 * @param $suffix
+	 * @param $option name of profile option
+	 * @param $value value of given option to match
 	 *
 	 * @return mixed
 	 */
-	public function findCorrespondingConfiguration($suffix)
+	public function findBestConfigurationMatchForProfile($option, $value)
 	{
-		// normalize our suffix, to prevent inconsistencies
-		$suffix = $this->normalizeSuffix($suffix);
 		$ssoEnabledProfiles = $this->findSsoEnabledProfiles();
 
-		// find all profiles with our corresponding account suffix
-		$profiles = $this->getProfilesForSuffix($suffix, $ssoEnabledProfiles);
+		// find all profiles with given option value
+		$profiles = $this->getProfilesWithOptionValue($option, $value, $ssoEnabledProfiles);
 
 		// if multiple profiles were found, log a warning and return the first result
 		if (sizeof($profiles) > 1) {
-			$this->logger->warn('Multiple profiles with the same account suffix and enabled SSO were found.');
+			$this->logger->warn('Multiple profiles with the same option "' . $option .  '" and enabled SSO were found.');
 		}
 
 		// if no profile given suffix and sso enabled was found, search for profiles with SSO enabled and no suffixes
 		if (sizeof($profiles) == 0) {
-			$profiles = $this->getProfilesWithoutSuffixSet($ssoEnabledProfiles);
+			$profiles = $this->getProfilesWithoutOptionValue($option, $ssoEnabledProfiles);
 		}
 
 		// return the first found profile or null
@@ -271,33 +276,45 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	}
 
 	/**
-	 * Get all profiles for the corresponding suffix.
+	 * Get all profiles with the given option value.
 	 *
-	 * @param $suffix
+	 * @param $option name of configuration option to search for
+	 * @param $requiredValue
 	 * @param $profiles
 	 *
 	 * @return array
 	 */
-	protected function getProfilesForSuffix($suffix, $profiles)
+	protected function getProfilesWithOptionValue($option, $requiredValue, $profiles)
 	{
-		return NextADInt_Core_Util_ArrayUtil::filter(function ($profile) use ($suffix) {
-			$suffixes = NextADInt_Core_Util_StringUtil::split($profile[NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX], ';');
+		return NextADInt_Core_Util_ArrayUtil::filter(function ($profile) use ($option, $requiredValue) {
+			$values = array();
 
-			return (NextADInt_Core_Util_ArrayUtil::containsIgnoreCase($suffix, $suffixes));
+			if (isset($profile[$option])) {
+				$values = NextADInt_Core_Util_StringUtil::split($profile[$option], ';');
+			}
+
+			return (NextADInt_Core_Util_ArrayUtil::containsIgnoreCase($requiredValue, $values));
 		}, $profiles);
 	}
 
 	/**
-	 * Get all profiles that have no account suffix specified.
+	 * Get all profiles which have no option specified.
 	 *
+	 * @param $option name of configuration option
 	 * @param $profiles
 	 *
 	 * @return array
 	 */
-	protected function getProfilesWithoutSuffixSet($profiles)
+	protected function getProfilesWithoutOptionValue($option, $profiles)
 	{
-		return NextADInt_Core_Util_ArrayUtil::filter(function ($profile) {
-			return NextADInt_Core_Util_StringUtil::isEmptyOrWhitespace($profile[NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX]);
+		return NextADInt_Core_Util_ArrayUtil::filter(function ($profile) use ($option) {
+			$value = '';
+
+			if (isset($profile[$option])) {
+				$value = $profile[$option];
+			}
+
+			return NextADInt_Core_Util_StringUtil::isEmptyOrWhitespace($value);
 		}, $profiles);
 	}
 

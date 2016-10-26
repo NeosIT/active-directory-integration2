@@ -51,4 +51,16 @@ class Ut_NextADInt_Adi_Authentication_CredentialsTest extends Ut_BasicTest
 		$this->assertEquals('me', $sut->getSAMAccountName());
 	}
 
+	/**
+	 * @test
+	 * @issue ADI-389
+	 */
+	public function setNetbiosName_itUpdatesNetbiosName() {
+		$sut = new NextADInt_Adi_Authentication_Credentials('upn', 'password');
+		$this->assertEquals(null, $sut->getNetbiosName());
+
+		$sut->setLogin('netbios\samaccountname');
+		$this->assertEquals('NETBIOS', $sut->getNetbiosName());
+	}
+
 }

@@ -486,11 +486,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('NetBIOS name', NEXT_AD_INT_I18N),
 				$type        => NextADInt_Multisite_Option_Type::NETBIOS_NAME,
 				$description => __(
-					'Shows whether the current WordPress site is connected to an AD domain or not.', NEXT_AD_INT_I18N
+					'The NetBIOS name of the connected Active Directory is required for NTLM SSO.', NEXT_AD_INT_I18N
 				),
 				$detail      => array(
 					__(
-						'Shows whether the current WordPress site is connected to an AD domain or not.',
+						'The NetBIOS name of the connected Active Directory is required for NTLM SSO.',
 						NEXT_AD_INT_I18N
 					),
 				),

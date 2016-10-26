@@ -58,7 +58,7 @@ class NextADInt_Ldap_Connection
 		try {
 			$this->createAdLdap($config);
 		} catch (Exception $e) {
-			$this->logger->error('Creating AdLdap object failed.', $e);
+			$this->logger->error('Creating adLDAP object failed.', $e);
 
 			if (is_object($this->adldap)) {
 				$this->logger->debug('adLDAP last error number: ' . print_r($this->adldap->get_last_errno(), true));
@@ -354,7 +354,7 @@ class NextADInt_Ldap_Connection
 	{
 		$adLdap = $this->getAdLdap();
 
-		$this->logger->debug("Import these attributes from ad for the user '$username': " . print_r($attributeNames,
+		$this->logger->debug("User '$username' will be imported from Active Directory with attributes " . print_r($attributeNames,
 				true));
 		$userInfo = $adLdap->user_info($username, $attributeNames, $isGUID);
 

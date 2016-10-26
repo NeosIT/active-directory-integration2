@@ -150,7 +150,13 @@ class NextADInt_Ldap_Attribute_Service
 	public function findLdapAttributesOfUsername($username, $isGUID = false)
 	{
 		$attributeNames = $this->attributeRepository->getAttributeNames();
-		$raw = $this->ldapConnection->findAttributesOfUser($username, $attributeNames, $isGUID);
+		$raw = array();
+
+		if (!empty($username)) {
+			// make sure that only non-empty usernames are resolved
+			$raw = $this->ldapConnection->findAttributesOfUser($username, $attributeNames, $isGUID);
+		}
+
 		$filtered = $this->parseLdapResponse($attributeNames, $raw);
 
 		return new NextADInt_Ldap_Attributes($raw, $filtered);
@@ -169,11 +175,19 @@ class NextADInt_Ldap_Attribute_Service
 		$ldapAttributes = $this->findLdapAttributesOfUsername($guid, true);
 
 		if (false == $ldapAttributes->getRaw()) {
-			$ldapAttributes = $this->findLdapAttributesOfUsername($credentials->getSAMAccountName());
+			$sAMAccountName = $credentials->getSAMAccountName();
+
+			if (!empty($sAMAccountName)) {
+				$ldapAttributes = $this->findLdapAttributesOfUsername($sAMAccountName);
+			}
 		}
 
 		if (false == $ldapAttributes->getRaw()) {
-			$ldapAttributes = $this->findLdapAttributesOfUsername($credentials->getUserPrincipalName());
+			$userPrincipalName = $credentials->getUserPrincipalName();
+
+			if (!empty($userPrincipalName)) {
+				$ldapAttributes = $this->findLdapAttributesOfUsername($userPrincipalName);
+			}
 		}
 
 		if (false == $ldapAttributes->getRaw()) {
