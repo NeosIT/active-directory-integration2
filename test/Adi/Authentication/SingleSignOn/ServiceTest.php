@@ -578,6 +578,11 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		$profile = 1;
 		$user = new WP_User(1, $username, 1);
 
+		WP_Mock::wpFunction('is_user_logged_in', array(
+			'times'  => 1,
+			'return' => false,
+		));
+
 		$sut = $this->sut(
 			array('kerberosAuth', 'findUsername', 'openLdapConnection', 'getSessionHandler', 'findCorrespondingConfiguration',
 				'loginUser', 'requiresActiveDirectoryAuthentication', 'detectAuthenticatableSuffixes',
@@ -650,6 +655,12 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		$profile = 1;
 		$user = new WP_User(1, $username, 1);
 
+		WP_Mock::wpFunction('is_user_logged_in', array(
+			'times'  => 1,
+			'return' => false,
+		));
+
+
 		$sut = $this->sut(
 			array('ntlmAuth', 'findUsername', 'openLdapConnection', 'getSessionHandler', 'findCorrespondingConfiguration',
 				'loginUser', 'requiresActiveDirectoryAuthentication', 'detectAuthenticatableSuffixes',
@@ -689,9 +700,11 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 			->with($credentials->getUpnSuffix())
 			->willReturn($credentials->getUpnSuffix());
 
+		$newCredentials = new NextADInt_Adi_Authentication_Credentials('samaccountname');
+
 		$sut->expects($this->once())
 			->method('tryAuthenticatableSuffixes')
-			->with($credentials, $credentials->getUpnSuffix())
+			->with($newCredentials, $credentials->getUpnSuffix())
 			->willReturn($user);
 
 		$this->ssoValidation->expects($this->once())
@@ -731,9 +744,14 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	/**
 	 * @test
 	 */
-	public function authenticate_withException_returnFalse()
+	public function authenticate_withExceptionDuringLogout_itReturnFalse()
 	{
 		$username = 'username@company.local';
+
+		WP_Mock::wpFunction('is_user_logged_in', array(
+			'times'  => 1,
+			'return' => false,
+		));
 
 		$sut = $this->sut(
 			array('findUsername', 'openLdapConnection', 'getSessionHandler', 'findCorrespondingConfiguration',
@@ -751,6 +769,45 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 
 		$this->ssoValidation->expects($this->once())
 			->method('validateUrl')
+			->willThrowException(new NextADInt_Adi_Authentication_LogoutException("error"));
+
+		$this->sessionHandler->expects($this->never())
+			->method('setValue')
+			->with('failedSsoUpn', $username);
+
+		$actual = $this->invokeMethod($sut, 'authenticate', array(null, '', ''));
+
+		$this->assertFalse($actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function authenticate_withExceptionDuringAuthentication_itReturnFalse()
+	{
+		$username = 'username@company.local';
+
+		WP_Mock::wpFunction('is_user_logged_in', array(
+			'times'  => 1,
+			'return' => false,
+		));
+
+		$sut = $this->sut(
+			array('findUsername', 'openLdapConnection', 'getSessionHandler', 'findCorrespondingConfiguration',
+				'loginUser', 'requiresActiveDirectoryAuthentication', 'detectAuthenticatableSuffixes',
+				'tryAuthenticatableSuffixes')
+		);
+
+		$sut->expects($this->once())
+			->method('findUsername')
+			->willReturn($username);
+
+		$sut->expects($this->once())
+			->method('getSessionHandler')
+			->willReturn($this->sessionHandler);
+
+		$this->ssoValidation->expects($this->once())
+			->method('validateAuthenticationState')
 			->willThrowException(new NextADInt_Adi_Authentication_Exception("error"));
 
 		$this->sessionHandler->expects($this->once())

@@ -63,12 +63,12 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	 */
 	public function authenticate($user = null /* required for WordPress callback */, $login = '', $password = '')
 	{
-		$username = $this->findUsername();
-
 		// if the user is already logged in, do not continue
 		if (is_user_logged_in()) {
 			return false;
 		}
+
+		$username = $this->findUsername();
 
 		// if no username was given, return false
 		if (empty($username)) {
@@ -81,12 +81,19 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		$sessionHandler = $this->getSessionHandler();
 
 		$this->clearAuthenticationState();
+		$validation = $this->validation;
 
 		try {
-			$validation = $this->validation;
 			$validation->validateUrl();
-			$validation->validateAuthenticationState($credentials);
 			$validation->validateLogoutState();
+		}
+		catch (NextADInt_Adi_Authentication_LogoutException $e) {
+			$this->logger->info("Skipping further authentication because user is being logged out");
+			return false;
+		}
+
+		try {
+			$validation->validateAuthenticationState($credentials);
 
 			$netbiosName = $credentials->getNetbiosName();
 
@@ -117,8 +124,9 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 
 
 	/**
-	 * create new credentials based upon sAMAccountName or userPrincipalName
+	 * Create new credentials based upon sAMAccountName or userPrincipalName
 	 *
+	 * @throws NextADInt_Adi_Authentication_Exception If the user's attribute could not be found
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 * @return NextADInt_Adi_Authentication_Credentials
 	 */
@@ -126,6 +134,11 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	{
 		// findLdapAttributesOfUser tries both sAMAccountName and userPrincipalName
 		$ldapAttributes = $this->getAttributeService()->findLdapAttributesOfUser($credentials, '');
+
+		if ($ldapAttributes->getRaw() == false) {
+			throw new NextADInt_Adi_Authentication_Exception("User '"  . $credentials->getLogin() . "' does not exist in Active Directory'");
+		}
+
 		$upn = $ldapAttributes->getFilteredValue('userprincipalname');
 		$credentials = self::createCredentials($upn, '');
 
@@ -135,6 +148,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	/**
 	 * Authenticate given credentials by using an internal lookup of the provided NETBIOS name.
 	 *
+	 * @throws NextADInt_Adi_Authentication_Exception if the profile could not be found
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 * @param NextADInt_Adi_Authentication_SingleSignOn_Validator $validation
 	 * @return NextADInt_Adi_Authentication_Credentials
@@ -142,12 +156,20 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	function ntlmAuth(NextADInt_Adi_Authentication_Credentials $credentials, NextADInt_Adi_Authentication_SingleSignOn_Validator $validation)
 	{
 		$this->logger->info('SSO authentication triggered using NTLM for user ' . $credentials->getLogin());
+		$profile = null;
 
 		// find assigned profile by previously detected nETBIOSName
-		$profile = $this->findBestConfigurationMatchForProfile(NextADInt_Adi_Configuration_Options::NETBIOS_NAME, $credentials->getNetbiosName());
+		try {
+			$profile = $this->findBestConfigurationMatchForProfile(NextADInt_Adi_Configuration_Options::NETBIOS_NAME, $credentials->getNetbiosName());
 
-		// TODO self::FAILED_SSO_UPN muss um self::FAILED_SSO_NETBIOS_NAME erweitert werden
-		$validation->validateProfile($profile);
+			$validation->validateProfile($profile);
+		}
+		catch (NextADInt_Adi_Authentication_Exception $e) {
+			$this->logger->error("Validation of profile for NETBIOS name '" . $credentials->getNetbiosName() . "' failed: " . $e->getMessage());
+
+			throw new NextADInt_Adi_Authentication_Exception("Unable to find matching NADI profile for NETBIOS name '" . $credentials->getNetbiosName() . "'. Is NADI connected to a valid Active Directory domain?");
+		}
+
 		$this->openLdapConnection($profile);
 
 		// create required credentials with userPrincipalName and upnSuffix. At the moment we got only nETBIOSName and sAMAccountName

@@ -28,7 +28,8 @@ class Ut_NextADInt_Multisite_Option_TypeTest extends Ut_BasicTest
 			'TABLE' => 'table',
 			'EDITABLE_LIST' => 'editable_list',
 			'VERIFICATION_PASSWORD' => 'verification_password',
-			'DOMAIN_SID' => 'domain_sid'
+			'DOMAIN_SID' => 'domain_sid',
+			'NETBIOS_NAME' => 'netbios_name',
 		);
 
 		$this->assertEquals($expected, $actual);

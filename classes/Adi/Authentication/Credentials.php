@@ -93,15 +93,15 @@ class NextADInt_Adi_Authentication_Credentials
 		if (sizeof($parts) >= 2) {
 			$this->upnUsername = $parts[0];
 			$this->upnSuffix = $parts[1];
-		} else {
-			$this->upnUsername = $userPrincipalName;
 
-			$parts = explode("\\", $userPrincipalName);
+			return;
+		}
 
-			if (sizeof($parts) >= 2) {
-				$this->upnUsername = $parts[1];
-			}
+		$this->upnUsername = $userPrincipalName;
+		$parts = explode("\\", $userPrincipalName);
 
+		if (sizeof($parts) >= 2) {
+			$this->upnUsername = $parts[1];
 		}
 	}
 
@@ -142,7 +142,13 @@ class NextADInt_Adi_Authentication_Credentials
 	 */
 	public function getUserPrincipalName()
 	{
-		return $this->upnUsername . '@' . $this->upnSuffix;
+		$r = $this->upnUsername;
+
+		if (!empty($this->upnSuffix)) {
+			$r .= '@' . $this->upnSuffix;
+		}
+
+		return $r;
 	}
 
 	/**

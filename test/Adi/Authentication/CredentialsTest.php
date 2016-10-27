@@ -33,7 +33,9 @@ class Ut_NextADInt_Adi_Authentication_CredentialsTest extends Ut_BasicTest
 	 */
 	public function setUserPrincipalName_itSplitsUpn() {
 		$sut = new NextADInt_Adi_Authentication_Credentials('login', 'password');
+
 		$sut->setUserPrincipalName('me@test.ad');
+
 		$this->assertEquals('me', $sut->getUpnUsername());
 		$this->assertEquals('test.ad', $sut->getUpnSuffix());
 		$this->assertEquals('me@test.ad', $sut->getUserPrincipalName());
@@ -44,6 +46,7 @@ class Ut_NextADInt_Adi_Authentication_CredentialsTest extends Ut_BasicTest
 	 */
 	public function setLogin_itUpdatesUserPrincipalName() {
 		$sut = new NextADInt_Adi_Authentication_Credentials('login', 'password');
+
 		$sut->setLogin('me@test.ad');
 
 		$this->assertEquals('me', $sut->getUpnUsername());
@@ -60,7 +63,9 @@ class Ut_NextADInt_Adi_Authentication_CredentialsTest extends Ut_BasicTest
 		$this->assertEquals(null, $sut->getNetbiosName());
 
 		$sut->setLogin('netbios\samaccountname');
+
 		$this->assertEquals('NETBIOS', $sut->getNetbiosName());
+		$this->assertEquals('netbios\samaccountname', $sut->getLogin());
 	}
 
 }

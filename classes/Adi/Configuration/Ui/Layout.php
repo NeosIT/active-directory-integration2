@@ -133,7 +133,6 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::PREVENT_EMAIL_CHANGE,
 						NextADInt_Adi_Configuration_Options::NAME_PATTERN,
 						NextADInt_Adi_Configuration_Options::SHOW_USER_STATUS,
-                        NextADInt_Adi_Configuration_Options::ALLOW_DOWN_LEVEL_LOGON_NAME,
 					),
 				),
 			),

@@ -372,23 +372,27 @@ class NextADInt_Ldap_Connection
 		return $userInfo;
 	}
 
+	/**
+	 * Find the NetBIOS name of the underlying LDAP connection
+	 *
+	 * @return bool|string false if name is missing, string if NetBIOS name could be found
+	 */
 	public function findNetBiosName() {
 		$adLdap = $this->getAdLdap();
 
-		$this->logger->debug("Trying to find netBIOS name");
+		$this->logger->debug("Trying to find NetBIOS name");
 		$filter = "netbiosname";
-		$netBIOS = $adLdap->get_configuration($filter);
+		$netbios = $adLdap->get_configuration($filter);
 
-		if ($netBIOS === false) {
-			$this->logger->warn("No netBIOS name found");
+		if ($netbios === false) {
+			$this->logger->warn("No NetBIOS name name found. Maybe base DN is wrong or partition scheme is misconfigured.");
 
 			return false;
 		}
 
+		$this->logger->debug("Found NetBIOS name '" . $netbios . "' for '" . $this->getDomainSid());
 
-		$this->logger->debug("Found netBIOS name " . $netBIOS);
-
-		return $netBIOS;
+		return $netbios;
 	}
 
 	/**
