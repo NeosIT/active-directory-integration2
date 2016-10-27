@@ -177,13 +177,11 @@ abstract class NextADInt_Adi_Synchronization_Abstract
 		}
 
 		$this->logger->debug(sizeof($r) . " of " . sizeof($users) . " users in this blog are assigned to the domain SID '" . $this->connection->getDomainSid() . "'");
-		
+
 		return $r;
 	}
 
 	/**
-	 * Check if attribute to be synced to Active Directory is empty
-	 *
 	 * Check if the attribute value for an attribute is empty, if yes return an array.
 	 * Workaround to prevent adLDAP from syncing "Array" as a value for an attribute to the Active Directory.
 	 *
