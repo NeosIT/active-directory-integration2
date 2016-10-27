@@ -263,17 +263,13 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	 */
 	public function getObjectSid_itReturnsObjectSidOfUsername()
 	{
-		$sut = $this->sut(array('parseLdapResponse'));
-
-		$this->ldapConnection->expects($this->once())
-			->method('findAttributesOfUser')
-			->with('administrator', array('objectsid'), false)
-			->willReturn(array());
+		$sut = $this->sut(array('findLdapCustomAttributeOfUser'));
+		$credentials = new NextADInt_Adi_Authentication_Credentials("user@upn");
 
 		$sut->expects($this->once())
-			->method('parseLdapResponse')
-			->with(array('objectsid'), array())
-			->willReturn(array("objectsid" => "S-1-5-21-0000000000-0000000000-0000000000-1234"));
+			->method('findLdapCustomAttributeOfUser')
+			->with($credentials, 'objectsid')
+			->willReturn("S-1-5-21-0000000000-0000000000-0000000000-1234");
 
 		$this->ldapConnection->expects($this->once())
 			->method('getAdLdap')
@@ -284,8 +280,58 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 			->with('S-1-5-21-0000000000-0000000000-0000000000-1234')
 			->willReturn('S-1-5-21-0000000000-0000000000-0000000000');
 
-		$sut->getObjectSid("administrator");
+		$sut->getObjectSid($credentials);
 	}
 
+	/**
+	 * @test
+	 * @issue ADI-412
+	 */
+	public function findLdapCustomAttributeOfUser_whenUserPrincipalNameReturnsNothing_itUsesSamaccountName()
+	{
+		$sut = $this->sut(array('findLdapCustomAttributeOfUsername'));
 
+		$credentials = new NextADInt_Adi_Authentication_Credentials('user@upnsuffix');
+		$attribute = 'attribute';
+
+		$sut->expects($this->exactly(2))
+			->method('findLdapCustomAttributeOfUsername')
+			->withConsecutive(
+				array($credentials->getUserPrincipalName(), $attribute),
+				array($credentials->getSAMAccountName(), $attribute)
+			)
+			->will(
+				$this->onConsecutiveCalls(
+					false,
+					'value'
+				)
+			);
+
+		$this->assertEquals('value', $sut->findLdapCustomAttributeOfUser($credentials, $attribute));
+	}
+
+	/**
+	 * @test
+	 * @issue ADI-412
+	 */
+	public function findLdapCustomAttributeOfUsername_whenAttributeIsAvailable_itReturnsValue() {
+		$sut = $this->sut(array('parseLdapResponse'));
+		$attribute = "objectsid";
+		$attributes = array($attribute);
+		$rawResponse = array($attribute => 'value');
+
+		$this->ldapConnection->expects($this->once())
+			->method('findAttributesOfUser')
+			->with('username', $attributes, false)
+			->willReturn($rawResponse);
+
+		$sut->expects($this->once())
+			->method('parseLdapResponse')
+			->with($attributes, $rawResponse)
+			->willReturn($rawResponse);
+
+		$this->assertEquals('value', $sut->findLdapCustomAttributeOfUsername('username', $attribute));
+
+
+	}
 }

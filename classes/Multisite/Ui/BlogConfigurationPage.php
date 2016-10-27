@@ -368,6 +368,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		$failedMessage = array(
 			"verification_failed" => "Verification failed! Please check your logfile for further information.",
 		);
+
 		$objectSid = $this->twigContainer->findActiveDirectoryDomainSid($data);
 
 		if (false === $objectSid) {
