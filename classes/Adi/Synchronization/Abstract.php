@@ -164,6 +164,8 @@ abstract class NextADInt_Adi_Synchronization_Abstract
 		$users = get_users($args);
 		$r = array();
 
+		$this->logger->debug("Found '" . sizeof($users) . "' in this blog with a valid sAMAccountName'");
+
 		foreach ($users as $user) {
 			$userDomainSid = get_user_meta(
 				$user->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true
@@ -174,6 +176,8 @@ abstract class NextADInt_Adi_Synchronization_Abstract
 			}
 		}
 
+		$this->logger->debug(sizeof($r) . " of " . sizeof($users) . " users in this blog are assigned to the domain SID '" . $this->connection->getDomainSid() . "'");
+		
 		return $r;
 	}
 
