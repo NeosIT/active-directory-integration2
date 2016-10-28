@@ -144,8 +144,9 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 			->willReturn('S-1-5');
 
 		$this->ldapConnection->connect($this->connectionDetails);
+
 		$expectedMember = array(
-			strtolower($this->username1) => $this->username1
+			$this->username1
 		);
 
 		$returnedValue = $this->ldapConnection->findAllMembersOfGroup($this->groupName1);
