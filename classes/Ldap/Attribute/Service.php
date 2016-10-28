@@ -32,7 +32,7 @@ class NextADInt_Ldap_Attribute_Service
 	/**
 	 * NextADInt_Ldap_Attribute_Service constructor.
 	 *
-	 * @param NextADInt_Ldap_Connection           $ldapConnection
+	 * @param NextADInt_Ldap_Connection $ldapConnection
 	 * @param NextADInt_Ldap_Attribute_Repository $attributeRepository
 	 */
 	public function __construct(NextADInt_Ldap_Connection $ldapConnection, NextADInt_Ldap_Attribute_Repository $attributeRepository)
@@ -48,7 +48,7 @@ class NextADInt_Ldap_Attribute_Service
 	 * Missing user attribute names entries will be added (with an empty string as value).
 	 * If the user attribute value is an array and has got the key 'count', then implode the array to an string.
 	 *
-	 * @param array       $attributeNames
+	 * @param array $attributeNames
 	 * @param array|false $ldapData
 	 *
 	 * @access package
@@ -72,7 +72,7 @@ class NextADInt_Ldap_Attribute_Service
 	/**
 	 * Get the requested attribute value from the LDAP response array
 	 *
-	 * @param string      $attributeName
+	 * @param string $attributeName
 	 * @param array|false $ldapData array with LDAP raw data or false if no data has been set
 	 *
 	 * @return string
@@ -110,7 +110,7 @@ class NextADInt_Ldap_Attribute_Service
 
 	/**
 	 * @param NextADInt_Ldap_Attribute $attribute
-	 * @param array          $ldapData
+	 * @param array $ldapData
 	 *
 	 * @return array
 	 */
@@ -143,7 +143,7 @@ class NextADInt_Ldap_Attribute_Service
 	 * Find all LDAP attributes for the user which have been enabled in the blog or multisite
 	 *
 	 * @param string $username GUID, sAMAccountName or userPrincipalName
-	 * @param bool   $isGUID
+	 * @param bool $isGUID
 	 *
 	 * @return NextADInt_Ldap_Attributes
 	 */
@@ -166,7 +166,7 @@ class NextADInt_Ldap_Attribute_Service
 	 * Find the LDAP attributes for the given credentials or guid.
 	 *
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
-	 * @param string                         $guid
+	 * @param string $guid
 	 *
 	 * @return NextADInt_Ldap_Attributes
 	 */
@@ -198,21 +198,62 @@ class NextADInt_Ldap_Attribute_Service
 	}
 
 	/**
-	 * Find LDAP attribute containing the objectSid
-	 *
+	 * Find the custom LDAP attribute for the given username
 	 * @param string $username
-	 * @param boolean $isGuid
-	 * @return NextADInt_Ldap_Attributes
+	 * @param string $attribute
+	 * @return bool|string false if attribute is empty or not inside the returned array of attribute values
 	 */
-	public function getObjectSid($username, $isGuid = false)
+	public function findLdapCustomAttributeOfUsername($username, $attribute)
 	{
-		$attributeNames = array("objectsid");
-		
-		$raw = $this->ldapConnection->findAttributesOfUser($username, $attributeNames, $isGuid);
-		$filtered = $this->parseLdapResponse($attributeNames, $raw);
-		$objectSid = $this->ldapConnection->getAdLdap()->convertObjectSidBinaryToString($filtered["objectsid"]);
-		
-		return $objectSid;
+		$attributes = array($attribute);
+
+		$raw = $this->ldapConnection->findAttributesOfUser($username, $attributes, false);
+		$filtered = $this->parseLdapResponse($attributes, $raw);
+
+		// ADI-412: If the user has no upn
+		if (!isset($filtered[$attribute]) || empty($filtered[$attribute])) {
+			return false;
+		}
+
+		return $filtered[$attribute];
+	}
+
+	/**
+	 * Find a single attribute for the give credentials. It first tests the sAMAccountName and then the userPrincipalName of the credentials
+	 *
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
+	 * @param string $attribute
+	 * @return string|bool if attribute could not be found it returns false
+	 */
+	public function findLdapCustomAttributeOfUser(NextADInt_Adi_Authentication_Credentials $credentials, $attribute)
+	{
+		$value = $this->findLdapCustomAttributeOfUsername($credentials->getUserPrincipalName(), $attribute);
+
+		if (false === $value) {
+			$this->logger->warn("Could not locate custom attribute '" . $attribute . "' for userPrincipalName '" . $credentials->getUserPrincipalName() . "'. Fall back to sAMAccountName...'");
+
+			$value = $this->findLdapCustomAttributeOfUsername($credentials->getSAMAccountName(), $attribute);
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Find LDAP attribute containing the objectSid. At first it uses the full userPrincipalName and then falls back to the sAMAccountName to prevent non-resolveable AD usernames.
+	 *
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
+	 * @return NextADInt_Ldap_Attributes|false false if username account could not be found
+	 */
+	public function getObjectSid(NextADInt_Adi_Authentication_Credentials $credentials)
+	{
+		NextADInt_Core_Assert::notNull($credentials, "credentials must not be null");
+		$objectSid = $this->findLdapCustomAttributeOfUser($credentials, 'objectsid');
+
+		if (false === $objectSid) {
+			return false;
+		}
+
+		return $this->ldapConnection->getAdLdap()->convertObjectSidBinaryToString($objectSid);
 	}
 
 	/**
