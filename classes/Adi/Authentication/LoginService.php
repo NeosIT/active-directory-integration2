@@ -502,6 +502,14 @@ class NextADInt_Adi_Authentication_LoginService
 
 		// ADI-204: during login we have to use the authenticated user principal name
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, null);
+
+		// ADI-395: wrong base DN leads to exception during Test Authentication
+		// If the base DN is wrong then no LDAP attributes can be loaded and getRaw() is false
+		if (false === $ldapAttributes->getRaw()) {
+			$this->logger->error("Not creating/updating user because expected LDAP attributes could not be loaded.");
+			return false;
+		}
+
 		// update the real sAMAccountName of the credentials. This could be totally different from the userPrincipalName user for login
 		$credentials->setSAMAccountName($ldapAttributes->getFilteredValue('samaccountname'));
 

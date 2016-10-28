@@ -825,6 +825,30 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 	/**
 	 * @test
+	 * @issue ADI-395
+	 */
+	public function ADI_395_createOrUpdateUser_itReturnsFalse_whenLdapAttributesCouldNotBeLoaded() {
+		$sut = $this->sut(array('createAdiUser'));
+		$credentials = NextADInt_Adi_Authentication_LoginService::createCredentials('username@test.ad', 'password');
+		$ldapAttributes = new NextADInt_Ldap_Attributes(false /* failed */, array());
+
+		$this->attributeService->expects($this->once())
+			->method('findLdapAttributesOfUser')
+			->with($credentials)
+			->willReturn($ldapAttributes);
+
+		// createAdiUser must not be reached
+		$this->userManager->expects($this->never())
+			->method('createAdiUser');
+
+		$actual = $sut->createOrUpdateUser($credentials);
+		
+		// return value is false
+		$this->assertEquals(false, $actual);
+	}
+
+	/**
+	 * @test
 	 */
 	public function createOrUpdateUser_itUpdatesTheSAMAccountName()
 	{
