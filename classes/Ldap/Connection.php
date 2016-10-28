@@ -528,22 +528,22 @@ class NextADInt_Ldap_Connection
 				continue;
 			}
 
-			$members = $this->findAllMembersOfGroup($group);
+			$groupMembers = $this->findAllMembersOfGroup($group);
 
-			if ($members === false) {
+			if ($groupMembers === false) {
 				// false means that the security group could not be retrieved
 				continue;
 			}
 
 			// load user information of group members
-			$members = $this->filterDomainMembers($members);
+			$domainMembersOfGroup = $this->filterDomainMembers($groupMembers);
 
-			$this->logger->info("In group '$group' are " . sizeof($members) . " members.");
-			$this->logger->debug("Members of group '$group': " . print_r($members, true));
+			$this->logger->info("In group '$group' are " . sizeof($groupMembers) . " members from which " . sizeof($domainMembersOfGroup) . " belongs to the AD domain of this blog");
+			$this->logger->debug("Members of group '$group': " . print_r($domainMembersOfGroup, true));
 
 			// 'merge' array
 			// a new key with the same name will override the old key with the same name
-			$allUsers = $members + $allUsers;
+			$allUsers = $domainMembersOfGroup + $allUsers;
 		}
 
 		// return all users
@@ -591,7 +591,7 @@ class NextADInt_Ldap_Connection
 	 *
 	 * @param string $group
 	 *
-	 * @return array containing the members of the security or primary group - if the group does exist
+	 * @return array containing the sAMAccountNames of the members of the security or primary group - if the group does exist
 	 * @return false if the security group could not be found
 	 */
 	public function findAllMembersOfGroup($group)
