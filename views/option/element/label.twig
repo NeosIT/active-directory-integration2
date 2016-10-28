@@ -1,0 +1,34 @@
+{% macro create(optionName, permission, inputId) %}
+
+    {% set inline = getMetadata(optionName, 'INLINE')|join(' ') %}
+    {% set description = getMetadata(optionName, 'DESCRIPTION') %}
+    {% set angularAttributes = getMetadata(optionName, 'ANGULAR_ATTRIBUTES') %}
+    {% set newNetwork = isOnNetworkDashboard() %}
+
+    {% if  newNetwork %}
+        {% if angularAttributes != '' %}
+            {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
+        {% endif %}
+    {% else %}
+
+        {% if permission == 2 or permission == 1 %}
+            {% set  disabled = "disabled" %}
+        {% else %}
+            {% set disabled = "" %}
+        {% endif %}
+
+        {% if angularAttributes != '' %}
+            {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
+        {% endif %}
+    {% endif %}
+
+    <div>
+        <code>
+            <span ng-bind="option.{{ optionName }}"></span>
+        </code>
+    </div>
+    
+    <p>{% import "option/element/description.twig" as descriptionElement %}
+        {{ descriptionElement.create(description) }}</p>
+
+{% endmacro %}

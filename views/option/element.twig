@@ -53,6 +53,11 @@
         {% import "option/element/domainsid.twig" as domainSid %}
         {{ domainSid.create(optionName, permission, inputId) }}
 
+    {% elseif type == constant('NextADInt_Multisite_Option_Type::LABEL') %}
+
+        {% import "option/element/label.twig" as text %}
+        {{ text.create(optionName, permission, inputId) }}
+
     {% else %}
 
         {% import "option/element/default.twig" as default %}

@@ -33,7 +33,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const VERIFICATION_USERNAME = 'verification_username';
 	const VERIFICATION_PASSWORD = 'verification_password';
 	const DOMAIN_SID = 'domain_sid';
-	const NETBIOS_NAME= 'netBIOS_name';
+	const NETBIOS_NAME= 'netbios_name';
 
 	// User - User Settings
 	const EXCLUDE_USERNAMES_FROM_AUTHENTICATION = 'exclude_usernames_from_authentication';
@@ -463,7 +463,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			),
 			// DOMAINS ID
 			self::DOMAIN_SID           => array(
-				$title       => __('Domain Sid', NEXT_AD_INT_I18N),
+				$title       => __('Domain SID', NEXT_AD_INT_I18N),
 				$type        => NextADInt_Multisite_Option_Type::DOMAIN_SID,
 				$description => __(
 					'Shows whether the current WordPress site is connected to an AD domain or not.', NEXT_AD_INT_I18N
@@ -483,7 +483,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 
 			self::NETBIOS_NAME           => array(
 				$title       => __('NetBIOS name', NEXT_AD_INT_I18N),
-				$type        => NextADInt_Multisite_Option_Type::NETBIOS_NAME,
+				$type        => NextADInt_Multisite_Option_Type::LABEL,
 				$description => __(
 					'The NetBIOS name of the connected Active Directory is required for NTLM SSO.', NEXT_AD_INT_I18N
 				),
