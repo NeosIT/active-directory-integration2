@@ -385,7 +385,7 @@ class NextADInt_Ldap_Connection
 		$netbios = $adLdap->get_configuration($filter);
 
 		if ($netbios === false) {
-			$this->logger->warn("No NetBIOS name name found. Maybe base DN is wrong or partition scheme is misconfigured.");
+			$this->logger->warn("No NetBIOS name found. Maybe base DN is wrong or partition scheme is misconfigured.");
 
 			return false;
 		}
