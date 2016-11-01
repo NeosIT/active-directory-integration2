@@ -109,7 +109,14 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 			$failedSync = 0;
 
 			foreach ($users as $guid => $sAMAccountName) {
-				$status = $this->synchronizeUser(new NextADInt_Adi_Authentication_Credentials($sAMAccountName), $guid);
+				$credentials = new NextADInt_Adi_Authentication_Credentials($sAMAccountName);
+				$status = -1;
+
+				try {
+					$status = $this->synchronizeUser($credentials, $guid);
+				} catch (Exception $ex) {
+					$this->logger->error('Failed to synchronize ' . $credentials, $ex);
+				}
 
 				switch ($status) {
 					case 0:
