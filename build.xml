@@ -352,4 +352,10 @@
         <replace file="index.php" token="REPLACE_BY_JENKINS_SCRIPT" value="${version}">
         </replace>
     </target>
+	
+	<target name="package" description="ZIPs the whole directory">
+		<zip 
+			destfile="${basedir}/next-active-directory-integration.zip"
+			basedir="${basedir}"/>
+	</target>
 </project>
