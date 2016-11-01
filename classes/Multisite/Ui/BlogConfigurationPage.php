@@ -391,7 +391,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 
 		$this->persistDomainSid($domainSidData, $profileId);
 
-		return array("verification_successful" => $domainSid);
+		return array("verification_successful_sid" => $domainSid, "verification_successful_netbios" => $netBIOSname['netBIOS_name']);
 	}
 
 	/**

@@ -504,10 +504,6 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		);
 
 		$this->configuration->expects($this->once())
-			->method('getAllOptions')
-			->willReturn($config);
-
-		$this->configuration->expects($this->once())
 			->method('findAllProfiles')
 			->willReturn($profiles);
 
@@ -530,10 +526,6 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		);
 
 		$profiles = array();
-
-		$this->configuration->expects($this->once())
-			->method('getAllOptions')
-			->willReturn($config);
 
 		$this->configuration->expects($this->once())
 			->method('findAllProfiles')

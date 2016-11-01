@@ -411,10 +411,8 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 			NextADInt_Adi_Configuration_Options::BASE_DN,
 			NextADInt_Adi_Configuration_Options::SSO_USER,
 			NextADInt_Adi_Configuration_Options::SSO_PASSWORD,
+			NextADInt_Adi_Configuration_Options::NETBIOS_NAME
 		));
-
-		// get the current configuration and add it as first option
-		array_unshift($profiles, $this->getConfiguration()->getAllOptions());
 
 		// filter all profiles and get profiles with SSO enabled
 		$profiles = NextADInt_Core_Util_ArrayUtil::filter(function ($profile) {

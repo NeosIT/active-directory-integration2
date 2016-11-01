@@ -107,11 +107,12 @@
                 if (typeof response != 'undefined') {
                     $scope.messages = response.data;
                     
-                    if (response.data.hasOwnProperty("verification_successful")) {
+                    if (response.data.hasOwnProperty("verification_successful_sid")) {
                         $scope.option.verification_status_message = document['next_ad_int']['verification-successful'];
                         ngNotify.set(document['next_ad_int']['verification-successful-notification'], 'success');
                         $scope.messages = {};
-                        $scope.option.domain_sid = response.data['verification_successful'];
+                        $scope.option.domain_sid = response.data['verification_successful_sid'];
+                        $scope.option.netbios_name = response.data['verification_successful_netbios'];
                         $scope.isSaveDisabled = false;
                         $rootScope.$broadcast('verification', response.data['verification_successful']);
                         
