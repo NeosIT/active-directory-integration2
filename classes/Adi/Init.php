@@ -11,7 +11,7 @@
  */
 class NextADInt_Adi_Init
 {
-    const NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED = "next_ad_int_plugin_has_been_enabled";
+	const NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED = "next_ad_int_plugin_has_been_enabled";
 
 	/**
 	 * @var NextADInt_Adi_Dependencies
@@ -36,8 +36,8 @@ class NextADInt_Adi_Init
 	 */
 	public function activation()
 	{
-        // add flag to WordPress cache for displaying the "plugin enabled" message
-        set_transient(NextADInt_Adi_Init::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED, true, 10);
+		// add flag to WordPress cache for displaying the "plugin enabled" message
+		set_transient(NextADInt_Adi_Init::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED, true, 10);
 		$configService = $this->dc()->getConfiguration();
 		$customPath = $configService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH);
 
@@ -113,7 +113,7 @@ class NextADInt_Adi_Init
 			$licenseKey = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
 
 			if (empty($licenseKey)) {
-				echo "<tr><td colspan='3' style='vertical-align: middle; background-color: #ef693e; color: #fff'>" . __("Please purchase a valid Next Active Directory Integration support license from <a href='https://www.active-directory-wp.com/' style='color: #fff; text-decoration: underline'>https://www.active-directory-wp.com/</a> to support this plug-in.") ."</td>";
+				echo "<tr><td colspan='3' style='vertical-align: middle; background-color: #ef693e; color: #fff'>" . __("Please purchase a valid Next Active Directory Integration support license from <a href='https://www.active-directory-wp.com/' style='color: #fff; text-decoration: underline'>https://www.active-directory-wp.com/</a> to support this plug-in.") . "</td>";
 			}
 		}
 	}
@@ -143,8 +143,8 @@ class NextADInt_Adi_Init
 			return;
 		}
 
-        // load internationalization (i18n)
-        load_plugin_textdomain(NEXT_AD_INT_I18N, false, plugin_basename(NEXT_AD_INT_PATH) . '/languages');
+		// load internationalization (i18n)
+		load_plugin_textdomain(NEXT_AD_INT_I18N, false, plugin_basename(NEXT_AD_INT_PATH) . '/languages');
 
 		// ADI-354 (dme)
 		$configurationService = $this->dc()->getConfiguration();
@@ -212,7 +212,7 @@ class NextADInt_Adi_Init
 	function registerCore()
 	{
 		// if the current request should trigger a synchronization of Active Directory or WordPress
-        // do not unescape the $_POST because only numbers will be accessed
+		// do not unescape the $_POST because only numbers will be accessed
 		if (NextADInt_Adi_Cron_UrlTrigger::getSyncMode($_POST) !== false) {
 			$this->registerUrlTriggerHook();
 
@@ -311,8 +311,10 @@ class NextADInt_Adi_Init
 	 */
 	public function registerSsoHooks()
 	{
+		$isOnLoginPage = $this->isOnLoginPage();
+
 		// register sso
-		if ($this->isOnLoginPage()) {
+		if ($isOnLoginPage) {
 			$this->dc()->getSsoPage()->register();
 		}
 
@@ -411,20 +413,29 @@ class NextADInt_Adi_Init
 		return (bool)$this->dc()->getConfiguration()->getOptionValue(NextADInt_Adi_Configuration_Options::SSO_ENABLED);
 	}
 
+
 	/**
-	 * Return true if the user is currently on the login page or executes a log in
+	 * Return true if the user is currently on the login page or executes a log in.
+	 * The method executes the next_adi_int_auth_enable_sso_login filter to check if
+	 * any other login plug-in wants to hook into the SSO process.
+	 *
 	 * @return bool
 	 */
 	public function isOnLoginPage()
 	{
+		$enableSsoLogin = false;
 
 		$page = $_SERVER['PHP_SELF'];
 		$required = "wp-login.php";
+		$isOnWpLogin = substr($page, -strlen($required)) == $required;
+		$isOnXmlRpc = strpos($page, 'xmlrpc.php') !== false;
 
-		if (substr($page, -strlen($required)) == $required || strpos($page, 'xmlrpc.php') !== false) {
-			return true;
-		} else {
-			return false;
+		if ($isOnWpLogin || $isOnXmlRpc) {
+			$enableSsoLogin = true;
 		}
+
+		$enableSsoLogin = apply_filters(NEXT_AD_INT_PREFIX . '_auth_enable_sso_login', $enableSsoLogin);
+
+		return $enableSsoLogin;
 	}
 }

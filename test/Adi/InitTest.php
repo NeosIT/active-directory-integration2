@@ -855,6 +855,22 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	}
 
 	/**
+	 * @test
+	 * @issue ADI-410
+	 */
+	public function ADI_410_isOnLoginPage_itReturnsTrue_whenFilterOverwritesValue() {
+		$sut = $this->sut();
+
+		$_SERVER['PHP_SELF'] = 'https://localhost/wp-admin.php';
+
+		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . '_auth_enable_sso_login')
+			->with(false)
+			->reply(true);
+
+		$this->assertTrue($sut->isOnLoginPage());
+	}
+
+	/**
 	 * @param null $methods
 	 *
 	 * @return NextADInt_Adi_Init|PHPUnit_Framework_MockObject_MockObject
