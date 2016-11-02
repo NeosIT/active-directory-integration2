@@ -359,7 +359,7 @@ class NextADInt_Ldap_Connection
 		$userInfo = $adLdap->user_info($username, $attributeNames, $isGUID);
 
 		if ($userInfo === false) {
-			$this->logger->warn("Attributes for '$username': could not be loaded. Does the sAMAccountName or userPrincipalName exist?");
+			$this->logger->warn("Attributes for '$username': could not be loaded. Does the sAMAccountName or userPrincipalName exist? Is the provided base DN valid?");
 
 			return false;
 		}
@@ -546,20 +546,54 @@ class NextADInt_Ldap_Connection
 		$allUsers = array();
 
 		foreach ($groups as $group) {
-			if ($group !== "") {
-				$members = $this->findAllMembersOfGroup($group);
+			if (empty($group)) {
+				// group name is empty
+				continue;
+			}
 
-				$this->logger->info("In group '$group' are " . sizeof($members) . " members.");
-				$this->logger->debug("Members of group '$group': " . print_r($members, true));
+			$groupMembers = $this->findAllMembersOfGroup($group);
 
-				// 'merge' array
-				// a new key with the same name will override the old key with the same name
-				$allUsers = $members + $allUsers;
+			if ($groupMembers === false) {
+				// false means that the security group could not be retrieved
+				continue;
+			}
+
+			// load user information of group members
+			$domainMembersOfGroup = $this->filterDomainMembers($groupMembers);
+
+			$this->logger->info("In group '$group' are " . sizeof($groupMembers) . " members from which " . sizeof($domainMembersOfGroup) . " belongs to the AD domain of this blog");
+			$this->logger->debug("Members of group '$group': " . print_r($domainMembersOfGroup, true));
+
+			// 'merge' array
+			// a new key with the same name will override the old key with the same name
+			$allUsers = $domainMembersOfGroup + $allUsers;
+		}
+
+		// return all users
+		return $allUsers;
+	}
+
+	/**
+	 * Filter array so that only members of the domain belonging to the current NADI profile are returned
+	 *
+	 * @param array $members associative array with key => lower-case username, value => username
+	 * @return array
+	 */
+	function filterDomainMembers($members = array()) {
+		$adLdap = $this->getAdLdap();
+		$siteDomainSid = $this->getDomainSid();
+		$r = array();
+
+		foreach ($members as $member) {
+			$userInfo = $adLdap->user_info($member, array('objectsid'));
+			$userSid = $adLdap->convertObjectSidBinaryToString($userInfo[0]["objectsid"][0]);
+
+			if (strpos($userSid, $siteDomainSid) !== false) {
+				$r[NextADInt_Core_Util_StringUtil::toLowerCase($member)] = $member;
 			}
 		}
 
-		//return all users
-		return $allUsers;
+		return $r;
 	}
 
 	/**
@@ -580,43 +614,33 @@ class NextADInt_Ldap_Connection
 	 *
 	 * @param string $group
 	 *
-	 * @return array
+	 * @return array containing the sAMAccountNames of the members of the security or primary group - if the group does exist
+	 * @return false if the security group could not be found
 	 */
 	public function findAllMembersOfGroup($group)
 	{
 		$adLdap = $this->getAdLdap();
 		$group = trim($group);
 
-		$siteDomainSid = $this->getDomainSid();
-
 		try {
 			if (false !== stripos($group, 'id:')) {
 				$pgid = substr($group, stripos($group, 'id:') + 3);
-				$members = $adLdap->group_members_by_primarygroupid($pgid, null, true);
+				return $adLdap->group_members_by_primarygroupid($pgid, null, true);
 			} else {
-				$members = $adLdap->group_members($group, null);
+				// ADI-397: Log message that Active Directory security group could not be found
+				$groupInfo = $adLdap->group_info($group);
+
+				if (!$groupInfo || (sizeof($groupInfo) == 0)) {
+					$this->logger->error("Security group '" . $group . "' could not be retrieved from Active Directory. Make sure that the security group does exist in the provided base DN.");
+					return false;
+				}
+
+				return $adLdap->group_members($group, null);
 			}
 		} catch (Exception $e) {
 			$this->logger->error("Can not get the members of group '$group'.", $e);
-
-			return array();
 		}
 
-		if (!is_array($members)) {
-			return array();
-		}
-
-		$users = array();
-
-		foreach ($members as $member) {
-			$userInfo = $adLdap->user_info($member, array('objectsid'));
-			$userSid = $adLdap->convertObjectSidBinaryToString($userInfo[0]["objectsid"][0]);
-			
-			if (strpos($userSid, $siteDomainSid) !== false ) {
-				$users[NextADInt_Core_Util_StringUtil::toLowerCase($member)] = $member;
-			}			
-		}
-
-		return $users;
+		return false;
 	}
 }

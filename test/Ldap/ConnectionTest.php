@@ -611,7 +611,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	 */
 	public function findAllMembersOfGroups_delegateToMethod_returnMembers()
 	{
-		$sut = $this->sut(array('findAllMembersOfGroup'));
+		$sut = $this->sut(array('findAllMembersOfGroup', 'filterDomainMembers'));
 
 		$expected = array(
 			'aa'  => 'aA',
@@ -641,6 +641,19 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 				)
 			);
 
+		$sut->expects($this->exactly(2))
+			->method('filterDomainMembers')
+			->withConsecutive(
+				array($groupA),
+				array($groupB)
+			)
+			->will(
+				$this->onConsecutiveCalls(
+					$groupA,
+					$groupB
+				)
+			);
+
 		$actual = $sut->findAllMembersOfGroups('groupA;groupB');
 		$this->assertEquals($expected, $actual);
 	}
@@ -648,14 +661,21 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function findAllMembersOfGroup_getMembersOfPrimarGroupId_returnMembers()
-	{
+	public function filterDomainMembers_itConvertsArrayIntoAssociativeArray() {
 		$sut = $this->sut(array('getAdLdap', 'getDomainSid'));
 
-		$userInfo = array(
+		$userInfoA = array(
 			0 => array(
 				"objectsid" => array(
-					0 => "1234"
+					0 => "555"
+				)
+			)
+		);
+
+		$userInfoB = array(
+			0 => array(
+				"objectsid" => array(
+					0 => "666"
 				)
 			)
 		);
@@ -666,25 +686,58 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('getDomainSid')
-			->willReturn('1234');
+			->willReturn("555");
+
+
+		$this->adLDAP->expects($this->exactly(2))
+			->method('user_info')
+			->withConsecutive(
+				array('a'),
+				array('b')
+			)
+			->will(
+				$this->onConsecutiveCalls(
+					$userInfoA,
+					$userInfoB
+				)
+			);
+
+		$this->adLDAP->expects($this->exactly(2))
+			->method('convertObjectSidBinaryToString')
+			->withConsecutive(
+				array('555'),
+				array('666')
+			)
+			->will(
+				$this->onConsecutiveCalls(
+					'555',
+					'666' /* wrong SID */
+				)
+			);
+
+		$actual = $sut->filterDomainMembers(array('a', 'b'));
+
+		$this->assertEquals(array('a' => 'a'), $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllMembersOfGroup_getMembersOfPrimaryGroupId_returnMembers()
+	{
+		$sut = $this->sut(array('getAdLdap', 'getDomainSid'));
+
+		$sut->expects($this->once())
+			->method('getAdLdap')
+			->willReturn($this->adLDAP);
 
 		$this->adLDAP->expects($this->once())
 			->method('group_members_by_primarygroupid')
 			->with('123', null, true)
-			->willReturn(array('huGo'));
-
-		$this->adLDAP->expects($this->once())
-			->method('user_info')
-			->with('huGo')
-			->willReturn($userInfo);
-
-		$this->adLDAP->expects($this->once())
-			->method('convertObjectSidBinaryToString')
-			->with('1234')
-			->willReturn('1234');
+			->willReturn(array('a'));
 
 		$expected = array(
-			'hugo' => 'huGo',
+			'a'
 		);
 
 		$actual = $sut->findAllMembersOfGroup(' id:123 ');
@@ -698,39 +751,23 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap', 'getDomainSid'));
 
-		$userInfo = array(
-			0 => array(
-				"objectsid" => array(
-					0 => "1234"
-				)
-			)
-		);
-
 		$sut->expects($this->once())
 			->method('getAdLdap')
 			->willReturn($this->adLDAP);
 
-		$sut->expects($this->once())
-			->method('getDomainSid')
-			->willReturn('1234');
+		$this->adLDAP->expects($this->once())
+			->method('group_info')
+			->with('groupA')
+			->willReturn(array('group_info'));
 
 		$this->adLDAP->expects($this->once())
 			->method('group_members')
 			->with('groupA', null)
-			->willReturn(array('huGo'));
+			->willReturn(array('a'));
 
-		$this->adLDAP->expects($this->once())
-			->method('user_info')
-			->with('huGo')
-			->willReturn($userInfo);
-
-		$this->adLDAP->expects($this->once())
-			->method('convertObjectSidBinaryToString')
-			->with('1234')
-			->willReturn('1234');
 
 		$expected = array(
-			'hugo' => 'huGo',
+			'a'
 		);
 
 		$actual = $sut->findAllMembersOfGroup(' groupA ');
@@ -740,7 +777,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function findAllMembersOfGroup_throwException_returnEmptyArray()
+	public function findAllMembersOfGroup_throwException_returnFalse()
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
@@ -753,14 +790,19 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 			->with('groupA', null)
 			->willThrowException(new Exception());
 
+		$this->adLDAP->expects($this->once())
+			->method('group_info')
+			->with('groupA')
+			->willReturn(array('group_info'));
+
 		$actual = $sut->findAllMembersOfGroup(' groupA ');
-		$this->assertEquals(array(), $actual);
+		$this->assertEquals(false, $actual);
 	}
 
 	/**
 	 * @test
 	 */
-	public function findAllMembersOfGroup_groupMembersNotAnArray_returnEmptyArray()
+	public function findAllMembersOfGroup_groupMembersNotAnArray_returnFalse()
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
@@ -769,11 +811,16 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 			->willReturn($this->adLDAP);
 
 		$this->adLDAP->expects($this->once())
+			->method('group_info')
+			->with('groupA')
+			->willReturn(array('group_info'));
+
+		$this->adLDAP->expects($this->once())
 			->method('group_members')
 			->with('groupA', null)
 			->willReturn(false);
 
 		$actual = $sut->findAllMembersOfGroup(' groupA ');
-		$this->assertEquals(array(), $actual);
+		$this->assertEquals(false, $actual);
 	}
 }

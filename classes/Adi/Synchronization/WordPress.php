@@ -109,7 +109,14 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 			$failedSync = 0;
 
 			foreach ($users as $guid => $sAMAccountName) {
-				$status = $this->synchronizeUser(new NextADInt_Adi_Authentication_Credentials($sAMAccountName), $guid);
+				$credentials = new NextADInt_Adi_Authentication_Credentials($sAMAccountName);
+				$status = -1;
+
+				try {
+					$status = $this->synchronizeUser($credentials, $guid);
+				} catch (Exception $ex) {
+					$this->logger->error('Failed to synchronize ' . $credentials, $ex);
+				}
 
 				switch ($status) {
 					case 0:
@@ -188,16 +195,23 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 */
 	protected function findSynchronizableUsers()
 	{
-
 		$groups = trim(
 			$this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS)
 		);
+
 		$activeDirectoryUsers = $this->connection->findAllMembersOfGroups($groups);
+		// key => guid, value => sAMAccountName
 		$convertedActiveDirectoryUsers = $this->convertActiveDirectoryUsers($activeDirectoryUsers);
+		$this->logger->info("After removing duplicate users security/primary groups contain '" . sizeof($convertedActiveDirectoryUsers) . "' in total users");
 
+		// key => guid, value => sAMAccountName
 		$wordPressUsers = $this->findActiveDirectoryUsernames();
+		$this->logger->info("Local WordPress instance contains " . sizeof($wordPressUsers) . " users which are connected to their Active Directory acounts");
 
-		return array_merge($wordPressUsers, $convertedActiveDirectoryUsers);
+		$r = array_merge($wordPressUsers, $convertedActiveDirectoryUsers);
+		$this->logger->info("After merging Active Directory/users and WordPress users " . sizeof($r) . " users have to be synchronized");
+
+		return $r;
 	}
 
 	/**
@@ -362,7 +376,6 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		// NADIS-1: added check to prevent fatal error if userPrincipalName is empty
 		if (empty($userPrincipalName)) {
 			$this->logger->warn('UserPrincipalName for ' . $credentials->getLogin() . ' could not be found.');
-
 		} else {
 			$credentials->setUserPrincipalName($userPrincipalName);
 		}

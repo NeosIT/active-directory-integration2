@@ -136,6 +136,47 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
+	public function synchronize_catchesException_whenErrorsOccured()
+	{
+		$sut = $this->sut(
+			array(
+				'prepareForSync',
+				'findSynchronizableUsers',
+				'logNumberOfUsers',
+				'synchronizeUser',
+				'finishSynchronization',
+			)
+		);
+
+		$users = array('a');
+
+		$sut->expects($this->once())
+			->method('prepareForSync')
+			->willReturn(true);
+
+		$sut->expects($this->once())
+			->method('findSynchronizableUsers')
+			->willReturn($users);
+
+		$sut->expects($this->once())
+			->method('logNumberOfUsers')
+			->with($users);
+
+		$sut->expects($this->once())
+			->method('synchronizeUser')
+			->will($this->throwException(new Exception('bla')));
+
+		$sut->expects($this->once())
+			->method('finishSynchronization')
+			->with(0, 0, 1);
+
+		$actual = $sut->synchronize();
+		$this->assertEquals(true, $actual);
+	}
+
+	/**
+	 * @test
+	 */
 	public function prepareForSync_syncIsDisabled_returnFalse()
 	{
 		$sut = $this->sut();
