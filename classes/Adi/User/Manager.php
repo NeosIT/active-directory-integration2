@@ -221,6 +221,9 @@ class NextADInt_Adi_User_Manager
 			NextADInt_Core_Util_ExceptionUtil::handleWordPressErrorAsException($userId);
 			$user->setId($userId);
 
+			// ADI-145: provide API
+			do_action(NEXT_AD_INT_PREFIX . 'user_after_create', $user, $syncToWordPress, $writeUserMeta);
+
 			// call updateUser to sync attributes
 			return $this->update($user, $syncToWordPress, $writeUserMeta);
 		} catch (NextADInt_Core_Exception_WordPressErrorException $e) {
@@ -279,6 +282,9 @@ class NextADInt_Adi_User_Manager
 		NextADInt_Core_Assert::notNull($user, "user must not be null");
 
 		try {
+			// ADI-145: provide API
+			do_action(NEXT_AD_INT_PREFIX . 'user_before_update', $user, $syncToWordPress, $writeUserMeta);
+
 			$credentials = $user->getCredentials();
 
 			/* Since WP 4.3 we have to disable email on password and email change */
@@ -307,9 +313,12 @@ class NextADInt_Adi_User_Manager
 			// update users password
 			$this->updatePassword($user->getId(), $credentials->getPassword(), $syncToWordPress);
 
-			$r = $this->findById($user->getId());
+			$wpUser = $this->findById($user->getId());
 
-			return $r;
+			// ADI-145: provide API
+			do_action(NEXT_AD_INT_PREFIX . 'user_after_update', $user, $wpUser, $syncToWordPress, $writeUserMeta);
+
+			return $wpUser;
 		} catch (NextADInt_Core_Exception_WordPressErrorException $e) {
 			return $e->getWordPressError();
 		}
