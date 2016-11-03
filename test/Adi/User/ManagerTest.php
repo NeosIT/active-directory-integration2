@@ -464,6 +464,31 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 	/**
 	 * @test
+	 * @issue ADI-145
+	 */
+	public function create_itTriggersCustomHook_user_after_create()
+	{
+		$sut = $this->sut(array('update'));
+
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
+		$this->behave($adiUser, 'getCredentials', $credentials);
+		$this->behave($credentials, 'getPassword', 'password');
+
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
+		$this->behave($this->userRepository, 'create', 100);
+
+		$this->exceptionUtil->shouldReceive('handleWordPressErrorAsException')
+			->with(100)
+			->once();
+
+		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_create', $adiUser, false, true);
+
+		$sut->create($adiUser, false, true);
+	}
+
+	/**
+	 * @test
 	 */
 	public function appendSuffixToNewUser_itReturnsOptionValueAsBoolean()
 	{
@@ -780,6 +805,65 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$actual = $sut->update($adiUser);
 		$this->assertEquals($wpUser, $actual);
+	}
+
+	/**
+	 * @test
+	 * @issue ADI-145
+	 */
+	public function update_itTriggersCustomHook_user_before_update()
+	{
+		$sut = $this->sut(array(
+			'disableEmailNotification',
+			'assertUserExisting',
+			'updateWordPressAccount',
+			'updateUserMetaDataFromActiveDirectory',
+			'updateEmail',
+			'updatePassword',
+			'findById',
+		));
+
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
+		$this->behave($adiUser, 'getCredentials', $credentials);
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
+
+		WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_before_update', $adiUser, false, true);
+
+		$sut->update($adiUser);
+	}
+
+	/**
+	 * @test
+	 * @issue ADI-145
+	 */
+	public function update_itTriggersCustomHook_user_after_update()
+	{
+		$sut = $this->sut(array(
+			'disableEmailNotification',
+			'assertUserExisting',
+			'updateWordPressAccount',
+			'updateUserMetaDataFromActiveDirectory',
+			'updateEmail',
+			'updatePassword',
+			'findById',
+		));
+
+		$wpUser = (object)array('ID' => 666);
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
+		$this->behave($adiUser, 'getCredentials', $credentials);
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
+		$this->behave($adiUser, 'getId', 666);
+
+		$sut->expects($this->once())
+			->method('findById')
+			->with(666)
+			->willReturn($wpUser);
+
+		WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_update', $adiUser, $wpUser, false, true);
+
+		 $sut->update($adiUser);
 	}
 
 	/**
