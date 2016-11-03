@@ -102,7 +102,7 @@ class NextADInt_Ldap_Connection
 		$this->logger->debug(print_r($output, true));
 
 		if (strpos($output['ad_username'], '@') === false) {
-			$this->logger->warn('Username for the sync user does not contain a correct suffix. If the connection to the ad fails, this could be the cause. Please make sure you added the right suffix to your global sync user at BlogOptions->Syncronizer.');
+			$this->logger->warn('Username for the sync user does not contain a correct suffix. If the connection to the ad fails, this could be the cause. Please make sure you havee added all UPN suffixes to the configuration tab User -> Account suffix.');
 		}
 
 		return $config;
