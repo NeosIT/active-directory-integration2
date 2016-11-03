@@ -307,7 +307,9 @@ class NextADInt_Adi_User_Manager
 			// update users password
 			$this->updatePassword($user->getId(), $credentials->getPassword(), $syncToWordPress);
 
-			return $this->findById($user->getId());
+			$r = $this->findById($user->getId());
+
+			return $r;
 		} catch (NextADInt_Core_Exception_WordPressErrorException $e) {
 			return $e->getWordPressError();
 		}
