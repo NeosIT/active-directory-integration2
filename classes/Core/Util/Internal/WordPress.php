@@ -32,7 +32,7 @@ class NextADInt_Core_Util_Internal_WordPress
     {
         global $wp_version;
 
-        if ( version_compare( $wp_version, '4.6', '>=')) {
+        if (version_compare( $wp_version, '4.6', '>=')) {
             $sites = get_sites($param);
             $oldStyle = array();
 
@@ -45,5 +45,23 @@ class NextADInt_Core_Util_Internal_WordPress
         }
 
         return wp_get_sites($param);
+    }
+
+    /**
+     * Delegate to either get_site (for >= 4.7) or get_blog_details (for < 4.7).
+     *
+     * @see get_site, get_blog_details
+     * @issue ADI-419
+     * @param null|int $blogId
+     * @return WP_Site
+     */
+    public static function getSite($blogId = null) {
+        global $wp_version;
+
+        if (version_compare($wp_version, '4.7', '>=')) {
+            return get_site($blogId);
+        }
+
+        return get_blog_details($blogId);
     }
 }
