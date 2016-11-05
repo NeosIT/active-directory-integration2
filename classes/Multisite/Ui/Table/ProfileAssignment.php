@@ -52,7 +52,7 @@ class NextADInt_Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Ta
 	public function addContent($columnName, $blogId)
 	{
 		if ($columnName == self::NEXT_AD_INT_SITE_NAME_COLUMN) {
-			$details = get_blog_details($blogId);
+			$details = NextADInt_Core_Util_Internal_WordPress::getSite($blogId);
 
 			if ($details && !empty($details->blogname)) {
 				echo $details->blogname;
