@@ -170,17 +170,19 @@ class NextADInt_Ldap_Attribute_Service
 	 */
 	public function findLdapAttributesOfUser(NextADInt_Adi_Authentication_Credentials $credentials, $guid)
 	{
-		$ldapAttributes = $this->findLdapAttributesOfUsername($guid, true);
+		if (isset($guid)) {
+			$ldapAttributes = $this->findLdapAttributesOfUsername($guid, true);
+		}
 
-		if (false == $ldapAttributes->getRaw()) {
+		if (empty($ldapAttributes) || (false == $ldapAttributes->getRaw())) {
 			$ldapAttributes = $this->findLdapAttributesOfUsername($credentials->getSAMAccountName());
 		}
 
-		if (false == $ldapAttributes->getRaw()) {
+		if (empty($ldapAttributes) || (false == $ldapAttributes->getRaw())) {
 			$ldapAttributes = $this->findLdapAttributesOfUsername($credentials->getUserPrincipalName());
 		}
 
-		if (false == $ldapAttributes->getRaw()) {
+		if (empty($ldapAttributes) || (false == $ldapAttributes->getRaw())) {
 			$this->logger->debug('Cannot find valid ldap attributes for the given user.');
 		}
 
