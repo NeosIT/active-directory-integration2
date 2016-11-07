@@ -199,6 +199,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$this->assertEquals(false, $actual);
 	}
 
+
 	/**
 	 * @test
 	 */
