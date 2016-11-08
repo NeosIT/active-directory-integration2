@@ -114,6 +114,7 @@ class NextADInt_Adi_Authentication_LoginService
 	/**
 	 * Check if the user can be authenticated and update his local WordPress account based upon his Active Directory profile.
 	 * ADI implicitly uses the authentication against the userPrincipalName by authenticating with the full UPN username.
+     * This method expects that $login and $password are escaped by WordPress.
 	 *
 	 * @param object|null $user not used
 	 * @param string      $login
