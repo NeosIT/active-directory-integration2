@@ -942,6 +942,85 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 
 	/**
 	 * @test
+	 * @issue ADI-418
+	 */
+	public function ADI_418_loginUser_itUsesEnvironmentVar_REDIRECT_URL_asDefault()
+	{
+		$user = $this->createWpUserMock();
+		$sut = $this->sut();
+
+		$_SERVER['REDIRECT_URL'] = '/my-redirect-url';
+		$user = $this->createWpUserMock();
+		$sut = $this->sut();
+
+		WP_Mock::expectAction('wp_login', $user->user_login, $user);
+
+		WP_Mock::wpFunction(
+			'wp_set_current_user', array(
+				'times' => 1,
+				'args'  => $user->ID,
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'wp_set_auth_cookie', array(
+				'times' => 1,
+				'args'  => $user->ID,
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'wp_safe_redirect', array(
+				'times' => 1,
+				'args'  => $_SERVER['REDIRECT_URL'],
+			)
+		);
+
+		$this->invokeMethod($sut, 'loginUser', array($user, false));
+	}
+
+	/**
+	 * @test
+	 * @issue ADI-418
+	 */
+	public function ADI_418_loginUser_itUsesWordPressVar_redirect_to_over_REDIRECT_URL()
+	{
+		$user = $this->createWpUserMock();
+		$sut = $this->sut();
+
+		$_SERVER['REDIRECT_URL'] = '/wrong-url';
+		$_REQUEST['redirect_to'] = '/expected-url';
+		$user = $this->createWpUserMock();
+		$sut = $this->sut();
+
+		WP_Mock::expectAction('wp_login', $user->user_login, $user);
+
+		WP_Mock::wpFunction(
+			'wp_set_current_user', array(
+				'times' => 1,
+				'args'  => $user->ID,
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'wp_set_auth_cookie', array(
+				'times' => 1,
+				'args'  => $user->ID,
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'wp_safe_redirect', array(
+				'times' => 1,
+				'args' =>  $_REQUEST['redirect_to'],
+			)
+		);
+
+		$this->invokeMethod($sut, 'loginUser', array($user, false));
+	}
+
+	/**
+	 * @test
 	 */
 	public function kerberosAuth_withCorrectCredentials_returnsValid()
 	{
