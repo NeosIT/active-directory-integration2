@@ -57,7 +57,9 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		$username = $this->findUsername();
 
 		// if the user is already logged in, do not continue
-		if (is_user_logged_in()) {
+		$isUserLoggedIn = is_user_logged_in();
+
+		if ($isUserLoggedIn) {
 			return false;
 		}
 
@@ -367,9 +369,11 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		// if not set, fall back to the home url
 		$redirectTo = empty($redirectTo) ? home_url('/') : $redirectTo;
 
+		$secure_cookie = is_ssl();
+		wp_set_current_user($user->ID, $user->user_login);
+		wp_set_auth_cookie($user->ID, true, $secure_cookie);
+
 		do_action('wp_login', $user->user_login, $user);
-		wp_set_current_user($user->ID);
-		wp_set_auth_cookie($user->ID);
 		wp_safe_redirect($redirectTo);
 
 		if ($exit) {
