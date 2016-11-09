@@ -10,6 +10,7 @@ if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_SuffixTest')) {
 class Ut_NextADInt_Multisite_Validator_Rule_SelectValueValidTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'The given value is not valid.';
+	const EXPECTED_MESSAGE = array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE);
 
 	public function setUp()
 	{
@@ -31,7 +32,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_SelectValueValidTest extends Ut_Basi
 		return $this->getMockBuilder('NextADInt_Multisite_Validator_Rule_Suffix')
 			->setConstructorArgs(
 				array(
-					self::VALIDATION_MESSAGE, array(1, 2),
+					self::VALIDATION_MESSAGE, array('a', 2),
 				)
 			)
 			->setMethods($methods)
@@ -59,7 +60,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_SelectValueValidTest extends Ut_Basi
 
 		$actual = $sut->validate(3, array());
 
-		$this->assertEquals(self::VALIDATION_MESSAGE, $actual);
+		$this->assertEquals(self::EXPECTED_MESSAGE, $actual);
 	}
 
 	/**
@@ -71,6 +72,6 @@ class Ut_NextADInt_Multisite_Validator_Rule_SelectValueValidTest extends Ut_Basi
 
 		$actual = $sut->getMsg();
 
-		$this->assertEquals(self::VALIDATION_MESSAGE, $actual);
+		$this->assertEquals(self::EXPECTED_MESSAGE, $actual);
 	}
 }

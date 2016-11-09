@@ -1,9 +1,9 @@
 (function () {
     app.controller('BlogController', BlogController);
 
-    BlogController.$inject = ['$scope', '$timeout', 'DataService', 'PersistService', 'NotificationService'];
+    BlogController.$inject = ['$scope', '$timeout', 'DataService', 'PersistService', 'ngNotify'];
 
-    function BlogController($scope, $timeout, DataService, PersistService, NotificationService) {
+    function BlogController($scope, $timeout, DataService, PersistService, ngNotify) {
         $scope.runningRequests = 0;
 
         $scope.save = function () {
@@ -16,7 +16,13 @@
             }).then(function (result) {
                 $scope.$emit('reset-form');
 
-                NotificationService.showMessage(result);
+                if (result.status_success === true) {
+                    ngNotify.set(document['next_ad_int']['saving-success'], 'success');
+
+                } else {
+                    ngNotify.set(document['next_ad_int']['saving-error'], 'error');
+                }
+
             });
         };
 

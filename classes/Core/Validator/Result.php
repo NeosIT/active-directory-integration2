@@ -17,7 +17,7 @@ class NextADInt_Core_Validator_Result
 	/**
 	 * @var array
 	 */
-	private $result = array();
+	private $validationResult = array();
 
 	/**
 	 * @param string $name
@@ -25,11 +25,11 @@ class NextADInt_Core_Validator_Result
 	 */
 	public function addValidationResult($name, $msg)
 	{
-		if (!isset($this->result[$name])) {
-			$this->result[$name] = array();
+		if (!isset($this->validationResult[$name])) {
+			$this->validationResult[$name] = array();
 		}
 
-		$this->result[$name] = $msg;
+		$this->validationResult[$name] = $msg;
 	}
 
 	/**
@@ -37,14 +37,31 @@ class NextADInt_Core_Validator_Result
 	 */
 	public function isValid()
 	{
-		return (sizeof($this->result) == 0);
+		return (sizeof($this->validationResult) == 0);
+	}
+
+	/**
+	 * This method will check the current validationResult object and find the first occurrence of an error.
+	 * If a validation error is found, return true;
+	 *
+	 * @return bool
+	 */
+	public function containsErrors()
+	{
+		foreach ($this->validationResult as $result) {
+			if (array_key_exists(NextADInt_Core_Message_Type::ERROR, $result)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getResult()
+	public function getValidationResult()
 	{
-		return $this->result;
+		return $this->validationResult;
 	}
 }

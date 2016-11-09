@@ -24,7 +24,7 @@
 
     <!-- TODO ng-hide anpassen -->
     {% if optionName == "base_dn" %}
-        <input id="{{ inputId }}" type="{{ type }}" {{ inline }} {{ angularAttributes|raw }} {{ disabled }} ng-model="option.{{ optionName }}" ng-class="{ error: messages.{{ optionName }} != null }" style="width: 450px"/>
+        <input id="{{ inputId }}" type="{{ type }}" {{ inline }} {{ angularAttributes|raw }} {{ disabled }} ng-model="option.{{ optionName }}" ng-class="{ 'error': messages.{{ optionName }}.error, 'warning': messages.{{ optionName }}.warning }" style="width: 450px"/>
     {% else  %}
         <input id="{{ inputId }}" type="{{ type }}" {{ inline }} {{ angularAttributes|raw }} {{ disabled }} ng-model="option.{{ optionName }}" ng-class="{ error: messages.{{ optionName }} != null }"/>
     {% endif %}

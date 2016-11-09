@@ -20,4 +20,5 @@ class NextADInt_Core_Message_Type
 {
 	const SUCCESS = 'success';
 	const ERROR = 'error';
+	const WARNING = 'warning';
 }

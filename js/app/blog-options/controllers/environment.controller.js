@@ -107,7 +107,7 @@
                     if (response.data.hasOwnProperty("verification_successful")) {
                         $scope.option.verification_status_message = document['next_ad_int']['verification-successful'];
                         ngNotify.set(document['next_ad_int']['verification-successful-notification'], 'success');
-                        $scope.messages = {};
+                        // $scope.messages = {};
                         $scope.option.domain_sid = response.data['verification_successful'];
                         $scope.isSaveDisabled = false;
                         $rootScope.$broadcast('verification', response.data['verification_successful']);
@@ -118,7 +118,7 @@
                     
                 }
             });
-        }
+        };
 
         /**
          * Added by sfi

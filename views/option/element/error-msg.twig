@@ -1,3 +1,4 @@
 {% macro create(optionName) %}
-    <span ng-bind="messages.{{ optionName | raw }}" class="error-msg"></span>
+    <span ng-bind="messages.{{ optionName | raw }}.error" class="error-msg"></span>
+    <span ng-bind="messages.{{ optionName | raw }}.warning" class="warning-msg"></span>
 {% endmacro %}

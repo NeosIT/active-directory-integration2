@@ -58,7 +58,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_WordPressMetakeyConflictTest extends
 			null
 		);
 
-		$this->assertEquals(self::VALIDATION_MESSAGE, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**

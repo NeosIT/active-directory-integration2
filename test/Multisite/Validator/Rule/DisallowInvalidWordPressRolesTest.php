@@ -39,7 +39,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles extend
 		return $this->getMockBuilder('NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles')
 			->setConstructorArgs(
 				array(
-				    array(self::VALIDATION_MESSAGE, self::VALIDATION_MESSAGE_2),
+				    array(self::VALIDATION_MESSAGE, self::VALIDATION_MESSAGE_2)
 				)
 			)
 			->setMethods($methods)
@@ -99,7 +99,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles extend
 
 		$actual = $sut->validate('', array());
 
-		$this->assertEquals(self::VALIDATION_MESSAGE, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles extend
 
 		$actual = $sut->validate('role=super admin;', array());
 
-		$this->assertEquals(self::VALIDATION_MESSAGE, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**
