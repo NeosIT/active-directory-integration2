@@ -1,4 +1,11 @@
 <?php
+if (!defined('ABSPATH')) {
+	die('Access denied.');
+}
+
+if (class_exists('NextADInt_Adi_Init')) {
+	return;
+}
 
 /**
  * NextADInt_Adi_Init sets up all classes and their dependencies.
@@ -378,7 +385,7 @@ class NextADInt_Adi_Init
 	function dc()
 	{
 		if ($this->dependencyContainer == null) {
-			$this->dependencyContainer = new NextADInt_Adi_Dependencies();
+			$this->dependencyContainer = NextADInt_Adi_Dependencies::getInstance();;
 		}
 
 		return $this->dependencyContainer;
