@@ -382,26 +382,24 @@ class NextADInt_Ldap_Connection
 		$maxOutputChars = 32;
 
 		while (list($idxOrAttribute, $value) = each($userInfo)) {
-			if (is_numeric($idxOrAttribute)) {
-				// only match the "[0] => cn" parts
-				$r .= "$value={";
-				$data = $userInfo[$value];
-				// $data = [count => 1, 0 => 'my cn']
+			if (!is_numeric($idxOrAttribute)) {
+				continue;
+			}
 
-				while (list($idxOfAttribute, $valueOfAttribute) = each($data)) {
-					if (is_numeric($idxOfAttribute)) {
-						// only match the values and not meta data like "count"
-						if (strlen($valueOfAttribute) > $maxOutputChars) {
-							// trim output if $maxOutputChars is exceeded
-							$valueOfAttribute = substr($valueOfAttribute, 0, $maxOutputChars) . " (" . strlen($valueOfAttribute) . " bytes more)";
-						}
+			// only match the "[0] => cn" parts
+			$r .= "$value={";
+			$data = $userInfo[$value];
 
-						$r .= $valueOfAttribute;
-					}
+			// $data = [count => 1, 0 => 'my cn']
+			while (list($idxOfAttribute, $valueOfAttribute) = each($data)) {
+				if (!is_numeric($idxOfAttribute)) {
+					continue;
 				}
 
-				$r .= "}, ";
+				$r .=  NextADInt_Core_Util_StringUtil::firstChars($valueOfAttribute);
 			}
+
+			$r .= "}, ";
 		}
 
 		if (strlen($r) > 0) {

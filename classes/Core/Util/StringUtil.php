@@ -264,4 +264,33 @@ class NextADInt_Core_Util_StringUtil
 	{
 		return mb_strtolower($string);
 	}
+
+	/**
+	 * Convert the $string into a new string with maximum of $maxChars length
+	 *
+	 * @issue ADI-420
+	 * @param mixed $string if the value is not of type string, the value is returned
+	 * @param int $maxChars by default the first 48 bytes are printed out (32 are not enough to display GUIDs)
+	 * @param boolean $appendByteInfo
+	 * @return string
+	 */
+	public static function firstChars($string, $maxChars = 48, $appendByteInfo = true) {
+		$r = $string;
+
+		if (!is_string($string)) {
+			return $r;
+		}
+
+		// only match the values and not meta data like "count"
+		if (strlen($string) > $maxChars) {
+			// trim output if $maxOutputChars is exceeded
+			$r = substr($string, 0, $maxChars);
+
+			if ($appendByteInfo) {
+				$r .= " (... " . (strlen($string) - $maxChars) . " bytes more)";
+			}
+		}
+
+		return $r;
+	}
 }
