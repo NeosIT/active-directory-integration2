@@ -459,7 +459,7 @@ class NextADInt_Adi_User_Manager
 			$value = NextADInt_Ldap_Attribute_Converter::formatAttributeValue($attribute->getType(), $value);
 
 			// set value if $value is not empty or $userMetaEmptyOverwrite is true
-			$message = "Set AD attribute '$name' (ADI " . $attribute . ") to " . print_r($value, true);
+			$message = "Set AD attribute '$name' (ADI " . $attribute . ") to " . NextADInt_Core_Util_StringUtil::firstChars($value);
 			$this->logger->debug($message);
 
 			$this->metaRepository->update($userId, $attribute->getMetakey(), $value);
