@@ -423,14 +423,14 @@ class NextADInt_Adi_Init
 
 	/**
 	 * Return true if the user is currently on the login page or executes a log in.
-	 * The method executes the next_adi_int_auth_enable_sso_login filter to check if
-	 * any other login plug-in wants to hook into the SSO process.
+	 * The method executes the next_adi_int_auth_enable_login_check filter to check if
+	 * any other login plug-in wants to hook into the login process.
 	 *
 	 * @return bool
 	 */
 	public function isOnLoginPage()
 	{
-		$enableSsoLogin = false;
+		$r = false;
 
 		$page = $_SERVER['PHP_SELF'];
 		$required = "wp-login.php";
@@ -438,11 +438,11 @@ class NextADInt_Adi_Init
 		$isOnXmlRpc = strpos($page, 'xmlrpc.php') !== false;
 
 		if ($isOnWpLogin || $isOnXmlRpc) {
-			$enableSsoLogin = true;
+			$r = true;
 		}
 
-		$enableSsoLogin = apply_filters(NEXT_AD_INT_PREFIX . '_auth_enable_sso_login', $enableSsoLogin);
+		$r = apply_filters(NEXT_AD_INT_PREFIX . 'auth_enable_login_check', $r);
 
-		return $enableSsoLogin;
+		return $r;
 	}
 }

@@ -863,7 +863,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 		$_SERVER['PHP_SELF'] = 'https://localhost/wp-admin.php';
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . '_auth_enable_sso_login')
+		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_enable_login_check')
 			->with(false)
 			->reply(true);
 
