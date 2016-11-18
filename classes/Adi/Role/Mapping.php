@@ -33,11 +33,11 @@ class NextADInt_Adi_Role_Mapping
 	/**
 	 * NextADInt_Adi_Role_Mapping constructor.
 	 *
-	 * @param string $username
+	 * @param string $guid
 	 */
-	public function __construct($username)
+	public function __construct($guid)
 	{
-		$this->username = $username;
+		$this->guid = $guid;
 	}
 
 	/**
