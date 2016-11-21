@@ -1113,11 +1113,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			),
             // Send email to admin if a user account is blocked.
             self::ALLOW_XMLRPC_LOGIN            => array(
-                $title       => __('Allow Login via XMLRPC', NEXT_AD_INT_I18N),
+                $title       => __('Allow login via XML-RPC', NEXT_AD_INT_I18N),
                 $type        => NextADInt_Multisite_Option_Type::CHECKBOX,
-                $description => __('Allow Login via XMLRPC', NEXT_AD_INT_I18N),
+                $description => __('Allow login via XML-RPC', NEXT_AD_INT_I18N),
                 $detail      => __(
-                    'Allow Login via XMLRPC', NEXT_AD_INT_I18N
+                    'Allow login via XML-RPC', NEXT_AD_INT_I18N
                 ),
                 $angularAttributes => '',
                 $default     => false,
