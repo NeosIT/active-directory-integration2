@@ -354,8 +354,6 @@ class NextADInt_Ldap_Connection
 	{
 		$adLdap = $this->getAdLdap();
 
-		$this->logger->debug("Import these attributes from ad for the user '$username': " . print_r($attributeNames,
-				true));
 		$userInfo = $adLdap->user_info($username, $attributeNames, $isGUID);
 
 		if ($userInfo === false) {
@@ -367,7 +365,7 @@ class NextADInt_Ldap_Connection
 		// user does exist, get first element
 		$userInfo = $userInfo[0];
 
-		$this->logger->debug("UserInfo for user '$username': " . print_r($userInfo, true));
+		$this->logger->debug("UserInfo for user '$username': " . $this->__debug($userInfo));
 
 		return $userInfo;
 	}
