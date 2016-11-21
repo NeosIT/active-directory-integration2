@@ -177,6 +177,32 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
+	public function ADI_145_synchronize_itCallsFilter_nextadi_sync_ad2wp_filter_synchronizable_users() {
+		$sut = $this->sut(
+			array(
+				'prepareForSync',
+				'findSynchronizableUsers',
+				'logNumberOfUsers',
+			)
+		);
+
+		$users = array('a', 'b', 'c');
+		$modifiedUsers = array();
+
+		\WP_Mock::onFilter( NEXT_AD_INT_PREFIX . 'sync_wp2ad_filter_synchronizable_users' )
+			->with($users)
+			->reply($modifiedUsers);
+
+		$actual = $sut->synchronize();
+
+		// with an empty array (modified by the given filter) the method returns false
+		$this->assertEquals(false, $actual);
+	}
+
+
+	/**
+	 * @test
+	 */
 	public function prepareForSync_syncIsDisabled_returnFalse()
 	{
 		$sut = $this->sut();
@@ -553,7 +579,6 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	 */
 	public function synchronizeUser_itUpdatesUserPrincipalName()
 	{
-
 		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
 			'findLdapAttributesOfUser'));
 
@@ -719,6 +744,67 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$this->ldapConnection->expects($this->once())
 			->method("getDomainSid")
 			->willReturn("S-1234");
+
+		$actual = $sut->synchronizeUser($credentials, 'guid');
+		$this->assertEquals(666, $actual);
+	}
+
+	/**
+	 * @issue ADI-145
+	 * @test
+	 */
+	public function ADI_145_synchronizeUser_itCallsFilter_nextadi_sync_ad2wp_filter_user_before_synchronize() {
+		$sut = $this->sut(array('disableUserWithoutValidGuid', 'checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
+			'findLdapAttributesOfUser'));
+
+		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
+		$adiUser =  $this->createMock('NextADInt_Adi_User');
+		$ldapAttributes = new NextADInt_Ldap_Attributes();
+		$modifiedAdiUser = $this->createMock('NextADInt_Adi_User');
+
+		$this->behave($this->userManager, "createAdiUser", $adiUser);
+
+		$this->attributeService->expects($this->once())
+			->method('findLdapAttributesOfUser')
+			->willReturn($ldapAttributes);
+
+		$sut->expects($this->once())
+			->method('createOrUpdateUser')
+			->with($modifiedAdiUser)
+			->willReturn(666);
+
+		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_user_before_synchronize')
+			->with($adiUser, $credentials, $ldapAttributes)
+			->reply($modifiedAdiUser);
+
+		$actual = $sut->synchronizeUser($credentials, 'guid');
+		$this->assertEquals(666, $actual);
+	}
+
+	/**
+	 * @issue ADI-145
+	 * @test
+	 */
+	public function ADI_145_synchronizeUser_itCallsAction_nextadi_sync_wp2ad_after_user_synchronize() {
+		$sut = $this->sut(array('disableUserWithoutValidGuid', 'checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
+			'findLdapAttributesOfUser'));
+
+		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
+		$adiUser =  $this->createMock('NextADInt_Adi_User');
+		$ldapAttributes = new NextADInt_Ldap_Attributes();
+
+		$this->behave($this->userManager, "createAdiUser", $adiUser);
+
+		$this->attributeService->expects($this->once())
+			->method('findLdapAttributesOfUser')
+			->willReturn($ldapAttributes);
+
+		$sut->expects($this->once())
+			->method('createOrUpdateUser')
+			->with($adiUser)
+			->willReturn(666);
+
+		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'ad2wp_after_user_synchronize', 666, $adiUser, $credentials, $ldapAttributes);
 
 		$actual = $sut->synchronizeUser($credentials, 'guid');
 		$this->assertEquals(666, $actual);

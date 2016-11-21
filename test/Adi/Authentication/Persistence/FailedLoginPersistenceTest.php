@@ -214,7 +214,7 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 			->with(true, 'hugo')
 			->willReturn('next_ad_int_fl_la_hugo');
 
-		\WP_Mock::wpFunction('get_site_option',array(
+		\WP_Mock::wpFunction('get_site_option', array(
 			'args' => array('next_ad_int_fl_la_hugo', 0),
 			'times' => 1,
 			'return' => $unixTime
@@ -238,7 +238,7 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 			->with(true, 'hugo')
 			->willReturn('next_ad_int_fl_la_hugo');
 
-		\WP_Mock::wpFunction('update_site_option',array(
+		\WP_Mock::wpFunction('update_site_option', array(
 			'args' => array('next_ad_int_fl_la_hugo', $unixTime),
 			'times' => 1,
 			'return' => true
@@ -260,7 +260,7 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 			->with(true, 'hugo')
 			->willReturn('next_ad_int_fl_la_hugo');
 
-		\WP_Mock::wpFunction('delete_site_option',array(
+		\WP_Mock::wpFunction('delete_site_option', array(
 			'args' => 'next_ad_int_fl_la_hugo',
 			'times' => 1,
 			'return' => true
@@ -284,7 +284,7 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 			->with(false, 'hugo')
 			->willReturn('next_ad_int_fl_bt_hugo');
 
-		\WP_Mock::wpFunction('get_site_option',array(
+		\WP_Mock::wpFunction('get_site_option', array(
 			'args' => array('next_ad_int_fl_bt_hugo', 0),
 			'times' => 1,
 			'return' => $unixTime
@@ -308,7 +308,7 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 			->with(false, 'hugo')
 			->willReturn('next_ad_int_fl_bt_hugo');
 
-		\WP_Mock::wpFunction('update_site_option',array(
+		\WP_Mock::wpFunction('update_site_option', array(
 			'args' => array('next_ad_int_fl_bt_hugo', $unixTime),
 			'times' => 1,
 			'return' => true
@@ -330,7 +330,7 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 			->with(false, 'hugo')
 			->willReturn('next_ad_int_fl_bt_hugo');
 
-		\WP_Mock::wpFunction('delete_site_option',array(
+		\WP_Mock::wpFunction('delete_site_option', array(
 			'args' => 'next_ad_int_fl_bt_hugo',
 			'times' => 1,
 			'return' => true
@@ -349,4 +349,15 @@ class Ut_NextADInt_Adi_Authentication_Persistence_FailedLoginRepositoryTest exte
 		$this->assertEquals(time(), $sut->getCurrentTime());
 	}
 
+	/**
+	 * @test
+	 */
+	public function encodeUsername_encodeUsernameToShaString_returnEncodedUsername()
+	{
+		$username = "klammer";
+
+		$sut = $this->sut(null);
+
+		$this->assertEquals(sha1($username), $sut->encodeUsername($username));
+	}
 }

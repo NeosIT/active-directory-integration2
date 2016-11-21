@@ -152,6 +152,9 @@ class NextADInt_Ldap_Attribute_Service
 		$attributeNames = $this->attributeRepository->getAttributeNames();
 		$raw = array();
 
+		// ADI-145: provide API
+		$attributeNames = apply_filters(NEXT_AD_INT_PREFIX .  'ldap_filter_synchronizable_attributes', $attributeNames, $username, $isGUID);
+
 		if (!empty($username)) {
 			// make sure that only non-empty usernames are resolved
 			$raw = $this->ldapConnection->findAttributesOfUser($username, $attributeNames, $isGUID);
@@ -172,25 +175,19 @@ class NextADInt_Ldap_Attribute_Service
 	 */
 	public function findLdapAttributesOfUser(NextADInt_Adi_Authentication_Credentials $credentials, $guid)
 	{
-		$ldapAttributes = $this->findLdapAttributesOfUsername($guid, true);
-
-		if (false == $ldapAttributes->getRaw()) {
-			$sAMAccountName = $credentials->getSAMAccountName();
-
-			if (!empty($sAMAccountName)) {
-				$ldapAttributes = $this->findLdapAttributesOfUsername($sAMAccountName);
-			}
+		if (isset($guid)) {
+			$ldapAttributes = $this->findLdapAttributesOfUsername($guid, true);
 		}
 
-		if (false == $ldapAttributes->getRaw()) {
-			$userPrincipalName = $credentials->getUserPrincipalName();
-
-			if (!empty($userPrincipalName)) {
-				$ldapAttributes = $this->findLdapAttributesOfUsername($userPrincipalName);
-			}
+		if (empty($ldapAttributes) || (false == $ldapAttributes->getRaw())) {
+			$ldapAttributes = $this->findLdapAttributesOfUsername($credentials->getSAMAccountName());
 		}
 
-		if (false == $ldapAttributes->getRaw()) {
+		if (empty($ldapAttributes) || (false == $ldapAttributes->getRaw())) {
+			$ldapAttributes = $this->findLdapAttributesOfUsername($credentials->getUserPrincipalName());
+		}
+
+		if (empty($ldapAttributes) || (false == $ldapAttributes->getRaw())) {
 			$this->logger->debug('Cannot find valid ldap attributes for the given user.');
 		}
 

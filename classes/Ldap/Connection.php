@@ -354,8 +354,6 @@ class NextADInt_Ldap_Connection
 	{
 		$adLdap = $this->getAdLdap();
 
-		$this->logger->debug("User '$username' will be imported from Active Directory with attributes " . print_r($attributeNames,
-				true));
 		$userInfo = $adLdap->user_info($username, $attributeNames, $isGUID);
 
 		if ($userInfo === false) {
@@ -367,7 +365,7 @@ class NextADInt_Ldap_Connection
 		// user does exist, get first element
 		$userInfo = $userInfo[0];
 
-		$this->logger->debug("UserInfo for user '$username': " . print_r($userInfo, true));
+		$this->logger->debug("UserInfo for user '$username': " . $this->__debug($userInfo));
 
 		return $userInfo;
 	}
@@ -377,7 +375,8 @@ class NextADInt_Ldap_Connection
 	 *
 	 * @return bool|string false if name is missing, string if NetBIOS name could be found
 	 */
-	public function findNetBiosName() {
+	public function findNetBiosName()
+	{
 		$adLdap = $this->getAdLdap();
 
 		$this->logger->debug("Trying to find NetBIOS name");
@@ -393,6 +392,46 @@ class NextADInt_Ldap_Connection
 		$this->logger->debug("Found NetBIOS name '" . $netbios . "' for '" . $this->getDomainSid());
 
 		return $netbios;
+	}
+
+	/**
+	 * Custom debug method for information to prevent output of long binary data
+	 *
+	 * @issue ADI-420
+	 * @param array $userInfo in adLDAP format
+	 * @return string
+	 */
+	public function __debug($userInfo = array()) {
+		$r = '';
+		$maxOutputChars = 32;
+
+		while (list($idxOrAttribute, $value) = each($userInfo)) {
+			if (!is_numeric($idxOrAttribute)) {
+				continue;
+			}
+
+			// only match the "[0] => cn" parts
+			$r .= "$value={";
+			$data = $userInfo[$value];
+
+			// $data = [count => 1, 0 => 'my cn']
+			while (list($idxOfAttribute, $valueOfAttribute) = each($data)) {
+				if (!is_numeric($idxOfAttribute)) {
+					continue;
+				}
+
+				$r .=  NextADInt_Core_Util_StringUtil::firstChars($valueOfAttribute);
+			}
+
+			$r .= "}, ";
+		}
+
+		if (strlen($r) > 0) {
+			// remove last ", " part if given
+			$r = substr($r, 0, -2);
+		}
+
+		return $r;
 	}
 
 	/**

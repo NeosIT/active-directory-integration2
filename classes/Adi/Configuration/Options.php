@@ -509,7 +509,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				),
 				$detail 	=> array(
 					__(
-						'Every username you have entered will not be authenticated against the Active Directory, instead the WordPress authentication mechanism is used.',
+						'Every username you have entered will not be authenticated against the Active Directory, instead the WordPress authentication mechanism is used. You have to explicitly declare every username with every used suffix.',
 						NEXT_AD_INT_I18N
 					)
 				),

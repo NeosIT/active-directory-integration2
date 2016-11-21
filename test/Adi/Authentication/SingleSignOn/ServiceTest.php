@@ -654,16 +654,23 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		WP_Mock::expectAction('wp_login', $user->user_login, $user);
 
 		WP_Mock::wpFunction(
+			'is_ssl', array(
+				'times' => 1,
+				'return' => true
+			)
+		);
+
+		WP_Mock::wpFunction(
 			'wp_set_current_user', array(
 				'times' => 1,
-				'args' => $user->ID,
+				'args'  => array($user->ID, $user->user_login),
 			)
 		);
 
 		WP_Mock::wpFunction(
 			'wp_set_auth_cookie', array(
 				'times' => 1,
-				'args' => $user->ID,
+				'args'  => array($user->ID, true, true /* SSL */),
 			)
 		);
 
@@ -958,14 +965,21 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		WP_Mock::wpFunction(
 			'wp_set_current_user', array(
 				'times' => 1,
-				'args'  => $user->ID,
+				'args'  => array($user->ID, $user->user_login)
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'is_ssl', array(
+				'times' => 1,
+				'return' => true
 			)
 		);
 
 		WP_Mock::wpFunction(
 			'wp_set_auth_cookie', array(
 				'times' => 1,
-				'args'  => $user->ID,
+				'args'  => array($user->ID, true, true)
 			)
 		);
 
@@ -998,14 +1012,21 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		WP_Mock::wpFunction(
 			'wp_set_current_user', array(
 				'times' => 1,
-				'args'  => $user->ID,
+				'args'  => array($user->ID, $user->user_login)
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'is_ssl', array(
+				'times' => 1,
+				'return' => true
 			)
 		);
 
 		WP_Mock::wpFunction(
 			'wp_set_auth_cookie', array(
 				'times' => 1,
-				'args'  => $user->ID,
+				'args'  => array($user->ID, true, true)
 			)
 		);
 
