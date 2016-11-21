@@ -114,6 +114,7 @@ class NextADInt_Adi_Authentication_LoginService
 	/**
 	 * Check if the user can be authenticated and update his local WordPress account based upon his Active Directory profile.
 	 * ADI implicitly uses the authentication against the userPrincipalName by authenticating with the full UPN username.
+     * This method expects that $login and $password are escaped by WordPress.
 	 *
 	 * @param object|null $user not used
 	 * @param string      $login
@@ -134,14 +135,12 @@ class NextADInt_Adi_Authentication_LoginService
 		$page = $_SERVER['PHP_SELF'];
 
 		if (strpos($page, 'xmlrpc.php') !== false) {
-
 			if (!$xmlrpcEnabled) {
 				$this->logger->warn("XML RPC Login detected ! Preventing further authentication.");
 				wp_die(__("Next Adi prevents XML RPC authentication!", NEXT_AD_INT_I18N));
-			} else {
-				$this->logger->warn("XML RPC Login detected ! XML RPC authentication is enabled. Continuing");
 			}
 
+			$this->logger->warn("XML RPC Login detected ! XML RPC authentication is enabled. Continuing");
 		}
 
         // unquote backlash from username
@@ -180,12 +179,6 @@ class NextADInt_Adi_Authentication_LoginService
 		NextADInt_Core_Assert::notNull($suffixes, "suffixes must not be null");
 
 		$this->logger->debug("$credentials' with authenticatable suffixes: '" . implode(", ", $suffixes) . "'.");
-
-        // add an empty account suffix for supporting usernames without an suffix like TEST\klammer
-        // https://github.com/NeosIT/active-directory-integration2/issues/
-        if ($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ALLOW_DOWN_LEVEL_LOGON_NAME)) {
-            $suffixes[] = '';
-        }
 
 		// authenticate at AD
 		foreach ($suffixes as $suffix) {
@@ -629,12 +622,12 @@ class NextADInt_Adi_Authentication_LoginService
 		$userId = username_exists($login);
 
 		if (!$userId) {
-			$this->logger->debug("User '$login' could not be found with requested username.");
+			$this->logger->debug("Local WordPress user '$login' could not be found");
 
 			return false;
 		}
 
-		$this->logger->debug("User '$login' has ID '$userId'.");
+		$this->logger->debug("User '$login' has local WordPress ID '$userId'.");
 
 		return new WP_User($userId);
 	}

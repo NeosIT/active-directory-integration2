@@ -116,7 +116,7 @@ class NextADInt_Adi_User_Manager
 
 		if (!$wpUser) {
 			$this->logger->warn(
-				"WordPress user with wp_user_meta.samaccountname='" . $sAMAccountName . "', user_login='"
+				"Local WordPress user with wp_user_meta.samaccountname='" . $sAMAccountName . "', user_login='"
 				. $userPrincipalName . "'"
 				. " or user_login='" . $sAMAccountName . "'"
 				. ' could not be found');

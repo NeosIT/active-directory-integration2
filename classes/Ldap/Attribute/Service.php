@@ -150,11 +150,16 @@ class NextADInt_Ldap_Attribute_Service
 	public function findLdapAttributesOfUsername($username, $isGUID = false)
 	{
 		$attributeNames = $this->attributeRepository->getAttributeNames();
+		$raw = array();
 
 		// ADI-145: provide API
 		$attributeNames = apply_filters(NEXT_AD_INT_PREFIX .  'ldap_filter_synchronizable_attributes', $attributeNames, $username, $isGUID);
 
-		$raw = $this->ldapConnection->findAttributesOfUser($username, $attributeNames, $isGUID);
+		if (!empty($username)) {
+			// make sure that only non-empty usernames are resolved
+			$raw = $this->ldapConnection->findAttributesOfUser($username, $attributeNames, $isGUID);
+		}
+
 		$filtered = $this->parseLdapResponse($attributeNames, $raw);
 
 		return new NextADInt_Ldap_Attributes($raw, $filtered);
@@ -246,6 +251,17 @@ class NextADInt_Ldap_Attribute_Service
 		}
 
 		return $this->ldapConnection->getAdLdap()->convertObjectSidBinaryToString($objectSid);
+	}
+
+	/**
+	 * Delegate to NextADInt_Ldap_Connection#findNetBiosName
+	 *
+	 * @return string|boolean
+	 */
+	public function getNetBiosName() {
+		$netBiosName = $this->ldapConnection->findNetBiosName();
+
+		return $netBiosName;
 	}
 
 	/**

@@ -182,36 +182,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$this->assertTrue($actual);
 	}
 
-    /**
-     * @test
-     */
-    public function tryAuthenticatableSuffixes_allowPreWindows2000UserLogonNames_authenticateWithEmptySuffix()
-    {
-        $sut = $this->sut(array(
-            'authenticateAtActiveDirectory',
-            'postAuthentication'
-        ));
-        $credentials = NextADInt_Adi_Authentication_LoginService::createCredentials('username', 'password');
-
-        $this->configuration->expects($this->once())
-            ->method('getOptionValue')
-            ->with(NextADInt_Adi_Configuration_Options::ALLOW_DOWN_LEVEL_LOGON_NAME)
-            ->willReturn(true);
-
-        $sut->expects($this->once())
-            ->method('authenticateAtActiveDirectory')
-            ->with('username', '', 'password')
-            ->willReturn(true);
-
-        $sut->expects($this->once())
-            ->method('postAuthentication')
-            ->with($credentials)
-            ->willReturn(true);
-
-        $actual = $sut->tryAuthenticatableSuffixes($credentials, array());
-        $this->assertTrue($actual);
-    }
-
 	/**
 	 * @test
 	 */

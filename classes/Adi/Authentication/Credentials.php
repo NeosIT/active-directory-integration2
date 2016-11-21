@@ -18,6 +18,9 @@ class NextADInt_Adi_Authentication_Credentials
 	/** @var string */
 	private $login;
 
+	/** @var string */
+	private $netbiosName;
+
 	/** @var  string */
 	private $sAMAccountName;
 
@@ -45,7 +48,7 @@ class NextADInt_Adi_Authentication_Credentials
 	}
 
 	/**
-	 * Set login, extract username and suffix
+	 * Set login credential, extract sAMAccountName, NETBIOS name, userPrincipalName and UPN suffix
 	 *
 	 * @param string $login
 	 *
@@ -57,9 +60,29 @@ class NextADInt_Adi_Authentication_Credentials
 		$this->login = $login;
 
 		$this->setUserPrincipalName($login);
+		$this->setNetbiosName($login);
 		$this->setSAMAccountName($this->getUpnUsername());
 	}
 
+	/**
+	 * Update the NETBIOS name of the $login name. If available, the NETBIOS name is converted to upper case.
+	 *
+	 * @param $login should contain '\' to separate the NETBIOS name from the sAMAccountName
+	 */
+	public function setNetbiosName($login) {
+		$parts = explode("\\", $login);
+
+		if (sizeof($parts) >= 2) {
+			$this->netbiosName = strtoupper($parts[0]);
+		}
+	}
+
+	/**
+	 * Set the user principal name.
+	 *
+	 * @param $userPrincipalName If this string contains an '@' character the first part is set as userPrincipalName, the second as upnSuffix.
+	 * @throws Exception
+	 */
 	public function setUserPrincipalName($userPrincipalName)
 	{
 		NextADInt_Core_Assert::notEmpty($userPrincipalName, "userPrincipalName must not be empty");
@@ -70,8 +93,15 @@ class NextADInt_Adi_Authentication_Credentials
 		if (sizeof($parts) >= 2) {
 			$this->upnUsername = $parts[0];
 			$this->upnSuffix = $parts[1];
-		} else {
-			$this->upnUsername = $userPrincipalName;
+
+			return;
+		}
+
+		$this->upnUsername = $userPrincipalName;
+		$parts = explode("\\", $userPrincipalName);
+
+		if (sizeof($parts) >= 2) {
+			$this->upnUsername = $parts[1];
 		}
 	}
 
@@ -112,7 +142,13 @@ class NextADInt_Adi_Authentication_Credentials
 	 */
 	public function getUserPrincipalName()
 	{
-		return $this->upnUsername . '@' . $this->upnSuffix;
+		$r = $this->upnUsername;
+
+		if (!empty($this->upnSuffix)) {
+			$r .= '@' . $this->upnSuffix;
+		}
+
+		return $r;
 	}
 
 	/**
@@ -133,6 +169,14 @@ class NextADInt_Adi_Authentication_Credentials
 		return $this->password;
 	}
 
+
+	/**
+	 * @return string|null if NETBIOS name is available it is returned in upper case
+	 */
+    public function getNetbiosName() {
+		return $this->netbiosName;
+    }
+
 	/**
 	 * @return string
 	 */
@@ -142,6 +186,7 @@ class NextADInt_Adi_Authentication_Credentials
 	}
 
 	/**
+	 * If the string contains a slash ('\') it uses the part after the slash as sAMAccountName
 	 * @param string $sAMAccountName
 	 */
 	public function setSAMAccountName($sAMAccountName)
@@ -175,6 +220,6 @@ class NextADInt_Adi_Authentication_Credentials
 	public function __toString()
 	{
 		return "Credentials={login='" . $this->login . "',sAMAccountName='" . $this->sAMAccountName
-		. "',userPrincipalName='" . $this->getUserPrincipalName() . "'}";
+		. "',userPrincipalName='" . $this->getUserPrincipalName() . "',netbios='" . $this->netbiosName . "'}";
 	}
 }
