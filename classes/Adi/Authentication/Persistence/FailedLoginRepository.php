@@ -40,7 +40,7 @@ class NextADInt_Adi_Authentication_Persistence_FailedLoginRepository
 	protected function getOptionName($loginAttempts, $username)
 	{
 		$prefix = $loginAttempts ? self::PREFIX_LOGIN_ATTEMPTS : self::PREFIX_BLOCKED_TIME;
-		return NEXT_AD_INT_PREFIX . self::PREFIX . $prefix . '_' . $username;
+		return NEXT_AD_INT_PREFIX . self::PREFIX . $prefix . '_' . $this->encodeUsername($username);
 	}
 
 	/**
@@ -162,7 +162,8 @@ class NextADInt_Adi_Authentication_Persistence_FailedLoginRepository
 	 *
 	 * @return bool
 	 */
-	function deleteLoginAttempts($username) {
+	function deleteLoginAttempts($username)
+	{
 		$optionName = $this->getOptionName(true, $username);
 
 		/* Essentially the same as delete_option() but works network wide when using WP Multisite. */
@@ -210,7 +211,8 @@ class NextADInt_Adi_Authentication_Persistence_FailedLoginRepository
 	 *
 	 * @return bool
 	 */
-	function deleteBlockUntil($username) {
+	function deleteBlockUntil($username)
+	{
 		$optionName = $this->getOptionName(false, $username);
 
 		/* Essentially the same as delete_option() but works network wide when using WP Multisite. */
@@ -228,5 +230,16 @@ class NextADInt_Adi_Authentication_Persistence_FailedLoginRepository
 	public function getCurrentTime()
 	{
 		return time();
+	}
+
+	/**
+	 * Encodes given Username to SHA1
+	 *
+	 * @param $username
+	 * @return string
+	 */
+	function encodeUsername($username)
+	{
+		return sha1($username);
 	}
 }
