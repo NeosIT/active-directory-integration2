@@ -91,6 +91,41 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
+	public function ADI_145_synchronize_itCallsFilter_next_ad_int_sync_wp2ad_filter_synchronizable_users() {
+		$sut = $this->sut(array('prepareForSync', 'getSyncableAttributes', 'getUsers', 'synchronizeUser', 'finishSynchronization'));
+
+		$attributes  = array('cn' => new NextADInt_Ldap_Attribute());
+		$users = array((object) array('ID' => 1));
+		$modifiedUsers = array((object) array('ID' => 2));
+
+		$attributeRepository = $this->createMock('NextADInt_Ldap_Attribute_Repository');
+
+		$this->behave($this->attributeService, 'getRepository', $attributeRepository);
+		$this->behave($attributeRepository, 'getSyncableAttributes', $attributes);
+
+		$sut->expects($this->once())
+			->method('getUsers')
+			->willReturn($users);
+
+		$sut->expects($this->once())
+			->method('prepareForSync')
+			->willReturn(true);
+
+		$sut->expects($this->once())
+			->method('synchronizeUser')
+			->with($modifiedUsers[0])
+			->willReturn(true);
+
+		\WP_Mock::onFilter( NEXT_AD_INT_PREFIX . 'sync_wp2ad_filter_synchronizable_users' )
+			->with($users)
+			->reply($modifiedUsers);
+
+		$actual = $sut->synchronize();
+		$this->assertEquals(true, $actual);
+	}
+	/**
+	 * @test
+	 */
 	public function prepareForSync_syncToAdIsDisabled_returnFalse()
 	{
 		$sut = $this->sut(array('isEnabled'));
@@ -292,6 +327,71 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 
 
 		$actual = $this->invokeMethod($sut, 'synchronizeUser', array($user, $attributes));
+		$this->assertEquals(true, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function ADI_145_synchronizeUser_itCallsFilter_nextadi_sync_wp2ad_filter_synchronizable_attributes()
+	{
+		$sut = $this->sut(array('findAttributesOfUser'));
+
+		$allowedAttributes = array('cn' => new NextADInt_Ldap_Attribute());
+		$attributesToSync = array('metakey_mail' => array(''));
+		$modifiedAttributesToSync = array('modified_metakey_mail' => array(''));
+
+		$user = (object) array(
+			'user_login' => 'User',
+			'ID' => 97
+		);
+
+		$sut->expects($this->once())
+			->method('findAttributesOfUser')
+			->with(97, $allowedAttributes)
+			->willReturn($attributesToSync);
+
+		$this->ldapConnection->expects($this->once())
+			->method('modifyUserWithoutSchema')
+			->with('User', $modifiedAttributesToSync)
+			->willReturn(true);
+
+		\WP_Mock::onFilter( NEXT_AD_INT_PREFIX . 'sync_wp2ad_filter_synchronizable_attributes' )
+			->with($attributesToSync, $user, $allowedAttributes)
+			->reply($modifiedAttributesToSync);
+
+		$actual = $this->invokeMethod($sut, 'synchronizeUser', array($user, $allowedAttributes));
+		$this->assertEquals(true, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function ADI_145_synchronizeUser_itCallsAction_nextadi_sync_wp2ad_after_user_synchronize()
+	{
+		$sut = $this->sut(array('findAttributesOfUser'));
+
+		$allowedAttributes = array('xn' => new NextADInt_Ldap_Attribute());
+		$attributesToSync = array('metakey_cn' => array('cn_value'));
+
+		$user = (object) array(
+			'user_login' => 'User',
+			'ID' => 97
+		);
+
+		$sut->expects($this->once())
+			->method('findAttributesOfUser')
+			->with(97, $allowedAttributes)
+			->willReturn($attributesToSync);
+
+		$this->ldapConnection->expects($this->once())
+			->method('modifyUserWithoutSchema')
+			->with('User', $attributesToSync)
+			->willReturn(666);
+
+		\WP_Mock::expectAction( NEXT_AD_INT_PREFIX . 'sync_wp2ad_after_user_synchronize', 666, $user, $attributesToSync, $allowedAttributes);
+
+		$actual = $this->invokeMethod($sut, 'synchronizeUser', array($user, $allowedAttributes));
 		$this->assertEquals(true, $actual);
 	}
 

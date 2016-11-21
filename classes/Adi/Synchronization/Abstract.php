@@ -229,6 +229,11 @@ abstract class NextADInt_Adi_Synchronization_Abstract
 		$stringSid = $adLdap->convertObjectSidBinaryToString($binarySid[0]["objectsid"][0]);
 		$usersDomainSid = NextADInt_Core_Util_StringUtil::objectSidToDomainSid($stringSid);
 
+		if (empty($binarySid)) {
+			$this->logger->error("SID of user '$username' could not be retrieved. Is the base DN correct? Does the userPrincipalName '$username' exist and not only its sAMAccountName?'");
+			return false;
+		}
+
 		if ($this->isVerifiedDomainMember($usersDomainSid)) {
 			return true;
 		}

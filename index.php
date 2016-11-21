@@ -57,3 +57,13 @@ add_action('set_current_user', array($adiPlugin, 'run'));
 // another possible solution would be using the hook 'redirect_network_admin_request' from network/admin.php but
 // the loading of the menu happens to early
 add_action('set_current_user', array($adiPlugin, 'runMultisite'));
+
+/**
+ * Global accessor for Next ADI dependencies.
+ * You can call this function in your own extensions to gain access to the internals of NADI.
+ *
+ * @return NextADInt_Adi_Dependencies
+ */
+function next_ad_int() {
+	return NextADInt_Adi_Dependencies::getInstance();
+}
