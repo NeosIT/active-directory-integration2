@@ -1275,6 +1275,7 @@ class adLDAP {
             $fields[] = "objectsid";
         }
         $sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
+
         $entries = ldap_get_entries($this->_conn, $sr);
         
         if (isset($entries[0])) {
@@ -1290,8 +1291,30 @@ class adLDAP {
                     $entries[0]["memberof"]["count"]++;
                 }
             }
+
             return $entries;
         }
+        return false;
+    }
+
+    /**
+     * Get a configuration etnry form the CN=Partitions,CN=Configuration object
+     *
+     * @param $filter
+     * @return bool
+     */
+    public function get_configuration($filter)
+    {
+        $tmp = "CN=Partitions,CN=Configuration," . $this->_base_dn;
+        $sr = ldap_search($this->_conn,$tmp,"(&(netbiosname=*))", array());
+        $entries = ldap_get_entries($this->_conn, $sr);
+
+        if ($entries[0]['count'] >= 1) {
+            $result = $entries[0][$filter][0];
+
+            return $result;
+        }
+
         return false;
     }
     

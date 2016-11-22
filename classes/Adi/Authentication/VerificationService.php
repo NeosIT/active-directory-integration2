@@ -76,6 +76,18 @@ class NextADInt_Adi_Authentication_VerificationService
 		return false;
 	}
 
+	public function findActiveDirectoryNetBiosName($data)
+	{
+		$attributeService = $this->getCustomAttributeService();
+		$netBIOSname = $attributeService->getnetBiosName($data["verification_username"]);
+
+		if($netBIOSname) {
+			return $netBIOSname;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Get NextADInt_Ldap_Attribute_Service for verification process
 	 * 

@@ -58,7 +58,7 @@ class NextADInt_Ldap_Connection
 		try {
 			$this->createAdLdap($config);
 		} catch (Exception $e) {
-			$this->logger->error('Creating AdLdap object failed.', $e);
+			$this->logger->error('Creating adLDAP object failed.', $e);
 
 			if (is_object($this->adldap)) {
 				$this->logger->debug('adLDAP last error number: ' . print_r($this->adldap->get_last_errno(), true));
@@ -354,8 +354,6 @@ class NextADInt_Ldap_Connection
 	{
 		$adLdap = $this->getAdLdap();
 
-		$this->logger->debug("Import these attributes from ad for the user '$username': " . print_r($attributeNames,
-				true));
 		$userInfo = $adLdap->user_info($username, $attributeNames, $isGUID);
 
 		if ($userInfo === false) {
@@ -367,9 +365,33 @@ class NextADInt_Ldap_Connection
 		// user does exist, get first element
 		$userInfo = $userInfo[0];
 
-		$this->logger->debug("UserInfo for user '$username': " . print_r($userInfo, true));
+		$this->logger->debug("UserInfo for user '$username': " . $this->__debug($userInfo));
 
 		return $userInfo;
+	}
+
+	/**
+	 * Find the NetBIOS name of the underlying LDAP connection
+	 *
+	 * @return bool|string false if name is missing, string if NetBIOS name could be found
+	 */
+	public function findNetBiosName()
+	{
+		$adLdap = $this->getAdLdap();
+
+		$this->logger->debug("Trying to find NetBIOS name");
+		$filter = "netbiosname";
+		$netbios = $adLdap->get_configuration($filter);
+
+		if ($netbios === false) {
+			$this->logger->warn("No NetBIOS name found. Maybe base DN is wrong or partition scheme is misconfigured.");
+
+			return false;
+		}
+
+		$this->logger->debug("Found NetBIOS name '" . $netbios . "' for '" . $this->getDomainSid());
+
+		return $netbios;
 	}
 
 	/**

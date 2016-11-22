@@ -464,6 +464,31 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 	/**
 	 * @test
+	 * @issue ADI-145
+	 */
+	public function create_itTriggersCustomHook_user_after_create()
+	{
+		$sut = $this->sut(array('update'));
+
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
+		$this->behave($adiUser, 'getCredentials', $credentials);
+		$this->behave($credentials, 'getPassword', 'password');
+
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
+		$this->behave($this->userRepository, 'create', 100);
+
+		$this->exceptionUtil->shouldReceive('handleWordPressErrorAsException')
+			->with(100)
+			->once();
+
+		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_create', $adiUser, false, true);
+
+		$sut->create($adiUser, false, true);
+	}
+
+	/**
+	 * @test
 	 */
 	public function appendSuffixToNewUser_itReturnsOptionValueAsBoolean()
 	{
@@ -780,6 +805,65 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$actual = $sut->update($adiUser);
 		$this->assertEquals($wpUser, $actual);
+	}
+
+	/**
+	 * @test
+	 * @issue ADI-145
+	 */
+	public function update_itTriggersCustomHook_user_before_update()
+	{
+		$sut = $this->sut(array(
+			'disableEmailNotification',
+			'assertUserExisting',
+			'updateWordPressAccount',
+			'updateUserMetaDataFromActiveDirectory',
+			'updateEmail',
+			'updatePassword',
+			'findById',
+		));
+
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
+		$this->behave($adiUser, 'getCredentials', $credentials);
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
+
+		WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_before_update', $adiUser, false, true);
+
+		$sut->update($adiUser);
+	}
+
+	/**
+	 * @test
+	 * @issue ADI-145
+	 */
+	public function update_itTriggersCustomHook_user_after_update()
+	{
+		$sut = $this->sut(array(
+			'disableEmailNotification',
+			'assertUserExisting',
+			'updateWordPressAccount',
+			'updateUserMetaDataFromActiveDirectory',
+			'updateEmail',
+			'updatePassword',
+			'findById',
+		));
+
+		$wpUser = (object)array('ID' => 666);
+		$adiUser = $this->createMock('NextADInt_Adi_User');
+		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
+		$this->behave($adiUser, 'getCredentials', $credentials);
+		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes());
+		$this->behave($adiUser, 'getId', 666);
+
+		$sut->expects($this->once())
+			->method('findById')
+			->with(666)
+			->willReturn($wpUser);
+
+		WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_update', $adiUser, $wpUser, false, true);
+
+		 $sut->update($adiUser);
 	}
 
 	/**
@@ -1428,6 +1512,43 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 	/**
 	 * @test
+	 * @issue ADI-145
+	 */
+	public function ADI_145_enable_itCallsAction_next_ad_int_user_after_enable()
+	{
+		$sut = $this->sut();
+
+		$userId = 1;
+
+		$this->wpUser->user_login = 'user';
+		$this->wpUser->user_email = 'test@test.com-DISABLED';
+
+		$this->metaRepository->expects($this->once())
+			->method('find')
+			->with($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true)
+			->willReturn('test@test.com');
+
+		$this->userRepository->expects($this->once())
+			->method('findById')
+			->with($userId)
+			->willReturn($this->wpUser);
+
+		$this->metaRepository->expects($this->once())
+			->method('enableUser')
+			->with($this->wpUser);
+
+		$this->userRepository->expects($this->once())
+			->method('updateEmail')
+			->with($userId, 'test@test.com');
+
+
+		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_enable', $this->wpUser, true);
+
+		$sut->enable($userId);
+	}
+
+	/**
+	 * @test
 	 */
 	public function disable_disablesUserAndRemovesEmail()
 	{
@@ -1449,6 +1570,28 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$this->userRepository->expects($this->once())
 			->method('updateEmail')
 			->with($userId, $this->wpUser->user_email . '-DISABLED');
+
+		$sut->disable($userId, $reason);
+	}
+
+	/**
+	 * @test
+	 * @issue ADI-145
+	 */
+	public function ADI_145_disable_itCallsAction_next_ad_int_user_after_disable()
+	{
+		$sut = $this->sut();
+
+		$userId = 1;
+		$this->wpUser->user_email = 'test@company.local';
+		$reason = "Spam";
+
+		$this->userRepository->expects($this->once())
+			->method('findById')
+			->with($userId)
+			->willReturn($this->wpUser);
+
+		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_disable', $this->wpUser);
 
 		$sut->disable($userId, $reason);
 	}

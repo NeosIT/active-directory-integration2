@@ -430,4 +430,9 @@ class NextADInt_Multisite_View_TwigContainer
 	{
 		return $this->verificationService->findActiveDirectoryDomainSid($data);
 	}
+
+	public function findActiveDirectoryNetBiosName($data)
+	{
+		return $this->verificationService->findActiveDirectoryNetBiosName($data);
+	}
 }

@@ -314,7 +314,8 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	 * @test
 	 * @issue ADI-412
 	 */
-	public function findLdapCustomAttributeOfUsername_whenAttributeIsAvailable_itReturnsValue() {
+	public function findLdapCustomAttributeOfUsername_whenAttributeIsAvailable_itReturnsValue()
+	{
 		$sut = $this->sut(array('parseLdapResponse'));
 		$attribute = "objectsid";
 		$attributes = array($attribute);
@@ -331,7 +332,29 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 			->willReturn($rawResponse);
 
 		$this->assertEquals('value', $sut->findLdapCustomAttributeOfUsername('username', $attribute));
+	}
 
+	/**
+	 * @test
+	 * @issue ADI-145
+	 */
+	public function ADI_145_findLdapAttributesOfUsername_itCallsFilter_nextadi_ldap_filter_synchronizable_attributes() {
+		$sut = $this->sut(array('parseLdapResponse'));
+		$attributeNames = array('a', 'b');
+		$modifiedAttributeNames = array('a', 'c');
 
+		$this->attributeRepository->expects($this->once())
+			->method('getAttributeNames')
+			->willReturn($attributeNames);
+
+		$this->ldapConnection->expects($this->once())
+			->method('findAttributesOfUser')
+			->with('username', $modifiedAttributeNames, false);
+
+		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'ldap_filter_synchronizable_attributes')
+			->with($attributeNames, 'username', false)
+			->reply($modifiedAttributeNames);
+
+		$sut->findLdapAttributesOfUsername('username', false);
 	}
 }

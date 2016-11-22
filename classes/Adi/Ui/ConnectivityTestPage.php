@@ -108,8 +108,8 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	 */
 	public function processData()
 	{
-        // ADI-357 unescape already escaped $_POST
-        $post = stripslashes_deep($_POST);
+        // ADI-421 do not revert the character escaping from WordPress because $username and $password must be escaped
+        $post = $_POST;
 
 		if (!isset($post['username']) || !isset($post['password'])) {
 			return array();

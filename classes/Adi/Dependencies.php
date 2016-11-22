@@ -17,6 +17,25 @@ if (class_exists('NextADInt_Adi_Dependencies')) {
 class NextADInt_Adi_Dependencies
 {
 	/**
+	 * @var NextADInt_Adi_Dependencies
+	 */
+	private static $_instance = null;
+
+	/**
+	 * Provide Singleton
+	 *
+	 * @return NextADInt_Adi_Dependencies
+	 */
+	public static function getInstance() {
+		if (self::$_instance === null) {
+			self::$_instance = new NextADInt_Adi_Dependencies();
+		}
+
+		return self::$_instance;
+	}
+
+
+	/**
 	 * @var NextADInt_Core_Persistence_WordPressRepository
 	 */
 	private $wordPressRepository = null;
