@@ -373,10 +373,11 @@ class NextADInt_Adi_Authentication_LoginService
 	 */
 	protected function isUserAuthorized($username)
 	{
+		// ADI-428: find ldapAttributes for users trying to login to get his objectGuid
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUsername($username);
 		$userGuid = $ldapAttributes->getFilteredValue('objectguid');
 
-		// search for role mapping by GUID
+		// create role mapping with user guid
 		$roleMapping = $this->roleManager->createRoleMapping($userGuid);
 
 		// check if an user is in a authorization ad group if the user must be a member for login

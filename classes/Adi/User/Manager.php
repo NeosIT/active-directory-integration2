@@ -161,6 +161,7 @@ class NextADInt_Adi_User_Manager
 				$credentials->getUserPrincipalName());
 		}
 
+		// ADI-428: Find object guid for user
 		$userGuid = $ldapAttributes->getFilteredValue('objectguid');
 
 		$roleMapping = $this->roleManager->createRoleMapping($userGuid);
