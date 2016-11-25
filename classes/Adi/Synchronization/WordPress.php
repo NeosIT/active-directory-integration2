@@ -356,8 +356,12 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	{
 		NextADInt_Core_Assert::notNull($credentials);
 
-		$synchronizeDisabledAccounts = $this->configuration->getOptionValue(
+		$deactivateDisabledAccounts = $this->configuration->getOptionValue(
 			NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS
+		);
+
+		$synchronizeDisabledAccounts = $this->configuration->getOptionValue(
+			NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS
 		);
 
 		$startTimerLdap = time();
@@ -367,8 +371,19 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		// ADI-204: in contrast to the login process we use the guid to determine the LDAP attributes
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, $guid);
 
+
 		// NADIS-1: Checking if the GUID of a user is valid when user does not exist in the active directory anymore. Therefore, disable user and remove domain sid
 		$this->disableUserWithoutValidGuid($ldapAttributes, $credentials);
+
+		// ADI-223: Check if user is disabled in Active Directory
+		$uac = $ldapAttributes->getFilteredValue('useraccountcontrol');
+		$isUserDisabled = $this->isAccountDisabled($uac);
+
+		// ADI-223: If user is disabled and option 'synchronizeDisabledAccounts' is false, skip the user.
+		if ($isUserDisabled && !$synchronizeDisabledAccounts) {
+			$this->logger->info('Skipping the import of ' . $credentials->getSAMAccountName() . ' with GUID: "'. $guid . '" , because the user is deactivated in Active Directory and "Import disabled users" is not enabled.');
+			return -1;
+		}
 
 		// ADI-235: add domain SID
 		$ldapAttributes->setDomainSid($this->connection->getDomainSid());
@@ -388,7 +403,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
 
 		// check account restrictions
-		if ($synchronizeDisabledAccounts) {
+		if ($deactivateDisabledAccounts) {
 			if (!$this->checkAccountRestrictions($adiUser)) {
 				return 1;
 			}
@@ -412,7 +427,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		}
 
 		// if option is enabled and user is disabled in AD, disable him in WordPress
-		$this->synchronizeAccountStatus($adiUser, $synchronizeDisabledAccounts);
+		$this->synchronizeAccountStatus($adiUser, $deactivateDisabledAccounts);
 
 		return $syncStatus;
 	}

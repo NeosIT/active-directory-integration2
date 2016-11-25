@@ -609,10 +609,16 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 
-		$this->configuration->expects($this->once())
+		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS)
-			->willReturn(true);
+			->withConsecutive(
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS),
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS)
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				false
+			);
 
 		$sut->expects($this->once())
 			->method('checkAccountRestrictions')
@@ -640,10 +646,16 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 
-		$this->configuration->expects($this->once())
+		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS)
-			->willReturn(true);
+			->withConsecutive(
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS),
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS)
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				false
+			);
 
 		$sut->expects($this->once())
 			->method('checkAccountRestrictions')
@@ -679,10 +691,16 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 
-		$this->configuration->expects($this->once())
+		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS)
-			->willReturn(true);
+			->withConsecutive(
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS),
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS)
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				false
+			);
 
 		$sut->expects($this->once())
 			->method('checkAccountRestrictions')
@@ -722,10 +740,16 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 
-		$this->configuration->expects($this->once())
+		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS)
-			->willReturn(true);
+			->withConsecutive(
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS),
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS)
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				false
+			);
 
 		$sut->expects($this->once())
 			->method('checkAccountRestrictions')
@@ -808,6 +832,42 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$actual = $sut->synchronizeUser($credentials, 'guid');
 		$this->assertEquals(666, $actual);
+	}
+
+	/**
+	 * @issue ADI-223
+	 * @test
+	 */
+	public function ADI_223_synchronizeUser_withDoNotSynchronizeDisabledAccounts_skipDisabledUsers()
+	{
+		$sut = $this->sut(array('checkAccountRestrictions', 'findLdapAttributesOfUser', 'createOrUpdateUser', 'isAccountDisabled'));
+
+		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
+		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
+
+		$this->attributeService->expects($this->once())
+			->method('findLdapAttributesOfUser')
+			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad')));
+
+		$this->behave($this->userManager, 'createAdiUser', $adiUser);
+
+		$this->configuration->expects($this->exactly(2))
+			->method('getOptionValue')
+			->withConsecutive(
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS),
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS)
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				false
+			);
+
+		$sut->expects($this->once())
+			->method('isAccountDisabled')
+			->willReturn(true);
+
+		$actual = $sut->synchronizeUser($credentials, 'guid');
+		$this->assertEquals(-1, $actual);
 	}
 
 	/**

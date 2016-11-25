@@ -91,6 +91,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const SYNC_TO_WORDPRESS_USER = 'sync_to_wordpress_user';
 	const SYNC_TO_WORDPRESS_PASSWORD = 'sync_to_wordpress_password';
 	const SYNC_TO_WORDPRESS_DISABLE_USERS = 'disable_users';
+	const SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS = 'sync_to_wordpress_import_disabled_users';
 
 	// Single Sign On
 	const SSO_ENABLED = 'sso';
@@ -1384,7 +1385,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$showPermission    => true,
 				$transient         => false,
 			),
-			// Prevent email change by ADI Users (not for admins)
+			// ADI-223: Deactivate users to be imported if they are disabled in Active Directory
 			self::SYNC_TO_WORDPRESS_DISABLE_USERS => array(
 				$title       => __('Automatic deactivate users', NEXT_AD_INT_I18N),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
@@ -1402,7 +1403,25 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$showPermission    => true,
 				$transient         => false,
 			),
-			// Prevent email change by ADI Users (not for admins)
+			// Import users even if they are disabled in active directory
+			self::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS => array(
+				$title       => __('Import disabled users', NEXT_AD_INT_I18N),
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
+				$description => __(
+					'Users which are deactivated in Active Directory are synchronized to WordPress.',
+					NEXT_AD_INT_I18N
+				),
+				$detail      => __(
+					'Users which are deactivated in Active Directory are synchronized to WordPress.',
+					NEXT_AD_INT_I18N
+				),
+				$angularAttributes => 'ng-disabled="((!option.sync_to_wordpress_enabled) || ((permission.sync_to_wordpress_import_disabled_users == 2) || (permission.sync_to_wordpress_import_disabled_users == 1))',
+				$default     => true,
+				$sanitizer   => array('boolean'),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			// Enable Logging
 			self::LOGGER_ENABLE_LOGGING => array(
 				$title       => __('Enable Logging', NEXT_AD_INT_I18N),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
@@ -1420,7 +1439,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$showPermission    => true,
 				$transient         => false,
 			),
-			// Prevent email change by ADI Users (not for admins)
+			// Define a custom path for the logfile to be created at
 			self::LOGGER_CUSTOM_PATH => array(
 				$title       => __('Custom Path', NEXT_AD_INT_I18N),
 				$type        => NextADInt_Multisite_Option_Type::TEXT,
