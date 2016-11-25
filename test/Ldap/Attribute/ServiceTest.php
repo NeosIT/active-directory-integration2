@@ -25,6 +25,8 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 
 	public function setUp()
 	{
+		parent::setUp();
+
 		$this->attributeRepository = $this->createMock('NextADInt_Ldap_Attribute_Repository');
 		$this->ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
 
@@ -33,21 +35,12 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 			require_once NEXT_AD_INT_PATH . '/vendor/adLDAP/adLDAP.php';
 		}
 
-		WP_Mock::setUp();
-
-		WP_Mock::wpFunction(
-			'__', array(
-				'args'       => array(WP_Mock\Functions::type('string'), NEXT_AD_INT_I18N),
-				'return_arg' => 0,
-			)
-		);
-
 		$this->adLdap = parent::createMock('adLDAP');
 	}
 
 	public function tearDown()
 	{
-		WP_Mock::tearDown();
+		parent::tearDown();
 	}
 
 	/**

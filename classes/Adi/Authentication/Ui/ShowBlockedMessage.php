@@ -57,9 +57,10 @@ class NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 	 */
 	public function showBlockMessage($timeLeft)
 	{
-
+        // show special brute force message for xmlrpc user
 		if (strpos($_SERVER['PHP_SELF'], 'xmlrpc.php') !== false) {
-			$xmlRpcDisplay = __("Authentication denied by Next Active Directory Integration Brute Force Protection. Your account is blocked for $timeLeft seconds.", NEXT_AD_INT_I18N);
+            $xmlRpcDisplay = __('Authentication denied by Next Active Directory Integration Brute Force Protection. Your account is blocked for %s seconds.', 'next-active-directory-integration');
+			$xmlRpcDisplay = sprintf($xmlRpcDisplay, $timeLeft);
 			wp_die($xmlRpcDisplay);
 			return;
 		}
@@ -71,7 +72,7 @@ class NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 			)
 		);
 
-		$display = __("Authentication denied by Next Active Directory Integration Brute Force Protection. <br> Your account is blocked for %s seconds.", NEXT_AD_INT_I18N);
+		$display = __('Authentication denied by Next Active Directory Integration Brute Force Protection. <br> Your account is blocked for %s seconds.', 'next-active-directory-integration');
 		$display = sprintf($display, "<span id='secondsLeft'>$timeLeft</span>");
 
 		wp_die($display);

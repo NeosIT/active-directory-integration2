@@ -99,22 +99,22 @@ class NextADInt_Adi_Configuration_ImportService
 				}
 
 				$output .= __('You are running inside a Multisite network installation. This requires you to add a new ADI profile or edit the default ADI profile.',
-					NEXT_AD_INT_I18N);
+					'next-active-directory-integration');
 
 				if ($sitesToUpgrade > 0) {
 					$output .= sprintf(__('<strong>There are %d sites in your Multisite network which have a previous version of ADI running. Make sure to disable all existing installations and create a new profile for all of them!</strong>',
-						NEXT_AD_INT_I18N), $sitesToUpgrade);
+						'next-active-directory-integration'), $sitesToUpgrade);
 				}
 			} else {
 				// plug-in provided in network but not network-wide activated
 				$output .= __('Migration of previous ADI options are not supported when running in Multisite installations. Please verify the Next ADI configuration',
-					NEXT_AD_INT_I18N);
+					'next-active-directory-integration');
 			}
 		} else {
 			// single site installation
 			if ($this->getBlogVersion() !== false) {
 				$output .= __('Options of a previous ADI installation have been migrated. You <strong>must</strong> re-enter the credentials of <em>Sync to WordPress/AD</em> service accounts.',
-					NEXT_AD_INT_I18N);
+					'next-active-directory-integration');
 			}
 		}
 

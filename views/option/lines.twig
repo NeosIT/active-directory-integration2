@@ -1,5 +1,5 @@
 {# macro for generating#}
-{% macro create(optionGroupElements, isProfile) %}
+{% macro create(optionGroupElements, isProfile, i18n) %}
     {# #}
     {% import "option/line.twig" as line %}
     {% for optionName in optionGroupElements %}
@@ -8,11 +8,11 @@
         {% if isProfile is empty %}
 
             {%  if permission > 0 %}
-                {{ line.create(optionName, false, isProfile) }}
+                {{ line.create(optionName, false, isProfile, i18n) }}
             {% endif %}
 
         {% else %}
-            {{ line.create(optionName, true, isProfile) }}
+            {{ line.create(optionName, true, isProfile, i18n) }}
         {% endif %}
     {% endfor %}
 {% endmacro %}

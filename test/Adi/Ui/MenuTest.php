@@ -95,6 +95,7 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 	public function registerMenu_addsMenusToWordPress()
 	{
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
+		$this->mockFunctionEsc_html__();
 
 		$this->blogConfigurationPage->expects($this->once())
 			->method('getSlug')
@@ -122,6 +123,8 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 	 */
 	public function registerMenu_whenShowTestAuthentication_itEnablesTestAuthentication() {
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
+		$this->mockFunction__();
+		$this->mockFunctionEsc_html__();
 
 		$this->configuration->expects($this->at(0))
 			->method('getOptionValue')
@@ -153,6 +156,7 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 	 */
 	public function registerMenu_whenShowSyncToAD_itEnablesSyncToAD() {
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
+		$this->mockFunctionEsc_html__();
 
 		$this->configuration->expects($this->at(1))
 			->method('getOptionValue')
@@ -184,6 +188,7 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 	 */
 	public function registerMenu_whenShowSyncToWordPress_itEnablesSyncToWordPress() {
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
+		$this->mockFunctionEsc_html__();
 
 		$this->configuration->expects($this->at(2))
 			->method('getOptionValue')

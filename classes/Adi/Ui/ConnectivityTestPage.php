@@ -81,7 +81,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	 */
 	public function getTitle()
 	{
-		return esc_html__('Test authentication', NEXT_AD_INT_I18N);
+		return esc_html__('Test authentication', 'next-active-directory-integration');
 	}
 
 	/**
@@ -96,6 +96,16 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$params['nonce'] = wp_create_nonce(self::NONCE); // add nonce for security
 		$params['message'] = $this->result;
 		$params['log'] = $this->output;
+        $params['i18n'] = array(
+            'title' => __('Test Active Directory authentication', 'next-active-directory-integration'),
+            'descriptionLine1' => __('Please enter the username and password for the account you want to authenticate with. After submitting the request you will get the debug output.', 'next-active-directory-integration'),
+            'descriptionLine2' => __('For this page feature of blocking user accounts with failed login attempts is disabled. You do not have to worry about locking an account.', 'next-active-directory-integration'),
+            'descriptionLine3' => __('Please note that the entered password is not masked.', 'next-active-directory-integration'),
+            'username' => __('Username:', 'next-active-directory-integration'),
+            'password' => __('Password (will be shown):', 'next-active-directory-integration'),
+            'tryAgain' => __('Try to authenticate again', 'next-active-directory-integration'),
+            'tryAuthenticate' => __('Try to authenticate', 'next-active-directory-integration')
+        );
 
 		// render
 		$this->display(self::TEMPLATE, $params);
@@ -117,7 +127,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 
 		// before test connection check nonce
 		if (!wp_verify_nonce($post['security'], self::NONCE)) {
-			$message = __('You do not have sufficient permissions.', NEXT_AD_INT_I18N);
+			$message = __('You do not have sufficient permissions.', 'next-active-directory-integration');
 			wp_die($message);
 		}
 
@@ -128,9 +138,9 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$this->output = explode("<br />", $information['output']);
 
 		if ($information['authentication_result']) {
-			$this->result = esc_html__('User logged on.', NEXT_AD_INT_I18N);
+			$this->result = esc_html__('User logged on.', 'next-active-directory-integration');
 		} else {
-			$this->result = esc_html__('Logon failed.', NEXT_AD_INT_I18N);
+			$this->result = esc_html__('Logon failed.', 'next-active-directory-integration');
 		}
 
 		return array(

@@ -225,17 +225,17 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 	 */
 	public function assertSynchronizationAvailable($userId, $isOwnProfile) {
 		if (!$this->isEnabled()) {
-			throw new Exception(__("Synchronization is not enabled", NEXT_AD_INT_I18N));
+			throw new Exception(__("Synchronization is not enabled", 'next-active-directory-integration'));
 		}
 
 		$isUserSynchronizable = $this->isSynchronizable($userId);
 
 		if (!$isUserSynchronizable) {
-			throw new Exception(__("This user does not have a corresponding Active Directory account", NEXT_AD_INT_I18N));
+			throw new Exception(__("This user does not have a corresponding Active Directory account", 'next-active-directory-integration'));
 		}
 
 		if (!$isOwnProfile && !$this->isServiceAccountEnabled()) {
-			throw new Exception(__("This user is not editable because there is no Sync To AD service account available", NEXT_AD_INT_I18N));
+			throw new Exception(__("This user is not editable because there is no Sync To AD service account available", 'next-active-directory-integration'));
 		}
 
 		return true;

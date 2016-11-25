@@ -18,7 +18,6 @@ if (class_exists('NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage')) {
  */
 class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Multisite_View_Page_Abstract
 {
-	const TITLE = 'Sync to WordPress';
 	const SLUG = 'sync_to_wordpress';
 	const AJAX_SLUG = null;
 	const CAPABILITY = 'manage_options';
@@ -56,7 +55,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 	 */
 	public function getTitle()
 	{
-		return esc_html__(self::TITLE, NEXT_AD_INT_I18N);
+		return esc_html__('Sync to WordPress', 'next-active-directory-integration');
 	}
 
 	/**
@@ -74,6 +73,13 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 		$params['blogUrl'] = get_site_url(get_current_blog_id());
 		$params['message'] = $this->result;
 		$params['log'] = $this->log;
+        $params['i18n'] = array(
+            'title' => __('Sync To WordPress', 'next-active-directory-integration'),
+            'descriptionLine1' => __('If you want to trigger Sync to WordPress, you must know the URL to the index.php of your blog:', 'next-active-directory-integration'),
+            'descriptionLine2' => __('Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:', 'next-active-directory-integration'),
+            'repeatAction' => __('Repeat AD to WordPress synchronization', 'next-active-directory-integration'),
+            'startAction' => __('Start AD to WordPress synchronization', 'next-active-directory-integration')
+        );
 
 		$this->display(self::TEMPLATE, $params);
 	}
@@ -92,7 +98,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 
 		$security = NextADInt_Core_Util_ArrayUtil::get('security', $post, '');
 		if (!wp_verify_nonce($security, self::NONCE)) {
-			$message = esc_html__('You do not have sufficient permissions to access this page.', NEXT_AD_INT_I18N);
+			$message = esc_html__('You do not have sufficient permissions to access this page.', 'next-active-directory-integration');
 			wp_die($message);
 		}
 
@@ -108,9 +114,9 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 
 
 		if ($status) {
-			$this->result = esc_html__('Sync to WordPress succeeded.', NEXT_AD_INT_I18N);
+			$this->result = esc_html__('Sync to WordPress succeeded.', 'next-active-directory-integration');
 		} else {
-			$this->result = esc_html__('Sync to WordPress failed.', NEXT_AD_INT_I18N);
+			$this->result = esc_html__('Sync to WordPress failed.', 'next-active-directory-integration');
 		}
 
 		return array(

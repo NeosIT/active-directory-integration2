@@ -52,10 +52,10 @@ class NextADInt_Adi_Configuration_Ui_Layout
 	private static function create()
 	{
 		return array(
-			__('Profile', NEXT_AD_INT_I18N) => array(
+			__('Profile', 'next-active-directory-integration') => array(
 				self::ANGULAR_CONTROLLER => 'GeneralController',
 				self::MULTISITE_ONLY => false,
-				__('Profile Options', NEXT_AD_INT_I18N) => array(
+				__('Profile Options', 'next-active-directory-integration') => array(
 					self::OPTIONS => array(
 						NextADInt_Adi_Configuration_Options::PROFILE_NAME,
 						NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY,
@@ -63,13 +63,13 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 					self::DESCRIPTION => __(
 						'On this page you can configure whether ADI should be enabled for a specific profile or not.',
-						NEXT_AD_INT_I18N
+						'next-active-directory-integration'
 					),
 				),
-				__('Menu', NEXT_AD_INT_I18N) => array(
+				__('Menu', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
 						'It is also possible to only disable certain ADI features.',
-						NEXT_AD_INT_I18N
+						'next-active-directory-integration'
 					),
 					self::OPTIONS => array(
 						NextADInt_Adi_Configuration_Options::SHOW_MENU_TEST_AUTHENTICATION,
@@ -79,14 +79,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Environment', NEXT_AD_INT_I18N)  => array(
+			__('Environment', 'next-active-directory-integration')  => array(
 				// Group Name
 				self::ANGULAR_CONTROLLER => 'EnvironmentController',
 				self::MULTISITE_ONLY => false,
-				__('Active Directory Environment', NEXT_AD_INT_I18N) => array(
+				__('Active Directory Environment', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
 						'On this page you can configure the connection details for your Active Directory.',
-						NEXT_AD_INT_I18N
+						'next-active-directory-integration'
 					),
 					// Option elements in group
 					self::OPTIONS => array(
@@ -97,10 +97,10 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::BASE_DN
 					),
 				),
-				__('Verify Credentials', NEXT_AD_INT_I18N) => array(
+				__('Verify Credentials', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
 						'Connect your WordPress site or profile to a domain.',
-						NEXT_AD_INT_I18N
+						'next-active-directory-integration'
 					),
 					self::OPTIONS => array(
 						NextADInt_Adi_Configuration_Options::VERIFICATION_USERNAME,
@@ -111,14 +111,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('User', NEXT_AD_INT_I18N)             => array(
+			__('User', 'next-active-directory-integration')             => array(
 				// Group Name
 				self::ANGULAR_CONTROLLER => 'UserController',
 				self::MULTISITE_ONLY => false,
-				__('User Settings', NEXT_AD_INT_I18N) => array(
+				__('User Settings', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
 						'On this page you can configure how users should be created, updated and displayed. You can also prevent specific users from authenticating against the Active Directory. ',
-						NEXT_AD_INT_I18N
+						'next-active-directory-integration'
 					),
 					// Option elements in group
 					self::OPTIONS => array(
@@ -137,14 +137,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Password', NEXT_AD_INT_I18N)        => array(
+			__('Password', 'next-active-directory-integration')        => array(
 				self::ANGULAR_CONTROLLER => 'PasswordController',
 				self::MULTISITE_ONLY => false,
 				// Group name
-				__('Password', NEXT_AD_INT_I18N) => array(
+				__('Password', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
 						'The password configuration page allows you to configure if users should be able to change their password, how failed authentications should be handled and so on.',
-						NEXT_AD_INT_I18N
+						'next-active-directory-integration'
 					),
 					// Option elements in group
 					self::OPTIONS => array(
@@ -157,14 +157,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Permissions', NEXT_AD_INT_I18N) => array(
+			__('Permissions', 'next-active-directory-integration') => array(
 				self::ANGULAR_CONTROLLER => 'PermissionController',
 				self::MULTISITE_ONLY => false,
 				// Group name
-				__('Permissions', NEXT_AD_INT_I18N) => array(
+				__('Permissions', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
 						'On this page you can configure whether only specific Active Directory Security groups should be granted access to WordPress. You can also define if certain Active Directory security groups should have WordPress role permissions by default.',
-						NEXT_AD_INT_I18N
+						'next-active-directory-integration'
 					),
 					// Option elements in group
 					self::OPTIONS => array(
@@ -175,14 +175,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Security', NEXT_AD_INT_I18N) => array(
+			__('Security', 'next-active-directory-integration') => array(
 				self::ANGULAR_CONTROLLER => 'SecurityController',
 				self::MULTISITE_ONLY => false,
 				// Group name
-				__('Single Sign On', NEXT_AD_INT_I18N) => array(
+				__('Single Sign On', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
 						'Single Sign On Configuration',
-						NEXT_AD_INT_I18N
+						'next-active-directory-integration'
 					),
 					// Option elements in group
 					self::OPTIONS => array(
@@ -193,11 +193,11 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 				),
 				// Group name
-				__('Brute-Force-Protection', NEXT_AD_INT_I18N) => array(
+				__('Brute-Force-Protection', 'next-active-directory-integration') => array(
 					// Group description
 					self::DESCRIPTION => __(
 						'For security reasons you can use the following options to prevent brute force attacks on your user accounts.',
-						NEXT_AD_INT_I18N
+						'next-active-directory-integration'
 					),
 					// Group elements in group
 					self::OPTIONS     => array(
@@ -212,23 +212,23 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Attributes', NEXT_AD_INT_I18N) => array(
+			__('Attributes', 'next-active-directory-integration') => array(
 				self::ANGULAR_CONTROLLER => 'AttributesController',
 				self::MULTISITE_ONLY => false,
 				// Group description
-				__('Attributes', NEXT_AD_INT_I18N) => array(
+				__('Attributes', 'next-active-directory-integration') => array(
 					// Group description
 					self::DESCRIPTION => array(
 						__(
 							'User attributes from the Active Directory are stored as User Meta Data. These attributes can then be used in your themes and they can be shown on the profile page of your users.',
-							NEXT_AD_INT_I18N
+							'next-active-directory-integration'
 						),
 						__(
 							'The attributes are only stored in the WordPress database if you activate "Automatic User Creation" and are only updated if you activate "Automatic User Update" on tab "User".',
-							NEXT_AD_INT_I18N
+							'next-active-directory-integration'
 						),
 						'',
-						sprintf(__('The following WordPress attributes are reserved by ADI and cannot be used: %s', NEXT_AD_INT_I18N), implode(', ', NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys())),
+						sprintf(__('The following WordPress attributes are reserved by ADI and cannot be used: %s', 'next-active-directory-integration'), implode(', ', NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys())),
 					),
 					// Group elements in group
 					self::OPTIONS     => array(
@@ -237,14 +237,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Sync to AD', NEXT_AD_INT_I18N)        => array(
+			__('Sync to AD', 'next-active-directory-integration')        => array(
 				self::ANGULAR_CONTROLLER => 'SyncToAdController',
 				self::MULTISITE_ONLY => false,
 				// Group name
-				__('Sync To Active Directory', NEXT_AD_INT_I18N) => array(
+				__('Sync To Active Directory', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
 						'Synchronize WordPress profiles back to Active Directory.',
-						NEXT_AD_INT_I18N
+						'next-active-directory-integration'
 					),
 					// Group elements in group
 					self::OPTIONS => array(
@@ -257,15 +257,15 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Sync to WordPress', NEXT_AD_INT_I18N)      => array(
+			__('Sync to WordPress', 'next-active-directory-integration')      => array(
 				self::ANGULAR_CONTROLLER => 'SyncToWordpressController',
 				self::MULTISITE_ONLY => false,
 				// Group name
-				__('Sync To WordPress', NEXT_AD_INT_I18N) => array(
+				__('Sync To WordPress', 'next-active-directory-integration') => array(
 					// Group description
 					self::DESCRIPTION => __(
 						'You can import/update the users from Active Directory, for example by using a cron job.',
-						NEXT_AD_INT_I18N
+						'next-active-directory-integration'
 					),
 					// Group elements in group
 					self::OPTIONS     => array(
@@ -279,15 +279,15 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Logging', NEXT_AD_INT_I18N)      => array(
+			__('Logging', 'next-active-directory-integration')      => array(
 				self::ANGULAR_CONTROLLER => 'LoggingController',
 				self::MULTISITE_ONLY => false,
 				// Group name
-				__('Logging', NEXT_AD_INT_I18N) => array(
+				__('Logging', 'next-active-directory-integration') => array(
 					// Group description
 					self::DESCRIPTION => __(
 						'On this tab you can configure the Next ADI event logger.',
-						NEXT_AD_INT_I18N
+						'next-active-directory-integration'
 					),
 					// Group elements in group
 					self::OPTIONS     => array(

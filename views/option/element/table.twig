@@ -1,6 +1,5 @@
-{% macro create(optionName, isProfile, inputId, permissionSelectionId, network) %}
+{% macro create(optionName, isProfile, inputId, permissionSelectionId, network, i18n) %}
 
-    {% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
     {% set permission = getOptionPermission(isProfile, optionName) %}
 
     {% set inline = getMetadata(optionName, 'INLINE')|join(' ') %}
@@ -30,10 +29,10 @@
             <td class="adi-zero-padding-left">
                 <table class="adi-role-equivalent">
                     <tr class="adi-role-equivalent-headline">
-                        <td>{{ 'Security group'|__(NEXT_AD_INT_I18N) }}</td>
+                        <td>{{ i18n.securityGroup }}</td>
                         <td class="adi-zero-padding-left" style="padding-right: 15px"><span
                                     class="nsp_dashicons dashicons dashicons-leftright"></span></td>
-                        <td class="adi-zero-padding-left">{{ 'WordPress role'|__(NEXT_AD_INT_I18N) }}</td>
+                        <td class="adi-zero-padding-left">{{ i18n.wordpressRole }}</td>
                         <td>&nbsp;</td>
                     </tr>
                 </table>
@@ -84,7 +83,7 @@
                                        options='wpRoles'
                                        ng-model="value.wordpressRole" {{ angularAttributes|raw }} required="true"
                                        style="width: 200px">
-                                <option value="">{{ 'Please select a role'|__(NEXT_AD_INT_I18N) }}</option>
+                                <option value="">{{ i18n.selectRole }}</option>
                             </selectize>
                         </td>
 

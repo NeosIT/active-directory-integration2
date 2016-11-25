@@ -151,7 +151,7 @@ class NextADInt_Multisite_Configuration_Persistence_ProfileRepository
 	 */
 	public function findName($profileId, $newProfileName = null)
 	{
-		$newProfileName = (null !== $newProfileName) ? $newProfileName : __('New Profile', NEXT_AD_INT_I18N);
+		$newProfileName = (null !== $newProfileName) ? $newProfileName : __('New Profile', 'next-active-directory-integration');
 		$name = $this->getProfileOption($profileId, self::PREFIX_NAME);
 
 		return get_site_option($name, $newProfileName);
@@ -266,10 +266,10 @@ class NextADInt_Multisite_Configuration_Persistence_ProfileRepository
 			return false;
 		}
 
-		$name = __('My ADI profile', NEXT_AD_INT_I18N);
+		$name = __('My ADI profile', 'next-active-directory-integration');
 		$description = __(
 			'This profile has been created by the plugin installation automatically. It can safely be deleted.',
-			NEXT_AD_INT_I18N
+			'next-active-directory-integration'
 		);
 
 		return $this->insert($name, $description);

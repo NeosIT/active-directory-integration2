@@ -55,9 +55,10 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 	public function getTitle()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunctionEsc_html__();
 
 		$returnedTitle = $sut->getTitle();
-		$this->assertEquals(NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::TITLE, $returnedTitle);
+		$this->assertEquals('Sync to WordPress', $returnedTitle);
 	}
 
 	/**
@@ -78,6 +79,8 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 	public function renderAdmin_validCapability_delegateToMethod()
 	{
 		$sut = $this->sut(array('checkCapability', 'processData', 'display'));
+		$this->mockFunction__();
+		$this->mockFunctionEsc_html__();
 
 		$paramsFilled = array(
 			'nonce'    => NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::NONCE, //add nonce for security
@@ -85,6 +88,13 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 			'blogUrl'  => 'www.testsite.it',
 			'message' => null,
 			'log' => null,
+            'i18n' => array(
+                'title' => 'Sync To WordPress',
+                'descriptionLine1' => 'If you want to trigger Sync to WordPress, you must know the URL to the index.php of your blog:',
+                'descriptionLine2' => 'Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:',
+                'repeatAction' => 'Repeat AD to WordPress synchronization',
+                'startAction' => 'Start AD to WordPress synchronization'
+            )
 		);
 
 		$sut->expects($this->once())

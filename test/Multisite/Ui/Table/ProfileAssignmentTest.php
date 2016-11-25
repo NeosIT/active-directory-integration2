@@ -48,6 +48,7 @@ class Ut_NextADInt_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 	public function getColumns_returnsExpectedColumns()
 	{
 		$sut = $this->sut();
+		$this->mockFunction__();
 
 		$expected = array(
 			'cb'                                                       => '<input type="checkbox" />',
@@ -82,12 +83,14 @@ class Ut_NextADInt_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 	public function columnCb_containsCorrectLabelAndInputElements()
 	{
 		$sut = $this->sut();
+		$this->mockFunction__();
 
 		WP_Mock::wpFunction('untrailingslashit', array(
 			'args'   => 'domain.com/path',
 			'times'  => 1,
 			'return' => 'domain.com/path',
 		));
+
 		WP_Mock::wpFunction('esc_attr', array(
 			'args'   => 1,
 			'times'  => 1,

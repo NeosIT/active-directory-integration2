@@ -965,6 +965,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	public function createUser_returnsWpError_ifAutoCreateIsDisabled()
 	{
 		$sut = $this->sut();
+		$this->mockFunction__();
 
 		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
@@ -1096,6 +1097,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	 */
 	public function ADI_367_xmlrpcMustBeSecured_whenAllowXmlRpcLoginIsDisabled() {
 		$sut = $this->sut();
+		$this->mockFunction__();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')

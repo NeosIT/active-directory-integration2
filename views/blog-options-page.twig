@@ -1,18 +1,17 @@
-{% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
 <!-- get nonce -->
 <script type="application/javascript">
     document['next_ad_int'] = document['next_ad_int'] || {};
     document['next_ad_int']['security'] = '{{ nonce }}';
 </script>
 <div ng-app="next_ad_int-module">
-    <h1>{{ 'Active Directory Integration Blog Configuration'|__(NEXT_AD_INT_I18N) }}</h1>
+    <h1>{{ i18n.title }}</h1>
 
     <div ng-controller="BlogController">
         <form class="form adi-form" name="form">
             <div class="block-ui" ng-hide="runningRequests == 0"></div>
 
             {% import "option/page.twig" as page %}
-            {{ page.create('noprefix') }}
+            {{ page.create('noprefix', false, i18n) }}
         </form>
     </div>
 </div>

@@ -89,6 +89,7 @@ class Ut_NextADInt_Adi_Authentication_Ui_ShowBlockedMessageTest extends Ut_Basic
 	public function showBlockMessage_forNormalAuthentification()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunction__();
 
 		$this->twigContainer->expects($this->once())
 			->method('getTwig')
@@ -96,10 +97,6 @@ class Ut_NextADInt_Adi_Authentication_Ui_ShowBlockedMessageTest extends Ut_Basic
 
 		$this->twigEnvironment->expects($this->once())
 			->method('render');
-
-		\WP_Mock::wpFunction('__', array(
-			'return_arg' => 0)
-		);
 
 		WP_Mock::wpFunction('wp_die', array(
 			'args'  => 'Authentication denied by Next Active Directory Integration Brute Force Protection. <br> Your account is blocked for <span id=\'secondsLeft\'>5</span> seconds.',
@@ -114,6 +111,7 @@ class Ut_NextADInt_Adi_Authentication_Ui_ShowBlockedMessageTest extends Ut_Basic
 	 */
 	public function showBlockMessage_forXmlRpc() {
 		$sut = $this->sut(null);
+		$this->mockFunction__();
 		$timeLeft = 5;
 
 		$_SERVER['PHP_SELF'] = 'xmlrpc.php';

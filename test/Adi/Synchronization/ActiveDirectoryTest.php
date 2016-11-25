@@ -514,6 +514,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	 */
 	public function assertSynchronizationAvailable_throwsExceptionIfDisabled() {
 		$sut = $this->sut(array('isEnabled'));
+		$this->mockFunction__();
 
 		$sut->expects($this->once())
 			->method('isEnabled')
@@ -533,6 +534,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	 */
 	public function assertSynchronizationAvailable_throwsExceptionIfUserIsNotSynchronizable() {
 		$sut = $this->sut(array('isEnabled', 'isSynchronizable'));
+		$this->mockFunction__();
 
 		$sut->expects($this->once())
 			->method('isEnabled')
@@ -557,6 +559,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	 */
 	public function assertSynchronizationAvailable_throwsExceptionIfEditingAForeignProfile_withoutServiceAccount() {
 		$sut = $this->sut(array('isEnabled', 'isSynchronizable', 'isServiceAccountEnabled'));
+		$this->mockFunction__();
 
 		$sut->expects($this->once())
 			->method('isEnabled')

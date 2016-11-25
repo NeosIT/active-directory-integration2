@@ -105,7 +105,7 @@ class NextADInt_Adi_Authentication_LoginService
 	public function disableLostPassword()
 	{
 		$message = esc_html__(
-			'Lost Password feature has been disabled by the "Active Directory Integration 2" plugin.', NEXT_AD_INT_I18N
+			'Lost Password feature has been disabled by the "Next Active Directory Integration" plugin.', 'next-active-directory-integration'
 		);
 
 		wp_die($message);
@@ -169,7 +169,7 @@ class NextADInt_Adi_Authentication_LoginService
 			}
 
 			$this->logger->warn("XML-RPC Login detected ! Preventing further authentication.");
-			wp_die(__("Next ADI prevents XML RPC authentication!", NEXT_AD_INT_I18N));
+			wp_die(__("Next ADI prevents XML RPC authentication!", 'next-active-directory-integration'));
 		}
 	}
 
@@ -563,7 +563,7 @@ class NextADInt_Adi_Authentication_LoginService
 			return new WP_Error(
 				'invalid_username', __(
 					$error,
-					NEXT_AD_INT_I18N
+					'next-active-directory-integration'
 				)
 			);
 		}

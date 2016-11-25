@@ -57,7 +57,7 @@ class NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList
 	 */
 	public function addColumns($columns)
 	{
-		$columns[self::ADI_PROFILE_COLUMN] = __('Active ADI profile', NEXT_AD_INT_I18N);
+		$columns[self::ADI_PROFILE_COLUMN] = __('Active ADI profile', 'next-active-directory-integration');
 
 		return $columns;
 	}
@@ -80,7 +80,7 @@ class NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList
 				$name = $this->profileRepository->findName($id, '');
 
 				if ($isDefaultProfileUsed) {
-					echo sprintf(__('%s (default profile)', NEXT_AD_INT_I18N), $name);
+					echo sprintf(__('%s (default profile)', 'next-active-directory-integration'), $name);
 
 					return;
 				}
@@ -92,7 +92,7 @@ class NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList
 				}
 			}
 
-			echo "<em>" . __('None assigned', NEXT_AD_INT_I18N) . '</em>';
+			echo "<em>" . __('None assigned', 'next-active-directory-integration') . '</em>';
 		}
 	}
 }
