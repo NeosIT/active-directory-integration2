@@ -118,21 +118,22 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 			'lastName'  => 'testLastName',
 		);
 
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
 
-		WP_Mock::wpFunction(
-			'current_user_can', array(
-				'args'   => 'manage_options',
-				'times'  => 1,
-				'return' => true,
-			)
+		WP_Mock::wpFunction('current_user_can', array(
+            'args'   => 'manage_options',
+            'times'  => 1,
+            'return' => true,)
 		);
 
-		WP_Mock::wpFunction(
-			'get_user_meta', array(
-				'args'   => array(2, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
-				'times'  => 1,
-				'return' => $userMeta,
-			)
+		WP_Mock::wpFunction('get_user_meta', array(
+            'args'   => array(2, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
+            'times'  => 1,
+            'return' => $userMeta,)
 		);
 
 		$this->twigContainer->expects($this->once())
@@ -145,6 +146,12 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 				'user-profile-option.twig', array(
 					'userDisabled'   => true,
 					'disabledReason' => $userMeta,
+                    'i18n' => array(
+                        'userDisabled' => 'User Disabled',
+                        'emailWillBeChanged' => 'If selected, the user can not log in and his e-mail address will be changed for security reasons. The e-mail address is restored if the user is reenabled.',
+                        'informationOnLastDisabling' => 'Information on last disabling: ',
+                        'warning' => 'Attention: This flag is automatically set (or unset) by Sync to WordPresss and its state may change on next run of synchronization.'
+                    )
 				)
 			);
 
@@ -187,31 +194,28 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 		);
 
 
-		\WP_Mock::wpFunction(
-			'get_userdata', array(
-				'args'   => $userId,
-				'times'  => 1,
-				'return' => $userObject,
-			)
+		\WP_Mock::wpFunction('get_userdata', array(
+            'args'   => $userId,
+            'times'  => 1,
+            'return' => $userObject,)
 		);
 
-		\WP_Mock::wpFunction(
-			'get_user_by', array(
-				'args'   => array('id', $userId),
-				'times'  => 1,
-				'return' => $userObject,
-			)
+		\WP_Mock::wpFunction('get_user_by', array(
+            'args'   => array('id', $userId),
+            'times'  => 1,
+            'return' => $userObject,)
 		);
 
-		\WP_Mock::wpFunction(
-			'wp_get_current_user', array(
-				'times'  => 1,
-				'return' => $userObject2,
-			)
+		\WP_Mock::wpFunction('wp_get_current_user', array(
+            'times'  => 1,
+            'return' => $userObject2,)
 		);
 
-
-
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
 
 		$this->userManager->expects($this->once())
 			->method('disable')
@@ -246,12 +250,10 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 			->method('enable')
 			->with($userId);
 
-		\WP_Mock::wpFunction(
-			'get_user_by', array(
-				'args'   => array('id', $userId),
-				'times'  => 1,
-				'return' => $userObject,
-			)
+		\WP_Mock::wpFunction('get_user_by', array(
+            'args'   => array('id', $userId),
+            'times'  => 1,
+            'return' => $userObject,)
 		);
 
 		$sut->saveOption($userId);

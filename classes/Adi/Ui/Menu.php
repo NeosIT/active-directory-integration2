@@ -74,7 +74,7 @@ class NextADInt_Adi_Ui_Menu extends NextADInt_Adi_Ui_Menu_Abstract
 	{
 		$permission = 'manage_options';
 		$renderMethodName = 'renderAdmin';
-		$mainMenuTitle = esc_html__('Active Directory Integration', NEXT_AD_INT_I18N);
+		$mainMenuTitle = esc_html__('Active Directory Integration', 'next-active-directory-integration');
 		$mainMenuSlug = $this->blogConfigurationPage->getSlug();
 
 		// add menu

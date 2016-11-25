@@ -65,10 +65,20 @@ class NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption
 			return;
 		}
 
+		// translate twig text
+        $i18n = array(
+            'userDisabled' => __('User Disabled', 'next-active-directory-integration'),
+            'emailWillBeChanged' => __('If selected, the user can not log in and his e-mail address will be changed for security reasons. The e-mail address is restored if the user is reenabled.', 'next-active-directory-integration'),
+            'informationOnLastDisabling' => __('Information on last disabling: ', 'next-active-directory-integration'),
+            'warning' => __('Attention: This flag is automatically set (or unset) by Sync to WordPresss and its state may change on next run of synchronization.', 'next-active-directory-integration')
+        );
+		$i18n = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
+
 		echo $this->twigContainer->getTwig()->render(
 			self::TEMPLATE_NAME, array(
 				'userDisabled'   => $this->userManager->isDisabled($user->ID),
 				'disabledReason' => get_user_meta($user->ID, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
+                'i18n' => $i18n
 			)
 		);
 	}
@@ -94,7 +104,7 @@ class NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption
 			$disabledBy = wp_get_current_user();
 
 			$message = sprintf(
-				__('User "%s" with ID "%s" manually disabled by "%s" with the ID "%s".', NEXT_AD_INT_I18N), $disabledUser->user_login, $userId, $disabledBy->user_login, $disabledBy->ID
+				__('User "%s" with ID "%s" manually disabled by "%s" with the ID "%s".', 'next-active-directory-integration'), $disabledUser->user_login, $userId, $disabledBy->user_login, $disabledBy->ID
 			);
 			$this->userManager->disable($userId, $message);
 

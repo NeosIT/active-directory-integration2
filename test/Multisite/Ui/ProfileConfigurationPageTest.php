@@ -45,8 +45,14 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		$sut = $this->sut(null);
 
 		$expectedTitle = 'Profile options';
-		$returnedTitle = $sut->getTitle();
 
+        WP_Mock::wpFunction('esc_html__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
+		$returnedTitle = $sut->getTitle();
 		$this->assertEquals($expectedTitle, $returnedTitle);
 	}
 
@@ -106,29 +112,29 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 
 		$nonce = 'some_nonce';
 
-		WP_Mock::wpFunction(
-			'add_query_arg', array(
-				'args' => array('page', NextADInt_Multisite_Ui_BlogProfileRelationshipPage::buildSlug()),
-				'times' => 1,
-				'return' => 'url',
-			)
+		WP_Mock::wpFunction('add_query_arg', array(
+            'args' => array('page', NextADInt_Multisite_Ui_BlogProfileRelationshipPage::buildSlug()),
+            'times' => 1,
+            'return' => 'url')
 		);
 
-		WP_Mock::wpFunction(
-			'wp_create_nonce', array(
-				'args' => NextADInt_Multisite_Ui_ProfileConfigurationPage::NONCE,
-				'times' => 1,
-				'return' => $nonce,
-			)
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
+		WP_Mock::wpFunction('wp_create_nonce', array(
+            'args' => NextADInt_Multisite_Ui_ProfileConfigurationPage::NONCE,
+            'times' => 1,
+            'return' => $nonce)
 		);
 
-		WP_Mock::wpFunction(
-			'wp_create_nonce', array(
-				'args' => NextADInt_Multisite_Ui_BlogProfileRelationshipPage::NONCE,
-				'times' => 1,
-				'return' => $nonce,
-			)
-		);
+        WP_Mock::wpFunction('wp_create_nonce', array(
+            'args' => NextADInt_Multisite_Ui_BlogProfileRelationshipPage::NONCE,
+            'times' => 1,
+            'return' => $nonce)
+        );
 
 		$sut->expects($this->once())
 			->method('display')
@@ -136,7 +142,41 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 				'blog_profile_relationship_url' => 'url',
 				'nonce' => $nonce,
 				'blog_rel_nonce' => $nonce,
-			));
+                'i18n' => array(
+                    'warningDiscardChanges' => 'The current profile contains unsaved changes. Are you sure you want to continue?',
+                    'deleteProfileAssociatedSites' => 'The current profile is associated with the following sites:',
+                    'deleteProfileAssociated' => 'The current profile is associated with {{ associations.length }} sites. Are you sure you want to delete this profile?',
+                    'assignNewProfile' => 'Assign to profile:',
+                    'newProfile' => 'New Profile',
+                    'none' => 'None',
+                    'configureSettingsForProfile' => 'Configure Settings for Profile : ',
+                    'createNewProfile' => 'Create new profile',
+                    'deleteProfile' => 'Delete profile',
+                    'viewAssociatedProfiles' => 'View associated profiles',
+                    'regenerateAuthCode' => 'Regenerate Auth Code',
+                    'securityGroup' => 'Security group',
+                    'wordpressRole' => 'WordPress role',
+                    'selectRole' => 'Please select a role',
+                    'verify' => 'Verify',
+                    'adAttributes' => 'AD Attributes',
+                    'dataType' => 'Data Type',
+                    'wordpressAttribute' => 'Wordpress Attribute',
+                    'description' => 'Description',
+                    'viewInUserProfile' => 'View in User Profile',
+                    'syncToAd' => 'Sync to Ad',
+                    'overwriteWithEmptyValue' => 'Overwrite with empty value',
+                    'wantToRegenerateAuthCode' => 'Do you really want to regenerate a new AuthCode?',
+                    'wordPressIsConnectedToDomain' => 'WordPress Site is currently connected to Domain: ',
+                    'domainConnectionVerificationSuccessful' => 'Verification successful! WordPress site is now connected to Domain: ',
+                    'verificationSuccessful' => 'Verification successful!',
+                    'domainConnectionVerificationFailed' => 'Verification failed! Please check your logfile for further information.',
+                    'managePermissions' => 'Manage Permissions',
+                    'noOptionsExists' => 'No options exists',
+                    'pleaseWait' => 'Please wait...',
+                    'save' => 'Save',
+                    'haveToVerifyDomainConnection' => 'You have to verify the connection to the AD before saving.')
+                )
+			);
 
 		$sut->renderNetwork();
 	}
@@ -758,19 +798,19 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		$permissionItems = array(
 			0 => array(
 				"value" => "0",
-				"description" => __("Input field is invisible.", NEXT_AD_INT_I18N),
+				"description" => __("Input field is invisible.", 'next-active-directory-integration'),
 			),
 			1 => array(
 				"value" => "1",
-				"description" => __("Deactivated and option value not shown.", NEXT_AD_INT_I18N),
+				"description" => __("Deactivated and option value not shown.", 'next-active-directory-integration'),
 			),
 			2 => array(
 				"value" => "2",
-				"description" => __("Deactivated and option value shown.", NEXT_AD_INT_I18N),
+				"description" => __("Deactivated and option value shown.", 'next-active-directory-integration'),
 			),
 			3 => array(
 				"value" => "3",
-				"description" => __("Blog admin sets the option value.", NEXT_AD_INT_I18N),
+				"description" => __("Blog admin sets the option value.", 'next-active-directory-integration'),
 			),
 		);
 

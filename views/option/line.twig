@@ -1,4 +1,4 @@
-{% macro create(optionName, network, isProfile) %}
+{% macro create(optionName, network, isProfile, i18n) %}
 
     {% if network %}
         {% set preparedId = 'profile' ~ isProfile ~ '__' ~ optionName %}
@@ -22,7 +22,7 @@
             <td style="line-height: 2">
 
                 {% import "option/element.twig" as element %}
-                {{ element.create(optionName, isProfile, inputId, permissionSelectionId, network) }}
+                {{ element.create(optionName, isProfile, inputId, permissionSelectionId, network, i18n) }}
             </td>
         </tr>
     {% else  %}
@@ -30,7 +30,7 @@
         {% set permission = getPermissionForOptionAndBlog(optionName) %}
 
         {% import "option/attributes.twig" as attributes %}
-        {{ attributes.create(optionName, permission, inputId, permissionSelectionId, network) }}
+        {{ attributes.create(optionName, permission, inputId, permissionSelectionId, network, i18n) }}
 
     {% endif %}
 

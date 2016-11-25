@@ -158,17 +158,21 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 	{
 		$sut = $this->sut(array('getProfileOption'));
 
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
 		$sut->expects($this->once())
 			->method('getProfileOption')
 			->with(1, NextADInt_Multisite_Configuration_Persistence_ProfileRepository::PREFIX_NAME)
 			->willReturn('name');
 
-		WP_Mock::wpFunction(
-			'get_site_option', array(
-				'args'   => array('name', 'New Profile'),
-				'times'  => 1,
-				'return' => 'name',
-			)
+		WP_Mock::wpFunction('get_site_option', array(
+            'args'   => array('name', 'New Profile'),
+            'times'  => 1,
+            'return' => 'name')
 		);
 
 		$result = $sut->findName(1);
@@ -346,6 +350,12 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 			->with('My ADI profile',
 				'This profile has been created by the plugin installation automatically. It can safely be deleted.')
 			->willReturn(true);
+
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
 
 		$actual = $sut->insertDefaultProfile();
 		$this->assertEquals(true, $actual);

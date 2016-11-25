@@ -33,8 +33,14 @@ class Ut_NextADInt_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_Basic
 		$sut = $this->sut(null);
 
 		$expectedTitle = 'Profile assignment';
-		$returnedTitle = $sut->getTitle();
 
+        WP_Mock::wpFunction('esc_html__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
+		$returnedTitle = $sut->getTitle();
 		$this->assertEquals($expectedTitle, $returnedTitle);
 	}
 
@@ -91,6 +97,21 @@ class Ut_NextADInt_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_Basic
 		$nonce = 'some_nonce';
 		$this->createMock('WP_MS_Sites_List_Table');
 		$table = $this->createMock('NextADInt_Multisite_Ui_Table_ProfileAssignment');
+        $i18n = array(
+            'search' => 'Search',
+            'title' => 'Profile assignment',
+            'defaultProfile' => 'Default profile',
+            'noneAssigned' => '--- None assigned',
+            'apply' => 'Apply',
+            'changeBlogs' => 'Change selected blogs to profile',
+            'useDefaultProfile' => '--- Use default profile'
+        );
+
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
 
 		WP_Mock::wpFunction('wp_create_nonce', array(
 			'args'   => NextADInt_Multisite_Ui_BlogProfileRelationshipPage::NONCE,
@@ -104,7 +125,7 @@ class Ut_NextADInt_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_Basic
 
 		$sut->expects($this->once())
 			->method('display')
-			->with(NextADInt_Multisite_Ui_BlogProfileRelationshipPage::TEMPLATE, array('nonce' => $nonce, 'table' => $table));
+			->with(NextADInt_Multisite_Ui_BlogProfileRelationshipPage::TEMPLATE, array('nonce' => $nonce, 'table' => $table, 'i18n' => $i18n));
 
 		$sut->renderNetwork();
 	}

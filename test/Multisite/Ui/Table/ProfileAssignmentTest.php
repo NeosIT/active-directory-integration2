@@ -55,6 +55,12 @@ class Ut_NextADInt_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 			'blogname'                                                 => 'URL',
 		);
 
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
 		WP_Mock::onFilter('wpmu_blogs_columns')
 			->with($expected)
 			->reply($expected);
@@ -88,11 +94,18 @@ class Ut_NextADInt_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 			'times'  => 1,
 			'return' => 'domain.com/path',
 		));
+
 		WP_Mock::wpFunction('esc_attr', array(
 			'args'   => 1,
 			'times'  => 1,
 			'return' => 1,
 		));
+
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
 
 		$output = $this->captureOutput(function() use ($sut) {
 			$sut->column_cb(array(

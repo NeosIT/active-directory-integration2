@@ -16,27 +16,6 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		\WP_Mock::setUp();
-
-		\WP_Mock::wpFunction('__', array(
-			'args'       => array(WP_Mock\Functions::type('string'), NEXT_AD_INT_I18N),
-			'times'      => '0+',
-			'return_arg' => 0,
-		));
-
-		\WP_Mock::wpFunction('__', array(
-			'args'  => array(WP_Mock\Functions::type('string')),
-			'times' => '0',
-		));
-		\WP_Mock::wpFunction('esc_html__', array(
-			'args'       => array(WP_Mock\Functions::type('string'), NEXT_AD_INT_I18N),
-			'times'      => '0+',
-			'return_arg' => 0,
-		));
-
-		\WP_Mock::wpFunction('esc_html__', array(
-			'args'  => array(WP_Mock\Functions::type('string')),
-			'times' => '0',
-		));
 	}
 
 	public function tearDown()

@@ -118,6 +118,12 @@ class Ut_NextADInt_Adi_Authentication_Ui_ShowBlockedMessageTest extends Ut_Basic
 
 		$_SERVER['PHP_SELF'] = 'xmlrpc.php';
 
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
 		WP_Mock::wpFunction('wp_die', array(
 				'args'  => 'Authentication denied by Next Active Directory Integration Brute Force Protection. Your account is blocked for ' . $timeLeft . ' seconds.',
 				'times' => '1')

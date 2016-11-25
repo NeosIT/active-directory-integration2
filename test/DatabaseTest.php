@@ -19,7 +19,7 @@ abstract class Ut_DatabaseTest extends PHPUnit_Extensions_Database_TestCase
 
 		WP_Mock::wpFunction(
 			'__', array(
-				'args'       => array(WP_Mock\Functions::type('string'), NEXT_AD_INT_I18N),
+				'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
 				'return_arg' => 0
 			)
 		);

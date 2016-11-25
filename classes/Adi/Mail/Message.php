@@ -26,15 +26,6 @@ class NextADInt_Adi_Mail_Message
 	private $blockTime;
 	private $targetUser;
 
-	private static $bodyElements = array(
-		'Someone tried to login into the WordPress site "%s" (%s) with %s username "%s" - but was stopped after too many wrong attempts.',
-		'This account is associated with "%s %s" and the email address "%s".',
-		'The login attempt was made from IP-Address: %s',
-		'For security reasons this account is now blocked for %d seconds.',
-		'PLEASE CONTACT AN ADMIN IF SOMEONE STILL TRIES TO LOGIN INTO YOUR ACCOUNT.',
-		'THIS IS A SYSTEM GENERATED E-MAIL, PLEASE DO NOT RESPOND TO THE E-MAIL ADDRESS SPECIFIED ABOVE.',
-	);
-
 	/**
 	 * NextADInt_Adi_Mail_Message constructor.
 	 */
@@ -51,49 +42,53 @@ class NextADInt_Adi_Mail_Message
         return 'From: ' . $this->fromEmail;
 	}
 
-
 	public function getSubject()
 	{
-		return '[' . $this->blogName . '] ' . __('Account blocked', NEXT_AD_INT_I18N);
+		return '[' . $this->blogName . '] ' . __('Account blocked', 'next-active-directory-integration');
 	}
 
 	public function getBody()
 	{
-		$body = sprintf($this->getBodyElement(0), $this->blogName, $this->blogUrl, $this->targetUser ? 'your' : 'the',
-			$this->username);
+        $text = $this->getTranslatedEMailText();
+
+        if ($this->targetUser) {
+            $body = sprintf($text[0], $this->blogName, $this->blogUrl, $this->username);
+        } else {
+            $body = sprintf($text[1], $this->blogName, $this->blogUrl, $this->username);
+        }
+
 
 		if (!$this->targetUser) {
-			$body .= sprintf($this->getBodyElement(1), $this->firstName, $this->secondName, $this->email);
+			$body .= sprintf($text[2], $this->firstName, $this->secondName, $this->email);
 		}
 
-		$body .= sprintf($this->getBodyElement(2), $this->remoteAddress);
-		$body .= sprintf($this->getBodyElement(3), $this->blockTime);
+		$body .= sprintf($text[3], $this->remoteAddress);
+		$body .= sprintf($text[4], $this->blockTime);
 		$body .= "\r\n";
 
 		if ($this->targetUser) {
-			$body .= $this->getBodyElement(4);
+			$body .= $text[5];
 		}
 
-		$body .= $this->getBodyElement(5);
+		$body .= $text[6];
 
 		return $body;
 	}
 
-	/**
-	 * Return the body element with the number $number.
-	 *
-	 * @param int $number
-	 *
-	 * @return string|void
-	 */
-	public function getBodyElement($number)
-	{
-		$element = self::$bodyElements[$number];
-		$element = __($element, NEXT_AD_INT_I18N);
-		$element .= "\r\n";
-
-		return $element;
-	}
+    /**
+     * Return the translated text for the e-mail body
+     */
+	public function getTranslatedEmailText() {
+        return array(
+            __('Someone tried to login into the WordPress site "%s" (%s) with your username "%s" - but was stopped after too many wrong attempts.', 'next-active-directory-integration'),
+            __('Someone tried to login into the WordPress site "%s" (%s) with the username "%s" - but was stopped after too many wrong attempts.', 'next-active-directory-integration'),
+            __('This account is associated with "%s %s" and the email address "%s".', 'next-active-directory-integration'),
+            __('The login attempt was made from IP-Address: %s', 'next-active-directory-integration'),
+            __('For security reasons this account is now blocked for %d seconds.', 'next-active-directory-integration'),
+            __('PLEASE CONTACT AN ADMIN IF SOMEONE STILL TRIES TO LOGIN INTO YOUR ACCOUNT.', 'next-active-directory-integration'),
+            __('THIS IS A SYSTEM GENERATED E-MAIL, PLEASE DO NOT RESPOND TO THE E-MAIL ADDRESS SPECIFIED ABOVE.', 'next-active-directory-integration'),
+        );
+    }
 
 	/**
 	 * @return mixed

@@ -56,8 +56,14 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
+        WP_Mock::wpFunction('esc_html__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
 		$returnedTitle = $sut->getTitle();
-		$this->assertEquals(NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::TITLE, $returnedTitle);
+		$this->assertEquals('Sync to WordPress', $returnedTitle);
 	}
 
 	/**
@@ -85,6 +91,13 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 			'blogUrl'  => 'www.testsite.it',
 			'message' => null,
 			'log' => null,
+            'i18n' => array(
+                'title' => 'Sync To WordPress',
+                'descriptionLine1' => 'If you want to trigger Sync to WordPress, you must know the URL to the index.php of your blog:',
+                'descriptionLine2' => 'Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:',
+                'repeatAction' => 'Repeat AD to WordPress synchronization',
+                'startAction' => 'Start AD to WordPress synchronization'
+            )
 		);
 
 		$sut->expects($this->once())
@@ -112,6 +125,12 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 			'times'  => 1,
 			'return' => 'www.testsite.it',)
 		);
+
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
 
 		$sut->expects($this->once())
 			->method('display')

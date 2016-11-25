@@ -31,6 +31,12 @@ class Ut_NextADInt_Adi_Configuration_OptionsTest extends Ut_BasicTest
 	 */
 	public function getOptionMetaData()
 	{
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
 		$option = $this->sut->get('port');
 		$this->assertTrue(is_array($option));
 		$this->assertEquals('Port', $option['title']);

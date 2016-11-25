@@ -84,6 +84,12 @@ class Ut_NextADInt_Adi_Multisite_Ui_MenuTest extends Ut_BasicTest
 		$permission = 'manage_network';
 		$networkMenu = 'Active Directory Integration';
 
+        WP_Mock::wpFunction('esc_html__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
 		WP_Mock::wpFunction('add_menu_page', array(
 			'args'  => array($networkMenu, $networkMenu, $permission, 'next_ad_int_slug'),
 			'times' => '1',

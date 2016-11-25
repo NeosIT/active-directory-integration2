@@ -56,8 +56,14 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
+        WP_Mock::wpFunction('esc_html__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
 		$returnedTitle = $sut->getTitle();
-		$this->assertEquals(NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage::TITLE, $returnedTitle);
+		$this->assertEquals('Sync to AD', $returnedTitle);
 	}
 
 	/**
@@ -108,12 +114,16 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 			->method('currentUserHasCapability')
 			->willReturn(true);
 
-		WP_Mock::wpFunction(
-			'wp_create_nonce', array(
-				'args'  => NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage::NONCE,
-				'times' => 1,
-				'return' => $nonce
-			)
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
+		WP_Mock::wpFunction('wp_create_nonce', array(
+            'args'  => NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage::NONCE,
+            'times' => 1,
+            'return' => $nonce)
 		);
 
 		$this->configuration->expects($this->once())
@@ -121,19 +131,15 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 			->with(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE)
 			->willReturn($authCode);
 
-		WP_Mock::wpFunction(
-			'get_site_url', array(
-				'args'  => 1,
-				'times' => 1,
-				'return' => $blogUrl
-			)
+		WP_Mock::wpFunction('get_site_url', array(
+            'args'  => 1,
+            'times' => 1,
+            'return' => $blogUrl)
 		);
 
-		WP_Mock::wpFunction(
-			'get_current_blog_id', array(
-				'times' => 1,
-				'return' => 1
-			)
+		WP_Mock::wpFunction('get_current_blog_id', array(
+            'times' => 1,
+            'return' => 1)
 		);
 
 		$sut->expects($this->once())
@@ -144,6 +150,14 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 				'blogUrl' => $blogUrl,
 				'message' => null,
 				'log' => null,
+                'i18n' => array(
+                    'title' => 'Sync To Active Directory',
+                    'descriptionLine1' => 'If you want to trigger Sync to Active Directory, you must know the URL to the index.php of your blog:',
+                    'descriptionLine2' => 'Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:',
+                    'userId' => 'User-ID: (optional)',
+                    'repeatAction' => 'Repeat WordPress to Active Directory synchronization',
+                    'startAction' => 'Start WordPress to Active Directory synchronization'
+                )
 			));
 
 		$sut->renderAdmin();

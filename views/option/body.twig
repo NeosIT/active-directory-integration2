@@ -1,10 +1,9 @@
 {# macro for generating tab bodies#}
-{% macro create(prefix, isProfile) %}
+{% macro create(prefix, isProfile, i18n) %}
 
     <div ng-controller="AjaxController">
 
     {% import "option/group.twig" as group %}
-    {% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
     {% set grouping = getOptionsGrouping() %}
     {% set isOnNetworkDashboard = isOnNetworkDashboard() %}
 
@@ -22,13 +21,13 @@
         {% set tabId = 'tab_body_' ~ prefix ~ '__' ~ loop.index0 %}
 
         <div id="{{ tabId }}" class="tab-body" style="{{ style }}" ng-controller="{{ optionGroups.angular_controller|raw }}">
-            {{ group.create(optionGroups, isProfile) }}
+            {{ group.create(optionGroups, isProfile, i18n) }}
         {% if isOnNetworkDashboard %}
-            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__(NEXT_AD_INT_I18N) }}" not-busy-disabled="{{ '{{ isSaveDisabled }}' }}" ng-disabled="isSaveDisabled" ng-click="save()">{{ 'Save'|__(NEXT_AD_INT_I18N) }}</button>
-            <span ng-hide="!isSaveDisabled" style="color: red">{{ 'You have to verify the connection to the AD before saving.'|__(NEXT_AD_INT_I18N) }}</span>
+            <button class="button button-primary" busy-disabled="true" busy="{{ i18n.pleaseWait }}" not-busy-disabled="{{ '{{ isSaveDisabled }}' }}" ng-disabled="isSaveDisabled" ng-click="save()">{{ i18n.save }}</button>
+            <span ng-hide="!isSaveDisabled" style="color: red">{{ i18n.haveToVerifyDomainConnection }}</span>
         {% else %}
-            <button class="button button-primary" busy-disabled="true" busy="{{ 'Please wait...'|__(NEXT_AD_INT_I18N) }}" not-busy-disabled="{{ '{{ isSaveDisabled }}' }}" ng-disabled="(isSaveDisabled && permission.verification_username == 3 && permission.verification_password == 3)" ng-click="save()">{{ 'Save'|__(NEXT_AD_INT_I18N) }}</button>
-            <span ng-hide="(!isSaveDisabled || permission.verification_username != 3 && permission.verification_password != 3)" style="color: red">{{ 'You have to verify the connection to the AD before saving.'|__(NEXT_AD_INT_I18N) }}</span>
+            <button class="button button-primary" busy-disabled="true" busy="{{ i18n.pleaseWait }}" not-busy-disabled="{{ '{{ isSaveDisabled }}' }}" ng-disabled="(isSaveDisabled && permission.verification_username == 3 && permission.verification_password == 3)" ng-click="save()">{{ i18n.save }}</button>
+            <span ng-hide="(!isSaveDisabled || permission.verification_username != 3 && permission.verification_password != 3)" style="color: red">{{ i18n.haveToVerifyDomainConnection }}</span>
         {% endif %}
         </div>
 

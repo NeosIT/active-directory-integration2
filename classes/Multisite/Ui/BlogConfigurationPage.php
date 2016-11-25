@@ -69,7 +69,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	 */
 	public function getTitle()
 	{
-		return esc_html__('Configuration', NEXT_AD_INT_I18N);
+		return esc_html__('Configuration', 'next-active-directory-integration');
 	}
 
 	/**
@@ -97,9 +97,38 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	 */
 	public function renderAdmin()
 	{
+        // translate twig text
+        $i18n = array(
+            'title' => __('Active Directory Integration Blog Configuration', 'next-active-directory-integration'),
+            'regenerateAuthCode' => __('Regenerate Auth Code', 'next-active-directory-integration'),
+            'securityGroup' => __('Security group', 'next-active-directory-integration'),
+            'wordpressRole' => __('WordPress role', 'next-active-directory-integration'),
+            'selectRole' => __('Please select a role', 'next-active-directory-integration'),
+            'verify' => __('Verify', 'next-active-directory-integration'),
+            'adAttributes' => __('AD Attributes', 'next-active-directory-integration'),
+            'dataType' => __('Data Type', 'next-active-directory-integration'),
+            'wordpressAttribute' => __('Wordpress Attribute', 'next-active-directory-integration'),
+            'description' => __('Description', 'next-active-directory-integration'),
+            'viewInUserProfile' => __('View in User Profile', 'next-active-directory-integration'),
+            'syncToAd' => __('Sync to Ad', 'next-active-directory-integration'),
+            'overwriteWithEmptyValue' => __('Overwrite with empty value', 'next-active-directory-integration'),
+            'wantToRegenerateAuthCode' => __('Do you really want to regenerate a new AuthCode?', 'next-active-directory-integration'),
+            'wordPressIsConnectedToDomain' => __('WordPress Site is currently connected to Domain: ', 'next-active-directory-integration'),
+            'domainConnectionVerificationSuccessful' => __('Verification successful! WordPress site is now connected to Domain: ', 'next-active-directory-integration'),
+            'verificationSuccessful' => __('Verification successful!', 'next-active-directory-integration'),
+            'domainConnectionVerificationFailed' => __('Verification failed! Please check your logfile for further information.', 'next-active-directory-integration'),
+            'managePermissions' => __('Manage Permissions', 'next-active-directory-integration'),
+            'noOptionsExists' => __('No options exists', 'next-active-directory-integration'),
+            'pleaseWait' => __('Please wait...', 'next-active-directory-integration'),
+            'save' => __('Save', 'next-active-directory-integration'),
+            'haveToVerifyDomainConnection' => __('You have to verify the connection to the AD before saving.', 'next-active-directory-integration')
+        );
+		$i18n = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
+
 		$this->display(
 			self::TEMPLATE, array(
 				'nonce' => wp_create_nonce(self::NONCE),// create nonce for security
+                'i18n' => $i18n
 			)
 		);
 	}
@@ -550,11 +579,11 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		if (null === $this->validator) {
 			$validator = $this->getSharedValidator();
 
-			$message = __('Username has to contain a suffix.', NEXT_AD_INT_I18N);
-			$invalidValueMessage = __('The given value is invalid.', NEXT_AD_INT_I18N);
+			$message = __('Username has to contain a suffix.', 'next-active-directory-integration');
+			$invalidValueMessage = __('The given value is invalid.', 'next-active-directory-integration');
 
 			// PROFILE
-			$notEmptyMessage = __('This value must not be empty.', NEXT_AD_INT_I18N);
+			$notEmptyMessage = __('This value must not be empty.', 'next-active-directory-integration');
 			$notEmptyRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace($notEmptyMessage);
 			$validator->addRule(NextADInt_Adi_Configuration_Options::PROFILE_NAME, $notEmptyRule);
 
@@ -566,34 +595,34 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			// USER
 			$accountSuffixMessage = __(
 				'Account Suffix does not match the required style. (e.g. "@company.local")',
-				NEXT_AD_INT_I18N
+				'next-active-directory-integration'
 			);
 			$accountSuffixRule = new NextADInt_Multisite_Validator_Rule_AccountSuffix($accountSuffixMessage, '@');
 			$validator->addRule(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX, $accountSuffixRule);
 
-			$defaultEmailDomainMessage = __('Please remove the "@", it will be added automatically.', NEXT_AD_INT_I18N);
+			$defaultEmailDomainMessage = __('Please remove the "@", it will be added automatically.', 'next-active-directory-integration');
 			$defaultEmailDomainRule = new NextADInt_Multisite_Validator_Rule_DefaultEmailDomain($defaultEmailDomainMessage);
 			$validator->addRule(NextADInt_Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN, $defaultEmailDomainRule);
 
 			// SECURITY
-			$maxLoginAttempts = __('Maximum login attempts has to be numeric and cannot be negative.', NEXT_AD_INT_I18N);
+			$maxLoginAttempts = __('Maximum login attempts has to be numeric and cannot be negative.', 'next-active-directory-integration');
 			$maxLoginAttemptsRule = new NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero($maxLoginAttempts);
 			$validator->addRule(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS, $maxLoginAttemptsRule);
 
-			$blockTimeMessage = __('Blocking Time has to be numeric and cannot be negative.', NEXT_AD_INT_I18N);
+			$blockTimeMessage = __('Blocking Time has to be numeric and cannot be negative.', 'next-active-directory-integration');
 			$blockTimeRule = new NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero($blockTimeMessage);
 			$validator->addRule(NextADInt_Adi_Configuration_Options::BLOCK_TIME, $blockTimeRule);
 
 			$adminEmailMessage = __(
 				'Admin email does not match the required style. (e.g. "admin@company.local")',
-				NEXT_AD_INT_I18N
+				'next-active-directory-integration'
 			);
 			$adminEmailRule = new NextADInt_Multisite_Validator_Rule_AdminEmail($adminEmailMessage, '@');
 			$validator->addRule(NextADInt_Adi_Configuration_Options::ADMIN_EMAIL, $adminEmailRule);
 
 			$fromEmailMessage = __(
 				'From email does not match the required style. (e.g. "wordpress@company.local")',
-				NEXT_AD_INT_I18N
+				'next-active-directory-integration'
 			);
 			$fromEmailRule = new NextADInt_Multisite_Validator_Rule_FromEmailAdress($fromEmailMessage, '@');
 			$validator->addRule(NextADInt_Adi_Configuration_Options::FROM_EMAIL, $fromEmailRule);
@@ -601,7 +630,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			// SSO username
 			$ssoServiceAccountUserSuffixRule = new NextADInt_Multisite_Validator_Rule_Suffix($message, '@');
 
-			$ssoServiceAccountUserNotEmptyMessage = __('Username must not be empty.', NEXT_AD_INT_I18N);
+			$ssoServiceAccountUserNotEmptyMessage = __('Username must not be empty.', 'next-active-directory-integration');
 			$ssoServiceAccountUserNotEmptyRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace(
 				$ssoServiceAccountUserNotEmptyMessage
 			);
@@ -613,7 +642,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			$validator->addRule(NextADInt_Adi_Configuration_Options::SSO_USER, $ssoServiceAccountUsernameConditionalRules);
 
 			// SSO password
-			$ssoServiceAccountPasswordNotEmptyMessage = __('Password must not be empty.', NEXT_AD_INT_I18N);
+			$ssoServiceAccountPasswordNotEmptyMessage = __('Password must not be empty.', 'next-active-directory-integration');
 			$ssoServiceAccountPasswordNotEmptyRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace(
 				$ssoServiceAccountPasswordNotEmptyMessage
 			);
@@ -629,15 +658,15 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			$validator->addRule(NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE, $ssoEnvironmentVariableRule);
 
 			// PERMISSIONS
-			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', NEXT_AD_INT_I18N);
-            $invalidRoleMessage = __('At least one security group is associated with a non existing WordPress role. Please select an existing role for the group.', NEXT_AD_INT_I18N);
+			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', 'next-active-directory-integration');
+            $invalidRoleMessage = __('At least one security group is associated with a non existing WordPress role. Please select an existing role for the group.', 'next-active-directory-integration');
 			$disallowedRoleRule = new NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles(array($disallowedRoleMessage, $invalidRoleMessage));
 			$validator->addRule(NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
 
 			// ATTRIBUTES
 			$noDefaultAttributeNameMessage = __(
 				'Cannot use default attribute names for custom attribute mapping.',
-				NEXT_AD_INT_I18N
+				'next-active-directory-integration'
 			);
 			$noDefaultAttributeNameRule = new NextADInt_Multisite_Validator_Rule_NoDefaultAttributeName(
 				$noDefaultAttributeNameMessage
@@ -646,16 +675,16 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 
 			$attributeMappingNullMessage = __(
 				'Ad Attribute / Data Type / WordPress Attribute cannot be empty!',
-				NEXT_AD_INT_I18N
+				'next-active-directory-integration'
 			);
 			$attributeMappingNullRule = new NextADInt_Multisite_Validator_Rule_AttributeMappingNull($attributeMappingNullMessage);
 			$validator->addRule(NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $attributeMappingNullRule);
 
-			$metakeyConflictMessage = __('You cannot use the same WordPress Attribute multiple times.', NEXT_AD_INT_I18N);
+			$metakeyConflictMessage = __('You cannot use the same WordPress Attribute multiple times.', 'next-active-directory-integration');
 			$metakeyConflictRule = new NextADInt_Multisite_Validator_Rule_WordPressMetakeyConflict($metakeyConflictMessage);
 			$validator->addRule(NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $metakeyConflictRule);
 
-			$adAttributeConflictMessage = __('You cannot use the same Ad Attribute multiple times.', NEXT_AD_INT_I18N);
+			$adAttributeConflictMessage = __('You cannot use the same Ad Attribute multiple times.', 'next-active-directory-integration');
 			$adAttributeConflictRule = new NextADInt_Multisite_Validator_Rule_AdAttributeConflict($adAttributeConflictMessage);
 			$validator->addRule(NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES, $adAttributeConflictRule);
 
@@ -694,18 +723,18 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			$validator = $this->getSharedValidator();
 
 			$verifyUsernameMessage = __(
-				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', NEXT_AD_INT_I18N
+				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', 'next-active-directory-integration'
 			);
 			$verifyUsernameRule = new NextADInt_Multisite_Validator_Rule_AdminEmail($verifyUsernameMessage, '@');
 			$validator->addRule(NextADInt_Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameRule);
 
 			$verifyUsernameEmptyMessage = __(
-				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', NEXT_AD_INT_I18N
+				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', 'next-active-directory-integration'
 			);
 			$verifyUsernameEmptyRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyUsernameEmptyMessage);
 			$validator->addRule(NextADInt_Adi_Configuration_Options::VERIFICATION_USERNAME, $verifyUsernameEmptyRule);
 
-			$verifyPasswordMessage = __('Verification Password cannot be empty.', NEXT_AD_INT_I18N);
+			$verifyPasswordMessage = __('Verification Password cannot be empty.', 'next-active-directory-integration');
 			$verifyPasswordRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyPasswordMessage);
 			$validator->addRule(NextADInt_Adi_Configuration_Options::VERIFICATION_PASSWORD, $verifyPasswordRule);
 
@@ -723,11 +752,11 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		$validator = new NextADInt_Core_Validator();
 
 		// ENVIRONMENT
-		$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', NEXT_AD_INT_I18N);
+		$portMessage = __('Port has to be numeric and in the range from 0 - 65535.', 'next-active-directory-integration');
 		$portRule = new NextADInt_Multisite_Validator_Rule_Port($portMessage);
 		$validator->addRule(NextADInt_Adi_Configuration_Options::PORT, $portRule);
 
-		$networkTimeoutMessage = __('Network timeout has to be numeric and cannot be negative.', NEXT_AD_INT_I18N);
+		$networkTimeoutMessage = __('Network timeout has to be numeric and cannot be negative.', 'next-active-directory-integration');
 		$networkTimeoutRule = new NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero($networkTimeoutMessage);
 		$validator->addRule(NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT, $networkTimeoutRule);
 

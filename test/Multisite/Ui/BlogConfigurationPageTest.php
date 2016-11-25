@@ -33,8 +33,14 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 
 		$expectedTitle = 'Configuration';
-		$returnedTitle = $sut->getTitle();
 
+        WP_Mock::wpFunction('esc_html__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
+		$returnedTitle = $sut->getTitle();
 		$this->assertEquals($expectedTitle, $returnedTitle);
 	}
 
@@ -89,18 +95,47 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$sut = $this->sut(array('display'));
 
 		$nonce = 'some_nonce';
+        $i18n = array(
+            'title' => 'Active Directory Integration Blog Configuration',
+            'regenerateAuthCode' => 'Regenerate Auth Code',
+            'securityGroup' => 'Security group',
+            'wordpressRole' => 'WordPress role',
+            'selectRole' => 'Please select a role',
+            'verify' => 'Verify',
+            'adAttributes' => 'AD Attributes',
+            'dataType' => 'Data Type',
+            'wordpressAttribute' => 'Wordpress Attribute',
+            'description' => 'Description',
+            'viewInUserProfile' => 'View in User Profile',
+            'syncToAd' => 'Sync to Ad',
+            'overwriteWithEmptyValue' => 'Overwrite with empty value',
+            'wantToRegenerateAuthCode' => 'Do you really want to regenerate a new AuthCode?',
+            'wordPressIsConnectedToDomain' => 'WordPress Site is currently connected to Domain: ',
+            'domainConnectionVerificationSuccessful' => 'Verification successful! WordPress site is now connected to Domain: ',
+            'verificationSuccessful' => 'Verification successful!',
+            'domainConnectionVerificationFailed' => 'Verification failed! Please check your logfile for further information.',
+            'managePermissions' => 'Manage Permissions',
+            'noOptionsExists' => 'No options exists',
+            'pleaseWait' => 'Please wait...',
+            'save' => 'Save',
+            'haveToVerifyDomainConnection' => 'You have to verify the connection to the AD before saving.'
+        );
 
-		WP_Mock::wpFunction(
-			'wp_create_nonce', array(
-				'args' => NextADInt_Multisite_Ui_BlogConfigurationPage::NONCE,
-				'times' => 1,
-				'return' => $nonce,
-			)
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
+        WP_Mock::wpFunction('wp_create_nonce', array(
+            'args' => NextADInt_Multisite_Ui_BlogConfigurationPage::NONCE,
+            'times' => 1,
+            'return' => $nonce,)
 		);
 
-		$sut->expects($this->once())
+        $sut->expects($this->once())
 			->method('display')
-			->with(NextADInt_Multisite_Ui_BlogConfigurationPage::TEMPLATE, array('nonce' => $nonce));
+			->with(NextADInt_Multisite_Ui_BlogConfigurationPage::TEMPLATE, array('nonce' => $nonce, 'i18n' => $i18n));
 
 		$sut->renderAdmin();
 	}

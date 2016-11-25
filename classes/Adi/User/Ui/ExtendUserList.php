@@ -69,8 +69,8 @@ class NextADInt_Adi_User_Ui_ExtendUserList
 	 */
 	public function addColumns($columns)
 	{
-		$columns[$this->__columnIsAdiUser()] = __('ADI User', NEXT_AD_INT_I18N);
-		$columns[$this->__columnUserDisabled()] = __('Disabled', NEXT_AD_INT_I18N);
+		$columns[$this->__columnIsAdiUser()] = __('ADI User', 'next-active-directory-integration');
+		$columns[$this->__columnUserDisabled()] = __('Disabled', 'next-active-directory-integration');
 
 		return $columns;
 	}
@@ -130,7 +130,7 @@ class NextADInt_Adi_User_Ui_ExtendUserList
 
 		// fallback message
 		if (!$reason || !is_string($reason) || strlen($reason) === 0){
-			$reason = __('User is disabled by Next ADI.', NEXT_AD_INT_I18N);
+			$reason = __('User is disabled by Next ADI.', 'next-active-directory-integration');
 		}
 
 		if ($isUserDisabled) {

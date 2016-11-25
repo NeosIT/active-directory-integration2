@@ -60,6 +60,12 @@ class Ut_NextADInt_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_B
 	{
 		$sut = $this->sut(array('isNetworkExportAllowed'));
 
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
 		WP_Mock::wpFunction('admin_url', array(
 			'times' => 1,
 			'return' => 'link',

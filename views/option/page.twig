@@ -1,11 +1,10 @@
 {# create an option page for one blog or for one profile #}
-{% macro create(prefix, isProfile) %}
+{% macro create(prefix, isProfile, i18n) %}
 
     {% import "option/header.twig" as header %}
     {% import "option/body.twig" as body %}
 
-    {% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
-    {% set grouping = getOptionsGrouping() %}    
+    {% set grouping = getOptionsGrouping() %}
 
     <div id="{{ 'optionPage__' ~ prefix }}" class="wrap">
 
@@ -13,11 +12,11 @@
 
             {{ header.create(prefix) }}
 
-            {{ body.create(prefix, isProfile) }}
+            {{ body.create(prefix, isProfile, i18n) }}
 
         {% else %}
 
-            <h3>{{ 'No options exists'|__(NEXT_AD_INT_I18N) }}</h3>
+            <h3>{{ i18n.noOptionsExists }}</h3>
 
         {% endif %}
 

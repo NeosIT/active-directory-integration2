@@ -6,6 +6,8 @@ Description: This is the successor of the Active Directory Integration plug-in w
 Version: REPLACE_BY_JENKINS_SCRIPT
 Author: NeosIT GmbH
 Author URI: http://www.neos-it.de/
+Text Domain: next-active-directory-integration
+Domain Path: /languages
 License: GPLv3
 
 The work is derived from version 1.0.5 of the plugin Active Directory Authentication:

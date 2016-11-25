@@ -474,7 +474,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 		try {
 			if (!$isInActiveDirectory) {
-				throw new Exception(sprintf(__('User "%s" no longer found in Active Directory.', NEXT_AD_INT_I18N), $username));
+				throw new Exception(sprintf(__('User "%s" no longer found in Active Directory.', 'next-active-directory-integration'), $username));
 			}
 
 			if (!$this->isNormalAccount($uac)) {
@@ -482,7 +482,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 					sprintf(
 						__(
 							'User "%s" has no normal Active Directory user account. Only user accounts can be synchronized.',
-							NEXT_AD_INT_I18N
+							'next-active-directory-integration'
 						), $username
 					)
 				);
@@ -491,7 +491,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 			if ($this->isSmartCardRequired($uac)) {
 				throw new Exception(
 					sprintf(
-						__('The account of user "%s" requires a smart card for login.', NEXT_AD_INT_I18N),
+						__('The account of user "%s" requires a smart card for login.', 'next-active-directory-integration'),
 						$username
 					)
 				);
@@ -534,7 +534,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		}
 
 		$this->logger->warn("Disabling user '{$adiUser->getUserLogin()}'.");
-		$message = sprintf(__('User "%s" is disabled in Active Directory.', NEXT_AD_INT_I18N), $adiUser->getUserLogin());
+		$message = sprintf(__('User "%s" is disabled in Active Directory.', 'next-active-directory-integration'), $adiUser->getUserLogin());
 		$this->userManager->disable($adiUser->getId(), $message);
 
 		return false;

@@ -156,10 +156,22 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTe
 		);
 
 		$data = array('data' => true);
+        $i18n = array(
+            'additionalInformation' => 'Additional Information provided by Active Directory Integration',
+            'reenterPassword' => 'Reenter password',
+            'youMustEnterPassword' => 'If you want to save the changes in "Additional Information" back to the Active Directory you must enter your password.',
+            'canNotBeEdited' => 'Profile can not be edited or synchronized back to Active Directory:'
+        );
 
 		$sut->expects($this->once())
 			->method('createViewModel')
 			->willReturn($data);
+
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
 
 		$this->twigContainer->expects($this->once())
 			->method('getTwig')
@@ -167,7 +179,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTe
 
 		$this->twig->expects($this->once())
 			->method('render')
-			->with('user-profile-ad-attributes.twig', array('renderData' => $data));
+			->with('user-profile-ad-attributes.twig', array('renderData' => $data, 'i18n' => $i18n));
 
 
 		$sut->extendProfile($wpUser, true);

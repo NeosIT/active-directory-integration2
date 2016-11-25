@@ -58,7 +58,7 @@ class NextADInt_Adi_Multisite_Ui_Menu extends NextADInt_Adi_Ui_Menu_Abstract
 	{
 		$permission = 'manage_network';
 		$renderMethodName = 'renderNetwork';
-		$networkMenuTitle = esc_html__('Active Directory Integration', NEXT_AD_INT_I18N);
+		$networkMenuTitle = esc_html__('Active Directory Integration', 'next-active-directory-integration');
 		$networkMenuSlug = $this->blogProfileRelationshipPage->getSlug(); // the header of the group must have the slug of the first item
 
 		// add menu header

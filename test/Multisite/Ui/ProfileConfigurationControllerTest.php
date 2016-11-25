@@ -59,6 +59,12 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_Ba
 			'additionalInformation' => array(),
 		);
 
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
+
 		$result = $sut->saveProfileOptions(array(), 1);
 
 		$this->assertEquals($expected, $result);
@@ -80,6 +86,12 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_Ba
 			'isMessage' => true,
 			'additionalInformation' => array(),
 		);
+
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
 
 		$result = $sut->saveProfileOptions(array(), 1);
 
@@ -110,6 +122,12 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_Ba
 			'isMessage' => true,
 			'additionalInformation' => array(),
 		);
+
+        WP_Mock::wpFunction('__', array(
+            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+            'times'      => '0+',
+            'return_arg' => 0
+        ));
 
 		$result = $sut->saveProfileOptions($options, 1);
 
