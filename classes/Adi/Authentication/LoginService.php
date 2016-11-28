@@ -366,18 +366,18 @@ class NextADInt_Adi_Authentication_LoginService
 	}
 
 	/**
-	 * @param $username
-	 * @param $accountSuffix
+	 * Check if user must be authorized by security group membership and if yes if he belongs to one of the authorized security groups.
 	 *
+	 * @param $username sAMAccountName or userPrincipalName and suffix.
 	 * @return bool
 	 */
 	protected function isUserAuthorized($username)
 	{
-		// ADI-428: find ldapAttributes for users trying to login to get his objectGuid
+		// ADI-428: Previously, the user has ben authorized by his username and and account suffix. This could lead to serious problems if the userPrincipalName (without suffix) had been used multiple times.
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUsername($username);
 		$userGuid = $ldapAttributes->getFilteredValue('objectguid');
 
-		// create role mapping with user guid
+		// create role mapping with user's GUID
 		$roleMapping = $this->roleManager->createRoleMapping($userGuid);
 
 		// check if an user is in a authorization ad group if the user must be a member for login
