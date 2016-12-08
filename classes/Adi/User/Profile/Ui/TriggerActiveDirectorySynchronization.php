@@ -212,10 +212,7 @@ class NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 				return null;
 			}
 
-			$username = $this->getUsername($userInfo->ID, $userInfo->user_login);
-			$accountSuffix = $this->getAccountSuffix($userInfo->ID, $userInfo->user_login);
-
-			$username = $username . $accountSuffix;
+			$username = get_user_meta($userInfo->ID, NEXT_AD_INT_PREFIX . 'userprincipalname', true);
 			$password = stripslashes($customPassword);
 		}
 
@@ -224,69 +221,6 @@ class NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 		$r->password = $password;
 
 		return $r;
-	}
-
-	/**
-	 * If the user $userId has got no adi_account_suffix,
-	 * the option value ACCOUNT_SUFFIX does not have any suffixes and the $username does contain a '@',
-	 * then remove the suffix/domain from the username.
-	 *
-	 * @param int $userId
-	 * @param string $username
-	 *
-	 * @return mixed
-	 */
-	public function getUsername($userId, $username)
-	{
-		// TODO CKL -> THE: Der Code existiert doch bereits im UserManager?
-
-		// use personal_account_suffix
-		$personalAccountSuffix = trim(get_user_meta($userId, NEXT_AD_INT_PREFIX . 'account_suffix', true));
-		$optionAccountSuffix = trim($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX));
-		
-		if (!$personalAccountSuffix && !$optionAccountSuffix && strpos($username, '@') !== false) {
-			$parts = explode('@', $username);
-
-			return $parts[0];
-		}
-		
-		return $username;
-	}
-
-	/**
-	 * Get the account suffix for user $userId. Use either the user meta adi_account_suffix,
-	 * the first suffix from the option value ACCOUNT_SUFFIX, the suffix from the username (if it exists) or an empty string.
-	 *
-	 * @param int $userId
-	 * @param string $username
-	 *
-	 * @return string
-	 */
-	public function getAccountSuffix($userId, $username)
-	{
-		// TODO CKL -> THE: Der Code existiert doch bereits im UserManager?
-		$personalAccountSuffix = trim(get_user_meta($userId, NEXT_AD_INT_PREFIX . 'account_suffix', true));
-		
-		if ($personalAccountSuffix) {
-			return $personalAccountSuffix;
-		}
-		
-		$optionAccountSuffix = trim($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX));
-		
-		if ($optionAccountSuffix) {
-			// choose first possible account suffix (this should never happen)
-			$suffixes = explode(';', $optionAccountSuffix);
-			$this->logger->warn("No personal account suffix found. Now using first account suffix '$suffixes[0]'.");
-			return $suffixes[0];
-		} 
-
-		if (strpos($username, '@') !== false) {
-			$parts = explode('@', $username);
-
-			return '@' . $parts[1];
-		}
-
-		return '';
 	}
 
 	/**
