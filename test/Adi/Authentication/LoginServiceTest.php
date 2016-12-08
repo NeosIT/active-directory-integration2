@@ -575,7 +575,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('isUserBlocked')
-			->with('test', '@test.test')
+			->with('test@test.test')
 			->willReturn(false);
 
 		$this->mailNotification->expects($this->never())
@@ -593,12 +593,12 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('isUserBlocked')
-			->with('hugo')
+			->with('hugo@test.test')
 			->willReturn(true);
 
 		$this->mailNotification->expects($this->once())
 			->method('sendNotifications')
-			->with('hugo', true);
+			->with('hugo@test.test', true);
 
 		$this->userBlockedMessage->expects($this->once())
 			->method('blockCurrentUser');
@@ -615,7 +615,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$sut = $this->sut();
 
-		$sut->refreshBruteForceProtectionStatusForUser('test', false);
+		$sut->refreshBruteForceProtectionStatusForUser('test', '@test.ad', false);
 	}
 
 	/**
@@ -629,7 +629,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->method('deleteLoginAttempts')
 			->with('test');
 
-		$sut->refreshBruteForceProtectionStatusForUser('test', true);
+		$sut->refreshBruteForceProtectionStatusForUser('test', '', true);
 	}
 
 	/**
@@ -641,11 +641,11 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('increaseLoginAttempts')
-			->with('test', '@test.test');
+			->with('test@test.test');
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('findLoginAttempts')
-			->with('test', '@test.test')
+			->with('test@test.test')
 			->willReturn(1);
 
         $this->configuration->expects($this->once())
@@ -668,11 +668,11 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('increaseLoginAttempts')
-			->with('test');
+			->with('test@test.test');
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('findLoginAttempts')
-			->with('test')
+			->with('test@test.test')
 			->willReturn(4);
 
         $this->configuration->expects($this->exactly(2))
@@ -690,9 +690,9 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('blockUser')
-			->with('test', 30);
+			->with('test@test.test', 30);
 
-		$sut->refreshBruteForceProtectionStatusForUser('test', false);
+		$sut->refreshBruteForceProtectionStatusForUser('test', '@test.test', false);
 	}
 
 	/**
