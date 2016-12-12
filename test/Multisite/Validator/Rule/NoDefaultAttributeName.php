@@ -58,6 +58,6 @@ class Ut_NextADInt_Multisite_Validator_Rule_NoDefaultAttributeNameTest extends U
 
 		$actual = $sut->validate($this->invalidTestString, null);
 
-		$this->assertEquals('test', $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => 'test'), $actual);
 	}
 }

@@ -10,6 +10,7 @@ if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_AccountSuffixTest')) {
 class Ut_NextADInt_Multisite_Validator_Rule_AccountSuffixTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'Username has to contain a suffix.';
+	const EXPECTED_ERROR= array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE);
 
 	public function setUp()
 	{
@@ -47,7 +48,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_AccountSuffixTest extends Ut_BasicTe
 
 		$actual = $sut->validate('test@test.ad', array());
 
-		$this->assertEquals(self::VALIDATION_MESSAGE, $actual);
+		$this->assertEquals(self::EXPECTED_ERROR, $actual);
 	}
 
 	/**
@@ -71,7 +72,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_AccountSuffixTest extends Ut_BasicTe
 
 		$actual = $sut->validate('@test;test@test.ad', array());
 
-		$this->assertEquals(self::VALIDATION_MESSAGE, $actual);
+		$this->assertEquals(self::EXPECTED_ERROR, $actual);
 	}
 
 	/**

@@ -140,4 +140,28 @@ class NextADInt_Core_Util_ArrayUtil
 
 		return array_shift($array);
 	}
+
+	/**
+	 * This function will return the amount of occurrences of array elements that start with a specific string.
+	 *
+	 * @param $haystack
+	 * @param $needle
+	 * @return int
+	 */
+	public static function countOccurencesStartsWith($haystack, $needle)
+	{
+		$occurrences = 0;
+
+		foreach ($haystack as $part) {
+			$part = strtolower($part);
+
+			// check if first x characters are equal to given needle
+			if(substr($part, 0, strlen($needle)) === $needle) {
+				$occurrences ++;
+			}
+
+		}
+
+		return $occurrences;
+	}
 }

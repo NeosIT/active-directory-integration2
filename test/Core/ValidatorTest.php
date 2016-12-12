@@ -37,7 +37,7 @@ class Ut_Core_ValidatorTest extends Ut_BasicTest
 	{
 		$expected = new NextADInt_Core_Validator_Result();
 		$expected->addValidationResult(
-			'sync_to_ad_global_user', 'Username has to contain a suffix.'
+			'sync_to_ad_global_user', array('error' => 'Username has to contain a suffix.')
 		);
 
 		$suffixRule = new NextADInt_Multisite_Validator_Rule_Suffix(

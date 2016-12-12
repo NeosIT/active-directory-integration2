@@ -77,8 +77,16 @@
     border: 1px solid red;
 }
 
+.adi-form .warning {
+    border: 1px solid orange;
+}
+
 .adi-form .error-msg {
     color: red;
+}
+
+.adi-form .warning-msg {
+    color: orange;
 }
 
 .next_ad_int-description {
