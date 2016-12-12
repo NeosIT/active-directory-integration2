@@ -47,15 +47,15 @@ class NextADInt_Adi_Role_Manager
 	 * Create the role mapping for the given user. The belonging security groups of this user are automatically loaded
 	 * from Active Directory
 	 *
-	 * @param string $username
+	 * @param string userGuid
 	 *
 	 * @return NextADInt_Adi_Role_Mapping
 	 * @throws Exception
 	 */
-	public function createRoleMapping($username)
+	public function createRoleMapping($userGuid)
 	{
-		$roleMapping = new NextADInt_Adi_Role_Mapping($username);
-		$securityGroups = $this->ldapConnection->getAdLdap()->user_groups($username);
+		$roleMapping = new NextADInt_Adi_Role_Mapping($userGuid);
+		$securityGroups = $this->ldapConnection->getAdLdap()->user_groups($userGuid, null, true);
 
 		$roleMapping->setSecurityGroups($securityGroups);
 

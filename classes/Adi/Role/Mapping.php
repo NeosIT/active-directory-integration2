@@ -28,16 +28,16 @@ class NextADInt_Adi_Role_Mapping
 	/**
 	 * @var string
 	 */
-	private $username;
+	private $guidOrUsername;
 
 	/**
 	 * NextADInt_Adi_Role_Mapping constructor.
 	 *
-	 * @param string $username
+	 * @param string $guidOrUsername
 	 */
-	public function __construct($username)
+	public function __construct($guidOrUsername)
 	{
-		$this->username = $username;
+		$this->guidOrUsername = $guidOrUsername;
 	}
 
 	/**
@@ -126,7 +126,7 @@ class NextADInt_Adi_Role_Mapping
 
 	public function __toString()
 	{
-		return "Mapping " . $this->username . "={ad_security_groups='" . implode(", ", $this->securityGroups)
+		return "Mapping " . $this->guidOrUsername . "={ad_security_groups='" . implode(", ", $this->securityGroups)
 		. "',wordpress_roles='" . implode(', ', $this->wordPressRoles) . "'}";
 	}
 }

@@ -362,27 +362,29 @@ class NextADInt_Adi_Authentication_LoginService
 			return false;
 		}
 
-		return $this->isUserAuthorized($username, $accountSuffix);
+		return $this->isUserAuthorized($username);
 	}
 
 	/**
-	 * @param $username
-	 * @param $accountSuffix
+	 * Check if user must be authorized by security group membership and if yes if he belongs to one of the authorized security groups.
 	 *
+	 * @param $username sAMAccountName or userPrincipalName and suffix.
 	 * @return bool
 	 */
-	protected function isUserAuthorized($username, $accountSuffix)
+	protected function isUserAuthorized($username)
 	{
-		// search for role mapping by the SAMAccountName and UserPrincipleName and merge them together
-		$roleMapping = $this->roleManager->createRoleMapping($username);
-		$upnRoleMapping = $this->roleManager->createRoleMapping($username . $accountSuffix);
-		$roleMapping->merge($upnRoleMapping);
+		// ADI-428: Previously, the user has ben authorized by his username and and account suffix. This could lead to serious problems if the userPrincipalName (without suffix) had been used multiple times.
+		$ldapAttributes = $this->attributeService->findLdapAttributesOfUsername($username);
+		$userGuid = $ldapAttributes->getFilteredValue('objectguid');
+
+		// create role mapping with user's GUID
+		$roleMapping = $this->roleManager->createRoleMapping($userGuid);
 
 		// check if an user is in a authorization ad group if the user must be a member for login
 		$authorizeByGroup = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP);
 
 		if ($authorizeByGroup && !$this->roleManager->isInAuthorizationGroup($roleMapping)) {
-			$this->logger->error("User '$username' is not in an authorization group.");
+			$this->logger->error("User '$username' with GUID: '$userGuid' is not in an authorization group.");
 
 			return false;
 		}

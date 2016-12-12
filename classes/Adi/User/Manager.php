@@ -161,7 +161,9 @@ class NextADInt_Adi_User_Manager
 				$credentials->getUserPrincipalName());
 		}
 
-		$roleMapping = $this->roleManager->createRoleMapping($credentials->getSAMAccountName());
+		// ADI-428: Create role mapping based upon the user's objectGUID and not on his sAMAccountName
+		$userGuid = $ldapAttributes->getFilteredValue('objectguid');
+		$roleMapping = $this->roleManager->createRoleMapping($userGuid);
 
 		$r = new NextADInt_Adi_User($credentials, $ldapAttributes);
 
