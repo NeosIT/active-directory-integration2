@@ -274,6 +274,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER,
 						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD,
 						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_DISABLE_USERS,
+						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS,
 						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE,
 					),
 				),
