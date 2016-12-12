@@ -62,4 +62,48 @@ class Ut_NextADInt_Core_Util_Internal_WordPress extends Ut_BasicTest
         $actual = NextADInt_Core_Util_Internal_WordPress::getSites();
         $this->assertEquals(array($site), $actual);
     }
+
+    /**
+     * @issue ADI-419
+     * @test
+     */
+    public function ADI_419_getSite_withWordPress4_6_itShouldCallGetBlogDetails() {
+        global $wp_version;
+        $wp_version = '4.6';
+
+        $site = array(
+            'blog_id' => '1'
+        );
+
+        \WP_Mock::wpFunction('get_blog_details', array(
+                'times'  => 1,
+                'return' => array($site))
+        );
+
+        // call function get_sites();
+        $actual = NextADInt_Core_Util_Internal_WordPress::getSite();
+        $this->assertEquals(array($site), $actual);
+    }
+
+    /**
+     * @issue ADI-419
+     * @test
+     */
+    public function ADI_419_getSite_withWordPress4_7_itShouldCallGetSite() {
+        global $wp_version;
+        $wp_version = '4.7';
+
+        $site = array(
+            'blog_id' => '1'
+        );
+
+        \WP_Mock::wpFunction('get_site', array(
+                'times'  => 1,
+                'return' => array($site))
+        );
+
+        // call function get_sites();
+        $actual = NextADInt_Core_Util_Internal_WordPress::getSite();
+        $this->assertEquals(array($site), $actual);
+    }
 }

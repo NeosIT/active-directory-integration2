@@ -160,7 +160,7 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
         $sut = $this->sut(array('printSystemEnvironment', 'connectToActiveDirectory', 'collectInformation'));
         $collectInformationResult = array('output' => 'Test', 'authentication_result' => 666);
 
-        $_POST['username'] = 'test\\\\User'; // should be addslashes('test\User');
+        $_POST['username'] = 'test\User'; // should be addslashes('test\User');
         $_POST['password'] = "secret's";
         $_POST['security'] = 'base64';
 

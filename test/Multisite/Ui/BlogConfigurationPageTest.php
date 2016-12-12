@@ -912,15 +912,33 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	public function verifyInternal_withValidData_returnsSuccess()
 	{
 		$data = array('option' => 'someValue');
+		$profileId = 1;
+
 		$expectedObjectSid = 'S-1-2-34-5678490000-1244323441-1038535101-500';
 		$expectedSid = 'S-1-2-34-5678490000-1244323441-1038535101';
+		$expectedNetBiosName = 'TEST';
+		$expectedNetBiosData  =  array("netBIOS_name" => $expectedNetBiosName);
 
-		$sut = $this->sut(array('prepareDomainSid', 'persistDomainSid'));
+		$sut = $this->sut(array('prepareDomainSid', 'persistDomainSid', 'prepareNetBiosName', 'persistNetBiosName', 'findActiveDirectoryNetBiosName'));
 
 		$this->twigContainer->expects($this->once())
 			->method('findActiveDirectoryDomainSid')
 			->with($data)
 			->willReturn($expectedObjectSid);
+
+		$this->twigContainer->expects($this->once())
+			->method('findActiveDirectoryNetBiosName')
+			->with($data)
+			->willReturn($expectedNetBiosName);
+
+		$sut->expects($this->once())
+			->method('prepareNetBiosName')
+			->with($expectedNetBiosName)
+			->willReturn($expectedNetBiosData);
+
+		$sut->expects($this->once())
+			->method('persistNetBiosName')
+			->with($expectedNetBiosData, $profileId);
 
 		$sut->expects($this->once())
 			->method('prepareDomainSid')
@@ -929,10 +947,10 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('persistDomainSid')
-			->with(array('sid' => $expectedSid), null);
+			->with(array('sid' => $expectedSid), $profileId);
 
-		$actual = $this->invokeMethod($sut, 'verifyInternal', array($data));
-		$this->assertEquals($actual, array('verification_successful' => $expectedSid));
+		$actual = $this->invokeMethod($sut, 'verifyInternal', array($data, $profileId));
+		$this->assertEquals($actual, array('verification_successful_sid' => $expectedSid, 'verification_successful_netbios' => $expectedNetBiosName));
 	}
 
 	/**

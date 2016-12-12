@@ -33,6 +33,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const VERIFICATION_USERNAME = 'verification_username';
 	const VERIFICATION_PASSWORD = 'verification_password';
 	const DOMAIN_SID = 'domain_sid';
+	const NETBIOS_NAME= 'netbios_name';
 
 	// User - User Settings
 	const EXCLUDE_USERNAMES_FROM_AUTHENTICATION = 'exclude_usernames_from_authentication';
@@ -46,7 +47,6 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const PREVENT_EMAIL_CHANGE = 'prevent_email_change';
 	const NAME_PATTERN = 'name_pattern';
 	const SHOW_USER_STATUS = 'show_user_status';
-    const ALLOW_DOWN_LEVEL_LOGON_NAME = 'allow_down_level_logon_name';
 
 	// User - Passwords
 	const ENABLE_PASSWORD_CHANGE = 'enable_password_change';
@@ -463,7 +463,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			),
 			// DOMAINS ID
 			self::DOMAIN_SID           => array(
-				$title       => __('Domain Sid', NEXT_AD_INT_I18N),
+				$title       => __('Domain SID', NEXT_AD_INT_I18N),
 				$type        => NextADInt_Multisite_Option_Type::DOMAIN_SID,
 				$description => __(
 					'Shows whether the current WordPress site is connected to an AD domain or not.', NEXT_AD_INT_I18N
@@ -471,6 +471,25 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$detail      => array(
 					__(
 						'Shows whether the current WordPress site is connected to an AD domain or not.',
+						NEXT_AD_INT_I18N
+					),
+				),
+				$angularAttributes => '',
+				$default     => '',
+				$sanitizer   => array('string'),
+				$showPermission    => true,
+				$transient         => false,
+			),
+
+			self::NETBIOS_NAME           => array(
+				$title       => __('NetBIOS name', NEXT_AD_INT_I18N),
+				$type        => NextADInt_Multisite_Option_Type::LABEL,
+				$description => __(
+					'The NetBIOS name of the connected Active Directory is required for NTLM SSO.', NEXT_AD_INT_I18N
+				),
+				$detail      => array(
+					__(
+						'The NetBIOS name of the connected Active Directory is required for NTLM SSO.',
 						NEXT_AD_INT_I18N
 					),
 				),
@@ -490,7 +509,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				),
 				$detail 	=> array(
 					__(
-						'Every username you have entered will not be authenticated against the Active Directory, instead the WordPress authentication mechanism is used.',
+						'Every username you have entered will not be authenticated against the Active Directory, instead the WordPress authentication mechanism is used. You have to explicitly declare every username with every used suffix.',
 						NEXT_AD_INT_I18N
 					)
 				),
@@ -881,21 +900,6 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$showPermission    => true,
 				$transient         => false,
 			),
-            // allow the pre-Windows 2000 user logon name
-            self::ALLOW_DOWN_LEVEL_LOGON_NAME => array(
-                $title => __('Allow Down-Level Logon Name for login', NEXT_AD_INT_I18N),
-                $type => NextADInt_Multisite_Option_Type::CHECKBOX,
-                $description => __('Allow Down-Level Logon Name (also known as pre-Windows 2000 user logon name) like TEST\klammer for login.', NEXT_AD_INT_I18N),
-                $detail => array(
-                    __('This option is disabled by default because the Down-Level Logon Name is not unique.', NEXT_AD_INT_I18N),
-                    __('Make sure that nobody has an already used Down-Level Logon Name.', NEXT_AD_INT_I18N),
-                ),
-                $angularAttributes => '',
-                $default => false,
-                $sanitizer => array('boolean'),
-                $showPermission => true,
-                $transient => false,
-            ),
 			// Enable lost password recovery
 			self::ENABLE_LOST_PASSWORD_RECOVERY => array(
 				$title       => __('Enable lost password recovery', NEXT_AD_INT_I18N),
@@ -1109,11 +1113,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			),
             // Send email to admin if a user account is blocked.
             self::ALLOW_XMLRPC_LOGIN            => array(
-                $title       => __('Allow Login via XMLRPC', NEXT_AD_INT_I18N),
+                $title       => __('Allow login via XML-RPC', NEXT_AD_INT_I18N),
                 $type        => NextADInt_Multisite_Option_Type::CHECKBOX,
-                $description => __('Allow Login via XMLRPC', NEXT_AD_INT_I18N),
+                $description => __('Allow login via XML-RPC', NEXT_AD_INT_I18N),
                 $detail      => __(
-                    'Allow Login via XMLRPC', NEXT_AD_INT_I18N
+                    'Allow login via XML-RPC', NEXT_AD_INT_I18N
                 ),
                 $angularAttributes => '',
                 $default     => false,

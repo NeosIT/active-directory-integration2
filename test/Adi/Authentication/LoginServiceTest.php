@@ -182,36 +182,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$this->assertTrue($actual);
 	}
 
-    /**
-     * @test
-     */
-    public function tryAuthenticatableSuffixes_allowPreWindows2000UserLogonNames_authenticateWithEmptySuffix()
-    {
-        $sut = $this->sut(array(
-            'authenticateAtActiveDirectory',
-            'postAuthentication'
-        ));
-        $credentials = NextADInt_Adi_Authentication_LoginService::createCredentials('username', 'password');
-
-        $this->configuration->expects($this->once())
-            ->method('getOptionValue')
-            ->with(NextADInt_Adi_Configuration_Options::ALLOW_DOWN_LEVEL_LOGON_NAME)
-            ->willReturn(true);
-
-        $sut->expects($this->once())
-            ->method('authenticateAtActiveDirectory')
-            ->with('username', '', 'password')
-            ->willReturn(true);
-
-        $sut->expects($this->once())
-            ->method('postAuthentication')
-            ->with($credentials)
-            ->willReturn(true);
-
-        $actual = $sut->tryAuthenticatableSuffixes($credentials, array());
-        $this->assertTrue($actual);
-    }
-
 	/**
 	 * @test
 	 */
@@ -1118,5 +1088,82 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$actual = $sut->updateUser($adiUser);
 
 		$this->assertEquals(666/** ID */, $actual);
+	}
+
+	/**
+	 * @issue ADI-367
+	 * @test
+	 */
+	public function ADI_367_xmlrpcMustBeSecured_whenAllowXmlRpcLoginIsDisabled() {
+		$sut = $this->sut();
+
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(NextADInt_Adi_Configuration_Options::ALLOW_XMLRPC_LOGIN)
+			->willReturn(false);
+
+		$_SERVER['PHP_SELF'] = 'xmlrpc.php';
+
+		\WP_Mock::wpFunction('wp_die',
+			array(
+				'args' => array("Next ADI prevents XML RPC authentication!"),
+				'times' => 1,
+			)
+		);
+
+		$sut->checkXmlRpcAccess();
+	}
+
+	/**
+	 * @issue ADI-367
+	 * @test
+	 */
+	public function ADI_367_xmlrpcIsAllowed_whenOptionIsConfigured() {
+		$sut = $this->sut();
+
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(NextADInt_Adi_Configuration_Options::ALLOW_XMLRPC_LOGIN)
+			->willReturn(true);
+
+		$_SERVER['PHP_SELF'] = 'xmlrpc.php';
+
+		\WP_Mock::wpFunction('wp_die',
+			array(
+				'args' => array("Next ADI prevents XML RPC authentication!"),
+				'times' => 0,
+			)
+		);
+
+		$sut->checkXmlRpcAccess();
+	}
+
+	/**
+	 * @issue ADI-367
+	 * @test
+	 */
+	public function ADI_367_authenticate_checksXmlRpcAccess()
+	{
+		$sut = $this->sut(
+			array(
+				'requiresActiveDirectoryAuthentication',
+				'checkXmlRpcAccess'
+			)
+		);
+
+		$login = "testuser";
+		$password = "1234";
+
+		$sut->expects($this->once())
+			->method('checkXmlRpcAccess');
+
+		$sut->expects($this->once())
+			->method('requiresActiveDirectoryAuthentication')
+			->with($login)
+			->willReturn(false);
+
+		$actual = $sut->authenticate(null, $login, $password);
+
+		$this->assertFalse($actual);
 	}
 }

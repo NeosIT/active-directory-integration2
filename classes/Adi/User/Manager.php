@@ -116,7 +116,7 @@ class NextADInt_Adi_User_Manager
 
 		if (!$wpUser) {
 			$this->logger->warn(
-				"WordPress user with wp_user_meta.samaccountname='" . $sAMAccountName . "', user_login='"
+				"Local WordPress user with wp_user_meta.samaccountname='" . $sAMAccountName . "', user_login='"
 				. $userPrincipalName . "'"
 				. " or user_login='" . $sAMAccountName . "'"
 				. ' could not be found');
@@ -221,6 +221,9 @@ class NextADInt_Adi_User_Manager
 			NextADInt_Core_Util_ExceptionUtil::handleWordPressErrorAsException($userId);
 			$user->setId($userId);
 
+			// ADI-145: provide API
+			do_action(NEXT_AD_INT_PREFIX . 'user_after_create', $user, $syncToWordPress, $writeUserMeta);
+
 			// call updateUser to sync attributes
 			return $this->update($user, $syncToWordPress, $writeUserMeta);
 		} catch (NextADInt_Core_Exception_WordPressErrorException $e) {
@@ -279,6 +282,9 @@ class NextADInt_Adi_User_Manager
 		NextADInt_Core_Assert::notNull($user, "user must not be null");
 
 		try {
+			// ADI-145: provide API
+			do_action(NEXT_AD_INT_PREFIX . 'user_before_update', $user, $syncToWordPress, $writeUserMeta);
+
 			$credentials = $user->getCredentials();
 
 			/* Since WP 4.3 we have to disable email on password and email change */
@@ -307,7 +313,12 @@ class NextADInt_Adi_User_Manager
 			// update users password
 			$this->updatePassword($user->getId(), $credentials->getPassword(), $syncToWordPress);
 
-			return $this->findById($user->getId());
+			$wpUser = $this->findById($user->getId());
+
+			// ADI-145: provide API
+			do_action(NEXT_AD_INT_PREFIX . 'user_after_update', $user, $wpUser, $syncToWordPress, $writeUserMeta);
+
+			return $wpUser;
 		} catch (NextADInt_Core_Exception_WordPressErrorException $e) {
 			return $e->getWordPressError();
 		}
@@ -459,7 +470,7 @@ class NextADInt_Adi_User_Manager
 			$value = NextADInt_Ldap_Attribute_Converter::formatAttributeValue($attribute->getType(), $value);
 
 			// set value if $value is not empty or $userMetaEmptyOverwrite is true
-			$message = "Set AD attribute '$name' (ADI " . $attribute . ") to " . print_r($value, true);
+			$message = "Set AD attribute '$name' (ADI " . $attribute . ") to " . NextADInt_Core_Util_StringUtil::firstChars($value);
 			$this->logger->debug($message);
 
 			$this->metaRepository->update($userId, $attribute->getMetakey(), $value);
@@ -646,17 +657,22 @@ class NextADInt_Adi_User_Manager
 		// It is very likely that the email is already restored (e.g. by the user update/creation in SyncToWordpress).
 		// But if the AD has no email for the user then the old email will be restored.
 		$email = $this->metaRepository->find($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true);
-		$userData = $this->userRepository->findById($userId);
+		$wpUser = $this->userRepository->findById($userId);
 
-		$this->metaRepository->enableUser($userData);
+		$this->metaRepository->enableUser($wpUser);
+		$isRestored = false;
 
-		// ADI-384: Changed from updateEmail with empty string to updateEmail with user_email + -DISABLED to prevent exception due WordPress email adress persist validation
-		if ($email && strpos($userData->user_email, '-DISABLED') !== false) {
+		// ADI-384: Changed from updateEmail with empty string to updateEmail with user_email + -DISABLED to prevent exception due WordPress email address persist validation
+		if ($email && strpos($wpUser->user_email, '-DISABLED') !== false) {
 			$this->logger->info(
-				"Restore email of enabled user '$userData->user_login' ($userId). The current email '$userData->user_email' will be overridden."
+				"Restore email of enabled user '$wpUser->user_login' ($userId). The current email '$wpUser->user_email' will be overridden."
 			);
 			$this->userRepository->updateEmail($userId, $email);
+			$isRestored = true;
 		}
+
+		// ADI-145: provide API
+		do_action(NEXT_AD_INT_PREFIX . 'user_after_enable', $wpUser, $isRestored);
 	}
 
 	/**
@@ -667,13 +683,15 @@ class NextADInt_Adi_User_Manager
 	 */
 	public function disable($userId, $reason)
 	{
-		$userData = $this->userRepository->findById($userId);
-		$this->metaRepository->disableUser($userData, $reason);
+		$wpUser = $this->userRepository->findById($userId);
+		$this->metaRepository->disableUser($wpUser, $reason);
 
 		// Change e-mail of user to be disabled to prevent him from restoring his password.
-		$this->userRepository->updateEmail($userId, $userData->user_email . '-DISABLED');
+		$this->userRepository->updateEmail($userId, $wpUser->user_email . '-DISABLED');
 		$this->logger->warn('Disabled user with user id ' . $userId . ' with reason: ' . $reason);
-		
+
+		// ADI-145: provide API
+		do_action(NEXT_AD_INT_PREFIX . 'user_after_disable', $wpUser);
 	}
 
 	/**

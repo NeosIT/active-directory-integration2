@@ -191,7 +191,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_Basi
 	{
 		$sut = $this->sut(array('getSessionHandler'));
 
-		$this->expectAuthenticationException('User will not be logged in via SSO b/c he logged out manually.');
+		$this->expectLogoutAuthenticationException('User will not be logged in via SSO b/c he logged out manually.');
 
 		$this->sessionHandler->expects($this->once())
 			->method('getValue')
@@ -221,7 +221,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_Basi
 		$_GET['action'] = 'logout';
 		$sut = $this->sut();
 
-		$this->expectAuthenticationException('User cannot be logged in on logout action.');
+		$this->expectLogoutAuthenticationException('User cannot be logged in on logout action.');
 
 		$sut->validateUrl();
 	}
@@ -247,5 +247,15 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_Basi
 	private function expectAuthenticationException($expectedMessage)
 	{
 		$this->expectExceptionThrown('NextADInt_Adi_Authentication_Exception', $expectedMessage);
+	}
+
+	/**
+	 * Expect our {@link NextADInt_Adi_Authentication_LogoutException} to be thrown.
+	 *
+	 * @param $expectedMessage
+	 */
+	private function expectLogoutAuthenticationException($expectedMessage)
+	{
+		$this->expectExceptionThrown('NextADInt_Adi_Authentication_LogoutException', $expectedMessage);
 	}
 }

@@ -58,7 +58,7 @@ class NextADInt_Ldap_Connection
 		try {
 			$this->createAdLdap($config);
 		} catch (Exception $e) {
-			$this->logger->error('Creating AdLdap object failed.', $e);
+			$this->logger->error('Creating adLDAP object failed.', $e);
 
 			if (is_object($this->adldap)) {
 				$this->logger->debug('adLDAP last error number: ' . print_r($this->adldap->get_last_errno(), true));
@@ -102,7 +102,7 @@ class NextADInt_Ldap_Connection
 		$this->logger->debug(print_r($output, true));
 
 		if (strpos($output['ad_username'], '@') === false) {
-			$this->logger->warn('Username for the sync user does not contain a correct suffix. If the connection to the ad fails, this could be the cause. Please make sure you added the right suffix to your global sync user at BlogOptions->Syncronizer.');
+			$this->logger->warn('Username for the sync user does not contain a correct suffix. If the connection to the ad fails, this could be the cause. Please make sure you have added all UPN suffixes to the configuration tab User -> Account suffix.');
 		}
 
 		return $config;
@@ -354,8 +354,6 @@ class NextADInt_Ldap_Connection
 	{
 		$adLdap = $this->getAdLdap();
 
-		$this->logger->debug("Import these attributes from ad for the user '$username': " . print_r($attributeNames,
-				true));
 		$userInfo = $adLdap->user_info($username, $attributeNames, $isGUID);
 
 		if ($userInfo === false) {
@@ -367,9 +365,73 @@ class NextADInt_Ldap_Connection
 		// user does exist, get first element
 		$userInfo = $userInfo[0];
 
-		$this->logger->debug("UserInfo for user '$username': " . print_r($userInfo, true));
+		$this->logger->debug("UserInfo for user '$username': " . $this->__debug($userInfo));
 
 		return $userInfo;
+	}
+
+	/**
+	 * Find the NetBIOS name of the underlying LDAP connection
+	 *
+	 * @return bool|string false if name is missing, string if NetBIOS name could be found
+	 */
+	public function findNetBiosName()
+	{
+		$adLdap = $this->getAdLdap();
+
+		$this->logger->debug("Trying to find NetBIOS name");
+		$filter = "netbiosname";
+		$netbios = $adLdap->get_configuration($filter);
+
+		if ($netbios === false) {
+			$this->logger->warn("No NetBIOS name found. Maybe base DN is wrong or partition scheme is misconfigured.");
+
+			return false;
+		}
+
+		$this->logger->debug("Found NetBIOS name '" . $netbios . "' for '" . $this->getDomainSid());
+
+		return $netbios;
+	}
+
+	/**
+	 * Custom debug method for information to prevent output of long binary data
+	 *
+	 * @issue ADI-420
+	 * @param array $userInfo in adLDAP format
+	 * @return string
+	 */
+	public function __debug($userInfo = array()) {
+		$r = '';
+		$maxOutputChars = 32;
+
+		while (list($idxOrAttribute, $value) = each($userInfo)) {
+			if (!is_numeric($idxOrAttribute)) {
+				continue;
+			}
+
+			// only match the "[0] => cn" parts
+			$r .= "$value={";
+			$data = $userInfo[$value];
+
+			// $data = [count => 1, 0 => 'my cn']
+			while (list($idxOfAttribute, $valueOfAttribute) = each($data)) {
+				if (!is_numeric($idxOfAttribute)) {
+					continue;
+				}
+
+				$r .=  NextADInt_Core_Util_StringUtil::firstChars($valueOfAttribute);
+			}
+
+			$r .= "}, ";
+		}
+
+		if (strlen($r) > 0) {
+			// remove last ", " part if given
+			$r = substr($r, 0, -2);
+		}
+
+		return $r;
 	}
 
 	/**

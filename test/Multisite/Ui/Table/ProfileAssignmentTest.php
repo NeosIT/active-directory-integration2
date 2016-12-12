@@ -112,6 +112,10 @@ class Ut_NextADInt_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 	 */
 	public function addContent_outputsSiteName()
 	{
+		global $wp_version;
+
+		$wp_version = '4.6';
+
 		$sut = $this->sut(null);
 
 		WP_Mock::wpFunction('get_blog_details', array(
@@ -126,4 +130,27 @@ class Ut_NextADInt_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 		$sut->addContent(NextADInt_Multisite_Ui_Table_ProfileAssignment::NEXT_AD_INT_SITE_NAME_COLUMN, 666);
 	}
 
+	/**
+	 * @issue ADI-419
+	 * @test
+	 * @outputBuffering disabled
+	 */
+	public function ADI_419_addContent_itUses_get_site_whenRunningWordPress4_7OrLater()
+	{
+		global $wp_version;
+
+		$wp_version = '4.7';
+
+		$sut = $this->sut(null);
+
+		WP_Mock::wpFunction('get_site', array(
+			'args'   => 666,
+			'times'  => 1,
+			'return' => (object)array('blogname' => 'BLOG'),
+		));
+
+		$this->expectOutputString('BLOG');
+
+		$sut->addContent(NextADInt_Multisite_Ui_Table_ProfileAssignment::NEXT_AD_INT_SITE_NAME_COLUMN, 666);
+	}
 }

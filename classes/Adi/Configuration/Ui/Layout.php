@@ -105,7 +105,8 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					self::OPTIONS => array(
 						NextADInt_Adi_Configuration_Options::VERIFICATION_USERNAME,
 						NextADInt_Adi_Configuration_Options::VERIFICATION_PASSWORD,
-						NextADInt_Adi_Configuration_Options::DOMAIN_SID
+						NextADInt_Adi_Configuration_Options::DOMAIN_SID,
+						NextADInt_Adi_Configuration_Options::NETBIOS_NAME
 					)
 				),
 			),
@@ -132,7 +133,6 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::PREVENT_EMAIL_CHANGE,
 						NextADInt_Adi_Configuration_Options::NAME_PATTERN,
 						NextADInt_Adi_Configuration_Options::SHOW_USER_STATUS,
-                        NextADInt_Adi_Configuration_Options::ALLOW_DOWN_LEVEL_LOGON_NAME,
 					),
 				),
 			),

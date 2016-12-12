@@ -50,10 +50,20 @@ add_action('admin_init', array($adiPlugin, 'postActivation'));
 // --- Normal Blog / Single Site ---
 // execute the plugin and their hooks after the 'plugins_loaded' hook has been called
 // so we can use WordPress functions for lazy-loading
-add_action('plugins_loaded', array($adiPlugin, 'run'));
+add_action('set_current_user', array($adiPlugin, 'run'));
 
 // --- Active Multisite dashboard ---
 // we need to register a second hook to decide if the network dashboard is shown.
 // another possible solution would be using the hook 'redirect_network_admin_request' from network/admin.php but
 // the loading of the menu happens to early
-add_action('plugins_loaded', array($adiPlugin, 'runMultisite'));
+add_action('set_current_user', array($adiPlugin, 'runMultisite'));
+
+/**
+ * Global accessor for Next ADI dependencies.
+ * You can call this function in your own extensions to gain access to the internals of NADI.
+ *
+ * @return NextADInt_Adi_Dependencies
+ */
+function next_ad_int() {
+	return NextADInt_Adi_Dependencies::getInstance();
+}

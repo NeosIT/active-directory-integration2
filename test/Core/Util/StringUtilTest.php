@@ -175,4 +175,36 @@ class Ut_NextADInt_Core_Util_StringUtilTest extends Ut_BasicTest
 		$result = NextADInt_Core_Util_StringUtil::startsWith($needle, $string);
 		$this->assertFalse($result);
 	}
+
+	/**
+	 * @issue ADI-420
+	 * @test
+	 */
+	public function ADI_420_firstChars_whenBooleanIsPassed_itReturnsBoolean() {
+
+		$result = NextADInt_Core_Util_StringUtil::firstChars(true);
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * @issue ADI-420
+	 * @test
+	 */
+	public function ADI_420_firstChars_itReturnsTheFirstPart_whenMaxCharsArgumentIsUsed() {
+		$chars = 10;
+
+		$result = NextADInt_Core_Util_StringUtil::firstChars('abcdefghijKLMN', $chars, false);
+		$this->assertEquals('abcdefghij', $result);
+	}
+
+	/**
+	 * @issue ADI-420
+	 * @test
+	 */
+	public function ADI_420_firstChars_itReturnsByteInfo() {
+		$chars = 5;
+
+		$result = NextADInt_Core_Util_StringUtil::firstChars('abcdefghij', $chars, true);
+		$this->assertEquals('abcde (... 5 bytes more)', $result);
+	}
 }

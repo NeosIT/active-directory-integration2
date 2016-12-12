@@ -89,7 +89,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Validator
 		$userLoggedOut = $this->getSessionHandler()->getValue(self::USER_LOGGED_OUT, false);
 
 		if ($userLoggedOut) {
-			$this->throwAuthenticationException('User will not be logged in via SSO b/c he logged out manually.');
+			throw new NextADInt_Adi_Authentication_LogoutException('User will not be logged in via SSO b/c he logged out manually.');
 		}
 	}
 
@@ -101,7 +101,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Validator
 	public function validateUrl()
 	{
 		if ('logout' === NextADInt_Core_Util_ArrayUtil::get('action', $_GET, false)) {
-			$this->throwAuthenticationException('User cannot be logged in on logout action.');
+			throw new NextADInt_Adi_Authentication_LogoutException('User cannot be logged in on logout action.');
 		}
 	}
 
