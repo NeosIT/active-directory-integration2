@@ -18,7 +18,6 @@ class Ut_NextADInt_Multisite_Validator_Rule_AttributeMappingNullTest extends Ut_
 {
 
 	const VALIDATION_MESSAGE = 'Ad Attribute / Data Type / WordPress Attribute cannot be empty!';
-	const EXPECTED_ERROR= array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE);
 
 	public function setUp()
 	{
@@ -60,7 +59,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_AttributeMappingNullTest extends Ut_
 			null
 		);
 
-		$this->assertEquals(self::EXPECTED_ERROR, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**
@@ -75,7 +74,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_AttributeMappingNullTest extends Ut_
 			null
 		);
 
-		$this->assertEquals(self::EXPECTED_ERROR, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**
@@ -90,7 +89,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_AttributeMappingNullTest extends Ut_
 			null
 		);
 
-		$this->assertEquals(self::EXPECTED_ERROR, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**
@@ -105,7 +104,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_AttributeMappingNullTest extends Ut_
 			null
 		);
 
-		$this->assertEquals(self::EXPECTED_ERROR, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**
@@ -120,7 +119,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_AttributeMappingNullTest extends Ut_
 			null
 		);
 
-		$this->assertEquals(self::EXPECTED_ERROR, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**
@@ -135,7 +134,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_AttributeMappingNullTest extends Ut_
 			null
 		);
 
-		$this->assertEquals(self::EXPECTED_ERROR, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 

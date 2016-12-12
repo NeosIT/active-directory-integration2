@@ -17,7 +17,6 @@ if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_AdAttributeConflictTest'
 class Ut_NextADInt_Multisite_Validator_Rule_AdAttributeConflictTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'You cannot use the same Ad Attribute multiple times.';
-	const EXPECTED_ERROR= array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE);
 
 	public function setUp()
 	{
@@ -59,7 +58,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_AdAttributeConflictTest extends Ut_B
 			null
 		);
 
-		$this->assertEquals(self::EXPECTED_ERROR, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**

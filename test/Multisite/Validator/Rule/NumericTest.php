@@ -17,7 +17,6 @@ if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_NumericTest')) {
 class Ut_NextADInt_Multisite_Validator_Rule_NumericTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'Validation failed.';
-	const EXPECTED_MESSAGE = array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE);
 
 	public function setUp()
 	{
@@ -59,7 +58,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_NumericTest extends Ut_BasicTest
 			null
 		);
 
-		$this->assertEquals(self::EXPECTED_MESSAGE, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**

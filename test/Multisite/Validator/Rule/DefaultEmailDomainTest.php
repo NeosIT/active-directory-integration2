@@ -10,7 +10,6 @@ if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_DefaultEmailDomainTest')
 class Ut_NextADInt_Multisite_Validator_Rule_DefaultEmailDomainTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'Please remove the "@", it will be added automatically.';
-	const EXPECTED_ERROR= array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE);
 
 	public function setUp()
 	{
@@ -48,7 +47,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_DefaultEmailDomainTest extends Ut_Ba
 
 		$actual = $sut->validate('@test.ad', array());
 
-		$this->assertEquals(self::EXPECTED_ERROR, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**

@@ -17,7 +17,6 @@ if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_PortTest')) {
 class Ut_NextADInt_Multisite_Validator_Rule_PortTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'Port has to be numeric and in the range from 0 - 65535.';
-	const EXPECTED_MESSAGE = array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE);
 
 	public function setUp()
 	{
@@ -59,6 +58,6 @@ class Ut_NextADInt_Multisite_Validator_Rule_PortTest extends Ut_BasicTest
 			null
 		);
 
-		$this->assertEquals(self::EXPECTED_MESSAGE, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 }
