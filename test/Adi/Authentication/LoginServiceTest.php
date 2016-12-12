@@ -593,7 +593,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('isUserBlocked')
-			->with('hugo@test.test')
+			->with('hugo')
 			->willReturn(true);
 
 		$this->mailNotification->expects($this->once())
@@ -603,7 +603,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$this->userBlockedMessage->expects($this->once())
 			->method('blockCurrentUser');
 
-		$sut->bruteForceProtection('hugo', '@test.test');
+		$sut->bruteForceProtection('hugo','@test.test');
 	}
 
 	/**

@@ -393,8 +393,9 @@ class NextADInt_Adi_Authentication_LoginService
 	 *
 	 * If the user has been blocked, an e-mail is sent to the WordPress administrators.
 	 *
-	 * @param string $username
+	 * @param $username
 	 * @param $accountSuffix
+	 * @internal param string $fullUsername
 	 */
 	function bruteForceProtection($username, $accountSuffix)
 	{
@@ -407,7 +408,7 @@ class NextADInt_Adi_Authentication_LoginService
 			return;
 		}
 
-		$username = $username . $accountSuffix;
+		$fullUsername = $username . $accountSuffix;
 
 		// if brute force is disabled, then leave
         if ($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS) === 0) {
@@ -415,7 +416,7 @@ class NextADInt_Adi_Authentication_LoginService
         }
 
 		// if user is not blocked, then leave
-		if (!$this->failedLogin->isUserBlocked($username)) {
+		if (!$this->failedLogin->isUserBlocked($fullUsername)) {
 			return;
 		}
 
@@ -441,9 +442,10 @@ class NextADInt_Adi_Authentication_LoginService
 	/**
 	 * Block or unblock user.
 	 *
-	 * @param string $username
+	 * @param $username
 	 * @param $accountSuffix
 	 * @param boolean $successfulLogin if true, the user is un-blocked; otherwise, he is blocked
+	 * @internal param string $fullUsername
 	 */
 	function refreshBruteForceProtectionStatusForUser($username, $accountSuffix , $successfulLogin)
 	{
@@ -453,18 +455,18 @@ class NextADInt_Adi_Authentication_LoginService
 			return;
 		}
 
-		$username = $username . $accountSuffix;
+		$fullUsername = $username . $accountSuffix;
 
 		// handle authenticated-status
 		if ($successfulLogin) {
-			$this->failedLogin->deleteLoginAttempts($username);
+			$this->failedLogin->deleteLoginAttempts($fullUsername);
 		} else {
-			$this->failedLogin->increaseLoginAttempts($username);
+			$this->failedLogin->increaseLoginAttempts($fullUsername);
 
-			$totalAttempts = $this->failedLogin->findLoginAttempts($username);
+			$totalAttempts = $this->failedLogin->findLoginAttempts($fullUsername);
 
 			if ($totalAttempts > $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS)) {
-				$this->failedLogin->blockUser($username, $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::BLOCK_TIME));
+				$this->failedLogin->blockUser($fullUsername, $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::BLOCK_TIME));
 			}
 		}
 	}
