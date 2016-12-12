@@ -395,6 +395,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 
 		$netBIOSname = $this->twigContainer->findActiveDirectoryNetBiosName($data);
 
+        $netBIOSdata = array();
 		if($netBIOSname) {
 			$netBIOSdata = $this->prepareNetBiosName($netBIOSname);
 			$this->persistNetBiosName($netBIOSdata, $profileId);

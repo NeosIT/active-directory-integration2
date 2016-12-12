@@ -1003,6 +1003,9 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->assertFalse($actual);
 	}
 
+    /**
+     * @test
+     */
 	public function getDomainSidForPersistence_returnsValidArray()
 	{
 		$domainSid = 'S-1-23-4-567890-123456';
@@ -1048,4 +1051,120 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_BaseDnWarn', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][1]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][2]);
 	}
+
+    /**
+     * @test
+     */
+    public function prepareNetBiosName_validName_returnsNetBiosName()
+    {
+        $sut = $this->sut(array('getNetBiosNameForPersistence'));
+
+        $netBiosName = 'TEST';
+        $expectedNetBiosData = array("netBIOS_name" => $netBiosName);
+
+        $sut->expects($this->once())
+            ->method('getNetBiosNameForPersistence')
+            ->with($netBiosName)
+            ->willReturn($expectedNetBiosData);
+
+        $actual = $this->invokeMethod($sut, 'prepareNetBiosName', array($netBiosName));
+
+        $this->assertEquals($actual, $expectedNetBiosData);
+	}
+
+    /**
+     * @test
+     */
+    public function prepareNetBiosName_noNetBiosName_returnsFalse()
+    {
+        $sut = $this->sut(array('getNetBiosNameForPersistence'));
+
+        $netBiosName = '';
+
+        $sut->expects($this->never())
+            ->method('getNetBiosNameForPersistence');
+
+        $actual = $this->invokeMethod($sut, 'prepareNetBiosName', array($netBiosName));
+
+        $this->assertEquals($actual, false);
+    }
+
+    /**
+     * @test
+     */
+    public function getNetBiosNameForPersistence_returnsValidArray()
+    {
+        $netBiosName = 'TEST';
+
+        $sut = $this->sut();
+
+        $actual = $this->invokeMethod($sut, 'getNetBiosNameForPersistence', array($netBiosName));
+        $this->assertEquals($actual, array("netBIOS_name" => $netBiosName));
+    }
+
+    /**
+     * @test
+     */
+    public function persistNetBiosName_calls_saveBlogOptions()
+    {
+        $sut = $this->sut();
+        $data = array();
+
+        $this->blogConfigurationController->expects($this->once())
+            ->method('saveBlogOptions')
+            ->with($data)
+            ->willReturn(true);
+
+        $actual = $this->invokeMethod($sut, 'persistNetBiosName', array($data));
+
+        $this->assertTrue($actual);
+    }
+
+    /**
+     * @test
+     */
+    public function validateVerification_calls_validateWithValidator()
+    {
+        $sut = $this->sut(array('getVerificationValidator', 'validateWithValidator'));
+
+        $data = array();
+        $validator = new NextADInt_Core_Validator();
+        $result = new NextADInt_Core_Validator_Result();
+
+
+        $sut->expects($this->once())
+            ->method('getVerificationValidator')
+            ->willReturn($validator);
+
+        $sut->expects($this->once())
+            ->method('validateWithValidator')
+            ->with($validator, $data)
+            ->willReturn($result);
+
+        $actual = $this->invokeMethod($sut, 'validateVerification', array($data));
+
+        $this->assertEquals($actual, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function validateWithValidator_calls_givenValidator_validateMethod()
+    {
+        $sut = $this->sut(array('validate'));
+
+        $validator = $this->createMock('NextADInt_Core_Validator');
+
+        $data = array();
+        $result = new NextADInt_Core_Validator_Result();
+
+        $validator->expects($this->once())
+            ->method('validate')
+            ->with($data)
+            ->willReturn($result);
+
+        $actual = $this->invokeMethod($sut, 'validateWithValidator', array($validator, $data));
+
+        $this->assertEquals($actual, $result);
+    }
 }
