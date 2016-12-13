@@ -120,7 +120,10 @@ class NextADInt_Adi_Init
 			$licenseKey = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
 
 			if (empty($licenseKey)) {
-				echo "<tr><td colspan='3' style='vertical-align: middle; background-color: #ef693e; color: #fff'>" . __("Please purchase a valid Next Active Directory Integration support license from <a href='https://www.active-directory-wp.com/' style='color: #fff; text-decoration: underline'>https://www.active-directory-wp.com/</a> to support this plug-in.") . "</td>";
+                $link = '<a href="https://www.active-directory-wp.com/" style="color: #fff; text-decoration: underline">https://www.active-directory-wp.com/</a>';
+                $text = esc_html__('Please purchase a valid Next Active Directory Integration support license from %s to support this plug-in.', 'next-active-directory-integration');
+                $text = sprintf($text, $link);
+				echo '<tr><td colspan="3" style="vertical-align: middle; background-color: #ef693e; color: #fff">' . $text . '</td>';
 			}
 		}
 	}
@@ -151,7 +154,7 @@ class NextADInt_Adi_Init
 		}
 
 		// load internationalization (i18n)
-		load_plugin_textdomain(NEXT_AD_INT_I18N, false, plugin_basename(NEXT_AD_INT_PATH) . '/languages');
+		load_plugin_textdomain('next-active-directory-integration', false, plugin_basename(NEXT_AD_INT_PATH) . '/languages');
 
 		// ADI-354 (dme)
 		$configurationService = $this->dc()->getConfiguration();

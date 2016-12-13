@@ -24,6 +24,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 		$sut = $this->sut(array('dc'));
 		$dc = $this->mockDependencyContainer($sut);
 		$fakeService = $this->createInitializeEnvironment($dc);
+        $pluginFolderName = basename(NEXT_AD_INT_PATH);
 
 		$fakeService->expects($this->exactly(2))
 			->method('getOptionValue');
@@ -31,14 +32,14 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         WP_Mock::wpFunction('plugin_basename', array(
             'args' => array(NEXT_AD_INT_PATH),
             'times' => 1,
-            'return' => 'active-directory-integration2'
+            'return' => $pluginFolderName
         ));
 
 		WP_Mock::wpFunction('load_plugin_textdomain', array(
 			'args'  => array(
-				NEXT_AD_INT_I18N,
+				'next-active-directory-integration',
 				false,
-				'active-directory-integration2/languages',
+                $pluginFolderName . '/languages',
 			),
 			'times' => 1));
 
@@ -299,13 +300,8 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 			'times'  => 1,
 			'return' => true));
 
-		\WP_Mock::wpFunction('__', array(
-			'args'  => array(WP_Mock\Functions::type('string')),
-			'times' => '1',
-			'return' => 'Please purchase'
-		));
-
 		$sut = $this->sut(array('dc'));
+		$this->mockFunctionEsc_html__();
 		$dc = $this->mockDependencyContainer($sut);
 
 		$fakeService = $this->createAnonymousMock(array('getOptionValue'));
@@ -316,7 +312,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 		$fakeService->expects($this->once())
 			->method('getOptionValue')
 			->with(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY)
-			->willReturn("");
+			->willReturn('');
 
 		$this->expectOutputRegex('/Please purchase/');
 		$sut->showLicensePurchaseInformation(null, null);
@@ -345,6 +341,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	public function run_itDoesNotRegisterCore_whenNotActive()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'isActive', 'registerCore'));
+		$this->mockFunction__();
 
 		$this->mockWordpressFunction('get_current_blog_id');
 		$this->mockWordpressFunction('is_multisite');

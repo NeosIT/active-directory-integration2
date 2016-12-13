@@ -60,7 +60,7 @@ class NextADInt_Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Ta
 				return;
 			}
 
-			echo "<em>" . __('Cannot find valid site name.', NEXT_AD_INT_I18N) . '</em>';
+			echo "<em>" . __('Cannot find valid site name.', 'next-active-directory-integration') . '</em>';
 		}
 	}
 
@@ -71,8 +71,8 @@ class NextADInt_Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Ta
 	{
 		$sites_columns = array(
 			'cb'                        => '<input type="checkbox" />',
-			self::NEXT_AD_INT_SITE_NAME_COLUMN 	=> __('Site Name', NEXT_AD_INT_I18N),
-			'blogname'                  => __('URL', NEXT_AD_INT_I18N),
+			self::NEXT_AD_INT_SITE_NAME_COLUMN 	=> __('Site Name', 'next-active-directory-integration'),
+			'blogname'                  => __('URL', 'next-active-directory-integration'),
 		);
 
 		/**
@@ -267,7 +267,7 @@ class NextADInt_Multisite_Ui_Table_ProfileAssignment extends WP_MS_Sites_List_Ta
 		$blogname = untrailingslashit($blog['domain'] . $blog['path']);
 
 		echo sprintf('<label class="screen-reader-text" for="blog_%d">%s</label>', $blog['blog_id'],
-			sprintf(__('Select %s', NEXT_AD_INT_I18N), $blogname)
+			sprintf(__('Select %s', 'next-active-directory-integration'), $blogname)
 		);
 
 		echo sprintf('<input type="checkbox" id="blog_%d" name="allblogs[]" value="%d" />', $blog['blog_id'],

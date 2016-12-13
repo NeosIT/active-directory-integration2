@@ -17,7 +17,6 @@ if (class_exists('NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage')) 
  */
 class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADInt_Multisite_View_Page_Abstract
 {
-	const TITLE = 'Sync to AD';
 	const SLUG = 'sync_to_ad';
 	const AJAX_SLUG = null;
 	const CAPABILITY = 'manage_options';
@@ -56,7 +55,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 	 */
 	public function getTitle()
 	{
-		return esc_html__(self::TITLE, NEXT_AD_INT_I18N);
+		return esc_html__('Sync to AD', 'next-active-directory-integration');
 	}
 
 	/**
@@ -74,6 +73,14 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		$params['blogUrl'] = get_site_url(get_current_blog_id());
 		$params['message'] = $this->result;
 		$params['log'] = $this->log;
+        $params['i18n'] = array(
+            'title' => __('Sync To Active Directory', 'next-active-directory-integration'),
+            'descriptionLine1' => __('If you want to trigger Sync to Active Directory, you must know the URL to the index.php of your blog:', 'next-active-directory-integration'),
+            'descriptionLine2' => __('Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:', 'next-active-directory-integration'),
+            'userId' => __('User-ID: (optional)', 'next-active-directory-integration'),
+            'repeatAction' => __('Repeat WordPress to Active Directory synchronization', 'next-active-directory-integration'),
+            'startAction' => __('Start WordPress to Active Directory synchronization', 'next-active-directory-integration')
+        );
 
 		// render
 		$this->display(self::TEMPLATE, $params);
@@ -92,7 +99,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 
 		$security =  NextADInt_Core_Util_ArrayUtil::get('security', $post, '');
 		if (!wp_verify_nonce($security, self::NONCE)) {
-			$message = __('You do not have sufficient permissions to access this page.', NEXT_AD_INT_I18N);
+			$message = __('You do not have sufficient permissions to access this page.', 'next-active-directory-integration');
 			wp_die($message);
 		}
 
@@ -110,9 +117,9 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		$this->log = explode("<br />",$this->log);
 
 		if ($result) {
-			$this->result = esc_html__('Sync to AD succeeded.', NEXT_AD_INT_I18N);
+			$this->result = esc_html__('Sync to AD succeeded.', 'next-active-directory-integration');
 		} else {
-			$this->result = esc_html__('Sync to AD failed.', NEXT_AD_INT_I18N);
+			$this->result = esc_html__('Sync to AD failed.', 'next-active-directory-integration');
 		}
 
 		return array(

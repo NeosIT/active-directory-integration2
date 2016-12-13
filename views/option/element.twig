@@ -1,4 +1,4 @@
-{% macro create(optionName, isProfile, inputId, permissionSelectionId, network) %}
+{% macro create(optionName, isProfile, inputId, permissionSelectionId, network, i18n) %}
 
     {% set inline = getMetadata(optionName, 'INLINE')|join(' ') %}
     {% set description = getMetadata(optionName, 'DESCRIPTION') %}
@@ -31,7 +31,7 @@
     {% elseif type == constant('NextADInt_Multisite_Option_Type::AUTHCODE') %}
 
         {% import "option/element/authcode.twig" as authcode %}
-        {{ authcode.create(optionName, permission, inputId) }}
+        {{ authcode.create(optionName, permission, inputId, i18n) }}
 
     {% elseif type == constant('NextADInt_Multisite_Option_Type::EDITABLE_LIST') %}
 
@@ -41,12 +41,12 @@
     {% elseif type == constant('NextADInt_Multisite_Option_Type::TABLE') %}
 
         {% import "option/element/table.twig" as table %}
-        {{ table.create(optionName, permission, inputId) }}
+        {{ table.create(optionName, permission, inputId, false, false, i18n) }}
         
     {% elseif type == constant('NextADInt_Multisite_Option_Type::VERIFICATION_PASSWORD') %}
 
         {% import "option/element/verification_password.twig" as verification_password %}
-        {{ verification_password.create(optionName, permission, inputId) }}
+        {{ verification_password.create(optionName, permission, inputId, i18n) }}
 
     {% elseif type == constant('NextADInt_Multisite_Option_Type::DOMAIN_SID') %}
 

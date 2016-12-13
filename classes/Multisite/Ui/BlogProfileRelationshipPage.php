@@ -46,7 +46,7 @@ class NextADInt_Multisite_Ui_BlogProfileRelationshipPage extends NextADInt_Multi
 	 */
 	public function getTitle()
 	{
-		return esc_html__('Profile assignment', NEXT_AD_INT_I18N);
+		return esc_html__('Profile assignment', 'next-active-directory-integration');
 	}
 
 	/**
@@ -84,9 +84,21 @@ class NextADInt_Multisite_Ui_BlogProfileRelationshipPage extends NextADInt_Multi
 	 */
 	public function renderNetwork()
 	{
+        // translate twig text
+        $i18n = array(
+            'search' => __('Search', 'next-active-directory-integration'),
+            'title' => __('Profile assignment', 'next-active-directory-integration'),
+            'defaultProfile' => __('Default profile', 'next-active-directory-integration'),
+            'noneAssigned' => __('--- None assigned', 'next-active-directory-integration'),
+            'apply' => __('Apply', 'next-active-directory-integration'),
+            'changeBlogs' => __('Change selected blogs to profile', 'next-active-directory-integration'),
+            'useDefaultProfile' => __('--- Use default profile', 'next-active-directory-integration')
+        );
+
 		$this->display(self::TEMPLATE, array(
 			'nonce' => wp_create_nonce(self::NONCE), //create nonce for security
 			'table' => $this->blogProfileRelationshipController->buildSiteTable(),
+            'i18n' => $i18n
 		));
 	}
 

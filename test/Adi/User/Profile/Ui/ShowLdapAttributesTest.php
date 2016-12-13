@@ -151,11 +151,18 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTe
 	public function extendProfile_rendersView()
 	{
 		$sut = $this->sut(array('isShowAttributesEnabled', 'createViewModel'));
+		$this->mockFunction__();
 		$wpUser = (object)array(
 			'ID' => '123',
 		);
 
 		$data = array('data' => true);
+        $i18n = array(
+            'additionalInformation' => 'Additional Information provided by Active Directory Integration',
+            'reenterPassword' => 'Reenter password',
+            'youMustEnterPassword' => 'If you want to save the changes in "Additional Information" back to the Active Directory you must enter your password.',
+            'canNotBeEdited' => 'Profile can not be edited or synchronized back to Active Directory:'
+        );
 
 		$sut->expects($this->once())
 			->method('createViewModel')
@@ -167,7 +174,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTe
 
 		$this->twig->expects($this->once())
 			->method('render')
-			->with('user-profile-ad-attributes.twig', array('renderData' => $data));
+			->with('user-profile-ad-attributes.twig', array('renderData' => $data, 'i18n' => $i18n));
 
 
 		$sut->extendProfile($wpUser, true);

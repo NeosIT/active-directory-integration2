@@ -154,10 +154,10 @@ class NextADInt_Multisite_Ui_ProfileController
 		try {
 			$this->profileRepository->delete($id);
 		} catch (Exception $e) {
-			return NextADInt_Core_Message::error(__('An error occurred while deleting the profile.', NEXT_AD_INT_I18N))->toArray();
+			return NextADInt_Core_Message::error(__('An error occurred while deleting the profile.', 'next-active-directory-integration'))->toArray();
 		}
 
-		return NextADInt_Core_Message::success(__('The profile was deleted successfully.', NEXT_AD_INT_I18N))->toArray();
+		return NextADInt_Core_Message::success(__('The profile was deleted successfully.', 'next-active-directory-integration'))->toArray();
 	}
 
 	/**

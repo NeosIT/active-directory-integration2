@@ -31,6 +31,7 @@ class Ut_NextADInt_Adi_Configuration_OptionsTest extends Ut_BasicTest
 	 */
 	public function getOptionMetaData()
 	{
+		$this->mockFunction__();
 		$option = $this->sut->get('port');
 		$this->assertTrue(is_array($option));
 		$this->assertEquals('Port', $option['title']);

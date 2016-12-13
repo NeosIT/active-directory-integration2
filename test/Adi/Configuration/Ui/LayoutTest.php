@@ -22,6 +22,7 @@ class Ut_NextADInt_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 	 */
 	public function getOptionsGrouping_isArray()
 	{
+		$this->mockFunction__();
 		$optionsGrouping = NextADInt_Adi_Configuration_Ui_Layout::get();
 		$this->assertTrue(is_array($optionsGrouping));
 	}
@@ -31,6 +32,7 @@ class Ut_NextADInt_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 	 */
 	public function getOptionGrouping_arrayNotEmpty()
 	{
+		$this->mockFunction__();
 		$optionsGrouping = NextADInt_Adi_Configuration_Ui_Layout::get();
 
 		$this->assertTrue(is_array($optionsGrouping));
@@ -42,6 +44,7 @@ class Ut_NextADInt_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 	 */
 	public function getOptionsGrouping_checkStructure()
 	{
+		$this->mockFunction__();
 		$optionsGrouping = NextADInt_Adi_Configuration_Ui_Layout::get();
 		$this->assertTrue(is_array($optionsGrouping));
 

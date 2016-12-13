@@ -1,20 +1,18 @@
 {# macro for generating option groups for a single tab body#}
-{% macro create(optionGroups, isProfile) %}
-    {% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
+{% macro create(optionGroups, isProfile, i18n) %}
 
     <script type="application/javascript">
         document['next_ad_int'] = document['next_ad_int'] || {};
-        document['next_ad_int']['auth-code-confirmation'] = '{{ 'Do you really want to regenerate a new AuthCode?'|__(NEXT_AD_INT_I18N) }}';
-        document['next_ad_int']['verification-status'] = '{{ 'WordPress Site is currently connected to Domain: '|__(NEXT_AD_INT_I18N) }}';
-        document['next_ad_int']['verification-successful'] = '{{ 'Verification successful! WordPress site is now connected to Domain: '|__(NEXT_AD_INT_I18N) }}';
-        document['next_ad_int']['verification-successful-notification'] = '{{ 'Verification successful!'|__(NEXT_AD_INT_I18N) }}';
-        document['next_ad_int']['verification-failed-notification'] = '{{ 'Verification failed! Please check your logfile for further information.'|__(NEXT_AD_INT_I18N) }}';
-        document['next_ad_int']['saving-error'] = '{{ 'An error occurred while saving the configuration.'|__(NEXT_AD_INT_I18N) }}';
-        document['next_ad_int']['saving-success'] = '{{ 'The configuration has been saved successfully.'|__(NEXT_AD_INT_I18N) }}';
+        document['next_ad_int']['auth-code-confirmation'] = '{{ i18n.wantToRegenerateAuthCode }}';
+        document['next_ad_int']['verification-status'] = '{{ i18n.wordPressIsConnectedToDomain }}';
+        document['next_ad_int']['verification-successful'] = '{{ i18n.domainConnectionVerificationSuccessful }}';
+        document['next_ad_int']['verification-successful-notification'] = '{{ i18n.verificationSuccessful }}';
+        document['next_ad_int']['verification-failed-notification'] = '{{ i18n.domainConnectionVerificationFailed }}';
+        document['next_ad_int']['saving-error'] = '{{ i18n.errorWhileSaving }}';
+        document['next_ad_int']['saving-success'] = '{{ i18n.savingSuccessful }}';
     </script>
 
     {% import "option/lines.twig" as lines %}
-    {% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
     {% set newNetwork = isOnNetworkDashboard() %}
 
     {# Add all option groups of the current tab #}
@@ -34,7 +32,7 @@
                 <table class="adi-permission-selection">
                     <tr>
                         <td>&nbsp;</td>
-                        <td>{{ 'Manage Permissions'|__(NEXT_AD_INT_I18N) }}</td>
+                        <td>{{ i18n.managePermissions }}</td>
                     </tr>
                 </table>
             {% endif %}
@@ -44,7 +42,7 @@
         {% if optionGroup.options is defined %}
             {# Add all option of this option group#}
             <table class="form-table" style="width: 100%">
-                {{ lines.create(optionGroup.options, isProfile) }}
+                {{ lines.create(optionGroup.options, isProfile, i18n) }}
             </table>
         {% endif %}
 

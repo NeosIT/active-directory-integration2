@@ -15,7 +15,6 @@ if (!defined('ABSPATH')) {
     define('NEXT_AD_INT_PLUGIN_VERSION', '2.0');
     define('NEXT_AD_INT_PREFIX', 'next_ad_int_');
     define('NEXT_AD_INT_URL', '');
-    define('NEXT_AD_INT_I18N', 'next_ad_int');
     define('NEXT_AD_INT_FILE_CONVERSION_PATTERN', "[%-5level] %class::%method [line %line] %msg %ex\r\n");
     define('NEXT_AD_INT_ECHO_CONVERSION_PATTERN', '[%-5level] %msg %ex<br />');
 	define('AUTH_SALT', '</q|_f-py65|-Cy*E)9$]}jI/x1KqLMIF_rc1g]`=vsa`9RjA,r1ufr(lM2L*YBp');
@@ -160,4 +159,3 @@ Twig_Autoloader::register();
 
 require_once "$path/test/BasicTest.php";
 require_once "$path/test/ItBasicTest.php";
-require_once "$path/test/DatabaseTest.php";

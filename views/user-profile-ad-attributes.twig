@@ -1,6 +1,5 @@
-{% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
 {% if  renderData.attributes|length > 0 %}
-    <h3>{{ 'Additional Information provided by Active Directory Integration'|__(NEXT_AD_INT_I18N) }}</h3>
+    <h3>{{ i18n.additionalInformation }}</h3>
 {% endif %}
 
 <table class="form-table">
@@ -43,20 +42,22 @@
             <tr>
                 <th>
                     <label for="next_ad_int_active_directory_password"
-                           class="next_ad_int_active_directory_password">{{ 'Reenter password'|__(NEXT_AD_INT_I18N) }}</label>
+                           class="next_ad_int_active_directory_password">{{ i18n.reenterPassword }}</label>
                 </th>
                 <td>
                     <input type="password" name="next_ad_int_active_directory_password" id="next_ad_int_active_directory_password"
                            class="regulat-text code"/>
                     <p class="description">
-                        {{ 'If you want to save the changes in "Additional Information" back to the Active Directory you must enter your password.'|__(NEXT_AD_INT_I18N) }}
+                        {{ i18n.youMustEnterPassword }}
                     </p>
                 </td>
             </tr>
         {% endif %}
     {% else %}
         <tr>
-            <td colspan="2"><p class="notice notice-warning">{{ 'Profile can not be edited or synchronized back to Active Directory:'|__(NEXT_AD_INT_I18N) }} ~ {{ renderData.adi_synchronization_error_message }}</p></td>
+            <td colspan="2"><p class="notice notice-warning">
+                    {{ i18n.canNotBeEdited }} ~ {{ renderData.adi_synchronization_error_message }}</p>
+            </td>
         </tr>
     {% endif %}
 

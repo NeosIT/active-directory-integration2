@@ -97,10 +97,19 @@ class NextADInt_Adi_User_Profile_Ui_ShowLdapAttributes
 		// create view model with Active Directory attributes for the visible user profile
 		$data = $this->createViewModel($wpUser, $isOwnProfile);
 
+        // translate twig text
+        $i18n = array(
+            'additionalInformation' => __('Additional Information provided by Active Directory Integration', 'next-active-directory-integration'),
+            'reenterPassword' => __('Reenter password', 'next-active-directory-integration'),
+            'youMustEnterPassword' => __('If you want to save the changes in "Additional Information" back to the Active Directory you must enter your password.', 'next-active-directory-integration'),
+            'canNotBeEdited' => __('Profile can not be edited or synchronized back to Active Directory:', 'next-active-directory-integration')
+        );
+
 		// render it
 		echo $this->twigContainer->getTwig()->render(
 			self::TEMPLATE_NAME, array(
 				'renderData' => $data,
+                'i18n' => $i18n
 			)
 		);
 	}

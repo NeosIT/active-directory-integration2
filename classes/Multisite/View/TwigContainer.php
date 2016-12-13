@@ -132,9 +132,7 @@ class NextADInt_Multisite_View_TwigContainer
 
 		$this->twig = new Twig_Environment($loader, $twigOptions);
 
-		$this->addSimpleTwigFilter('__', '__');
 		$this->addSimpleTwigFilter('var_dump', 'var_dump');
-
 		$this->addSimpleTwigFunction('isOptionGroupVisible', array($this, 'isOptionGroupVisible'));
 
 		// meta data for options like metadata or grouping

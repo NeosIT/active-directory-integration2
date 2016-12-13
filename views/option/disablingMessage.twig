@@ -1,6 +1,5 @@
-{% macro create(optionName, profileId) %}
+{% macro create(optionName, profileId, i18n) %}
 
-    {% set NEXT_AD_INT_I18N = constant('NEXT_AD_INT_I18N') %}
     {% set permission = getOptionPermission(profileId, optionName) %}
     {% set optionDisabled = getMetadata(optionName, 'DISABLED') %}
     {% set optionDisabledMessage = getMetadata(optionName, 'DISABLED_MESSAGE') %}
@@ -11,7 +10,7 @@
 
     {% else %}
 
-        <span>{{ 'This option is managed by the profile.'|__(NEXT_AD_INT_I18N) }}</span>
+        <span>{{ i18n.optionIsManagedByProfile }}</span>
 
     {% endif %}
 

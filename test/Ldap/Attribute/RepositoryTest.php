@@ -13,24 +13,17 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 
 	public function setUp()
 	{
+		parent::setUp();
+
 		$this->configuration = $this->getMockBuilder('NextADInt_Multisite_Configuration_Service')
 			->disableOriginalConstructor()
 			->setMethods(array('getOptionValue'))
 			->getMock();
-
-		\WP_Mock::setUp();
-
-		\WP_Mock::wpFunction(
-			'__', array(
-				'args'       => array(WP_Mock\Functions::type('string'), NEXT_AD_INT_I18N),
-				'return_arg' => 0,
-			)
-		);
 	}
 
 	public function tearDown()
 	{
-		\WP_Mock::tearDown();
+		parent::tearDown();
 	}
 
 	public function sut($methods = null)
@@ -489,6 +482,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	public function createAttribute_returnObject()
 	{
 		$sut = $this->sut(array('getViewableAttributeDefinitions'));
+		$this->mockFunction__();
 
 		$attribute = array(
 			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE                 => 'string',
@@ -512,6 +506,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	public function createAttribute_withEmptyAttribute_returnsMetaKeyWithPrefixAndAttributeName()
 	{
 		$sut = $this->sut();
+		$this->mockFunction__();
 
 		$result = $sut->createAttribute(array(), 'objectguid');
 
@@ -673,6 +668,8 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	 */
 	public function lookupDescription_withoutDescription_returnDefaultDescription()
 	{
+		$this->mockFunction__();
+
 		$array = array(
 			'metaKey',
 			'',

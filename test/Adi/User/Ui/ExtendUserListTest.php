@@ -11,23 +11,17 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 
 	public function setUp()
 	{
+		parent::setUp();
+
 		$this->configuration = $this->getMockBuilder('NextADInt_Multisite_Configuration_Service')
 			->disableOriginalConstructor()
 			->setMethods(array('getOptionValue'))
 			->getMock();
-
-		WP_Mock::setUp();
-
-		\WP_Mock::wpFunction(
-			'__', array(
-				'return_arg' => 0
-			)
-		);
 	}
 
 	public function tearDown()
 	{
-		WP_Mock::tearDown();
+		parent::tearDown();
 	}
 
 	/**
@@ -86,6 +80,7 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 	public function addColumns()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunction__();
 
 		$columns = array();
 

@@ -485,6 +485,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	public function checkAccountRestrictions_itDisablesTheWordPressAccount_whenActiveDirectoryUserDoesNotExist()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunction__();
 
 		$adiUser = new NextADInt_Adi_User(new NextADInt_Adi_Authentication_Credentials("username"), new NextADInt_Ldap_Attributes());
 		$adiUser->setId(666);
@@ -503,6 +504,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	public function checkAccountRestrictions_itDisablesTheWordPressAccount_whenActiveDirectoryAccountIsNotNormal()
 	{
 		$sut = $this->sut(array('isNormalAccount'));
+		$this->mockFunction__();
 
 		$adiUser = new NextADInt_Adi_User(new NextADInt_Adi_Authentication_Credentials("username"),
 			new NextADInt_Ldap_Attributes(array('key' => 'value')));
@@ -523,6 +525,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	public function checkAccountRestrictions_itDisablesTheWordPressAccount_whenActiveDirectoryAccountRequiresSmartCard()
 	{
 		$sut = $this->sut(array('isNormalAccount', 'isSmartCardRequired'));
+		$this->mockFunction__();
 
 		$adiUser = new NextADInt_Adi_User(new NextADInt_Adi_Authentication_Credentials("username"),
 			new NextADInt_Ldap_Attributes(array('key' => 'value')));
@@ -545,6 +548,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	public function checkAccountRestrictions_itPasses_whenRestrictionsAreFulfilled()
 	{
 		$sut = $this->sut(array('isNormalAccount', 'isSmartCardRequired'));
+		$this->mockFunction__();
 
 		$adiUser = new NextADInt_Adi_User(new NextADInt_Adi_Authentication_Credentials("username"),
 			new NextADInt_Ldap_Attributes(array('key' => 'value')));
@@ -876,6 +880,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	public function synchronizeAccountStatus_ifAccountIsDisabled_theUserIsDisabled()
 	{
 		$sut = $this->sut(array('userAccountControl', 'isAccountDisabled'));
+		$this->mockFunction__();
 
 		$ldapAttributes = array('cn' => array('value'));
 
@@ -897,7 +902,6 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$this->userManager->expects($this->once())
 			->method('disable')
 			->with(666, $this->stringContains('is disabled in'));
-
 
 		$actual = $sut->synchronizeAccountStatus($adiUser, true/* sync disabled accounts */);
 		$this->assertFalse($actual);

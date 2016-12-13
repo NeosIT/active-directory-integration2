@@ -148,6 +148,8 @@ class Ut_NextADInt_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 	 */
 	public function createMigrationNotices_echosAmountOfBlogsInMultisite()
 	{
+		$this->mockFunction__();
+
 		WP_Mock::wpFunction('is_multisite', array(
 			'times' => 1,
 			'return' => true,
@@ -192,6 +194,7 @@ class Ut_NextADInt_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 		));
 
 		$sut = $this->sut(array('getBlogVersion'));
+		$this->mockFunction__();
 
 		$sut->expects($this->once())
 			->method('getBlogVersion')
