@@ -164,7 +164,9 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
                     'noOptionsExists' => 'No options exists',
                     'pleaseWait' => 'Please wait...',
                     'save' => 'Save',
-                    'haveToVerifyDomainConnection' => 'You have to verify the connection to the AD before saving.')
+                    'haveToVerifyDomainConnection' => 'You have to verify the connection to the AD before saving.',
+                    'errorWhileSaving' => 'An error occurred while saving the configuration.',
+                    'savingSuccessful' => 'The configuration has been saved successfully.')
                 )
 			);
 
@@ -821,6 +823,8 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 
 		$fakeValidator = $this->createAnonymousMock(array('containsErrors', 'getValidationResult'));
 
+		$this->mockFunction__();
+
 		$sut->expects($this->once())
 			->method('validate')
 			->willReturn($fakeValidator);
@@ -845,7 +849,9 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 	{
 		$sut = $this->sut(array('getPermission'));
 
-		$permissionItems = array(
+        $this->mockFunction__();
+
+        $permissionItems = array(
 			0 => array(
 				"value" => "0",
 				"description" => __("Input field is invisible.", 'next-active-directory-integration'),

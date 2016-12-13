@@ -1405,15 +1405,15 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			),
 			// Import users even if they are disabled in active directory
 			self::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS => array(
-				$title       => __('Import disabled users', NEXT_AD_INT_I18N),
+				$title       => __('Import disabled users', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
 					'Users which are deactivated in Active Directory are synchronized to WordPress.',
-					NEXT_AD_INT_I18N
+					'next-active-directory-integration'
 				),
 				$detail      => __(
 					'Users which are deactivated in Active Directory are synchronized to WordPress.',
-					NEXT_AD_INT_I18N
+					'next-active-directory-integration'
 				),
 				$angularAttributes => 'ng-disabled="((!option.sync_to_wordpress_enabled) || ((permission.sync_to_wordpress_import_disabled_users == 2) || (permission.sync_to_wordpress_import_disabled_users == 1))',
 				$default     => true,

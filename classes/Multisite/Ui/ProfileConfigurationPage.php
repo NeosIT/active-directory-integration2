@@ -143,7 +143,9 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
             'noOptionsExists' => __('No options exists', 'next-active-directory-integration'),
             'pleaseWait' => __('Please wait...', 'next-active-directory-integration'),
             'save' => __('Save', 'next-active-directory-integration'),
-            'haveToVerifyDomainConnection' => __('You have to verify the connection to the AD before saving.', 'next-active-directory-integration')
+            'haveToVerifyDomainConnection' => __('You have to verify the connection to the AD before saving.', 'next-active-directory-integration'),
+            'errorWhileSaving' => __('An error occurred while saving the configuration.', 'next-active-directory-integration'),
+            'savingSuccessful' => __('The configuration has been saved successfully.', 'next-active-directory-integration')
         );
 
 		$this->display(self::TEMPLATE, array(
@@ -470,7 +472,7 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
 	}
 
 	private function getErrorMessage($profileId, $profileName, $result) {
-		$errorMessage = NextADInt_Core_Message::error(__('An error occurred while saving the configuration.', NEXT_AD_INT_I18N))->toArray();
+		$errorMessage = NextADInt_Core_Message::error(__('An error occurred while saving the configuration.', 'next-active-directory-integration'))->toArray();
 		$errorMessage['additionalInformation'] = array(
 			'profileId'   => $profileId,
 			'profileName' => $profileName,

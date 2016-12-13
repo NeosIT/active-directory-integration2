@@ -121,7 +121,9 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
             'noOptionsExists' => __('No options exists', 'next-active-directory-integration'),
             'pleaseWait' => __('Please wait...', 'next-active-directory-integration'),
             'save' => __('Save', 'next-active-directory-integration'),
-            'haveToVerifyDomainConnection' => __('You have to verify the connection to the AD before saving.', 'next-active-directory-integration')
+            'haveToVerifyDomainConnection' => __('You have to verify the connection to the AD before saving.', 'next-active-directory-integration'),
+            'errorWhileSaving' => __('An error occurred while saving the configuration.', 'next-active-directory-integration'),
+            'savingSuccessful' => __('The configuration has been saved successfully.', 'next-active-directory-integration')
         );
 
 		$this->display(
@@ -783,7 +785,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		$networkTimeoutRule = new NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero($networkTimeoutMessage);
 		$validator->addRule(NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT, $networkTimeoutRule);
 
-		$domainControllerMessage = __('Domain Controller cannot be empty.', NEXT_AD_INT_I18N);
+		$domainControllerMessage = __('Domain Controller cannot be empty.', 'next-active-directory-integration');
         $domainControllerRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace($domainControllerMessage);
         $validator->addRule(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS, $domainControllerRule);
 
@@ -799,19 +801,19 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	{
 
 		$verifyBaseDnMessage = __(
-			'Base DN does not match the required style. (e.g. "DC=test,DC=ad")', NEXT_AD_INT_I18N
+			'Base DN does not match the required style. (e.g. "DC=test,DC=ad")', 'next-active-directory-integration'
 		);
 		$verifyBaseDnRule = new NextADInt_Multisite_Validator_Rule_BaseDn($verifyBaseDnMessage);
 		$validator->addRule(NextADInt_Adi_Configuration_Options::BASE_DN, $verifyBaseDnRule);
 
 		$verifyBaseDnWarning = __(
-			'Base DN consists of only one DC. (e.g. "DC=test,DC=ad")', NEXT_AD_INT_I18N
+			'Base DN consists of only one DC. (e.g. "DC=test,DC=ad")', 'next-active-directory-integration'
 		);
 		$verifyBaseDnWarningRule = new NextADInt_Multisite_Validator_Rule_BaseDnWarn($verifyBaseDnWarning, NextADInt_Core_Message_Type::WARNING);
 		$validator->addRule(NextADInt_Adi_Configuration_Options::BASE_DN, $verifyBaseDnWarningRule);
 
 		$verifyBaseDnMessage = __(
-			'Base DN must not be empty', NEXT_AD_INT_I18N
+			'Base DN must not be empty', 'next-active-directory-integration'
 		);
 		$verifyUsernameRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyBaseDnMessage);
 		$validator->addRule(NextADInt_Adi_Configuration_Options::BASE_DN, $verifyUsernameRule);

@@ -114,7 +114,9 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
             'noOptionsExists' => 'No options exists',
             'pleaseWait' => 'Please wait...',
             'save' => 'Save',
-            'haveToVerifyDomainConnection' => 'You have to verify the connection to the AD before saving.'
+            'haveToVerifyDomainConnection' => 'You have to verify the connection to the AD before saving.',
+            'errorWhileSaving' => 'An error occurred while saving the configuration.',
+            'savingSuccessful' => 'The configuration has been saved successfully.'
         );
 
         WP_Mock::wpFunction('wp_create_nonce', array(
