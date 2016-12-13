@@ -27,12 +27,12 @@ abstract class NextADInt_Core_Validator_Rule_Abstract implements NextADInt_Core_
 
 	/**
 	 * NextADInt_Core_Validator_Rule_Abstract constructor.
-	 *
-	 * @param string $msg
+	 * @param $msg
+	 * @param string $type
 	 */
-	public function __construct($msg)
+	public function __construct($msg, $type = NextADInt_Core_Message_Type::ERROR)
 	{
-		$this->msg = $msg;
+		$this->msg = array($type => $msg);
 	}
 
 	/**

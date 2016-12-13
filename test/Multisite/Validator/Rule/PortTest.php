@@ -58,6 +58,6 @@ class Ut_NextADInt_Multisite_Validator_Rule_PortTest extends Ut_BasicTest
 			null
 		);
 
-		$this->assertEquals(self::VALIDATION_MESSAGE, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 }

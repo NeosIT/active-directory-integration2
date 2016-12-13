@@ -44,7 +44,7 @@ class NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles extends N
 
 		if (NextADInt_Core_Util_ArrayUtil::containsIgnoreCase(NextADInt_Adi_Role_Manager::ROLE_SUPER_ADMIN, $wpRoles)) {
 		    $msg = $this->getMsg();
-            return $msg[0];
+            return array(NextADInt_Core_Message_Type::ERROR => $msg[NextADInt_Core_Message_Type::ERROR][0]);
 		}
 
 		// all ok

@@ -18,6 +18,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_PositiveNumericOrZeroTest extends Ut
 {
 	const VALIDATION_MESSAGE = 'Validation failed!';
 
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -88,6 +89,6 @@ class Ut_NextADInt_Multisite_Validator_Rule_PositiveNumericOrZeroTest extends Ut
 			null
 		);
 
-		$this->assertEquals(self::VALIDATION_MESSAGE, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 }

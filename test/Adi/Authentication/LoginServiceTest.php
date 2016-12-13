@@ -420,8 +420,11 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$username = 'testUser';
 		$suffix = "@company.it";
 		$password = "1234";
+		$userGuid = 'e16d5d9c-xxxx-xxxx-9b8b-969fdf4b2702';
 
 		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
+
+		$attributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => $userGuid));
 
 		$this->ldapConnection->expects($this->once())
 			->method('checkPorts')
@@ -446,18 +449,20 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->with(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP)
 			->willReturn(true);
 
-		$this->roleManager->expects($this->exactly(2))
+		$this->roleManager->expects($this->once())
 			->method('createRoleMapping')
-			->withConsecutive(
-				array($username),
-				array($username . $suffix)
-			)
+			->with($userGuid)
 			->willReturn($roleMapping);
 
 		$this->roleManager->expects($this->once())
 			->method('isInAuthorizationGroup')
 			->with($roleMapping)
 			->willReturn(false);
+
+		$this->attributeService->expects($this->once())
+			->method('findLdapAttributesOfUsername')
+			->with($username)
+			->willReturn($attributes);
 
 		$returnedValue = $sut->authenticateAtActiveDirectory($username, $suffix, $password);
 		$this->assertFalse($returnedValue);
@@ -473,8 +478,10 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$username = 'testUser';
 		$suffix = "@company.it";
 		$password = "1234";
+		$userGuid = 'e16d5d9c-xxxx-xxxx-9b8b-969fdf4b2702';
 
 		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
+		$attributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => $userGuid));
 
 		$this->ldapConnection->expects($this->once())
 			->method('checkPorts')
@@ -499,18 +506,20 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->with(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP)
 			->willReturn(true);
 
-		$this->roleManager->expects($this->exactly(2))
+		$this->roleManager->expects($this->once())
 			->method('createRoleMapping')
-			->withConsecutive(
-				array($username),
-				array($username . $suffix)
-			)
+			->with($userGuid)
 			->willReturn($roleMapping);
 
 		$this->roleManager->expects($this->once())
 			->method('isInAuthorizationGroup')
 			->with($roleMapping)
 			->willReturn(true);
+
+		$this->attributeService->expects($this->once())
+			->method('findLdapAttributesOfUsername')
+			->with($username)
+			->willReturn($attributes);
 
 		$actual = $sut->authenticateAtActiveDirectory($username, $suffix, $password);
 		$this->assertTrue($actual);

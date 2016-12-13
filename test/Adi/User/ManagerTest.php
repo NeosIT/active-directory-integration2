@@ -207,13 +207,17 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	public function createAdiUser_itMapsRoles()
 	{
 		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
+
+		$userGuid = 'e16d5d9c-xxxx-xxxx-9b8b-969fdf4b2702';
+
+		$attributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => $userGuid));
 		$sut = $this->sut();
 
 		$this->roleManager->expects($this->once())
 			->method('createRoleMapping')
-			->with('username');
+			->with($userGuid);
 
-		$sut->createAdiUser($credentials, new NextADInt_Ldap_Attributes());
+		$sut->createAdiUser($credentials, $attributes);
 	}
 
 	/**

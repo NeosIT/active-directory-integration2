@@ -59,7 +59,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_SuffixTest extends Ut_BasicTest
 
 		$actual = $sut->validate('Administrator', array());
 
-		$this->assertEquals(self::VALIDATION_MESSAGE, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**
@@ -83,6 +83,6 @@ class Ut_NextADInt_Multisite_Validator_Rule_SuffixTest extends Ut_BasicTest
 
 		$actual = $sut->getMsg();
 
-		$this->assertEquals(self::VALIDATION_MESSAGE, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 }

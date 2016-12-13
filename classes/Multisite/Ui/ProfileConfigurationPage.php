@@ -277,9 +277,12 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
 		$profileId = $data["profile"];
 		unset($data["profile"]);
 
-		parent::validateVerification($data);
+		$validation = parent::validateVerification($data);
+		$connection = $this->verifyInternal($data, $profileId);
 
-		return $this->verifyInternal($data, $profileId);
+		$response = array_merge($validation->getValidationResult(), $connection);
+
+		return $response;
 	}
 
 	/**
@@ -324,17 +327,26 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
 		$data = $postData['data'];
 		$options = $data['options'];
 
-		$this->validate($data);
+		$validation = $this->validate($data);
+		$resultContainsErrors = $validation->containsErrors();
+		$validationResult = $validation->getValidationResult();
+		$id = $this->getProfileId($data);
+		$profileName = $this->getProfileName($options);
 
+		// if pre validation failed return errorMessage, if it contains only warning, continue
+		if (sizeof($validationResult) > 0 && $resultContainsErrors) {
+			return $this->getErrorMessage($id, $profileName, $validationResult);
+		}
+
+		//TODO Check if this methode call is nessessary
 		$id = $this->saveProfile($postData);
 
-		$message = $this->profileConfigurationController->saveProfileOptions($options, $id);
-		$message['additionalInformation'] = array(
-			'profileId'   => $id,
-			'profileName' => $options['profile_name']['option_value'],
-		);
+		$persistStatusMessage = $this->profileConfigurationController->saveProfileOptions($options, $id);
 
-		return $message;
+		// Add additional information to the response ( profileid, profileName and validationResult)
+		$persistStatusMessage = $this->getPersistStatusMessage($id, $profileName, $persistStatusMessage, $validationResult);
+
+		return $persistStatusMessage;
 	}
 
 	/**
@@ -352,6 +364,23 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
 		}
 
 		return $data['profile'];
+	}
+
+	/**
+	 * Get the profile name from the given data.
+	 *
+	 * @param array $data
+	 *
+	 * @return null
+	 */
+	protected function getProfileName($options)
+	{
+		// never save a profile without a name
+		if (isset($options['profile_name']['option_value']) && '' === $options['profile_name']['option_value']) {
+			return null;
+		}
+
+		return $options['profile_name']['option_value'];
 	}
 
 	/**
@@ -409,7 +438,7 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
 	 */
 	protected function validate($data)
 	{
-		parent::validate($data['options']);
+		return parent::validate($data['options']);
 	}
 
 	/**
@@ -438,5 +467,28 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
 	protected function getNonce()
 	{
 		return self::NONCE;
+	}
+
+	private function getErrorMessage($profileId, $profileName, $result) {
+		$errorMessage = NextADInt_Core_Message::error(__('An error occurred while saving the configuration.', NEXT_AD_INT_I18N))->toArray();
+		$errorMessage['additionalInformation'] = array(
+			'profileId'   => $profileId,
+			'profileName' => $profileName,
+		);
+
+		$errorMessage = array_merge($errorMessage, $result);
+
+		return $errorMessage;
+	}
+
+	private function getPersistStatusMessage($profileId, $profileName, $persistStatusMessage, $validationResult) {
+		$persistStatusMessage['additionalInformation'] = array(
+			'profileId'   => $profileId,
+			'profileName' => $profileName,
+		);
+
+		$persistStatusMessage = array_merge($persistStatusMessage, $validationResult);
+
+		return $persistStatusMessage;
 	}
 }

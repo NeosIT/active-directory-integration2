@@ -46,10 +46,11 @@ class NextADInt_Multisite_Ui_BlogConfigurationController
 		try {
 			$this->saveBlogOptionsInternal($options);
 		} catch (Exception $e) {
-			return NextADInt_Core_Message::error(__('An error occurred while saving the configuration.', 'next-active-directory-integration'))->toArray();
+			return array("status_success" => false);
 		}
 
-		return NextADInt_Core_Message::success(__('The configuration has been saved successfully.', 'next-active-directory-integration'))->toArray();
+		return array("status_success" => true);
+
 	}
 
 	/**

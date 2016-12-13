@@ -378,9 +378,20 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	protected function verifyAdConnection($data)
 	{
 		$data = $data["data"];
-		$this->validateVerification($data);
+		// retrieve all verification results
+		$validation = $this->validateVerification($data);
+		$connection = array();
 
-		return $this->verifyInternal($data);
+		// only call verifyInternal if no validation errors were found (warnings are excluded)
+		if(!$validation->containsErrors()) {
+			$connection = $this->verifyInternal($data);
+		}
+
+		// return the validation result and the connection details
+		// it can consist of a successful connection and validation warnings
+		$response = array_merge($validation->getValidationResult(), $connection);
+
+		return $response;
 	}
 
 	/**
@@ -394,7 +405,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	protected function verifyInternal($data, $profileId = null)
 	{
 		$failedMessage = array(
-			"verification_failed" => "Verification failed! Please check your logfile for further information.",
+			"verification_error" => "Verification failed! Please check your logfile for further information.",
 		);
 
 		$objectSid = $this->twigContainer->findActiveDirectoryDomainSid($data);
@@ -412,14 +423,15 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 
 		$netBIOSname = $this->twigContainer->findActiveDirectoryNetBiosName($data);
 
+        $netBIOSdata = array();
 		if($netBIOSname) {
-			$netBIOSname = $this->prepareNetBiosName($netBIOSname);
-			$this->persistNetBiosName($netBIOSname, $profileId);
+			$netBIOSdata = $this->prepareNetBiosName($netBIOSname);
+			$this->persistNetBiosName($netBIOSdata, $profileId);
 		}
 
 		$this->persistDomainSid($domainSidData, $profileId);
 
-		return array("verification_successful_sid" => $domainSid, "verification_successful_netbios" => $netBIOSname['netBIOS_name']);
+		return array("verification_successful_sid" => $domainSid, "verification_successful_netbios" => $netBIOSdata['netBIOS_name']);
 	}
 
 	/**
@@ -476,6 +488,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			return false;
 		}
 
+		$connection = array('status_success' => false);
 		$data = $postData['data'];
 
 		//check if the permission of the option is high enough for the option to be saved
@@ -489,9 +502,18 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			}
 		}
 
-		$this->validate($data);
+		// aggregate all validation results
+		$validation = $this->validate($data);
+		// only call saveBlogOptions if no validation errors are present (warnings are excluded)
+		if(!$validation->containsErrors()) {
+			$connection = $this->blogConfigurationController->saveBlogOptions($data);
+		}
 
-		return $this->blogConfigurationController->saveBlogOptions($data);
+		// merge the validation errors and the status
+		$response = array_merge($validation->getValidationResult(), $connection);
+
+		return $response;
+
 	}
 
 	/**
@@ -519,7 +541,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	 */
 	protected function validate($data)
 	{
-		$this->validateWithValidator($this->getValidator(), $data);
+		return $this->validateWithValidator($this->getValidator(), $data);
 	}
 
 	/**
@@ -530,7 +552,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	 */
 	protected function validateVerification($data)
 	{
-		$this->validateWithValidator($this->getVerificationValidator(), $data);
+		return $this->validateWithValidator($this->getVerificationValidator(), $data);
 	}
 
 	/**
@@ -539,13 +561,12 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	 * @param NextADInt_Core_Validator $validator
 	 * @param                $data
 	 */
-	private function validateWithValidator(NextADInt_Core_Validator $validator, $data)
+	protected function validateWithValidator(NextADInt_Core_Validator $validator, $data)
 	{
-		$validationResult = $validator->validate($data);
+		$response = $validator->validate($data);
 
-		if (!$validationResult->isValid()) {
-			$this->renderJson($validationResult->getResult());
-		}
+		return $response;
+
 	}
 
 	/**
@@ -623,7 +644,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 				'From email does not match the required style. (e.g. "wordpress@company.local")',
 				'next-active-directory-integration'
 			);
-			$fromEmailRule = new NextADInt_Multisite_Validator_Rule_FromEmailAdress($fromEmailMessage, '@');
+			$fromEmailRule = new NextADInt_Multisite_Validator_Rule_FromEmailAdress($fromEmailMessage);
 			$validator->addRule(NextADInt_Adi_Configuration_Options::FROM_EMAIL, $fromEmailRule);
 
 			// SSO username
@@ -705,6 +726,8 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			);
 			$validator->addRule(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER, $syncToWordPressConditionalRules);
 
+			$this->addBaseDnValidators($validator);
+
 			$this->validator = $validator;
 		}
 
@@ -720,6 +743,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	{
 		if (null == $this->verificationValidator) {
 			$validator = $this->getSharedValidator();
+			$this->addBaseDnValidators($validator);
 
 			$verifyUsernameMessage = __(
 				'Verification Username does not match the required style. (e.g. "Administrator@test.ad")', 'next-active-directory-integration'
@@ -759,6 +783,39 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		$networkTimeoutRule = new NextADInt_Multisite_Validator_Rule_PositiveNumericOrZero($networkTimeoutMessage);
 		$validator->addRule(NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT, $networkTimeoutRule);
 
+		$domainControllerMessage = __('Domain Controller cannot be empty.', NEXT_AD_INT_I18N);
+        $domainControllerRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace($domainControllerMessage);
+        $validator->addRule(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS, $domainControllerRule);
+
 		return $validator;
 	}
+
+	/**
+	 * Add validators for the Base DN to an existing validator.
+	 *
+	 * @param NextADInt_Core_Validator $validator
+	 */
+	protected function addBaseDnValidators(NextADInt_Core_Validator $validator)
+	{
+
+		$verifyBaseDnMessage = __(
+			'Base DN does not match the required style. (e.g. "DC=test,DC=ad")', NEXT_AD_INT_I18N
+		);
+		$verifyBaseDnRule = new NextADInt_Multisite_Validator_Rule_BaseDn($verifyBaseDnMessage);
+		$validator->addRule(NextADInt_Adi_Configuration_Options::BASE_DN, $verifyBaseDnRule);
+
+		$verifyBaseDnWarning = __(
+			'Base DN consists of only one DC. (e.g. "DC=test,DC=ad")', NEXT_AD_INT_I18N
+		);
+		$verifyBaseDnWarningRule = new NextADInt_Multisite_Validator_Rule_BaseDnWarn($verifyBaseDnWarning, NextADInt_Core_Message_Type::WARNING);
+		$validator->addRule(NextADInt_Adi_Configuration_Options::BASE_DN, $verifyBaseDnWarningRule);
+
+		$verifyBaseDnMessage = __(
+			'Base DN must not be empty', NEXT_AD_INT_I18N
+		);
+		$verifyUsernameRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyBaseDnMessage);
+		$validator->addRule(NextADInt_Adi_Configuration_Options::BASE_DN, $verifyUsernameRule);
+
+	}
+
 }
