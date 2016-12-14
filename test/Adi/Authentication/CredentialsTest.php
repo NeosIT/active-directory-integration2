@@ -18,14 +18,6 @@ class Ut_NextADInt_Adi_Authentication_CredentialsTest extends Ut_BasicTest
 		parent::tearDown();
 	}
 
-    /**
-     * @test
-     */
-    public function deleteMe() {
-        $a = '<em>hi</em><strong>stuff</strong>';
-        var_dump(strip_tags($a, '<em>'));
-    }
-
 	/**
 	 * @test
 	 */
