@@ -97,12 +97,6 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
 		$this->mockFunctionEsc_html__();
 
-        WP_Mock::wpFunction('esc_html__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
 		$this->blogConfigurationPage->expects($this->once())
 			->method('getSlug')
 			->willReturn('next_ad_int_slug');
@@ -131,18 +125,6 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
 		$this->mockFunction__();
 		$this->mockFunctionEsc_html__();
-
-        WP_Mock::wpFunction('esc_html__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$this->configuration->expects($this->at(0))
 			->method('getOptionValue')
@@ -176,12 +158,6 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
 		$this->mockFunctionEsc_html__();
 
-        WP_Mock::wpFunction('esc_html__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
 		$this->configuration->expects($this->at(1))
 			->method('getOptionValue')
 			->with(NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_AD)
@@ -213,12 +189,6 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 	public function registerMenu_whenShowSyncToWordPress_itEnablesSyncToWordPress() {
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
 		$this->mockFunctionEsc_html__();
-
-        WP_Mock::wpFunction('esc_html__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$this->configuration->expects($this->at(2))
 			->method('getOptionValue')

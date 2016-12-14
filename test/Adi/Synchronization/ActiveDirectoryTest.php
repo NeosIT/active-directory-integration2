@@ -516,12 +516,6 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 		$sut = $this->sut(array('isEnabled'));
 		$this->mockFunction__();
 
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
 		$sut->expects($this->once())
 			->method('isEnabled')
 			->willReturn(false);
@@ -541,12 +535,6 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	public function assertSynchronizationAvailable_throwsExceptionIfUserIsNotSynchronizable() {
 		$sut = $this->sut(array('isEnabled', 'isSynchronizable'));
 		$this->mockFunction__();
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$sut->expects($this->once())
 			->method('isEnabled')
@@ -572,12 +560,6 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	public function assertSynchronizationAvailable_throwsExceptionIfEditingAForeignProfile_withoutServiceAccount() {
 		$sut = $this->sut(array('isEnabled', 'isSynchronizable', 'isServiceAccountEnabled'));
 		$this->mockFunction__();
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$sut->expects($this->once())
 			->method('isEnabled')

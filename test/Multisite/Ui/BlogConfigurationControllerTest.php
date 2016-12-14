@@ -59,12 +59,6 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationControllerTest extends Ut_Basic
 			->method('saveBlogOptionsInternal')
 			->with($data);
 
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
 		$actual = $sut->saveBlogOptions($data);
 
 		$this->assertEquals($expected, $actual);
@@ -84,12 +78,6 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationControllerTest extends Ut_Basic
 		$sut->expects($this->once())
 			->method('saveBlogOptionsInternal')
 			->willThrowException(new Exception(''));
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$actual = $sut->saveBlogOptions($data);
 

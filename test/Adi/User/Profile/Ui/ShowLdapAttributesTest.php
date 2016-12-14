@@ -168,12 +168,6 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTe
 			->method('createViewModel')
 			->willReturn($data);
 
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
 		$this->twigContainer->expects($this->once())
 			->method('getTwig')
 			->willReturn($this->twig);

@@ -57,12 +57,6 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 		$this->mockFunctionEsc_html__();
 
-        WP_Mock::wpFunction('esc_html__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
 		$returnedTitle = $sut->getTitle();
 		$this->assertEquals('Sync to WordPress', $returnedTitle);
 	}
@@ -128,12 +122,6 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 			'times'  => 1,
 			'return' => 'www.testsite.it',)
 		);
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$sut->expects($this->once())
 			->method('display')

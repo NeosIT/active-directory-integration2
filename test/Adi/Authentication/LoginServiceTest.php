@@ -976,11 +976,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$sut = $this->sut();
 		$this->mockFunction__();
 
-        \WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+'
-        ));
-
 		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
 
@@ -1119,12 +1114,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->willReturn(false);
 
 		$_SERVER['PHP_SELF'] = 'xmlrpc.php';
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		\WP_Mock::wpFunction('wp_die',
 			array(

@@ -490,12 +490,6 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$adiUser = new NextADInt_Adi_User(new NextADInt_Adi_Authentication_Credentials("username"), new NextADInt_Ldap_Attributes());
 		$adiUser->setId(666);
 
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
 		$this->userManager->expects($this->once())
 			->method('disable')
 			->with(666, $this->stringContains("no longer found"));
@@ -515,12 +509,6 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$adiUser = new NextADInt_Adi_User(new NextADInt_Adi_Authentication_Credentials("username"),
 			new NextADInt_Ldap_Attributes(array('key' => 'value')));
 		$adiUser->setId(666);
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$this->behave($sut, 'isNormalAccount', false);
 		$this->userManager->expects($this->once())
@@ -546,12 +534,6 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$this->behave($sut, 'isNormalAccount', true);
 		$this->behave($sut, 'isSmartCardRequired', true);
 
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
 		$this->userManager->expects($this->once())
 			->method('disable')
 			->with(666, $this->stringContains("requires a smart card"));
@@ -571,12 +553,6 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$adiUser = new NextADInt_Adi_User(new NextADInt_Adi_Authentication_Credentials("username"),
 			new NextADInt_Ldap_Attributes(array('key' => 'value')));
 		$adiUser->setId(666);
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$this->behave($sut, 'isNormalAccount', true);
 		$this->behave($sut, 'isSmartCardRequired', false);
@@ -922,12 +898,6 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 			->method('isAccountDisabled')
 			->with(666)
 			->willReturn(true);
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$this->userManager->expects($this->once())
 			->method('disable')

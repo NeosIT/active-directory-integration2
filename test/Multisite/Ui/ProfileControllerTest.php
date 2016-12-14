@@ -261,12 +261,6 @@ class Ut_NextADInt_Multisite_Ui_ProfileControllerTest extends Ut_BasicTest
 			'additionalInformation' => array(),
 		);
 
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
 		$result = $sut->deleteProfile(1);
 
 		$this->assertEquals($expected, $result);
@@ -290,12 +284,6 @@ class Ut_NextADInt_Multisite_Ui_ProfileControllerTest extends Ut_BasicTest
 			'isMessage'             => true,
 			'additionalInformation' => array(),
 		);
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$result = $sut->deleteProfile(1);
 
