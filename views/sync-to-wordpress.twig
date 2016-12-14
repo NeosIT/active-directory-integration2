@@ -27,5 +27,7 @@
 
 <form method="post">
     <input type="hidden" name="security" value="{{ nonce }}"/>
-    <input type="submit" name="syncToWordpress" class="button button-primary" value="{{ status is defined ? i18n.repeatAction : i18n.startAction }}"/>
+    <button type="submit" name="syncToWordpress" class="button button-primary">
+        {{ status is defined ? i18n.repeatAction|raw : i18n.startAction|raw }}
+    </button>
 </form>

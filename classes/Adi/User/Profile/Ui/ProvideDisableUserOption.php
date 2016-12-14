@@ -72,6 +72,7 @@ class NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption
             'informationOnLastDisabling' => __('Information on last disabling: ', 'next-active-directory-integration'),
             'warning' => __('Attention: This flag is automatically set (or unset) by Sync to WordPresss and its state may change on next run of synchronization.', 'next-active-directory-integration')
         );
+		$i18n = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 
 		echo $this->twigContainer->getTwig()->render(
 			self::TEMPLATE_NAME, array(

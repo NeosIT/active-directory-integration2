@@ -94,6 +94,7 @@ class NextADInt_Multisite_Ui_BlogProfileRelationshipPage extends NextADInt_Multi
             'changeBlogs' => __('Change selected blogs to profile', 'next-active-directory-integration'),
             'useDefaultProfile' => __('--- Use default profile', 'next-active-directory-integration')
         );
+		$i18n = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 
 		$this->display(self::TEMPLATE, array(
 			'nonce' => wp_create_nonce(self::NONCE), //create nonce for security

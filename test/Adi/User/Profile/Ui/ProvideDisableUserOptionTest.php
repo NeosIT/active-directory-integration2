@@ -207,6 +207,9 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
             'return' => $userObject2,)
 		);
 
+
+
+
 		$this->userManager->expects($this->once())
 			->method('disable')
 			->with($userId, $userMessage);

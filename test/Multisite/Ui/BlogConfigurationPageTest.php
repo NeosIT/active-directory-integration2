@@ -34,7 +34,6 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->mockFunctionEsc_html__();
 
 		$expectedTitle = 'Configuration';
-
 		$returnedTitle = $sut->getTitle();
 		$this->assertEquals($expectedTitle, $returnedTitle);
 	}

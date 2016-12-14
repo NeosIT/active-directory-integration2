@@ -108,7 +108,7 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
                 'title' => 'Test Active Directory authentication',
                 'descriptionLine1' => 'Please enter the username and password for the account you want to authenticate with. After submitting the request you will get the debug output.',
                 'descriptionLine2' => 'For this page feature of blocking user accounts with failed login attempts is disabled. You do not have to worry about locking an account.',
-                'descriptionLine3' => 'Please note that the entered password is not masked.',
+                'descriptionLine3' => 'Please note that the entered password <strong>is not masked</strong>.',
                 'username' => 'Username:',
                 'password' => 'Password (will be shown):',
                 'tryAgain' => 'Try to authenticate again',

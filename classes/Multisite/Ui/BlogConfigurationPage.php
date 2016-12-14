@@ -125,6 +125,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
             'errorWhileSaving' => __('An error occurred while saving the configuration.', 'next-active-directory-integration'),
             'savingSuccessful' => __('The configuration has been saved successfully.', 'next-active-directory-integration')
         );
+		$i18n = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 
 		$this->display(
 			self::TEMPLATE, array(

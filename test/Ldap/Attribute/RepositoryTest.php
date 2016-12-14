@@ -23,7 +23,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 
 	public function tearDown()
 	{
-		parent::tearDown();
+		\WP_Mock::tearDown();
 	}
 
 	public function sut($methods = null)

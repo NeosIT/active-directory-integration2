@@ -148,6 +148,8 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
             'savingSuccessful' => __('The configuration has been saved successfully.', 'next-active-directory-integration')
         );
 
+		$i18n = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
+
 		$this->display(self::TEMPLATE, array(
 			'blog_profile_relationship_url' => $relativeUrl,
 			'nonce'                         => wp_create_nonce(self::NONCE), //create nonce for security
