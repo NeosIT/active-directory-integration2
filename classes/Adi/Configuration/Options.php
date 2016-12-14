@@ -238,11 +238,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title          => __('Support license key:', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
-					"Please enter your support license key here, if you have a paid Next ADI license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
+					"Please enter your support license key here, if you have a paid NADI license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
 					'next-active-directory-integration'
 				),
 				$detail      => __(
-					"Please enter your support license key here, if you have a paid Next ADI license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
+					"Please enter your support license key here, if you have a paid NADI license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
 					'next-active-directory-integration'
 				),
 				$sanitizer   => array('string'),
@@ -252,14 +252,14 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$transient      => false,
 			),
 			self::IS_ACTIVE         => array(
-				$title 		=> __('Enable ADI', 'next-active-directory-integration'),
+				$title 		=> __('Enable NADI', 'next-active-directory-integration'),
 				$type		=> NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
-					'Enable/Disable Active Directory Integration',
+					'Enable/Disable Next Active Directory Integration',
 					'next-active-directory-integration'
 				),
 				$detail => __(
-					'Active Directory Integration is only used if this checkbox is enabled. If you are running a WordPress Multisite you can force a disabled ADI plug-in for specific blogs.',
+					'Next Active Directory Integration is only used if this option is checked. If you are running a WordPress Multisite Installation you can disable the  NADI plug-in for specific sites.',
 					'next-active-directory-integration'
 				),
 				$default => true,
@@ -329,7 +329,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Domain controllers', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::EDITABLE_LIST,
 				$description => __(
-					'Domain controllers which will be used to authenticate and authorize the users',
+					'Domain controllers used to authenticate and authorize the users',
 					'next-active-directory-integration'
 				),
 				$detail      => __(
@@ -347,7 +347,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			self::PORT                          => array(
 				$title       => __('Port', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::NUMBER,
-				$description => __('Port on which Active Directory listens. Unencrypted LDAP or STARTTLS uses port 389. LDAPS listens on port 636.', 'next-active-directory-integration'),
+				$description => __('Port on which the Active Directory listens. Unencrypted LDAP or STARTTLS use port 389. LDAPS listens on port 636.', 'next-active-directory-integration'),
 				$detail      => __(
 					'This option defines the Active Directory communication port and is by default set to 389.',
 					'next-active-directory-integration'
@@ -429,7 +429,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Username', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
-					'Username used to authenticated against the Active Directory in order to connect your WordPress site or profile to a domain (e.g. administration@test.ad)', 'next-active-directory-integration'
+					'Username used to authenticate against the Active Directory in order to connect your WordPress site or profile to a domain (e.g. administration@test.ad)', 'next-active-directory-integration'
 				),
 				$detail      => array(
 					__(
@@ -505,7 +505,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title		=> __('Exclude usernames from authentication', 'next-active-directory-integration'),
 				$type		=> NextADInt_Multisite_Option_Type::EDITABLE_LIST,
 				$description	=> __(
-					'Entered usernames will always be excluded from ADI login authentication. Usernames are case-insensitive.',
+					'Entered usernames will always be excluded from NADI login authentication. Usernames are case-insensitive.',
 					'next-active-directory-integration'
 				),
 				$detail 	=> array(
@@ -534,7 +534,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 						'next-active-directory-integration'
 					),
 					__(
-						'Example: An *Account Suffix* "@company.local" is used. When the user "my_username" logs in, the fully username is set to "my_username@company.local".',
+						'Example: An *Account Suffix* "@company.local" is used. When the user "my_username" logs in, the complete username is set to "my_username@company.local".',
 						'next-active-directory-integration'
 					),
 					'<strong>' . __('Do not forget to start the suffix with "@".', 'next-active-directory-integration') . '</strong>',
@@ -578,10 +578,10 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				),
 				$detail      => array(
 					__(
-						'Created users will obtain the role defined under "New User Default Role" on the "General Options" tab. (Not Implemented Yet.)',
+						'Created users will obtain the subscriber role by default.',
 						'next-active-directory-integration'
 					),
-					__('This option is separated from the Role Equivalent Groups option, below.', 'next-active-directory-integration'),
+					__('The default role can be altered, by using the Role equivalent groups option inside the Permission Tab.', 'next-active-directory-integration'),
 				),
 				$angularAttributes => '',
 				$default     => false,
@@ -593,11 +593,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			self::AUTO_UPDATE_USER              => array(
 				$title       => __('Automatic user synchronization', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
-				$description => __('After a successful login the WordPress profile of the user will be automatically synchronized with his Active Directory account.',
+				$description => __('After a successful login a users WordPress profile will be automatically synchronized with his Active Directory account.',
 					'next-active-directory-integration'),
 				$detail      => array(
 					__(
-						'Enabling this option will result in ADI synchronizing the user\'s information every time they login in WordPress.',
+						'Enabling this option will result in NADI synchronizing the user\'s information every time they login to WordPress.',
 						'next-active-directory-integration'
 					),
 					__('Requires "Automatic user creation" to be enabled.', 'next-active-directory-integration'),
@@ -610,13 +610,13 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			),
 			// Update users description if $_auto_update_user is true
 			self::AUTO_UPDATE_DESCRIPTION       => array(
-				$title       => __('Automatic update user description', 'next-active-directory-integration'),
+				$title       => __('Automatically update user description', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
-					'Automatically updates the description of users who login and new created users', 'next-active-directory-integration'
+					'Automatically updates the description of users after login and for newly created users', 'next-active-directory-integration'
 				),
 				$detail      => __(
-					'This option will only work if you already have enabled "Automatic user creation" and "Automatic user update". As the title says it will automatically update the description of new created users and users who login.',
+					'This option will only work if you already have "Automatic user creation" and "Automatic user update" enabled. As the title says it will automatically update the description of newly created users and users who login.',
 					'next-active-directory-integration'
 				),
 				$angularAttributes => '',
@@ -652,9 +652,9 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					__('Allow (UNSAFE)', 'next-active-directory-integration')        => 'allow',
 					__('Create', 'next-active-directory-integration')                => 'create',
 				),
-				$description => __('This option handles email address conflicts caused by multiple user creation using the same email address.', 'next-active-directory-integration'),
+				$description => __('This option handles email address conflicts caused by creating multiple users using the same email address.', 'next-active-directory-integration'),
 				$detail      => array(
-					__('This option handles email address conflicts caused by multiple user creation using the same email address. WordPress does only allow unique email addresses in an installation.',
+					__('This option handles email address conflicts caused by creating multiple users using the same email address. WordPress requires a unique email address for each user in an installation.',
 						'next-active-directory-integration'),
 					__(
 						'Prevent: User is not created, if his email address is already in use by another user. (recommended)',
@@ -707,11 +707,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					__('mail', 'next-active-directory-integration')                              => 'mail',
 				),
 				$description       => __(
-					'This option allows you to configure how users should be displayed at new posts/comments.',
+					'This option allows you to configure how users should be displayed inside posts/comments.',
 					'next-active-directory-integration'
 				),
 				$detail      => __(
-					'This option allows you to configure how users should be displayed at new posts/comments.',
+					'This option allows you to configure how users should be displayed inside posts/comments.',
 					'next-active-directory-integration'
 				),
 				$angularAttributes => '',
@@ -724,7 +724,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			self::SHOW_USER_STATUS              => array(
 				$title       => __('Show user status', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
-				$description => __('Show additional columns (<em>ADI User</em>, <em>disabled</em>) in WordPress\' users list.',
+				$description => __('Show additional columns (<em>NADI User</em>, <em>disabled</em>) inside the WordPress users list.',
 					'next-active-directory-integration'),
 				$detail      => __('Show additional columns', 'next-active-directory-integration'),
 				$default     => true,
@@ -741,7 +741,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
                 ),
                 $detail      => array(
                     __(
-                        'If option is enabled, users who failed authenticating against Active Directory can authenticate again against the local WordPress password check.',
+                        'If this option is enabled, users who failed to authenticate against Active Directory will try to authenticate using the local WordPress password.',
                         'next-active-directory-integration'
                     ),
                     __(
@@ -760,12 +760,12 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Set local password on first successful login', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
-					'The first time a user logs on his local password will be equated with the password he used to authenticate against the Active Directory.',
+					'The first time a user successfully logs in his local password will be equated with the password he used to authenticate against the Active Directory.',
 					'next-active-directory-integration'
 				),
 				$detail      => array(
 					__(
-						'The first time a user logs on his local password will be equated with the password he used to authenticate against the Active Directory. If this option is deactivated a random password for this user will be set.',
+						'The first time a user successfully logs in his local password will be equated with the password he used to authenticate against the Active Directory. If this option is deactivated a random password for this user will be set.',
 						'next-active-directory-integration'
 					),
 					__('If this option is deactivated a random password for this user will be set.', 'next-active-directory-integration'),
@@ -787,10 +787,8 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				),
 				$detail      => array(
 					__('Enabling this option allows users to change their local WordPress password.', 'next-active-directory-integration'),
-					__('This option has <strong>no</strong> effect to the Active Directory password and will <strong>not</strong> synchronized back to the Active Directory.',
-						'next-active-directory-integration'),
-					__('This option is only be used after the WordPress authentication against the AD fails because of a network timeout.',
-						'next-active-directory-integration'),
+					__('This option has <strong>no</strong> effect on the Active Directory password and will <strong>not</strong> be synchronized back to the Active Directory.',
+						'next-active-directory-integration')
 				),
 				$angularAttributes => '',
 				$default     => false,
@@ -975,7 +973,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
                     NextADInt_Adi_Authentication_SingleSignOn_Variable::HTTP_X_REMOTE_USER => NextADInt_Adi_Authentication_SingleSignOn_Variable::HTTP_X_REMOTE_USER
 				),
 				$description       => __(
-					'The PHP server variable which is used by the web server to retrieve the current user!',
+					'The PHP server variable which is used by the web server to retrieve the current user.',
 					'next-active-directory-integration'
 				),
 				$detail            => array(
@@ -1010,7 +1008,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				),
 				$detail      => array(
 					__(
-						'Please enter the amount of tries a user has to login with his correct username and password combination before he gets blocked for the specific time.',
+						'Please enter the amount of tries a user has to login with his correct username and password combination before he gets blocked for the specified time.',
 						'next-active-directory-integration'
 					),
 					__(
@@ -1018,7 +1016,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 						'next-active-directory-integration'
 					),
 					__(
-						'If you want to disable the bruteforce protection just set the Maximum number of allowed login attempts to 0.',
+						'If you want to disable the Brute Force Protection just set the maximum number of allowed login attempts to 0.',
 						'next-active-directory-integration'
 					),
 				),
@@ -1037,7 +1035,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					'next-active-directory-integration'
 				),
 				$detail      => __(
-					'With help of this option you can set the time a user is being blocked after the amount of failed login attempts has been reached..',
+					'With help of this option you can set the time a user is being blocked after the amount of failed login attempts has been reached.',
 					'next-active-directory-integration'
 				),
 				$angularAttributes => '',
@@ -1050,9 +1048,9 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			self::USER_NOTIFICATION             => array(
 				$title       => __('Notify users of blocked account', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
-				$description => __('Notify user by e-mail when his account has been blocked.', 'next-active-directory-integration'),
+				$description => __('Notify a user by e-mail when his account has been blocked.', 'next-active-directory-integration'),
 				$detail      => __(
-					'If enabled *ADI* notifies the user by email about the circumstance that his account has been blocked.',
+					'If enabled *NADI* notifies the user by email that his account has been blocked.',
 					'next-active-directory-integration'
 				),
 				$angularAttributes => '',
@@ -1063,11 +1061,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			),
 			// Send email to admin if a user account is blocked.
 			self::ADMIN_NOTIFICATION            => array(
-				$title       => __('Notify admins of blocked account', 'next-active-directory-integration'),
+				$title       => __('Notify admins of blocked accounts', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __('Notify admin(s) by e-mail when a user account has been blocked.', 'next-active-directory-integration'),
 				$detail      => __(
-					'Enabling this option will notify the admin(s) about blocked user accounts as well.', 'next-active-directory-integration'
+					'Enabling this option will also notify the admin(s) about blocked user accounts.', 'next-active-directory-integration'
 				),
 				$angularAttributes => '',
 				$default     => false,
@@ -1080,11 +1078,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Email addresses for notifications', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::EDITABLE_LIST,
 				$description => __(
-					'Given email addresses will recieve emails for admin notifications.',
+					'Given email addresses will receive emails for admin notifications.',
 					'next-active-directory-integration'
 				),
 				$detail      => __(
-					'If the admin notification event is triggered and no admin email has been set, the email is forwarded to the blog administrator\'s email address.',
+					'If the admin notification event is triggered and no admin email have been set, the email is forwarded to the blog administrator\'s email address.',
 					'next-active-directory-integration'
 				),
                 $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_admin_email)"',
@@ -1099,7 +1097,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('From email address', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
-					'Email address the brute force protection information email should be send from.',
+					'Email address the Brute Force Protection information email should be send from.',
 					'next-active-directory-integration'
 				),
 				$detail      => __(
@@ -1193,7 +1191,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				),
 				$detail      => array(
 					__(
-						'By enabling this option ADI will automatically synchronize the user\'s profile back to the Active Directory if they have changed.',
+						'By enabling this option NADI will automatically synchronize the user\'s profile back to the Active Directory if it has changed.',
 						'next-active-directory-integration'
 					),
 					__('The synchronization is automatically triggered whenever a user profile gets updated.',
@@ -1210,7 +1208,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Use Sync To AD service account', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
-					'By enabling this option users will not be asked for their Active Directory password when updating their WordPress user profile. Instead a central Active Directory service account is used.<br />If this option is <strong>disabled</strong>, you have to configure your Active Directory properyly.',
+					'By enabling this option users will not be asked for their Active Directory password when updating their WordPress user profile. Instead a central Active Directory service account is used.<br />If this option is <strong>disabled</strong>, you have to configure your Active Directory properly.',
 					'next-active-directory-integration'
 				),
 				$detail      => array(
@@ -1242,7 +1240,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					'next-active-directory-integration'
 				),
 				$detail      => __(
-					'If you define a Sync To AD service account with write permissions inside the Active Directory, changes will automatically be written in the Active Directory database through this user.',
+					'If you define a Sync To AD service account with write permissions inside the Active Directory, changes will automatically be written to the Active Directory database using this user.',
 					'next-active-directory-integration'
 				),
 				$angularAttributes => 'ng-disabled="((!option.sync_to_ad)||(!option.sync_to_ad_use_global_user) || ((permission.sync_to_ad_global_user == 2) || (permission.sync_to_ad_global_user == 1))',
@@ -1292,16 +1290,16 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Enable sync to WordPress', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
-					'Enabling this option will allow ADI to sync users from the Active Directory to the WordPress Database.',
+					'Enabling this option will allow NADI to sync users from the Active Directory to the WordPress database.',
 					'next-active-directory-integration'
 				),
 				$detail      => array(
 					__(
-						'Enabling this option will allow ADI to sync users from the Active Directory to the WordPress Database.',
+						'Enabling this option will allow NADI to sync users from the Active Directory to the WordPress database.',
 						'next-active-directory-integration'
 					),
 					__(
-						'Hint: You could use a cron job, which is nothing more than a timetable executing the Sync to WordPress/update at from you defined times, to keep your WordPress database always up to date with your Active Directory user information.',
+						'Hint: You could use a cron job, which is nothing more than a timetable executing the Sync to WordPress/update at defined times, to always keep your WordPress database up to date with your Active Directory user information.',
 						'next-active-directory-integration'
 					),
 				),
@@ -1332,7 +1330,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Import members of security groups', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::EDITABLE_LIST,
 				$description => __(
-					'The members of the security groups entered here will be imported. See documentation how to import members of Domain Users or Domain Administrators.',
+					'The members of the security groups entered here will be imported. See the documentation on how to import members of Domain Users or Domain Administrators.',
 					'next-active-directory-integration'
 				),
 				$detail      => array(
@@ -1374,7 +1372,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			self::SYNC_TO_WORDPRESS_PASSWORD      => array(
 				$title       => __('Service account password', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::PASSWORD,
-				$description => __('Password for Sync to WordPress User.', 'next-active-directory-integration'),
+				$description => __('Password for Sync to WordPress user.', 'next-active-directory-integration'),
 				$detail      => __(
 					'As you already defined the Sync to WordPress service account username before you now have to define the password for this user as well.',
 					'next-active-directory-integration'
@@ -1387,14 +1385,14 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			),
 			// ADI-223: Deactivate users to be imported if they are disabled in Active Directory
 			self::SYNC_TO_WORDPRESS_DISABLE_USERS => array(
-				$title       => __('Automatic deactivate users', 'next-active-directory-integration'),
+				$title       => __('Automatically deactivate users', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
-					'Deactivated users can only be re-activated manually by administrators on their users profile page or by using the *Sync to WordPress* feature.',
+					'Deactivated users can only be re-activated manually by administrators on the users profile page or by using the *Sync to WordPress* feature.',
 					'next-active-directory-integration'
 				),
 				$detail      => __(
-					'Deactivated users can only be re-activated manually by administrators on their users profile page or by using the *Sync to WordPress* feature.',
+					'Deactivated users can only be re-activated manually by administrators on the users profile page or by using the *Sync to WordPress* feature.',
 					'next-active-directory-integration'
 				),
 				$angularAttributes => 'ng-disabled="((!option.sync_to_wordpress_enabled) || ((permission.disable_users == 2) || (permission.disable_users == 1))',
@@ -1408,11 +1406,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Import disabled users', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
-					'Users which are deactivated in Active Directory are synchronized to WordPress.',
+					'Users deactivated in Active Directory are synchronized to WordPress.',
 					'next-active-directory-integration'
 				),
 				$detail      => __(
-					'Users which are deactivated in Active Directory are synchronized to WordPress.',
+					'Users deactivated in Active Directory are synchronized to WordPress.',
 					'next-active-directory-integration'
 				),
 				$angularAttributes => 'ng-disabled="((!option.sync_to_wordpress_enabled) || ((permission.sync_to_wordpress_import_disabled_users == 2) || (permission.sync_to_wordpress_import_disabled_users == 1))',
@@ -1426,11 +1424,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Enable Logging', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
-					'If activated, Next ADI will create a logfile at its default location "PLUGINPATH/logs/debug.log".',
+					'If enabled, NADI will create a logfile at the default location "PLUGINPATH/logs/debug.log".',
 					'next-active-directory-integration'
 				),
 				$detail      => __(
-					'If activated Next ADI will create a logfile and start logging to it. Default path is "PLUGINPATH/logs/debug.log".',
+					'If enabled, NADI will create a logfile and start logging to it. Default path is "PLUGINPATH/logs/debug.log".',
 					'next-active-directory-integration'
 				),
 				$angularAttributes => '',

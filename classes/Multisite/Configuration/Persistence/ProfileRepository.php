@@ -266,7 +266,7 @@ class NextADInt_Multisite_Configuration_Persistence_ProfileRepository
 			return false;
 		}
 
-		$name = __('My ADI profile', 'next-active-directory-integration');
+		$name = __('My NADI profile', 'next-active-directory-integration');
 		$description = __(
 			'This profile has been created by the plugin installation automatically. It can safely be deleted.',
 			'next-active-directory-integration'

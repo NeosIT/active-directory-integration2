@@ -29,7 +29,7 @@ class NextADInt_Adi_Authentication_Ui_SingleSignOn
 	 */
 	public function generateLoginFooter()
 	{
-		$message = __('Log in with SSO', 'next-active-directory-integration');
+		$message = __('Log in using SSO', 'next-active-directory-integration');
 		$url = esc_url(add_query_arg('reauth', 'sso'));
 		echo '<p><a href="' . $url . '">' . $message . '</a></p>';
 	}

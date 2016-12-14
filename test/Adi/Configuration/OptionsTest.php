@@ -36,7 +36,7 @@ class Ut_NextADInt_Adi_Configuration_OptionsTest extends Ut_BasicTest
 		$this->assertTrue(is_array($option));
 		$this->assertEquals('Port', $option['title']);
 		$this->assertEquals('number', $option['type']);
-		$this->assertEquals('Port on which Active Directory listens. Unencrypted LDAP or STARTTLS uses port 389. LDAPS listens on port 636.', $option['description']);
+		$this->assertEquals('Port on which the Active Directory listens. Unencrypted LDAP or STARTTLS use port 389. LDAPS listens on port 636.', $option['description']);
 		$this->assertEquals(389, $option['defaultValue']);
 		$this->assertEquals(array(0 => 'integerRange', 1 => 0, 2 => 65535), $option['sanitizer']);
 	}

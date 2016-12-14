@@ -158,7 +158,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTe
 
 		$data = array('data' => true);
         $i18n = array(
-            'additionalInformation' => 'Additional Information provided by Active Directory Integration',
+            'additionalInformation' => 'Additional Information provided by Next Active Directory Integration',
             'reenterPassword' => 'Reenter password',
             'youMustEnterPassword' => 'If you want to save the changes in "Additional Information" back to the Active Directory you must enter your password.',
             'canNotBeEdited' => 'Profile can not be edited or synchronized back to Active Directory:'

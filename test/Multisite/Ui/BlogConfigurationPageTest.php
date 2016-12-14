@@ -91,7 +91,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 
 		$nonce = 'some_nonce';
         $i18n = array(
-            'title' => 'Active Directory Integration Blog Configuration',
+            'title' => 'Next Active Directory Integration Blog Configuration',
             'regenerateAuthCode' => 'Regenerate Auth Code',
             'securityGroup' => 'Security group',
             'wordpressRole' => 'WordPress role',
