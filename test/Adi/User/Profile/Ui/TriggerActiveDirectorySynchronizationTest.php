@@ -239,8 +239,14 @@ class Ut_NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest
 	/**
 	 * @test
 	 */
-	public function createLdapConnectionDetails_itReturnsServiceAccount_ifEnabled() {
-		$sut = $this->sut(null);
+	public function createLdapConnectionDetails_withServiceAccount_returnConnectionDetails() {
+		$sut = $this->sut();
+
+		$r = new stdClass();
+		$r->username = 'admin';
+		$r->password = 'password123';
+
+		$user = new WP_User();
 
 		$this->syncToActiveDirectory->expects($this->once())
 			->method('isServiceAccountEnabled')
@@ -248,55 +254,83 @@ class Ut_NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest
 
 		$this->syncToActiveDirectory->expects($this->once())
 			->method('getServiceAccountUsername')
-			->willReturn('serviceUsername');
+			->willReturn('admin');
 
 		$this->syncToActiveDirectory->expects($this->once())
 			->method('getServiceAccountPassword')
-			->willReturn('servicePassword');
+			->willReturn('password123');
 
-		$actual = $sut->createLdapConnectionDetails((object)array('ID' => 1));
+		$actual = $sut->createLdapConnectionDetails($user);
 
-		$this->assertEquals('serviceUsername', $actual->username);
-		$this->assertEquals('servicePassword', $actual->password);
+		$this->assertEquals($r, $actual);
 	}
 
 	/**
 	 * @test
 	 */
-	public function createLdapConnectionDetails_itReturnsNull_ifNoPasswordIsProvided() {
-		$sut = $this->sut(array('getUsername', 'getAccountSuffix'));
+	public function createLdapConnectionDetails_withoutCustomPassword_returnNull()
+	{
+		$sut = $this->sut();
+
+		$r = new stdClass();
+		$r->username = 'user';
+		$r->password = 'password123';
+
+		$user = new WP_User();
 
 		$this->syncToActiveDirectory->expects($this->once())
 			->method('isServiceAccountEnabled')
 			->willReturn(false);
 
-		$actual = $sut->createLdapConnectionDetails((object)array('ID' => 1));
+		$this->syncToActiveDirectory->expects($this->never())
+			->method('getServiceAccountUsername')
+			->willReturn('admin');
+
+		$this->syncToActiveDirectory->expects($this->never())
+			->method('getServiceAccountPassword')
+			->willReturn('password123');
+
+		$actual = $sut->createLdapConnectionDetails($user);
+
 		$this->assertNull($actual);
 	}
 
 	/**
 	 * @test
 	 */
-	public function createLdapConnectionDetails_itReturnsCustomConnection_ifPasswordIsProvided() {
-		$sut = $this->sut(array('getUsername', 'getAccountSuffix'));
+	public function createLdapConnectionDetails_withCustomPassword_returnConnectionDetails()
+	{
+		$sut = $this->sut();
+
+		$r = new stdClass();
+		$r->username = 'user@test.ad';
+		$r->password = 'password123';
+
+		$user = new WP_User();
+		$user->ID = 1;
+
+		WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array($user->ID, NEXT_AD_INT_PREFIX . 'userprincipalname', true),
+			'times' => 1,
+			'return' => 'user@test.ad',
+		));
+
 
 		$this->syncToActiveDirectory->expects($this->once())
 			->method('isServiceAccountEnabled')
 			->willReturn(false);
 
-		$sut->expects($this->once())
-			->method('getUsername')
-			->with(1, 'username')
-			->willReturn('new_username');
+		$this->syncToActiveDirectory->expects($this->never())
+			->method('getServiceAccountUsername')
+			->willReturn('user');
 
-		$sut->expects($this->once())
-			->method('getAccountSuffix')
-			->with(1, 'username')
-			->willReturn("@test.ad");
+		$this->syncToActiveDirectory->expects($this->never())
+			->method('getServiceAccountPassword')
+			->willReturn('password123');
 
-		$actual = $sut->createLdapConnectionDetails((object)array('ID' => 1, 'user_login' => 'username'), "  password  ");
-		$this->assertEquals('new_username@test.ad', $actual->username);
-		$this->assertEquals("password", 'password' /* trimmed */);
+		$actual = $sut->createLdapConnectionDetails($user, 'password123');
+
+		$this->assertEquals($r, $actual);
 	}
 
 	/**
@@ -355,148 +389,6 @@ class Ut_NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
-	public function getUsername_returnOnlyUsername()
-	{
-		$sut = $this->sut(null);
-
-		\WP_Mock::wpFunction(
-			'get_user_meta', array(
-			'args'   => array(654, NEXT_AD_INT_PREFIX . 'account_suffix', true),
-			'times'  => 1,
-			'return' => ''
-		)
-		);
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX)
-			->willReturn('');
-
-		$username = $sut->getUsername(654, 'the@the-test.local');
-		$this->assertEquals('the', $username);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getUsername_returnUsernameAndSuffix()
-	{
-		$sut = $this->sut(null);
-
-		\WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array(654, NEXT_AD_INT_PREFIX . 'account_suffix', true),
-			'times'  => 1,
-			'return' => '@the-test.local')
-		);
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX)
-			->willReturn('@the-test2.local');
-
-		$username = $sut->getUsername(654, 'the@the-test.local');
-		$this->assertEquals('the@the-test.local', $username);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getAccountSuffix_returnPersonalSuffix()
-	{
-		$sut = $this->sut(null);
-
-		$userId = 1;
-		$userName = 'testUser';
-
-		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'account_suffix', true),
-			'times'  => '1',
-			'return' => '@personalSuffix.it')
-		);
-
-		$returnedValue = $sut->getAccountSuffix($userId, $userName);
-		$this->assertEquals('@personalSuffix.it', $returnedValue);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getAccountSuffix_returnOptionaAccountSuffix()
-	{
-		$sut = $this->sut(null);
-
-		$userId = 1;
-		$userName = 'testUser';
-		$optionSuffix = '@option.it';
-
-		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'account_suffix', true),
-			'times'  => '1',
-			'return' => '')
-		);
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX)
-			->willReturn($optionSuffix);
-
-		$returnedValue = $sut->getAccountSuffix($userId, $userName);
-		$this->assertEquals($optionSuffix, $returnedValue);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getAccountSuffix_SplitSuffixFromUsername()
-	{
-		$sut = $this->sut(null);
-
-		$userId = 1;
-		$userName = 'testUser@splittedSuffix.it';
-		$splittedSuffix = '@splittedSuffix.it';
-
-		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'account_suffix', true),
-			'times'  => '1',
-			'return' => '')
-		);
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX)
-			->willReturn('');
-
-		$returnedValue = $sut->getAccountSuffix($userId, $userName);
-		$this->assertEquals($splittedSuffix, $returnedValue);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getAccountSuffix_returnEmptyString()
-	{
-		$sut = $this->sut(null);
-
-		$userId = 1;
-		$userName = 'testUser';
-
-		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'account_suffix', true),
-			'times'  => '1',
-			'return' => '')
-		);
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX)
-			->willReturn('');
-
-		$returnedValue = $sut->getAccountSuffix($userId, $userName);
-		$this->assertEquals('', $returnedValue);
-	}
 
 	/**
 	 * @test
