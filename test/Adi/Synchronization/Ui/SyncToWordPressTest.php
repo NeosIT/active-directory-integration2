@@ -55,6 +55,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 	public function getTitle()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunctionEsc_html__();
 
         WP_Mock::wpFunction('esc_html__', array(
             'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
@@ -84,6 +85,8 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 	public function renderAdmin_validCapability_delegateToMethod()
 	{
 		$sut = $this->sut(array('checkCapability', 'processData', 'display'));
+		$this->mockFunction__();
+		$this->mockFunctionEsc_html__();
 
 		$paramsFilled = array(
 			'nonce'    => NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::NONCE, //add nonce for security

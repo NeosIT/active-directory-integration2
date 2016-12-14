@@ -49,14 +49,9 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 	public function getTitle()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunctionEsc_html__();
 
 		$expectedTitle = 'Test authentication';
-
-        WP_Mock::wpFunction('esc_html__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$returnedTitle = $sut->getTitle();
 		$this->assertEquals($expectedTitle, $returnedTitle);
@@ -102,6 +97,8 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 	public function renderAdmin()
 	{
 		$sut = $this->sut(array('render'));
+		$this->mockFunction__();
+		$this->mockFunctionEsc_html__();
 
 		$params = array(
 			'nonce'   => 'Active Directory Integration Test Authentication Nonce',
@@ -111,7 +108,7 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
                 'title' => 'Test Active Directory authentication',
                 'descriptionLine1' => 'Please enter the username and password for the account you want to authenticate with. After submitting the request you will get the debug output.',
                 'descriptionLine2' => 'For this page feature of blocking user accounts with failed login attempts is disabled. You do not have to worry about locking an account.',
-                'descriptionLine3' => 'Please note that the entered password <strong>is not masked</strong>.',
+                'descriptionLine3' => 'Please note that the entered password is not masked.',
                 'username' => 'Username:',
                 'password' => 'Password (will be shown):',
                 'tryAgain' => 'Try to authenticate again',
@@ -125,12 +122,6 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
             'return' => false)
 		);
 
-        WP_Mock::wpFunction('esc_html__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
 		WP_Mock::wpFunction('wp_die', array(
             'args'  => array('You do not have sufficient permissions to access this page.'),
             'times' => 1)
@@ -141,12 +132,6 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
             'times'  => 1,
             'return' => 'Active Directory Integration Test Authentication Nonce',)
 		);
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$sut->expects($this->once())
 			->method('render')

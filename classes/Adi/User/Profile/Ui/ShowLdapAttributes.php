@@ -104,7 +104,6 @@ class NextADInt_Adi_User_Profile_Ui_ShowLdapAttributes
             'youMustEnterPassword' => __('If you want to save the changes in "Additional Information" back to the Active Directory you must enter your password.', 'next-active-directory-integration'),
             'canNotBeEdited' => __('Profile can not be edited or synchronized back to Active Directory:', 'next-active-directory-integration')
         );
-		$i18n = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 
 		// render it
 		echo $this->twigContainer->getTwig()->render(

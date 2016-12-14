@@ -151,6 +151,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTe
 	public function extendProfile_rendersView()
 	{
 		$sut = $this->sut(array('isShowAttributesEnabled', 'createViewModel'));
+		$this->mockFunction__();
 		$wpUser = (object)array(
 			'ID' => '123',
 		);

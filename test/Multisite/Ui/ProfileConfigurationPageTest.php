@@ -43,14 +43,9 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 	public function getTitle()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunctionEsc_html__();
 
 		$expectedTitle = 'Profile options';
-
-        WP_Mock::wpFunction('esc_html__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		$returnedTitle = $sut->getTitle();
 		$this->assertEquals($expectedTitle, $returnedTitle);
@@ -109,6 +104,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 	public function renderNetwork()
 	{
 		$sut = $this->sut(array('display'));
+		$this->mockFunction__();
 
 		$nonce = 'some_nonce';
 
@@ -117,12 +113,6 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
             'times' => 1,
             'return' => 'url')
 		);
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		WP_Mock::wpFunction('wp_create_nonce', array(
             'args' => NextADInt_Multisite_Ui_ProfileConfigurationPage::NONCE,
@@ -174,7 +164,9 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
                     'noOptionsExists' => 'No options exists',
                     'pleaseWait' => 'Please wait...',
                     'save' => 'Save',
-                    'haveToVerifyDomainConnection' => 'You have to verify the connection to the AD before saving.')
+                    'haveToVerifyDomainConnection' => 'You have to verify the connection to the AD before saving.',
+                    'errorWhileSaving' => 'An error occurred while saving the configuration.',
+                    'savingSuccessful' => 'The configuration has been saved successfully.')
                 )
 			);
 
@@ -755,14 +747,14 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		);
 
 		$message = array(
-			'message' => 'The profile was deleted successfully.',
+			'message' => 'The configuration was saved successfully.',
 			'type' => 'success',
 			'isMessage' => true,
 			'additionalInformation' => array(),
 		);
 
 		$expected = array(
-			'message' => 'The profile was deleted successfully.',
+			'message' => 'The configuration was saved successfully.',
 			'type' => 'success',
 			'isMessage' => true,
 			'additionalInformation' => array(
@@ -771,8 +763,11 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 			),
 		);
 
+		$fakeValidator = $this->createAnonymousMock(array('containsErrors', 'getValidationResult'));
+
 		$sut->expects($this->once())
-			->method('validate');
+			->method('validate')
+			->willReturn($fakeValidator);
 
 		$sut->expects($this->once())
 			->method('saveProfile')
@@ -782,6 +777,65 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 			->method('saveProfileOptions')
 			->with($data['data']['options'], $data['data']['profile'])
 			->willReturn($message);
+
+		$fakeValidator->expects($this->once())
+			->method('containsErrors')
+			->willReturn(false);
+
+		$fakeValidator->expects($this->once())
+			->method('getValidationResult')
+			->willReturn(array());
+
+		$result = $this->invokeMethod($sut, 'persistProfileOptionsValues', array($data));
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @test
+	 */
+	public function persistProfileOptionsValues_delegatesCallGetErrorMessage()
+	{
+		$sut = $this->sut(array('validate', 'saveProfile'));
+
+		$data = array(
+			'data' => array(
+				'options' => array(
+					'test',
+					'profile_name' => array(
+						'option_value' => 'test',
+					),
+				),
+				'profile' => 1,
+			),
+		);
+
+		$expected = array(
+			'message' => 'An error occurred while saving the configuration.',
+			'type' => 'error',
+			'isMessage' => true,
+			'additionalInformation' => array(
+				'profileId' => 1,
+				'profileName' => 'test',
+			),
+			0 => 'Error'
+		);
+
+		$fakeValidator = $this->createAnonymousMock(array('containsErrors', 'getValidationResult'));
+
+		$this->mockFunction__();
+
+		$sut->expects($this->once())
+			->method('validate')
+			->willReturn($fakeValidator);
+
+		$fakeValidator->expects($this->once())
+			->method('containsErrors')
+			->willReturn(true);
+
+		$fakeValidator->expects($this->once())
+			->method('getValidationResult')
+			->willReturn(array('Error'));
 
 		$result = $this->invokeMethod($sut, 'persistProfileOptionsValues', array($data));
 
@@ -795,7 +849,9 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 	{
 		$sut = $this->sut(array('getPermission'));
 
-		$permissionItems = array(
+        $this->mockFunction__();
+
+        $permissionItems = array(
 			0 => array(
 				"value" => "0",
 				"description" => __("Input field is invisible.", 'next-active-directory-integration'),
@@ -846,73 +902,6 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @test
-	 */
-	public function validate_withValidationErrors_rendersErrors()
-	{
-		$sut = $this->sut(array('getValidator', 'renderJson'));
-
-		$result = array('test' => 'error');
-
-		$validationResult = $this->createMock('NextADInt_Core_Validator_Result');
-		$validationResult->expects($this->once())
-			->method('isValid')
-			->willReturn(false);
-
-		$validationResult->expects($this->once())
-			->method('getResult')
-			->willReturn($result);
-
-		$validator = $this->createMock('NextADInt_Core_Validator');
-		$validator->expects($this->once())
-			->method('validate')
-			->willReturn($validationResult);
-
-		$sut->expects($this->once())
-			->method('getValidator')
-			->willReturn($validator);
-
-		$sut->expects($this->once())
-			->method('renderJson')
-			->with($result);
-
-		$this->invokeMethod($sut, 'validate', array(array('options' => array())));
-	}
-
-	/**
-	 * @test
-	 */
-	public function validate_withoutValidationErrors_rendersErrors()
-	{
-		$sut = $this->sut(array('getValidator', 'renderJson'));
-
-		$result = array('test' => 'error');
-
-		$validationResult = $this->createMock('NextADInt_Core_Validator_Result');
-		$validationResult->expects($this->once())
-			->method('isValid')
-			->willReturn(true);
-
-		$validationResult->expects($this->never())
-			->method('getResult')
-			->willReturn($result);
-
-		$validator = $this->createMock('NextADInt_Core_Validator');
-		$validator->expects($this->once())
-			->method('validate')
-			->willReturn($validationResult);
-
-		$sut->expects($this->once())
-			->method('getValidator')
-			->willReturn($validator);
-
-		$sut->expects($this->never())
-			->method('renderJson')
-			->with($result);
-
-		$this->invokeMethod($sut, 'validate', array(array('options' => array())));
-	}
 
 	/**
 	 * @test
@@ -924,7 +913,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		$validator = $sut->getValidator();
 		$rules = $validator->getValidationRules();
 
-		$this->assertCount(17, $rules);
+		$this->assertCount(19, $rules);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_AccountSuffix', $rules[NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX][0]);
@@ -945,6 +934,9 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_SelectValueValid', $rules[NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SSO_USER][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SSO_PASSWORD][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_BaseDn', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_BaseDnWarn', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][1]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][2]);
 	}
 
 

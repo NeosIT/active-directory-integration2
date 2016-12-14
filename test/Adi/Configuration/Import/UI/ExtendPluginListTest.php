@@ -59,6 +59,7 @@ class Ut_NextADInt_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_B
 	public function extendPluginAction_itAddsTheLink_whenAuthorized()
 	{
 		$sut = $this->sut(array('isNetworkExportAllowed'));
+		$this->mockFunction__();
 
         WP_Mock::wpFunction('__', array(
             'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),

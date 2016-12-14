@@ -60,8 +60,7 @@ class Ut_NextADInt_Multisite_View_TwigContainerTest extends Ut_BasicTest
 
 		$twig = $sut->getTwig();
 
-		$this->assertNotNull($twig->getFilter('__'));
-		$this->assertNotNull($twig->getFilter('var_dump'));
+		$this->assertNotEmpty($twig->getFilter('var_dump'));
 	}
 
 	/**
@@ -74,7 +73,6 @@ class Ut_NextADInt_Multisite_View_TwigContainerTest extends Ut_BasicTest
 
 		$twig = $sut->getTwig();
 
-		$this->assertEquals('__', $twig->getFilter('__')->getCallable());
 		$this->assertEquals('var_dump', $twig->getFilter('var_dump')->getCallable());
 	}
 

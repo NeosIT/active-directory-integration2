@@ -22,12 +22,7 @@ class Ut_NextADInt_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 	 */
 	public function getOptionsGrouping_isArray()
 	{
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
+		$this->mockFunction__();
 		$optionsGrouping = NextADInt_Adi_Configuration_Ui_Layout::get();
 		$this->assertTrue(is_array($optionsGrouping));
 	}
@@ -37,12 +32,7 @@ class Ut_NextADInt_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 	 */
 	public function getOptionGrouping_arrayNotEmpty()
 	{
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
+		$this->mockFunction__();
 		$optionsGrouping = NextADInt_Adi_Configuration_Ui_Layout::get();
 
 		$this->assertTrue(is_array($optionsGrouping));
@@ -54,12 +44,7 @@ class Ut_NextADInt_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 	 */
 	public function getOptionsGrouping_checkStructure()
 	{
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
+		$this->mockFunction__();
 		$optionsGrouping = NextADInt_Adi_Configuration_Ui_Layout::get();
 		$this->assertTrue(is_array($optionsGrouping));
 

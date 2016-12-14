@@ -107,6 +107,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 	public function addOption_disableUserShowMessage()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunction__();
 
 		$user = (object)array(
 			'ID' => 2,
@@ -117,12 +118,6 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 			'firstName' => 'testFirstName',
 			'lastName'  => 'testLastName',
 		);
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		WP_Mock::wpFunction('current_user_can', array(
             'args'   => 'manage_options',
@@ -169,6 +164,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 	public function saveOption_blockUser()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunction__();
 
 		$userMessage = "User \"TestUser\" with ID \"2\" manually disabled by \"Admin\" with the ID \"1\".";
 
@@ -211,11 +207,8 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
             'return' => $userObject2,)
 		);
 
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
+
+
 
 		$this->userManager->expects($this->once())
 			->method('disable')

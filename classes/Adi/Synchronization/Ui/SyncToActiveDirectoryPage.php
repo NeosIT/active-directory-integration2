@@ -73,6 +73,14 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		$params['blogUrl'] = get_site_url(get_current_blog_id());
 		$params['message'] = $this->result;
 		$params['log'] = $this->log;
+        $params['i18n'] = array(
+            'title' => __('Sync To Active Directory', 'next-active-directory-integration'),
+            'descriptionLine1' => __('If you want to trigger Sync to Active Directory, you must know the URL to the index.php of your blog:', 'next-active-directory-integration'),
+            'descriptionLine2' => __('Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:', 'next-active-directory-integration'),
+            'userId' => __('User-ID: (optional)', 'next-active-directory-integration'),
+            'repeatAction' => __('Repeat WordPress to Active Directory synchronization', 'next-active-directory-integration'),
+            'startAction' => __('Start WordPress to Active Directory synchronization', 'next-active-directory-integration')
+        );
 
 		$i18n = array(
             'title' => __('Sync To Active Directory', 'next-active-directory-integration'),

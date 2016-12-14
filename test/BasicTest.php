@@ -244,4 +244,26 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 
 		return $result;
 	}
+
+	/**
+	 * Create a simple mock for the WordPress translation function __.
+	 */
+	protected  function mockFunction__() {
+		WP_Mock::wpFunction('__', array(
+			'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+			'times'      => '0+',
+			'return_arg' => 0
+		));
+	}
+
+	/**
+	 * Create a simple mock for the WordPress translation function esc_html__.
+	 */
+	protected  function mockFunctionEsc_html__() {
+		WP_Mock::wpFunction('esc_html__', array(
+			'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+			'times'      => '0+',
+			'return_arg' => 0
+		));
+	}
 }

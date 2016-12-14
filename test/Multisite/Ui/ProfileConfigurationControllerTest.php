@@ -47,6 +47,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_Ba
 	public function saveProfileOptions_withErrorOnSave_returnsErrorMessage()
 	{
 		$sut = $this->sut(array('saveProfileOptionsInternal'));
+		$this->mockFunction__();
 
 		$sut->expects($this->once())
 			->method('saveProfileOptionsInternal')
@@ -76,6 +77,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_Ba
 	public function saveProfileOptions_withSuccessOnSave_returnsSuccessMessage()
 	{
 		$sut = $this->sut(array('saveProfileOptionsInternal'));
+		$this->mockFunction__();
 
 		$sut->expects($this->once())
 			->method('saveProfileOptionsInternal');
@@ -104,6 +106,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_Ba
 	public function saveProfileOptions_triggersSaveProfileOptionsInternalMethod()
 	{
 		$sut = $this->sut(array('saveProfileOptionsInternal'));
+		$this->mockFunction__();
 
 		$options = array(
 			'port' => array(

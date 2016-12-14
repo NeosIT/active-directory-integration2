@@ -300,13 +300,8 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 			'times'  => 1,
 			'return' => true));
 
-		WP_Mock::wpFunction('esc_html__', array(
-			'args'  => array('Please purchase a valid Next Active Directory Integration support license from %s to support this plug-in.', 'next-active-directory-integration'),
-			'times' => 1,
-			'return' => 'Please purchase'
-		));
-
 		$sut = $this->sut(array('dc'));
+		$this->mockFunctionEsc_html__();
 		$dc = $this->mockDependencyContainer($sut);
 
 		$fakeService = $this->createAnonymousMock(array('getOptionValue'));
@@ -346,11 +341,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	public function run_itDoesNotRegisterCore_whenNotActive()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'isActive', 'registerCore'));
-
-        \WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+'
-        ));
+		$this->mockFunction__();
 
 		$this->mockWordpressFunction('get_current_blog_id');
 		$this->mockWordpressFunction('is_multisite');

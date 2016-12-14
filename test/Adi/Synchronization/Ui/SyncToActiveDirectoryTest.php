@@ -55,12 +55,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 	public function getTitle_escapeTitle_returnTitle()
 	{
 		$sut = $this->sut(null);
-
-        WP_Mock::wpFunction('esc_html__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
+		$this->mockFunctionEsc_html__();
 
 		$returnedTitle = $sut->getTitle();
 		$this->assertEquals('Sync to AD', $returnedTitle);
@@ -105,6 +100,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 	public function renderAdmin_withCorrectCapability_delegateToMethod()
 	{
 		$sut = $this->sut(array('display', 'currentUserHasCapability'));
+		$this->mockFunction__();
 
 		$nonce = 'some_nonce';
 		$authCode = 'auth_code';
@@ -113,12 +109,6 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('currentUserHasCapability')
 			->willReturn(true);
-
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
 
 		WP_Mock::wpFunction('wp_create_nonce', array(
             'args'  => NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage::NONCE,

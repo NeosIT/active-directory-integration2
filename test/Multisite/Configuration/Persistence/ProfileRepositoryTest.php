@@ -157,6 +157,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 	public function findName_triggersCorrectMethods()
 	{
 		$sut = $this->sut(array('getProfileOption'));
+		$this->mockFunction__();
 
         WP_Mock::wpFunction('__', array(
             'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
@@ -338,6 +339,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 	public function insertDefaultProfile_noProfilesExist_createDefaultProfile()
 	{
 		$sut = $this->sut(array('findAll', 'insert'));
+		$this->mockFunction__();
 
 		\WP_Mock::wpFunction('get_site_option', array(
 			'args'   => array('next_ad_int_p_n_1', false),

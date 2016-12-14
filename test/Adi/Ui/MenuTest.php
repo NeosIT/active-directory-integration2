@@ -95,6 +95,7 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 	public function registerMenu_addsMenusToWordPress()
 	{
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
+		$this->mockFunctionEsc_html__();
 
         WP_Mock::wpFunction('esc_html__', array(
             'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
@@ -128,6 +129,8 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 	 */
 	public function registerMenu_whenShowTestAuthentication_itEnablesTestAuthentication() {
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
+		$this->mockFunction__();
+		$this->mockFunctionEsc_html__();
 
         WP_Mock::wpFunction('esc_html__', array(
             'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
@@ -171,6 +174,7 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 	 */
 	public function registerMenu_whenShowSyncToAD_itEnablesSyncToAD() {
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
+		$this->mockFunctionEsc_html__();
 
         WP_Mock::wpFunction('esc_html__', array(
             'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
@@ -208,6 +212,7 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 	 */
 	public function registerMenu_whenShowSyncToWordPress_itEnablesSyncToWordPress() {
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
+		$this->mockFunctionEsc_html__();
 
         WP_Mock::wpFunction('esc_html__', array(
             'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),

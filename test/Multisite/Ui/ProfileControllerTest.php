@@ -247,6 +247,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileControllerTest extends Ut_BasicTest
 	public function deleteProfile_withErrorOnDelete_returnsErrorMessage()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunction__();
 
 		$this->profileRepository->expects($this->once())
 			->method('delete')
@@ -277,6 +278,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileControllerTest extends Ut_BasicTest
 	public function deleteProfile_withSuccessOnDelete_returnsSuccessMessage()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunction__();
 
 		$this->profileRepository->expects($this->once())
 			->method('delete')

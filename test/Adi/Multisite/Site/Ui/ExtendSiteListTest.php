@@ -14,21 +14,15 @@ class Ut_NextADInt_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
 
 	public function setUp()
 	{
+		parent::setUp();
+
 		$this->blogConfigurationRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository');
 		$this->profileRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_ProfileRepository');
-
-		WP_Mock::setUp();
-
-		\WP_Mock::wpFunction(
-			'__', array(
-				'return_arg' => 0,
-			)
-		);
 	}
 
 	public function tearDown()
 	{
-		WP_Mock::tearDown();
+		parent::tearDown();
 	}
 
 	/**
@@ -67,6 +61,7 @@ class Ut_NextADInt_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
 	public function addColumn_itAddsTheAdiProfileColumn()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunction__();
 
 		$actual = $sut->addColumns(array());
 
@@ -108,6 +103,7 @@ class Ut_NextADInt_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
 	public function addContent_withDefaultProfileUsage_outputsDefaultProfileMessage()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunction__();
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('isDefaultProfileUsed')
@@ -136,6 +132,7 @@ class Ut_NextADInt_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
 	public function addContent_withNoProfile_outputsNone()
 	{
 		$sut = $this->sut(null);
+		$this->mockFunction__();
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('isDefaultProfileUsed')

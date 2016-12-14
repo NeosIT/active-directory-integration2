@@ -148,11 +148,7 @@ class Ut_NextADInt_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 	 */
 	public function createMigrationNotices_echosAmountOfBlogsInMultisite()
 	{
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
+		$this->mockFunction__();
 
 		WP_Mock::wpFunction('is_multisite', array(
 			'times' => 1,
@@ -192,18 +188,13 @@ class Ut_NextADInt_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 	 */
 	public function createMigrationNotices_echosMigrationHintInSingleSite()
 	{
-        WP_Mock::wpFunction('__', array(
-            'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-            'times'      => '0+',
-            'return_arg' => 0
-        ));
-
 		WP_Mock::wpFunction('is_multisite', array(
 			'times' => 1,
 			'return' => false,
 		));
 
 		$sut = $this->sut(array('getBlogVersion'));
+		$this->mockFunction__();
 
 		$sut->expects($this->once())
 			->method('getBlogVersion')

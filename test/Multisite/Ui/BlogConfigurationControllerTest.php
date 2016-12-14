@@ -50,14 +50,10 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationControllerTest extends Ut_Basic
 	public function saveBlogOptions_withoutErrors_returnsSuccessMessage()
 	{
 		$sut = $this->sut(array('saveBlogOptionsInternal'));
+		$this->mockFunction__();
 
 		$data = array();
-		$expected = array(
-			'isMessage'             => true,
-			'type'                  => 'success',
-			'message'               => 'The configuration has been saved successfully.',
-			'additionalInformation' => array(),
-		);
+		$expected = array("status_success" => true);
 
 		$sut->expects($this->once())
 			->method('saveBlogOptionsInternal')
@@ -80,14 +76,10 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationControllerTest extends Ut_Basic
 	public function saveBlogOptions_withErrors_returnsSuccessMessage()
 	{
 		$sut = $this->sut(array('saveBlogOptionsInternal'));
+		$this->mockFunction__();
 
 		$data = array();
-		$expected = array(
-			'isMessage'             => true,
-			'type'                  => 'error',
-			'message'               => 'An error occurred while saving the configuration.',
-			'additionalInformation' => array(),
-		);
+		$expected = array("status_success" => false);
 
 		$sut->expects($this->once())
 			->method('saveBlogOptionsInternal')

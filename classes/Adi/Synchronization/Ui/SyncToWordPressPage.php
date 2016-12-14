@@ -73,6 +73,13 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 		$params['blogUrl'] = get_site_url(get_current_blog_id());
 		$params['message'] = $this->result;
 		$params['log'] = $this->log;
+        $params['i18n'] = array(
+            'title' => __('Sync To WordPress', 'next-active-directory-integration'),
+            'descriptionLine1' => __('If you want to trigger Sync to WordPress, you must know the URL to the index.php of your blog:', 'next-active-directory-integration'),
+            'descriptionLine2' => __('Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:', 'next-active-directory-integration'),
+            'repeatAction' => __('Repeat AD to WordPress synchronization', 'next-active-directory-integration'),
+            'startAction' => __('Start AD to WordPress synchronization', 'next-active-directory-integration')
+        );
 
 		$i18n = array(
             'title' => __('Sync To WordPress', 'next-active-directory-integration'),

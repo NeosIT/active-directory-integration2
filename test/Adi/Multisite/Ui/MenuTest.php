@@ -80,6 +80,7 @@ class Ut_NextADInt_Adi_Multisite_Ui_MenuTest extends Ut_BasicTest
 	public function registerMenu_addsMenusToWordPress()
 	{
 		$sut = $this->sut(array('addSubMenu'));
+		$this->mockFunctionEsc_html__();
 
 		$permission = 'manage_network';
 		$networkMenu = 'Active Directory Integration';

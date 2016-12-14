@@ -31,7 +31,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_DefaultEmailDomainTest extends Ut_Ba
 		return $this->getMockBuilder('NextADInt_Multisite_Validator_Rule_DefaultEmailDomain')
 			->setConstructorArgs(
 				array(
-					self::VALIDATION_MESSAGE, '@',
+					self::VALIDATION_MESSAGE,
 				)
 			)
 			->setMethods($methods)
@@ -47,7 +47,7 @@ class Ut_NextADInt_Multisite_Validator_Rule_DefaultEmailDomainTest extends Ut_Ba
 
 		$actual = $sut->validate('@test.ad', array());
 
-		$this->assertEquals(self::VALIDATION_MESSAGE, $actual);
+		$this->assertEquals(array(NextADInt_Core_Message_Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
 	/**
