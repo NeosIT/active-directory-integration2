@@ -68,7 +68,7 @@ class NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 		// animate the counter (add javaScript to file)
 		echo $this->twigContainer->getTwig()->render(
 			self::TEMPLATE_NAME, array(
-				'timeLeft' => $timeLeft + 5, //prevent user profile is still blocked for example 10 ms
+				'timeLeft' => $timeLeft, //prevent user profile is still blocked for example 10 ms
 			)
 		);
 
