@@ -82,13 +82,11 @@ To install Next Active Directory Integration you need at least WordPress 4.0 and
 
 Although only tested with Apache 2.2 and 2.4 *Next ADI* should work with all other common web servers like nginx and IIS.
 
-Next Active Directory Integration requires a few PHP modules to be enabled. Please verify in your `php.ini` that *ldap*, *mcrypt* and *mbstring* are activated. But it is very likely, that *mcrypt* is already enabled and not listed in the `php.ini`.
-If you are planning to use encryption for your LDAP connection - which we *highly* suggest - you although need *openssl* to be enabled.
+Next Active Directory Integration requires a few PHP modules to be enabled. Please verify in your `php.ini` that *ldap*, *mbstring* and *openssl* are activated.
 
-	; required by *Next ADI*
+	; required by *NADI*
 	extension=php_ldap.dll
 	extension=php_mbstring.dll
-	; required by LDAP/S and STARTTLS
 	extension=php_openssl.dll
 
 = Migration from ADI 1.x to Next ADI =

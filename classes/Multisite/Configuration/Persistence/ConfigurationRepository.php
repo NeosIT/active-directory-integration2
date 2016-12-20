@@ -26,6 +26,18 @@ interface NextADInt_Multisite_Configuration_Persistence_ConfigurationRepository
 	public function findSanitizedValue($siteId, $optionName);
 
 	/**
+	 * Find the raw value of the given option.
+	 * This method is necessary for the migration of the encrypted passwords.
+	 *
+	 *
+	 * @param $siteId
+	 * @param $optionName
+	 *
+	 * @return mixed
+	 */
+	public function findRawValue($siteId, $optionName);
+
+	/**
 	 * Persist the given configuration option
 	 *
 	 * @param int    $siteId

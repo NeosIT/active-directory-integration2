@@ -38,7 +38,7 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
 	 * @test
 	 */
 	public function check_itSucceeds() {
-		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireMcrypt', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
+		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireOpenSSL', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
 		$showErrors = true;
 
 		WP_Mock::wpFunction('is_multisite', array(
@@ -59,7 +59,7 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
 			->with($showErrors);
 
         $sut->expects($this->once())
-            ->method('requireMcrypt')
+            ->method('requireOpenSSL')
             ->with($showErrors);
 
 		$sut->expects($this->once())
@@ -80,7 +80,7 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
 	 * @test
 	 */
 	public function check_itPreventsSiteActivation_whenIncludeActivationCheckIsEnabled() {
-		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireMcrypt', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
+		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireOpenSSL', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
 		$showErrors = true;
 
 		WP_Mock::wpFunction('is_multisite', array(
@@ -232,36 +232,36 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
      * @test
      * @expectedException RequirementException
      */
-    public function requireMcrypt_itFails_ifExtensionIsNotLoaded()
+    public function requireOpenSSL_itFails_ifExtensionIsNotLoaded()
     {
         $sut = $this->sut();
 
         // mock away static methods
         $this->internalNative->expects($this->once())
             ->method('isLoaded')
-            ->with(NextADInt_Adi_Requirements::MODULE_MCRYPT)
+            ->with(NextADInt_Adi_Requirements::MODULE_OPENSSL)
             ->willReturn(false);
 
         WP_Mock::expectActionAdded(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
-            $sut, 'missingMcrypt',
+            $sut, 'missingOpenSSL',
         ));
 
-        $sut->requireMcrypt(true);
+        $sut->requireOpenSSL(true);
     }
 
     /**
      * @test
      */
-    public function requireMcrypt_itSucceeds() {
+    public function requireOpenSSL_itSucceeds() {
         $sut = $this->sut();
 
         // mock away static methods
         $this->internalNative->expects($this->once())
             ->method('isLoaded')
-            ->with(NextADInt_Adi_Requirements::MODULE_MCRYPT)
+            ->with(NextADInt_Adi_Requirements::MODULE_OPENSSL)
             ->willReturn(true);
 
-        $sut->requireMcrypt(true);
+        $sut->requireOpenSSL(true);
     }
 
 	/**

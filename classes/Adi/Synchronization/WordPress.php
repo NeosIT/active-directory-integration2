@@ -99,7 +99,8 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$startTime = time();
 		$this->logger->debug('START: findSynchronizableUsers(): ' . $startTime);
 		$users = $this->findSynchronizableUsers();
-		$this->logger->debug('END: findSynchronizableUsers(): Duration:  ' .  time() - $startTime . ' seconds');
+		$totalTimeNeeded = time() - $startTime;
+		$this->logger->debug('END: findSynchronizableUsers(): Duration:  ' . $totalTimeNeeded . ' seconds');
 
 		// ADI-145: provide API
 		$users = apply_filters(NEXT_AD_INT_PREFIX . 'ad2wp_filter_synchronizable_users', $users);
