@@ -402,7 +402,17 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$actual = $sut->modifyUserWithoutSchema("testUsername", array());
+		$wpUser = new WP_User();
+		$wpUser->user_login = 'testUsername';
+		$wpUser->ID = 1;
+
+		WP_Mock::wpFunction('get_user_meta', array(
+				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+				'times' => 1,
+				'return' => array())
+		);
+
+		$actual = $sut->modifyUserWithoutSchema($wpUser, array());
 
 		$this->assertFalse($actual);
 	}
@@ -414,16 +424,26 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
+		$wpUser = new WP_User();
+		$wpUser->user_login = 'testUsername';
+		$wpUser->ID = 1;
+
+		WP_Mock::wpFunction('get_user_meta', array(
+				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+				'times' => 1,
+				'return' => 'xxxx-xxxx-xxxx-xxxx')
+		);
+
 		$sut->expects($this->once())
 			->method('getAdLdap')
 			->willReturn($this->adLDAP);
 
 		$this->adLDAP->expects($this->once())
 			->method("user_modify_without_schema")
-			->with('hugo', array("sn", "givename", "mail"))
+			->with('xxxx-xxxx-xxxx-xxxx', array("sn", "givename", "mail"))
 			->willThrowException(new Exception());
 
-		$actual = $sut->modifyUserWithoutSchema('hugo', array("sn", "givename", "mail"));
+		$actual = $sut->modifyUserWithoutSchema($wpUser, array("sn", "givename", "mail"));
 		$this->assertEquals(false, $actual);
 	}
 
@@ -434,16 +454,26 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
+		$wpUser = new WP_User();
+		$wpUser->user_login = 'testUsername';
+		$wpUser->ID = 1;
+
+		WP_Mock::wpFunction('get_user_meta', array(
+				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+				'times' => 1,
+				'return' => 'xxxx-xxxx-xxxx-xxxx')
+		);
+
 		$sut->expects($this->once())
 			->method('getAdLdap')
 			->willReturn($this->adLDAP);
 
 		$this->adLDAP->expects($this->once())
 			->method("user_modify_without_schema")
-			->with('hugo', array("sn", "givename", "mail"))
+			->with('xxxx-xxxx-xxxx-xxxx', array("sn", "givename", "mail"))
 			->willReturn(false);
 
-		$actual = $sut->modifyUserWithoutSchema('hugo', array("sn", "givename", "mail"));
+		$actual = $sut->modifyUserWithoutSchema($wpUser, array("sn", "givename", "mail"));
 		$this->assertEquals(false, $actual);
 	}
 
@@ -454,16 +484,26 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
+		$wpUser = new WP_User();
+		$wpUser->user_login = 'testUsername';
+		$wpUser->ID = 1;
+
+		WP_Mock::wpFunction('get_user_meta', array(
+				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+				'times' => 1,
+				'return' => 'xxxx-xxxx-xxxx-xxxx')
+		);
+
 		$sut->expects($this->once())
 			->method('getAdLdap')
 			->willReturn($this->adLDAP);
 
 		$this->adLDAP->expects($this->once())
 			->method("user_modify_without_schema")
-			->with('hugo', array("sn", "givename", "mail"))
+			->with('xxxx-xxxx-xxxx-xxxx', array("sn", "givename", "mail"))
 			->willReturn(true);
 
-		$actual = $sut->modifyUserWithoutSchema('hugo', array("sn", "givename", "mail"));
+		$actual = $sut->modifyUserWithoutSchema($wpUser, array("sn", "givename", "mail"));
 		$this->assertEquals(true, $actual);
 	}
 
