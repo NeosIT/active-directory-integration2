@@ -57,7 +57,7 @@ class NextADInt_Adi_Multisite_Site_Ui_ExtendSiteList
 	 */
 	public function addColumns($columns)
 	{
-		$columns[self::ADI_PROFILE_COLUMN] = __('Active ADI profile', 'next-active-directory-integration');
+		$columns[self::ADI_PROFILE_COLUMN] = __('Active NADI profile', 'next-active-directory-integration');
 
 		return $columns;
 	}

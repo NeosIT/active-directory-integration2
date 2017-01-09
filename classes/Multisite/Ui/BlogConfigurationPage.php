@@ -99,7 +99,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	{
         // translate twig text
         $i18n = array(
-            'title' => __('Active Directory Integration Blog Configuration', 'next-active-directory-integration'),
+            'title' => __('Next Active Directory Integration Blog Configuration', 'next-active-directory-integration'),
             'regenerateAuthCode' => __('Regenerate Auth Code', 'next-active-directory-integration'),
             'securityGroup' => __('Security group', 'next-active-directory-integration'),
             'wordpressRole' => __('WordPress role', 'next-active-directory-integration'),

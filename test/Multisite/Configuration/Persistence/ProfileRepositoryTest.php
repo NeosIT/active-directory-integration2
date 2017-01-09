@@ -343,7 +343,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 
 		$sut->expects($this->once())
 			->method('insert')
-			->with('My ADI profile',
+			->with('My NADI profile',
 				'This profile has been created by the plugin installation automatically. It can safely be deleted.')
 			->willReturn(true);
 

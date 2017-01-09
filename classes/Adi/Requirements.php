@@ -320,7 +320,7 @@ class NextADInt_Adi_Requirements
     	});
     	</script>
 		<div class=\"notice notice-warning\">
-		<p>ADI 1.x and ADI 2.x can not run in parallel. Any previous version of ADI 1.x has been deactivated to prevent issues.</p>
+		<p>ADI 1.x and NADI 2.x can not run in parallel. Any previous version of ADI 1.x has been deactivated to prevent issues.</p>
 		</div>
 		";
 	}

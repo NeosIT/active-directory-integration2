@@ -99,7 +99,7 @@ class NextADInt_Adi_User_Profile_Ui_ShowLdapAttributes
 
         // translate twig text
         $i18n = array(
-            'additionalInformation' => __('Additional Information provided by Active Directory Integration', 'next-active-directory-integration'),
+            'additionalInformation' => __('Additional Information provided by Next Active Directory Integration', 'next-active-directory-integration'),
             'reenterPassword' => __('Reenter password', 'next-active-directory-integration'),
             'youMustEnterPassword' => __('If you want to save the changes in "Additional Information" back to the Active Directory you must enter your password.', 'next-active-directory-integration'),
             'canNotBeEdited' => __('Profile can not be edited or synchronized back to Active Directory:', 'next-active-directory-integration')

@@ -62,13 +62,13 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::IS_ACTIVE,
 					),
 					self::DESCRIPTION => __(
-						'On this page you can configure whether ADI should be enabled for a specific profile or not.',
+						'On this page you can configure whether NADI should be enabled for a specific profile or not.',
 						'next-active-directory-integration'
 					),
 				),
 				__('Menu', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
-						'It is also possible to only disable certain ADI features.',
+						'It is also possible to only disable certain NADI features.',
 						'next-active-directory-integration'
 					),
 					self::OPTIONS => array(
@@ -228,7 +228,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 							'next-active-directory-integration'
 						),
 						'',
-						sprintf(__('The following WordPress attributes are reserved by ADI and cannot be used: %s', 'next-active-directory-integration'), implode(', ', NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys())),
+						sprintf(__('The following WordPress attributes are reserved by NADI and cannot be used: %s', 'next-active-directory-integration'), implode(', ', NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys())),
 					),
 					// Group elements in group
 					self::OPTIONS     => array(
@@ -287,7 +287,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				__('Logging', 'next-active-directory-integration') => array(
 					// Group description
 					self::DESCRIPTION => __(
-						'On this tab you can configure the Next ADI event logger.',
+						'On this tab you can configure the NADI event logger.',
 						'next-active-directory-integration'
 					),
 					// Group elements in group
