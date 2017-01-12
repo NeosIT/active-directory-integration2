@@ -55,7 +55,7 @@ class NextADInt_Core_Encryption
 		$data = $mac . $plainText;
 
 		// encrypt $data
-		$encrypted = mcrypt_encrypt(self::CIPHER, $key, $data, self::MODE, $iv);
+		$encrypted = @mcrypt_encrypt(self::CIPHER, $key, $data, self::MODE, $iv);
 
 		// add prefix $iv to encrypted $data
 		$output = base64_encode($iv) . '_' . base64_encode($encrypted);
@@ -88,7 +88,7 @@ class NextADInt_Core_Encryption
 	{
 		$ivSize = $this->getIvSize();
 		$random = self::RANDOM;
-		$iv = mcrypt_create_iv($ivSize, $random);
+		$iv = @mcrypt_create_iv($ivSize, $random);
 
 		return $iv;
 	}
@@ -102,7 +102,7 @@ class NextADInt_Core_Encryption
 	{
 		$cipher = self::CIPHER;
 		$mode = self::MODE;
-		$size = mcrypt_get_iv_size($cipher, $mode);
+		$size = @mcrypt_get_iv_size($cipher, $mode);
 
 		return $size;
 	}
@@ -133,7 +133,7 @@ class NextADInt_Core_Encryption
 		// get key
 		$key = $this->getKey();
 		// decrypt $data
-		$data = mcrypt_decrypt(self::CIPHER, $key, $encrypted, self::MODE, $iv);
+		$data = @mcrypt_decrypt(self::CIPHER, $key, $encrypted, self::MODE, $iv);
 
 		// split $data into $mac and $plainText
 		$mac = mb_substr($data, 0, self::MAC_HASH_LENGTH);
