@@ -85,7 +85,7 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 		$columns = array();
 
 		$filledColumns = array(
-			$sut->__columnIsAdiUser() => 'ADI User',
+			$sut->__columnIsAdiUser() => 'NADI User',
 			$sut->__columnUserDisabled() => 'Disabled'
 		);
 

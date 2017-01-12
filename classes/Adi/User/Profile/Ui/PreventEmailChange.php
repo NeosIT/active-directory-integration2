@@ -96,7 +96,7 @@ class NextADInt_Adi_User_Profile_Ui_PreventEmailChange
 				$this->logger->debug( "Prevent email change on profile update for user '$user->user_login' ($user->ID).");
 				$errors = new WP_Error(
 					'prevent email change', __(
-						"You must not change your email address. The plugin 'Active Directory Integration' prevents it.",
+						"You must not change your email address. The plugin 'Next Active Directory Integration' prevents it.",
 						'next-active-directory-integration'
 					)
 				);

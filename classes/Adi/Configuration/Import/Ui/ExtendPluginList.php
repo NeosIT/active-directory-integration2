@@ -162,7 +162,7 @@ class NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList
 		$r[] = self::LINE_SEPARATOR;
 
 		if (!NextADInt_Adi_Configuration_ImportService::isPreviousVersion($version)) {
-			$r[] = "No previous version of ADI found.";
+			$r[] = "No previous version of NADI found.";
 			return $r;
 		}
 
@@ -203,7 +203,7 @@ class NextADInt_Adi_Configuration_Import_Ui_ExtendPluginList
 			$version = $this->importService->getPreviousSiteVersion($blogId);
 
 			if (!$version) {
-				$r[] = "  No ADI installed.";
+				$r[] = "  No NADI installed.";
 				continue;
 			}
 
