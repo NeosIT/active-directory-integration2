@@ -87,7 +87,6 @@ class NextADInt_Adi_Authentication_Persistence_FailedLoginRepository
 		return $this->persistLoginAttempts($username, $loginAttempts + 1);
 	}
 
-
 	/**
 	 * Unblock the user and reset his login attempts counter.
 	 *

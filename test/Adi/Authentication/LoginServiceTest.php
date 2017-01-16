@@ -627,6 +627,11 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->with('test')
 			->willReturn(1);
 
+		$this->failedLoginRepository->expects($this->once())
+			->method('findLoginAttempts')
+			->with('test')
+			->willReturn(4);
+
         $this->configuration->expects($this->once())
             ->method('getOptionValue')
             ->with(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS)
@@ -634,6 +639,11 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$this->failedLoginRepository->expects($this->never())
 			->method('blockUser');
+
+		$this->userManager->expects($this->once())
+			->method('isNoAdiUser')
+			->with('test')
+			->willReturn(true);
 
 		$sut->refreshBruteForceProtectionStatusForUser('test', false);
 	}
@@ -670,6 +680,11 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$this->failedLoginRepository->expects($this->once())
 			->method('blockUser')
 			->with('test', 30);
+
+		$this->userManager->expects($this->once())
+			->method('isNoAdiUser')
+			->with('test')
+			->willReturn(true);
 
 		$sut->refreshBruteForceProtectionStatusForUser('test', false);
 	}
