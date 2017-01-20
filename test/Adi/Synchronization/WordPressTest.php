@@ -189,7 +189,15 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$users = array('a', 'b', 'c');
 		$modifiedUsers = array();
 
-		\WP_Mock::onFilter( NEXT_AD_INT_PREFIX . 'sync_wp2ad_filter_synchronizable_users' )
+        $sut->expects($this->once())
+            ->method('prepareForSync')
+            ->willReturn(true);
+
+        $sut->expects($this->once())
+            ->method('findSynchronizableUsers')
+            ->willReturn($users);
+
+		\WP_Mock::onFilter( NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_synchronizable_users' )
 			->with($users)
 			->reply($modifiedUsers);
 
