@@ -178,3 +178,11 @@
 .adi-button-hidden {
     visibility: hidden;
 }
+
+.adi-pe-message {
+    color: #fff;
+    background-color: #bfd730;
+    padding: 3px 10px;
+    margin-top: 5px;
+    display: inline-block;
+}
