@@ -570,6 +570,13 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
+		$wpUser = $this->createWpUserMock();
+
+		$this->userManager->expects($this->once())
+            ->method('findByActiveDirectoryUsername')
+            ->with('hugo@test.local', 'hugo@test.local')
+            ->willReturn($wpUser);
+
 		$this->failedLoginRepository->expects($this->once())
 			->method('isUserBlocked')
 			->with('hugo@test.local')
@@ -577,7 +584,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$this->mailNotification->expects($this->once())
 			->method('sendNotifications')
-			->with('hugo@test.local', true);
+			->with($wpUser, true);
 
 		$this->userBlockedMessage->expects($this->once())
 			->method('blockCurrentUser');
