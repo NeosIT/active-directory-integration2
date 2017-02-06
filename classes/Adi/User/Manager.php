@@ -464,6 +464,11 @@ class NextADInt_Adi_User_Manager
 
 		// iterate over all userAttributeValues
 		foreach ($filteredAttributes as $name => $value) {
+
+			if ($name === "samaccountname" || $name  === "userprincipalname") {
+				$value = strtolower($value);
+			}
+
 			// get type and metaKey
 			/* @var $attribute NextADInt_Ldap_Attribute */
 			$attribute = NextADInt_Core_Util_ArrayUtil::get($name, $attributeWhiteList, false);
