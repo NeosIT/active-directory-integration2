@@ -178,3 +178,7 @@
 .adi-button-hidden {
     visibility: hidden;
 }
+
+.adi-user-list-custom-column {
+    align-content: center;
+}

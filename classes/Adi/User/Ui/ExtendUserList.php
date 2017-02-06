@@ -61,6 +61,16 @@ class NextADInt_Adi_User_Ui_ExtendUserList
 	}
 
 	/**
+	 * Return name of "Managed by NADI CRM PE" column
+	 *
+	 * @return string
+	 */
+	public function __columnManagedByCrmPe() {
+		$blogId = get_current_blog_id();
+		return NEXT_AD_INT_PREFIX . 'pe_crm_is_managed_by_pe_' . $blogId;
+	}
+
+	/**
 	 * Add two columns (ADI User and Disabled)
 	 *
 	 * @param array $columns
@@ -71,7 +81,13 @@ class NextADInt_Adi_User_Ui_ExtendUserList
 	{
 		$columns[$this->__columnIsAdiUser()] = __('NADI User', 'next-active-directory-integration');
 		$columns[$this->__columnUserDisabled()] = __('Disabled', 'next-active-directory-integration');
+		$columns[$this->__columnManagedByCrmPe()] = __('Managed by NADI CRM PE', 'next-active-directory-integration');
 
+		//TODO check if CRM PE is even active before rendering column
+//		if ( is_plugin_active( ABSPATH ) ) {
+//			$columns[$this->__columnManagedByCrmPe()] = __('Managed by NADI CRM PE', 'next-active-directory-integration');
+//		}
+		
 		return $columns;
 	}
 
@@ -92,6 +108,8 @@ class NextADInt_Adi_User_Ui_ExtendUserList
 				return $this->renderIsAdiUserColumn($userId);
 			case $this->__columnUserDisabled():
 				return $this->renderDisabledColumn($userId);
+			case $this->__columnManagedByCrmPe():
+				return $this->renderManagedByCrmPe($userId);
 		}
 
 		// return value because the other column must no be modified
@@ -136,6 +154,26 @@ class NextADInt_Adi_User_Ui_ExtendUserList
 		if ($isUserDisabled) {
 			// add value
 			return "<div class='adi_user_disabled'>$reason</div>";
+		}
+
+		// if user is not disabled, then return an empty string
+		return '';
+
+	}
+
+	/**
+	 * Render the is managed by NADI CRM column
+	 *
+	 * @access package
+	 * @param int $userId
+	 * @return string empty string if no reason exists
+	 */
+	function renderManagedByCrmPe($userId) {
+		$isUserManagedByCrmPe = get_user_meta($userId, $this->__columnManagedByCrmPe(), true);
+
+		if ($isUserManagedByCrmPe) {
+			// add value
+			return "<div class='adi_user_is_managed_by_crm_pe dashicons dashicons-yes'>&nbsp;</div>";
 		}
 
 		// if user is not disabled, then return an empty string

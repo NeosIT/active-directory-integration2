@@ -121,7 +121,6 @@ class NextADInt_Adi_Role_Manager
 		$wordPressRoles = $roleMapping->getWordPressRoles();
 		$hasWordPressRoles = sizeof($wordPressRoles) > 0;
 
-		$cleanExistingRoles = true;
 		$roles = $wordPressRoles;
 
 		if ($isUserPreviouslyCreated) {
@@ -145,9 +144,12 @@ class NextADInt_Adi_Role_Manager
 			}
 		}
 
+		$cleanExistingRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_clean_existing_roles', true /* clean existing roles is with ADI-401 by default on true*/, $wordPressRoles, $wpUser, $roleMapping);
+		$wordPressRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_roles', $wordPressRoles, $cleanExistingRoles, $wpUser, $roleMapping);
+
 		$this->logger->info("Security groups " . json_encode($roleMapping->getSecurityGroups())
 			. " are mapped to WordPress roles: " . json_encode($roles));
-		$this->updateRoles($wpUser, $roles, $cleanExistingRoles);
+		$this->updateRoles($wpUser, $wordPressRoles, $cleanExistingRoles);
 
 		return true;
 	}
