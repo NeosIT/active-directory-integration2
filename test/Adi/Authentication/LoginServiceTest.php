@@ -570,14 +570,26 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
+		$wpUser = $this->createWpUserMock();
+
+		$this->userManager->expects($this->once())
+            ->method('findByActiveDirectoryUsername')
+            ->with('hugo', 'hugo@test.test')
+            ->willReturn($wpUser);
+
 		$this->failedLoginRepository->expects($this->once())
 			->method('isUserBlocked')
 			->with('hugo@test.test')
 			->willReturn(true);
 
+		$this->userManager->expects($this->once())
+			->method("findByActiveDirectoryUsername")
+			->with('hugo', 'hugo@test.test')
+			->willReturn($wpUser);
+
 		$this->mailNotification->expects($this->once())
 			->method('sendNotifications')
-			->with('hugo', true);
+			->with($wpUser, true);
 
 		$this->userBlockedMessage->expects($this->once())
 			->method('blockCurrentUser');
@@ -618,6 +630,18 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
+		$wpUser = $this->createWpUserMock();
+
+		$this->userManager->expects($this->once())
+			->method('findByActiveDirectoryUsername')
+			->with('test', 'test@test.test')
+			->willReturn($wpUser);
+
+		$this->userManager->expects($this->once())
+			->method('isNoAdiUser')
+			->with($wpUser)
+			->willReturn(true);
+
 		$this->failedLoginRepository->expects($this->once())
 			->method('increaseLoginAttempts')
 			->with('test@test.test');
@@ -629,7 +653,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('findLoginAttempts')
-			->with('test')
+			->with('test@test.test')
 			->willReturn(4);
 
         $this->configuration->expects($this->once())
@@ -649,6 +673,18 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	public function refreshBruteForceProtectionStatusForUser_unsuccessfulLogin_withTooManyLoginAttempts()
 	{
 		$sut = $this->sut();
+
+		$wpUser = $this->createWpUserMock();
+
+		$this->userManager->expects($this->once())
+			->method('findByActiveDirectoryUsername')
+			->with('test', 'test@test.test')
+			->willReturn($wpUser);
+
+		$this->userManager->expects($this->once())
+			->method('isNoAdiUser')
+			->with($wpUser)
+			->willReturn(true);
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('increaseLoginAttempts')

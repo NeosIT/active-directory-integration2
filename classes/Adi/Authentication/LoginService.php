@@ -426,9 +426,12 @@ class NextADInt_Adi_Authentication_LoginService
 			return;
 		}
 
-		// ADI-383 Added default parameter useLocalWordPressUser to prevent get_userMeta request to AD if user credentials are wrong
+		// ADI-464 get user either with sAMAccountName or userPrincipalName
+        $wpUser = $this->userManager->findByActiveDirectoryUsername($username, $fullUsername);
+
+        // ADI-383 Added default parameter useLocalWordPressUser to prevent get_userMeta request to AD if user credentials are wrong
 		// send notification emails
-		$this->mailNotification->sendNotifications($username, true);
+		$this->mailNotification->sendNotifications($wpUser, true);
 
 		// log details
 		$this->logger->error("Brute Force Alert: User '$username' has too many failed logins.");
@@ -463,10 +466,12 @@ class NextADInt_Adi_Authentication_LoginService
 
 		$fullUsername = $username . $accountSuffix;
 
+		$wpUser = $this->userManager->findByActiveDirectoryUsername($username, $fullUsername);
+
 		// handle authenticated-status
 		if ($successfulLogin) {
 			$this->failedLogin->deleteLoginAttempts($fullUsername);
-		} elseif ($this->userManager->isNoAdiUser($username)) {
+		} elseif ($wpUser != null & $this->userManager->isNoAdiUser($wpUser)) {
 
 			$this->failedLogin->increaseLoginAttempts($fullUsername);
 

@@ -1655,17 +1655,11 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function isNoAdiUser_userIsAdiUser_returnTrue()
+	public function isNoAdiUser_userIsAdiUser_SamAndUpnSet_returnTrue()
 	{
 		$sut = $this->sut(null);
 
 		$wpUser = (object)(array('ID' => 6));
-
-		\WP_Mock::wpFunction('get_user_by', array(
-			'args' => array('login', 'klammer'),
-			'times' => 1,
-			'return' => $wpUser
-		));
 
 		\WP_Mock::wpFunction('get_user_meta', array(
 			'args' => array(6, 'next_ad_int_samaccountname', true),
@@ -1673,24 +1667,24 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 			'return' => true
 		));
 
-		$actual = $sut->isNoAdiUser('klammer');
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_userprincipalname', true),
+			'times' => 1,
+			'return' => true
+		));
+
+		$actual = $sut->isNoAdiUser($wpUser);
 		$this->assertEquals(true, $actual);
 	}
 
 	/**
 	 * @test
 	 */
-	public function isNoAdiUser_userIsNoAdiUser_returnFalse()
+	public function isNoAdiUser_userIsNoAdiUser_NoSamOrUpnSet_returnFalse()
 	{
 		$sut = $this->sut(null);
 
 		$wpUser = (object)(array('ID' => 6));
-
-		\WP_Mock::wpFunction('get_user_by', array(
-			'args' => array('login', 'klammer'),
-			'times' => 1,
-			'return' => $wpUser
-		));
 
 		\WP_Mock::wpFunction('get_user_meta', array(
 			'args' => array(6, 'next_ad_int_samaccountname', true),
@@ -1698,7 +1692,65 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 			'return' => false
 		));
 
-		$actual = $sut->isNoAdiUser('klammer');
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_userprincipalname', true),
+			'times' => 1,
+			'return' => false
+		));
+
+		$actual = $sut->isNoAdiUser($wpUser);
 		$this->assertEquals(false, $actual);
 	}
+
+	/**
+	 * @test
+	 */
+	public function isNoAdiUser_userIsNoAdiUser_SamSetUpnNotSet_returnTrue()
+	{
+		$sut = $this->sut(null);
+
+		$wpUser = (object)(array('ID' => 6));
+
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_samaccountname', true),
+			'times' => 1,
+			'return' => true
+		));
+
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_userprincipalname', true),
+			'times' => 1,
+			'return' => false
+		));
+
+		$actual = $sut->isNoAdiUser($wpUser);
+		$this->assertEquals(true, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isNoAdiUser_userIsNoAdiUser_SamNotSetUpnSet_returnTrue()
+	{
+		$sut = $this->sut(null);
+
+		$wpUser = (object)(array('ID' => 6));
+
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_samaccountname', true),
+			'times' => 1,
+			'return' => false
+		));
+
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_userprincipalname', true),
+			'times' => 1,
+			'return' => true
+		));
+
+		$actual = $sut->isNoAdiUser($wpUser);
+		$this->assertEquals(true, $actual);
+	}
+
+
 }

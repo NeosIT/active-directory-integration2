@@ -464,6 +464,11 @@ class NextADInt_Adi_User_Manager
 
 		// iterate over all userAttributeValues
 		foreach ($filteredAttributes as $name => $value) {
+
+			if ($name === "samaccountname" || $name  === "userprincipalname") {
+				$value = strtolower($value);
+			}
+
 			// get type and metaKey
 			/* @var $attribute NextADInt_Ldap_Attribute */
 			$attribute = NextADInt_Core_Util_ArrayUtil::get($name, $attributeWhiteList, false);
@@ -730,15 +735,19 @@ class NextADInt_Adi_User_Manager
 	/**
 	 *  If "samaccountname" of user is found in WP-meta-options, returns true else false
 	 *
-	 * @param $username
+	 * @param $wpUser
 	 * @return bool
 	 */
-	function isNoAdiUser($username)
+	function isNoAdiUser($wpUser)
 	{
-		$userID = get_user_by('login', $username)->ID;
-		if (get_user_meta($userID, NEXT_AD_INT_PREFIX . 'samaccountname', true)) {
+		$userID = $wpUser->ID;
+		$samAccountName = get_user_meta($userID, NEXT_AD_INT_PREFIX . 'samaccountname', true);
+		$userPrinciapName = get_user_meta($userID, NEXT_AD_INT_PREFIX . 'userprincipalname', true);
+
+		if ($samAccountName || $userPrinciapName) {
 			return true;
 		}
+
 		return false;
 	}
 
