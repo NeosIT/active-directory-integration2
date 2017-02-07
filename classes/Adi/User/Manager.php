@@ -728,6 +728,21 @@ class NextADInt_Adi_User_Manager
 	}
 
 	/**
+	 *  If "samaccountname" of user is found in WP-meta-options, returns true else false
+	 *
+	 * @param $username
+	 * @return bool
+	 */
+	function isNoAdiUser($username)
+	{
+		$userID = get_user_by('login', $username)->ID;
+		if (get_user_meta($userID, NEXT_AD_INT_PREFIX . 'samaccountname', true)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * @return Logger
 	 */
 	public function getLogger()

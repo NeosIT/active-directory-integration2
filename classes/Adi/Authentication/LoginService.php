@@ -50,13 +50,13 @@ class NextADInt_Adi_Authentication_LoginService
 
 	/**
 	 * @param NextADInt_Adi_Authentication_Persistence_FailedLoginRepository|null $failedLogin
-	 * @param NextADInt_Multisite_Configuration_Service                           $configuration
-	 * @param NextADInt_Ldap_Connection                                           $ldapConnection
-	 * @param NextADInt_Adi_User_Manager                                          $userManager
-	 * @param NextADInt_Adi_Mail_Notification|null                                $mailNotification
-	 * @param NextADInt_Adi_Authentication_Ui_ShowBlockedMessage|null             $userBlockedMessage
-	 * @param NextADInt_Ldap_Attribute_Service                                    $attributeService
-	 * @param NextADInt_Adi_Role_Manager                                          $roleManager
+	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_Ldap_Connection $ldapConnection
+	 * @param NextADInt_Adi_User_Manager $userManager
+	 * @param NextADInt_Adi_Mail_Notification|null $mailNotification
+	 * @param NextADInt_Adi_Authentication_Ui_ShowBlockedMessage|null $userBlockedMessage
+	 * @param NextADInt_Ldap_Attribute_Service $attributeService
+	 * @param NextADInt_Adi_Role_Manager $roleManager
 	 */
 	public function __construct(NextADInt_Adi_Authentication_Persistence_FailedLoginRepository $failedLogin = null,
 								NextADInt_Multisite_Configuration_Service $configuration,
@@ -66,7 +66,8 @@ class NextADInt_Adi_Authentication_LoginService
 								NextADInt_Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
 								NextADInt_Ldap_Attribute_Service $attributeService,
 								NextADInt_Adi_Role_Manager $roleManager
-	) {
+	)
+	{
 		$this->failedLogin = $failedLogin;
 		$this->configuration = $configuration;
 		$this->ldapConnection = $ldapConnection;
@@ -114,11 +115,11 @@ class NextADInt_Adi_Authentication_LoginService
 	/**
 	 * Check if the user can be authenticated and update his local WordPress account based upon his Active Directory profile.
 	 * ADI implicitly uses the authentication against the userPrincipalName by authenticating with the full UPN username.
-     * This method expects that $login and $password are escaped by WordPress.
+	 * This method expects that $login and $password are escaped by WordPress.
 	 *
 	 * @param object|null $user not used
-	 * @param string      $login
-	 * @param string      $password
+	 * @param string $login
+	 * @param string $password
 	 *
 	 * @return WP_Error|WP_User|false
 	 */
@@ -133,9 +134,9 @@ class NextADInt_Adi_Authentication_LoginService
 		// ADI-367: check XML-RPC access
 		$this->checkXmlRpcAccess();
 
-        // unquote backlash from username
-        // https://wordpress.org/support/topic/fatal-error-after-login-and-suffix-question/
-        $login = stripcslashes($login);
+		// unquote backlash from username
+		// https://wordpress.org/support/topic/fatal-error-after-login-and-suffix-question/
+		$login = stripcslashes($login);
 
 		// login must not be empty or user must not be an admin
 		if (!$this->requiresActiveDirectoryAuthentication($login)) {
@@ -158,7 +159,8 @@ class NextADInt_Adi_Authentication_LoginService
 	 * Detect access to xmlrpc.php and disable it if configured
 	 * @issue ADI-367
 	 */
-	public function checkXmlRpcAccess() {
+	public function checkXmlRpcAccess()
+	{
 		$xmlRpcEnabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ALLOW_XMLRPC_LOGIN);
 		$page = $_SERVER['PHP_SELF'];
 
@@ -177,7 +179,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 * Try every given suffix and authenticate with it against the Active Directory. The first authenticatable suffix is used.
 	 *
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
-	 * @param array                          $suffixes
+	 * @param array $suffixes
 	 *
 	 * @return bool
 	 * @throws Exception
@@ -327,9 +329,9 @@ class NextADInt_Adi_Authentication_LoginService
 	 *
 	 * The authentication fails if the user could not be found by his username, suffix and password or his account is blocked by brute-force attempts.
 	 *
-	 * @param string      $username
+	 * @param string $username
 	 * @param string|null $accountSuffix
-	 * @param string      $password
+	 * @param string $password
 	 *
 	 * @return false|string a string is returned if the authentication has been a success.
 	 */
@@ -415,9 +417,9 @@ class NextADInt_Adi_Authentication_LoginService
 		$fullUsername = $username . $accountSuffix;
 
 		// if brute force is disabled, then leave
-        if ($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS) === 0) {
-            return;
-        }
+		if ($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS) === 0) {
+			return;
+		}
 
 		// if user is not blocked, then leave
 		if (!$this->failedLogin->isUserBlocked($fullUsername)) {
@@ -464,7 +466,8 @@ class NextADInt_Adi_Authentication_LoginService
 		// handle authenticated-status
 		if ($successfulLogin) {
 			$this->failedLogin->deleteLoginAttempts($fullUsername);
-		} else {
+		} elseif ($this->userManager->isNoAdiUser($username)) {
+
 			$this->failedLogin->increaseLoginAttempts($fullUsername);
 
 			$totalAttempts = $this->failedLogin->findLoginAttempts($fullUsername);

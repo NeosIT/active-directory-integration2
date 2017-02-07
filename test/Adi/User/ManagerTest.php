@@ -1650,4 +1650,55 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->assertEquals(0, $actual);
 	}
+
+
+	/**
+	 * @test
+	 */
+	public function isNoAdiUser_userIsAdiUser_returnTrue()
+	{
+		$sut = $this->sut(null);
+
+		$wpUser = (object)(array('ID' => 6));
+
+		\WP_Mock::wpFunction('get_user_by', array(
+			'args' => array('login', 'klammer'),
+			'times' => 1,
+			'return' => $wpUser
+		));
+
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_samaccountname', true),
+			'times' => 1,
+			'return' => true
+		));
+
+		$actual = $sut->isNoAdiUser('klammer');
+		$this->assertEquals(true, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isNoAdiUser_userIsNoAdiUser_returnFalse()
+	{
+		$sut = $this->sut(null);
+
+		$wpUser = (object)(array('ID' => 6));
+
+		\WP_Mock::wpFunction('get_user_by', array(
+			'args' => array('login', 'klammer'),
+			'times' => 1,
+			'return' => $wpUser
+		));
+
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_samaccountname', true),
+			'times' => 1,
+			'return' => false
+		));
+
+		$actual = $sut->isNoAdiUser('klammer');
+		$this->assertEquals(false, $actual);
+	}
 }
