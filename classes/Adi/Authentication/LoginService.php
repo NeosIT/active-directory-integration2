@@ -471,7 +471,7 @@ class NextADInt_Adi_Authentication_LoginService
 		// handle authenticated-status
 		if ($successfulLogin) {
 			$this->failedLogin->deleteLoginAttempts($fullUsername);
-		} elseif ($wpUser != null & $this->userManager->isNoAdiUser($wpUser)) {
+		} elseif ($wpUser != null & $this->userManager->isNadiUser($wpUser)) {
 
 			$this->failedLogin->increaseLoginAttempts($fullUsername);
 

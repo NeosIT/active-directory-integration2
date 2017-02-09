@@ -733,18 +733,19 @@ class NextADInt_Adi_User_Manager
 	}
 
 	/**
-	 *  If "samaccountname" of user is found in WP-meta-options, returns true else false
+	 * Check if given user is a NADI user.
+     * This method checks if the user id is associated with a samaccountname or userprincipalname.
 	 *
 	 * @param $wpUser
 	 * @return bool
 	 */
-	function isNoAdiUser($wpUser)
+	function isNadiUser($wpUser)
 	{
 		$userID = $wpUser->ID;
 		$samAccountName = get_user_meta($userID, NEXT_AD_INT_PREFIX . 'samaccountname', true);
-		$userPrinciapName = get_user_meta($userID, NEXT_AD_INT_PREFIX . 'userprincipalname', true);
+		$userPrincipalName = get_user_meta($userID, NEXT_AD_INT_PREFIX . 'userprincipalname', true);
 
-		if ($samAccountName || $userPrinciapName) {
+		if ($samAccountName || $userPrincipalName) {
 			return true;
 		}
 

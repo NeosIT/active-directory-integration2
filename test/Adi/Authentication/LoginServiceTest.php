@@ -638,7 +638,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->willReturn($wpUser);
 
 		$this->userManager->expects($this->once())
-			->method('isNoAdiUser')
+			->method('isNAdiUser')
 			->with($wpUser)
 			->willReturn(true);
 
@@ -682,7 +682,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->willReturn($wpUser);
 
 		$this->userManager->expects($this->once())
-			->method('isNoAdiUser')
+			->method('isNAdiUser')
 			->with($wpUser)
 			->willReturn(true);
 
