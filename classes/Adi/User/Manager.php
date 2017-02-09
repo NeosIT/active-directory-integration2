@@ -464,6 +464,11 @@ class NextADInt_Adi_User_Manager
 
 		// iterate over all userAttributeValues
 		foreach ($filteredAttributes as $name => $value) {
+
+			if ($name === "samaccountname" || $name  === "userprincipalname") {
+				$value = strtolower($value);
+			}
+
 			// get type and metaKey
 			/* @var $attribute NextADInt_Ldap_Attribute */
 			$attribute = NextADInt_Core_Util_ArrayUtil::get($name, $attributeWhiteList, false);
@@ -725,6 +730,26 @@ class NextADInt_Adi_User_Manager
 		}
 
 		return $migrated;
+	}
+
+	/**
+	 * Check if given user is a NADI user.
+     * This method checks if the user id is associated with a samaccountname or userprincipalname.
+	 *
+	 * @param $wpUser
+	 * @return bool
+	 */
+	function isNadiUser($wpUser)
+	{
+		$userID = $wpUser->ID;
+		$samAccountName = get_user_meta($userID, NEXT_AD_INT_PREFIX . 'samaccountname', true);
+		$userPrincipalName = get_user_meta($userID, NEXT_AD_INT_PREFIX . 'userprincipalname', true);
+
+		if ($samAccountName || $userPrincipalName) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

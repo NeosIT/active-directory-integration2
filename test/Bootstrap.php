@@ -88,7 +88,23 @@ if (!defined('ABSPATH')) {
 	}
 
 	class WP_User {
-		
+	    public $data;
+
+        public function __construct()
+        {
+            $this->data = (object) array(
+                'user_login' => 'hugo',
+                'user_email' => 'hugo@test.ad'
+            );
+        }
+
+        public function setExpectedUserLogin($expected) {
+            $this->data->user_login = $expected;
+        }
+
+        public function setExpectedUserEmail($expected) {
+            $this->data->user_email = $expected;
+        }
 	}
 
     class WP_MS_Sites_List_Table {

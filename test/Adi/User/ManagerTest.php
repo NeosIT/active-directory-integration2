@@ -1650,4 +1650,105 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->assertEquals(0, $actual);
 	}
+
+
+	/**
+	 * @test
+	 */
+	public function isNAdiUser_userIsNAdiUser_SamAndUpnSet_returnTrue()
+	{
+		$sut = $this->sut(null);
+
+		$wpUser = (object)(array('ID' => 6));
+
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_samaccountname', true),
+			'times' => 1,
+			'return' => true
+		));
+
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_userprincipalname', true),
+			'times' => 1,
+			'return' => true
+		));
+
+		$actual = $sut->isNadiUser($wpUser);
+		$this->assertEquals(true, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isNAdiUser_userIsNoNAdiUser_NoSamOrUpnSet_returnFalse()
+	{
+		$sut = $this->sut(null);
+
+		$wpUser = (object)(array('ID' => 6));
+
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_samaccountname', true),
+			'times' => 1,
+			'return' => false
+		));
+
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_userprincipalname', true),
+			'times' => 1,
+			'return' => false
+		));
+
+		$actual = $sut->isNadiUser($wpUser);
+		$this->assertEquals(false, $actual);
+	}
+
+    /**
+     * @test
+     */
+    public function isNAdiUser_userIsNAdiUser_samAccountNameSet_returnTrue()
+    {
+        $sut = $this->sut(null);
+
+        $wpUser = (object)(array('ID' => 6));
+
+        \WP_Mock::wpFunction('get_user_meta', array(
+            'args' => array(6, 'next_ad_int_samaccountname', true),
+            'times' => 1,
+            'return' => true
+        ));
+
+        \WP_Mock::wpFunction('get_user_meta', array(
+            'args' => array(6, 'next_ad_int_userprincipalname', true),
+            'times' => 1,
+            'return' => false
+        ));
+
+        $actual = $sut->isNadiUser($wpUser);
+        $this->assertEquals(true, $actual);
+    }
+
+    /**
+     * @test
+     */
+    public function isNAdiUser_userIsNAdiUser_userPrincipalNameSet_returnTrue()
+    {
+        $sut = $this->sut(null);
+
+        $wpUser = (object)(array('ID' => 6));
+
+        \WP_Mock::wpFunction('get_user_meta', array(
+            'args' => array(6, 'next_ad_int_samaccountname', true),
+            'times' => 1,
+            'return' => false
+        ));
+
+        \WP_Mock::wpFunction('get_user_meta', array(
+            'args' => array(6, 'next_ad_int_userprincipalname', true),
+            'times' => 1,
+            'return' => true
+        ));
+
+        $actual = $sut->isNadiUser($wpUser);
+        $this->assertEquals(true, $actual);
+    }
 }
