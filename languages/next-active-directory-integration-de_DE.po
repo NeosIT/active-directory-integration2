@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-16 09:47+0100\n"
-"PO-Revision-Date: 2016-12-16 09:47+0100\n"
+"POT-Creation-Date: 2017-02-13 12:47+0100\n"
+"PO-Revision-Date: 2017-02-13 12:51+0100\n"
 "Last-Translator: Tobias <the@noes-it.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -117,13 +117,15 @@ msgstr "Support-Lizenzschlüssel"
 #: classes/Adi/Configuration/Options.php:241
 #: classes/Adi/Configuration/Options.php:245
 msgid ""
-"Please enter your support license key here, if you have a paid NADI license. "
-"It is required to receive support from <a href='https://neos-it.de'>NeosIT "
+"Please enter your support license key here, if you have a paid <a "
+"href='https://active-directory-wp.com/shop-overview/'>NADI license</a>. It "
+"is required to receive support from <a href='https://neos-it.de'>NeosIT "
 "GmbH</a>."
 msgstr ""
-"Bitte tragen Sie ihren Support-Lizenzschlüssel hier ein, wenn Sie eine "
-"bezahlte NADI Lizenz besitzen. Der Lizenzschlüssel wird vorausgesetzt, um "
-"Support durch <a href='https://neos-it.de'>NeosIT GmbH</a> zu erhalten."
+"Bitte geben Sie hier ihren Lizenzschlüssel ein, wenn Sie eine <a "
+"href='https://active-directory-wp.com/shop-overview/'>NADI Lizenz</a> "
+"gekauft haben. Dieser wird benötigt, um Unterstützung durch die <a "
+"href='https://neos-it.de'>NeosIT GmbH</a> zu erhalten."
 
 #: classes/Adi/Configuration/Options.php:255
 msgid "Enable NADI"
@@ -1940,12 +1942,12 @@ msgstr "Sync to WordPress erfolreich."
 msgid "Sync to WordPress failed."
 msgstr "Sync to WordPress fehlgeschlagen."
 
-#: classes/Adi/Synchronization/WordPress.php:492
+#: classes/Adi/Synchronization/WordPress.php:493
 #, php-format
 msgid "User \"%s\" no longer found in Active Directory."
 msgstr "Benutzer \"%s\" wurde nicht im Active Directory gefunden."
 
-#: classes/Adi/Synchronization/WordPress.php:499
+#: classes/Adi/Synchronization/WordPress.php:500
 #, php-format
 msgid ""
 "User \"%s\" has no normal Active Directory user account. Only user accounts "
@@ -1954,12 +1956,12 @@ msgstr ""
 "Benutzer \"%s\" besitzt kein normales Active Directory-Benutzerkonto. Es "
 "können nur Benutzerkonten synchronisiert werden."
 
-#: classes/Adi/Synchronization/WordPress.php:509
+#: classes/Adi/Synchronization/WordPress.php:510
 #, php-format
 msgid "The account of user \"%s\" requires a smart card for login."
 msgstr "Das Konto von Benutzer \"%s\" benötigt zur Anmeldung eine Smartcard."
 
-#: classes/Adi/Synchronization/WordPress.php:552
+#: classes/Adi/Synchronization/WordPress.php:553
 #, php-format
 msgid "User \"%s\" is disabled in Active Directory."
 msgstr "Benutzer \"%s\" ist im  Active Directory deaktiviert."
@@ -2738,6 +2740,15 @@ msgstr "Active Directory Integration Blog Einstellungen"
 msgid "Additional Information provided by Active Directory Integration"
 msgstr ""
 "Zusätzliche Information bereitgestellt durch Active Directory Integration"
+
+#~ msgid ""
+#~ "Please enter your support license key here, if you have a paid NADI "
+#~ "license. It is required to receive support from <a href='https://neos-it."
+#~ "de'>NeosIT GmbH</a>."
+#~ msgstr ""
+#~ "Bitte tragen Sie ihren Support-Lizenzschlüssel hier ein, wenn Sie eine "
+#~ "bezahlte NADI Lizenz besitzen. Der Lizenzschlüssel wird vorausgesetzt, um "
+#~ "Support durch <a href='https://neos-it.de'>NeosIT GmbH</a> zu erhalten."
 
 #~ msgid "My ADI profile"
 #~ msgstr "Mein ADI-Profil"
