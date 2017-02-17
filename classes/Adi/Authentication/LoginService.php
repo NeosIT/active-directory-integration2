@@ -345,14 +345,22 @@ class NextADInt_Adi_Authentication_LoginService
 		// LDAP_Connection
 		$this->ldapConnection->connect(new NextADInt_Ldap_ConnectionDetails());
 
+		// check if domain controller is available
+		$domainControllerIsAvailable = $this->ldapConnection->checkPorts();
+
 		// check if user has been blocked by previous failed attempts
 		$this->bruteForceProtection($username, $accountSuffix);
 
 		// try to authenticate the user with $username $accountSuffix and $password
 		$success = $this->ldapConnection->authenticate($username, $accountSuffix, $password);
 
-		// block or unblock user (depends on the authentication)
-		$this->refreshBruteForceProtectionStatusForUser($username, $accountSuffix, $success);
+		// ADI-450: only increment brute force counter if domain controller is available.
+		// Otherwise, local authentication could still succeed and the counter would still be
+		// incremented
+		if ($domainControllerIsAvailable){
+			// block or unblock user (depends on the authentication)
+			$this->refreshBruteForceProtectionStatusForUser($username, $accountSuffix, $success);
+		}
 
 		// check if user is now blocked or unblocked
 		$this->bruteForceProtection($username, $accountSuffix);
