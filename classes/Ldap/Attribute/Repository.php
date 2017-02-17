@@ -307,11 +307,19 @@ class NextADInt_Ldap_Attribute_Repository
 	 */
 	public function createAttribute($attribute, $attributeName)
 	{
+
+		//
+		if (isset($attribute[NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_DESCRIPTION])) {
+			$customDescription = $attribute[NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_DESCRIPTION];
+		} else {
+			$customDescription = '';
+		}
+
 		$defaultMetaKey = self::resolveDefaultAttributeMetaKey($attributeName);
 
 		$type = self::resolveType($attribute);
 		$metaKey = self::resolveWordPressAttribute($attribute, $defaultMetaKey);
-		$description = NextADInt_Ldap_Attribute_Description::find($attributeName, $attributeName);
+		$description = NextADInt_Ldap_Attribute_Description::find($attributeName, $customDescription);
 
 		$sync = self::resolveSyncToAd($attribute);
 		$show = self::resolveViewInUserProfile($attribute);
