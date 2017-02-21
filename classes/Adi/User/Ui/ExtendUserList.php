@@ -71,7 +71,7 @@ class NextADInt_Adi_User_Ui_ExtendUserList
 	}
 
 	/**
-	 * Add two columns (ADI User and Disabled)
+	 * Add 3 columns (ADI User, Disabled and CRM)
 	 *
 	 * @param array $columns
 	 *
@@ -81,13 +81,12 @@ class NextADInt_Adi_User_Ui_ExtendUserList
 	{
 		$columns[$this->__columnIsAdiUser()] = __('NADI User', 'next-active-directory-integration');
 		$columns[$this->__columnUserDisabled()] = __('Disabled', 'next-active-directory-integration');
-		$columns[$this->__columnManagedByCrmPe()] = __('Managed by NADI CRM PE', 'next-active-directory-integration');
 
-		//TODO check if CRM PE is even active before rendering column
-//		if ( is_plugin_active( ABSPATH ) ) {
-//			$columns[$this->__columnManagedByCrmPe()] = __('Managed by NADI CRM PE', 'next-active-directory-integration');
-//		}
-		
+		// NADIS-5 Check if premium entension CRM is enabled before rendering column
+		if ( class_exists( 'NADIExt_Custom_User_Role_Management_Modifier'  ) ) {
+			$columns[$this->__columnManagedByCrmPe()] = __('Managed by CRM', 'next-active-directory-integration');
+		}
+
 		return $columns;
 	}
 
