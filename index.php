@@ -23,14 +23,13 @@ if (!defined('ABSPATH')) {
 
 require_once 'constants.php';
 require_once 'Autoloader.php';
+require_once 'functions.php';
+
 $autoLoader = new NextADInt_Autoloader();
 $autoLoader->register();
 
-require_once 'functions.php';
-
-if (!class_exists('Logger')) {
-    require_once 'vendor/apache/log4php/src/main/php/Logger.php';
-}
+// load plugin dependencies with composer autoloader
+require_once 'vendor/autoload.php';
 
 $requirements = new NextADInt_Adi_Requirements();
 if (!$requirements->check()) {

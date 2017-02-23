@@ -175,6 +175,7 @@ class NextADInt_Core_Migration_Service
 		return array(
 			'NextADInt_Migration_MigrateEncryption',
 			'NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsers',
+			'NextADInt_Migration_MigratePasswordEncryption'
 		);
 	}
 }

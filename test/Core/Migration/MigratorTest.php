@@ -229,7 +229,8 @@ class Ut_Core_Migration_MigratorTest extends Ut_BasicTest
 
 		$expected = array(
 			'NextADInt_Migration_MigrateEncryption',
-			'NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsers'
+			'NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsers',
+			'NextADInt_Migration_MigratePasswordEncryption'
 		);
 		$actual = $this->invokeMethod($sut, 'getMigrations');
 
