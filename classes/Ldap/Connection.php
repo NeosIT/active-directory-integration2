@@ -458,15 +458,19 @@ class NextADInt_Ldap_Connection
 
 	/**
 	 * Modify user with attributes
+	 * ADI-452: Method now takes $wpUser object as first parameter so we can easily access username and Active Directory guid.
 	 *
-	 * @param string $username
+	 * @param WP_User $wpUser
 	 * @param array  $attributes Map with attributes and their values
 	 *
 	 * @return bool
 	 * @throws Exception
 	 */
-	public function modifyUserWithoutSchema($username, $attributes)
+	public function modifyUserWithoutSchema($wpUser, $attributes)
 	{
+		$username = $wpUser->user_login;
+		$userGuid = get_user_meta($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true);
+
 		if (empty($attributes)) {
 			$this->logger->debug("Modifying user '$username' skipped. Found no attributes to synchronize to Active Directory.");
 
@@ -477,7 +481,8 @@ class NextADInt_Ldap_Connection
 		$this->logger->debug("Modifying user '$username' with attributes: " . json_encode($attributes, true));
 
 		try {
-			$modified = $adLdap->user_modify_without_schema($username, $attributes);
+			// ADI-452 Trying to update user via GUID.
+			$modified = $adLdap->user_modify_without_schema($userGuid, $attributes, true);
 		} catch (Exception $e) {
 			$this->logger->error("Can not modify user '$username'.", $e);
 
