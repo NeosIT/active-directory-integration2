@@ -393,7 +393,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$suffix = "@company.it";
 		$password = "1234";
 
-		$this->ldapConnection->expects($this->once())
+		$this->ldapConnection->expects($this->exactly(2))
 			->method('checkPorts')
 			->willReturn(true);
 
@@ -426,7 +426,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$attributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => $userGuid));
 
-		$this->ldapConnection->expects($this->once())
+		$this->ldapConnection->expects($this->exactly(2))
 			->method('checkPorts')
 			->willReturn(true);
 
@@ -483,7 +483,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 		$attributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => $userGuid));
 
-		$this->ldapConnection->expects($this->once())
+		$this->ldapConnection->expects($this->exactly(2))
 			->method('checkPorts')
 			->willReturn(true);
 
