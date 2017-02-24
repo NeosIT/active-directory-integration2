@@ -36,6 +36,9 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 		$this->attributeService = $this->createMock('NextADInt_Ldap_Attribute_Service');
 		$this->userManager = $this->createMock('NextADInt_Adi_User_Manager');
 		$this->roleManager = $this->createMock('NextADInt_Adi_Role_Manager');
+
+		$this->mockFunctionEsc_html__();
+
 	}
 
 	public function tearDown()
@@ -151,6 +154,27 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 		WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
 				'args'  => array('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(), NextADInt_Multisite_Ui::VERSION_CSS),
+				'times' => 1,
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'wp_enqueue_style', array(
+				'args'  => array('next_ad_int_bootstrap_min_css', NEXT_AD_INT_URL . '/css/bootstrap.min.css', array(), NextADInt_Multisite_Ui::VERSION_CSS),
+				'times' => 1,
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'wp_enqueue_style', array(
+				'args'  => array('next_ad_int_bootstrap_theme_min_css', NEXT_AD_INT_URL . '/css/bootstrap-theme.min.css', array(), NextADInt_Multisite_Ui::VERSION_CSS),
+				'times' => 1,
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'wp_enqueue_script', array(
+				'args'  => array('next_ad_int_bootstrap_min_js', NEXT_AD_INT_URL . '/js/bootstrap.min.js', array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS),
 				'times' => 1,
 			)
 		);

@@ -99,7 +99,15 @@ class NextADInt_Ldap_Connection
 		$encryption = $useTls ? 'LDAP connection is encrypted with "' . $this->getEncryption($connectionDetails) . '"' : 'LDAP connection is *not* encrypted';
 
 		$this->logger->info($encryption);
-		$this->logger->debug(print_r($output, true));
+
+		// Logging single lines to keep the conversion pattern
+		foreach ($output as $key => $line) {
+			// Check and imploding for DC array
+			if (is_array($line)) {
+				$line = implode(' ', $line);
+			}
+			$this->logger->debug($key . ' = ' . $line);
+		}
 
 		if (strpos($output['ad_username'], '@') === false) {
 			$this->logger->warn('Username for the sync user does not contain a correct suffix. If the connection to the ad fails, this could be the cause. Please make sure you have added all UPN suffixes to the configuration tab User -> Account suffix.');
