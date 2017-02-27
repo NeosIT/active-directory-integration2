@@ -235,7 +235,8 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 			'base_dn' => $this->connectionDetails->getBaseDn(),
 			'domain_controllers' => array($this->connectionDetails->getDomainControllers()),
 			'ad_port' => $this->connectionDetails->getPort(),
-			'use_tls' => '',
+			'use_tls' => false,
+            'use_ssl' => false,
 			'network_timeout' => $this->connectionDetails->getNetworkTimeout(),
 			'ad_username' => $this->connectionDetails->getUsername(),
 			'ad_password' => $this->connectionDetails->getPassword()

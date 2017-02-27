@@ -90,7 +90,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	 */
 	public function createConfiguration_returnsConfiguration()
 	{
-		$sut = $this->sut(array('getBaseDn', 'getDomainControllers', 'getAdPort', 'getUseTls', 'getNetworkTimeout'));
+		$sut = $this->sut(array('getBaseDn', 'getDomainControllers', 'getAdPort', 'getUseTls', 'getUseLdaps', 'getNetworkTimeout'));
 
 		$expected = array(
 			'account_suffix'     => '',
@@ -98,6 +98,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 			'domain_controllers' => array('192.168.56.101'),
 			'ad_port'            => 389,
 			'use_tls'            => true,
+            'use_ssl'            => false,
 			'network_timeout'    => 5,
 			'ad_username'        => 'tobi',
 			'ad_password'        => 'Streng Geheim',
@@ -109,6 +110,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 			'domain_controllers' => array('192.168.56.101'),
 			'ad_port'            => 389,
 			'use_tls'            => true,
+            'use_ssl'            => false,
 			'network_timeout'    => 5,
 			'ad_username'        => 'tobi',
 			'ad_password'        => '*** protected password ***',
@@ -123,6 +125,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		parent::expects($sut, $this->once(), 'getDomainControllers', $connectionDetails, array('192.168.56.101'));
 		parent::expects($sut, $this->once(), 'getAdPort', $connectionDetails, 389);
 		parent::expects($sut, $this->once(), 'getUseTls', $connectionDetails, true);
+        parent::expects($sut, $this->once(), 'getUseLdaps', $connectionDetails, false);
 		parent::expects($sut, $this->once(), 'getNetworkTimeout', $connectionDetails, 5);
 
 		$actual = $sut->createConfiguration($connectionDetails);
@@ -188,8 +191,6 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 			->method('getOptionValue')
 			->with(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS)
 			->willReturn('default');
-
-		$this->expects($sut, $this->once(), 'getDomainControllersWithEncryption', $connectionDetails, array('default'));
 
 		$actual = $sut->getDomainControllers($connectionDetails);
 		$this->assertEquals(array('default'), $actual);
