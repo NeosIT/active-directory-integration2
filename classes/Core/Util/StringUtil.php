@@ -294,15 +294,24 @@ class NextADInt_Core_Util_StringUtil
 		return $r;
 	}
 
+    /**
+     * TODO dme add description
+     *
+     * @param $log
+     * @return array
+     */
 	public static function transformLog($log) {
 
 		if($log[0] != '' && $log[0] != 'Test') {
 			$logBuffer = array();
 
 			foreach ($log as $key => $logline) {
-				$tempArray = explode('|', $logline);
-				$logBuffer[$key]['logLevel'] = $tempArray[0];
-				$logBuffer[$key]['logMessage'] = $tempArray[1];
+                if(!$logline == '') {
+                    $tempArray = explode('|', $logline);
+                    // str_replace used in order to remove unwanted spaces e.g. [INFO ] --> [INFO]
+                    $logBuffer[$key]['logLevel'] = str_replace(' ', '', $tempArray[0]);
+                    $logBuffer[$key]['logMessage'] = $tempArray[1];
+                }
 			}
 
 			return $logBuffer;

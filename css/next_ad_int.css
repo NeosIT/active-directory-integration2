@@ -178,3 +178,7 @@
 .adi-button-hidden {
     visibility: hidden;
 }
+
+div .no-padding-left {
+    padding-left: 0px;
+}

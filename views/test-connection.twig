@@ -27,47 +27,54 @@
     <input type="submit" class="button button-primary"
            value="{{ status is defined ? i18n.tryAgain : i18n.tryAuthenticate }}"/>
 
+</form>
+<div class="container-fluid no-padding-left">
     {% if status is defined %}
-        {% set logs = log  %}
+        {% set logs = log %}
         <h2>Log</h2>
-        <table class="table table-bordered">
+        <table class="table table-hover table-condensed table-responsive">
             <tr>
                 <th class="col-md-1" style="text-align: center">Log Level</th>
                 <th style="text-align: center">Log Message</th>
             </tr>
             {% for logLine in logs %}
+
                 {% if logLine.logLevel == '[DEBUG]' %}
+                    <tr class="info">
+                        <td style="text-align: center">{{ logLine.logLevel }}</td>
+                        <td>{{ logLine.logMessage }}</td>
+                    </tr>
+                {% elseif logLine.logLevel == '[WARN]' %}
                     <tr class="danger">
-                        <td style="text-align: center">{{logLine.logLevel}}</td>
-                        <td>{{logLine.logMessage}}</td>
+                        <td style="text-align: center">{{ logLine.logLevel }}</td>
+                        <td>{{ logLine.logMessage }}</td>
                     </tr>
                 {% else %}
-                    <tr class="info">
-                        <td style="text-align: center">{{logLine.logLevel}}</td>
-                        <td>{{logLine.logMessage}}</td>
+                    <tr>
+                        <td style="text-align: center">{{ logLine.logLevel }}</td>
+                        <td>{{ logLine.logMessage }}</td>
                     </tr>
                 {% endif %}
-                </tr>
+
             {% endfor %}
+
             {% if status == true %}
                 <tr class="success">
                     <td style="text-align: center">[STATUS]</td>
                     <td>
-                        <p>
-                            {{ message }}
-                        </p>
+                        {{ message }}
                     </td>
                 </tr>
             {% else %}
                 <tr class="danger">
                     <td style="text-align: center">[STATUS]</td>
                     <td>
-                        <p>{{ message }}</p>
+                        {{ message }}
                     </td>
                 </tr>
             {% endif %}
 
         </table>
     {% endif %}
+</div>
 
-</form>
