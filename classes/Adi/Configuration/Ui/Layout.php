@@ -171,6 +171,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP,
 						NextADInt_Adi_Configuration_Options::AUTHORIZATION_GROUP,
 						NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS,
+						NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES,
 					),
 				),
 			),

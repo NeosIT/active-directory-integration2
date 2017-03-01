@@ -82,7 +82,7 @@ class NextADInt_Adi_User_Ui_ExtendUserList
 		$columns[$this->__columnIsAdiUser()] = __('NADI User', 'next-active-directory-integration');
 		$columns[$this->__columnUserDisabled()] = __('Disabled', 'next-active-directory-integration');
 
-		// NADIS-5 Check if premium entension CRM is enabled before rendering column
+		// NADIS-5 Check if premium extension CRM is enabled before rendering column
 		if ( class_exists( 'NADIExt_Custom_User_Role_Management_Modifier'  ) ) {
 			$columns[$this->__columnManagedByCrmPe()] = __('Managed by CRM', 'next-active-directory-integration');
 		}

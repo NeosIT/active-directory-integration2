@@ -86,7 +86,8 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 
 		$filledColumns = array(
 			$sut->__columnIsAdiUser() => 'NADI User',
-			$sut->__columnUserDisabled() => 'Disabled'
+			$sut->__columnUserDisabled() => 'Disabled',
+			$sut->__columnManagedByCrmPe() => 'Managed by CRM'
 		);
 
 		$returnedValue = $sut->addColumns($columns);
@@ -119,6 +120,20 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 			->willReturn('EXP');
 
 		$this->assertEquals('EXP', $sut->addContent('', $sut->__columnUserDisabled(), 666));
+	}
+
+	/**
+	 * @test
+	 */
+	public function addContent_rendersManagedByCrmPe() {
+		$sut = $this->sut(array('renderManagedByCrmPe'));
+
+		$sut->expects($this->once())
+			->method('renderManagedByCrmPe')
+			->with(666)
+			->willReturn('EXP');
+
+		$this->assertEquals('EXP', $sut->addContent('', $sut->__columnManagedByCrmPe(), 666));
 	}
 
 	/**
@@ -167,8 +182,8 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 	}
 
 	/**
-	 * @test
-	 */
+ * @test
+ */
 	public function renderDisabledColumn_itShowsDisablingReason()
 	{
 		$sut = $this->sut(null);
@@ -192,6 +207,36 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 		);
 		$expected = '<div class=\'adi_user_disabled\'>Spam</div>';
 		$returnedValue = $sut->renderDisabledColumn($userId);
+
+		$this->assertEquals($expected, $returnedValue);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderManagedByCrmPeColumn_itShowsIfPremiumExtensionCRMIsEnabled()
+	{
+		$sut = $this->sut(null);
+
+		$userId = 1;
+
+		WP_Mock::wpFunction(
+			'get_user_meta', array(
+				'args' => array($userId, $sut->__columnManagedByCrmPe(), true),
+				'times' => '1',
+				'return' => 'true'
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'get_user_meta', array(
+				'args' => array($userId),
+				'times' => '1',
+				'return' => 'Spam'
+			)
+		);
+		$expected = '<div class=\'adi_user_is_managed_by_crm_pe dashicons dashicons-yes\'>Spam</div>';
+		$returnedValue = $sut->renderManagedByCrmPe($userId);
 
 		$this->assertEquals($expected, $returnedValue);
 	}
