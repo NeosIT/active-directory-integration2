@@ -26,48 +26,76 @@
         {{ status is defined ? i18n.repeatAction|raw : i18n.startAction|raw }}
     </button>
 
+</form>
+<div class="container-fluid no-padding-left">
+    {% if status is defined %}
 
-        {% if status is defined %}
-            {% set logs = log  %}
-            <h2>Log</h2>
-            <table class="table table-bordered">
+        <div class="adi-status-alert">
+            {% if status == true %}
+                <div class="alert alert-success" role="alert">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-danger" role="alert">{{ message }}</div>
+            {% endif %}
+        </div>
+
+        {% set logs = log %}
+        <h2>Log</h2>
+
+        <button class="button button-primary" type="button" data-toggle="collapse" data-target="#log-output"
+                aria-expanded="false">
+            Show log output
+        </button>
+        <div class="collapse" id="log-output">
+            <table class="table table-hover table-condensed table-responsive adi-log-table">
                 <tr>
-                    <th class="col-md-1" style="text-align: center">Log Level</th>
-                    <th style="text-align: center">Log Message</th>
+                    <th class="col-md-1 text-align-center">Log Level</th>
+                    <th class="text-align-center">Log Message</th>
                 </tr>
                 {% for logLine in logs %}
+
                     {% if logLine.logLevel == '[DEBUG]' %}
-                        <tr class="danger">
-                            <td style="text-align: center">{{logLine.logLevel}}</td>
-                            <td>{{logLine.logMessage}}</td>
-                        </tr>
-                    {% else %}
                         <tr class="info">
-                            <td style="text-align: center">{{logLine.logLevel}}</td>
-                            <td>{{logLine.logMessage}}</td>
+                            <td>{{ logLine.logLevel }}</td>
+                            <td>{{ logLine.logMessage }}</td>
+                        </tr>
+                    {% elseif logLine.logLevel == '[WARN]' %}
+                        <tr class="danger">
+                            <td>{{ logLine.logLevel }}</td>
+                            <td>{{ logLine.logMessage }}</td>
+                        </tr>
+                    {% elseif logLine.logLevel == '[ERROR]' %}
+                        <tr class="danger">
+                            <td>{{ logLine.logLevel }}</td>
+                            <td>{{ logLine.logMessage }}</td>
+                        </tr>
+                    {% elseif logLine.logLevel == '[INFO]' %}
+                        <tr>
+                            <td>{{ logLine.logLevel }}</td>
+                            <td>{{ logLine.logMessage }}</td>
                         </tr>
                     {% endif %}
-                </tr>
+
                 {% endfor %}
-                    {% if status == true %}
+
+                {% if status == true %}
                     <tr class="success">
-                        <td style="text-align: center">[STATUS]</td>
+                        <td>[STATUS]</td>
                         <td>
-                            <p>
-                                {{ message }}
-                            </p>
+                            <b>{{ message }}</b>
                         </td>
                     </tr>
-                    {% else %}
-                    <tr class="danger">
-                        <td style="text-align: center">[STATUS]</td>
+                {% else %}
+                    <tr class="danger result-danger">
+                        <td>[STATUS]</td>
                         <td>
-                            <p>{{ message }}</p>
+                            <b>{{ message }}</b>
                         </td>
                     </tr>
-                    {% endif %}
+                {% endif %}
 
             </table>
-        {% endif %}
+        </div>
 
-</form>
+
+    {% endif %}
+</div>

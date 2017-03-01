@@ -428,7 +428,9 @@ class NextADInt_Ldap_Connection
 					continue;
 				}
 
-				$r .=  NextADInt_Core_Util_StringUtil::firstChars($valueOfAttribute);
+				// remove any linebreaks or carriagereturns from the attributes
+                $valueOfAttribute = preg_replace("/\r\n|\r|\n/",'',$valueOfAttribute);
+				$r .=  NextADInt_Core_Util_StringUtil::firstChars($valueOfAttribute, 500);
 			}
 
 			$r .= "}, ";

@@ -337,11 +337,6 @@ class NextADInt_Adi_Authentication_LoginService
 	 */
 	public function authenticateAtActiveDirectory($username, $accountSuffix, $password)
 	{
-		// check if a socket to the domain controller(s) can be established. (Debugging)
-		if (NextADInt_Core_Logger::equalLevel(LoggerLevel::getLevelDebug())) {
-			$this->ldapConnection->checkPorts();
-		}
-
 		// LDAP_Connection
 		$this->ldapConnection->connect(new NextADInt_Ldap_ConnectionDetails());
 
