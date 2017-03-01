@@ -116,15 +116,14 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		$userId = NextADInt_Core_Util_ArrayUtil::get('userid', $post, '');
 
 		ob_start();
-		NextADInt_Core_Logger::displayAndLogMessages();
-		$result = $this->syncToActiveDirectory->synchronize($userId);
-
 		NextADInt_Core_Logger::logMessages();
+		$result = $this->syncToActiveDirectory->synchronize($userId);
 		$this->log = ob_get_contents();
 		ob_end_clean();
 
 		// split the string and put the single log messages into an array
 		$this->log = explode("<br />",$this->log);
+		$this->log = NextADInt_Core_Util_StringUtil::transformLog($this->log);
 
 		if ($result) {
 			$this->result = esc_html__('Sync to AD succeeded.', 'next-active-directory-integration');
@@ -133,7 +132,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		}
 
 		return array(
-			'status' => $result
+			'status' => $result,
 		);
 	}
 
@@ -149,7 +148,10 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		}
 
 		wp_enqueue_style('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
-	}
+
+		wp_enqueue_style('next_ad_int_bootstrap_min_css', NEXT_AD_INT_URL . '/css/bootstrap.min.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
+        wp_enqueue_script('next_ad_int_bootstrap_min_js', NEXT_AD_INT_URL . '/js/libraries/bootstrap.min.js', array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS);
+    }
 
 	/**
 	 * Get the menu slug for the page.

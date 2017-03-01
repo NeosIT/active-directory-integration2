@@ -178,3 +178,31 @@
 .adi-button-hidden {
     visibility: hidden;
 }
+
+div .no-padding-left {
+    padding-left: 0;
+}
+
+.table > tbody > tr.danger.result-danger > td {
+    background-color: #ebcccc;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.adi-log-table {
+    margin-top: 10px;
+}
+
+.adi-log-table tr td:first-child {
+    text-align: center;
+}
+
+.adi-log-table tr:first-child {
+    background-color: #f5f5f5;
+}
+
+.adi-status-alert {
+    padding-top: 10px;
+}

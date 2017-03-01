@@ -22,6 +22,7 @@ class NextADInt_Core_Logger
     const RELATIVE_LOG_PATH = '/logs/debug.log';
     const FILE_CONVERSION_PATTERN_FILTER = 'next_ad_int_file_conversion_pattern_filter';
     const ECHO_CONVERSION_PATTERN_FILTER = 'next_ad_int_echo_conversion_pattern_filter';
+	const TABLE_CONVERSION_PATTERN_FILTER = 'next_ad_int_table_conversion_pattern_filter';
 
 	private static $logging = true;
 
@@ -95,7 +96,7 @@ class NextADInt_Core_Logger
 			$config['appenders']['echo'] = self::$echoConfig;
 
             // set the conversionPattern
-            $pattern = apply_filters(NextADInt_Core_Logger::ECHO_CONVERSION_PATTERN_FILTER, NEXT_AD_INT_ECHO_CONVERSION_PATTERN);
+            $pattern = apply_filters(NextADInt_Core_Logger::TABLE_CONVERSION_PATTERN_FILTER, NEXT_AD_INT_TABLE_CONVERSION_PATTERN);
             $config['appenders']['echo']['layout']['params']['conversionPattern'] = $pattern;
 		}
 
