@@ -1021,7 +1021,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					),
 				),
 				$angularAttributes => '',
-				$default     => 3,
+				$default     => 0, // as this feature is deprecated, disable by default
 				$sanitizer   => array('integerRange', 0, 'unlimited', 3),
 				$showPermission    => true,
 				$transient         => false,

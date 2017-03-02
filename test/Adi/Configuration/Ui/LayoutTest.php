@@ -56,7 +56,11 @@ class Ut_NextADInt_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 
 		$description = $bruteForce[NextADInt_Adi_Configuration_Ui_Layout::DESCRIPTION];
 		$this->assertEquals(
-			'For security reasons you can use the following options to prevent brute force attacks on your user accounts.',
+            'For security reasons you can use the following options to prevent brute force attacks on your user accounts. <br>' .
+            '<div class="update-message notice inline notice-warning notice-alt">'.
+            'We highly recommend you to use <a href="https://wordpress.org/plugins/better-wp-security/">iThemes Security</a> to secure your WordPress environment. <br>' .
+            'NADI Brute Force Protection will not receive updates anymore after the NADI v2.0.13 release and we are planning on removing it completely later this year.' .
+            '</div>',
 			$description
 		);
 
