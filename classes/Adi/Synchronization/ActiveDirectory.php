@@ -282,7 +282,7 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 		// ADI-145: provide API
 		$attributesToSync = apply_filters(NEXT_AD_INT_PREFIX . 'sync_wp2ad_filter_synchronizable_attributes', $attributesToSync, $wpUser, $allowedAttributes);
 
-		$status = $this->connection->modifyUserWithoutSchema($wpUser->user_login, $attributesToSync);
+		$status = $this->connection->modifyUserWithoutSchema($wpUser, $attributesToSync);
 
 		// ADI-145: provide API
 		do_action(NEXT_AD_INT_PREFIX . 'sync_wp2ad_after_user_synchronize', $status, $wpUser, $attributesToSync, $allowedAttributes);

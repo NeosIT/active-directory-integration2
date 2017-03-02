@@ -112,14 +112,14 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 		}
 
 		ob_start();
-		NextADInt_Core_Logger::displayAndLogMessages();
-		$status = $this->syncToWordPress->synchronize();
 		NextADInt_Core_Logger::logMessages();
+		$status = $this->syncToWordPress->synchronize();
 		$this->log = ob_get_contents();
 		ob_end_clean();
 
 		//Split the String and put the single log messages into an array
 		$this->log = explode("<br />",$this->log);
+		$this->log = NextADInt_Core_Util_StringUtil::transformLog($this->log);
 
 
 		if ($status) {
@@ -145,7 +145,10 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 		}
 
 		wp_enqueue_style('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
-	}
+
+		wp_enqueue_style('next_ad_int_bootstrap_min_css', NEXT_AD_INT_URL . '/css/bootstrap.min.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
+        wp_enqueue_script('next_ad_int_bootstrap_min_js', NEXT_AD_INT_URL . '/js/libraries/bootstrap.min.js', array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS);
+    }
 
 	/**
 	 * Get the menu slug of the page.

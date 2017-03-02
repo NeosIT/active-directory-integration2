@@ -291,7 +291,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 
 		$this->ldapConnection->expects($this->once())
 			->method('modifyUserWithoutSchema')
-			->with('User', $attributesToSync)
+			->with($user, $attributesToSync)
 			->willReturn(true);
 
 		$actual = $this->invokeMethod($sut, 'synchronizeUser', array($user, $attributes));
@@ -322,7 +322,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 
 		$this->ldapConnection->expects($this->once())
 			->method('modifyUserWithoutSchema')
-			->with('User', $expectedAttributesToSync)
+			->with($user, $expectedAttributesToSync)
 			->willReturn(true);
 
 
@@ -353,7 +353,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 
 		$this->ldapConnection->expects($this->once())
 			->method('modifyUserWithoutSchema')
-			->with('User', $modifiedAttributesToSync)
+			->with($user, $modifiedAttributesToSync)
 			->willReturn(true);
 
 		\WP_Mock::onFilter( NEXT_AD_INT_PREFIX . 'sync_wp2ad_filter_synchronizable_attributes' )
@@ -386,7 +386,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 
 		$this->ldapConnection->expects($this->once())
 			->method('modifyUserWithoutSchema')
-			->with('User', $attributesToSync)
+			->with($user, $attributesToSync)
 			->willReturn(666);
 
 		\WP_Mock::expectAction( NEXT_AD_INT_PREFIX . 'sync_wp2ad_after_user_synchronize', 666, $user, $attributesToSync, $allowedAttributes);

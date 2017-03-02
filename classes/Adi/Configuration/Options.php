@@ -239,11 +239,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title          => __('Support license key:', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
-					"Please enter your support license key here, if you have a paid NADI license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
+					"Please enter your support license key here, if you have a paid <a href='https://active-directory-wp.com/shop-overview/'>NADI license</a>. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
 					'next-active-directory-integration'
 				),
 				$detail      => __(
-					"Please enter your support license key here, if you have a paid NADI license. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
+					"Please enter your support license key here, if you have a paid <a href='https://active-directory-wp.com/shop-overview/'>NADI license</a>. It is required to receive support from <a href='https://neos-it.de'>NeosIT GmbH</a>.",
 					'next-active-directory-integration'
 				),
 				$sanitizer   => array('string'),
@@ -1042,7 +1042,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					),
 				),
 				$angularAttributes => '',
-				$default     => 3,
+				$default     => 0, // as this feature is deprecated, disable by default
 				$sanitizer   => array('integerRange', 0, 'unlimited', 3),
 				$showPermission    => true,
 				$transient         => false,

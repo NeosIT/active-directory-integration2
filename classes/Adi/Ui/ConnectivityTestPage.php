@@ -148,6 +148,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 
 		$information = $this->collectInformation($username, $password);
 		$this->output = explode("<br />", $information['output']);
+		$this->output = NextADInt_Core_Util_StringUtil::transformLog($this->output);
 
 		if ($information['authentication_result']) {
 			$this->result = esc_html__('User logged on.', 'next-active-directory-integration');
@@ -296,7 +297,11 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		}
 
 		wp_enqueue_style('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
-	}
+
+		wp_enqueue_style('next_ad_int_bootstrap_min_css', NEXT_AD_INT_URL . '/css/bootstrap.min.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
+        wp_enqueue_script('next_ad_int_bootstrap_min_js', NEXT_AD_INT_URL . '/js/libraries/bootstrap.min.js', array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS);
+
+    }
 
 	/**
 	 * Get the menu slug for the page.

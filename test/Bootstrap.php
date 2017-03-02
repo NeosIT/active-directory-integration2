@@ -17,6 +17,7 @@ if (!defined('ABSPATH')) {
     define('NEXT_AD_INT_URL', '');
     define('NEXT_AD_INT_FILE_CONVERSION_PATTERN', "[%-5level] %class::%method [line %line] %msg %ex\r\n");
     define('NEXT_AD_INT_ECHO_CONVERSION_PATTERN', '[%-5level] %msg %ex<br />');
+	define('NEXT_AD_INT_TABLE_CONVERSION_PATTERN', '[%-5level] | %msg | %ex');
 	define('AUTH_SALT', '</q|_f-py65|-Cy*E)9$]}jI/x1KqLMIF_rc1g]`=vsa`9RjA,r1ufr(lM2L*YBp');
 	define('OBJECT', 987);
 
@@ -88,7 +89,23 @@ if (!defined('ABSPATH')) {
 	}
 
 	class WP_User {
-		
+	    public $data;
+
+        public function __construct()
+        {
+            $this->data = (object) array(
+                'user_login' => 'hugo',
+                'user_email' => 'hugo@test.ad'
+            );
+        }
+
+        public function setExpectedUserLogin($expected) {
+            $this->data->user_login = $expected;
+        }
+
+        public function setExpectedUserEmail($expected) {
+            $this->data->user_email = $expected;
+        }
 	}
 
     class WP_MS_Sites_List_Table {
