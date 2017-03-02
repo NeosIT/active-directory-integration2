@@ -916,6 +916,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					)),
 				$angularAttributes => '',
 				$default     => true,
+				$sanitizer   => array('boolean'),
 				$showPermission    => true,
 				$transient         => false,
 			),

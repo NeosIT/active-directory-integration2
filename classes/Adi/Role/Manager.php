@@ -139,12 +139,13 @@ class NextADInt_Adi_Role_Manager
 			} // ADI-141: On user update if *no* Role Equivalent Groups the user's existing roles will not be updated
 			else if (!$hasRoleEquivalentGroups) {
 				$this->logger->warn("No Role Equivalent Groups defined. Previous assigned WordPress roles will stay untouched");
-				$cleanExistingRoles = false;
 				$roles = array();
 			}
 		}
 
-		$cleanExistingRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_clean_existing_roles', true /* clean existing roles is with ADI-401 by default on true*/, $wordPressRoles, $wpUser, $roleMapping);
+		$cleanExistingRoles = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES);
+
+		$cleanExistingRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_clean_existing_roles', $cleanExistingRoles, $wordPressRoles, $wpUser, $roleMapping);
 		$wordPressRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_roles', $wordPressRoles, $cleanExistingRoles, $wpUser, $roleMapping);
 
 		$this->logger->info("Security groups " . json_encode($roleMapping->getSecurityGroups())
