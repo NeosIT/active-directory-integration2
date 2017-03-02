@@ -57,6 +57,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const AUTHORIZE_BY_GROUP = 'authorize_by_group';
 	const AUTHORIZATION_GROUP = 'authorization_group';
 	const ROLE_EQUIVALENT_GROUPS = 'role_equivalent_groups';
+	const CLEAN_EXISTING_ROLES = 'clean_existing_roles';
 
 	// Security
 	const FALLBACK_TO_LOCAL_PASSWORD = 'fallback_to_local_password';
@@ -863,6 +864,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$showPermission    => true,
 				$transient         => false,
 			),
+
 			// Role Equivalent Groups (wp-role1=ad-group1;wp-role2=ad-group2;...)
 			self::ROLE_EQUIVALENT_GROUPS        => array(
 				$title       => __('Role equivalent groups', 'next-active-directory-integration'),
@@ -893,9 +895,28 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 					),
 				),
 				$angularAttributes => 'ng-disabled="(((permission.role_equivalent_groups == 2) || (permission.role_equivalent_groups == 1))',
-                $angularButtonAttributes => "ng-class='{\"adi-button-hidden\": !(!\$parent.is_input_empty(newItemField1) && !\$parent.is_input_empty(newItemField2)) } '",
+				$angularButtonAttributes => "ng-class='{\"adi-button-hidden\": !(!\$parent.is_input_empty(newItemField1) && !\$parent.is_input_empty(newItemField2)) } '",
 				$default     => '',
 				$sanitizer   => array('accumulation', ';', array('valueAssignment', '=')),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			// Disabling this option will result in NADI not removing previous assigned WordPress roles anymore while updating the user
+			self::CLEAN_EXISTING_ROLES        => array(
+				$title       => __('Clean existing Roles', 'next-active-directory-integration'),
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
+				$description => __(
+					'Disabling this option will result in NADI not removing previous assigned WordPress roles anymore while updating the user.',
+					'next-active-directory-integration'
+				),
+				$detail      => array(
+					__(
+						'-',
+						'next-active-directory-integration'
+					)),
+				$angularAttributes => '',
+				$default     => true,
+				$sanitizer   => array('boolean'),
 				$showPermission    => true,
 				$transient         => false,
 			),

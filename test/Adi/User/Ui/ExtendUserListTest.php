@@ -9,6 +9,9 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
+	/* @var */
+	private $internalNative;
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -17,6 +20,10 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 			->disableOriginalConstructor()
 			->setMethods(array('getOptionValue'))
 			->getMock();
+
+		// mock native functions
+		$this->internalNative = $this->createMockedNative();
+		NextADInt_Core_Util::native($this->internalNative);
 	}
 
 	public function tearDown()
@@ -86,7 +93,36 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 
 		$filledColumns = array(
 			$sut->__columnIsAdiUser() => 'NADI User',
-			$sut->__columnUserDisabled() => 'Disabled'
+			$sut->__columnUserDisabled() => 'Disabled',
+		);
+
+		$returnedValue = $sut->addColumns($columns);
+		$this->assertEquals($filledColumns, $returnedValue);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addColumns_withCrmPeActivated()
+	{
+		$sut = $this->sut(array('__columnManagedByCrmPe'));
+		$this->mockFunction__();
+
+
+		$this->internalNative->expects($this->once())
+			->method('isClassAvailable')
+			->willReturn(true);
+
+		$sut->expects($this->exactly(2))
+			->method('__columnManagedByCrmPe')
+			->willReturn('pe_crm_is_managed_by_pe_1');
+
+		$columns = array();
+
+		$filledColumns = array(
+			$sut->__columnIsAdiUser() => 'NADI User',
+			$sut->__columnUserDisabled() => 'Disabled',
+			$sut->__columnManagedByCrmPe() => 'Managed by CRM'
 		);
 
 		$returnedValue = $sut->addColumns($columns);
@@ -166,9 +202,9 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 		$this->assertEquals($expected, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+/**
+ * @test
+ */
 	public function renderDisabledColumn_itShowsDisablingReason()
 	{
 		$sut = $this->sut(null);
@@ -192,6 +228,35 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 		);
 		$expected = '<div class=\'adi_user_disabled\'>Spam</div>';
 		$returnedValue = $sut->renderDisabledColumn($userId);
+
+		$this->assertEquals($expected, $returnedValue);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderManagedByCrmPeColumn_itShowsIfPremiumExtensionCRMIsEnabled()
+	{
+		$sut = $this->sut(array('__columnManagedByCrmPe'));
+
+		$crmMetakey = 'next_ad_int_pe_crm_is_managed_by_pe_1';
+
+		$userId = 1;
+
+		$sut->expects($this->once())
+			->method('__columnManagedByCrmPe')
+			->willReturn($crmMetakey);
+
+		WP_Mock::wpFunction(
+			'get_user_meta', array(
+				'args' => array($userId, $crmMetakey, true),
+				'times' => '1',
+				'return' => 'true'
+			)
+		);
+
+		$expected = '<div class=\'adi_user_is_managed_by_crm_pe dashicons dashicons-yes\'>&nbsp;</div>';
+		$returnedValue = $sut->renderManagedByCrmPe($userId);
 
 		$this->assertEquals($expected, $returnedValue);
 	}

@@ -206,3 +206,7 @@ div .no-padding-left {
 .adi-status-alert {
     padding-top: 10px;
 }
+
+.adi-user-list-custom-column {
+    align-content: center;
+}

@@ -121,7 +121,6 @@ class NextADInt_Adi_Role_Manager
 		$wordPressRoles = $roleMapping->getWordPressRoles();
 		$hasWordPressRoles = sizeof($wordPressRoles) > 0;
 
-		$cleanExistingRoles = true;
 		$roles = $wordPressRoles;
 
 		if ($isUserPreviouslyCreated) {
@@ -131,7 +130,7 @@ class NextADInt_Adi_Role_Manager
 			} // ADI-141: On user creation if *no* Role Equivalent Groups exist the default role 'subscriber' is used
 			else if (!$hasRoleEquivalentGroups) {
 				$this->logger->warn("No Role Equivalent Groups defined. User gets default WordPress role 'subscriber' assigned");
-				$roles = array('subscriber');
+				$roles = array('subscriber'); // Todo this actually has to be $wordPressRoles to work, have to check if bug is present in master aswell 
 			}
 		} else /* updated user */ {
 			// ADI-141: On user update if Role Equivalent Groups exist and the user has no role *no* role is set
@@ -140,14 +139,18 @@ class NextADInt_Adi_Role_Manager
 			} // ADI-141: On user update if *no* Role Equivalent Groups the user's existing roles will not be updated
 			else if (!$hasRoleEquivalentGroups) {
 				$this->logger->warn("No Role Equivalent Groups defined. Previous assigned WordPress roles will stay untouched");
-				$cleanExistingRoles = false;
 				$roles = array();
 			}
 		}
 
+		$cleanExistingRoles = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES);
+
+		$cleanExistingRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_clean_existing_roles', $cleanExistingRoles, $wordPressRoles, $wpUser, $roleMapping);
+		$wordPressRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_roles', $wordPressRoles, $cleanExistingRoles, $wpUser, $roleMapping);
+
 		$this->logger->info("Security groups " . json_encode($roleMapping->getSecurityGroups())
 			. " are mapped to WordPress roles: " . json_encode($roles));
-		$this->updateRoles($wpUser, $roles, $cleanExistingRoles);
+		$this->updateRoles($wpUser, $wordPressRoles, $cleanExistingRoles);
 
 		return true;
 	}

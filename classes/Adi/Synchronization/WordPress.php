@@ -134,6 +134,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 				}
 			}
 
+
 			$this->finishSynchronization($addedUsers, $updatedUsers, $failedSync);
 
 			return true;
