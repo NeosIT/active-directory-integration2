@@ -405,6 +405,8 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param $username
 	 * @param $accountSuffix
 	 * @internal param string $fullUsername
+     * @deprecated 1.0.13 use external plugin for brute force protection
+     * @see https://wordpress.org/plugins/better-wp-security/
 	 */
 	function bruteForceProtection($username, $accountSuffix)
 	{
@@ -458,6 +460,8 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param $accountSuffix
 	 * @param boolean $successfulLogin if true, the user is un-blocked; otherwise, he is blocked
 	 * @internal param string $fullUsername
+     * @deprecated 1.0.13 use external plugin for brute force protection
+     * @see https://wordpress.org/plugins/better-wp-security/
 	 */
 	function refreshBruteForceProtectionStatusForUser($username, $accountSuffix, $successfulLogin)
 	{
