@@ -77,13 +77,16 @@ class NextADInt_Ldap_Connection
 	public function createConfiguration(NextADInt_Ldap_ConnectionDetails $connectionDetails)
 	{
 		$useTls = $this->getUseTls($connectionDetails);
+		$useSsl = $this->getUseSsl($connectionDetails);
 
 		$config = array(
 			'account_suffix'     => '',
 			'base_dn'            => $this->getBaseDn($connectionDetails),
 			'domain_controllers' => $this->getDomainControllers($connectionDetails),
 			'ad_port'            => $this->getAdPort($connectionDetails),
-			'use_tls'            => $useTls,
+			'use_tls'            => $useTls,    //StartTLS
+            //ADI-482 enable LDAPS support
+            'use_ssl'            => $useSsl,  //LDAP over Ssl
 			'network_timeout'    => $this->getNetworkTimeout($connectionDetails),
 			'ad_username'        => $connectionDetails->getUsername(),
 			'ad_password'        => $connectionDetails->getPassword(),
@@ -96,7 +99,7 @@ class NextADInt_Ldap_Connection
 			$output['ad_password'] = '*** protected password ***';
 		}
 
-		$encryption = $useTls ? 'LDAP connection is encrypted with "' . $this->getEncryption($connectionDetails) . '"' : 'LDAP connection is *not* encrypted';
+		$encryption = $useTls | $useSsl ? 'LDAP connection is encrypted with "' . $this->getEncryption($connectionDetails) . '"' : 'LDAP connection is *not* encrypted';
 
 		$this->logger->info($encryption);
 
@@ -151,27 +154,7 @@ class NextADInt_Ldap_Connection
 
 		$domainControllers = NextADInt_Core_Util_StringUtil::split($domainControllers, ';');
 
-		return $this->getDomainControllersWithEncryption($connectionDetails, $domainControllers);
-	}
-
-	/**
-	 * Check if the controllers should be prefixed with 'ldaps://' or not.
-	 *
-	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
-	 * @param array                  $domainControllers
-	 *
-	 * @return array
-	 */
-	protected function getDomainControllersWithEncryption(NextADInt_Ldap_ConnectionDetails $connectionDetails,
-														  array $domainControllers
-	) {
-		if ($this->getEncryption($connectionDetails) !== NextADInt_Multisite_Option_Encryption::LDAPS) {
-			return $domainControllers;
-		}
-
-		return array_map(function($controller) {
-			return 'ldaps://' . $controller;
-		}, $domainControllers);
+		return $domainControllers;
 	}
 
 	/**
@@ -203,6 +186,18 @@ class NextADInt_Ldap_Connection
 	{
 		return $this->getEncryption($connectionDetails) === NextADInt_Multisite_Option_Encryption::STARTTLS;
 	}
+
+    /**
+     * Return the usage of SSL based upon the $connectionDetails. If the usage of SSL is not set the usage of SSL of the current blog instance is returned.
+     *
+     * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
+     *
+     * @return bool
+     */
+    public function getUseSsl(NextADInt_Ldap_ConnectionDetails $connectionDetails)
+    {
+        return $this->getEncryption($connectionDetails) === NextADInt_Multisite_Option_Encryption::LDAPS;
+    }
 
 	/**
 	 * Return the encryption based upon the $connectionDetails. If the encryption is not set the encryption of the current blog instance is returned.
