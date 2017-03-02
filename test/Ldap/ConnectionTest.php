@@ -90,7 +90,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	 */
 	public function createConfiguration_returnsConfiguration()
 	{
-		$sut = $this->sut(array('getBaseDn', 'getDomainControllers', 'getAdPort', 'getUseTls', 'getUseLdaps', 'getNetworkTimeout'));
+		$sut = $this->sut(array('getBaseDn', 'getDomainControllers', 'getAdPort', 'getUseTls', 'getUseSsl', 'getNetworkTimeout'));
 
 		$expected = array(
 			'account_suffix'     => '',
@@ -125,7 +125,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		parent::expects($sut, $this->once(), 'getDomainControllers', $connectionDetails, array('192.168.56.101'));
 		parent::expects($sut, $this->once(), 'getAdPort', $connectionDetails, 389);
 		parent::expects($sut, $this->once(), 'getUseTls', $connectionDetails, true);
-        parent::expects($sut, $this->once(), 'getUseLdaps', $connectionDetails, false);
+        parent::expects($sut, $this->once(), 'getUseSsl', $connectionDetails, false);
 		parent::expects($sut, $this->once(), 'getNetworkTimeout', $connectionDetails, 5);
 
 		$actual = $sut->createConfiguration($connectionDetails);
