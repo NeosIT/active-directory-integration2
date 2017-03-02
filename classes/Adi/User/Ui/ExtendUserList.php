@@ -21,11 +21,17 @@ class NextADInt_Adi_User_Ui_ExtendUserList
 	private $configuration;
 
 	/**
+	 * @var NextADInt_Core_Util
+	 */
+	private $native;
+
+	/**
 	 * @param NextADInt_Multisite_Configuration_Service $configuration
 	 */
 	public function __construct(NextADInt_Multisite_Configuration_Service $configuration)
 	{
 		$this->configuration = $configuration;
+		$this->native = NextADInt_Core_Util::native();
 	}
 
 	/**
@@ -83,7 +89,7 @@ class NextADInt_Adi_User_Ui_ExtendUserList
 		$columns[$this->__columnUserDisabled()] = __('Disabled', 'next-active-directory-integration');
 
 		// NADIS-5 Check if premium extension CRM is enabled before rendering column
-		if ( class_exists( 'NADIExt_Custom_User_Role_Management_Modifier'  ) ) {
+		if ($this->native->isClassAvailable('NADIExt_Custom_User_Role_Management_Modifier')) {
 			$columns[$this->__columnManagedByCrmPe()] = __('Managed by CRM', 'next-active-directory-integration');
 		}
 

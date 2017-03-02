@@ -169,6 +169,11 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->method('getRoleEquivalentGroups')
 			->willReturn(array('security-group' => 'wordpress-role'));
 
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES)
+			->willReturn(true);
+
 		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 		$roleMapping->setWordPressRoles(array());
 
@@ -194,15 +199,21 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->method('getRoleEquivalentGroups')
 			->willReturn(array());
 
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES)
+			->willReturn(true);
+
 		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 		$roleMapping->setWordPressRoles(array());
 
 		$wpUser = $this->createAnonymousMock(array());
 		$wpUser->ID = 1;
+		$wpUser->roles = array('subscriber');
 
 		$sut->expects($this->once())
 			->method('updateRoles')
-			->with($wpUser, array('subscriber'), true);
+			->with($wpUser, array(), true);
 
 		$sut->synchronizeRoles($wpUser, $roleMapping, true);
 	}
@@ -224,6 +235,11 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 
 		$wpUser = $this->createAnonymousMock(array());
 		$wpUser->ID = 1;
+
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES)
+			->willReturn(true);
 
 		$sut->expects($this->once())
 			->method('updateRoles')
@@ -274,6 +290,11 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 
 		$wpUser = $this->createAnonymousMock(array());
 		$wpUser->ID = 1;
+
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES)
+			->willReturn(true);
 
 		$sut->expects($this->once())
 			->method('updateRoles')

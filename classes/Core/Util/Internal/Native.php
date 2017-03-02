@@ -157,4 +157,15 @@ class NextADInt_Core_Util_Internal_Native
 	{
 		session_start();
 	}
+
+	/**
+	 * Delegate the call to php internal class_exists function.
+	 *
+	 * @param string $name
+	 *
+	 * @return bool
+	 */
+	public function isClassAvailable($classname) {
+		return class_exists($classname);
+	}
 }
