@@ -168,6 +168,20 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 			)
 		);
 
+		WP_Mock::wpFunction(
+			'wp_enqueue_style', array(
+				'args'  => array('next_ad_int_bootstrap_min_css', NEXT_AD_INT_URL . '/css/bootstrap.min.css', array(), NextADInt_Multisite_Ui::VERSION_CSS),
+				'times' => 1,
+			)
+		);
+
+        WP_Mock::wpFunction(
+            'wp_enqueue_script', array(
+                'args'  => array('next_ad_int_bootstrap_min_js', NEXT_AD_INT_URL . '/js/libraries/bootstrap.min.js', array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS),
+                'times' => 1,
+            )
+        );
+
 		$sut->loadAdminScriptsAndStyle($hook);
 	}
 
@@ -208,6 +222,9 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest  extends Ut_BasicTest
 			'syncToAd' => '',
 			'security' => 'invalid'
 		);
+
+		$this->mockFunction__();
+
 
 		WP_Mock::wpFunction('wp_verify_nonce', array(
 			'args'   => array('invalid', NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage::NONCE),

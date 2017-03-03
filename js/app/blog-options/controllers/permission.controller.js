@@ -33,6 +33,7 @@
                 authorize_by_group: $valueHelper.findValue("authorize_by_group", data),
                 authorization_group: $valueHelper.findValue("authorization_group", data, '').split(";"),
                 role_equivalent_groups: JSON.parse('{"groups":[]}'),
+                clean_existing_roles: $valueHelper.findValue("clean_existing_roles", data),
             };
 
             if ($valueHelper.findValue("domain_sid", data) == '') {
@@ -43,6 +44,7 @@
                 authorize_by_group: $valueHelper.findPermission("authorize_by_group", data),
                 authorization_group: $valueHelper.findPermission("authorization_group", data),
                 role_equivalent_groups: $valueHelper.findPermission("role_equivalent_groups", data),
+                clean_existing_roles: $valueHelper.findPermission("clean_existing_roles", data),
                 verification_username : $valueHelper.findPermission("verification_username", data),
                 verification_password : $valueHelper.findPermission("verification_password", data)
             };
@@ -54,7 +56,8 @@
             $scope.messages = {
                 authorize_by_group: $valueHelper.findMessage("authorize_by_group", data),
                 authorization_group: $valueHelper.findMessage("authorization_group", data),
-                role_equivalent_groups: $valueHelper.findMessage("role_equivalent_groups", data)
+                role_equivalent_groups: $valueHelper.findMessage("role_equivalent_groups", data),
+                clean_existing_roles: $valueHelper.findMessage("clean_existing_roles", data),
             };
         });
 

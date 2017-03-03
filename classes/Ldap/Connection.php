@@ -77,13 +77,16 @@ class NextADInt_Ldap_Connection
 	public function createConfiguration(NextADInt_Ldap_ConnectionDetails $connectionDetails)
 	{
 		$useTls = $this->getUseTls($connectionDetails);
+		$useSsl = $this->getUseSsl($connectionDetails);
 
 		$config = array(
 			'account_suffix'     => '',
 			'base_dn'            => $this->getBaseDn($connectionDetails),
 			'domain_controllers' => $this->getDomainControllers($connectionDetails),
 			'ad_port'            => $this->getAdPort($connectionDetails),
-			'use_tls'            => $useTls,
+			'use_tls'            => $useTls,    //StartTLS
+            //ADI-482 enable LDAPS support
+            'use_ssl'            => $useSsl,  //LDAP over Ssl
 			'network_timeout'    => $this->getNetworkTimeout($connectionDetails),
 			'ad_username'        => $connectionDetails->getUsername(),
 			'ad_password'        => $connectionDetails->getPassword(),
@@ -96,10 +99,18 @@ class NextADInt_Ldap_Connection
 			$output['ad_password'] = '*** protected password ***';
 		}
 
-		$encryption = $useTls ? 'LDAP connection is encrypted with "' . $this->getEncryption($connectionDetails) . '"' : 'LDAP connection is *not* encrypted';
+		$encryption = $useTls | $useSsl ? 'LDAP connection is encrypted with "' . $this->getEncryption($connectionDetails) . '"' : 'LDAP connection is *not* encrypted';
 
 		$this->logger->info($encryption);
-		$this->logger->debug(print_r($output, true));
+
+		// Logging single lines to keep the conversion pattern
+		foreach ($output as $key => $line) {
+			// Check and imploding for DC array
+			if (is_array($line)) {
+				$line = implode(' ', $line);
+			}
+			$this->logger->debug($key . ' = ' . $line);
+		}
 
 		if (strpos($output['ad_username'], '@') === false) {
 			$this->logger->warn('Username for the sync user does not contain a correct suffix. If the connection to the ad fails, this could be the cause. Please make sure you have added all UPN suffixes to the configuration tab User -> Account suffix.');
@@ -143,27 +154,7 @@ class NextADInt_Ldap_Connection
 
 		$domainControllers = NextADInt_Core_Util_StringUtil::split($domainControllers, ';');
 
-		return $this->getDomainControllersWithEncryption($connectionDetails, $domainControllers);
-	}
-
-	/**
-	 * Check if the controllers should be prefixed with 'ldaps://' or not.
-	 *
-	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
-	 * @param array                  $domainControllers
-	 *
-	 * @return array
-	 */
-	protected function getDomainControllersWithEncryption(NextADInt_Ldap_ConnectionDetails $connectionDetails,
-														  array $domainControllers
-	) {
-		if ($this->getEncryption($connectionDetails) !== NextADInt_Multisite_Option_Encryption::LDAPS) {
-			return $domainControllers;
-		}
-
-		return array_map(function($controller) {
-			return 'ldaps://' . $controller;
-		}, $domainControllers);
+		return $domainControllers;
 	}
 
 	/**
@@ -195,6 +186,18 @@ class NextADInt_Ldap_Connection
 	{
 		return $this->getEncryption($connectionDetails) === NextADInt_Multisite_Option_Encryption::STARTTLS;
 	}
+
+    /**
+     * Return the usage of SSL based upon the $connectionDetails. If the usage of SSL is not set the usage of SSL of the current blog instance is returned.
+     *
+     * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
+     *
+     * @return bool
+     */
+    public function getUseSsl(NextADInt_Ldap_ConnectionDetails $connectionDetails)
+    {
+        return $this->getEncryption($connectionDetails) === NextADInt_Multisite_Option_Encryption::LDAPS;
+    }
 
 	/**
 	 * Return the encryption based upon the $connectionDetails. If the encryption is not set the encryption of the current blog instance is returned.
@@ -420,7 +423,9 @@ class NextADInt_Ldap_Connection
 					continue;
 				}
 
-				$r .=  NextADInt_Core_Util_StringUtil::firstChars($valueOfAttribute);
+				// remove any linebreaks or carriagereturns from the attributes
+                $valueOfAttribute = preg_replace("/\r\n|\r|\n/",'',$valueOfAttribute);
+				$r .=  NextADInt_Core_Util_StringUtil::firstChars($valueOfAttribute, 500);
 			}
 
 			$r .= "}, ";
@@ -458,15 +463,19 @@ class NextADInt_Ldap_Connection
 
 	/**
 	 * Modify user with attributes
+	 * ADI-452: Method now takes $wpUser object as first parameter so we can easily access username and Active Directory guid.
 	 *
-	 * @param string $username
+	 * @param WP_User $wpUser
 	 * @param array  $attributes Map with attributes and their values
 	 *
 	 * @return bool
 	 * @throws Exception
 	 */
-	public function modifyUserWithoutSchema($username, $attributes)
+	public function modifyUserWithoutSchema($wpUser, $attributes)
 	{
+		$username = $wpUser->user_login;
+		$userGuid = get_user_meta($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true);
+
 		if (empty($attributes)) {
 			$this->logger->debug("Modifying user '$username' skipped. Found no attributes to synchronize to Active Directory.");
 
@@ -477,7 +486,8 @@ class NextADInt_Ldap_Connection
 		$this->logger->debug("Modifying user '$username' with attributes: " . json_encode($attributes, true));
 
 		try {
-			$modified = $adLdap->user_modify_without_schema($username, $attributes);
+			// ADI-452 Trying to update user via GUID.
+			$modified = $adLdap->user_modify_without_schema($userGuid, $attributes, true);
 		} catch (Exception $e) {
 			$this->logger->error("Can not modify user '$username'.", $e);
 

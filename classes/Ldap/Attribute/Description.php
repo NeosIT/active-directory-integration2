@@ -75,16 +75,22 @@ class NextADInt_Ldap_Attribute_Description
 	}
 
 	/*
-	 * Get the description for the attribute $attribute.
-	 * If the description does not exists, then $fallbackValue will be returned.
-	 *
+	 * Check if there is a custom description $custom description
+	 * If no custom description exists, then find all default ad attribute descriptions and look for a match.
+	 * If it is a custom ad attribute with no description given return the wordpress_attribute name as string.
 	 * @param $attribute
-	 * @param $fallback
+	 * @param $customDescription
 	 *
 	 * @return mixed
 	 */
-	public static function find($attribute, $fallback)
+	public static function find($attribute, $customDescription)
 	{
+
+		// check for custom description
+		if ($customDescription) {
+			return $customDescription;
+		}
+
 		// get all descriptions
 		$descriptions = self::findAll();
 
@@ -93,7 +99,7 @@ class NextADInt_Ldap_Attribute_Description
 			return $descriptions[$attribute];
 		}
 
-		return $fallback;
+		return $attribute;
 	}
 
 	/**

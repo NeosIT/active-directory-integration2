@@ -337,13 +337,11 @@ class NextADInt_Adi_Authentication_LoginService
 	 */
 	public function authenticateAtActiveDirectory($username, $accountSuffix, $password)
 	{
-		// check if a socket to the domain controller(s) can be established. (Debugging)
-		if (NextADInt_Core_Logger::equalLevel(LoggerLevel::getLevelDebug())) {
-			$this->ldapConnection->checkPorts();
-		}
-
 		// LDAP_Connection
 		$this->ldapConnection->connect(new NextADInt_Ldap_ConnectionDetails());
+
+		// check if domain controller is available
+		$domainControllerIsAvailable = $this->ldapConnection->checkPorts();
 
 		// check if user has been blocked by previous failed attempts
 		$this->bruteForceProtection($username, $accountSuffix);
@@ -351,8 +349,13 @@ class NextADInt_Adi_Authentication_LoginService
 		// try to authenticate the user with $username $accountSuffix and $password
 		$success = $this->ldapConnection->authenticate($username, $accountSuffix, $password);
 
-		// block or unblock user (depends on the authentication)
-		$this->refreshBruteForceProtectionStatusForUser($username, $accountSuffix, $success);
+		// ADI-450: only increment brute force counter if domain controller is available.
+		// Otherwise, local authentication could still succeed and the counter would still be
+		// incremented
+		if ($domainControllerIsAvailable){
+			// block or unblock user (depends on the authentication)
+			$this->refreshBruteForceProtectionStatusForUser($username, $accountSuffix, $success);
+		}
 
 		// check if user is now blocked or unblocked
 		$this->bruteForceProtection($username, $accountSuffix);
@@ -402,6 +405,8 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param $username
 	 * @param $accountSuffix
 	 * @internal param string $fullUsername
+     * @deprecated 1.0.13 use external plugin for brute force protection
+     * @see https://wordpress.org/plugins/better-wp-security/
 	 */
 	function bruteForceProtection($username, $accountSuffix)
 	{
@@ -427,9 +432,9 @@ class NextADInt_Adi_Authentication_LoginService
 		}
 
 		// ADI-464 get user either with sAMAccountName or userPrincipalName
-        $wpUser = $this->userManager->findByActiveDirectoryUsername($username, $fullUsername);
+		$wpUser = $this->userManager->findByActiveDirectoryUsername($username, $fullUsername);
 
-        // ADI-383 Added default parameter useLocalWordPressUser to prevent get_userMeta request to AD if user credentials are wrong
+		// ADI-383 Added default parameter useLocalWordPressUser to prevent get_userMeta request to AD if user credentials are wrong
 		// send notification emails
 		$this->mailNotification->sendNotifications($wpUser, true);
 
@@ -455,8 +460,10 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param $accountSuffix
 	 * @param boolean $successfulLogin if true, the user is un-blocked; otherwise, he is blocked
 	 * @internal param string $fullUsername
+     * @deprecated 1.0.13 use external plugin for brute force protection
+     * @see https://wordpress.org/plugins/better-wp-security/
 	 */
-	function refreshBruteForceProtectionStatusForUser($username, $accountSuffix , $successfulLogin)
+	function refreshBruteForceProtectionStatusForUser($username, $accountSuffix, $successfulLogin)
 	{
 		if (!$this->failedLogin) {
 			$this->logger->warn("Can not block or unblock the user because the user login is only simulated.");
@@ -611,7 +618,9 @@ class NextADInt_Adi_Authentication_LoginService
 		$this->logger->debug("Checking preconditions for updating existing user " . $user);
 
 		$autoUpdateUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER);
+		$autoUpdatePassword = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD);
 		$hasMappedWordPressRole = sizeof($user->getRoleMapping()) > 0;
+
 
 		// ADI-116: The behavior changed with 2.0.x and has been agreed with CST on 2016-03-02.
 		// In 1.0.x users were only updated if the options "Auto Create User" AND "Auto Update User" had been enabled.
@@ -619,6 +628,11 @@ class NextADInt_Adi_Authentication_LoginService
 		if ($autoUpdateUser) {
 			// updateWordPressAccount already delegates to role update and updating of sAMAccountName
 			return $this->userManager->update($user);
+		}
+
+		// ADI-474: Update the password if the respective option is enabled
+		if ($autoUpdatePassword) {
+			$this->userManager->updatePassword($user);
 		}
 
 		// in any case the sAMAccountName has to be updated

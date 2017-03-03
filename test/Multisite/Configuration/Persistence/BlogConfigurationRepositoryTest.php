@@ -68,6 +68,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	public function findAllSanitized_getValuesForAllOptions_delegateToMethod()
 	{
 		$sut = $this->sut(array('findSanitizedValue'));
+		$this->mockFunction__();
 
 		$sut->expects($this->at(0))
 			->method('findSanitizedValue')
@@ -120,7 +121,8 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function findSanitized_optionIsPassword_returnValue()
 	{
-		$sut = $this->sut(array('find', 'isOptionHandledByProfile'));
+		$sut = $this->sut(array('findRawValue', 'isOptionHandledByProfile'));
+		$this->mockFunction__();
 
 		$sut->expects($this->once())
 			->method('isOptionHandledByProfile')
@@ -128,7 +130,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 			->willReturn(false);
 
 		$sut->expects($this->once())
-			->method('find')
+			->method('findRawValue')
 			->with(5, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
 			->willReturn('--encrypted--');
 
@@ -151,7 +153,8 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function findSanitized_optionMustBeSanitized_returnValue()
 	{
-		$sut = $this->sut(array('find', 'isOptionHandledByProfile'));
+		$sut = $this->sut(array('findRawValue', 'isOptionHandledByProfile'));
+		$this->mockFunction__();
 
 		$sut->expects($this->once())
 			->method('isOptionHandledByProfile')
@@ -159,7 +162,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 			->willReturn(false);
 
 		$sut->expects($this->once())
-			->method('find')
+			->method('findRawValue')
 			->with(5, NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS)
 			->willReturn(' hi ');
 
@@ -179,7 +182,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function findSanitized_passwordMustBeSanitized_returnValue()
 	{
-		$sut = $this->sut(array('find', 'isOptionHandledByProfile'));
+		$sut = $this->sut(array('findRawValue', 'isOptionHandledByProfile'));
 
 		$meta = $this->optionProvider->get(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 
@@ -189,7 +192,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 			->willReturn(false);
 
 		$sut->expects($this->once())
-			->method('find')
+			->method('findRawValue')
 			->with(5, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
 			->willReturn('--encrypted--');
 
@@ -282,7 +285,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 			)
 		);
 
-		$actual = $this->invokeMethod($sut, 'find', array(6, 'port'));
+		$actual = $this->invokeMethod($sut, 'findRawValue', array(6, 'port'));
 		$this->assertEquals(true, $actual);
 	}
 
@@ -313,7 +316,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 			)
 		);
 
-		$actual = $this->invokeMethod($sut, 'find', array(6, 'port'));
+		$actual = $this->invokeMethod($sut, 'findRawValue', array(6, 'port'));
 		$this->assertEquals(true, $actual);
 	}
 
@@ -472,10 +475,10 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function isDefaultProfileUsed_withProfile_returnFalse()
 	{
-		$sut = $this->sut(array('find'));
+		$sut = $this->sut(array('findRawValue'));
 
 		$sut->expects($this->once())
-			->method('find')
+			->method('findRawValue')
 			->with(10, NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository::PROFILE_ID)
 			->willReturn(1);
 
@@ -493,10 +496,10 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function isDefaultProfileUsed_withDefaultProfileFalse_returnFalse()
 	{
-		$sut = $this->sut(array('find'));
+		$sut = $this->sut(array('findRawValue'));
 
 		$sut->expects($this->once())
-			->method('find')
+			->method('findRawValue')
 			->with(10, NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository::PROFILE_ID)
 			->willReturn(false);
 
@@ -514,10 +517,10 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function isDefaultProfileUsed_withDefaultProfileNone_returnFalse()
 	{
-		$sut = $this->sut(array('find'));
+		$sut = $this->sut(array('findRawValue'));
 
 		$sut->expects($this->once())
-			->method('find')
+			->method('findRawValue')
 			->with(10, NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository::PROFILE_ID)
 			->willReturn(false);
 
@@ -535,10 +538,10 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function isDefaultProfileUsed_withDefaultProfile_returnTrue()
 	{
-		$sut = $this->sut(array('find'));
+		$sut = $this->sut(array('findRawValue'));
 
 		$sut->expects($this->once())
-			->method('find')
+			->method('findRawValue')
 			->with(10, NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository::PROFILE_ID)
 			->willReturn(false);
 
@@ -556,13 +559,13 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function findProfileId_delegateToMethod_returnProfileId()
 	{
-		$sut = $this->sut(array('find'));
+		$sut = $this->sut(array('findRawValue'));
 
 		$this->defaultProfileRepository->expects($this->never())
 			->method('findProfileId');
 
 		$sut->expects($this->once())
-			->method('find')
+			->method('findRawValue')
 			->with(10, NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository::PROFILE_ID)
 			->willReturn(10);
 
@@ -575,10 +578,10 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function findProfileId_withDefaultProfile_returnDefaultProfileId()
 	{
-		$sut = $this->sut(array('find'));
+		$sut = $this->sut(array('findRawValue'));
 
 		$sut->expects($this->once())
-			->method('find')
+			->method('findRawValue')
 			->with(10, NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository::PROFILE_ID)
 			->willReturn(false);
 
@@ -671,7 +674,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function deleteProfileAssociations_delegateToMethod_returnProfileId()
 	{
-		$sut = $this->sut(array('find', 'delete', 'getSites'));
+		$sut = $this->sut(array('findRawValue', 'delete', 'getSites'));
 
 		$sites = array(
 			array(
@@ -687,7 +690,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 			->willReturn($sites);
 
 		$sut->expects($this->exactly(2))
-			->method('find')
+			->method('findRawValue')
 			->withConsecutive(
 				array(1, NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository::PROFILE_ID),
 				array(3, NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository::PROFILE_ID)

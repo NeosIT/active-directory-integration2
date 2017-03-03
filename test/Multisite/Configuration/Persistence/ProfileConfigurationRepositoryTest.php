@@ -45,12 +45,12 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 	/**
 	 * @test
 	 */
-	public function findValueSanitized_optionMustBeDecrypted_returnDecryptedValue()
+	public function findRawValueSanitized_optionMustBeDecrypted_returnDecryptedValue()
 	{
-		$sut = $this->sut(array('findValue'));
+		$sut = $this->sut(array('findRawValue'));
 
 		$sut->expects($this->once())
-			->method('findValue')
+			->method('findRawValue')
 			->with(999, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
 			->willReturn('abba');
 
@@ -71,14 +71,14 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 	/**
 	 * @test
 	 */
-	public function findValueSanitized_optionMustBeSanitized_returnSanitizedValue()
+	public function findRawValueSanitized_optionMustBeSanitized_returnSanitizedValue()
 	{
-		$sut = $this->sut(array('findValue'));
+		$sut = $this->sut(array('findRawValue'));
 
 		$meta = $this->optionProvider->get(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS);
 
 		$sut->expects($this->once())
-			->method('findValue')
+			->method('findRawValue')
 			->with(999, NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS)
 			->willReturn('  a@b.de  ');
 
@@ -94,13 +94,13 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 	/**
 	 * @test
 	 */
-	public function findValueSanitized_optionMustBeDecryptedAndSanitize_returnValue()
+	public function findRawValueSanitized_optionMustBeDecryptedAndSanitize_returnValue()
 	{
-		$sut = $this->sut(array('findValue'));
+		$sut = $this->sut(array('findRawValue'));
 		$meta =  $this->optionProvider->get(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 
 		$sut->expects($this->once())
-			->method('findValue')
+			->method('findRawValue')
 			->with(999, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
 			->willReturn('encrypted');
 
@@ -121,7 +121,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 	/**
 	 * @test
 	 */
-	public function findValue_delegateToWordPressMethod_returnOptionValue() {
+	public function findRawValue_delegateToWordPressMethod_returnOptionValue() {
 		$sut = $this->sut(array('createUniqueOptionName'));
 
 		$sut->expects($this->once())
@@ -136,7 +136,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 			'return' => '389'
 		));
 
-		$actual = $this->invokeMethod($sut,'findValue', array(66, 'port'));
+		$actual = $this->invokeMethod($sut,'findRawValue', array(66, 'port'));
 		$this->assertEquals('389', $actual);
 	}
 

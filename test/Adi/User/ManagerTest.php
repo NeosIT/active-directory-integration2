@@ -752,7 +752,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function update_itUpdatesThePassword()
+	public function update_itUpdatesThePassword_failed()
 	{
 		$sut = $this->sut(array(
 			'disableEmailNotification',
@@ -773,9 +773,8 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$this->behave($adiUser, 'getId', 666);
 		$this->behave($credentials, 'getPassword', 'password');
 
-		$sut->expects($this->once())
-			->method('updatePassword')
-			->with(666, 'password', true);
+		$sut->expects($this->never())
+			->method('updatePassword');
 
 		$sut->update($adiUser, true);
 	}
@@ -867,7 +866,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_update', $adiUser, $wpUser, false, true);
 
-		 $sut->update($adiUser);
+		$sut->update($adiUser);
 	}
 
 	/**
@@ -910,28 +909,6 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function updatePassword_withAutoUpdatePasswordTrueAndSyncToWordPressFalse_updatesPassword()
-	{
-		$sut = $this->sut();
-
-		$userId = 666;
-		$password = "password";
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD)
-			->willReturn(true);
-
-		$this->userRepository->expects($this->once())
-			->method('updatePassword')
-			->with($userId, $password);
-
-		$this->invokeMethod($sut, 'updatePassword', array($userId, $password, false));
-	}
-
-	/**
-	 * @test
-	 */
 	public function disableEmailNotification_addsCorrectWordPressFilter()
 	{
 		$sut = $this->sut();
@@ -962,12 +939,12 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$adiUser->setId($userId);
 
 		$data = array(
-			'ID'           => 66,
-			'first_name'   => 'fn1',
-			'last_name'    => 'sn2',
-			'description'  => 'd3',
+			'ID' => 66,
+			'first_name' => 'fn1',
+			'last_name' => 'sn2',
+			'description' => 'd3',
 			'display_name' => 'dn4',
-			'objectGUID'   => 'guid',
+			'objectGUID' => 'guid',
 		);
 
 		$this->behave($this->userHelper, 'getEnrichedUserData', $data);
@@ -1069,7 +1046,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$ldapAttributes = array(
 			'telephonenumber' => '0123456',
-			'samAccountName'  => 'newSamAccountName',
+			'samAccountName' => 'newSamAccountName',
 		);
 
 		$actual = $this->invokeMethod($sut, 'filterDisallowedAttributes', array($ldapAttributes,
@@ -1138,8 +1115,8 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$adiUser = $this->createMock('NextADInt_Adi_User');
 
 		WP_Mock::wpFunction('is_email', array(
-			'args'   => array('test@test.com'),
-			'times'  => 1,
+			'args' => array('test@test.com'),
+			'times' => 1,
 			'return' => false,
 		));
 
@@ -1168,8 +1145,8 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 			->willReturn(1);
 
 		WP_Mock::wpFunction('is_email', array(
-			'args'   => array($email),
-			'times'  => 1,
+			'args' => array($email),
+			'times' => 1,
 			'return' => true,
 		));
 
@@ -1209,8 +1186,8 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 			->willReturn(1);
 
 		WP_Mock::wpFunction('is_email', array(
-			'args'   => array($email),
-			'times'  => 1,
+			'args' => array($email),
+			'times' => 1,
 			'return' => true,
 		));
 
@@ -1603,7 +1580,8 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function migratePreviousVersion_itUpdatesOldSamAccountNames() {
+	public function migratePreviousVersion_itUpdatesOldSamAccountNames()
+	{
 		$sut = $this->sut();
 		$wpUsers = array((object)array('ID' => 666));
 
@@ -1629,7 +1607,8 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function migratePreviousVersion_itIgnoresSamAccountName_whenAlreadyMigrated() {
+	public function migratePreviousVersion_itIgnoresSamAccountName_whenAlreadyMigrated()
+	{
 		$sut = $this->sut();
 		$wpUsers = array((object)array('ID' => 666));
 
@@ -1702,53 +1681,53 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$this->assertEquals(false, $actual);
 	}
 
-    /**
-     * @test
-     */
-    public function isNAdiUser_userIsNAdiUser_samAccountNameSet_returnTrue()
-    {
-        $sut = $this->sut(null);
+	/**
+	 * @test
+	 */
+	public function isNAdiUser_userIsNAdiUser_samAccountNameSet_returnTrue()
+	{
+		$sut = $this->sut(null);
 
-        $wpUser = (object)(array('ID' => 6));
+		$wpUser = (object)(array('ID' => 6));
 
-        \WP_Mock::wpFunction('get_user_meta', array(
-            'args' => array(6, 'next_ad_int_samaccountname', true),
-            'times' => 1,
-            'return' => true
-        ));
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_samaccountname', true),
+			'times' => 1,
+			'return' => true
+		));
 
-        \WP_Mock::wpFunction('get_user_meta', array(
-            'args' => array(6, 'next_ad_int_userprincipalname', true),
-            'times' => 1,
-            'return' => false
-        ));
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_userprincipalname', true),
+			'times' => 1,
+			'return' => false
+		));
 
-        $actual = $sut->isNadiUser($wpUser);
-        $this->assertEquals(true, $actual);
-    }
+		$actual = $sut->isNadiUser($wpUser);
+		$this->assertEquals(true, $actual);
+	}
 
-    /**
-     * @test
-     */
-    public function isNAdiUser_userIsNAdiUser_userPrincipalNameSet_returnTrue()
-    {
-        $sut = $this->sut(null);
+	/**
+	 * @test
+	 */
+	public function isNAdiUser_userIsNAdiUser_userPrincipalNameSet_returnTrue()
+	{
+		$sut = $this->sut(null);
 
-        $wpUser = (object)(array('ID' => 6));
+		$wpUser = (object)(array('ID' => 6));
 
-        \WP_Mock::wpFunction('get_user_meta', array(
-            'args' => array(6, 'next_ad_int_samaccountname', true),
-            'times' => 1,
-            'return' => false
-        ));
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_samaccountname', true),
+			'times' => 1,
+			'return' => false
+		));
 
-        \WP_Mock::wpFunction('get_user_meta', array(
-            'args' => array(6, 'next_ad_int_userprincipalname', true),
-            'times' => 1,
-            'return' => true
-        ));
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array(6, 'next_ad_int_userprincipalname', true),
+			'times' => 1,
+			'return' => true
+		));
 
-        $actual = $sut->isNadiUser($wpUser);
-        $this->assertEquals(true, $actual);
-    }
+		$actual = $sut->isNadiUser($wpUser);
+		$this->assertEquals(true, $actual);
+	}
 }

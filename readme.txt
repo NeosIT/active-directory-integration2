@@ -82,13 +82,11 @@ To install Next Active Directory Integration you need at least WordPress 4.0 and
 
 Although only tested with Apache 2.2 and 2.4 *NADI* should work with all other common web servers like nginx and IIS.
 
-Next Active Directory Integration requires a few PHP modules to be enabled. Please verify in your `php.ini` that *ldap*, *mcrypt* and *mbstring* are activated. But it is very likely, that *mcrypt* is already enabled and not listed in the `php.ini`.
-If you are planning to use encryption for your LDAP connection - which we *highly* suggest - you although need *openssl* to be enabled.
+Next Active Directory Integration requires a few PHP modules to be enabled. Please verify in your `php.ini` that *ldap*, *mbstring* and *openssl* are activated.
 
 	; required by *NADI*
 	extension=php_ldap.dll
 	extension=php_mbstring.dll
-	; required by LDAP/S and STARTTLS
 	extension=php_openssl.dll
 
 = Migration from ADI 1.x to NADI =
@@ -137,11 +135,11 @@ For detailed information you can visit the official [GitHub repository of Active
 * ADD: log reason for not being able to increase max_execution_time (ADI-396)
 * ADD: log message that AD security group could not be found (ADI-397)
 * ADD: improve logging number of users to import from AD to WordPress (ADI-414)
-* FIX: synchronization does not work b/c getDoimainSid returns "S-0" (ADI-412)
+* FIX: synchronization does not work b/c getDomainSid returns "S-0" (ADI-412)
 * FIX: "Test authentication" does not allow characters like a backward slash (ADI-421)
-* FIX: permanent redirects after succssful authentication (ADI-422)
+* FIX: permanent redirects after successful authentication (ADI-422)
 * FIX: error "the current user is being initialized without using $wp->init()" when using BuddyPress (ADI-416)
-* FIX: blocking of users with long usernames (ADI-330)
+* FIX: blocking of users with long user names (ADI-330)
 * FIX: get_blog_details replaced with get_site to maintain compatibility with WordPress 4.7+ (ADI-419)
 * FIX: restrict output of debug LDAP user information to only an amount of characters (ADI-420)
 * FIX: Sync to WordPress: default WordPress role "Subscriber" is not assigned (ADI-401)
@@ -172,7 +170,7 @@ For detailed information you can visit the official [GitHub repository of Active
 * FIX: SSO/verify-password errors by un-quoting values in $_GET/$_POST/$_SERVER. WordPress quotes all entries in $_GET/$_POST/$_SERVER automatically (GitHub #20 Thanks to plantjes)
 
 = 2.0.5 =
-* FIX: check if AD result is not empty before accessing distinguishedname (GitHub #16 Thanks to petterannerwall)
+* FIX: check if AD result is not empty before accessing distinguished name (GitHub #16 Thanks to petterannerwall)
 * ADD: optional support for Down-Level User Name (like TEST\klammer) (GitHub #18)
 
 = 2.0.4 =
@@ -196,12 +194,12 @@ For detailed information you can visit the official [GitHub repository of Active
 * ADD: experimental support for multiple Active Directory domains; see FAQ
 * ADD: easier handling and description of encryption methods for LDAP
 * ADD: additional columns in Multisite overview for networks and users
-* ADD: usernames can be explicitly excluded from authentication
+* ADD: user names can be explicitly excluded from authentication
 * ADD: menu entries of *Next ADI* can be hidden
 * ADD: *Next ADI* can be disabled per Multisite site environment
 * CHANGE: large user interface improvements
 * CHANGE: complete rewrite of the PHP backend
-* CHANGE: userPrincipalName is leading attribute for user identification instead of samaccountname
+* CHANGE: userPrincipalName is leading attribute for user identification instead of sAMAccountName
 * FIX: Role Equivalent Groups can be mapped to multiple WordPress roles instead of only one
 * and much much more we can not list here. Please take the time and read the official documentation :-)
 

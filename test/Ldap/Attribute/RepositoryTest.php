@@ -489,13 +489,14 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE  => 'next_ad_int_lastName',
 			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_SYNC_TO_AD           => 'true',
 			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => 'true',
+			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_DESCRIPTION         => 'customDescription',
 		);
 
 
 		$actual = $sut->createAttribute($attribute, "adAttributeName");
 		$this->assertEquals('string', $actual->getType());
 		$this->assertEquals('next_ad_int_lastName', $actual->getMetakey());
-		$this->assertEquals('adAttributeName', $actual->getDescription());
+		$this->assertEquals('customDescription', $actual->getDescription());
 		$this->assertEquals(true, $actual->isSyncable());
 		$this->assertEquals(true, $actual->isViewable());
 	}
