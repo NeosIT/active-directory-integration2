@@ -130,7 +130,7 @@ class NextADInt_Adi_Role_Manager
 			} // ADI-141: On user creation if *no* Role Equivalent Groups exist the default role 'subscriber' is used
 			else if (!$hasRoleEquivalentGroups) {
 				$this->logger->warn("No Role Equivalent Groups defined. User gets default WordPress role 'subscriber' assigned");
-				$roles = array('subscriber'); // Todo this actually has to be $wordPressRoles to work, have to check if bug is present in master aswell 
+				$roles = array('subscriber');
 			}
 		} else /* updated user */ {
 			// ADI-141: On user update if Role Equivalent Groups exist and the user has no role *no* role is set
