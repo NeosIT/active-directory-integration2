@@ -213,7 +213,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('updateRoles')
-			->with($wpUser, array(), true);
+			->with($wpUser, array('subscriber'), true);
 
 		$sut->synchronizeRoles($wpUser, $roleMapping, true);
 	}
