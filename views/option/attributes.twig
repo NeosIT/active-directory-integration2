@@ -18,22 +18,23 @@
         {% endif %}
     {% endif %}
 
-    {% if  newNetwork %}
-        {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
-        <table style="width: 100%">
-            <tr>
-                <td style="width: 87%;"><p style="font-size: 15px; font-weight: bold">Attribute Mapping</p></td>
-                <td style="width: 13%; text-align: center">
-                <span>{% import "option/permissionSelection.twig" as permissionSelection %}
-                    {{ permissionSelection.create("additional_user_attributes", newNetwork, "additional_user_attributes__permission") }}
-                </span>
-                </td>
-            </tr>
-        </table>
-    {% else %}
-        {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
+    {% if not angularAttributes is empty %}
+        {% if  newNetwork %}
+            {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
+            <table style="width: 100%">
+                <tr>
+                    <td style="width: 87%;"><p style="font-size: 15px; font-weight: bold">Attribute Mapping</p></td>
+                    <td style="width: 13%; text-align: center">
+                    <span>{% import "option/permissionSelection.twig" as permissionSelection %}
+                        {{ permissionSelection.create("additional_user_attributes", newNetwork, "additional_user_attributes__permission") }}
+                    </span>
+                    </td>
+                </tr>
+            </table>
+        {% else %}
+            {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
+        {% endif %}
     {% endif %}
-
 
     <table style="width: 1200px" class="adi-attribute-mapping">
         <tr>
