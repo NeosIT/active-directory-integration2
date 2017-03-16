@@ -228,3 +228,11 @@ div .no-padding-left {
     top: -1px;
     *overflow: hidden;
 }
+
+.adi-align-table-header th{
+    text-align: center;
+}
+
+.test-align {
+    text-align: center;
+}
