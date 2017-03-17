@@ -82,8 +82,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 			'descriptionLine2' => __('Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:', 'next-active-directory-integration'),
 			'repeatAction' => __('Repeat AD to WordPress synchronization', 'next-active-directory-integration'),
 			'startAction' => __('Start AD to WordPress synchronization', 'next-active-directory-integration'),
-			'syncDisabled' => __('Check that a connection to a domain controller is established and \'
-			Enable sync to WordPress\' is checked  ', 'next-active-directory-integration')
+			'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to WordPress\' is checked', 'next-active-directory-integration')
 		);
 		$params['i18n'] = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 

@@ -66,7 +66,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		$this->checkCapability();
 
 		// get data from $_POST
-        // dont unescape $_POST because only numbers and base64 values will be accessed
+		// dont unescape $_POST because only numbers and base64 values will be accessed
 		$params = $this->processData($_POST);
 		$params['nonce'] = wp_create_nonce(self::NONCE); // add nonce for security
 		$params['authCode'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE);
@@ -77,15 +77,14 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		$params['syncEnabled'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_ENABLED) ? true : false;
 
 		$i18n = array(
-            'title' => __('Sync To Active Directory', 'next-active-directory-integration'),
-            'descriptionLine1' => __('If you want to trigger Sync to Active Directory, you must know the URL to the index.php of your blog:', 'next-active-directory-integration'),
-            'descriptionLine2' => __('Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:', 'next-active-directory-integration'),
-            'userId' => __('User-ID: (optional)', 'next-active-directory-integration'),
-            'repeatAction' => __('Repeat WordPress to Active Directory synchronization', 'next-active-directory-integration'),
-            'startAction' => __('Start WordPress to Active Directory synchronization', 'next-active-directory-integration'),
-			'syncDisabled' => __('Check that a connection to a domain controller is established and \'
-			Enable sync to AD\' is checked  ', 'next-active-directory-integration')
-        );
+			'title' => __('Sync To Active Directory', 'next-active-directory-integration'),
+			'descriptionLine1' => __('If you want to trigger Sync to Active Directory, you must know the URL to the index.php of your blog:', 'next-active-directory-integration'),
+			'descriptionLine2' => __('Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:', 'next-active-directory-integration'),
+			'userId' => __('User-ID: (optional)', 'next-active-directory-integration'),
+			'repeatAction' => __('Repeat WordPress to Active Directory synchronization', 'next-active-directory-integration'),
+			'startAction' => __('Start WordPress to Active Directory synchronization', 'next-active-directory-integration'),
+			'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked', 'next-active-directory-integration')
+		);
 		$params['i18n'] = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 
 		// render
@@ -103,7 +102,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 			return array();
 		}
 
-		$security =  NextADInt_Core_Util_ArrayUtil::get('security', $post, '');
+		$security = NextADInt_Core_Util_ArrayUtil::get('security', $post, '');
 		if (!wp_verify_nonce($security, self::NONCE)) {
 			$message = __('You do not have sufficient permissions to access this page.', 'next-active-directory-integration');
 			wp_die($message);
@@ -118,7 +117,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		ob_end_clean();
 
 		// split the string and put the single log messages into an array
-		$this->log = explode("<br />",$this->log);
+		$this->log = explode("<br />", $this->log);
 		$this->log = NextADInt_Core_Util_StringUtil::transformLog($this->log);
 
 		if ($result) {
@@ -151,15 +150,12 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 			NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS
 		);
 
-		wp_enqueue_style('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(),
-			NextADInt_Multisite_Ui::VERSION_CSS);
-
 		wp_enqueue_style('next_ad_int_bootstrap_min_css', NEXT_AD_INT_URL . '/css/bootstrap.min.css', array(),
 			NextADInt_Multisite_Ui::VERSION_CSS);
 
 		wp_enqueue_script('next_ad_int_bootstrap_min_js', NEXT_AD_INT_URL . '/js/libraries/bootstrap.min.js', array(),
 			NextADInt_Multisite_Ui::VERSION_PAGE_JS);
-    }
+	}
 
 	/**
 	 * Include shared JavaScript und CSS Files into WordPress.
