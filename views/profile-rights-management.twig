@@ -22,10 +22,11 @@
              <select ng-model="activeProfile"
                      ng-change="changeProfile(activeProfile, true)"
                      ng-options="profile.profileName for profile in profiles"></select>
-                    <button class="button button-primary" ng-click="create()" ng-disabled="runningRequests > 0">
+                    <button class="button adi-button button-primary" ng-click="create()" ng-disabled="runningRequests >
+                     0">
                         {{ i18n.createNewProfile }}
                     </button>
-                    <button class="button" ng-click="remove(activeProfile)"
+                    <button class="button adi-button" ng-click="remove(activeProfile)"
                             ng-disabled="runningRequests > 0 || activeProfile['profileId'] == -1">
                         {{ i18n.deleteProfile }}
                     </button>

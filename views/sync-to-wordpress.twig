@@ -11,7 +11,7 @@
 
 <form method="post">
     <input type="hidden" name="security" value="{{ nonce }}"/>
-    <button type="submit" name="syncToWordpress" class="button button-primary">
+    <button type="submit" name="syncToWordpress" class="button adi-button button-primary">
         {{ status is defined ? i18n.repeatAction|raw : i18n.startAction|raw }}
     </button>
 
@@ -30,7 +30,7 @@
         {% set logs = log %}
         <h2>Log</h2>
 
-        <button class="button button-primary" type="button" data-toggle="collapse" data-target="#log-output"
+        <button class="button adi-button button-primary" type="button" data-toggle="collapse" data-target="#log-output"
                 aria-expanded="false">
             Show log output
         </button>
