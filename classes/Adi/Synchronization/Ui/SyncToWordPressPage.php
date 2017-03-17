@@ -73,8 +73,8 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 		$params['blogUrl'] = get_site_url(get_current_blog_id());
 		$params['message'] = $this->result;
 		$params['log'] = $this->log;
-		$params['domainSidSet'] = $this->configuration->getOptionValue('domain_sid') ? true : false;
-		$params['syncEnabled'] = $this->configuration->getOptionValue('sync_to_wordpress_enabled') ? true : false;
+		$params['domainSidSet'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID) ? true : false;
+		$params['syncEnabled'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED) ? true : false;
 
 		$i18n = array(
 			'title' => __('Sync To WordPress', 'next-active-directory-integration'),

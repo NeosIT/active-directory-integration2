@@ -73,14 +73,8 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		$params['blogUrl'] = get_site_url(get_current_blog_id());
 		$params['message'] = $this->result;
 		$params['log'] = $this->log;
-        $params['i18n'] = array(
-            'title' => __('Sync To Active Directory', 'next-active-directory-integration'),
-            'descriptionLine1' => __('If you want to trigger Sync to Active Directory, you must know the URL to the index.php of your blog:', 'next-active-directory-integration'),
-            'descriptionLine2' => __('Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:', 'next-active-directory-integration'),
-            'userId' => __('User-ID: (optional)', 'next-active-directory-integration'),
-            'repeatAction' => __('Repeat WordPress to Active Directory synchronization', 'next-active-directory-integration'),
-            'startAction' => __('Start WordPress to Active Directory synchronization', 'next-active-directory-integration')
-        );
+		$params['domainSidSet'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID) ? true : false;
+		$params['syncEnabled'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_ENABLED) ? true : false;
 
 		$i18n = array(
             'title' => __('Sync To Active Directory', 'next-active-directory-integration'),
@@ -88,7 +82,9 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
             'descriptionLine2' => __('Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:', 'next-active-directory-integration'),
             'userId' => __('User-ID: (optional)', 'next-active-directory-integration'),
             'repeatAction' => __('Repeat WordPress to Active Directory synchronization', 'next-active-directory-integration'),
-            'startAction' => __('Start WordPress to Active Directory synchronization', 'next-active-directory-integration')
+            'startAction' => __('Start WordPress to Active Directory synchronization', 'next-active-directory-integration'),
+			'syncDisabled' => __('Check that a connection to a domain controller is established and \'
+			Enable sync to AD\' is checked  ', 'next-active-directory-integration')
         );
 		$params['i18n'] = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 
@@ -147,11 +143,103 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 			return;
 		}
 
-		wp_enqueue_style('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
+		$this->loadSharedAdminScriptsAndStyle();
 
-		wp_enqueue_style('next_ad_int_bootstrap_min_css', NEXT_AD_INT_URL . '/css/bootstrap.min.css', array(), NextADInt_Multisite_Ui::VERSION_CSS);
-        wp_enqueue_script('next_ad_int_bootstrap_min_js', NEXT_AD_INT_URL . '/js/libraries/bootstrap.min.js', array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS);
+		wp_enqueue_script(
+			'next_ad_int_blog_options_controller_sync_action', NEXT_AD_INT_URL .
+			'/js/app/blog-options/controllers/sync-action.controller.js', array(),
+			NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS
+		);
+
+		wp_enqueue_style('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(),
+			NextADInt_Multisite_Ui::VERSION_CSS);
+
+		wp_enqueue_style('next_ad_int_bootstrap_min_css', NEXT_AD_INT_URL . '/css/bootstrap.min.css', array(),
+			NextADInt_Multisite_Ui::VERSION_CSS);
+
+		wp_enqueue_script('next_ad_int_bootstrap_min_js', NEXT_AD_INT_URL . '/js/libraries/bootstrap.min.js', array(),
+			NextADInt_Multisite_Ui::VERSION_PAGE_JS);
     }
+
+	/**
+	 * Include shared JavaScript und CSS Files into WordPress.
+	 */
+	protected function loadSharedAdminScriptsAndStyle()
+	{
+		wp_enqueue_script("jquery");
+
+		wp_enqueue_script('next_ad_int_page', NEXT_AD_INT_URL . '/js/page.js', array('jquery'),
+			NextADInt_Multisite_Ui::VERSION_PAGE_JS);
+
+		wp_enqueue_script(
+			'angular.min', NEXT_AD_INT_URL . '/js/libraries/angular.min.js',
+			array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS
+		);
+		wp_enqueue_script(
+			'ng-alertify', NEXT_AD_INT_URL . '/js/libraries/ng-alertify.js',
+			array('angular.min'), NextADInt_Multisite_Ui::VERSION_PAGE_JS
+		);
+		wp_enqueue_script(
+			'ng-notify', NEXT_AD_INT_URL . '/js/libraries/ng-notify.min.js',
+			array('angular.min'), NextADInt_Multisite_Ui::VERSION_PAGE_JS
+		);
+		wp_enqueue_script('ng-busy', NEXT_AD_INT_URL . '/js/libraries/angular-busy.min.js',
+			array('angular.min'), NextADInt_Multisite_Ui::VERSION_PAGE_JS);
+
+		wp_enqueue_script(
+			'next_ad_int_shared_util_array', NEXT_AD_INT_URL . '/js/app/shared/utils/array.util.js',
+			array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS
+		);
+		wp_enqueue_script(
+			'next_ad_int_shared_util_value', NEXT_AD_INT_URL . '/js/app/shared/utils/value.util.js',
+			array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS
+		);
+
+		wp_enqueue_script('next_ad_int_app_module', NEXT_AD_INT_URL . '/js/app/app.module.js', array(),
+			NextADInt_Multisite_Ui::VERSION_PAGE_JS);
+		wp_enqueue_script('next_ad_int_app_config', NEXT_AD_INT_URL . '/js/app/app.config.js', array(),
+			NextADInt_Multisite_Ui::VERSION_PAGE_JS);
+
+		// add the service js files
+		wp_enqueue_script(
+			'next_ad_int_shared_service_browser',
+			NEXT_AD_INT_URL . '/js/app/shared/services/browser.service.js', array(),
+			NextADInt_Multisite_Ui::VERSION_PAGE_JS
+		);
+		wp_enqueue_script(
+			'next_ad_int_shared_service_template',
+			NEXT_AD_INT_URL . '/js/app/shared/services/template.service.js', array(),
+			NextADInt_Multisite_Ui::VERSION_PAGE_JS
+		);
+		wp_enqueue_script(
+			'next_ad_int_shared_service_notification',
+			NEXT_AD_INT_URL . '/js/app/shared/services/notification.service.js', array(),
+			NextADInt_Multisite_Ui::VERSION_PAGE_JS
+		);
+		wp_enqueue_script(
+			'next_ad_int_shared_service_list',
+			NEXT_AD_INT_URL . '/js/app/shared/services/list.service.js', array(),
+			NextADInt_Multisite_Ui::VERSION_PAGE_JS
+		);
+
+		wp_enqueue_script(
+			'selectizejs', NEXT_AD_INT_URL . '/js/libraries/selectize.min.js',
+			array('jquery'), NextADInt_Multisite_Ui::VERSION_PAGE_JS
+		);
+		wp_enqueue_script(
+			'selectizeFix', NEXT_AD_INT_URL . '/js/libraries/fixed-angular-selectize-3.0.1.js',
+			array('selectizejs', 'angular.min'), NextADInt_Multisite_Ui::VERSION_PAGE_JS
+		);
+
+		wp_enqueue_style('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(),
+			NextADInt_Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('ng-notify', NEXT_AD_INT_URL . '/css/ng-notify.min.css', array(),
+			NextADInt_Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('selectizecss', NEXT_AD_INT_URL . '/css/selectize.css', array(),
+			NextADInt_Multisite_Ui::VERSION_CSS);
+		wp_enqueue_style('alertify.min', NEXT_AD_INT_URL . '/css/alertify.min.css', array(),
+			NextADInt_Multisite_Ui::VERSION_CSS);
+	}
 
 	/**
 	 * Get the menu slug for the page.
