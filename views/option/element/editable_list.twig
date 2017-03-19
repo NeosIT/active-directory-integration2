@@ -15,10 +15,12 @@
         {% set disabled = "" %}
     {% endif %}
 
-    {% if  newNetwork %}
-        {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
-    {% else %}
-        {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
+    {% if not angularAttributes is empty %}
+        {% if  newNetwork %}
+            {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
+        {% else %}
+            {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
+        {% endif %}
     {% endif %}
 
     <input type="text" ng-model="new_{{ optionName }}" {{ angularAttributes|raw }} {{ disabled }}>

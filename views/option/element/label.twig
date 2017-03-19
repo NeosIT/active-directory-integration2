@@ -6,7 +6,7 @@
     {% set newNetwork = isOnNetworkDashboard() %}
 
     {% if  newNetwork %}
-        {% if angularAttributes != '' %}
+        {% if not angularAttributes is empty %}
             {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
         {% endif %}
     {% else %}
@@ -17,7 +17,7 @@
             {% set disabled = "" %}
         {% endif %}
 
-        {% if angularAttributes != '' %}
+        {% if not angularAttributes is empty %}
             {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
         {% endif %}
     {% endif %}
