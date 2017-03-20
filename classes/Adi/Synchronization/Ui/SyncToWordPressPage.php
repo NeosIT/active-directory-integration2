@@ -73,8 +73,10 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 		$params['blogUrl'] = get_site_url(get_current_blog_id());
 		$params['message'] = $this->result;
 		$params['log'] = $this->log;
-		$params['domainSidSet'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID) ? true : false;
-		$params['syncEnabled'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED) ? true : false;
+		$params['domainSidSet'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID) ? 1 : 0;
+		$params['syncEnabled'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED) ? 1 : 0;
+		$params['syncUserSet'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER) ? 1 : 0;
+		$params['syncPassSet'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD) ? 1 : 0;
 
 		$i18n = array(
 			'title' => __('Sync To WordPress', 'next-active-directory-integration'),
@@ -82,7 +84,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 			'descriptionLine2' => __('Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:', 'next-active-directory-integration'),
 			'repeatAction' => __('Repeat AD to WordPress synchronization', 'next-active-directory-integration'),
 			'startAction' => __('Start AD to WordPress synchronization', 'next-active-directory-integration'),
-			'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to WordPress\' is checked', 'next-active-directory-integration')
+			'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to WordPress\' is checked. Also, a service account has to be provided.', 'next-active-directory-integration')
 		);
 		$params['i18n'] = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 

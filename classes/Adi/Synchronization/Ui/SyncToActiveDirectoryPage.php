@@ -73,8 +73,10 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 		$params['blogUrl'] = get_site_url(get_current_blog_id());
 		$params['message'] = $this->result;
 		$params['log'] = $this->log;
-		$params['domainSidSet'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID) ? true : false;
-		$params['syncEnabled'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_ENABLED) ? true : false;
+		$params['domainSidSet'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID) ? 1 : 0;
+		$params['syncEnabled'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_ENABLED) ? 1 : 0;
+		$params['syncUserSet'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER) ? 1 : 0;
+		$params['syncPassSet'] = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD) ? 1 : 0;
 
 		$i18n = array(
 			'title' => __('Sync To Active Directory', 'next-active-directory-integration'),
@@ -83,7 +85,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 			'userId' => __('User-ID: (optional)', 'next-active-directory-integration'),
 			'repeatAction' => __('Repeat WordPress to Active Directory synchronization', 'next-active-directory-integration'),
 			'startAction' => __('Start WordPress to Active Directory synchronization', 'next-active-directory-integration'),
-			'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked', 'next-active-directory-integration')
+			'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked. Also, a service account has to be provided.', 'next-active-directory-integration')
 		);
 		$params['i18n'] = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 

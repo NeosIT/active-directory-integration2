@@ -12,7 +12,11 @@
 
     <br>
 
-    <div ng-init="sid = '{{ domainSidSet }}'; syncEnabled = '{{ syncEnabled }}'"></div>
+    <div ng-init="sid = '{{ domainSidSet }}';
+    syncEnabled = '{{ syncEnabled }}';
+    syncUserSet = '{{ syncUserSet }}';
+    syncPassSet = '{{ syncPassSet }}'"></div>
+
     <div ng-controller="SyncActionController">
         <form method="post" action="">
             <input type="hidden" name="security" value="{{ nonce }}"/>

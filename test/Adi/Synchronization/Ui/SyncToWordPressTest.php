@@ -85,6 +85,8 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		$authCode = 'auth_code';
 		$domainSid = 'domain_sid';
 		$syncEnabled = 1;
+		$syncUser = 'sync_user';
+		$syncPass = 'syncPass';
 
 		$paramsFilled = array(
 			'nonce' => NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage::NONCE, //add nonce for security
@@ -98,10 +100,12 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 				'descriptionLine2' => 'Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:',
 				'repeatAction' => 'Repeat AD to WordPress synchronization',
 				'startAction' => 'Start AD to WordPress synchronization',
-				'syncDisabled' => 'Check that a connection to a domain controller is established and \'Enable sync to WordPress\' is checked'
+				'syncDisabled' => 'Check that a connection to a domain controller is established and \'Enable sync to WordPress\' is checked. Also, a service account has to be provided.'
 			),
-			'domainSidSet' => true,
-			'syncEnabled' => true
+			'domainSidSet' => 1,
+			'syncEnabled' => 1,
+			'syncUserSet' => 1,
+			'syncPassSet' => 1
 		);
 
 		$sut->expects($this->once())
@@ -115,14 +119,16 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		);
 
 
-		$this->configuration->expects($this->exactly(3))
+		$this->configuration->expects($this->exactly(5))
 			->method('getOptionValue')
 			->withConsecutive(
 				[NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_AUTHCODE],
 				[NextADInt_Adi_Configuration_Options::DOMAIN_SID],
-				[NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED]
+				[NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED],
+				[NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER],
+				[NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD]
 			)
-			->willReturnOnConsecutiveCalls($authCode, $domainSid, $syncEnabled);
+			->willReturnOnConsecutiveCalls($authCode, $domainSid, $syncEnabled, $syncUser, $syncPass);
 
 
 		WP_Mock::wpFunction('get_current_blog_id', array(

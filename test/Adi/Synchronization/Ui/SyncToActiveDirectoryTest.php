@@ -107,6 +107,8 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest extends Ut_BasicTest
 		$domainSid = 'domain_sid';
 		$syncEnabled = 1;
 		$blogUrl = 'blog_url';
+		$syncUser = 'sync_user';
+		$syncPass = 'syncPass';
 
 		$sut->expects($this->once())
 			->method('currentUserHasCapability')
@@ -118,14 +120,16 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest extends Ut_BasicTest
 				'return' => $nonce)
 		);
 
-		$this->configuration->expects($this->exactly(3))
+		$this->configuration->expects($this->exactly(5))
 			->method('getOptionValue')
 			->withConsecutive(
 				[NextADInt_Adi_Configuration_Options::SYNC_TO_AD_AUTHCODE],
 				[NextADInt_Adi_Configuration_Options::DOMAIN_SID],
-				[NextADInt_Adi_Configuration_Options::SYNC_TO_AD_ENABLED]
+				[NextADInt_Adi_Configuration_Options::SYNC_TO_AD_ENABLED],
+				[NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER],
+				[NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD]
 			)
-			->willReturnOnConsecutiveCalls($authCode, $domainSid, $syncEnabled);
+			->willReturnOnConsecutiveCalls($authCode, $domainSid, $syncEnabled, $syncUser, $syncPass);
 
 
 		WP_Mock::wpFunction('get_site_url', array(
@@ -154,10 +158,12 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest extends Ut_BasicTest
 					'userId' => 'User-ID: (optional)',
 					'repeatAction' => 'Repeat WordPress to Active Directory synchronization',
 					'startAction' => 'Start WordPress to Active Directory synchronization',
-					'syncDisabled' => 'Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked'
+					'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked. Also, a service account has to be provided.', 'next-active-directory-integration')
 				),
-				'domainSidSet' => true,
-				'syncEnabled' => true
+				'domainSidSet' => 1,
+				'syncEnabled' => 1,
+				'syncUserSet' => 1,
+				'syncPassSet' => 1
 			));
 
 		$sut->renderAdmin();
@@ -263,7 +269,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'next_ad_int_shared_util_array',
 					NEXT_AD_INT_URL . '/js/app/shared/utils/array.util.js',
 					array(),

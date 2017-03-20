@@ -11,8 +11,11 @@
     </div>
 
     <br>
+    <div ng-init="sid = '{{ domainSidSet }}';
+    syncEnabled = '{{ syncEnabled }}';
+    syncUserSet = '{{ syncUserSet }}';
+    syncPassSet = '{{ syncPassSet }}'"></div>
 
-    <div ng-init="sid = '{{ domainSidSet }}'; syncEnabled = '{{ syncEnabled }}'"></div>
     <div ng-controller="SyncActionController">
         <form method="post" action="">
             <table class="form-table">
