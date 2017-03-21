@@ -168,7 +168,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						'next-active-directory-integration'
 						),
 						__(
-							'<span class="adi-pe-message"><b>Premium-Extensions: </b>Custom Role Management <a href="https://active-directory-wp.com/premium-extension/">available soon</a>.</span>',
+							'<span class="adi-pe-message"><b>Premium-Extensions: </b>Custom Role Management <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
 							'next-active-directory-integration'
 						),),
 					// Option elements in group
