@@ -39,50 +39,45 @@ class NextADInt_Adi_Mail_Notification
 		$this->logger = Logger::getLogger(__CLASS__);
 	}
 
-	/**
-	 * This method trigger the email dispatch for the user and/or for admins depending on the settings.
-	 * $useLocalWordPressUser will force user data to be looked up locally (ADI-383)
-	 *
-	 * @param string $username
-	 * @param bool $useLocalWordPressUser
-	 */
-	public function sendNotifications($username, $useLocalWordPressUser = false)
+    /**
+     * This method trigger the email dispatch for the user and/or for admins depending on the settings.
+     * $useLocalWordPressUser will force user data to be looked up locally (ADI-383)
+     *
+     * @param WP_User $wpUser
+     * @param bool $useLocalWordPressUser
+     */
+	public function sendNotifications(WP_User $wpUser, $useLocalWordPressUser = false)
 	{
 		$userNotification = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::USER_NOTIFICATION);
 
 		if ($userNotification) {
 			$mail = new NextADInt_Adi_Mail_Message();
-			$mail->setUsername($username);
+			$mail->setUsername($wpUser->data->user_login);
 			$mail->setTargetUser(true);
-			$this->sendNotification($mail, $useLocalWordPressUser);
+			$this->sendNotification($mail, $useLocalWordPressUser, $wpUser);
 		}
 
 		$adminNotification = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ADMIN_NOTIFICATION);
 
 		if ($adminNotification) {
 			$mail = new NextADInt_Adi_Mail_Message();
-			$mail->setUsername($username);
+			$mail->setUsername($wpUser->data->user_login);
 			$mail->setTargetUser(false);
-			$this->sendNotification($mail, $useLocalWordPressUser);
+			$this->sendNotification($mail, $useLocalWordPressUser, $wpUser);
 		}
 	}
 
-	/**
-	 * Do not call this method from the outside.
-	 * Prepares the NextADInt_Adi_Mail_Message and sends it.
-	 *
-	 * @param NextADInt_Adi_Mail_Message $mail
-	 * @param bool $useLocalWordPressUser
-	 * @return bool
-	 */
-	public function sendNotification(NextADInt_Adi_Mail_Message $mail, $useLocalWordPressUser = false)
+    /**
+     * Do not call this method from the outside.
+     * Prepares the NextADInt_Adi_Mail_Message and sends it.
+     *
+     * @param NextADInt_Adi_Mail_Message $mail
+     * @param bool $useLocalWordPressUser
+     * @param WP_User $wpUser
+     * @return bool
+     */
+	public function sendNotification(NextADInt_Adi_Mail_Message $mail, $useLocalWordPressUser = false, WP_User $wpUser)
 	{
-		$recipient = $this->getUserMeta($mail->getUsername(), $useLocalWordPressUser);
-
-		if (!$recipient) {
-			return false;
-		}
-
 		$url = get_bloginfo('url');
 
 		// ADI-383 Github Issue #27 added check for http/https
@@ -92,9 +87,15 @@ class NextADInt_Adi_Mail_Notification
 		$blockTime = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::BLOCK_TIME);
 		$remoteAddress = NextADInt_Core_Util_ArrayUtil::get('REMOTE_ADDR', $_SERVER, '');
 
-		$mail->setFirstName(NextADInt_Core_Util_ArrayUtil::get('firstName', $recipient, ''));
-		$mail->setSecondName(NextADInt_Core_Util_ArrayUtil::get('lastName', $recipient, ''));
-		$mail->setEmail(NextADInt_Core_Util_ArrayUtil::get('email', $recipient, ''));
+		$metaData = $this->findWPUserAttributeValues($wpUser->data->user_login);
+
+		if(!$metaData) {
+		    return false;
+        }
+
+		$mail->setFirstName($metaData['firstName']);
+		$mail->setSecondName($metaData['lastName']);
+		$mail->setEmail($wpUser->data->user_email);
 		$mail->setBlogUrl($url);
 		$mail->setFromEmail($fromEmail);
 		$mail->setBlogName($name);

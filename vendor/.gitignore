@@ -6,3 +6,5 @@ hamcrest/**
 mockery/**
 twig/**
 autoload.php
+defuse/**
+paragonie/**

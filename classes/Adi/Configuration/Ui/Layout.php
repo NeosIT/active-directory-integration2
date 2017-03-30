@@ -176,6 +176,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP,
 						NextADInt_Adi_Configuration_Options::AUTHORIZATION_GROUP,
 						NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS,
+						NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES,
 					),
 				),
 			),
@@ -205,7 +206,11 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				__('Brute-Force-Protection', 'next-active-directory-integration') => array(
 					// Group description
 					self::DESCRIPTION => __(
-						'For security reasons you can use the following options to prevent brute force attacks on your user accounts.',
+                        'For security reasons you can use the following options to prevent brute force attacks on your user accounts. <br>' .
+					    '<div class="update-message notice inline notice-warning notice-alt">'.
+                        'We highly recommend you to use <a href="https://wordpress.org/plugins/better-wp-security/">iThemes Security</a> to secure your WordPress environment. <br>' .
+                        'NADI Brute Force Protection will not receive updates anymore after the NADI v2.0.13 release and we are planning on removing it completely later this year.' .
+                        '</div>',
 						'next-active-directory-integration'
 					),
 					// Group elements in group

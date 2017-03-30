@@ -393,7 +393,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$suffix = "@company.it";
 		$password = "1234";
 
-		$this->ldapConnection->expects($this->once())
+		$this->ldapConnection->expects($this->exactly(1))
 			->method('checkPorts')
 			->willReturn(true);
 
@@ -426,7 +426,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$attributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => $userGuid));
 
-		$this->ldapConnection->expects($this->once())
+		$this->ldapConnection->expects($this->exactly(1))
 			->method('checkPorts')
 			->willReturn(true);
 
@@ -483,7 +483,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 		$attributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => $userGuid));
 
-		$this->ldapConnection->expects($this->once())
+		$this->ldapConnection->expects($this->exactly(1))
 			->method('checkPorts')
 			->willReturn(true);
 
@@ -535,14 +535,14 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$sut = $this->sut();
 		$this->userBlockedMessage = $temp;
 
-		$sut->bruteForceProtection('test');
+		$sut->bruteForceProtection('test', '@test.test');
 
 		$temp = $this->failedLoginRepository;
 		$this->failedLoginRepository = null;
 		$sut = $this->sut();
 		$this->failedLoginRepository = $temp;
 
-		$sut->bruteForceProtection('test');
+		$sut->bruteForceProtection('test', '@test.test');
 	}
 
 	/**
@@ -554,13 +554,13 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('isUserBlocked')
-			->with('test')
+			->with('test@test.test')
 			->willReturn(false);
 
 		$this->mailNotification->expects($this->never())
 			->method('sendNotifications');
 
-		$sut->bruteForceProtection('test');
+		$sut->bruteForceProtection('test', '@test.test');
 	}
 
 	/**
@@ -570,19 +570,31 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
+		$wpUser = $this->createWpUserMock();
+
+		$this->userManager->expects($this->once())
+			->method('findByActiveDirectoryUsername')
+			->with('hugo', 'hugo@test.test')
+			->willReturn($wpUser);
+
 		$this->failedLoginRepository->expects($this->once())
 			->method('isUserBlocked')
-			->with('hugo@test.local')
+			->with('hugo@test.test')
 			->willReturn(true);
+
+		$this->userManager->expects($this->once())
+			->method("findByActiveDirectoryUsername")
+			->with('hugo', 'hugo@test.test')
+			->willReturn($wpUser);
 
 		$this->mailNotification->expects($this->once())
 			->method('sendNotifications')
-			->with('hugo@test.local', true);
+			->with($wpUser, true);
 
 		$this->userBlockedMessage->expects($this->once())
 			->method('blockCurrentUser');
 
-		$sut->bruteForceProtection('hugo@test.local');
+		$sut->bruteForceProtection('hugo', '@test.test');
 	}
 
 	/**
@@ -594,7 +606,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$sut = $this->sut();
 
-		$sut->refreshBruteForceProtectionStatusForUser('test', false);
+		$sut->refreshBruteForceProtectionStatusForUser('test', '@test.ad', false);
 	}
 
 	/**
@@ -608,7 +620,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->method('deleteLoginAttempts')
 			->with('test');
 
-		$sut->refreshBruteForceProtectionStatusForUser('test', true);
+		$sut->refreshBruteForceProtectionStatusForUser('test', '', true);
 	}
 
 	/**
@@ -618,24 +630,41 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
+		$wpUser = $this->createWpUserMock();
+
+		$this->userManager->expects($this->once())
+			->method('findByActiveDirectoryUsername')
+			->with('test', 'test@test.test')
+			->willReturn($wpUser);
+
+		$this->userManager->expects($this->once())
+			->method('isNAdiUser')
+			->with($wpUser)
+			->willReturn(true);
+
 		$this->failedLoginRepository->expects($this->once())
 			->method('increaseLoginAttempts')
-			->with('test');
+			->with('test@test.test');
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('findLoginAttempts')
-			->with('test')
+			->with('test@test.test')
 			->willReturn(1);
 
-        $this->configuration->expects($this->once())
-            ->method('getOptionValue')
-            ->with(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS)
-            ->willReturn(3);
+		$this->failedLoginRepository->expects($this->once())
+			->method('findLoginAttempts')
+			->with('test@test.test')
+			->willReturn(4);
+
+		$this->configuration->expects($this->once())
+			->method('getOptionValue')
+			->with(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS)
+			->willReturn(3);
 
 		$this->failedLoginRepository->expects($this->never())
 			->method('blockUser');
 
-		$sut->refreshBruteForceProtectionStatusForUser('test', false);
+		$sut->refreshBruteForceProtectionStatusForUser('test', '@test.test', false);
 	}
 
 	/**
@@ -645,33 +674,45 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
+		$wpUser = $this->createWpUserMock();
+
+		$this->userManager->expects($this->once())
+			->method('findByActiveDirectoryUsername')
+			->with('test', 'test@test.test')
+			->willReturn($wpUser);
+
+		$this->userManager->expects($this->once())
+			->method('isNAdiUser')
+			->with($wpUser)
+			->willReturn(true);
+
 		$this->failedLoginRepository->expects($this->once())
 			->method('increaseLoginAttempts')
-			->with('test');
+			->with('test@test.test');
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('findLoginAttempts')
-			->with('test')
+			->with('test@test.test')
 			->willReturn(4);
 
-        $this->configuration->expects($this->exactly(2))
-            ->method('getOptionValue')
-            ->withConsecutive(
-                array(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS),
-                array(NextADInt_Adi_Configuration_Options::BLOCK_TIME)
-            )
-            ->will(
-                $this->onConsecutiveCalls(
-                    3,
-                    30
-                )
-            );
+		$this->configuration->expects($this->exactly(2))
+			->method('getOptionValue')
+			->withConsecutive(
+				array(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS),
+				array(NextADInt_Adi_Configuration_Options::BLOCK_TIME)
+			)
+			->will(
+				$this->onConsecutiveCalls(
+					3,
+					30
+				)
+			);
 
 		$this->failedLoginRepository->expects($this->once())
 			->method('blockUser')
-			->with('test', 30);
+			->with('test@test.test', 30);
 
-		$sut->refreshBruteForceProtectionStatusForUser('test', false);
+		$sut->refreshBruteForceProtectionStatusForUser('test', '@test.test', false);
 	}
 
 	/**
@@ -720,8 +761,8 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->willReturn($wpUser);
 
 		\WP_Mock::wpFunction('is_wp_error', array(
-			'args'   => array($wpUser),
-			'times'  => 1,
+			'args' => array($wpUser),
+			'times' => 1,
 			'return' => true,
 		));
 
@@ -806,7 +847,8 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	 * @test
 	 * @issue ADI-395
 	 */
-	public function ADI_395_createOrUpdateUser_itReturnsFalse_whenLdapAttributesCouldNotBeLoaded() {
+	public function ADI_395_createOrUpdateUser_itReturnsFalse_whenLdapAttributesCouldNotBeLoaded()
+	{
 		$sut = $this->sut(array('createAdiUser'));
 		$credentials = NextADInt_Adi_Authentication_LoginService::createCredentials('username@test.ad', 'password');
 		$ldapAttributes = new NextADInt_Ldap_Attributes(false /* failed */, array());
@@ -821,7 +863,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->method('createAdiUser');
 
 		$actual = $sut->createOrUpdateUser($credentials);
-		
+
 		// return value is false
 		$this->assertEquals(false, $actual);
 	}
@@ -924,7 +966,8 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function createOrUpdateUser_updateDomainSID() {
+	public function createOrUpdateUser_updateDomainSID()
+	{
 		$domainSID = 'S-1-5-21-1372432699-1244323441-1038535101';
 		$credentials = NextADInt_Adi_Authentication_LoginService::createCredentials('username', 'password');
 
@@ -1085,10 +1128,15 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$adiUser->setRoleMapping($roleMapping);
 
-		$this->configuration->expects($this->once())
+
+		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER)
-			->willReturn(true);
+			->withConsecutive(
+				array(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER),
+				array(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD)
+			)
+			->will($this->onConsecutiveCalls(true, false));
+
 
 		$this->userManager->expects($this->once())
 			->method('update')
@@ -1104,7 +1152,8 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	 * @issue ADI-367
 	 * @test
 	 */
-	public function ADI_367_xmlrpcMustBeSecured_whenAllowXmlRpcLoginIsDisabled() {
+	public function ADI_367_xmlrpcMustBeSecured_whenAllowXmlRpcLoginIsDisabled()
+	{
 		$sut = $this->sut();
 		$this->mockFunction__();
 
@@ -1129,7 +1178,8 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	 * @issue ADI-367
 	 * @test
 	 */
-	public function ADI_367_xmlrpcIsAllowed_whenOptionIsConfigured() {
+	public function ADI_367_xmlrpcIsAllowed_whenOptionIsConfigured()
+	{
 		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())

@@ -21,16 +21,15 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-require_once 'constants.php';
-require_once 'Autoloader.php';
+require_once(dirname(__FILE__)."/constants.php");
+require_once(dirname(__FILE__)."/Autoloader.php");
+require_once(dirname(__FILE__)."/functions.php");
+
 $autoLoader = new NextADInt_Autoloader();
 $autoLoader->register();
 
-require_once 'functions.php';
-
-if (!class_exists('Logger')) {
-    require_once 'vendor/apache/log4php/src/main/php/Logger.php';
-}
+// load plugin dependencies with composer autoloader
+require_once(dirname(__FILE__)."/vendor/autoload.php");
 
 $requirements = new NextADInt_Adi_Requirements();
 if (!$requirements->check()) {

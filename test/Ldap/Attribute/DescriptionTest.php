@@ -48,16 +48,16 @@ class Ut_NextADInt_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 	 */
 	public function find_withExistingAttribute_returnExpectedDescription()
 	{
-		$attribute = NextADInt_Ldap_Attribute_Description::find('cn', 'fallback');
-		$this->assertEquals('Common Name', $attribute);
+		$description = NextADInt_Ldap_Attribute_Description::find('cn', '');
+		$this->assertEquals('Common Name', $description);
 	}
 
 	/**
 	 * @test
 	 */
-	public function find_withNoExistingAttribute_returnFallback()
+	public function find_withNoDefaultAdAttribute_withCustomDescription_returnCustomDescription()
 	{
-		$attribute = NextADInt_Ldap_Attribute_Description::find('not_existing', 'fallback');
-		$this->assertEquals('fallback', $attribute);
+		$attribute = NextADInt_Ldap_Attribute_Description::find('nadi_customAttribute', 'customAttributeDescription');
+		$this->assertEquals('customAttributeDescription', $attribute);
 	}
 }

@@ -73,7 +73,7 @@ class NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationReposito
 	 */
 	public function findSanitizedValue($profileSiteId, $optionName)
 	{
-		$value = $this->findValue($profileSiteId, $optionName);
+		$value = $this->findRawValue($profileSiteId, $optionName);
 		$optionMetadata = $this->optionProvider->get($optionName);
 
 		if (false === $value) {
@@ -120,14 +120,14 @@ class NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationReposito
 	}
 
 	/**
-	 * This method reads the value of the option $optionName for the profile $profileId.
+	 * This method reads the raw value of the option $optionName for the profile $profileId.
 	 *
 	 * @param int $profileId
 	 * @param string $optionName
 	 *
 	 * @return array|null|object|void
 	 */
-	protected function findValue($profileId, $optionName)
+	public function findRawValue($profileId, $optionName)
 	{
 		$metadata = $this->optionProvider->get($optionName);
 		$default = $metadata[NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE];

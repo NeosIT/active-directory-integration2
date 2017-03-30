@@ -117,11 +117,6 @@ class NextADInt_Multisite_View_TwigContainer
 	 */
 	public function register()
 	{
-		//register twig
-		if (!class_exists('Twig_Autoloader')) {
-			require_once(NEXT_AD_INT_PATH . '/vendor/twig/twig/lib/Twig/Autoloader.php');
-		}
-
 		Twig_Autoloader::register();
 
 		$loader = new Twig_Loader_Filesystem(NEXT_AD_INT_PATH . '/views');

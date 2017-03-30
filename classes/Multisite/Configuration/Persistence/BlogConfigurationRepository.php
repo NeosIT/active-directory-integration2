@@ -124,7 +124,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 			return $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
 		}
 
-		$optionValue = $this->find($siteSiteId, $optionName);
+		$optionValue = $this->findRawValue($siteSiteId, $optionName);
 		$optionMetadata = $this->optionProvider->get($optionName);
 
 		if (false === $optionValue) {
@@ -191,7 +191,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	}
 
 	/**
-	 * This method should not be called by the outside.
+	 * This method should not be called by the outside (expect for the migration of the encrypted passwords).
 	 * Read the value for option $optionName and site/blog $blogId.
 	 *
 	 * @param int    $siteId
@@ -199,7 +199,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 *
 	 * @return string|null
 	 */
-	protected function find($siteId, $optionName)
+	public function findRawValue($siteId, $optionName)
 	{
 		$name = $this->getOptionName($optionName);
 
@@ -281,7 +281,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 */
 	public function isDefaultProfileUsed($siteId)
 	{
-		$profileId = $this->find($siteId, self::PROFILE_ID);
+		$profileId = $this->findRawValue($siteId, self::PROFILE_ID);
 		$defaultProfileId = $this->defaultProfileRepository->findProfileId();
 
 		return (false === $profileId && (-1 != $defaultProfileId && false !== $defaultProfileId));
@@ -296,7 +296,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 */
 	public function findProfileId($siteId)
 	{
-		$profileId = $this->find($siteId, self::PROFILE_ID);
+		$profileId = $this->findRawValue($siteId, self::PROFILE_ID);
 
 		if (false === $profileId) {
 			$profileId = $this->defaultProfileRepository->findProfileId();
@@ -365,7 +365,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 
 		foreach ($sites as $site) {
 			$blogId = $site['blog_id'];
-			$optionValue = $this->find($blogId, self::PROFILE_ID);
+			$optionValue = $this->findRawValue($blogId, self::PROFILE_ID);
 
 			if ($profileId === $optionValue) {
 				$r[] = $site;

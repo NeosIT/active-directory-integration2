@@ -312,9 +312,6 @@ class NextADInt_Adi_User_Manager
 				$user->getLdapAttributes()->getFiltered());
 			$this->updateEmail($user, $email);
 
-			// update users password
-			$this->updatePassword($user->getId(), $credentials->getPassword(), $syncToWordPress);
-
 			$wpUser = $this->findById($user->getId());
 
 			// ADI-145: provide API
@@ -348,21 +345,17 @@ class NextADInt_Adi_User_Manager
 	/**
 	 * Check if the password should be updated and update it.
 	 *
-	 * @param int $userId
-	 * @param string $password
-	 * @param boolean $syncToWordPress
+	 * @param NextADInt_Adi_User $user
 	 */
-	protected function updatePassword($userId, $password, $syncToWordPress)
+	public function updatePassword($user)
 	{
-		NextADInt_Core_Assert::notNull($userId, "userId must be a valid id");
+		NextADInt_Core_Assert::notNull($user, "userId must be a valid id");
 
-		// update users password
-		$autoUpdatePassword = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD);
+		$userId = $user->getId();
+		$password = $user->getCredentials()->getPassword();
 
-		if ($autoUpdatePassword && !$syncToWordPress) {
-			$this->logger->debug('Setting local password to the one used for this login.');
-			$this->userRepository->updatePassword($userId, $password);
-		}
+		$this->logger->debug('Setting local password to the one used for this login.');
+		$this->userRepository->updatePassword($userId, $password);
 	}
 
 	/**
@@ -464,6 +457,11 @@ class NextADInt_Adi_User_Manager
 
 		// iterate over all userAttributeValues
 		foreach ($filteredAttributes as $name => $value) {
+
+			if ($name === "samaccountname" || $name === "userprincipalname") {
+				$value = strtolower($value);
+			}
+
 			// get type and metaKey
 			/* @var $attribute NextADInt_Ldap_Attribute */
 			$attribute = NextADInt_Core_Util_ArrayUtil::get($name, $attributeWhiteList, false);
@@ -725,6 +723,26 @@ class NextADInt_Adi_User_Manager
 		}
 
 		return $migrated;
+	}
+
+	/**
+	 * Check if given user is a NADI user.
+	 * This method checks if the user id is associated with a samaccountname or userprincipalname.
+	 *
+	 * @param $wpUser
+	 * @return bool
+	 */
+	function isNadiUser($wpUser)
+	{
+		$userID = $wpUser->ID;
+		$samAccountName = get_user_meta($userID, NEXT_AD_INT_PREFIX . 'samaccountname', true);
+		$userPrincipalName = get_user_meta($userID, NEXT_AD_INT_PREFIX . 'userprincipalname', true);
+
+		if ($samAccountName || $userPrincipalName) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

@@ -149,6 +149,19 @@ class NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 	 */
 	public function triggerSyncToActiveDirectory($userId, $data)
 	{
+		$useGlobalSyncUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_USE_GLOBAL_USER);
+		if ($useGlobalSyncUser) {
+			$globalSyncUserName = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER);
+			$globalSyncUserPassword =$this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
+			if ($globalSyncUserName === "" || $globalSyncUserPassword === "") {
+				$this->errors[] = array(
+					'active_directory_integration_missing_service_account_credentials',
+					__('Error on writing additional attributes back to Active Directory. Service Account is not setup properly. Please contact your WordPress administrator.', 'next-active-directory-integration'),
+				);
+				return false;
+			}
+		}
+
 		$this->logger->debug("Synchronizing user's profile back to Active Directory");
 
 		// Get User Data

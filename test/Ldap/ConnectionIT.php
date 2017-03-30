@@ -19,6 +19,8 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 
 	public function setUp()
 	{
+		\WP_Mock::setUp();
+
 		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
 
 		$this->ldapConnection = new NextADInt_Ldap_Connection($this->configuration);
@@ -30,6 +32,7 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 	public function tearDown()
 	{
 		$this->rollbackAdAfterConnectionIt($this->ldapConnection->getAdLdap());
+		\WP_Mock::tearDown();
 		Mockery::close();
 	}
 
@@ -112,14 +115,30 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 	 */
 	public function modifyUserWithoutSchema_withAttributesToSync_RollbackAfterwards_returnTrue()
 	{
+
+		$wpUser = new WP_User();
+		$wpUser->ID = 666;
+		$wpUser->user_login = $this->username1;
+
 		$this->ldapConnection->connect($this->connectionDetails);
+		$ldapAttribute = $this->ldapConnection->findSanitizedAttributesOfUser($this->username1, array('objectguid'));
+		$userGuid = NextADInt_Core_Util_StringUtil::binaryToGuid($ldapAttribute['objectguid']);
+
+		WP_Mock::wpFunction('get_user_meta', array(
+				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+				'times'  => 2,
+				'return' => $userGuid
+		));
 
 		$attributesToSync = array(
 			"countryCode" => 1,
 			"description" => "Description modified by integration Test!",
 		);
 
-		$returnedValue = $this->ldapConnection->modifyUserWithoutSchema($this->username1, $attributesToSync);
+
+
+		$returnedValue = $this->ldapConnection->modifyUserWithoutSchema($wpUser, $attributesToSync);
+
 		$this->assertTrue($returnedValue);
 
 		// Rollback everything
@@ -128,7 +147,7 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 			"description" => "Vordefiniertes Konto für die Verwaltung des Computers bzw. der Domäne",
 		);
 
-		$returnedValue = $this->ldapConnection->modifyUserWithoutSchema($this->username1, $attributesToSync);
+		$returnedValue = $this->ldapConnection->modifyUserWithoutSchema($wpUser, $attributesToSync);
 		$this->assertTrue($returnedValue);
 	}
 
@@ -137,12 +156,6 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 	 */
 	public function findAllMembersOfGroup_withGroupName_returnMemberArray()
 	{
-		//Workaround to bypass domainSid check in IT
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::DOMAIN_SID)
-			->willReturn('S-1-5');
-
 		$this->ldapConnection->connect($this->connectionDetails);
 
 		$expectedMember = array(
@@ -222,7 +235,8 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 			'base_dn' => $this->connectionDetails->getBaseDn(),
 			'domain_controllers' => array($this->connectionDetails->getDomainControllers()),
 			'ad_port' => $this->connectionDetails->getPort(),
-			'use_tls' => '',
+			'use_tls' => false,
+            'use_ssl' => false,
 			'network_timeout' => $this->connectionDetails->getNetworkTimeout(),
 			'ad_username' => $this->connectionDetails->getUsername(),
 			'ad_password' => $this->connectionDetails->getPassword()

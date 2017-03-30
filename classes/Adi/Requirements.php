@@ -28,7 +28,7 @@ class NextADInt_Adi_Requirements
 	const WORDPRESS_VERSION = '4.0';
 	const MODULE_LDAP = 'ldap';
 	const MODULE_MBSTRING = 'mbstring';
-    const MODULE_MCRYPT = 'mcrypt';
+    const MODULE_OPENSSL = 'openssl';
 	const DEPRECATED_ADI_PLUGIN_NAME = 'active-directory-integration/ad-integration.php';
 
 	public function __construct()
@@ -38,7 +38,7 @@ class NextADInt_Adi_Requirements
 
 	/**
 	 * Check if all required dependencies are met and return true if it so.
-	 * If the check fails ADI 2.x is automatically deactivated to prevent any issues.
+	 * If the check fails NADI is automatically deactivated to prevent any issues.
 	 *
 	 * @param bool|true  $showErrors display admin notifications
 	 * @param bool|false $includeActivationCheck include checks which are only executed during activation
@@ -51,7 +51,7 @@ class NextADInt_Adi_Requirements
 			$this->requireWordPressVersion($showErrors);
 			$this->requireLdap($showErrors);
 			$this->requireMbstring($showErrors);
-            $this->requireMcrypt($showErrors);
+            $this->requireOpenSSL($showErrors);
 
 			// check if this WordPress instance has more than 10,000 blogs/sites
 			if (is_multisite()) {
@@ -111,7 +111,7 @@ class NextADInt_Adi_Requirements
 
 		echo "
         <div class=\"error\">
-			<p>The 'Active Directory Integration' plugin requires WordPress $necessary to work properly.</p>
+			<p>The 'Next Active Directory Integration' plugin requires WordPress $necessary to work properly.</p>
 			<p>You are currently using WordPress $wp_version. Please upgrade your WordPress installation.<p>
         </p></div>";
 	}
@@ -144,7 +144,7 @@ class NextADInt_Adi_Requirements
 	{
 		echo "
         <div class=\"error\">
-			<p>The 'Active Directory Integration' plugin requires the PHP module 'ldap' for communicating with the AD server. Please enable it.</p>
+			<p>The 'Next Active Directory Integration' plugin requires the PHP module 'ldap' for communicating with the AD server. Please enable it.</p>
 			<p>For further information please visit <a href=\"https://secure.php.net/ldap\">https://secure.php.net/ldap</a>.</p>
         </div>";
 	}
@@ -177,7 +177,7 @@ class NextADInt_Adi_Requirements
 	{
 		echo "
         <div class=\"error\">
-			<p>The 'Active Directory Integration' plugin requires the PHP module 'mbstring' for working with encrypted strings. You have to enable it.</p>
+			<p>The 'Next Active Directory Integration' plugin requires the PHP module 'mbstring' for working with encrypted strings. You have to enable it.</p>
 			<p>For further information please visit <a href=\"https://secure.php.net/manual/en/mbstring.installation.php\">https://secure.php.net/manual/en/mbstring.installation.php</a>.</p>
         </div>";
 	}
@@ -189,13 +189,13 @@ class NextADInt_Adi_Requirements
      *
      * @throws RequirementException
      */
-    public function requireMcrypt($showErrors = true)
+    public function requireOpenSSL($showErrors = true)
     {
-        // mb_strings php module
-        if (!NextADInt_Core_Util::native()->isLoaded(self::MODULE_MCRYPT)) {
+        // openssl php module
+        if (!NextADInt_Core_Util::native()->isLoaded(self::MODULE_OPENSSL)) {
             if ($showErrors) {
                 add_action(NextADInt_Adi_Ui_Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
-                    $this, 'missingMcrypt',
+                    $this, 'missingOpenSSL',
                 ));
             }
 
@@ -204,14 +204,14 @@ class NextADInt_Adi_Requirements
     }
 
     /**
-     * Display the error message for the missing mb_string extension.
+     * Display the error message for the missing openssl extension.
      */
-    public function missingMcrypt()
+    public function missingOpenSSL()
     {
         echo "
         <div class=\"error\">
-			<p>The 'Active Directory Integration' plugin requires the PHP module 'mcrypt' for encrypting passwords and storing configuration. You have to enable it.</p>
-			<p>For further information please visit <a href=\"https://secure.php.net/manual/de/mcrypt.setup.php\">https://secure.php.net/manual/de/mcrypt.setup.php</a>.</p>
+			<p>The 'Next Active Directory Integration' plugin requires the PHP module 'openssl' for encrypting passwords and establishing starttls/ldaps connections. You have to enable it.</p>
+			<p>For further information please visit <a href=\"https://secure.php.net/manual/de/openssl.setup.php\">https://secure.php.net/manual/de/openssl.setup.php</a>.</p>
         </div>";
     }
 
@@ -242,7 +242,7 @@ class NextADInt_Adi_Requirements
 	{
 		echo "
         <div class=\"error\">
-        <p>The 'Active Directory Integration' plugin does not support more than 10,000 sites.</p>
+        <p>The 'Next Active Directory Integration' plugin does not support more than 10,000 sites.</p>
 			<p>Please delete some unused sites or contact the developer for a feature request.</p>
         </div>";
 	}
@@ -276,8 +276,7 @@ class NextADInt_Adi_Requirements
 		echo "
 		<div class=\"error\">
 			<p>Your blog is member of a WordPress network. Active Directory Integration can only be activated for your whole network. Please contact the administrator of your WordPress installation to set-up an ADI profile for your blog.</p>
-		</div>
-		";
+		</div>";
 	}
 
 	public function registerPostActivation()
@@ -320,7 +319,7 @@ class NextADInt_Adi_Requirements
     	});
     	</script>
 		<div class=\"notice notice-warning\">
-		<p>ADI 1.x and NADI 2.x can not run in parallel. Any previous version of ADI 1.x has been deactivated to prevent issues.</p>
+		<p>ADI 1.x and NADI can not run in parallel. Any previous version of ADI 1.x has been deactivated to prevent issues.</p>
 		</div>
 		";
 	}

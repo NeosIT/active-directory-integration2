@@ -2,7 +2,7 @@
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows
 Requires at least: 4.0
-Tested up to: 4.7.0
+Tested up to: 4.7.2
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -11,10 +11,10 @@ Next Active Directory Integration allows WordPress to authenticate, authorize, c
 
 == Description ==
 
-*Next Active Directory Integration* allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory. *Next ADI* ist a complete rewrite of its predecessor Active Directory Integration and therefore an own plugin.
+*Next Active Directory Integration* allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory. *NADI* ist a complete rewrite of its predecessor Active Directory Integration and therefore an own plugin.
 You can easily import users from your Active Directory into your WordPress instance and keep both synchronized through *Next Active Directory Integration's* features.
 
-Even if *Next ADI* is available for free we hope you purchase a support license to let us continue the work on Next Active Directory Integration.
+Even if *NADI* is available for free we hope you purchase a support license to let us continue the work on Next Active Directory Integration.
 You can purchase commercial support licences at [https://www.active-directory-wp.com/shop-overview/](https://www.active-directory-wp.com/shop-overview/). The support license does also contain access to our premium extensions.
 
 = Features =
@@ -44,13 +44,13 @@ As an owner of a valid support license you have access to the following premium 
 * Profile Pictures: Synchronize profile photos from Active Directory to WordPress without a 3rd party plug-in
 * BuddyPress profile photo: Synchronize profile photos from Active Directory to BuddyPress
 * Buddy Press simple attributes: Synchronize attributes from Active Directory/NADI to BuddyPress' custom profiles
-* Login with Ultimate Member: Let UM users log in by using Next ADI
-* Login with WooCommerce: Let WooCommerce users log in by using Next ADI
+* Login with Ultimate Member: Let UM users log in by using NADI
+* Login with WooCommerce: Let WooCommerce users log in by using NADI
 
 = Requirements =
 
 * WordPress since 4.0
-* PHP >= 5.3
+* PHP >= 5.6
 * LDAP support
 * OpenSSL Support for TLS (recommended)
 
@@ -72,7 +72,7 @@ Please read the [FAQ](https://www.active-directory-wp.com/docs/FAQ.html) of our 
 10. Logging
 11. Extend WordPress' user list with Active Directory information
 12. Profile assignment in WordPress Multisite
-13. Custom *Next ADI* profile in WordPress Multisite environment
+13. Custom *NADI* profile in WordPress Multisite environment
 
 
 == Installation ==
@@ -80,23 +80,21 @@ Please read the [FAQ](https://www.active-directory-wp.com/docs/FAQ.html) of our 
 = Requirements =
 To install Next Active Directory Integration you need at least WordPress 4.0 and PHP 5.3
 
-Although only tested with Apache 2.2 and 2.4 *Next ADI* should work with all other common web servers like nginx and IIS.
+Although only tested with Apache 2.2 and 2.4 *NADI* should work with all other common web servers like nginx and IIS.
 
-Next Active Directory Integration requires a few PHP modules to be enabled. Please verify in your `php.ini` that *ldap*, *mcrypt* and *mbstring* are activated. But it is very likely, that *mcrypt* is already enabled and not listed in the `php.ini`.
-If you are planning to use encryption for your LDAP connection - which we *highly* suggest - you although need *openssl* to be enabled.
+Next Active Directory Integration requires a few PHP modules to be enabled. Please verify in your `php.ini` that *ldap*, *mbstring* and *openssl* are activated.
 
-	; required by *Next ADI*
+	; required by *NADI*
 	extension=php_ldap.dll
 	extension=php_mbstring.dll
-	; required by LDAP/S and STARTTLS
 	extension=php_openssl.dll
 
-= Migration from ADI 1.x to Next ADI =
+= Migration from ADI 1.x to NADI =
 Please read [our migration guide](https://www.active-directory-wp.com/docs/Migration/index.html) carefully!
 
 = Installation =
 
-**Next ADI** can be easily installed from the [WordPress Plugin Directory](https://codex.wordpress.org/Managing_Plugins#Installing_Plugins).
+**NADI** can be easily installed from the [WordPress Plugin Directory](https://codex.wordpress.org/Managing_Plugins#Installing_Plugins).
 
 It is also possible to download the latest version from [https://downloads.wordpress.org/plugin/next-active-directory-integration.zip"](https://downloads.wordpress.org/plugin/next-active-directory-integration.zip) and unpack the folder to your *wordpress/wp-content/plugins* directory.
 
@@ -110,27 +108,38 @@ Developers can clone the [Git Repository](https://github.com/NeosIT/active-direc
 = Network installation =
 - Visit your WordPress network dashboard as *Super Admin*
 - Click on the *Plugins* link in the left the navigation bar
-- Activate the *Next Active Directory Integration* plug-in. In a WordPress network installation *Next ADI* should be *Network activated*.
+- Activate the *Next Active Directory Integration* plug-in. In a WordPress network installation *NADI* should be *Network activated*.
 
-You can enable/disable *Next ADI* for specific blogs by using the *Profiles* feature of *Next ADI*.
-It is __not__ possible to activate *Next ADI* for a site inside a network.
+You can enable/disable *NADI* for specific blogs by using the *Profiles* feature of *NADI*.
+It is __not__ possible to activate *NADI* for a site inside a network.
 
 == Changelog ==
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.0.12 =
+* ADD: internationalization for all plugin strings (ADI-432 ADI-436 see https://translate.wordpress.org/projects/wp-plugins/next-active-directory-integration)
+* FIX: roles are now mapped using the GUID instead of sAMAccountName (ADI-428)
+* ADD: option for preventing disabled users to be synchronized to WordPress (ADI-223)
+* ADD: validation for Base DN
+* FIX: problem when sending brute force protection notifications via email (ADI-464)
+* FIX: non NADI users being blocked by the brute force protection
+* FIX: brute force protection now checks for the whole username (ADI-424)
+* FIX: updating user profiles without bind user (ADI-439)
+* FIX: countdown for brute force protection (ADI-456)
+
 = 2.0.11 =
 * ADD: NTLM support for SSO (sponsored by Vogels - www.vogels.com)
 * ADD: implementation of hooks to provide an API (ADI-145)
 * ADD: premium extensions available for support license subscribers
-* ADD: log reason for not being able to increase max_execution_time (ADI-396) 
+* ADD: log reason for not being able to increase max_execution_time (ADI-396)
 * ADD: log message that AD security group could not be found (ADI-397)
 * ADD: improve logging number of users to import from AD to WordPress (ADI-414)
-* FIX: synchronization does not work b/c getDoimainSid returns "S-0" (ADI-412)
+* FIX: synchronization does not work b/c getDomainSid returns "S-0" (ADI-412)
 * FIX: "Test authentication" does not allow characters like a backward slash (ADI-421)
-* FIX: permanent redirects after succssful authentication (ADI-422)
+* FIX: permanent redirects after successful authentication (ADI-422)
 * FIX: error "the current user is being initialized without using $wp->init()" when using BuddyPress (ADI-416)
-* FIX: blocking of users with long usernames (ADI-330)
+* FIX: blocking of users with long user names (ADI-330)
 * FIX: get_blog_details replaced with get_site to maintain compatibility with WordPress 4.7+ (ADI-419)
 * FIX: restrict output of debug LDAP user information to only an amount of characters (ADI-420)
 * FIX: Sync to WordPress: default WordPress role "Subscriber" is not assigned (ADI-401)
@@ -161,7 +170,7 @@ For detailed information you can visit the official [GitHub repository of Active
 * FIX: SSO/verify-password errors by un-quoting values in $_GET/$_POST/$_SERVER. WordPress quotes all entries in $_GET/$_POST/$_SERVER automatically (GitHub #20 Thanks to plantjes)
 
 = 2.0.5 =
-* FIX: check if AD result is not empty before accessing distinguishedname (GitHub #16 Thanks to petterannerwall)
+* FIX: check if AD result is not empty before accessing distinguished name (GitHub #16 Thanks to petterannerwall)
 * ADD: optional support for Down-Level User Name (like TEST\klammer) (GitHub #18)
 
 = 2.0.4 =
@@ -185,12 +194,12 @@ For detailed information you can visit the official [GitHub repository of Active
 * ADD: experimental support for multiple Active Directory domains; see FAQ
 * ADD: easier handling and description of encryption methods for LDAP
 * ADD: additional columns in Multisite overview for networks and users
-* ADD: usernames can be explicitly excluded from authentication
+* ADD: user names can be explicitly excluded from authentication
 * ADD: menu entries of *Next ADI* can be hidden
 * ADD: *Next ADI* can be disabled per Multisite site environment
 * CHANGE: large user interface improvements
 * CHANGE: complete rewrite of the PHP backend
-* CHANGE: userPrincipalName is leading attribute for user identification instead of samaccountname
+* CHANGE: userPrincipalName is leading attribute for user identification instead of sAMAccountName
 * FIX: Role Equivalent Groups can be mapped to multiple WordPress roles instead of only one
 * and much much more we can not list here. Please take the time and read the official documentation :-)
 
