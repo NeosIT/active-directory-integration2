@@ -389,6 +389,52 @@ class Ut_NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest
 		$this->assertTrue($actual);
 	}
 
+	/**
+	 * @test
+	 */
+	public function triggerSyncToActiveDirectory_withUseServiceAccountAndNoCredentials_returnFalse()
+	{
+		$sut = $this->sut(array('createLdapConnectionDetails'));
+
+		$this->mockFunction__();
+
+		$wpUserdata = (object)array('ID' => 666, 'user_login' => 'username');
+		$ldapConnectionDetails = (object)array('username' =>'serviceUsername', 'password' => 'servicePassword');
+
+		$this->configuration->expects($this->exactly(3))
+			->method('getOptionValue')
+			->withConsecutive(
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_USE_GLOBAL_USER),
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_USER),
+				array(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
+			)
+			->will(
+				$this->onConsecutiveCalls(
+					true,
+					"",
+					""
+				)
+			);
+
+		WP_Mock::wpFunction('get_userdata', array(
+			'args'   => 666,
+			'times'  => 0,
+			'return' => $wpUserdata
+		));
+
+		$sut->expects($this->never())
+			->method('createLdapConnectionDetails')
+			->with($wpUserdata, null)
+			->willReturn($ldapConnectionDetails);
+
+		$this->syncToActiveDirectory->expects($this->never())
+			->method('synchronize')
+			->with(666, 'serviceUsername', 'servicePassword')
+			->willReturn(true);
+
+		$actual = $sut->triggerSyncToActiveDirectory(666, array());
+		$this->assertFalse($actual);
+	}
 
 	/**
 	 * @test

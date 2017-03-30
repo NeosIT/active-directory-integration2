@@ -13,13 +13,13 @@
     {% else %}
         {% set disabled = "" %}
     {% endif %}
-
-    {% if  newNetwork %}
-        {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
-    {% else %}
-        {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
+    {% if not angularAttributes is empty %}
+        {% if  newNetwork %}
+            {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
+        {% else %}
+            {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
+        {% endif %}
     {% endif %}
-
     <select id="{{ inputId }}" {{ inline }} ng-class="{ error: messages.{{ optionName }} != null }"
             ng-model="option.{{ optionName }}" {{ disabled }} {{ angularAttributes|raw }}>
 
