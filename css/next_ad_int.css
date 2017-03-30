@@ -186,7 +186,7 @@
 
 .adi-button {
     line-height: 17px !important;
-    margin-top: 4px !important;
+    margin-top: 1px;
 }
 
 div .no-padding-left {
@@ -243,3 +243,25 @@ div .no-padding-left {
     text-align: center;
 }
 
+.code {
+    font-size: 100%;
+}
+
+.nav-tab-active, .nav-tab-active:focus, .nav-tab-active:focus:active, .nav-tab-active:hover {
+    border-bottom: 1px solid #ffffff;
+    background: #ffffff;
+    color: #000;
+}
+
+input {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.wp-core-ui .button {
+    margin: 1px;
+}
+
+.table>tbody>tr>td {
+    line-height: 28px;
+}
