@@ -1,90 +1,103 @@
-<h1>{{ i18n.title }}</h1>
+<section ng-app="next_ad_int-module">
+    <h1>{{ i18n.title }}</h1>
 
-<div>
-    {{ i18n.descriptionLine1|raw }}<br>
-    {{ i18n.descriptionLine2|raw }}<br>
-    <code>curl --data "next_ad_int-task=sync-to-wordpress&auth-code={{ authCode }}" {{ blogUrl }}/wp-admin/admin.php</code></br>
-    <code>wget --post-data "next_ad_int-task=sync-to-wordpress&auth-code={{ authCode }}" {{ blogUrl }}/wp-admin/admin.php</code>
-</div>
+    <div>
+        {{ i18n.descriptionLine1|raw }}<br>
+        {{ i18n.descriptionLine2|raw }}<br>
+        <code>curl --data "next_ad_int-task=sync-to-wordpress&auth-code={{ authCode }}" {{ blogUrl }}
+            /wp-admin/admin.php</code></br>
+        <code>wget --post-data "next_ad_int-task=sync-to-wordpress&auth-code={{ authCode }}" {{ blogUrl }}
+            /wp-admin/admin.php</code>
+    </div>
 
-<br>
+    <br>
 
-<form method="post">
-    <input type="hidden" name="security" value="{{ nonce }}"/>
-    <button type="submit" name="syncToWordpress" class="button button-primary">
-        {{ status is defined ? i18n.repeatAction|raw : i18n.startAction|raw }}
-    </button>
+    <div ng-init="sid = '{{ domainSidSet }}';
+    syncEnabled = '{{ syncEnabled }}';
+    syncUserSet = '{{ syncUserSet }}';
+    syncPassSet = '{{ syncPassSet }}'"></div>
 
-</form>
-<div class="container-fluid no-padding-left">
-    {% if status is defined %}
-
-        <div class="adi-status-alert">
-            {% if status == true %}
-                <div class="alert alert-success" role="alert">{{ message }}</div>
-            {% else %}
-                <div class="alert alert-danger" role="alert">{{ message }}</div>
-            {% endif %}
+    <div ng-controller="SyncActionController">
+        <form method="post" action="">
+            <input type="hidden" name="security" value="{{ nonce }}"/>
+            <button type="submit" name="syncToWordpress" class="button button-primary" ng-disabled="!enableSync">
+                {{ status is defined ? i18n.repeatAction|raw : i18n.startAction|raw }}
+            </button>
+        </form>
+        <div class="adi-status-alert container-fluid no-padding-left">
+            <div ng-if="!enableSync" class="alert alert-warning">
+                {{ i18n.syncDisabled | raw }}
+            </div>
         </div>
+    </div>
+    <div class="container-fluid no-padding-left">
+        {% if status is defined %}
 
-        {% set logs = log %}
-        <h2>Log</h2>
+            <div class="adi-status-alert">
+                {% if status == true %}
+                    <div class="alert alert-success" role="alert">{{ message }}</div>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">{{ message }}</div>
+                {% endif %}
+            </div>
 
-        <button class="button button-primary" type="button" data-toggle="collapse" data-target="#log-output"
-                aria-expanded="false">
-            Show log output
-        </button>
-        <div class="collapse" id="log-output">
-            <table class="table table-hover table-condensed table-responsive adi-log-table">
-                <tr>
-                    <th class="col-md-1 text-align-center">Log Level</th>
-                    <th class="text-align-center">Log Message</th>
-                </tr>
-                {% for logLine in logs %}
+            {% set logs = log %}
+            <h2>Log</h2>
 
-                    {% if logLine.logLevel == '[DEBUG]' %}
-                        <tr class="info">
-                            <td>{{ logLine.logLevel }}</td>
-                            <td>{{ logLine.logMessage }}</td>
+            <button class="button button-primary" type="button" data-toggle="collapse" data-target="#log-output"
+                    aria-expanded="false">
+                Show log output
+            </button>
+            <div class="collapse" id="log-output">
+                <table class="table table-hover table-condensed table-responsive adi-log-table">
+                    <tr>
+                        <th class="col-md-1 text-align-center">Log Level</th>
+                        <th class="text-align-center">Log Message</th>
+                    </tr>
+                    {% for logLine in logs %}
+
+                        {% if logLine.logLevel == '[DEBUG]' %}
+                            <tr class="info">
+                                <td>{{ logLine.logLevel }}</td>
+                                <td>{{ logLine.logMessage }}</td>
+                            </tr>
+                        {% elseif logLine.logLevel == '[WARN]' %}
+                            <tr class="danger">
+                                <td>{{ logLine.logLevel }}</td>
+                                <td>{{ logLine.logMessage }}</td>
+                            </tr>
+                        {% elseif logLine.logLevel == '[ERROR]' %}
+                            <tr class="danger">
+                                <td>{{ logLine.logLevel }}</td>
+                                <td>{{ logLine.logMessage }}</td>
+                            </tr>
+                        {% elseif logLine.logLevel == '[INFO]' %}
+                            <tr>
+                                <td>{{ logLine.logLevel }}</td>
+                                <td>{{ logLine.logMessage }}</td>
+                            </tr>
+                        {% endif %}
+
+                    {% endfor %}
+
+                    {% if status == true %}
+                        <tr class="success">
+                            <td>[STATUS]</td>
+                            <td>
+                                <b>{{ message }}</b>
+                            </td>
                         </tr>
-                    {% elseif logLine.logLevel == '[WARN]' %}
-                        <tr class="danger">
-                            <td>{{ logLine.logLevel }}</td>
-                            <td>{{ logLine.logMessage }}</td>
-                        </tr>
-                    {% elseif logLine.logLevel == '[ERROR]' %}
-                        <tr class="danger">
-                            <td>{{ logLine.logLevel }}</td>
-                            <td>{{ logLine.logMessage }}</td>
-                        </tr>
-                    {% elseif logLine.logLevel == '[INFO]' %}
-                        <tr>
-                            <td>{{ logLine.logLevel }}</td>
-                            <td>{{ logLine.logMessage }}</td>
+                    {% else %}
+                        <tr class="danger result-danger">
+                            <td>[STATUS]</td>
+                            <td>
+                                <b>{{ message }}</b>
+                            </td>
                         </tr>
                     {% endif %}
 
-                {% endfor %}
-
-                {% if status == true %}
-                    <tr class="success">
-                        <td>[STATUS]</td>
-                        <td>
-                            <b>{{ message }}</b>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr class="danger result-danger">
-                        <td>[STATUS]</td>
-                        <td>
-                            <b>{{ message }}</b>
-                        </td>
-                    </tr>
-                {% endif %}
-
-            </table>
-        </div>
-
-
-    {% endif %}
-</div>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</section>
