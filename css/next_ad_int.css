@@ -114,19 +114,21 @@
 }
 
 .adi-form .adi-role-equivalent {
- width: 550px;
+    width: 550px;
 }
+
 .adi-form .adi-role-equivalent tr td {
     padding-top: 0;
     padding-bottom: 0;
 }
+
 .adi-form .adi-role-equivalent tr td:first-child,
-.adi-form .adi-role-equivalent tr td:nth-child(3){
+.adi-form .adi-role-equivalent tr td:nth-child(3) {
     width: 35%;
 }
 
 .adi-form .adi-role-equivalent tr td:nth-child(2),
-.adi-form .adi-role-equivalent tr td:nth-child(4){
+.adi-form .adi-role-equivalent tr td:nth-child(4) {
     text-align: center;
     width: 15%;
     padding-top: 0;
@@ -137,6 +139,10 @@
     font-weight: bold;
     text-align: center;
     padding-left: 0;
+}
+
+.adi-equivalent-padding-right {
+    padding-right: 21px !important;
 }
 
 .adi-form .adi-role-equivalent-column {
@@ -151,8 +157,7 @@
 
 .adi-form .adi-attribute-mapping tr td:first-child,
 .adi-form .adi-attribute-mapping tr td:nth-child(2),
-.adi-form .adi-attribute-mapping tr td:nth-child(3)
-,.adi-form .adi-attribute-mapping tr td:nth-child(4){
+.adi-form .adi-attribute-mapping tr td:nth-child(3), .adi-form .adi-attribute-mapping tr td:nth-child(4) {
     width: 15%;
 }
 
@@ -177,6 +182,11 @@
 
 .adi-button-hidden {
     visibility: hidden;
+}
+
+.adi-button {
+    line-height: 17px;
+    margin-top: 1px;
 }
 
 .adi-pe-message {
@@ -217,4 +227,49 @@ div .no-padding-left {
 
 .adi-user-list-custom-column {
     align-content: center;
+}
+
+.adi-align-checkbox-label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+    font-weight: 100;
+}
+
+.adi-align-checkbox-input {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin: 0 !important;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
+
+.adi-align-table-header th {
+    text-align: center;
+}
+
+.code {
+    font-size: 100%;
+}
+
+.nav-tab-active, .nav-tab-active:focus, .nav-tab-active:focus:active, .nav-tab-active:hover {
+    border-bottom: 1px solid #ffffff;
+    background: #ffffff;
+    color: #000;
+}
+
+input {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.wp-core-ui .button {
+    margin: 1px;
+}
+
+.table>tbody>tr>td {
+    line-height: 28px;
 }

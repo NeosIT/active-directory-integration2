@@ -20,17 +20,16 @@
 
         {% set tabId = 'tab_body_' ~ prefix ~ '__' ~ loop.index0 %}
 
-        <div id="{{ tabId }}" class="tab-body" style="{{ style }}" ng-controller="{{ optionGroups.angular_controller|raw }}">
-            {{ group.create(optionGroups, isProfile, i18n) }}
-        {% if isOnNetworkDashboard %}
-            <button class="button button-primary" busy-disabled="true" busy="{{ i18n.pleaseWait }}" not-busy-disabled="{{ '{{ isSaveDisabled }}' }}" ng-disabled="isSaveDisabled" ng-click="save()">{{ i18n.save }}</button>
-            <span ng-hide="!isSaveDisabled" style="color: red">{{ i18n.haveToVerifyDomainConnection }}</span>
-        {% else %}
-            <button class="button button-primary" busy-disabled="true" busy="{{ i18n.pleaseWait }}" not-busy-disabled="{{ '{{ isSaveDisabled }}' }}" ng-disabled="(isSaveDisabled && permission.verification_username == 3 && permission.verification_password == 3)" ng-click="save()">{{ i18n.save }}</button>
-            <span ng-hide="(!isSaveDisabled || permission.verification_username != 3 && permission.verification_password != 3)" style="color: red">{{ i18n.haveToVerifyDomainConnection }}</span>
-        {% endif %}
-        </div>
-
+                <div id="{{ tabId }}" class="tab-body" style="{{ style }}" ng-controller="{{ optionGroups.angular_controller|raw }}">
+                    {{ group.create(optionGroups, isProfile, i18n) }}
+                    {% if isOnNetworkDashboard %}
+                        <button class="button button-primary" busy-disabled="true" busy="{{ i18n.pleaseWait }}" not-busy-disabled="{{ '{{ isSaveDisabled }}' }}" ng-disabled="isSaveDisabled" ng-click="save()">{{ i18n.save }}</button><br><br>
+                        <div ng-hide="!isSaveDisabled" class="alert alert-danger" role="alert"><span>{{ i18n.haveToVerifyDomainConnection }}</span></div>
+                    {% else %}
+                        <button class="button button-primary" busy-disabled="true" busy="{{ i18n.pleaseWait }}" not-busy-disabled="{{ '{{ isSaveDisabled }}' }}" ng-disabled="(isSaveDisabled && permission.verification_username == 3 && permission.verification_password == 3)" ng-click="save()">{{ i18n.save }}</button><br><br>
+                        <div ng-hide="(!isSaveDisabled || permission.verification_username != 3 && permission.verification_password != 3)" class="alert alert-danger" role="alert"><span>{{ i18n.haveToVerifyDomainConnection }}</span></div>
+                    {% endif %}
+                </div>
     {% endfor %}
     </div>
 

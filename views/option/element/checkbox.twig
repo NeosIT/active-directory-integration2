@@ -20,10 +20,8 @@
     {% endif %}
 
     <fieldset>
-        <label for="{{ inputId }}">
-            <input id="{{ inputId }}" type="checkbox" {{ inline }} {{ angularAttributes|raw }} ng-model="option.{{
-            optionName }}" ng-class="{
-            error: messages.{{ optionName }} != null }" {{ disabled }}>
+        <label class="adi-align-checkbox-label" for="{{ inputId }}">
+            <input class="adi-align-checkbox-input" id="{{ inputId }}" type="checkbox"  {{ inline }} {{ angularAttributes|raw }} ng-model="option.{{ optionName }}" ng-class="{ error: messages.{{ optionName }} != null }" {{ disabled }}>
 
             {% import "option/element/description.twig" as descriptionElement %}
             {{ descriptionElement.create(description) }}

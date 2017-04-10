@@ -26,7 +26,8 @@
 
     &nbsp
 
-    <button id="{{ inputId }}" type="button" class="button button-secondary" ng-click="newAuthCode()" {{ angularAttributes|raw }}>{{ i18n.regenerateAuthCode }}</button>
+    <button id="{{ inputId }}" type="button" class="button button-secondary adi-button" ng-click="newAuthCode()" {{
+    angularAttributes|raw }}>{{ i18n.regenerateAuthCode }}</button>
 
     <p>
         {% import "option/element/error-msg.twig" as errorElement %}

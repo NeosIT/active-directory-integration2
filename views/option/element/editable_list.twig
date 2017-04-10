@@ -24,7 +24,7 @@
     {% endif %}
 
     <input type="text" ng-model="new_{{ optionName }}" {{ angularAttributes|raw }} {{ disabled }}>
-    <button class="button button-primary adi-btn-delete"
+    <button class="button button-primary adi-btn-delete adi-button"
             ng-click="add_{{ optionName }}(new_{{ optionName }})" {{ angularAttributes|raw }} {{ angularButtonAttributes|raw }} {{ disabled }}>
         <span class="nsp_dashicons dashicons dashicons-plus adi-icon-inside-button"></span>
     </button>
@@ -39,7 +39,7 @@
         <li ng-repeat="(key, value) in option.{{ optionName }} track by key">
             <div ng-if="option.{{ optionName }}[key] != ''">
                 <input type="text" ng-model="option.{{ optionName }}[key]" {{ angularAttributes|raw }} {{ disabled }} >
-                <button class="button adi-btn-delete"
+                <button class="button adi-btn-delete adi-button"
                         ng-click="remove_{{ optionName }}(key)" {{ angularAttributes|raw }} {{ disabled }}>
                     <span class="nsp_dashicons dashicons dashicons-no-alt adi-icon-inside-button"></span>
                 </button>
