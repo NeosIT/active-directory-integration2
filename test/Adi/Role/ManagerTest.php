@@ -161,9 +161,12 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function synchronizeRoles_onUserCreation_withNoREGsNoRoleIsAssigned()
+	public function synchronizeRoles_onUserCreation_withoutREGsTheDefaultRoleSubscriberIsUsed()
 	{
-		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles'));
+		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles', 'isMemberOfRoleEquivalentGroups'));
+
+		$wpUser = $this->createAnonymousMock(array());
+		$wpUser->ID = 1;
 
 		$sut->expects($this->once())
 			->method('getRoleEquivalentGroups')
@@ -174,15 +177,16 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->with(NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES)
 			->willReturn(true);
 
+		$sut->expects($this->once())
+			->method('isMemberOfRoleEquivalentGroups')
+			->willReturn(false);
+
 		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
 		$roleMapping->setWordPressRoles(array());
 
-		$wpUser = $this->createAnonymousMock(array());
-		$wpUser->ID = 1;
-
 		$sut->expects($this->once())
 			->method('updateRoles')
-			->with($wpUser, array(), true);
+			->with($wpUser, array('subscriber'), false);
 
 		$sut->synchronizeRoles($wpUser, $roleMapping, true);
 	}
@@ -191,29 +195,32 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function synchronizeRoles_onUserCreation_withoutREGsTheDefaultRoleSubscriberIsUsed()
+	public function synchronizeRoles_onUserCreation_withREGs_assignRoles()
 	{
 		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles'));
 
+		$wpUser = $this->createAnonymousMock(array());
+		$wpUser->ID = 1;
+		$wpUser->roles = array('subscriber');
+		$wpUser->user_login = 'username';
+
+		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
+		$roleMapping->setWordPressRoles(array('administrator'));
+		$roleMapping->setSecurityGroups(array('securityGroup'));
+
 		$sut->expects($this->once())
 			->method('getRoleEquivalentGroups')
-			->willReturn(array());
+			->willReturn(array('securityGroup' => 'administrator'));
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
 			->with(NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES)
 			->willReturn(true);
 
-		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
-		$roleMapping->setWordPressRoles(array());
-
-		$wpUser = $this->createAnonymousMock(array());
-		$wpUser->ID = 1;
-		$wpUser->roles = array('subscriber');
 
 		$sut->expects($this->once())
 			->method('updateRoles')
-			->with($wpUser, array('subscriber'), true);
+			->with($wpUser, array('administrator'), true);
 
 		$sut->synchronizeRoles($wpUser, $roleMapping, true);
 	}
@@ -235,6 +242,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 
 		$wpUser = $this->createAnonymousMock(array());
 		$wpUser->ID = 1;
+		$wpUser->user_login = 'username';
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -245,7 +253,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 			->method('updateRoles')
 			->with($wpUser, array(), true);
 
-		$sut->synchronizeRoles($wpUser, $roleMapping, true);
+		$sut->synchronizeRoles($wpUser, $roleMapping, false);
 	}
 
 	/**
@@ -310,6 +318,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 		$wpUser = $this->createAnonymousMock(array('set_role', 'add_role'));
+		$wpUser->user_login = 'username';
 
 		$wpUser->expects($this->never())
 			->method('set_role');
@@ -329,6 +338,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 		$wpUser = $this->createAnonymousMock(array('set_role', 'add_role'));
+		$wpUser->user_login = 'username';
 
 		$wpUser->expects($this->once())
 			->method('set_role');
@@ -394,6 +404,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	public function updateRoles_handlesSuperAdminRoleDifferent()
 	{
 		$wpUser = $this->createMockWithMethods('WP_User', array('add_role'));
+		$wpUser->user_login = 'username';
 		$roles = array(NextADInt_Adi_Role_Manager::ROLE_SUPER_ADMIN);
 
 		$sut = $this->sut(array('grantSuperAdminRole'));
