@@ -21,17 +21,18 @@ if (class_exists('NextADInt_Adi_Synchronization_WordPress')) {
 class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronization_Abstract
 {
 	// userAccountControl Flags
-	const UF_ACCOUNT_DISABLE = 2;
-	const UF_NORMAL_ACCOUNT = 512;
-	const UF_INTERDOMAIN_TRUST_ACCOUNT = 2048;
-	const UF_WORKSTATION_TRUST_ACCOUNT = 4096;
-	const UF_SERVER_TRUST_ACCOUNT = 8192;
-	const UF_MNS_LOGON_ACCOUNT = 131072;
-	const UF_SMARTCARD_REQUIRED = 262144;
-	const UF_PARTIAL_SECRETS_ACCOUNT = 67108864;
+	const UF_ACCOUNT_DISABLE = 2; // 0010
+	const UF_NORMAL_ACCOUNT = 512; // 0010 0000 0000
+	const UF_INTERDOMAIN_TRUST_ACCOUNT = 2048; // 1000 0000 0000
+	const UF_WORKSTATION_TRUST_ACCOUNT = 4096; // 0001 0000 0000 0000
+	const UF_SERVER_TRUST_ACCOUNT = 8192; // 0010 0000 0000 0000
+	const UF_MNS_LOGON_ACCOUNT = 131072; // 0010 0000 0000 0000 0000
+	const UF_SMARTCARD_REQUIRED = 262144; // 0100 0000 0000 0000 0000
+	const UF_PARTIAL_SECRETS_ACCOUNT = 67108864; // 0100 0000 0000 0000 0000 0000 0000
 
 	// = UF_INTERDOMAIN_TRUST_ACCOUNT + UF_WORKSTATION_TRUST_ACCOUNT + UF_SERVER_TRUST_ACCOUNT + UF_MNS_LOGON_ACCOUNT + UF_PARTIAL_SECRETS_ACCOUNT
-	const NO_UF_NORMAL_ACCOUNT = 67254272;
+	// This flags should never be set for a normal user account.
+	const NO_UF_NORMAL_ACCOUNT = 67254272; // 0100 0000 0010 0011 1000 0000 0000
 
 	/* @var NextADInt_Adi_User_Manager */
 	private $userManager;
@@ -274,7 +275,8 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	}
 
 	/**
-	 * Is the account a normal account
+	 * Is the account a normal account ?
+	 * Checking for flags that should not be set for a normal user account ( http://www.selfadsi.org/ads-attributes/user-userAccountControl.htm )
 	 *
 	 * @param int $uac
 	 *
