@@ -282,7 +282,27 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 */
 	public function isNormalAccount($uac)
 	{
-		if (($uac & (self::UF_NORMAL_ACCOUNT | self::NO_UF_NORMAL_ACCOUNT)) === self::UF_NORMAL_ACCOUNT) {
+
+		// ADI-517 Improved logging for UAC Binary Flag check to make it more transparent for the user and improve debugging.
+		switch ($uac) {
+			case (($uac & self::UF_INTERDOMAIN_TRUST_ACCOUNT) === self::UF_INTERDOMAIN_TRUST_ACCOUNT):
+				$this->logger->warn("INTERDOMAIN_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				return false;
+			case (($uac & self::UF_WORKSTATION_TRUST_ACCOUNT) === self::UF_WORKSTATION_TRUST_ACCOUNT):
+				$this->logger->warn("WORKSTATION_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				return false;
+			case (($uac & self::UF_SERVER_TRUST_ACCOUNT) === self::UF_SERVER_TRUST_ACCOUNT):
+				$this->logger->warn("SERVER_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				return false;
+			case (($uac & self::UF_MNS_LOGON_ACCOUNT) === self::UF_MNS_LOGON_ACCOUNT):
+				$this->logger->warn("MSN_LOGON_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				return false;
+			case (($uac & self::UF_PARTIAL_SECRETS_ACCOUNT) === self::UF_PARTIAL_SECRETS_ACCOUNT):
+				$this->logger->warn("PARTIAL_SECRETS_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				return false;
+		}
+
+		if (($uac & self::UF_NORMAL_ACCOUNT) === self::UF_NORMAL_ACCOUNT) {
 			return true;
 		}
 
@@ -302,6 +322,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 			return false;
 		}
 
+		$this->logger->warn("SMARTCARD_REQUIRED flag detected in userAccountControl ( $uac ).");
 		return true;
 	}
 

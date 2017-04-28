@@ -451,8 +451,83 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
-		$this->assertTrue($sut->isNormalAccount(NextADInt_Adi_Synchronization_WordPress::UF_NORMAL_ACCOUNT));
+		$actual = $sut->isNormalAccount(NextADInt_Adi_Synchronization_WordPress::UF_NORMAL_ACCOUNT);
+
+		$this->assertTrue($actual);
 	}
+
+	/**
+	 * @test
+	 */
+	public function isNormalAccount_returnsFalse_ifInterdomainTrustAccFlagSet()
+	{
+		$sut = $this->sut();
+
+		$actual = $sut->isNormalAccount(NextADInt_Adi_Synchronization_WordPress::UF_INTERDOMAIN_TRUST_ACCOUNT);
+
+		$this->assertFalse($actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isNormalAccount_returnsFalse_ifWorkstationTrustAccFlagSet()
+	{
+		$sut = $this->sut();
+
+		$actual = $sut->isNormalAccount(NextADInt_Adi_Synchronization_WordPress::UF_WORKSTATION_TRUST_ACCOUNT);
+
+		$this->assertFalse($actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isNormalAccount_returnsFalse_ifServerTrustAccFlagSet()
+	{
+		$sut = $this->sut();
+
+		$actual = $sut->isNormalAccount(NextADInt_Adi_Synchronization_WordPress::UF_SERVER_TRUST_ACCOUNT);
+
+		$this->assertFalse($actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isNormalAccount_returnsFalse_ifMnsLogonAccountFlagSet()
+	{
+		$sut = $this->sut();
+
+		$actual = $sut->isNormalAccount(NextADInt_Adi_Synchronization_WordPress::UF_MNS_LOGON_ACCOUNT);
+
+		$this->assertFalse($actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isNormalAccount_returnsFalse_ifUacContainsMultipleForbiddenFlags()
+	{
+		$sut = $this->sut();
+
+		$actual = $sut->isNormalAccount(NextADInt_Adi_Synchronization_WordPress::NO_UF_NORMAL_ACCOUNT);
+
+		$this->assertFalse($actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isNormalAccount_returnsFalse_ifPartialSecretsAccountFlagSet()
+	{
+		$sut = $this->sut();
+
+		$actual = $sut->isNormalAccount(NextADInt_Adi_Synchronization_WordPress::UF_PARTIAL_SECRETS_ACCOUNT);
+
+		$this->assertFalse($actual);
+	}
+
 
 	/**
 	 * @test
