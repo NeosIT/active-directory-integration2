@@ -967,7 +967,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$expectedObjectSid = 'S-1-2-34-5678490000-1244323441-1038535101-500';
 		$expectedSid = 'S-1-2-34-5678490000-1244323441-1038535101';
 		$expectedNetBiosName = 'TEST';
-		$expectedNetBiosData  =  array("netBIOS_name" => $expectedNetBiosName);
+		$expectedNetBiosData  =  array("netbios_name" => $expectedNetBiosName);
 
 		$sut = $this->sut(array('prepareDomainSid', 'persistDomainSid', 'prepareNetBiosName', 'persistNetBiosName', 'findActiveDirectoryNetBiosName'));
 
@@ -1149,7 +1149,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
         $sut = $this->sut();
 
         $actual = $this->invokeMethod($sut, 'getNetBiosNameForPersistence', array($netBiosName));
-        $this->assertEquals($actual, array("netBIOS_name" => $netBiosName));
+        $this->assertEquals($actual, array("netbios_name" => $netBiosName));
     }
 
     /**

@@ -427,17 +427,17 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			return $failedMessage;
 		}
 
-		$netBIOSname = $this->twigContainer->findActiveDirectoryNetBiosName($data);
+		$netBiosName = $this->twigContainer->findActiveDirectoryNetBiosName($data);
 
-        $netBIOSdata = array();
-		if($netBIOSname) {
-			$netBIOSdata = $this->prepareNetBiosName($netBIOSname);
-			$this->persistNetBiosName($netBIOSdata, $profileId);
+        $netBiosData = array();
+		if($netBiosName) {
+			$netBiosData = $this->prepareNetBiosName($netBiosName);
+			$this->persistNetBiosName($netBiosData, $profileId);
 		}
 
 		$this->persistDomainSid($domainSidData, $profileId);
 
-		return array("verification_successful_sid" => $domainSid, "verification_successful_netbios" => $netBIOSdata['netBIOS_name']);
+		return array("verification_successful_sid" => $domainSid, "verification_successful_netbios" => $netBiosData['netbios_name']);
 	}
 
 	/**
@@ -477,7 +477,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	}
 
 	protected function getNetBiosNameForPersistence($netBiosName) {
-		return array("netBIOS_name" => $netBiosName);
+		return array("netbios_name" => $netBiosName);
 	}
 
 	/**
