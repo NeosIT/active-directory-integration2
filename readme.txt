@@ -117,6 +117,31 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.0.14 =
+* ADD: added frontend information banners for NADI premium extensions
+* ADD: added frontend information about why "Sync to WordPress" can not be started
+* FIX: members of not mapped security groups will not receive the default role "Subscriber"
+* FIX: "Clean existing Roles" is now default set to false
+* ADD: added new style for configuration page
+* FIX: fixed some style issues
+* ADD: added logic to determine if an nadi option already exists in the db to prevent the problem saving options with default value true
+* ADD: added detailed log on which UAC flag is responsible for users not beeing imported
+* FIX: fixed logs destroying the user profile while trying to update a user profile / also catched exception
+* FIX: fixed template conditions causing problems in Microsoft Edges
+
+
+= 2.0.13 =
+* FIX: switched from mcrypt to defuse/php-encryption
+* FIX: decoupled password update from user update to allow for automatic password updates without 'auto update user' set to true
+* FIX: marked brute force protection deprecated
+* FIX: minor bugs when using ldap over ssl
+* ADD: sync to ad now uses the GUID for syncronization
+* FIX: verify domain controller connectivity before incrementing brute force protection counter
+* FIX: custom attributes inside the user profile will prioritize the custom description (thanks to mzemann)
+* FIX: changed the look of Sync to AD, Sync to WordPress and Test authentication
+* ADD: added row to users list for premium extension (custom user role management)
+* FIX: added the complete dirname when using require_once inside index.php (GitHub #47)
+
 = 2.0.12 =
 * ADD: internationalization for all plugin strings (ADI-432 ADI-436 see https://translate.wordpress.org/projects/wp-plugins/next-active-directory-integration)
 * FIX: roles are now mapped using the GUID instead of sAMAccountName (ADI-428)
