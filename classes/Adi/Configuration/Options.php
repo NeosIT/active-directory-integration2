@@ -915,7 +915,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 						'next-active-directory-integration'
 					)),
 				$angularAttributes => '',
-				$default     => true,
+				$default     => false,
 				$sanitizer   => array('boolean'),
 				$showPermission    => true,
 				$transient         => false,

@@ -756,4 +756,85 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 
 		$this->assertEquals($sites, $sut->getSites());
 	}
+
+
+	/**
+	 * @test
+	 */
+	public function persist_updateOption_withOptionExistsMultisite()
+	{
+		$this->mockFunction__();
+
+		$sut = $this->sut(array('doesOptionExist', 'updateOption'));
+
+		$siteId = 1;
+		$optionName = NextADInt_Adi_Configuration_Options::PORT;
+		$optionValue = 389;
+
+		$databaseOptionName = 'next_ad_int_bo_v_port';
+
+		$this->sanitizer->expects($this->once())
+			->method('sanitize')
+			->willReturn(389);
+
+		$sut->expects($this->once())
+			->method('doesOptionExist')
+			->with($databaseOptionName, $siteId)
+			->willReturn(true);
+
+		$sut->expects($this->once())
+			->method('updateOption')
+			->with($databaseOptionName, $optionValue, $siteId)
+			->willReturn(true);
+
+		\WP_Mock::wpFunction('is_multisite', array(
+				'times'  => 1,
+				'return' => true)
+		);
+
+		$actual = $sut->persistSanitizedValue(1, $optionName, $optionValue);
+		$expected = 389;
+
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function persist_createOption_withOptionDoesNotExistsMultisite()
+	{
+		$this->mockFunction__();
+
+		$sut = $this->sut(array('doesOptionExist', 'createOption'));
+
+		$siteId = 1;
+		$optionName = NextADInt_Adi_Configuration_Options::PORT;
+		$optionValue = 389;
+
+		$databaseOptionName = 'next_ad_int_bo_v_port';
+
+		$this->sanitizer->expects($this->once())
+			->method('sanitize')
+			->willReturn(389);
+
+		$sut->expects($this->once())
+			->method('doesOptionExist')
+			->with($databaseOptionName, $siteId)
+			->willReturn(false);
+
+		$sut->expects($this->once())
+			->method('createOption')
+			->with($databaseOptionName, $optionValue, $siteId)
+			->willReturn(true);
+
+		\WP_Mock::wpFunction('is_multisite', array(
+				'times'  => 1,
+				'return' => true)
+		);
+
+		$actual = $sut->persistSanitizedValue(1, $optionName, $optionValue);
+		$expected = 389;
+
+		$this->assertEquals($expected, $actual);
+	}
 }

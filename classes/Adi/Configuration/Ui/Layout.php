@@ -162,10 +162,15 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				self::MULTISITE_ONLY => false,
 				// Group name
 				__('Permissions', 'next-active-directory-integration') => array(
-					self::DESCRIPTION => __(
+					self::DESCRIPTION => array(
+						__(
 						'On this page you can configure whether only specific Active Directory Security groups should be granted access to WordPress. You can also define if certain Active Directory security groups should have WordPress role permissions by default.',
 						'next-active-directory-integration'
-					),
+						),
+						__(
+							'<span class="adi-pe-message"><b>Premium-Extensions: </b>Custom Role Management <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
+							'next-active-directory-integration'
+						),),
 					// Option elements in group
 					self::OPTIONS => array(
 						NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP,
@@ -181,10 +186,14 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				self::MULTISITE_ONLY => false,
 				// Group name
 				__('Single Sign On', 'next-active-directory-integration') => array(
-					self::DESCRIPTION => __(
+					self::DESCRIPTION => array(__(
 						'Single Sign On Configuration',
 						'next-active-directory-integration'
 					),
+					__(
+						'<span class="adi-pe-message"><b>Premium-Extensions: </b>SingleSignOn for BuddyPress, WooCommerce und Ultimate Member <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
+						'next-active-directory-integration'
+					)),
 					// Option elements in group
 					self::OPTIONS => array(
 						NextADInt_Adi_Configuration_Options::SSO_ENABLED,
@@ -234,6 +243,10 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						),
 						'',
 						sprintf(__('The following WordPress attributes are reserved by NADI and cannot be used: %s', 'next-active-directory-integration'), implode(', ', NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys())),
+						__(
+							'<span class="adi-pe-message"><b>Premium-Extensions: </b>BuddyPress simple attributes, BuddyPress profile photo, Profile Pictures and User Photo integration <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
+							'next-active-directory-integration'
+						),
 					),
 					// Group elements in group
 					self::OPTIONS     => array(

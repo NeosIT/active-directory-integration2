@@ -116,7 +116,7 @@ class NextADInt_Adi_Role_Manager
 		$this->logger->info("Synchronizing roles of WordPress user with ID " . $wpUser->ID);
 
 		$mappings = $this->getRoleEquivalentGroups();
-		$hasRoleEquivalentGroups = sizeof($mappings) > 0;
+		$isMemberOfRoleEquivalentGroup = $this->isMemberOfRoleEquivalentGroups($roleMapping, $mappings);
 
 		$wordPressRoles = $roleMapping->getWordPressRoles();
 		$hasWordPressRoles = sizeof($wordPressRoles) > 0;
@@ -125,27 +125,19 @@ class NextADInt_Adi_Role_Manager
 
 		$cleanExistingRoles = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES);
 
-		//TODO Revisit and simplify
+		// User create specific logic
 		if ($isUserPreviouslyCreated) {
-			// ADI-141: On user creation if Role Equivalent Groups exist and the user has no role he gets no role assigned
-			if ($hasRoleEquivalentGroups && !$hasWordPressRoles) {
-				$roles = array();
+			// If user part of a mapped security group on create, set cleanExistingRoles true to remove WordPress default subscriber role.
+			if ($isMemberOfRoleEquivalentGroup && $hasWordPressRoles) {
+				$this->logger->info("Role Equivalent Groups for user " . $wpUser->user_login ." defined. Removing default Role Subscriber");
+				$cleanExistingRoles = true;
 			} // ADI-141: On user creation if *no* Role Equivalent Groups exist the default role 'subscriber' is used
-			else if (!$hasRoleEquivalentGroups) {
+			if (!$isMemberOfRoleEquivalentGroup) {
 				$this->logger->warn("No Role Equivalent Groups defined. User gets default WordPress role 'subscriber' assigned");
 				$wordPressRoles = array('subscriber');
-			}
-		} else /* updated user */ {
-			// ADI-141: On user update if Role Equivalent Groups exist and the user has no role *no* role is set
-			if ($hasRoleEquivalentGroups && !$hasWordPressRoles) {
-				$roles = array();
-			} // ADI-141: On user update if *no* Role Equivalent Groups the user's existing roles will not be updated
-			else if (!$hasRoleEquivalentGroups) {
-				$this->logger->warn("No Role Equivalent Groups defined. Previous assigned WordPress roles will stay untouched");
-				$roles = array();
+				$cleanExistingRoles = false;
 			}
 		}
-
 
 		$cleanExistingRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_clean_existing_roles', $cleanExistingRoles, $wordPressRoles, $wpUser, $roleMapping);
 		$wordPressRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_roles', $wordPressRoles, $cleanExistingRoles, $wpUser, $roleMapping);
@@ -155,6 +147,17 @@ class NextADInt_Adi_Role_Manager
 		$this->updateRoles($wpUser, $wordPressRoles, $cleanExistingRoles);
 
 		return true;
+	}
+
+	/**
+	 * Grant the role 'super admin' to a specific {@link WP_User}.
+	 *
+	 * @param WP_User $wpUser
+	 */
+	protected function grantSuperAdminRole(WP_User $wpUser)
+	{
+		$this->loadMultisiteFunctions();
+		grant_super_admin($wpUser->ID);
 	}
 
 	/**
@@ -174,6 +177,9 @@ class NextADInt_Adi_Role_Manager
 
 		if ($cleanExistingRoles) {
 			$wpUser->set_role("");
+			$this->logger->warn("Cleaning Existing Roles true for user " . $wpUser->user_login . "existing roles will be deleted.");
+		} else {
+			$this->logger->warn("Cleaning Existing Roles false for user " . $wpUser->user_login . " existing roles will stay untouched.");
 		}
 
 		// which roles are available?
@@ -188,22 +194,11 @@ class NextADInt_Adi_Role_Manager
 			if ($availableRoles->is_role($role)) {
 				$wpUser->add_role($role);
 			} else {
-			    $this->logger->warn("Can not add role '$role' to " . $wpUser->user_login . " because the role does NOT exist.");
-            }
+				$this->logger->warn("Can not add role '$role' to " . $wpUser->user_login . " because the role does NOT exist.");
+			}
 		}
 
 		return true;
-	}
-
-	/**
-	 * Grant the role 'super admin' to a specific {@link WP_User}.
-	 *
-	 * @param WP_User $wpUser
-	 */
-	protected function grantSuperAdminRole(WP_User $wpUser)
-	{
-		$this->loadMultisiteFunctions();
-		grant_super_admin($wpUser->ID);
 	}
 
 	/**
@@ -318,5 +313,21 @@ class NextADInt_Adi_Role_Manager
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param NextADInt_Adi_Role_Mapping $roleMappings
+	 * @param $roleEquivalentGroups
+	 * @return bool
+	 */
+	public function isMemberOfRoleEquivalentGroups(NextADInt_Adi_Role_Mapping $roleMappings, $roleEquivalentGroups) {
+
+		foreach ($roleMappings->getSecurityGroups() as $key => $securityGroup) {
+			if (isset($roleEquivalentGroups[$securityGroup])) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

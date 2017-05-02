@@ -17,21 +17,21 @@
     {% else %}
         {% set disabled = "" %}
     {% endif %}
-
-    {% if  newNetwork %}
-        {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
-    {% else %}
-        {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
+    {% if not angularAttributes is empty %}
+        {% if  newNetwork %}
+            {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
+        {% else %}
+            {% set angularAttributes = angularAttributes ~ '&& (1))"' %}
+        {% endif %}
     {% endif %}
-
     <table>
         <tr>
             <td class="adi-zero-padding-left">
                 <table class="adi-role-equivalent">
                     <tr class="adi-role-equivalent-headline">
-                        <td>{{ i18n.securityGroup }}</td>
-                        <td class="adi-zero-padding-left" style="padding-right: 15px"><span
-                                    class="nsp_dashicons dashicons dashicons-leftright"></span></td>
+                        <td class="adi-zero-padding-left">{{ i18n.securityGroup }}</td>
+                        <td class="adi-zero-padding-left adi-equivalent-padding-right">
+                            <span class="nsp_dashicons dashicons dashicons-leftright"></span></td>
                         <td class="adi-zero-padding-left">{{ i18n.wordpressRole }}</td>
                         <td>&nbsp;</td>
                     </tr>
@@ -58,7 +58,7 @@
                         </td>
 
                         <td {{ angularButtonAttributes|raw }}>
-                            <button class="button button-primary"
+                            <button class="button adi-button button-primary"
                                     ng-click="addTableItem(newItemField1, newItemField2)" {{ angularAttributes|raw }} >
                                 <span class="nsp_dashicons dashicons dashicons-plus"></span>
                             </button>
@@ -88,7 +88,8 @@
                         </td>
 
                         <td>
-                            <button class="button" ng-click="removeTableItem(key)" {{ angularAttributes|raw }}>
+                            <button class="button adi-button"
+                                    ng-click="removeTableItem(key)" {{ angularAttributes|raw }}>
                                 <span class="nsp_dashicons dashicons dashicons-no-alt"></span>
                             </button>
                         </td>

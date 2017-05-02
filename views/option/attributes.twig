@@ -35,8 +35,8 @@
     {% endif %}
 
 
-    <table style="width: 1200px" class="adi-attribute-mapping">
-        <tr>
+    <table class="table">
+        <tr class="adi-align-table-header">
             <th style="width: 15%">{{ i18n.adAttributes }}</th>
             <th style="width: 15%">{{ i18n.dataType }}</th>
             <th style="width: 15%">{{ i18n.wordpressAttribute }}</th>
@@ -52,7 +52,7 @@
                 <selectize class="selectized" config='attributeConfig'
                            options='ldapAttributes'
                            ng-model="newAdAttribute" required="true"
-                           style="width: 200px" {{ disabled }} {{ angularAttributes|raw }}>
+                            {{ disabled }} {{ angularAttributes|raw }}>
                 </selectize>
             </td>
             <td>
@@ -60,13 +60,13 @@
                 <selectize class="selectized" config='dataTypeConfig'
                            options='dataTypes'
                            ng-model="newDataType" required="true"
-                           style="width: 200px; z-index: 0;" {{ disabled }} {{ angularAttributes|raw }}>
+                           style=" z-index: 0;" {{ disabled }} {{ angularAttributes|raw }}>
                 </selectize>
             </td>
-            <td>
+            <td class="adi-align-center">
                 <input type="text" ng-model="newWordpressAttribute" {{ disabled }}>
             </td>
-            <td>
+            <td class="adi-align-center">
                 <input type="text" ng-model="newDescription" {{ disabled }}>
             </td>
             <td class="adi-align-center">
@@ -79,7 +79,7 @@
                 <input type="checkbox" ng-model="newOverwriteWithEmptyValue"  {{ disabled }}>
             </td>
             <td {{ angularButtonAttributes|raw }}>
-                <button class="button button-primary"
+                <button class="button adi-button button-primary"
                         ng-click="addAttribute(newAdAttribute, newDataType, newWordpressAttribute, newDescription, newViewInUserProfile, newSyncToAd, newOverwriteWithEmptyValue)"
                         {{ disabled }} >
                     <span class="nsp_dashicons dashicons dashicons-plus"></span>
@@ -88,23 +88,23 @@
         </tr>
 
         <tr ng-repeat="(key, value) in option.additional_user_attributes.attributes track by key">
-            <td>
+            <td class="adi-align-center">
                 <selectize class="selectized" {{ disabled }} {{ angularAttributes|raw }} config='attributeConfig'
                            options='ldapAttributes'
                            ng-model="value.adAttribute" required="true">
                 </selectize>
             </td>
-            <td>
+            <td class="adi-align-center">
                 <selectize class="selectized" config='dataTypeConfig'
                            options='dataTypes'
                            ng-model="value.dataType" required="true"
-                           style="width: 200px;" {{ disabled }} {{ angularAttributes|raw }}>
+                            {{ disabled }} {{ angularAttributes|raw }}>
                 </selectize>
             </td>
-            <td>
+            <td class="adi-align-center">
                 <input type="text" ng-model="value.wordpressAttribute" {{ disabled }}>
             </td>
-            <td>
+            <td class="adi-align-center">
                 <input type="text" ng-model="value.description" {{ disabled }}>
             </td>
             <td class="adi-align-center">
@@ -117,7 +117,7 @@
                 <input type="checkbox" ng-model="value.overwriteWithEmptyValue" {{ disabled }}>
             </td>
             <td>
-                <button class="button" ng-click="removeAttribute(key)"  {{ disabled }}>
+                <button class="button adi-button" ng-click="removeAttribute(key)"  {{ disabled }}>
                     <span class="nsp_dashicons dashicons dashicons-no-alt"></span>
                 </button>
             </td>
@@ -126,7 +126,9 @@
     </table>
 
     <p>
-        <span ng-bind="messages.{{ optionName }}.error" class="error-msg"></span>
+        <div class="alert alert-danger" role="alert" ng-show="(messages.{{ optionName }}.error) != null">
+            <span ng-bind="messages.{{ optionName }}.error"></span>
+        </div>
     </p>
 
     <br>

@@ -50,8 +50,8 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	public function __construct(NextADInt_Multisite_Option_Sanitizer $sanitizer,
 								NextADInt_Core_Encryption $encryptionHandler,
 								NextADInt_Multisite_Option_Provider $optionProvider,
-		NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
-		NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository
+								NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
+								NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository
 	) {
 		$this->sanitizer = $sanitizer;
 		$this->encryptionHandler = $encryptionHandler;
@@ -255,21 +255,118 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	protected function persist($siteId, $optionName, $optionValue)
 	{
 		$optionName = $this->getOptionName($optionName);
+		$isMultisite = is_multisite();
 
-		if (is_multisite()) {
-			$success = update_blog_option($siteId, $optionName, $optionValue);
+
+		// Multisite
+		if ($isMultisite) {
+			$optionExists = $this->doesOptionExist($optionName, $siteId);
+
+			if ($optionExists) {
+				$success = $this->updateOption($optionName, $optionValue, $siteId);
+			} else {
+				$success = $this->createOption($optionName, $optionValue, $siteId);
+			}
+
+		// Singlesite
 		} else {
-			$success = update_option($optionName, $optionValue, false);
+			$optionExists = $this->doesOptionExist($optionName);
+
+			if ($optionExists) {
+				$success = $this->updateOption($optionName, $optionValue);
+			} else {
+				$success = $this->createOption($optionName, $optionValue);
+			}
+
 		}
 
 		if (false === $success) {
 			return false;
 		}
 
-		$this->logger->info("Successfully updated blog option: ($siteId,$optionName,$optionValue)");
-
+		$this->logger->info("Persistance of blog option: $optionName successful.");
 
 		return $optionValue;
+	}
+
+	/**
+	 * Create new NADI option
+	 *
+	 * @param $optionName
+	 * @param $optionValue
+	 * @param integer $siteId
+	 * @return bool
+	 */
+	protected function createOption($optionName, $optionValue, $siteId = null) {
+
+		// Create Multi Site option
+		if ($siteId) {
+			$success = add_blog_option($siteId, $optionName, $optionValue);
+		}
+		// Create Single Site option
+		else {
+			$success = add_option($optionName, $optionValue, false);
+		}
+
+		if (false === $success) {
+			$this->logger->warn("Failed creating blog option: ($siteId,$optionName,$optionValue)");
+			return false;
+		}
+
+		$this->logger->info("Successfully created blog option: ($siteId,$optionName,$optionValue)");
+
+		return $success;
+	}
+
+	/**
+	 * Update existing NADI option
+	 *
+	 * @param $optionName
+	 * @param $optionValue
+	 * @param integer $siteId
+	 * @return bool
+	 */
+	protected function updateOption($optionName, $optionValue, $siteId = null) {
+
+		// Update Multi Site option
+		if ($siteId) {
+			$success = update_blog_option($siteId, $optionName, $optionValue);
+		}
+		// Update Single Site option
+		else {
+			$success = update_option($optionName, $optionValue, false);
+		}
+
+		// TODO add check before update if $old_value equals $new_value to determine if update failed or skipped ( because $old_value == $new_value )
+		if (false === $success) {
+			return false;
+		}
+
+		$this->logger->info("Successfully updated blog option: ($siteId,$optionName,$optionValue)");
+
+		return $success;
+	}
+
+	/**
+	 * Method to determine if the option we are trying to persist exists in the database to prevent WordPress update problem if the value to persist equals false
+	 *
+	 * @param $optionName
+	 * @param integer $siteId
+	 * @return bool
+	 */
+	protected function doesOptionExist($optionName, $siteId = null) {
+
+		if ($siteId) {
+			$optionExists = get_blog_option($siteId, $optionName);
+		} else {
+			$optionExists = get_option($optionName);
+		}
+
+		if ($optionExists !== false) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -300,7 +397,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 
 		if (false === $profileId) {
 			$profileId = $this->defaultProfileRepository->findProfileId();
-	}
+		}
 
 		return $profileId;
 	}
@@ -390,9 +487,9 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 
 		foreach ($sites as $site) {
 			$blogId = $site['blog_id'];
-				$this->delete($blogId, self::PROFILE_ID);
-			}
+			$this->delete($blogId, self::PROFILE_ID);
 		}
+	}
 
 	/**
 	 * Get all sites singe site safe.
