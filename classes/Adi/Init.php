@@ -264,6 +264,11 @@ class NextADInt_Adi_Init
 		// register generic administration hooks
 		$this->registerAdministrationHooks();
 
+		// register synchronization trigger hooks
+		$this->registerSynchronizationHooks();
+
+
+
 		return true;
 	}
 
@@ -373,6 +378,19 @@ class NextADInt_Adi_Init
 	{
 		// extend the admin user list with custom columns
 		$this->dc()->getExtendUserList()->register();
+	}
+
+	/**
+	 * Register Sync to WordPress and Sync to AD trigger hook
+	 */
+	public function registerSynchronizationHooks() {
+
+		// Register Sync to WordPress hook
+		$this->dc()->getSyncToWordPress()->register();
+
+		// Register Sync to Ad hook
+		$this->dc()->getSyncToActiveDirectory()->register();
+
 	}
 
 	// ---
