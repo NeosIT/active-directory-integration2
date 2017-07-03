@@ -46,6 +46,8 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	/* @var Logger $logger */
 	private $logger;
 
+	private $monoLogger;
+
 	/* @var int */
 	private $ldapRequestTimeCounter;
 
@@ -67,11 +69,11 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 * @param NextADInt_Adi_Role_Manager                $roleManager
 	 */
 	public function __construct(NextADInt_Adi_User_Manager $userManager,
-		NextADInt_Adi_User_Helper $userHelper,
-		NextADInt_Multisite_Configuration_Service $configuration,
-		NextADInt_Ldap_Connection $connection,
-		NextADInt_Ldap_Attribute_Service $attributeService,
-		NextADInt_Adi_Role_Manager $roleManager
+								NextADInt_Adi_User_Helper $userHelper,
+								NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Ldap_Connection $connection,
+								NextADInt_Ldap_Attribute_Service $attributeService,
+								NextADInt_Adi_Role_Manager $roleManager
 	) {
 		parent::__construct($configuration, $connection, $attributeService);
 
@@ -83,6 +85,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$this->customPath = $this->configuration->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
 
 		$this->logger = Logger::getLogger(__CLASS__);
+		$this->monoLogger = NextADInt_Core_LoggerFactory::getDefaultLogger(__CLASS__);
 	}
 
 	/**
@@ -153,6 +156,8 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	protected function prepareForSync()
 	{
 
+		$this->monoLogger->debug("MonoLogger Initialized prepareForSync");
+
 		// ADI-354 (dme)
 		if (!$this->loggingEnabled) {
 			NextADInt_Core_Logger::displayMessages();
@@ -164,19 +169,19 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 		$enabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED);
 		if (!$enabled) {
-			$this->logger->info('Sync to WordPress is disabled.');
+			$this->monoLogger->info('Sync to WordPress is disabled.');
 
 			return false;
 		}
 
-		$this->logger->info('Start of Sync to WordPress');
+		$this->monoLogger->info('Start of Sync to WordPress');
 		$this->startTimer();
 
 		$username = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER);
 		$password = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD);
 
 		if (empty($username) && empty($password)) {
-			$this->logger->error('Sync to WordPress service account user or password not set.');
+			$this->monoLogger->error('Sync to WordPress service account user or password not set.');
 			return false;
 		}
 
@@ -208,15 +213,15 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$activeDirectoryUsers = $this->connection->findAllMembersOfGroups($groups);
 		$convertedActiveDirectoryUsers = $this->convertActiveDirectoryUsers($activeDirectoryUsers);
 
-		$this->logger->info("After removing duplicate users security/primary groups contain '" . sizeof($convertedActiveDirectoryUsers) . "' in total users");
+		$this->monoLogger->info("After removing duplicate users security/primary groups contain '" . sizeof($convertedActiveDirectoryUsers) . "' in total users");
 
 		// find already existing local WordPress users with Active Directory membership
 		$wordPressUsers = $this->findActiveDirectoryUsernames();
 
-		$this->logger->info("Local WordPress instance contains " . sizeof($wordPressUsers) . " users which are connected to their Active Directory acounts");
+		$this->monoLogger->info("Local WordPress instance contains " . sizeof($wordPressUsers) . " users which are connected to their Active Directory acounts");
 
 		$r = array_merge($wordPressUsers, $convertedActiveDirectoryUsers);
-		$this->logger->info("After merging Active Directory/users and WordPress users " . sizeof($r) . " users have to be synchronized");
+		$this->monoLogger->info("After merging Active Directory/users and WordPress users " . sizeof($r) . " users have to be synchronized");
 
 		return $r;
 	}
@@ -251,7 +256,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	{
 		$elapsedTime = $this->getElapsedTime();
 		$numberOfUsers = count($users);
-		$this->logger->info("Number of users to import/update: $numberOfUsers ($elapsedTime seconds)");
+		$this->monoLogger->info("Number of users to import/update: $numberOfUsers ($elapsedTime seconds)");
 	}
 
 	/**
@@ -288,19 +293,19 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		// ADI-517 Improved logging for UAC Binary Flag check to make it more transparent for the user and improve debugging.
 		switch ($uac) {
 			case (($uac & self::UF_INTERDOMAIN_TRUST_ACCOUNT) === self::UF_INTERDOMAIN_TRUST_ACCOUNT):
-				$this->logger->warn("INTERDOMAIN_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				$this->monoLogger->warn("INTERDOMAIN_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
 				return false;
 			case (($uac & self::UF_WORKSTATION_TRUST_ACCOUNT) === self::UF_WORKSTATION_TRUST_ACCOUNT):
-				$this->logger->warn("WORKSTATION_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				$this->monoLogger->warn("WORKSTATION_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
 				return false;
 			case (($uac & self::UF_SERVER_TRUST_ACCOUNT) === self::UF_SERVER_TRUST_ACCOUNT):
-				$this->logger->warn("SERVER_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				$this->monoLogger->warn("SERVER_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
 				return false;
 			case (($uac & self::UF_MNS_LOGON_ACCOUNT) === self::UF_MNS_LOGON_ACCOUNT):
-				$this->logger->warn("MSN_LOGON_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				$this->monoLogger->warn("MSN_LOGON_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
 				return false;
 			case (($uac & self::UF_PARTIAL_SECRETS_ACCOUNT) === self::UF_PARTIAL_SECRETS_ACCOUNT):
-				$this->logger->warn("PARTIAL_SECRETS_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				$this->monoLogger->warn("PARTIAL_SECRETS_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
 				return false;
 		}
 
@@ -324,7 +329,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 			return false;
 		}
 
-		$this->logger->warn("SMARTCARD_REQUIRED flag detected in userAccountControl ( $uac ).");
+		$this->monoLogger->warn("SMARTCARD_REQUIRED flag detected in userAccountControl ( $uac ).");
 		return true;
 	}
 
@@ -363,7 +368,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 			$this->userManager->disable($adiUser->getId(), 'User no longer exists in Active Directory.');
 
-			$this->logger->warn('Removed domain sid for user ' . $credentials->getLogin());
+			$this->monoLogger->warn('Removed domain sid for user ' . $credentials->getLogin());
 
 			return $status;
 		}
@@ -406,7 +411,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 		// ADI-223: If user is disabled and option 'synchronizeDisabledAccounts' is false, skip the user.
 		if ($isUserDisabled && !$synchronizeDisabledAccounts) {
-			$this->logger->info('Skipping the import of ' . $credentials->getSAMAccountName() . ' with GUID: "'. $guid . '" , because the user is deactivated in Active Directory and "Import disabled users" is not enabled.');
+			$this->monoLogger->info('Skipping the import of ' . $credentials->getSAMAccountName() . ' with GUID: "'. $guid . '" , because the user is deactivated in Active Directory and "Import disabled users" is not enabled.');
 			return -1;
 		}
 
@@ -420,7 +425,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 		// NADIS-1: added check to prevent fatal error if userPrincipalName is empty
 		if (empty($userPrincipalName)) {
-			$this->logger->warn('UserPrincipalName for ' . $credentials->getLogin() . ' could not be found.');
+			$this->monoLogger->warn('UserPrincipalName for ' . $credentials->getLogin() . ' could not be found.');
 		} else {
 			$credentials->setUserPrincipalName($userPrincipalName);
 		}
@@ -472,7 +477,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		if (!$adiUser->getId()) {
 			$startTimer = time();
 			$user = $this->userManager->create($adiUser, true);
-			$this->logger->info("Creating user took: " . (time() - $startTimer) . " s");
+			$this->monoLogger->info("Creating user took: " . (time() - $startTimer) . " s");
 			$status = 0;
 		} else {
 			$user = $this->userManager->update($adiUser, true);
@@ -537,7 +542,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 				);
 			}
 		} catch (Exception $e) {
-			$this->logger->warn("Disable user '{$username}': " . $e->getMessage());
+			$this->monoLogger->warn("Disable user '{$username}': " . $e->getMessage());
 			$this->userManager->disable($adiUser->getId(), $e->getMessage());
 
 			return false;
@@ -561,19 +566,19 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$uac = $this->userAccountControl($adiUser->getLdapAttributes()->getRaw());
 
 		if (!$this->isAccountDisabled($uac)) {
-			$this->logger->info("Enabling user '{$adiUser->getUserLogin()}'.");
+			$this->monoLogger->info("Enabling user '{$adiUser->getUserLogin()}'.");
 			$this->userManager->enable($adiUser->getId());
 
 			return true;
 		}
 
-		$this->logger->info("The user '{$adiUser->getUserLogin()}' is disabled in Active Directory.");
+		$this->monoLogger->info("The user '{$adiUser->getUserLogin()}' is disabled in Active Directory.");
 
 		if (!$synchronizeDisabledAccounts) {
 			return false;
 		}
 
-		$this->logger->warn("Disabling user '{$adiUser->getUserLogin()}'.");
+		$this->monoLogger->warn("Disabling user '{$adiUser->getUserLogin()}'.");
 		$message = sprintf(__('User "%s" is disabled in Active Directory.', 'next-active-directory-integration'), $adiUser->getUserLogin());
 		$this->userManager->disable($adiUser->getId(), $message);
 
@@ -595,12 +600,12 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 		$elapsedTime = $this->getElapsedTime();
 
-		$this->logger->info("$addedUsers users have been added to the WordPress database.");
-		$this->logger->info("$updatedUsers users from the WordPress database have been updated.");
-		$this->logger->info("$failedSync users could not be synchronized.");
-		$this->logger->info("Ldap searches took: $this->ldapRequestTimeCounter seconds");
-		$this->logger->info("WordPress DB actions took: $this->wordpressDbTimeCounter seconds");
-		$this->logger->info("Duration for sync: $elapsedTime seconds");
-		$this->logger->info("End of Sync to WordPress");
+		$this->monoLogger->info("$addedUsers users have been added to the WordPress database.");
+		$this->monoLogger->info("$updatedUsers users from the WordPress database have been updated.");
+		$this->monoLogger->info("$failedSync users could not be synchronized.");
+		$this->monoLogger->info("Ldap searches took: $this->ldapRequestTimeCounter seconds");
+		$this->monoLogger->info("WordPress DB actions took: $this->wordpressDbTimeCounter seconds");
+		$this->monoLogger->info("Duration for sync: $elapsedTime seconds");
+		$this->monoLogger->info("End of Sync to WordPress");
 	}
 }

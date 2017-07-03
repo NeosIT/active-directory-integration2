@@ -26,6 +26,9 @@ class NextADInt_Ldap_Connection
 
 	/* @var Logger $logger */
 	private $logger;
+
+	/* @var Monolog\Logger $monoLogger */
+	private $monoLogger;
 	
 	/* @var string */
 	private $siteDomainSid;
@@ -43,6 +46,7 @@ class NextADInt_Ldap_Connection
 		$this->configuration = $configuration;
 
 		$this->logger = Logger::getLogger(__CLASS__);
+		$this->monoLogger = NextADInt_Core_LoggerFactory::getDefaultLogger(__CLASS__);
 	}
 
 	/**
@@ -101,7 +105,7 @@ class NextADInt_Ldap_Connection
 
 		$encryption = $useTls | $useSsl ? 'LDAP connection is encrypted with "' . $this->getEncryption($connectionDetails) . '"' : 'LDAP connection is *not* encrypted';
 
-		$this->logger->info($encryption);
+		$this->monoLogger->info($encryption);
 
 		// Logging single lines to keep the conversion pattern
 		foreach ($output as $key => $line) {

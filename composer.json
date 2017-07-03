@@ -5,7 +5,8 @@
     },
     "require": {
         "apache/log4php": "2.3.0",
-		"twig/twig": "1.18.0",
-        "defuse/php-encryption": "2.0.3"
+		"twig/twig": "1.34.3",
+        "defuse/php-encryption": "2.0.3",
+        "monolog/monolog": "^1.0"
     }
 }
