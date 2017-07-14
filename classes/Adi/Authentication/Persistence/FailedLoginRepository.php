@@ -26,7 +26,7 @@ class NextADInt_Adi_Authentication_Persistence_FailedLoginRepository
 	 */
 	public function __construct()
 	{
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**

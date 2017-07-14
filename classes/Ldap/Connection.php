@@ -24,12 +24,9 @@ class NextADInt_Ldap_Connection
 	/* @var adLDAP $adldap */
 	private $adldap;
 
-	/* @var Logger $logger */
+	/* @var Monolog\ $logger */
 	private $logger;
 
-	/* @var Monolog\Logger $monoLogger */
-	private $monoLogger;
-	
 	/* @var string */
 	private $siteDomainSid;
 
@@ -45,8 +42,7 @@ class NextADInt_Ldap_Connection
 
 		$this->configuration = $configuration;
 
-		$this->logger = Logger::getLogger(__CLASS__);
-		$this->monoLogger = NextADInt_Core_LoggerFactory::getDefaultLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -105,7 +101,7 @@ class NextADInt_Ldap_Connection
 
 		$encryption = $useTls | $useSsl ? 'LDAP connection is encrypted with "' . $this->getEncryption($connectionDetails) . '"' : 'LDAP connection is *not* encrypted';
 
-		$this->monoLogger->info($encryption);
+		$this->logger->info($encryption);
 
 		// Logging single lines to keep the conversion pattern
 		foreach ($output as $key => $line) {
@@ -481,13 +477,13 @@ class NextADInt_Ldap_Connection
 		$userGuid = get_user_meta($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true);
 
 		if (empty($attributes)) {
-			$this->logger->debug("Modifying user '$username' skipped. Found no attributes to synchronize to Active Directory.");
+			$this->logger->warn("Modifying user '$username' skipped. Found no attributes to synchronize to Active Directory.");
 
 			return false;
 		}
 
 		$adLdap = $this->getAdLdap();
-		$this->logger->debug("Modifying user '$username' with attributes: " . json_encode($attributes, true));
+		$this->logger->info("Modifying user '$username' with attributes: " . json_encode($attributes, true));
 
 		try {
 			// ADI-452 Trying to update user via GUID.
@@ -505,7 +501,7 @@ class NextADInt_Ldap_Connection
 			return false;
 		}
 
-		$this->logger->debug("User '$username' successfully modified.");
+		$this->logger->info("User '$username' successfully modified.");
 
 		return true;
 	}
@@ -518,7 +514,7 @@ class NextADInt_Ldap_Connection
 	public function checkPorts()
 	{
 		if (!NextADInt_Core_Util::native()->isFunctionAvailable('fsockopen')) {
-			$this->logger->debug('Function fsockopen() is not available. Can not check server ports.');
+			$this->logger->error('Function fsockopen() is not available. Can not check server ports.');
 
 			return false;
 		}

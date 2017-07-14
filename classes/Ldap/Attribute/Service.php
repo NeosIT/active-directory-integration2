@@ -40,7 +40,7 @@ class NextADInt_Ldap_Attribute_Service
 		$this->attributeRepository = $attributeRepository;
 		$this->ldapConnection = $ldapConnection;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**

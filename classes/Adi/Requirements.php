@@ -33,7 +33,7 @@ class NextADInt_Adi_Requirements
 
 	public function __construct()
 	{
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -299,7 +299,6 @@ class NextADInt_Adi_Requirements
 
 		if (is_plugin_active(self::DEPRECATED_ADI_PLUGIN_NAME)) {
 			deactivate_plugins(self::DEPRECATED_ADI_PLUGIN_NAME);
-			NextADInt_Core_Logger::logMessages();
 			$this->logger->debug("Disabled deprecated version of ADI.");
 
 			return true;

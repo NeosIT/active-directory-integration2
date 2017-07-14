@@ -36,7 +36,7 @@ class NextADInt_Adi_Mail_Notification
 		$this->configuration = $configuration;
 		$this->ldapConnection = $ldapConnection;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
     /**

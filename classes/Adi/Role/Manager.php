@@ -40,7 +40,7 @@ class NextADInt_Adi_Role_Manager
 		$this->configuration = $configuration;
 		$this->ldapConnection = $ldapConnection;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**

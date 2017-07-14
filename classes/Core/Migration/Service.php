@@ -38,7 +38,7 @@ class NextADInt_Core_Migration_Service
 		$this->dependencyContainer = $dependencyContainer;
 		$this->migrationRepository = $migrationRepository;
 
-		$this->logger = Logger::getLogger('Core_Migration_Migrator');
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**

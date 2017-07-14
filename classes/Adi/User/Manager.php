@@ -65,7 +65,7 @@ class NextADInt_Adi_User_Manager
 		$this->metaRepository = $metaRepository;
 		$this->userRepository = $userRepository;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**

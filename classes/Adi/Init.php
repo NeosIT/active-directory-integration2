@@ -48,13 +48,7 @@ class NextADInt_Adi_Init
 		$configService = $this->dc()->getConfiguration();
 		$customPath = $configService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH);
 
-		if ($customPath) {
-			NextADInt_Core_Logger::displayAndLogMessages($customPath);
-		} else {
-			NextADInt_Core_Logger::displayAndLogMessages();
-		}
-
-		NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelError());
+		NextADInt_Core_Logger::initializeLogger($customPath);
 
 		$requirements = $this->dc()->getRequirements();
 
@@ -161,17 +155,8 @@ class NextADInt_Adi_Init
 		$enableLogging = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
 		$customPath = $configurationService->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
 
-		if ($customPath) {
-			NextADInt_Core_Logger::logMessages($customPath);
-		} else {
-			NextADInt_Core_Logger::logMessages();
-		}
-
-		if ($enableLogging) {
-			NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelAll());
-		} else {
-			NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelOff());
-		}
+		//TODO Check for $enabledLogging
+		NextADInt_Core_Logger::initializeLogger($customPath);
 
 		$this->initialized = true;
 	}

@@ -49,7 +49,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 			$userBlockedMessage, $attributeService, $roleManager);
 
 		$this->validation = $validation;
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**

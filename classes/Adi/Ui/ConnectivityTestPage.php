@@ -39,8 +39,8 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	/** @var string $result */
 	private $result;
 
-	/** @var string $output */
-	private $output;
+	/** @var array $output */
+	private $log;
 
 	/** @var NextADInt_Adi_Role_Manager */
 	private $roleManager;
@@ -71,7 +71,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$this->userManager = $userManager;
 		$this->roleManager = $roleManager;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -95,7 +95,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$params = $this->processData();
 		$params['nonce'] = wp_create_nonce(self::NONCE); // add nonce for security
 		$params['message'] = $this->result;
-		$params['log'] = $this->output;
+		$params['log'] = $this->log;
         $params['i18n'] = array(
             'title' => __('Test Active Directory authentication', 'next-active-directory-integration'),
             'descriptionLine1' => __('Please enter the username and password for the account you want to authenticate with. After submitting the request you will get the debug output.', 'next-active-directory-integration'),
@@ -146,9 +146,10 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$username = $post['username'];
 		$password = $post['password'];
 
+		NextADInt_Core_Logger::enableFrontendHandler();
 		$information = $this->collectInformation($username, $password);
-		$this->output = explode("<br />", $information['output']);
-		$this->output = NextADInt_Core_Util_StringUtil::transformLog($this->output);
+		$this->log = NextADInt_Core_Logger::getBufferedLog();
+		NextADInt_Core_Logger::disableFrontendHandler();
 
 		if ($information['authentication_result']) {
 			$this->result = esc_html__('User logged on.', 'next-active-directory-integration');
@@ -174,12 +175,13 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		// ADI-354 (dme)
 		$loggingEnabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
 		$customPath = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH);
-		if ($loggingEnabled)
-		{
-			NextADInt_Core_Logger::displayAndLogMessages($customPath);
-		} else {
-			NextADInt_Core_Logger::displayMessages();
-		}
+
+//		if ($loggingEnabled)
+//		{
+//			NextADInt_Core_Logger::displayAndLogMessages($customPath); // TODO Buffer Appenders
+//		} else {
+//			NextADInt_Core_Logger::displayMessages();
+//		}
 
 		ob_start();
 
@@ -201,7 +203,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$this->logger->info('*** Establishing Active Directory connection ***');
 		$authenticationResult = $this->connectToActiveDirectory($username, $password);
 
-		NextADInt_Core_Logger::logMessages();
+//		NextADInt_Core_Logger::logMessages(); // TODO Buffer Appender
 		$output = ob_get_contents();
 
 		ob_end_clean();

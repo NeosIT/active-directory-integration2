@@ -46,7 +46,7 @@ abstract class NextADInt_Adi_Synchronization_Abstract
 		$this->attributeService = $attributeService;
 		$this->connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
