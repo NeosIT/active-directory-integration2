@@ -172,18 +172,6 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	 */
 	function collectInformation($username, $password)
 	{
-		// ADI-354 (dme)
-		$loggingEnabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
-		$customPath = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH);
-
-//		if ($loggingEnabled)
-//		{
-//			NextADInt_Core_Logger::displayAndLogMessages($customPath); // TODO Buffer Appenders
-//		} else {
-//			NextADInt_Core_Logger::displayMessages();
-//		}
-
-		ob_start();
 
 		// detect support-id
 		$supportData = $this->detectSupportData();
@@ -203,14 +191,8 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$this->logger->info('*** Establishing Active Directory connection ***');
 		$authenticationResult = $this->connectToActiveDirectory($username, $password);
 
-//		NextADInt_Core_Logger::logMessages(); // TODO Buffer Appender
-		$output = ob_get_contents();
-
-		ob_end_clean();
-
 		return array(
-			'output' => $output,
-			'authentication_result' => $authenticationResult,
+			'authentication_result' => $authenticationResult
 		);
 	}
 
@@ -282,9 +264,9 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		return $loginAuthenticator->authenticate(null, $username, $password);
 	}
 
-	public function getOutput()
+	public function getLog()
 	{
-		return $this->output;
+		return $this->log;
 	}
 
 	/**

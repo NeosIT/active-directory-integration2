@@ -27,7 +27,7 @@ class NextADInt_Core_Encryption
 
 	public function __construct()
 	{
-		$this->logger = NextADInt_Core_LoggerFactory::getDefaultLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**

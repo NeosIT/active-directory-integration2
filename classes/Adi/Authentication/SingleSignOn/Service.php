@@ -115,7 +115,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 			$sessionHandler->clearValue(self::FAILED_SSO_UPN);
 			$this->loginUser($user);
 		} catch (NextADInt_Adi_Authentication_Exception $e) {
-			$this->logger->error('User could not be authenticated using SSO.', $e);
+			$this->logger->error('User could not be authenticated using SSO. ' . $e->getMessage());
 			$sessionHandler->setValue(self::FAILED_SSO_UPN, $credentials->getUserPrincipalName());
 
 			return false;

@@ -489,7 +489,7 @@ class NextADInt_Ldap_Connection
 			// ADI-452 Trying to update user via GUID.
 			$modified = $adLdap->user_modify_without_schema($userGuid, $attributes, true);
 		} catch (Exception $e) {
-			$this->logger->error("Can not modify user '$username'.", $e);
+			$this->logger->error("Can not modify user '$username'. " . $e->getMessage());
 
 			return false;
 		}
@@ -687,7 +687,7 @@ class NextADInt_Ldap_Connection
 				return $adLdap->group_members($group, null);
 			}
 		} catch (Exception $e) {
-			$this->logger->error("Can not get the members of group '$group'.", $e);
+			$this->logger->error("Can not get the members of group '$group'. " . $e->getMessage());
 		}
 
 		return false;

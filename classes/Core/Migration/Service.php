@@ -107,7 +107,7 @@ class NextADInt_Core_Migration_Service
 		} catch (Exception $e) {
 			// log the error
 			$message = sprintf('An error occurred while executing the migration with id %d', $id);
-			$this->logger->error($message, $e);
+			$this->logger->error($message . ". " . $e->getMessage());
 		}
 
 		return false;

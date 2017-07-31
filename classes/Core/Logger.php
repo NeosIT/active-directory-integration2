@@ -23,12 +23,19 @@ class NextADInt_Core_Logger
 	/* @var \Monolog\Logger */
 	private static $logger;
 
+	public static $isTestmode = false;
+
 	/**
 	 * @param $className
-	 * @param string $customPath // TODO reimplement customPath logging and Logging to php error log
+	 * @param string $customPath // TODO reimplement customPath logging and Logging to php error log / WP_Error log
 	 */
 	public static function initializeLogger($customPath = '')
 	{
+
+		if (NextADInt_Core_Logger::$isTestmode) {
+			NextADInt_Core_Logger::setUpTestLogger();
+			return;
+		}
 
 		if (null != NextADInt_Core_Logger::$logger) {
 			return;
@@ -36,7 +43,7 @@ class NextADInt_Core_Logger
 
 		NextADInt_Core_Logger::$logger = new Monolog\Logger('nadiMainLogger');
 
-		// Create Handlers // Todo Reimplement Custom Path
+		// Create Handlers
 		$stream = new \Monolog\Handler\StreamHandler(NEXT_AD_INT_PATH . '/logs/debug.log', Monolog\Logger::DEBUG);
 		$frontendLogHandler = new NextADInt_Core_Logger_Handlers_FrontendLogHandler(\Monolog\Logger::DEBUG);
 
@@ -70,35 +77,10 @@ class NextADInt_Core_Logger
 			NextADInt_Core_Logger::$logger->debug("Checking writing permission for log path successfully.");
 		} catch (Exception $ex) {
 			$errorMessage = $ex->getMessage();
+			error_log($errorMessage);
 
-			// Old Logger has no use due missing writing permissions
-			if (\Monolog\Registry::hasLogger('nadiMainLogger')) {
-				\Monolog\Registry::removeLogger('nadiMainLogger');
-			}
-
-			// Creating new logger and setting it as main logger
-			NextADInt_Core_Logger::$logger = new Monolog\Logger('nadiMainLogger');
-
-			// Create ErrorLogHandler
-			$errorLogHandler = new \Monolog\Handler\ErrorLogHandler(0, \Monolog\Logger::DEBUG);
-
-			// Create Formatter
-			$errorLogFormat = "%datetime% [%level_name%] %extra.class%::%extra.function% [line %extra.line%] %message%";
-			$errorLogFormatter = new \Monolog\Formatter\LineFormatter($errorLogFormat);
-
-			// Set Formatter
-			$errorLogHandler->setFormatter($errorLogFormatter);
-
-			NextADInt_Core_Logger::$logger->pushHandler($errorLogHandler);
-			NextADInt_Core_Logger::$logger->pushHandler($frontendLogHandler);
-
-			NextADInt_Core_Logger::$logger->pushProcessor($processor);
-
-			// Adding Logger to registry so we are able to check globally if logger exists
-			\Monolog\Registry::addLogger(NextADInt_Core_Logger::$logger);
-
-			// Log information about missing permission to php error log
-			NextADInt_Core_Logger::$logger->debug($errorMessage);
+			// Create a frontend only Logger
+			NextADInt_Core_Logger::createFrontendOnlyLogger();
 		}
 	}
 
@@ -184,6 +166,79 @@ class NextADInt_Core_Logger
 		}
 
 		return $object;
+	}
+
+	//
+	public static function setUpTestLogger() {
+
+		// Check if test logger already exists before setting up a new one.
+		if (\Monolog\Registry::hasLogger('nadiTestLogger')) {
+			return;
+		}
+
+		// Create TestLogger
+		NextADInt_Core_Logger::$logger = new Monolog\Logger('nadiTestLogger');
+
+		// Create Handlers // Todo Reimplement Custom Path
+		$nullHandler = new \Monolog\Handler\NullHandler();
+		$frontendLogHandler = new NextADInt_Core_Logger_Handlers_FrontendLogHandler(\Monolog\Logger::DEBUG);
+
+		// Formats
+		$outputFrontend = "%datetime% [%level_name%] %extra.class%::%extra.function% [line %extra.line%] %message%";
+
+		// Create Formatter
+		$formatterFrontend = new \Monolog\Formatter\LineFormatter($outputFrontend);
+
+		//Set Formatter
+		$frontendLogHandler->setFormatter($formatterFrontend);
+
+		// Create Processor to collect information like className, methodName, line... etc
+		$processor = new Monolog\Processor\IntrospectionProcessor(Monolog\Logger::DEBUG);
+
+		// Push Handlers
+		NextADInt_Core_Logger::$logger->pushHandler($nullHandler);
+		NextADInt_Core_Logger::$logger->pushHandler($frontendLogHandler);
+
+		// Push Processors
+		NextADInt_Core_Logger::$logger->pushProcessor($processor);
+
+		// Adding Logger to registry so we are able to check globally if logger exists
+		\Monolog\Registry::addLogger(NextADInt_Core_Logger::$logger);
+	}
+
+	private static function createFrontendOnlyLogger() {
+		// Remove old Logger because we do not want to log unnecessary information to the php-error log
+		if (\Monolog\Registry::hasLogger('nadiMainLogger')) {
+			\Monolog\Registry::removeLogger('nadiMainLogger');
+		}
+
+		// Creating new Frontend Only Logger and set it as main logger
+			NextADInt_Core_Logger::$logger = new Monolog\Logger('nadiMainLogger');
+
+		// Create Handlers
+		$frontendLogHandler = new NextADInt_Core_Logger_Handlers_FrontendLogHandler(\Monolog\Logger::DEBUG);
+
+		// Formats
+		$outputFrontend = "%datetime% [%level_name%] %extra.class%::%extra.function% [line %extra.line%] %message%";
+
+		// Create Formatter
+		$formatterFrontend = new \Monolog\Formatter\LineFormatter($outputFrontend);
+
+		//Set Formatter
+		$frontendLogHandler->setFormatter($formatterFrontend);
+
+		// Create Processor to collect information like className, methodName, line... etc
+		$processor = new Monolog\Processor\IntrospectionProcessor(Monolog\Logger::DEBUG);
+
+		// Push Handlers
+		NextADInt_Core_Logger::$logger->pushHandler($frontendLogHandler);
+
+		// Push Processors
+		NextADInt_Core_Logger::$logger->pushProcessor($processor);
+
+		// Adding Logger to registry so we are able to check globally if logger exists
+		\Monolog\Registry::addLogger(NextADInt_Core_Logger::$logger);
+
 	}
 
 }
