@@ -45,10 +45,6 @@ class NextADInt_Adi_Init
 	{
 		// add flag to WordPress cache for displaying the "plugin enabled" message
 		set_transient(NextADInt_Adi_Init::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED, true, 10);
-		$configService = $this->dc()->getConfiguration();
-		$customPath = $configService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH);
-
-		NextADInt_Core_Logger::initializeLogger($customPath);
 
 		$requirements = $this->dc()->getRequirements();
 
@@ -155,8 +151,7 @@ class NextADInt_Adi_Init
 		$enableLogging = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
 		$customPath = $configurationService->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
 
-		//TODO Check for $enabledLogging
-		NextADInt_Core_Logger::initializeLogger($customPath);
+		NextADInt_Core_Logger::initializeLogger($enableLogging, $customPath);
 
 		$this->initialized = true;
 	}

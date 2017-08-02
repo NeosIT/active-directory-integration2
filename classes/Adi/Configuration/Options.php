@@ -1463,11 +1463,11 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Custom Path', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
-					'The logfile will be created at the set location. You have to enter the complete path including the name of the logfile. (e.g. custompath/logs/debug.log).',
+					'The logfile will be created at the set location. (e.g. /custompath/logs/).',
 					'next-active-directory-integration'
 				),
 				$detail      => __(
-					'If you do not have permission for the default path on your system you can set a new path. The logfile will be created at the set location. You have to enter the complete path including the name of the logfile. (e.g. custompath/logs/debug.log).',
+					'If you do not have permission for the default path on your system you can set a new path. The debug.log file will be created at the set location.',
 					'next-active-directory-integration'
 				),
 				$angularAttributes => 'ng-disabled="((!option.logger_enable_logging) || ((permission.logger_enable_logging == 2) || (permission.logger_enable_logging == 1))',

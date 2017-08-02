@@ -11,7 +11,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 	public static function setUpBeforeClass()
 	{
 		NextADInt_Core_Logger::$isTestmode = true;
-		NextADInt_Core_Logger::initializeLogger();
+		NextADInt_Core_Logger::createLogger();
 	}
 
 	public function setUp()

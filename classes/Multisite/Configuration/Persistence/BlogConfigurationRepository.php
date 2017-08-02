@@ -533,4 +533,5 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	{
 		return false;
 	}
+
 }
