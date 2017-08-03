@@ -8,5 +8,3 @@ twig/**
 autoload.php
 defuse/**
 paragonie/**
-monolog/**
-psr/**
