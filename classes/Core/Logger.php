@@ -213,7 +213,7 @@ class NextADInt_Core_Logger
 	/**
 	 * @return \Monolog\Handler\HandlerInterface[]
 	 */
-	private function getHandlers()
+	private static function getHandlers()
 	{
 		return NextADInt_Core_Logger::$logger->getHandlers();
 	}
@@ -222,7 +222,7 @@ class NextADInt_Core_Logger
 	 * @param $handlers
 	 * @return NextADInt_Core_Logger_Handlers_FrontendLogHandler
 	 */
-	private function getFrontendHandler($handlers)
+	private static function getFrontendHandler($handlers)
 	{
 		foreach ($handlers as $handler) {
 			if (is_a($handler, 'NextADInt_Core_Logger_Handlers_FrontendLogHandler')) {
@@ -237,7 +237,7 @@ class NextADInt_Core_Logger
 	 * @param $handlers
 	 * @return NextADInt_Core_Logger_Handlers_FrontendLogHandler
 	 */
-	private function getStreamHandler($handlers)
+	private static function getStreamHandler($handlers)
 	{
 		foreach ($handlers as $handler) {
 			if (is_a($handler, \Monolog\Handler\StreamHandler::class)) {
@@ -252,7 +252,7 @@ class NextADInt_Core_Logger
 	 * @param $handlers
 	 * @return NextADInt_Core_Logger_Handlers_FrontendLogHandler
 	 */
-	private function getNullHandler($handlers)
+	private static function getNullHandler($handlers)
 	{
 		foreach ($handlers as $handler) {
 			if (is_a($handler, \Monolog\Handler\NullHandler::class)) {
