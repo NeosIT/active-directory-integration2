@@ -1445,7 +1445,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Enable Logging', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
 				$description => __(
-					'If enabled, NADI will create a logfile at the default location "PLUGINPATH/logs/debug.log". <button class="button button-primary" ng-click="activateLogging()" ng-show="isSaveDisabled"> Save Logging Configuration</button>',
+					'If enabled, NADI will create a logfile at the default location "PLUGINPATH/logs/debug.log". <button class="button button-primary" ng-click="activateLogging()" ng-show="isSaveDisabled"> Save Logging Configurations</button>',
 					'next-active-directory-integration'
 				),
 				$detail      => __(

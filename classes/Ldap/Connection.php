@@ -58,7 +58,7 @@ class NextADInt_Ldap_Connection
 		try {
 			$this->createAdLdap($config);
 		} catch (Exception $e) {
-			$this->logger->error('Creating adLDAP object failed.', $e);
+			$this->logger->error('Creating adLDAP object failed. ' . $e->getMessage());
 
 			if (is_object($this->adldap)) {
 				$this->logger->debug('adLDAP last error number: ' . print_r($this->adldap->get_last_errno(), true));
