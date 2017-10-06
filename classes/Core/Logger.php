@@ -83,6 +83,7 @@ class NextADInt_Core_Logger
 		if (!NextADInt_Core_Logger::hasWritingPermission($logPath)) {
 			// Create a frontend only Logger due missing permissions to write to file
 			NextADInt_Core_Logger::createFrontendOnlyLogger();
+			return;
 		}
 
 		// Create Handlers
@@ -130,7 +131,7 @@ class NextADInt_Core_Logger
 	private static function createStreamHandler($loggingPath)
 	{
 		// Create Handlers
-		$streamHandler = new \Monolog\Handler\StreamHandler($loggingPath . 'debug.log', Monolog\Logger::DEBUG);
+		$streamHandler = new \Monolog\Handler\StreamHandler($loggingPath . 'nadi-debug.log', Monolog\Logger::DEBUG);
 
 		// Formats
 		$outputFile = "%datetime% [%level_name%] %extra.class%::%extra.function% [line %extra.line%] %message%\n";
@@ -172,13 +173,13 @@ class NextADInt_Core_Logger
 		$isPathWritable = is_writable($pathToFile); // TODO With NADI 2.0.15 customPath will only be the path and we will always call the log file debug.log
 
 		if ($isPathWritable) {
-			$doesFileExists = file_exists($pathToFile . 'debug.log');
+			$doesFileExists = file_exists($pathToFile . 'nadi-debug.log');
 			if ($doesFileExists) {
 				return true;
 			}
-			error_log("Could not find NADI debug.log file. Trying to create it.");
+			error_log("Could not find nadi-debug.log file. Trying to create it.");
 
-			$fileCreated = fopen($pathToFile . 'debug.log', 'w');
+			$fileCreated = fopen($pathToFile . 'nadi-debug.log', 'w');
 
 			if ($fileCreated !== false) {
 				return true;
