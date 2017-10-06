@@ -2,9 +2,9 @@
     'use strict';
     app.controller('LoggingController', LoggingController);
 
-    LoggingController.$inject = ['$scope', '$http', 'DataService'];
+    LoggingController.$inject = ['$scope', '$http', 'DataService', 'PersistService', 'ngNotify'];
 
-    function LoggingController($scope, $http, DataService) {
+    function LoggingController($scope, $http, DataService, PersistService, ngNotify) {
         var vm = this;
 
         $scope.isSaveDisabled = false;
@@ -42,5 +42,26 @@
         $scope.containsErrors = function () {
             return (!$arrayUtil.containsOnlyNullValues($scope.messages));
         };
+
+        $scope.activateLogging = function () {
+            console.log("Save Logging information");
+
+            var data = {
+                options : {
+                    logger_enable_logging : $scope.option.logger_enable_logging,
+                    logger_custom_path : $scope.option.logger_custom_path
+                }
+            };
+
+            PersistService.persistData(data.options).then(function (response) {
+
+                if (response.status_success === true) {
+                    ngNotify.set(document['next_ad_int']['saving-success'], 'success');
+
+                } else {
+                    ngNotify.set(document['next_ad_int']['saving-error'], 'error');
+                }
+            });
+        }
     }
 })();
