@@ -158,6 +158,14 @@ class adLDAP {
 	 * @var unknown_type
 	 */
 	const VERSION = '3.3.2 EXTENDED (201302271401)';
+
+	/**
+	 * ADI-545 Debug information about LDAP Connection (DME)
+     *
+     * @var boolean
+     *
+	 */
+	protected $_debug = true;
 	
 	
 	// You should not need to edit anything below this line
@@ -423,7 +431,15 @@ class adLDAP {
         $this->_last_used_dc = $this->random_controller();
         
         if ($this->_use_ssl) {
-            $this->_conn = ldap_connect("ldaps://".$this->_last_used_dc, 636);
+
+            $usePort = $this->_ad_port;
+            // ADI-545 LDAPS port setting is not used properly (DME)
+            if (!$usePort || $usePort == 389) {
+                // fallback to default SSL port
+				$usePort = 636;
+            }
+
+            $this->_conn = ldap_connect("ldaps://".$this->_last_used_dc, $usePort);
         } else {
             $this->_conn = ldap_connect($this->_last_used_dc, $this->_ad_port);
         }
@@ -431,6 +447,11 @@ class adLDAP {
         // Set some ldap options for talking to AD
         ldap_set_option($this->_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
         ldap_set_option($this->_conn, LDAP_OPT_REFERRALS, 0);
+
+        // ADI-545 Enable LDAP Connection debugging
+		if ($this->_debug == true) {
+			ldap_set_option($this->_conn, LDAP_OPT_DEBUG_LEVEL, 7);
+		}
         
     	// if we have PHP 5.3 or above set LDAP_OPT_NETWORK_TIMEOUT (EXTENDED)
     	if (($this->_network_timeout > 0) && (version_compare(PHP_VERSION, '5.3.0', '>='))) {
@@ -447,9 +468,9 @@ class adLDAP {
             if (!$this->_bind){
                 if ($this->_use_ssl && !$this->_use_tls){
                     // If you have problems troubleshooting, remove the @ character from the ldap_bind command above to get the actual error message
-                    throw new adLDAPException('Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: ' . $this->get_last_error());
+                    $this->throwConnectionError('Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect.');
                 } else {
-                    throw new adLDAPException('Bind to Active Directory failed. Check the login credentials and/or server details. AD said: ' . $this->get_last_error());
+					$this->throwConnectionError('Bind to Active Directory failed. Check the login credentials and/or server details.');
                 }
             }
         }
@@ -494,7 +515,7 @@ class adLDAP {
             $this->_bind = @ldap_bind($this->_conn, $this->_ad_username, $this->_ad_password);
             if (!$this->_bind){
                 // This should never happen in theory
-                throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->get_last_error());
+                $this->throwConnectionError('Rebind to Active Directory failed.');
             } 
         }
         
@@ -2818,8 +2839,21 @@ class adLDAP {
         if ($encode === true && $key != 'password') {
             $item = utf8_encode($item);   
         }
-    }    
+    }
+
+
+	private function throwConnectionError($message) {
+		$error = $this->get_last_error();
+		$errno = $this->get_last_errno();
+
+		$detailedMessage = $message . " [AD: " . $error . "] [AD error code: " . $errno . "]";
+
+		throw new adLDAPException($detailedMessage, $error, $errno);
+	}
+
 }
+
+
 
 /**
 * adLDAP Exception Handler
@@ -2833,7 +2867,31 @@ class adLDAP {
 *   echo $e;
 *   exit();
 * }
+*
+* ADI-545 adLDAPEception now contains the last LDAP error and last error number (DME)
+*
 */
-class adLDAPException extends Exception {}
+class adLDAPException extends Exception {
+	private $_ldapError = null;
+	private $_ldapErrno = null;
+	private $_message = null;
+	private $_detailedMessage = null;
+
+	public function __construct($message, $detailedMessage = null, $ldapError = null, $ldapErrno = null) {
+		parent::__construct($message);
+
+		$this->_detailedMessage = $detailedMessage != null ? $detailedMessage : $message;
+		$this->_ldapError = $ldapError;
+		$this->_ldapErrno = $ldapErrno;
+	}
+
+	public function getLdapError() {
+		return $this->_ldapError;
+	}
+
+	public function getLdapErrno() {
+		return $this->_ldapErrno;
+	}
+}
 
 ?>
