@@ -165,7 +165,7 @@ class adLDAP {
      * @var boolean
      *
 	 */
-	protected $_debug = true;
+	protected $_debug = false;
 	
 	
 	// You should not need to edit anything below this line
@@ -429,20 +429,23 @@ class adLDAP {
 
         // Connect to the AD/LDAP server as the username/password
         $this->_last_used_dc = $this->random_controller();
-        
+
+        // Set default connection url
+        $url = $this->_last_used_dc;
+		$usePort = $this->_ad_port;
+
         if ($this->_use_ssl) {
 
-            $usePort = $this->_ad_port;
+            $url = "ldaps://" . $this->_last_used_dc;
+
             // ADI-545 LDAPS port setting is not used properly (DME)
             if (!$usePort || $usePort == 389) {
                 // fallback to default SSL port
 				$usePort = 636;
             }
-
-            $this->_conn = ldap_connect("ldaps://".$this->_last_used_dc, $usePort);
-        } else {
-            $this->_conn = ldap_connect($this->_last_used_dc, $this->_ad_port);
         }
+
+		$this->_conn = ldap_connect($url, $usePort);
                
         // Set some ldap options for talking to AD
         ldap_set_option($this->_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
