@@ -153,13 +153,6 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	protected function prepareForSync()
 	{
 
-//		// ADI-354 (dme)
-//		if (!$this->loggingEnabled) {
-//			NextADInt_Core_Logger::displayMessages();
-//		} else {
-//			NextADInt_Core_Logger::displayAndLogMessages($this->customPath); // TODO add new solution for monolog
-//		}
-
 		$enabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED);
 		if (!$enabled) {
 			$this->logger->info('Sync to WordPress is disabled.');

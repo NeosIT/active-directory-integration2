@@ -89,9 +89,6 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 	 */
 	protected function prepareForSync($username = null, $password = null)
 	{
-		// ADI-354 (dme)
-		$loggingEnabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
-		$customPath = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH);
 
 		if (!$this->isEnabled()) {
 			$this->logger->info('Sync to AD is disabled.');

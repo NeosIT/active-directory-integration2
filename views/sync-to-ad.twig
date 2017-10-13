@@ -67,12 +67,7 @@
                     </tr>
                     {% for logLine in logs %}
 
-                        {% if logLine.level_name == 'DEBUG' %} <!-- TODO Remove Debug Logs from frontend on this page -->
-                            <tr class="info">
-                                <td>{{ logLine.level_name }}</td>
-                                <td>{{ logLine.message }}</td>
-                            </tr>
-                        {% elseif logLine.level_name == 'WARNING' %}
+                        {% if logLine.level_name == 'WARNING' %}
                             <tr class="danger">
                                 <td>{{ logLine.level_name }}</td>
                                 <td>{{ logLine.message }}</td>
@@ -87,6 +82,11 @@
                                 <td>{{ logLine.level_name }}</td>
                                 <td>{{ logLine.message }}</td>
                             </tr>
+                        {#{% elseif logLine.level_name == 'DEBUG' %} <!-- You can include this for debug purposes  -->#}
+                            {#<tr class="info">#}
+                                {#<td>{{ logLine.level_name }}</td>#}
+                                {#<td>{{ logLine.message }}</td>#}
+                            {#</tr>    #}
                         {% endif %}
 
                     {% endfor %}
