@@ -56,26 +56,26 @@
                     </tr>
                     {% for logLine in logs %}
 
-                        {% if logLine.logLevel == '[DEBUG]' %}
-                            <tr class="info">
-                                <td>{{ logLine.logLevel }}</td>
-                                <td>{{ logLine.logMessage }}</td>
-                            </tr>
-                        {% elseif logLine.logLevel == '[WARN]' %}
+                        {% if logLine.level_name == 'WARNING' %}
                             <tr class="danger">
-                                <td>{{ logLine.logLevel }}</td>
-                                <td>{{ logLine.logMessage }}</td>
+                                <td>{{ logLine.level_name }}</td>
+                                <td>{{ logLine.message }}</td>
                             </tr>
-                        {% elseif logLine.logLevel == '[ERROR]' %}
+                        {% elseif logLine.level_name == 'ERROR' %}
                             <tr class="danger">
-                                <td>{{ logLine.logLevel }}</td>
-                                <td>{{ logLine.logMessage }}</td>
+                                <td>{{ logLine.level_name }}</td>
+                                <td>{{ logLine.message }}</td>
                             </tr>
-                        {% elseif logLine.logLevel == '[INFO]' %}
+                        {% elseif logLine.level_name == 'INFO' %}
                             <tr>
-                                <td>{{ logLine.logLevel }}</td>
-                                <td>{{ logLine.logMessage }}</td>
+                                <td>{{ logLine.level_name }}</td>
+                                <td>{{ logLine.message }}</td>
                             </tr>
+                        {#{% elseif logLine.level_name == 'DEBUG' %} <!-- You can include this for debug purposes -->#}
+                            {#<tr class="info">#}
+                                {#<td>{{ logLine.level_name }}</td>#}
+                                {#<td>{{ logLine.message }}</td>#}
+                            {#</tr>#}
                         {% endif %}
 
                     {% endfor %}

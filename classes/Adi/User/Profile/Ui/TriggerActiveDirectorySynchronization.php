@@ -49,7 +49,7 @@ class NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronization
 		$this->attributeRepository = $attributeRepository;
 		$this->errors = $errors;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**

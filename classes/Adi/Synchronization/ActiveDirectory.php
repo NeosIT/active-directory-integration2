@@ -33,7 +33,7 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 	{
 		parent::__construct($configuration, $connection, $attributeService);
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 
@@ -53,7 +53,7 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 
 		$attributes = $this->attributeService->getRepository()->getSyncableAttributes();
 
-		$this->logger->info("Available attributes for synchronization: " . NextADInt_Core_Logger::toString($attributes));
+		$this->logger->info("Available attributes for synchronization: " . NextADInt_Core_Logger::toString($attributes)); // TODO Revisit and add to new logger
 		$users = $this->getUsers($userId);
 
 		if (!is_array($users) || empty($users)) {
@@ -89,15 +89,6 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 	 */
 	protected function prepareForSync($username = null, $password = null)
 	{
-		// ADI-354 (dme)
-		$loggingEnabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
-		$customPath = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH);
-
-		if (!$loggingEnabled) {
-			NextADInt_Core_Logger::displayMessages();;
-		} else {
-			NextADInt_Core_Logger::displayAndLogMessages($customPath);
-		}
 
 		if (!$this->isEnabled()) {
 			$this->logger->info('Sync to AD is disabled.');

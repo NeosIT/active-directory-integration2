@@ -21,7 +21,7 @@ class NextADInt_Adi_User_Meta_Persistence_Repository
 
 	public function __construct()
 	{
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**

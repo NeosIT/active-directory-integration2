@@ -112,15 +112,10 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 
 		$userId = NextADInt_Core_Util_ArrayUtil::get('userid', $post, '');
 
-		ob_start();
-		NextADInt_Core_Logger::logMessages();
+		NextADInt_Core_Logger::enableFrontendHandler();
 		$result = $this->syncToActiveDirectory->synchronize($userId);
-		$this->log = ob_get_contents();
-		ob_end_clean();
-
-		// split the string and put the single log messages into an array
-		$this->log = explode("<br />", $this->log);
-		$this->log = NextADInt_Core_Util_StringUtil::transformLog($this->log);
+		$this->log = NextADInt_Core_Logger::getBufferedLog();
+		NextADInt_Core_Logger::disableFrontendHandler();
 
 		if ($result) {
 			$this->result = esc_html__('Sync to AD succeeded.', 'next-active-directory-integration');

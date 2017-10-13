@@ -95,10 +95,6 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 		$this->behave($fakeService, 'check', false);
 
-
-		$fakeService->expects($this->once())
-			->method('getOptionValue');
-
 		$fakeService->expects($this->never())
 			->method('register');
 

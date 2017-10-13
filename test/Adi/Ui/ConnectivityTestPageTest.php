@@ -207,11 +207,7 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
         $actual = $sut->processData();
 
         $this->assertTrue(is_array($actual));
-        $output = $sut->getOutput();
-        // first line has to be the output
-        $this->assertTrue(strpos($output[0], $collectInformationResult['output']) !== false);
         $this->assertEquals($collectInformationResult['authentication_result'], $actual['status']);
-
     }
 
 	/**
@@ -243,9 +239,7 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 		$actual = $sut->processData();
 
 		$this->assertTrue(is_array($actual));
-		$output = $sut->getOutput();
-		// first line has to be the output
-		$this->assertTrue(strpos($output[0], $collectInformationResult['output']) !== false);
+
 		$this->assertEquals($collectInformationResult['authentication_result'], $actual['status']);
 
 	}
@@ -281,7 +275,6 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 
 		$actual = $sut->collectInformation($username, $password);
 
-		$this->assertEquals('', $actual['output']);
 		$this->assertEquals(666, $actual['authentication_result']);
 	}
 

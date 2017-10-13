@@ -1,6 +1,7 @@
 <?php
 
-if ( ! defined('ABSPATH')) {
+
+if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
@@ -8,178 +9,289 @@ if (class_exists('NextADInt_Core_Logger')) {
 	return;
 }
 
-
 /**
  * NextADInt_Core_Logger Simple logging fascade
  *
- * Internally, log4php is used.
+ * Internally, monolog is used.
  *
- * @author Tobias Hellmann <the@neos-it.de>
+ * @author Danny Meißner <dme@neos-it.de>
  * @access public
  */
 class NextADInt_Core_Logger
 {
-    const RELATIVE_LOG_PATH = '/logs/debug.log';
-    const FILE_CONVERSION_PATTERN_FILTER = 'next_ad_int_file_conversion_pattern_filter';
-    const ECHO_CONVERSION_PATTERN_FILTER = 'next_ad_int_echo_conversion_pattern_filter';
-	const TABLE_CONVERSION_PATTERN_FILTER = 'next_ad_int_table_conversion_pattern_filter';
+	/* @var \Monolog\Logger */
+	private static $logger;
 
-	private static $logging = true;
+	/**
+	 * @var string
+	 */
+	private static $defaultPath = NEXT_AD_INT_PATH . '/logs/';
 
-	private static $fileConfig = array(
-		'class'  => 'LoggerAppenderFile',
-		'layout' => array(
-			'class' => 'LoggerLayoutPattern',
-			'params' => array()
-		),
-		'params' => array(
-			'file'   => 'debug.log',
-			'append' => true
-		)
-	);
+	/**
+	 * @var bool
+	 */
+	public static $isTestmode = false;
 
-	private static $echoConfig = array(
-		'class' => 'LoggerAppenderEcho',
-		'layout' => array(
-			'class' => 'LoggerLayoutPattern',
-			'params' => array()
-		),
-		'params' => array(
-			'htmlLineBreaks' => 'true',
-		)
-	);
+	/**
+	 * Create a logger instance with a null appender
+	 */
+	public static function createLogger()
+	{
+		// If we are are running tests disable the logger to prevent console output on console / jenkins.
+		if (NextADInt_Core_Logger::$isTestmode) {
+			NextADInt_Core_Logger::setUpTestLogger();
+			return;
+		}
 
-	private static $generalConfig = array(
-		'rootLogger' => array(
-			'appenders' => array(),
-		),
-		'appenders' => array()
-	);
+		// We are pushing a NullHandler in order to catch messages thrown before the streamHandler is initialized
+		$nullHandler = new \Monolog\Handler\NullHandler(Monolog\Logger::DEBUG);
 
-	 /**
-         * Get default absolute path to log file
-         *
-         * @return string
-         */
-	public static function getDefaultLogPath() {
-		return NEXT_AD_INT_PATH . self::RELATIVE_LOG_PATH;
+		if (null != NextADInt_Core_Logger::$logger) {
+			return;
+		}
+
+		NextADInt_Core_Logger::$logger = new Monolog\Logger('nadiMainLogger');
+
+		NextADInt_Core_Logger::$logger->pushHandler($nullHandler);
+
+		// Adding Logger to registry so we are able to check globally if logger exists
+		\Monolog\Registry::addLogger(NextADInt_Core_Logger::$logger);
 	}
 
 	/**
-	 * Create default config
+	 * @param $loggingEnabled
+	 * @param string $customPath
+	 */
+	public static function initializeLogger($loggingEnabled, $customPath = '')
+	{
+		// Disable the NullHandler so we can start to configure the logger to log messages
+		NextADInt_Core_Logger::disableNullHandler();
+
+		// Create a frontendOnly Logger if logging is not enabled in NADI options
+		if (!$loggingEnabled) {
+			NextADInt_Core_Logger::createFrontendOnlyLogger();
+			return;
+		}
+
+		$logPath = NextADInt_Core_Logger::$defaultPath;
+
+		if ($customPath !== '') {
+			$logPath = $customPath;
+		}
+
+		// Check permission to Logging path before we register a stream appender to prevent exception thrown for trying to access file without permission
+		if (!NextADInt_Core_Logger::hasWritingPermission($logPath)) {
+			// Create a frontend only Logger due missing permissions to write to file
+			NextADInt_Core_Logger::createFrontendOnlyLogger();
+			return;
+		}
+
+		// Create Handlers
+		$streamHandler = NextADInt_Core_Logger::createStreamHandler($logPath);
+		$frontendLogHandler = NextADInt_Core_Logger::createFrontendHandler();
+
+		// Create Processor to collect information like className, methodName, line... etc
+		$processor = new Monolog\Processor\IntrospectionProcessor(Monolog\Logger::DEBUG);
+
+		// Push Handlers
+		NextADInt_Core_Logger::$logger->pushHandler($streamHandler);
+		NextADInt_Core_Logger::$logger->pushHandler($frontendLogHandler);
+
+		// Push Processors
+		NextADInt_Core_Logger::$logger->pushProcessor($processor);
+	}
+
+
+	/**
+	 * Disabled the NullHandler in our Logger which was added on Logger create to catch all messages before the streamHandler was configured and added.
+	 */
+	private static function disableNullHandler()
+	{
+		if (!\Monolog\Registry::hasLogger('nadiTestLogger')) {
+			return;
+		}
+
+		if (null == NextADInt_Core_Logger::$logger) {
+			return;
+		}
+
+		$nullHandler = NextADInt_Core_Logger::getNullHandler(NextADInt_Core_Logger::$logger->getHandlers());
+
+		if (null == $nullHandler) {
+			return;
+		}
+
+		$nullHandler->close();
+	}
+
+	/**
+	 * @param $loggingPath
+	 * @return \Monolog\Handler\StreamHandler
+	 */
+	private static function createStreamHandler($loggingPath)
+	{
+		// Create Handlers
+		$streamHandler = new \Monolog\Handler\StreamHandler($loggingPath . 'nadi-debug.log', Monolog\Logger::DEBUG);
+
+		// Formats
+		$outputFile = "%datetime% [%level_name%] %extra.class%::%extra.function% [line %extra.line%] %message%\n";
+
+		// Create Formatter
+		$formatterFile = new \Monolog\Formatter\LineFormatter($outputFile);
+
+		//Set Formatter
+		$streamHandler->setFormatter($formatterFile);
+
+		return $streamHandler;
+	}
+
+	/**
+	 * @return NextADInt_Core_Logger_Handlers_FrontendLogHandler
+	 */
+	private static function createFrontendHandler()
+	{
+		// Create Handlers
+		$frontendHandler = new NextADInt_Core_Logger_Handlers_FrontendLogHandler(\Monolog\Logger::DEBUG);
+
+		// Formats
+		$outputFrontend = "%datetime% [%level_name%] %extra.class%::%extra.function% [line %extra.line%] %message%";
+
+		// Create Formatter
+		$formatterFrontend = new \Monolog\Formatter\LineFormatter($outputFrontend);
+
+		//Set Formatter
+		$frontendHandler->setFormatter($formatterFrontend);
+
+		return $frontendHandler;
+	}
+
+	/**
+	 * Checks if the logger can log to the in the streamHandler configured path if file does not exist, create it
+	 */
+	private static function hasWritingPermission($pathToFile)
+	{
+		$isPathWritable = is_writable($pathToFile); // TODO With NADI 2.0.15 customPath will only be the path and we will always call the log file debug.log
+
+		if ($isPathWritable) {
+			$doesFileExists = file_exists($pathToFile . 'nadi-debug.log');
+			if ($doesFileExists) {
+				return true;
+			}
+			error_log("Could not find nadi-debug.log file. Trying to create it.");
+
+			$fileCreated = fopen($pathToFile . 'nadi-debug.log', 'w');
+
+			if ($fileCreated !== false) {
+				return true;
+			}
+
+			error_log("Could not create NADI debug.log file. Missing permission ?");
+
+			return false;
+		}
+
+		// Log to PHP error log, that we need writing permission to the NADI log file
+		error_log("Missing writing permission to path: $pathToFile");
+
+		return false;
+	}
+
+	/**
+	 * Return the global Logger instance
 	 *
-	 * @param bool $useFile
-	 * @param bool $useEcho
-	 * @param string $path
-	 * @return array
+	 * @return \Monolog\Logger
 	 */
-	public static function createDefaultConfiguration($useFile, $useEcho, $path = '') {
-		if (!$path) {
-			$path = self::getDefaultLogPath();
+	public static function getLogger()
+	{
+		if (null == NextADInt_Core_Logger::$logger) {
+			NextADInt_Core_Logger::createLogger();
 		}
 
-		$config = self::$generalConfig;
+		return NextADInt_Core_Logger::$logger;
+	}
 
-		if ($useFile) {
-			$config['rootLogger']['appenders'][] = 'file';
-			$config['appenders']['file'] = self::$fileConfig;
 
-            // set the conversionPattern
-            $pattern = apply_filters(NextADInt_Core_Logger::FILE_CONVERSION_PATTERN_FILTER, NEXT_AD_INT_FILE_CONVERSION_PATTERN);
-            $config['appenders']['file']['layout']['params']['conversionPattern'] = $pattern;
-
-			$config['appenders']['file']['params']['file'] = $path;
-		}
-
-		if ($useEcho) {
-			$config['rootLogger']['appenders'][] = 'echo';
-			$config['appenders']['echo'] = self::$echoConfig;
-
-            // set the conversionPattern
-            $pattern = apply_filters(NextADInt_Core_Logger::TABLE_CONVERSION_PATTERN_FILTER, NEXT_AD_INT_TABLE_CONVERSION_PATTERN);
-            $config['appenders']['echo']['layout']['params']['conversionPattern'] = $pattern;
-		}
-
-		return $config;
+	/**
+	 * @return \Monolog\Handler\HandlerInterface[]
+	 */
+	private static function getHandlers()
+	{
+		return NextADInt_Core_Logger::$logger->getHandlers();
 	}
 
 	/**
-	 * Enable file logging but disable screen logging
+	 * @param $handlers
+	 * @return NextADInt_Core_Logger_Handlers_FrontendLogHandler
 	 */
-	public static function logMessages($customPath = '')
+	private static function getFrontendHandler($handlers)
 	{
-		Logger::resetConfiguration();
-
-		if (self::$logging) {
-			if ($customPath && ($customPath !== self::getDefaultLogPath())) {
-				Logger::configure(self::createDefaultConfiguration(true, false, $customPath));
-			} else {
-				Logger::configure(self::createDefaultConfiguration(true, false));
+		foreach ($handlers as $handler) {
+			if (is_a($handler, 'NextADInt_Core_Logger_Handlers_FrontendLogHandler')) {
+				return $handler;
 			}
 		}
+
+		return null;
 	}
 
 	/**
-	 * Disable file logging but enable screen logging
+	 * @param $handlers
+	 * @return NextADInt_Core_Logger_Handlers_FrontendLogHandler
 	 */
-	public static function displayMessages()
+	private static function getStreamHandler($handlers)
 	{
-		Logger::resetConfiguration();
-
-		if (self::$logging) {
-			Logger::configure(self::createDefaultConfiguration(false, true));
-		}
-	}
-
-	/**
-	 * Enable file and screen logging
-	 */
-	public static function displayAndLogMessages($customPath = '')
-	{
-		Logger::resetConfiguration();
-
-		if (self::$logging) {
-			if ($customPath && ($customPath !== self::getDefaultLogPath())) {
-				Logger::configure(self::createDefaultConfiguration(true, true, $customPath));
-			} else {
-				Logger::configure(self::createDefaultConfiguration(true, true));
+		foreach ($handlers as $handler) {
+			if (is_a($handler, \Monolog\Handler\StreamHandler::class)) {
+				return $handler;
 			}
 		}
+
+		return null;
 	}
 
 	/**
-	 * Disable outputs
+	 * @param $handlers
+	 * @return NextADInt_Core_Logger_Handlers_FrontendLogHandler
 	 */
-	public static function logNothing()
+	private static function getNullHandler($handlers)
 	{
-		Logger::resetConfiguration();
-		Logger::configure(array());
+		foreach ($handlers as $handler) {
+			if (is_a($handler, \Monolog\Handler\NullHandler::class)) {
+				return $handler;
+			}
+		}
+
+		return null;
 	}
 
 	/**
-	 * Disable logging
+	 * Enables the log buffer inside the frontend handler
 	 */
-	public static function disableLogging() {
-		self::logNothing();
-		self::$logging = false;
-	}
-
-	/**
-	 * Enable default logging
-	 */
-	public static function enableLogging() {
-		self::logMessages();
-		self::$logging = true;
-	}
-
-	/**
-	 * Set log level
-	 * @param string $level
-	 */
-	public static function setLevel($level)
+	public static function enableFrontendHandler()
 	{
-		$root = Logger::getRootLogger();
-		$root->setLevel($level);
+		$handlers = NextADInt_Core_Logger::getHandlers();
+		$frontendHandler = NextADInt_Core_Logger::getFrontendHandler($handlers);
+		$frontendHandler->enable();
+	}
+
+	/**
+	 * Disables the log buffer inside the frontend handler
+	 */
+	public static function disableFrontendHandler()
+	{
+		$handlers = NextADInt_Core_Logger::getHandlers();
+		$frontendHandler = NextADInt_Core_Logger::getFrontendHandler($handlers);
+		$frontendHandler->disable();
+	}
+
+	/**
+	 * Returns the buffered log for Frontend rendering
+	 */
+	public static function getBufferedLog()
+	{
+		$handlers = NextADInt_Core_Logger::getHandlers();
+		$frontendHandler = NextADInt_Core_Logger::getFrontendHandler($handlers);
+		return $frontendHandler->getBufferedLog();
 	}
 
 	/**
@@ -187,7 +299,8 @@ class NextADInt_Core_Logger
 	 * @param array|object $object
 	 * @return string
 	 */
-	public static function toString($object) {
+	public static function toString($object)
+	{
 		if (is_array($object)) {
 			$r = array();
 
@@ -202,11 +315,54 @@ class NextADInt_Core_Logger
 	}
 
 	/**
-	 * @param string $level
-	 * @return bool
+	 * Set up a testLogger with a NullHandler to throw away all occurring messages.
 	 */
-	public static function equalLevel($level) {
-		$currentLevel = Logger::getRootLogger()->getLevel();
-		return $currentLevel->equals($level);
+	public static function setUpTestLogger()
+	{
+		// Check if test logger already exists before setting up a new one.
+		if (\Monolog\Registry::hasLogger('nadiTestLogger')) {
+			return;
+		}
+
+		// Create TestLogger
+		NextADInt_Core_Logger::$logger = new Monolog\Logger('nadiTestLogger');
+
+		// Create Handlers
+		$nullHandler = new \Monolog\Handler\NullHandler();
+
+		// Push Handlers
+		NextADInt_Core_Logger::$logger->pushHandler($nullHandler);
+
+		// Adding Logger to registry so we are able to check globally if logger exists
+		\Monolog\Registry::addLogger(NextADInt_Core_Logger::$logger);
+	}
+
+	/**
+	 * If NADI does not have writing permission to the log path/file log to frontend only.
+	 */
+	private static function createFrontendOnlyLogger()
+	{
+		// Remove old Logger because we do not want to log unnecessary information to the php-error log
+		if (\Monolog\Registry::hasLogger('nadiMainLogger')) {
+			\Monolog\Registry::removeLogger('nadiMainLogger');
+		}
+
+		// Creating new Frontend Only Logger and set it as main logger
+		NextADInt_Core_Logger::$logger = new Monolog\Logger('nadiMainLogger');
+
+		// Create Handlers
+		$frontendLogHandler = NextADInt_Core_Logger::createFrontendHandler();
+
+		// Create Processor to collect information like className, methodName, line... etc
+		$processor = new Monolog\Processor\IntrospectionProcessor(Monolog\Logger::DEBUG);
+
+		// Push Handlers
+		NextADInt_Core_Logger::$logger->pushHandler($frontendLogHandler);
+
+		// Push Processors
+		NextADInt_Core_Logger::$logger->pushProcessor($processor);
+
+		// Adding Logger to registry so we are able to check globally if logger exists
+		\Monolog\Registry::addLogger(NextADInt_Core_Logger::$logger);
 	}
 }

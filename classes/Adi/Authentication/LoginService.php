@@ -77,7 +77,7 @@ class NextADInt_Adi_Authentication_LoginService
 		$this->attributeService = $attributeService;
 		$this->roleManager = $roleManager;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 
 		$this->currentUserAuthenticated = false;
 	}

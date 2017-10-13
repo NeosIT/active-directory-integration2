@@ -109,16 +109,10 @@ class NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage extends NextADInt_Mul
 			wp_die($message);
 		}
 
-		ob_start();
-		NextADInt_Core_Logger::logMessages();
+		NextADInt_Core_Logger::enableFrontendHandler();
 		$status = $this->syncToWordPress->synchronize();
-		$this->log = ob_get_contents();
-		ob_end_clean();
-
-		//Split the String and put the single log messages into an array
-		$this->log = explode("<br />", $this->log);
-		$this->log = NextADInt_Core_Util_StringUtil::transformLog($this->log);
-
+		$this->log = NextADInt_Core_Logger::getBufferedLog();
+		NextADInt_Core_Logger::disableFrontendHandler();
 
 		if ($status) {
 			$this->result = esc_html__('Sync to WordPress succeeded.', 'next-active-directory-integration');
