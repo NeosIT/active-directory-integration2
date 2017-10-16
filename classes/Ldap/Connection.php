@@ -338,8 +338,11 @@ class NextADInt_Ldap_Connection
 			return true;
 		}
 
-		$message = "Authentication for user '$username' failed because: " . $adLdap->get_last_error();
-		$this->logger->error($message);
+		try {
+			$adLdap->throwConnectionError("Authentication for user '$username' failed");
+		} catch (Exception $ex) {
+			$this->logger->error($ex->getMessage());
+		}
 
 		return false;
 	}
