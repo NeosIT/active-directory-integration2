@@ -2845,7 +2845,7 @@ class adLDAP {
     }
 
 
-	private function throwConnectionError($message) {
+	public function throwConnectionError($message) {
 		$error = $this->get_last_error();
 		$errno = $this->get_last_errno();
 
