@@ -303,22 +303,6 @@
 		<delete dir="${basedir}/test-ui"/>
 		<delete dir="${basedir}/test"/>
 		<delete dir="${basedir}/vendor/bin"/>
-		<delete dir="${basedir}/vendor/apache/log4php/.git"/>
-		<delete>
-			<fileset dir="${basedir}/vendor/apache/log4php">
-				<include name="*"/>
-				<include name=".*"/>
-				<exclude name="CHANGELOG"/>
-				<exclude name="LICENSE"/>
-				<exclude name="NOTICE"/>
-				<exclude name="README"/>
-			</fileset>
-		</delete>
-		<delete dir="${basedir}/vendor/apache/log4php/src/assembly"/>
-		<delete dir="${basedir}/vendor/apache/log4php/src/changes"/>
-		<delete dir="${basedir}/vendor/apache/log4php/src/examples"/>
-		<delete dir="${basedir}/vendor/apache/log4php/src/site"/>
-		<delete dir="${basedir}/vendor/apache/log4php/src/test"/>
 		<delete>
 			<fileset dir="${basedir}/vendor/twig/twig">
 				<include name="*"/>
