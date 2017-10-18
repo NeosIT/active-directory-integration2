@@ -67,11 +67,11 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 * @param NextADInt_Adi_Role_Manager                $roleManager
 	 */
 	public function __construct(NextADInt_Adi_User_Manager $userManager,
-		NextADInt_Adi_User_Helper $userHelper,
-		NextADInt_Multisite_Configuration_Service $configuration,
-		NextADInt_Ldap_Connection $connection,
-		NextADInt_Ldap_Attribute_Service $attributeService,
-		NextADInt_Adi_Role_Manager $roleManager
+								NextADInt_Adi_User_Helper $userHelper,
+								NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Ldap_Connection $connection,
+								NextADInt_Ldap_Attribute_Service $attributeService,
+								NextADInt_Adi_Role_Manager $roleManager
 	) {
 		parent::__construct($configuration, $connection, $attributeService);
 
@@ -82,7 +82,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$this->loggingEnabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
 		$this->customPath = $this->configuration->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -120,7 +120,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 				try {
 					$status = $this->synchronizeUser($credentials, $guid);
 				} catch (Exception $ex) {
-					$this->logger->error('Failed to synchronize ' . $credentials, $ex);
+					$this->logger->error('Failed to synchronize ' . $credentials . ". " . $ex->getMessage());
 				}
 
 				switch ($status) {
@@ -152,15 +152,6 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 */
 	protected function prepareForSync()
 	{
-
-		// ADI-354 (dme)
-		if (!$this->loggingEnabled) {
-			NextADInt_Core_Logger::displayMessages();
-		} else {
-			NextADInt_Core_Logger::displayAndLogMessages($this->customPath);
-		}
-
-		NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelInfo());
 
 		$enabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED);
 		if (!$enabled) {
@@ -589,9 +580,6 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 */
 	protected function finishSynchronization($addedUsers, $updatedUsers, $failedSync)
 	{
-		if ($this->loggingEnabled) {
-			NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelDebug());
-		}
 
 		$elapsedTime = $this->getElapsedTime();
 

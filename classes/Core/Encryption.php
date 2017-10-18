@@ -20,12 +20,14 @@ if ( class_exists( 'NextADInt_Core_Encryption' ) )
  */
 class NextADInt_Core_Encryption
 {
-	/** @var Logger */
+	/** @var Monolog\Logger */
 	private $logger;
+
+
 
 	public function __construct()
 	{
-		$this->logger = Logger::getLogger( __CLASS__ );
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -45,7 +47,7 @@ class NextADInt_Core_Encryption
 		} catch ( Exception $e )
 		{
 			// prevent the PHP stack trace display by catching all exception because the stack trace can contain the $password.
-			$this->logger->warn( 'Plain text can not be encrypted.', $e );
+			$this->logger->warning( 'Plain text can not be encrypted. ' . $e->getMessage());
 
 			return false;
 		}

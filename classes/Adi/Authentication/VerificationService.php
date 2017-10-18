@@ -31,7 +31,7 @@ class NextADInt_Adi_Authentication_VerificationService
 	{
 		$this->ldapConnection = $ldapConnection;
 		$this->attributeRepository = $attributeRepository;
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**

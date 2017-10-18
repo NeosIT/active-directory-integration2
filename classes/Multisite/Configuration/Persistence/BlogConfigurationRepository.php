@@ -25,7 +25,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	/* @var NextADInt_Core_Encryption $encryptionHandler */
 	private $encryptionHandler;
 
-	/* @var Logger $logger */
+	/* @var Monolog\Logger $logger */
 	private $logger;
 
 	/** @var NextADInt_Multisite_Option_Provider $optionProvider */
@@ -59,7 +59,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 		$this->profileConfigurationRepository = $profileConfigurationRepository;
 		$this->defaultProfileRepository = $defaultProfileRepository;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -533,4 +533,5 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	{
 		return false;
 	}
+
 }

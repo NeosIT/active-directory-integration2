@@ -38,7 +38,7 @@ class NextADInt_Core_Migration_Service
 		$this->dependencyContainer = $dependencyContainer;
 		$this->migrationRepository = $migrationRepository;
 
-		$this->logger = Logger::getLogger('Core_Migration_Migrator');
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -107,7 +107,7 @@ class NextADInt_Core_Migration_Service
 		} catch (Exception $e) {
 			// log the error
 			$message = sprintf('An error occurred while executing the migration with id %d', $id);
-			$this->logger->error($message, $e);
+			$this->logger->error($message . ". " . $e->getMessage());
 		}
 
 		return false;

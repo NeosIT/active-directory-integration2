@@ -65,7 +65,7 @@ class NextADInt_Adi_User_Manager
 		$this->metaRepository = $metaRepository;
 		$this->userRepository = $userRepository;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -335,7 +335,7 @@ class NextADInt_Adi_User_Manager
 		NextADInt_Core_Assert::notNull($user, "user must not be null");
 
 		if (!$user->getId()) {
-			$error = new WP_Error("WordPress User '{
+			$error = new WP_Error('error', "WordPress User '{
 				$user}' does not exist.");
 
 			NextADInt_Core_Util_ExceptionUtil::handleWordPressErrorAsException($error);

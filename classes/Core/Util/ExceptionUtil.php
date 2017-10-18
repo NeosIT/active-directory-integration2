@@ -48,7 +48,7 @@ class NextADInt_Core_Util_ExceptionUtil
 	private static function getLogger()
 	{
 		if (null === self::$logger) {
-			self::$logger = Logger::getLogger(__CLASS__);
+			self::$logger = NextADInt_Core_Logger::getLogger();
 		}
 
 		return self::$logger;

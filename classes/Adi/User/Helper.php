@@ -30,7 +30,7 @@ class NextADInt_Adi_User_Helper
 	{
 		$this->configuration = $configuration;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
