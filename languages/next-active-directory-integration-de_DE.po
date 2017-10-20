@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-18 10:11+0000\n"
-"PO-Revision-Date: 2017-10-18 10:23+0000\n"
+"POT-Creation-Date: 2017-10-20 06:47+0000\n"
+"PO-Revision-Date: 2017-10-20 06:53+0000\n"
 "Last-Translator: root <a@b.ad>\n"
 "Language-Team: German\n"
 "Language: de-DE\n"
@@ -22,127 +22,6 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: vendor"
 
-#: classes/Adi/Configuration/Options.php:886
-msgid " (3.8 Capability vs. Role Table)"
-msgstr " (3.8 Capability vs. Role Table)"
-
-#: classes/Adi/Configuration/Options.php:1447
-msgid ""
-"If enabled, NADI will create a logfile at the default location "
-"\"PLUGINPATH/logs/debug.log\". <button class=\"button button-primary\" ng-"
-"click=\"activateLogging()\" ng-show=\"isSaveDisabled\"> Save Logging "
-"Configurations</button>"
-msgstr ""
-"Wenn diese Option aktiviert ist, erstellt NADI eine Logdatei im Pfad "
-"\"PLUGINPATH/logs/\". <button class=\"button button-primary\" ng-"
-"click=\"activateLogging()\" ng-show=\"isSaveDisabled\"> Logging "
-"Einstellungen speichern</button>"
-
-#: classes/Adi/Configuration/Options.php:1465
-msgid ""
-"The logfile will be created at the set location. (e.g. /custompath/logs/)."
-msgstr ""
-"Die Logdatei wird in dem von ihnen angegebenen Pfad erstellt. (z.b. "
-"/custompath/logs/)."
-
-#: classes/Adi/Configuration/Options.php:1469
-msgid ""
-"If you do not have permission for the default path on your system you can "
-"set a new path. The debug.log file will be created at the set location."
-msgstr ""
-"Wenn Sie nicht die benötigte Berechtigung für den Default Pfad besitzen, "
-"können sie einen neuen Pfad angeben. Die Logdatei wird in dem von ihnen "
-"angegebenen Pfad erstellt."
-
-#: classes/Adi/Configuration/Ui/Layout.php:170
-msgid ""
-"<span class=\"adi-pe-message\"><b>Premium-Extensions: </b>Custom Role "
-"Management <a href=\"https://active-directory-wp.com/premium-extension/\">"
-"available</a>.</span>"
-msgstr ""
-"<span class=\"adi-pe-message\"><b>Premium-Erweiterung: </b>Custom Role "
-"Management <a href=\"https://active-directory-wp.com/premium-extension/\">"
-"verfügbar</a>.</span>"
-
-#: classes/Adi/Configuration/Ui/Layout.php:193
-msgid ""
-"<span class=\"adi-pe-message\"><b>Premium-Extensions: </b>SingleSignOn for "
-"BuddyPress, WooCommerce und Ultimate Member <a href=\"https://active-"
-"directory-wp.com/premium-extension/\">available</a>.</span>"
-msgstr ""
-"<span class=\"adi-pe-message\"><b>Premium-Erweiterung: </b>SingleSignOn for "
-"BuddyPress, WooCommerce und Ultimate Member <a href=\"https://active-"
-"directory-wp.com/premium-extension/\">verfügbar</a>.</span>"
-
-#: classes/Adi/Configuration/Ui/Layout.php:208
-msgid "</div>"
-msgstr "</div>"
-
-#: classes/Adi/Configuration/Ui/Layout.php:246
-msgid ""
-"<span class=\"adi-pe-message\"><b>Premium-Extensions: </b>BuddyPress simple "
-"attributes, BuddyPress profile photo, Profile Pictures and User Photo "
-"integration <a href=\"https://active-directory-wp.com/premium-extension/\">"
-"available</a>.</span>"
-msgstr ""
-"<span class=\"adi-pe-message\"><b>Premium-Erweiterung: </b>BuddyPress simple "
-"attributes, BuddyPress profile photo, Profile Pictures und User Photo "
-"integration <a href=\"https://active-directory-wp.com/premium-extension/\">"
-"verfügbar</a>.</span>"
-
-#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:88
-msgid ""
-"Check that a connection to a domain controller is established and 'Enable "
-"sync to AD' is checked. Also, a service account has to be provided."
-msgstr ""
-"Überprüfen Sie, dass eine Verbindung zum Domain Controller hergestellt wurde "
-"und \"Sync to Ad aktivieren\" aktiviert ist. Außerdem muss ein Service "
-"Account hinterlegt wurden sein."
-
-#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:87
-msgid ""
-"Check that a connection to a domain controller is established and 'Enable "
-"sync to WordPress' is checked. Also, a service account has to be provided."
-msgstr ""
-"Überprüfen Sie, dass eine Verbindung zum Domain Controller hergestellt wurde "
-"und \"Sync to WordPress aktivieren\" aktiviert ist. Außerdem muss ein "
-"Service Account hinterlegt wurden sein."
-
-#: classes/Adi/User/Profile/Ui/TriggerActiveDirectorySynchronization.php:159
-msgid ""
-"Error on writing additional attributes back to Active Directory. Service "
-"Account is not setup properly. Please contact your WordPress administrator."
-msgstr ""
-"Es ist ein Fehler beim Synchronisieren der Daten zum Active Directory "
-"aufgetreten. Der Service Account ist nicht richtig konfiguriert. Bitte "
-"kontaktieren sie ihren WordPress Administrator."
-
-#. Name of the plugin
-msgid "Next Active Directory Integration"
-msgstr "Next Active Directory Integration"
-
-#. Description of the plugin
-msgid ""
-"This is the successor of the Active Directory Integration plug-in which "
-"allows you to authenticate, authorize, create and update users through "
-"Active Directory."
-msgstr ""
-"Dies ist der Nachfolger vom Active Directory Integration plug-in. Dieser "
-"erlaubt ihnen mit hilfe des Active Directory benutzer zu authorisieren, "
-"authentifizieren, zu erstellen und zu aktuallisieren."
-
-#. URI of the plugin
-msgid "https://www.active-directory-wp.com"
-msgstr "https://www.active-directory-wp.com"
-
-#. Author of the plugin
-msgid "NeosIT GmbH"
-msgstr "NeosIT GmbH"
-
-#. Author URI of the plugin
-msgid "http://www.neos-it.de/"
-msgstr "http://www.neos-it.de/"
-
 #: classes/Adi/Init.php:114
 #, php-format
 msgid ""
@@ -152,56 +31,559 @@ msgstr ""
 "Bitte kaufe eine gültige Next Active Directory Integration Support Lizenz "
 "von %s, um das Plugin zu unterstützen."
 
-#: classes/Adi/Authentication/LoginService.php:108
+#: test/Multisite/Ui/ProfileConfigurationPageTest.php:881
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:419
+msgid "Input field is invisible."
+msgstr "Eingabefeld ist unsichtbar."
+
+#: test/Multisite/Ui/ProfileConfigurationPageTest.php:885
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:423
+msgid "Deactivated and option value not shown."
+msgstr "Deaktiviert und Wert wird nicht angezeigt."
+
+#: test/Multisite/Ui/ProfileConfigurationPageTest.php:889
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:427
+msgid "Deactivated and option value shown."
+msgstr "Deaktiviert und Wert wird angezeigt."
+
+#: test/Multisite/Ui/ProfileConfigurationPageTest.php:893
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:431
+msgid "Blog admin sets the option value."
+msgstr "Blog-Administrator setzt den Wert."
+
+#: classes/Ldap/Attribute/Description.php:23
+msgid "Common Name"
+msgstr "Allgeminer Name"
+
+#: classes/Ldap/Attribute/Description.php:24
+msgid "First name"
+msgstr "Vorname"
+
+#: classes/Ldap/Attribute/Description.php:25
+msgid "Initials"
+msgstr "Initialien"
+
+#: classes/Ldap/Attribute/Description.php:26
+msgid "Last name"
+msgstr "Nachname"
+
+#: classes/Ldap/Attribute/Description.php:27
+#: classes/Adi/Configuration/Options.php:698
+msgid "Display name"
+msgstr "Anzeigename"
+
+#: classes/Ldap/Attribute/Description.php:28
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:133
+#: classes/Multisite/Ui/BlogConfigurationPage.php:111
+msgid "Description"
+msgstr "Beschreibung"
+
+#: classes/Ldap/Attribute/Description.php:29
+msgid "Office"
+msgstr "Büro"
+
+#: classes/Ldap/Attribute/Description.php:30
+msgid "Telephone number"
+msgstr "Telefonnummer"
+
+#: classes/Ldap/Attribute/Description.php:31
+msgid "E-mail"
+msgstr "E-mail"
+
+#: classes/Ldap/Attribute/Description.php:32
+msgid "Web Page"
+msgstr "Webseite"
+
+#: classes/Ldap/Attribute/Description.php:35
+msgid "User logon name"
+msgstr "Benutzername"
+
+#: classes/Ldap/Attribute/Description.php:38
+msgid "Street"
+msgstr "Straße"
+
+#: classes/Ldap/Attribute/Description.php:39
+msgid "P.O. Box"
+msgstr "P.O. Box Nummer"
+
+#: classes/Ldap/Attribute/Description.php:40
+msgid "City"
+msgstr "Stadt"
+
+#: classes/Ldap/Attribute/Description.php:41
+msgid "State"
+msgstr "Bundesland"
+
+#: classes/Ldap/Attribute/Description.php:42
+msgid "ZIP/Postal cide"
+msgstr "Postleitzahl"
+
+#: classes/Ldap/Attribute/Description.php:43
+msgid "Country abbreviation"
+msgstr "Länderkürzel"
+
+#: classes/Ldap/Attribute/Description.php:44
+msgid "Country"
+msgstr "Land"
+
+#: classes/Ldap/Attribute/Description.php:45
+msgid "Country code (number)"
+msgstr "Landesvorwahl"
+
+#: classes/Ldap/Attribute/Description.php:48
+msgid "Home"
+msgstr "Telefonnummer"
+
+#: classes/Ldap/Attribute/Description.php:49
+msgid "Home (other)"
+msgstr "Telefonnummer (andere)"
+
+#: classes/Ldap/Attribute/Description.php:50
+msgid "Pager"
+msgstr "Pager"
+
+#: classes/Ldap/Attribute/Description.php:51
+msgid "Pager (other)"
+msgstr "Pager (andere)"
+
+#: classes/Ldap/Attribute/Description.php:52
+msgid "Mobile"
+msgstr "Handy"
+
+#: classes/Ldap/Attribute/Description.php:53
+msgid "Mobile (Other)"
+msgstr "Handy (andere)"
+
+#: classes/Ldap/Attribute/Description.php:54
+msgid "Fax"
+msgstr "Fax"
+
+#: classes/Ldap/Attribute/Description.php:55
+msgid "Fax (other)"
+msgstr "Fax (andere)"
+
+#: classes/Ldap/Attribute/Description.php:56
+msgid "IP Phone"
+msgstr "IP Telefon"
+
+#: classes/Ldap/Attribute/Description.php:57
+msgid "IP Phone (other)"
+msgstr "IP Telefon (andere)"
+
+#: classes/Ldap/Attribute/Description.php:58
+msgid "Notes"
+msgstr "Notizen"
+
+#: classes/Ldap/Attribute/Description.php:61
+msgid "Title"
+msgstr "Titel"
+
+#: classes/Ldap/Attribute/Description.php:62
+msgid "Department"
+msgstr "Abteilung"
+
+#: classes/Ldap/Attribute/Description.php:63
+msgid "Company"
+msgstr "Firma"
+
+#: classes/Ldap/Attribute/Description.php:64
+msgid "Manager"
+msgstr "Manager"
+
+#: classes/Ldap/Attribute/Description.php:65
+msgid "Direct reports"
+msgstr "Direct reports"
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:49
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:90
+msgid "Profile assignment"
+msgstr "Profilzuweisung"
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:89
+msgid "Search"
+msgstr "Suchen"
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:91
+msgid "Default profile"
+msgstr "Standardprofil"
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:92
+msgid "--- None assigned"
+msgstr "--- Nicht zugewiesen"
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:93
+msgid "Apply"
+msgstr "Übernehmen"
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:94
+msgid "Change selected blogs to profile"
+msgstr "Ändere Profil der ausgewählten Blogs "
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:95
+msgid "--- Use default profile"
+msgstr "--- Benutze Standardprofil"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:83
+msgid "Profile options"
+msgstr "Profiloptionen"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:115
 msgid ""
-"Lost Password feature has been disabled by the \"Next Active Directory "
-"Integration\" plugin."
+"The current profile contains unsaved changes. Are you sure you want to "
+"continue?"
 msgstr ""
-"Die \"Password vergessen?\" Funktion wurde durch das \"Next Active Directory "
-"Integration\" Plugin deaktiviert."
+"Das aktuelle Profil enthält nicht-gespeicherte Änderungen. Sind Sie sicher "
+"das Sie fortfahren wollen ?"
 
-#: classes/Adi/Authentication/LoginService.php:174
-msgid "Next ADI prevents XML RPC authentication!"
-msgstr "NADI verhindert die Authenifizierung über die XML RPC Schnittstelle."
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:116
+msgid "The current profile is associated with the following sites:"
+msgstr "Das aktuelle Profil ist mit den folgenden Seiten verknüpft:"
 
-#: classes/Adi/Configuration/ImportService.php:101
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:117
 msgid ""
-"You are running inside a Multisite network installation. This requires you "
-"to add a new NADI profile or edit the default NADI profile."
+"The current profile is associated with {{ associations.length }} sites. Are "
+"you sure you want to delete this profile?"
 msgstr ""
-"Sie nutzen eine WordPress Multisite Installation. Es wird vorausgesetzt, "
-"dass Sie ein neues NADI Profil anlegen oder das Standartprofil bearbeiten."
+"Das aktuelle Profil ist mit {{ associations.length }} Seiten verbunden. Sind "
+"Sie sicher, dass Sie das Profil löschen möchten?"
 
-#: classes/Adi/Configuration/ImportService.php:105
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:118
+msgid "Assign to profile:"
+msgstr "Neues Profil zuweisen:"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:119
+#: classes/Multisite/Configuration/Persistence/ProfileRepository.php:154
+msgid "New Profile"
+msgstr "Neues Profil"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:120
+#: classes/Adi/Configuration/Options.php:367
+msgid "None"
+msgstr "Keine"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:121
+msgid "Configure Settings for Profile : "
+msgstr "Einstellungen für Profil :"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:122
+msgid "Create new profile"
+msgstr "Erstelle ein neues Profil"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:123
+msgid "Delete profile"
+msgstr "Profil löschen"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:124
+msgid "View associated profiles"
+msgstr "Zeige verbundene Profile"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:125
+#: classes/Multisite/Ui/BlogConfigurationPage.php:103
+msgid "Regenerate Auth Code"
+msgstr "Neuen Auth Code erstellen"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:126
+#: classes/Multisite/Ui/BlogConfigurationPage.php:104
+msgid "Security group"
+msgstr "Sicherheitsgruppen"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:127
+#: classes/Multisite/Ui/BlogConfigurationPage.php:105
+msgid "WordPress role"
+msgstr "WordPress-Rollen"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:128
+#: classes/Multisite/Ui/BlogConfigurationPage.php:106
+msgid "Please select a role"
+msgstr "Bitte wähle eine Rolle aus"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:129
+#: classes/Multisite/Ui/BlogConfigurationPage.php:107
+msgid "Verify"
+msgstr "Verifizieren"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:130
+#: classes/Multisite/Ui/BlogConfigurationPage.php:108
+msgid "AD Attributes"
+msgstr "AD Attribute"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:131
+#: classes/Multisite/Ui/BlogConfigurationPage.php:109
+msgid "Data Type"
+msgstr "Datentypen"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:132
+#: classes/Multisite/Ui/BlogConfigurationPage.php:110
+msgid "Wordpress Attribute"
+msgstr "WordPress-Attribut"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:134
+#: classes/Multisite/Ui/BlogConfigurationPage.php:112
+msgid "View in User Profile"
+msgstr "In Benutzerprofil anzeigen"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:135
+#: classes/Multisite/Ui/BlogConfigurationPage.php:113
+msgid "Sync to Ad"
+msgstr "Sync to Ad"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:136
+#: classes/Multisite/Ui/BlogConfigurationPage.php:114
+msgid "Overwrite with empty value"
+msgstr "Mit leerem Wert überschreiben"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:137
+#: classes/Multisite/Ui/BlogConfigurationPage.php:115
+msgid "Do you really want to regenerate a new AuthCode?"
+msgstr "Möchten Sie wirklich einen neuen Auth Code generieren?"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:138
+#: classes/Multisite/Ui/BlogConfigurationPage.php:116
+msgid "WordPress Site is currently connected to Domain: "
+msgstr "WordPress Seite / Profil ist momentan mit folgender Domäne verbunden: "
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:139
+#: classes/Multisite/Ui/BlogConfigurationPage.php:117
+msgid "Verification successful! WordPress site is now connected to Domain: "
+msgstr ""
+"Verifizierung erfolgreich! Ihr WordPress-Blog ist nun mit der folgenden "
+"Domäne verbunden: "
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:140
+#: classes/Multisite/Ui/BlogConfigurationPage.php:118
+msgid "Verification successful!"
+msgstr "Verifizierung erfolgreich!"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:141
+#: classes/Multisite/Ui/BlogConfigurationPage.php:119
+msgid "Verification failed! Please check your logfile for further information."
+msgstr ""
+"Verifizierung fehlgeschlagen! Bitte überprüfen Sie die Log-Datei für weitere "
+"Informationen."
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:142
+#: classes/Multisite/Ui/BlogConfigurationPage.php:120
+msgid "Manage Permissions"
+msgstr "Verwalte Berechtigungen"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:143
+#: classes/Multisite/Ui/BlogConfigurationPage.php:121
+msgid "No options exists"
+msgstr "Es existieren keine Optionen"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:144
+#: classes/Multisite/Ui/BlogConfigurationPage.php:122
+msgid "Please wait..."
+msgstr "Bitte warten..."
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:145
+#: classes/Multisite/Ui/BlogConfigurationPage.php:123
+msgid "Save"
+msgstr "Speichern"
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:146
+#: classes/Multisite/Ui/BlogConfigurationPage.php:124
+msgid "You have to verify the connection to the AD before saving."
+msgstr ""
+"Sie müssen die Verbindung zu einer Domäne verifizieren bevor Sie speichern "
+"können."
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:147
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:477
+#: classes/Multisite/Ui/ProfileConfigurationController.php:49
+#: classes/Multisite/Ui/BlogConfigurationPage.php:125
+msgid "An error occurred while saving the configuration."
+msgstr "Beim Speichern der Einstellungen ist ein Fehler aufgetreten."
+
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:148
+#: classes/Multisite/Ui/BlogConfigurationPage.php:126
+msgid "The configuration has been saved successfully."
+msgstr "Die Einstellungen wurden erfolgreich gespeichert. "
+
+#: classes/Multisite/Ui/ProfileConfigurationController.php:52
+msgid "The configuration was saved successfully."
+msgstr "Die Konfiguration wurde erfolgreich gespeichert."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:72
+msgid "Configuration"
+msgstr "Einstellungen"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:102
+msgid "Next Active Directory Integration Blog Configuration"
+msgstr "Next Active Directory Integration Blog Einstellungen"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:608
+msgid "Username has to contain a suffix."
+msgstr "Der Benutzername muss ein Suffix enthalten."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:609
+msgid "The given value is invalid."
+msgstr "Der angegebene Wert ist ungültig."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:612
+msgid "This value must not be empty."
+msgstr "Dieser Wert darf nicht leer sein."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:622
+msgid ""
+"Account Suffix does not match the required style. (e.g. \"@company.local\")"
+msgstr ""
+"Das Suffix des Benutzerkontos entspricht nicht dem erwarteten Format (z. B. "
+"\"@company.local\")."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:629
+msgid "Please remove the \"@\", it will be added automatically."
+msgstr "Bitte entfernen Sie das \"@\", es wird automatisch hinzugefügt."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:634
+msgid "Maximum login attempts has to be numeric and cannot be negative."
+msgstr ""
+"Die maximale Anzahl an Anmeldeversuchen muss eine Zahl und nicht negativ "
+"sein."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:638
+msgid "Blocking Time has to be numeric and cannot be negative."
+msgstr "Die Sperrzeit muss eine Zahl und nicht negativ sein."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:642
+msgid ""
+"Admin email does not match the required style. (e.g. \"admin@company.local\")"
+msgstr ""
+"Die Administrator E-Mail entspricht nicht dem erwarteten Format (z. B. "
+"\"admin@company.local\")."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:649
+msgid ""
+"From email does not match the required style. (e.g. \"wordpress@company."
+"local\")"
+msgstr ""
+"Absender E-Mail Adresse stimmt nicht mit dem vorausgesetzten Format über ein."
+" (Bsp. \"wordpress@company.local\")"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:659
+msgid "Username must not be empty."
+msgstr "Der Benutzername darf nicht leer sein."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:671
+msgid "Password must not be empty."
+msgstr "Das Passwort darf nicht leer sein."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:687
+msgid "The role super admin can only be set inside a profile."
+msgstr "Die Rolle \"super admin\" kann nur in einem Profil gesetzt werden."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:688
+msgid ""
+"At least one security group is associated with a non existing WordPress role."
+" Please select an existing role for the group."
+msgstr ""
+"Mindestens eine Sicherheitsgruppe ist mit einer nicht existierenden \n"
+"WordPress Rolle verknüpft. Bitte wähle für diese Gruppe eine existierende \n"
+"Rolle aus."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:693
+msgid "Cannot use default attribute names for custom attribute mapping."
+msgstr ""
+"Bitte verwenden Sie keine Default Attribut Namen für benutzerdefinierte "
+"Attribute."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:702
+msgid "Ad Attribute / Data Type / WordPress Attribute cannot be empty!"
+msgstr "Ad Attribut / Daten Typ / WordPress Attribut darf nicht leer sein!"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:709
+msgid "You cannot use the same WordPress Attribute multiple times."
+msgstr "Sie können nicht das gleiche WordPress-Attribut mehrmals verwenden."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:713
+msgid "You cannot use the same Ad Attribute multiple times."
+msgstr "Sie können nicht das gleiche Ad Attribut mehrmals verwenden."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:754
+#: classes/Multisite/Ui/BlogConfigurationPage.php:760
+msgid ""
+"Verification Username does not match the required style. (e.g. "
+"\"Administrator@test.ad\")"
+msgstr ""
+"Der Benutzername entspricht nicht dem erwarteten Format (z. B. "
+"\"Administrator@test.ad\")"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:766
+msgid "Verification Password cannot be empty."
+msgstr "Das Passwort darf nicht leer sein."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:784
+msgid "Port has to be numeric and in the range from 0 - 65535."
+msgstr "Der Port muss eine Zahl zwischen 0 - 65535 sein."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:788
+msgid "Network timeout has to be numeric and cannot be negative."
+msgstr "Der Netzwerk Timeout muss eine Zahl und nicht negativ sein."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:792
+msgid "Domain Controller cannot be empty."
+msgstr "Domänencontroller darf nicht leer sein."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:807
+msgid "Base DN does not match the required style. (e.g. \"DC=test,DC=ad\")"
+msgstr ""
+"Base DN entspricht nicht dem benötigten Format. (e.g. \"DC=test,DC=ad\")"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:813
+msgid "Base DN consists of only one DC. (e.g. \"DC=test,DC=ad\")"
+msgstr "Base DN besteht nur aus einem DC. (e.g. \"DC=test,DC=ad\")"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:819
+msgid "Base DN must not be empty"
+msgstr "Base DN darf nicht leer sein."
+
+#: classes/Multisite/Ui/ProfileController.php:157
+msgid "An error occurred while deleting the profile."
+msgstr "Beim Löschen dieses Profils ist ein Fehler aufgetreten."
+
+#: classes/Multisite/Ui/ProfileController.php:160
+msgid "The profile was deleted successfully."
+msgstr "Das Profil wurde erfolgreich gelöscht."
+
+#: classes/Adi/Synchronization/ActiveDirectory.php:219
+msgid "Synchronization is not enabled"
+msgstr "Synchronisation nicht aktiviert"
+
+#: classes/Adi/Synchronization/ActiveDirectory.php:225
+msgid "This user does not have a corresponding Active Directory account"
+msgstr "Dieser Benutzer besitzt kein Active Directory-Konto"
+
+#: classes/Adi/Synchronization/ActiveDirectory.php:229
+msgid ""
+"This user is not editable because there is no Sync To AD service account "
+"available"
+msgstr ""
+"Dieser Benutzer kann nicht bearbeitet werden, da kein <em>Sync to AD Service "
+"Account</em> hinterlegt wurde."
+
+#: classes/Adi/Synchronization/WordPress.php:508
+#, php-format
+msgid "User \"%s\" no longer found in Active Directory."
+msgstr "Benutzer \"%s\" wurde nicht im Active Directory gefunden."
+
+#: classes/Adi/Synchronization/WordPress.php:514
 #, php-format
 msgid ""
-"<strong>There are %d sites in your Multisite network which have a previous "
-"version of NADI(ADI) running. Make sure to disable all existing "
-"installations and create a new profile for all of them!</strong>"
+"User \"%s\" has no normal Active Directory user account. Only user accounts "
+"can be synchronized."
 msgstr ""
-"<strong>Es sind %d Seiten in ihrem Multisite Netzwerk vorhanden, die eine "
-"ältere Versionen von NADI(ADI) besitzen. Stellen Sie sicher, dass Sie alle "
-"existierenden Installationen deaktivieren und erstellen Sie für jede ein "
-"neues Profil!</strong>"
+"Benutzer \"%s\" besitzt kein normales Active Directory-Benutzerkonto. Es "
+"können nur Benutzerkonten synchronisiert werden."
 
-#: classes/Adi/Configuration/ImportService.php:110
-msgid ""
-"Migration of previous ADI options are not supported when running in "
-"Multisite installations. Please verify the NADI configuration"
-msgstr ""
-"Die Migration von älteren ADI Einstellungen wird für Multisite "
-"Installationen nicht unterstützt. Bitte überprüfen Sie die NADI "
-"Einstellungen."
+#: classes/Adi/Synchronization/WordPress.php:525
+#, php-format
+msgid "The account of user \"%s\" requires a smart card for login."
+msgstr "Das Konto von Benutzer \"%s\" benötigt zur Anmeldung eine Smartcard."
 
-#: classes/Adi/Configuration/ImportService.php:116
-msgid ""
-"Options of a previous ADI installation have been migrated. You <strong>"
-"must</strong> re-enter the credentials of <em>Sync to WordPress/AD</em> "
-"service accounts."
-msgstr ""
-"Die Einstellungen einer vorher installierten ADI Version wurden übernommen. "
-"Sie <strong>müssen</strong> die Einstellungen für den <em>Sync to "
-"WordPress/AD</em> Service Account neu vornehmen."
+#: classes/Adi/Synchronization/WordPress.php:568
+#, php-format
+msgid "User \"%s\" is disabled in Active Directory."
+msgstr "Benutzer \"%s\" ist im  Active Directory deaktiviert."
 
 #: classes/Adi/Configuration/Options.php:222
 msgid "Profile name:"
@@ -224,7 +606,7 @@ msgid ""
 "is required to receive support from <a href='https://neos-it.de'>NeosIT "
 "GmbH</a>."
 msgstr ""
-"Bitte geben Sie hier ihren Lizenzschlüssel ein, wenn Sie eine <a href='https:"
+"Bitte geben Sie hier Ihren Lizenzschlüssel ein, wenn Sie eine <a href='https:"
 "//active-directory-wp.com/shop-overview/'>NADI Lizenz</a> gekauft haben. "
 "Dieser wird benötigt, um Unterstützung durch die <a href='https://neos-it."
 "de'>NeosIT GmbH</a> zu erhalten."
@@ -340,11 +722,6 @@ msgstr ""
 msgid "Use encryption"
 msgstr "Verschlüsslung benutzen"
 
-#: classes/Adi/Configuration/Options.php:367
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:120
-msgid "None"
-msgstr "Keine"
-
 #: classes/Adi/Configuration/Options.php:368
 msgid "STARTTLS"
 msgstr "STARTTLS"
@@ -419,7 +796,7 @@ msgstr "Base DN"
 msgid ""
 "Base DN (e.g. \"ou=unit,dc=domain,dc=tld\" or \"cn=users,dc=domain,dc=tld\")"
 msgstr ""
-"Base DN (e.g. 'ou=unit,dc=domain,dc=tld' or 'cn=users,dc=domain,dc=tld')"
+"Base DN (z.b. 'ou=unit,dc=domain,dc=tld' or 'cn=users,dc=domain,dc=tld')"
 
 #: classes/Adi/Configuration/Options.php:412
 msgid ""
@@ -781,11 +1158,6 @@ msgstr ""
 msgid "This option does not apply to the administrator."
 msgstr "Diese Option betrifft nicht die Administratoren."
 
-#: classes/Adi/Configuration/Options.php:698
-#: classes/Ldap/Attribute/Description.php:27
-msgid "Display name"
-msgstr "Anzeigename"
-
 #: classes/Adi/Configuration/Options.php:701
 msgid "sAMAccountName (the username)"
 msgstr "sAMAccountName (der Benutzername)"
@@ -1008,7 +1380,7 @@ msgid ""
 "If not empty, only the defined security groups have access to WordPress."
 msgstr ""
 "Wenn dieses Feld <strong>nicht</strong> leer ist, haben nur die Mitglieder "
-"der hier eingetragenen Sicherheitsgruppen Zugang zu WordPress"
+"der hier eingetragenen Sicherheitsgruppen Zugang zu WordPress."
 
 #: classes/Adi/Configuration/Options.php:853
 msgid "Please define your Authorization group(s) here."
@@ -1061,6 +1433,10 @@ msgstr "wordpressmoderator=editor;"
 #: classes/Adi/Configuration/Options.php:885
 msgid "wordpressuser=contributor;"
 msgstr "wordpressuser=contributor;"
+
+#: classes/Adi/Configuration/Options.php:886
+msgid " (3.8 Capability vs. Role Table)"
+msgstr " (3.8 Capability vs. Role Table)"
 
 #: classes/Adi/Configuration/Options.php:892
 msgid ""
@@ -1620,6 +1996,18 @@ msgstr ""
 msgid "Enable Logging"
 msgstr "Aktiviere Logging"
 
+#: classes/Adi/Configuration/Options.php:1447
+msgid ""
+"If enabled, NADI will create a logfile at the default location "
+"\"PLUGINPATH/logs/debug.log\". <button class=\"button button-primary\" ng-"
+"click=\"activateLogging()\" ng-show=\"isSaveDisabled\"> Save Logging "
+"Configurations</button>"
+msgstr ""
+"Wenn diese Option aktiviert ist, erstellt NADI eine Logdatei im Pfad "
+"\"PLUGINPATH/logs/\". <button class=\"button button-primary\" ng-"
+"click=\"activateLogging()\" ng-show=\"isSaveDisabled\"> Logging "
+"Einstellungen speichern</button>"
+
 #: classes/Adi/Configuration/Options.php:1451
 msgid ""
 "If enabled, NADI will create a logfile and start logging to it. Default path "
@@ -1631,6 +2019,73 @@ msgstr ""
 #: classes/Adi/Configuration/Options.php:1463
 msgid "Custom Path"
 msgstr "Eigener Pfad"
+
+#: classes/Adi/Configuration/Options.php:1465
+msgid ""
+"The logfile will be created at the set location. (e.g. /custompath/logs/)."
+msgstr ""
+"Die Logdatei wird in dem von Ihnen angegebenen Pfad erstellt. (z.b. "
+"/custompath/logs/)."
+
+#: classes/Adi/Configuration/Options.php:1469
+msgid ""
+"If you do not have permission for the default path on your system you can "
+"set a new path. The debug.log file will be created at the set location."
+msgstr ""
+"Wenn Sie nicht die benötigte Berechtigung für den Default Pfad besitzen, "
+"können sie einen neuen Pfad angeben. Die Logdatei wird in dem von ihnen "
+"angegebenen Pfad erstellt."
+
+#: classes/Adi/Configuration/ImportService.php:101
+msgid ""
+"You are running inside a Multisite network installation. This requires you "
+"to add a new NADI profile or edit the default NADI profile."
+msgstr ""
+"Sie nutzen eine WordPress Multisite Installation. Es wird vorausgesetzt, "
+"dass Sie ein neues NADI Profil anlegen oder das Standartprofil bearbeiten."
+
+#: classes/Adi/Configuration/ImportService.php:105
+#, php-format
+msgid ""
+"<strong>There are %d sites in your Multisite network which have a previous "
+"version of NADI(ADI) running. Make sure to disable all existing "
+"installations and create a new profile for all of them!</strong>"
+msgstr ""
+"<strong>Es sind %d Seiten in ihrem Multisite Netzwerk vorhanden, die eine "
+"ältere Versionen von NADI(ADI) besitzen. Stellen Sie sicher, dass Sie alle "
+"existierenden Installationen deaktivieren und erstellen Sie für jede ein "
+"neues Profil!</strong>"
+
+#: classes/Adi/Configuration/ImportService.php:110
+msgid ""
+"Migration of previous ADI options are not supported when running in "
+"Multisite installations. Please verify the NADI configuration"
+msgstr ""
+"Die Migration von älteren ADI Einstellungen wird für Multisite "
+"Installationen nicht unterstützt. Bitte überprüfen Sie die NADI "
+"Einstellungen."
+
+#: classes/Adi/Configuration/ImportService.php:116
+msgid ""
+"Options of a previous ADI installation have been migrated. You <strong>"
+"must</strong> re-enter the credentials of <em>Sync to WordPress/AD</em> "
+"service accounts."
+msgstr ""
+"Die Einstellungen einer vorher installierten ADI Version wurden übernommen. "
+"Sie <strong>müssen</strong> die Einstellungen für den <em>Sync to "
+"WordPress/AD</em> Service Account neu vornehmen."
+
+#: classes/Adi/Authentication/LoginService.php:108
+msgid ""
+"Lost Password feature has been disabled by the \"Next Active Directory "
+"Integration\" plugin."
+msgstr ""
+"Die \"Password vergessen?\" Funktion wurde durch das \"Next Active Directory "
+"Integration\" Plugin deaktiviert."
+
+#: classes/Adi/Authentication/LoginService.php:174
+msgid "Next ADI prevents XML RPC authentication!"
+msgstr "NADI verhindert die Authenifizierung über die XML RPC Schnittstelle."
 
 #: classes/Adi/Mail/Message.php:47
 msgid "Account blocked"
@@ -1686,45 +2141,9 @@ msgstr ""
 "DIES IST EINE AUTOMATISCH GENERIERTE NACHRICHT, BITTE ANTWORTEN SIE NICHT "
 "DIESER E-MAIL-ADRESSE."
 
-#: classes/Adi/Synchronization/ActiveDirectory.php:219
-msgid "Synchronization is not enabled"
-msgstr "Synchronisation nicht aktiviert"
-
-#: classes/Adi/Synchronization/ActiveDirectory.php:225
-msgid "This user does not have a corresponding Active Directory account"
-msgstr "Dieser Benutzer besitzt kein Active Directory-Konto"
-
-#: classes/Adi/Synchronization/ActiveDirectory.php:229
-msgid ""
-"This user is not editable because there is no Sync To AD service account "
-"available"
-msgstr ""
-"Dieser Benutzer kann nicht bearbeitet werden, da kein <em>Sync to AD Service "
-"Account</em> hinterlegt wurde."
-
-#: classes/Adi/Synchronization/WordPress.php:508
-#, php-format
-msgid "User \"%s\" no longer found in Active Directory."
-msgstr "Benutzer \"%s\" wurde nicht im Active Directory gefunden."
-
-#: classes/Adi/Synchronization/WordPress.php:514
-#, php-format
-msgid ""
-"User \"%s\" has no normal Active Directory user account. Only user accounts "
-"can be synchronized."
-msgstr ""
-"Benutzer \"%s\" besitzt kein normales Active Directory-Benutzerkonto. Es "
-"können nur Benutzerkonten synchronisiert werden."
-
-#: classes/Adi/Synchronization/WordPress.php:525
-#, php-format
-msgid "The account of user \"%s\" requires a smart card for login."
-msgstr "Das Konto von Benutzer \"%s\" benötigt zur Anmeldung eine Smartcard."
-
-#: classes/Adi/Synchronization/WordPress.php:568
-#, php-format
-msgid "User \"%s\" is disabled in Active Directory."
-msgstr "Benutzer \"%s\" ist im  Active Directory deaktiviert."
+#: classes/Adi/Ui/Menu.php:77 classes/Adi/Multisite/Ui/Menu.php:61
+msgid "Active Directory Integration"
+msgstr "Active Directory Integration"
 
 #: classes/Adi/Ui/ConnectivityTestPage.php:84
 msgid "Test authentication"
@@ -1743,7 +2162,7 @@ msgid ""
 "output."
 msgstr ""
 "Bitte geben Sie den Benutzernamen und das Passwort für den Account an, mit "
-"dem Sie sich authentifizieren wollen. Nach dem Absenden erhalten sie eine "
+"dem Sie sich authentifizieren wollen. Nach dem Absenden erhalten Sie eine "
 "Ausgabe zur weiteren Analyse."
 
 #: classes/Adi/Ui/ConnectivityTestPage.php:102
@@ -1754,12 +2173,12 @@ msgid ""
 msgstr ""
 "Für diese Seite ist das Blockieren von Benutzerkonten durch fehlgeschlagene "
 "Anmeldeversuche deaktiviert. Sie müssen sich keine Sorgen darüber machen, "
-"dass ihr Konto gesperrt wird."
+"dass Ihr Konto gesperrt wird."
 
 #: classes/Adi/Ui/ConnectivityTestPage.php:103
 msgid "Please note that the entered password is not masked."
 msgstr ""
-"Bitte beachten sie, dass das Passwort im <strong>Klartext</strong> "
+"Bitte beachten Sie, dass das Passwort im <strong>Klartext</strong> "
 "dargestellt wird."
 
 #: classes/Adi/Ui/ConnectivityTestPage.php:104
@@ -1785,7 +2204,7 @@ msgstr "Teste Authentifizierung"
 #: classes/Adi/Ui/ConnectivityTestPage.php:114
 msgid "Please note that the entered password <strong>is not masked</strong>."
 msgstr ""
-"Bitte beachten sie, dass das Passwort im <strong>Klartext</strong> "
+"Bitte beachten Sie, dass das Passwort im <strong>Klartext</strong> "
 "dargestellt wird."
 
 #: classes/Adi/Ui/ConnectivityTestPage.php:142
@@ -1800,533 +2219,143 @@ msgstr "Benutzer angemeldet."
 msgid "Logon failed."
 msgstr "Anmeldung fehlgeschlagen."
 
-#: classes/Adi/Ui/Menu.php:77 classes/Adi/Multisite/Ui/Menu.php:61
-msgid "Active Directory Integration"
-msgstr "Active Directory Integration"
-
-#: classes/Ldap/Attribute/Description.php:23
-msgid "Common Name"
-msgstr "Allgeminer Name"
-
-#: classes/Ldap/Attribute/Description.php:24
-msgid "First name"
-msgstr "Vorname"
-
-#: classes/Ldap/Attribute/Description.php:25
-msgid "Initials"
-msgstr "Initialien"
-
-#: classes/Ldap/Attribute/Description.php:26
-msgid "Last name"
-msgstr "Nachname"
-
-#: classes/Ldap/Attribute/Description.php:28
-#: classes/Multisite/Ui/BlogConfigurationPage.php:111
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:133
-msgid "Description"
-msgstr "Beschreibung"
-
-#: classes/Ldap/Attribute/Description.php:29
-msgid "Office"
-msgstr "Büro"
-
-#: classes/Ldap/Attribute/Description.php:30
-msgid "Telephone number"
-msgstr "Telefonnummer"
-
-#: classes/Ldap/Attribute/Description.php:31
-msgid "E-mail"
-msgstr "E-mail"
-
-#: classes/Ldap/Attribute/Description.php:32
-msgid "Web Page"
-msgstr "Webseite"
-
-#: classes/Ldap/Attribute/Description.php:35
-msgid "User logon name"
-msgstr "Benutzername"
-
-#: classes/Ldap/Attribute/Description.php:38
-msgid "Street"
-msgstr "Straße"
-
-#: classes/Ldap/Attribute/Description.php:39
-msgid "P.O. Box"
-msgstr "P.O. Box Nummer"
-
-#: classes/Ldap/Attribute/Description.php:40
-msgid "City"
-msgstr "Stadt"
-
-#: classes/Ldap/Attribute/Description.php:41
-msgid "State"
-msgstr "Bundesland"
-
-#: classes/Ldap/Attribute/Description.php:42
-msgid "ZIP/Postal cide"
-msgstr "Postleitzahl"
-
-#: classes/Ldap/Attribute/Description.php:43
-msgid "Country abbreviation"
-msgstr "Länderkürzel"
-
-#: classes/Ldap/Attribute/Description.php:44
-msgid "Country"
-msgstr "Land"
-
-#: classes/Ldap/Attribute/Description.php:45
-msgid "Country code (number)"
-msgstr "Landesvorwahl"
-
-#: classes/Ldap/Attribute/Description.php:48
-msgid "Home"
-msgstr "Telefonnummer"
-
-#: classes/Ldap/Attribute/Description.php:49
-msgid "Home (other)"
-msgstr "Telefonnummer (andere)"
-
-#: classes/Ldap/Attribute/Description.php:50
-msgid "Pager"
-msgstr "Pager"
-
-#: classes/Ldap/Attribute/Description.php:51
-msgid "Pager (other)"
-msgstr "Pager (andere)"
-
-#: classes/Ldap/Attribute/Description.php:52
-msgid "Mobile"
-msgstr "Handy"
-
-#: classes/Ldap/Attribute/Description.php:53
-msgid "Mobile (Other)"
-msgstr "Handy (andere)"
-
-#: classes/Ldap/Attribute/Description.php:54
-msgid "Fax"
-msgstr "Fax"
-
-#: classes/Ldap/Attribute/Description.php:55
-msgid "Fax (other)"
-msgstr "Fax (andere)"
-
-#: classes/Ldap/Attribute/Description.php:56
-msgid "IP Phone"
-msgstr "IP Telefon"
-
-#: classes/Ldap/Attribute/Description.php:57
-msgid "IP Phone (other)"
-msgstr "IP Telefon (andere)"
-
-#: classes/Ldap/Attribute/Description.php:58
-msgid "Notes"
-msgstr "Notizen"
-
-#: classes/Ldap/Attribute/Description.php:61
-msgid "Title"
-msgstr "Titel"
-
-#: classes/Ldap/Attribute/Description.php:62
-msgid "Department"
-msgstr "Abteilung"
-
-#: classes/Ldap/Attribute/Description.php:63
-msgid "Company"
-msgstr "Firma"
-
-#: classes/Ldap/Attribute/Description.php:64
-msgid "Manager"
-msgstr "Manager"
-
-#: classes/Ldap/Attribute/Description.php:65
-msgid "Direct reports"
-msgstr "Direct reports"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:72
-msgid "Configuration"
-msgstr "Einstellungen"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:102
-msgid "Next Active Directory Integration Blog Configuration"
-msgstr "Next Active Directory Integration Blog Einstellungen"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:103
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:125
-msgid "Regenerate Auth Code"
-msgstr "Neuen Auth Code erstellen"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:104
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:126
-msgid "Security group"
-msgstr "Sicherheitsgruppen"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:105
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:127
-msgid "WordPress role"
-msgstr "WordPress-Rollen"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:106
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:128
-msgid "Please select a role"
-msgstr "Bitte wähle eine Rolle aus"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:107
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:129
-msgid "Verify"
-msgstr "Verifizieren"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:108
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:130
-msgid "AD Attributes"
-msgstr "AD Attribute"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:109
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:131
-msgid "Data Type"
-msgstr "Datentypen"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:110
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:132
-msgid "Wordpress Attribute"
-msgstr "WordPress-Attribut"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:112
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:134
-msgid "View in User Profile"
-msgstr "In Benutzerprofil anzeigen"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:113
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:135
-msgid "Sync to Ad"
-msgstr "Sync to Ad"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:114
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:136
-msgid "Overwrite with empty value"
-msgstr "Mit leerem Wert überschreiben"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:115
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:137
-msgid "Do you really want to regenerate a new AuthCode?"
-msgstr "Möchten Sie wirklich einen neuen Auth Code generieren?"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:116
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:138
-msgid "WordPress Site is currently connected to Domain: "
-msgstr "WordPress Seite / Profil ist momentan mit folgender Domäne verbunden: "
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:117
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:139
-msgid "Verification successful! WordPress site is now connected to Domain: "
-msgstr ""
-"Verifizierung erfolgreich! Ihr WordPress-Blog ist nun mit der folgenden "
-"Domäne verbunden: "
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:118
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:140
-msgid "Verification successful!"
-msgstr "Verifizierung erfolgreich!"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:119
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:141
-msgid "Verification failed! Please check your logfile for further information."
-msgstr ""
-"Verifizierung fehlgeschlagen! Bitte überprüfen Sie die Log-Datei für weitere "
-"Informationen."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:120
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:142
-msgid "Manage Permissions"
-msgstr "Verwalte Berechtigungen"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:121
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:143
-msgid "No options exists"
-msgstr "Es existieren keine Optionen"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:122
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:144
-msgid "Please wait..."
-msgstr "Bitte warten..."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:123
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:145
-msgid "Save"
-msgstr "Speichern"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:124
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:146
-msgid "You have to verify the connection to the AD before saving."
-msgstr ""
-"Sie müssen die Verbindung zu einer Domäne verifizieren bevor Sie speichern "
-"können."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:125
-#: classes/Multisite/Ui/ProfileConfigurationController.php:49
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:147
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:477
-msgid "An error occurred while saving the configuration."
-msgstr "Beim Speichern der Einstellungen ist ein Fehler aufgetreten."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:126
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:148
-msgid "The configuration has been saved successfully."
-msgstr "Die Einstellungen wurden erfolgreich gespeichert. "
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:608
-msgid "Username has to contain a suffix."
-msgstr "Der Benutzername muss ein Suffix enthalten."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:609
-msgid "The given value is invalid."
-msgstr "Der angegebene Wert ist ungültig."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:612
-msgid "This value must not be empty."
-msgstr "Dieser Wert darf nicht leer sein."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:622
+#: test/Adi/Synchronization/Ui/SyncToActiveDirectoryTest.php:161
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:88
 msgid ""
-"Account Suffix does not match the required style. (e.g. \"@company.local\")"
+"Check that a connection to a domain controller is established and 'Enable "
+"sync to AD' is checked. Also, a service account has to be provided."
 msgstr ""
-"Das Suffix des Benutzerkontos entspricht nicht dem erwarteten Format (z. B. "
-"\"@company.local\")."
+"Überprüfen Sie, dass eine Verbindung zum Domain Controller hergestellt wurde "
+"und \"Sync to Ad aktivieren\" aktiviert ist. Außerdem muss ein Service "
+"Account hinterlegt wurden sein."
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:629
-msgid "Please remove the \"@\", it will be added automatically."
-msgstr "Bitte entfernen Sie das \"@\", es wird automatisch hinzugefügt."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:634
-msgid "Maximum login attempts has to be numeric and cannot be negative."
+#: classes/Multisite/View/Page/Abstract.php:81
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:109
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:108
+msgid "You do not have sufficient permissions to access this page."
 msgstr ""
-"Die maximale Anzahl an Anmeldeversuchen muss eine Zahl und nicht negativ "
-"sein."
+"Sie besitzen nicht die benötigten Berechtigungen, um auf diese Seite "
+"zuzugreifen."
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:638
-msgid "Blocking Time has to be numeric and cannot be negative."
-msgstr "Die Sperrzeit muss eine Zahl und nicht negativ sein."
+#: classes/Multisite/Configuration/Persistence/ProfileRepository.php:269
+msgid "My NADI profile"
+msgstr "Mein NADI Profil"
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:642
+#: classes/Multisite/Configuration/Persistence/ProfileRepository.php:270
 msgid ""
-"Admin email does not match the required style. (e.g. \"admin@company.local\")"
+"This profile has been created by the plugin installation automatically. It "
+"can safely be deleted."
 msgstr ""
-"Die Administrator E-Mail entspricht nicht dem erwarteten Format (z. B. "
-"\"admin@company.local\")."
+"Dieses Profil wurde automatisch bei der Installation von NADI erstellt und "
+"kann ohne Probleme gelöscht werden."
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:649
-msgid ""
-"From email does not match the required style. (e.g. \"wordpress@company."
-"local\")"
-msgstr ""
-"Absender E-Mail Adresse stimmt nicht mit dem vorausgesetzten Format über ein."
-" (Bsp. \"wordpress@company.local\")"
+#: classes/Multisite/Ui/Table/ProfileAssignment.php:63
+msgid "Cannot find valid site name."
+msgstr "Der valide Seitenname konnte nicht gefunden werden."
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:659
-msgid "Username must not be empty."
-msgstr "Der Benutzername darf nicht leer sein."
+#: classes/Multisite/Ui/Table/ProfileAssignment.php:74
+msgid "Site Name"
+msgstr "Seitenname"
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:671
-msgid "Password must not be empty."
-msgstr "Das Passwort darf nicht leer sein."
+#: classes/Multisite/Ui/Table/ProfileAssignment.php:75
+msgid "URL"
+msgstr "URL"
 
-#: classes/Multisite/Ui/BlogConfigurationPage.php:687
-msgid "The role super admin can only be set inside a profile."
-msgstr "Die Rolle \"super admin\" kann nur in einem Profil gesetzt werden."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:688
-msgid ""
-"At least one security group is associated with a non existing WordPress role."
-" Please select an existing role for the group."
-msgstr ""
-"Mindestens eine Sicherheitsgruppe ist mit einer nicht existierenden \n"
-"WordPress Rolle verknüpft. Bitte wähle für diese Gruppe eine existierende \n"
-"Rolle aus."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:693
-msgid "Cannot use default attribute names for custom attribute mapping."
-msgstr ""
-"Bitte verwenden Sie keine Default Attribut Namen für benutzerdefinierte "
-"Attribute."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:702
-msgid "Ad Attribute / Data Type / WordPress Attribute cannot be empty!"
-msgstr "Ad Attribut / Daten Typ / WordPress Attribut darf nicht leer sein!"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:709
-msgid "You cannot use the same WordPress Attribute multiple times."
-msgstr "Sie können nicht das gleiche WordPress-Attribut mehrmals verwenden."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:713
-msgid "You cannot use the same Ad Attribute multiple times."
-msgstr "Sie können nicht das gleiche Ad Attribut mehrmals verwenden."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:754
-#: classes/Multisite/Ui/BlogConfigurationPage.php:760
-msgid ""
-"Verification Username does not match the required style. (e.g. "
-"\"Administrator@test.ad\")"
-msgstr ""
-"Der Benutzername entspricht nicht dem erwarteten Format (z. B. "
-"\"Administrator@test.ad\")"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:766
-msgid "Verification Password cannot be empty."
-msgstr "Das Passwort darf nicht leer sein."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:784
-msgid "Port has to be numeric and in the range from 0 - 65535."
-msgstr "Der Port muss eine Zahl zwischen 0 - 65535 sein."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:788
-msgid "Network timeout has to be numeric and cannot be negative."
-msgstr "Der Netzwerk Timeout muss eine Zahl und nicht negativ sein."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:792
-msgid "Domain Controller cannot be empty."
-msgstr "Domänencontroller darf nicht leer sein."
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:807
-msgid "Base DN does not match the required style. (e.g. \"DC=test,DC=ad\")"
-msgstr ""
-"Base DN entspricht nicht dem benötigten Format. (e.g. \"DC=test,DC=ad\")"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:813
-msgid "Base DN consists of only one DC. (e.g. \"DC=test,DC=ad\")"
-msgstr "Base DN besteht nur aus einem DC. (e.g. \"DC=test,DC=ad\")"
-
-#: classes/Multisite/Ui/BlogConfigurationPage.php:819
-msgid "Base DN must not be empty"
-msgstr "Base DN darf nicht leer sein."
-
-#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:49
-#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:90
-msgid "Profile assignment"
-msgstr "Profilzuweisung"
-
-#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:89
-msgid "Search"
-msgstr "Suchen"
-
-#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:91
-msgid "Default profile"
-msgstr "Standardprofil"
-
-#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:92
-msgid "--- None assigned"
-msgstr "--- Nicht zugewiesen"
-
-#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:93
-msgid "Apply"
-msgstr "Übernehmen"
-
-#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:94
-msgid "Change selected blogs to profile"
-msgstr "Ändere Profil der ausgewählten Blogs "
-
-#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:95
-msgid "--- Use default profile"
-msgstr "--- Benutze Standardprofil"
-
-#: classes/Multisite/Ui/ProfileConfigurationController.php:52
-msgid "The configuration was saved successfully."
-msgstr "Die Konfiguration wurde erfolgreich gespeichert."
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:83
-msgid "Profile options"
-msgstr "Profiloptionen"
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:115
-msgid ""
-"The current profile contains unsaved changes. Are you sure you want to "
-"continue?"
-msgstr ""
-"Das aktuelle Profil enthält nicht-gespeicherte Änderungen. Sind Sie sicher "
-"das Sie fortfahren wollen ?"
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:116
-msgid "The current profile is associated with the following sites:"
-msgstr "Das aktuelle Profil ist mit den folgenden Seiten verknüpft:"
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:117
-msgid ""
-"The current profile is associated with {{ associations.length }} sites. Are "
-"you sure you want to delete this profile?"
-msgstr ""
-"Das aktuelle Profil ist mit {{ associations.length }} Seiten verbunden. Sind "
-"Sie sicher, dass Sie das Profil löschen möchten?"
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:118
-msgid "Assign to profile:"
-msgstr "Neues Profil zuweisen:"
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:119
-#: classes/Multisite/Configuration/Persistence/ProfileRepository.php:154
-msgid "New Profile"
-msgstr "Neues Profil"
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:121
-msgid "Configure Settings for Profile : "
-msgstr "Einstellungen für Profil :"
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:122
-msgid "Create new profile"
-msgstr "Erstelle ein neues Profil"
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:123
-msgid "Delete profile"
-msgstr "Profil löschen"
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:124
-msgid "View associated profiles"
-msgstr "Zeige verbundene Profile"
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:419
-msgid "Input field is invisible."
-msgstr "Eingabefeld ist unsichtbar."
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:423
-msgid "Deactivated and option value not shown."
-msgstr "Deaktiviert und Wert wird nicht angezeigt."
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:427
-msgid "Deactivated and option value shown."
-msgstr "Deaktiviert und Wert wird angezeigt."
-
-#: classes/Multisite/Ui/ProfileConfigurationPage.php:431
-msgid "Blog admin sets the option value."
-msgstr "Blog-Administrator setzt den Wert."
-
-#: classes/Multisite/Ui/ProfileController.php:157
-msgid "An error occurred while deleting the profile."
-msgstr "Beim Löschen dieses Profils ist ein Fehler aufgetreten."
-
-#: classes/Multisite/Ui/ProfileController.php:160
-msgid "The profile was deleted successfully."
-msgstr "Das Profil wurde erfolgreich gelöscht."
-
-#: classes/Adi/Authentication/Ui/ShowBlockedMessage.php:62
+#: classes/Multisite/Ui/Table/ProfileAssignment.php:270
 #, php-format
-msgid ""
-"Authentication denied by Next Active Directory Integration Brute Force "
-"Protection. Your account is blocked for %s seconds."
-msgstr ""
-"Die Authentifizierung wurde von der Brute Force Protection des Next Active "
-"Directory Integration Plugins abgelehnt. Dein Account ist für %s Sekunden "
-"blockiert."
+msgid "Select %s"
+msgstr "Auswählen %s"
 
-#: classes/Adi/Authentication/Ui/ShowBlockedMessage.php:75
-#, php-format
-msgid ""
-"Authentication denied by Next Active Directory Integration Brute Force "
-"Protection. <br> Your account is blocked for %s seconds."
-msgstr ""
-"Die Authentifizierung wurde durch die Next Active Directory Integration "
-"Brute Force Protection verhindert. <br> Ihr Account wurde für %s Sekunden "
-"gesperrt."
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:58
+#: classes/Adi/Configuration/Ui/Layout.php:258
+msgid "Sync to AD"
+msgstr "Sync to AD"
 
-#: classes/Adi/Authentication/Ui/SingleSignOn.php:32
-msgid "Log in using SSO"
-msgstr "Anmeldung über SSO"
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:82
+#: classes/Adi/Configuration/Ui/Layout.php:262
+msgid "Sync To Active Directory"
+msgstr "Sync to Active Directory"
+
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:83
+msgid ""
+"If you want to trigger Sync to Active Directory, you must know the URL to "
+"the index.php of your blog:"
+msgstr ""
+"Wenn Sie <em>Sync to Active Directory</em> auslösen möchten, müssen Sie die "
+"URL zur index.php Ihres Blogs kennen:"
+
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:84
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:84
+msgid ""
+"Settings like auth-code etc. depends on the current blog. So be careful "
+"which blog you are using. Here are some examples:"
+msgstr ""
+"Einstellungen wie <em>Auth Code</em> hängen vom aktuellen Blog ab. Seien Sie "
+"also vorsichtig dabei und achten Sie darauf welchen Blog Sie zurzeit "
+"verwenden. Hier sind ein paar Beispiele:"
+
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:85
+msgid "User-ID: (optional)"
+msgstr "User-ID: (optional)"
+
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:86
+msgid "Repeat WordPress to Active Directory synchronization"
+msgstr "Wiederhole <em>WordPress to Active Directory Synchronisation</em>"
+
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:87
+msgid "Start WordPress to Active Directory synchronization"
+msgstr "Starte <em>WordPress to Active Directory Synchronisation</em>"
+
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:121
+msgid "Sync to AD succeeded."
+msgstr "Sync to AD erfolgreich."
+
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:123
+msgid "Sync to AD failed."
+msgstr "Sync to AD fehlgeschlagen."
+
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:58
+#: classes/Adi/Configuration/Ui/Layout.php:278
+msgid "Sync to WordPress"
+msgstr "Sync to WordPress"
+
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:82
+#: classes/Adi/Configuration/Ui/Layout.php:282
+msgid "Sync To WordPress"
+msgstr "Sync to WordPress"
+
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:83
+msgid ""
+"If you want to trigger Sync to WordPress, you must know the URL to the index."
+"php of your blog:"
+msgstr ""
+"Wenn Sie <em>Sync to WordPress</em> auslösen möchten, müssen Sie die URL zur "
+"index.php Ihres Blogs kennen:"
+
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:85
+msgid "Repeat AD to WordPress synchronization"
+msgstr "Wiederhole <em>AD to WordPress Synchronisation</em>."
+
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:86
+msgid "Start AD to WordPress synchronization"
+msgstr "Starte <em>AD to WordPress Synchronisation</em>"
+
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:87
+msgid ""
+"Check that a connection to a domain controller is established and 'Enable "
+"sync to WordPress' is checked. Also, a service account has to be provided."
+msgstr ""
+"Überprüfen Sie, dass eine Verbindung zum Domain Controller hergestellt wurde "
+"und \"Sync to WordPress aktivieren\" aktiviert ist. Außerdem muss ein "
+"Service Account hinterlegt wurden sein."
+
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:118
+msgid "Sync to WordPress succeeded."
+msgstr "Sync to WordPress erfolreich."
+
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:120
+msgid "Sync to WordPress failed."
+msgstr "Sync to WordPress fehlgeschlagen."
 
 #: classes/Adi/Configuration/Ui/Layout.php:55
 msgid "Profile"
@@ -2423,6 +2452,16 @@ msgstr ""
 "festlegen, welche WordPress-Berechtigungen Mitglieder bestimmter Active "
 "Directory Sicherheitsgruppen standardmäßig besitzen sollen."
 
+#: classes/Adi/Configuration/Ui/Layout.php:170
+msgid ""
+"<span class=\"adi-pe-message\"><b>Premium-Extensions: </b>Custom Role "
+"Management <a href=\"https://active-directory-wp.com/premium-extension/\">"
+"available</a>.</span>"
+msgstr ""
+"<span class=\"adi-pe-message\"><b>Premium-Erweiterung: </b>Custom Role "
+"Management <a href=\"https://active-directory-wp.com/premium-extension/\">"
+"verfügbar</a>.</span>"
+
 #: classes/Adi/Configuration/Ui/Layout.php:184
 msgid "Security"
 msgstr "Sicherheit"
@@ -2435,9 +2474,23 @@ msgstr "Single Sign On"
 msgid "Single Sign On Configuration"
 msgstr "Single Sign On Konfiguration"
 
+#: classes/Adi/Configuration/Ui/Layout.php:193
+msgid ""
+"<span class=\"adi-pe-message\"><b>Premium-Extensions: </b>SingleSignOn for "
+"BuddyPress, WooCommerce und Ultimate Member <a href=\"https://active-"
+"directory-wp.com/premium-extension/\">available</a>.</span>"
+msgstr ""
+"<span class=\"adi-pe-message\"><b>Premium-Erweiterung: </b>SingleSignOn for "
+"BuddyPress, WooCommerce und Ultimate Member <a href=\"https://active-"
+"directory-wp.com/premium-extension/\">verfügbar</a>.</span>"
+
 #: classes/Adi/Configuration/Ui/Layout.php:206
 msgid "Brute-Force-Protection"
 msgstr "Brute-Force-Schutz"
+
+#: classes/Adi/Configuration/Ui/Layout.php:208
+msgid "</div>"
+msgstr "</div>"
 
 #: classes/Adi/Configuration/Ui/Layout.php:229
 #: classes/Adi/Configuration/Ui/Layout.php:233
@@ -2474,29 +2527,21 @@ msgstr ""
 "Die folgenden WordPress-Attribute sind durch NADI reserviert und können "
 "nicht benutzt werden: %s"
 
-#: classes/Adi/Configuration/Ui/Layout.php:258
-#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:58
-msgid "Sync to AD"
-msgstr "Sync to AD"
-
-#: classes/Adi/Configuration/Ui/Layout.php:262
-#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:82
-msgid "Sync To Active Directory"
-msgstr "Sync to Active Directory"
+#: classes/Adi/Configuration/Ui/Layout.php:246
+msgid ""
+"<span class=\"adi-pe-message\"><b>Premium-Extensions: </b>BuddyPress simple "
+"attributes, BuddyPress profile photo, Profile Pictures and User Photo "
+"integration <a href=\"https://active-directory-wp.com/premium-extension/\">"
+"available</a>.</span>"
+msgstr ""
+"<span class=\"adi-pe-message\"><b>Premium-Erweiterung: </b>BuddyPress simple "
+"attributes, BuddyPress profile photo, Profile Pictures und User Photo "
+"integration <a href=\"https://active-directory-wp.com/premium-extension/\">"
+"verfügbar</a>.</span>"
 
 #: classes/Adi/Configuration/Ui/Layout.php:263
 msgid "Synchronize WordPress profiles back to Active Directory."
 msgstr "Synchronisiert WordPress-Profile zurück zum Active Directory"
-
-#: classes/Adi/Configuration/Ui/Layout.php:278
-#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:58
-msgid "Sync to WordPress"
-msgstr "Sync to WordPress"
-
-#: classes/Adi/Configuration/Ui/Layout.php:282
-#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:82
-msgid "Sync To WordPress"
-msgstr "Sync to WordPress"
 
 #: classes/Adi/Configuration/Ui/Layout.php:284
 msgid ""
@@ -2517,75 +2562,29 @@ msgstr ""
 "In diesem Tab können Einstellung bezüglich des NADI Event Loggers \n"
 "vorgenommen werden."
 
-#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:83
+#: classes/Adi/Authentication/Ui/ShowBlockedMessage.php:62
+#, php-format
 msgid ""
-"If you want to trigger Sync to Active Directory, you must know the URL to "
-"the index.php of your blog:"
+"Authentication denied by Next Active Directory Integration Brute Force "
+"Protection. Your account is blocked for %s seconds."
 msgstr ""
-"Wenn Sie <em>Sync to Active Directory</em> auslösen möchten, müssen Sie die "
-"URL zur index.php Ihres Blogs kennen:"
+"Die Authentifizierung wurde von der Brute Force Protection des Next Active "
+"Directory Integration Plugins abgelehnt. Dein Account ist für %s Sekunden "
+"blockiert."
 
-#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:84
-#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:84
+#: classes/Adi/Authentication/Ui/ShowBlockedMessage.php:75
+#, php-format
 msgid ""
-"Settings like auth-code etc. depends on the current blog. So be careful "
-"which blog you are using. Here are some examples:"
+"Authentication denied by Next Active Directory Integration Brute Force "
+"Protection. <br> Your account is blocked for %s seconds."
 msgstr ""
-"Einstellungen wie <em>Auth Code</em> hängen vom aktuellen Blog ab. Seien Sie "
-"also vorsichtig dabei und achten Sie darauf welchen Blog Sie zurzeit "
-"verwenden. Hier sind ein paar Beispiele:"
+"Die Authentifizierung wurde durch die Next Active Directory Integration "
+"Brute Force Protection verhindert. <br> Ihr Account wurde für %s Sekunden "
+"gesperrt."
 
-#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:85
-msgid "User-ID: (optional)"
-msgstr "User-ID: (optional)"
-
-#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:86
-msgid "Repeat WordPress to Active Directory synchronization"
-msgstr "Wiederhole <em>WordPress to Active Directory Synchronisation</em>"
-
-#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:87
-msgid "Start WordPress to Active Directory synchronization"
-msgstr "Starte <em>WordPress to Active Directory Synchronisation</em>"
-
-#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:109
-#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:108
-#: classes/Multisite/View/Page/Abstract.php:81
-msgid "You do not have sufficient permissions to access this page."
-msgstr ""
-"Sie besitzen nicht die benötigten Berechtigungen, um auf diese Seite "
-"zuzugreifen."
-
-#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:121
-msgid "Sync to AD succeeded."
-msgstr "Sync to AD erfolgreich."
-
-#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:123
-msgid "Sync to AD failed."
-msgstr "Sync to AD fehlgeschlagen."
-
-#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:83
-msgid ""
-"If you want to trigger Sync to WordPress, you must know the URL to the index."
-"php of your blog:"
-msgstr ""
-"Wenn Sie <em>Sync to WordPress</em> auslösen möchten, müssen Sie die URL zur "
-"index.php Ihres Blogs kennen:"
-
-#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:85
-msgid "Repeat AD to WordPress synchronization"
-msgstr "Wiederhole <em>AD to WordPress Synchronisation</em>."
-
-#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:86
-msgid "Start AD to WordPress synchronization"
-msgstr "Starte <em>AD to WordPress Synchronisation</em>"
-
-#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:118
-msgid "Sync to WordPress succeeded."
-msgstr "Sync to WordPress erfolreich."
-
-#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:120
-msgid "Sync to WordPress failed."
-msgstr "Sync to WordPress fehlgeschlagen."
+#: classes/Adi/Authentication/Ui/SingleSignOn.php:32
+msgid "Log in using SSO"
+msgstr "Anmeldung über SSO"
 
 #: classes/Adi/User/Ui/ExtendUserList.php:88
 msgid "NADI User"
@@ -2602,35 +2601,6 @@ msgstr "Verwaltet durch CRM"
 #: classes/Adi/User/Ui/ExtendUserList.php:156
 msgid "User is disabled by NADI."
 msgstr "Benutzer ist durch NADI deaktiviert."
-
-#: classes/Multisite/Configuration/Persistence/ProfileRepository.php:269
-msgid "My NADI profile"
-msgstr "Mein NADI Profil"
-
-#: classes/Multisite/Configuration/Persistence/ProfileRepository.php:270
-msgid ""
-"This profile has been created by the plugin installation automatically. It "
-"can safely be deleted."
-msgstr ""
-"Dieses Profil wurde automatisch bei der Installation von NADI erstellt und "
-"kann ohne Probleme gelöscht werden."
-
-#: classes/Multisite/Ui/Table/ProfileAssignment.php:63
-msgid "Cannot find valid site name."
-msgstr "Der valide Seitenname konnte nicht gefunden werden."
-
-#: classes/Multisite/Ui/Table/ProfileAssignment.php:74
-msgid "Site Name"
-msgstr "Seitenname"
-
-#: classes/Multisite/Ui/Table/ProfileAssignment.php:75
-msgid "URL"
-msgstr "URL"
-
-#: classes/Multisite/Ui/Table/ProfileAssignment.php:270
-#, php-format
-msgid "Select %s"
-msgstr "Auswählen %s"
 
 #: classes/Adi/Configuration/Import/Ui/ExtendPluginList.php:64
 msgid "Download ADI v1 configuration"
@@ -2649,13 +2619,29 @@ msgstr "%s (Standardprofil)"
 msgid "None assigned"
 msgstr "Nicht zugewiesen"
 
-#: classes/Adi/User/Profile/Ui/PreventEmailChange.php:98
-msgid ""
-"You must not change your email address. The plugin 'Next Active Directory "
-"Integration' prevents it."
+#: classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:102
+msgid "Additional Information provided by Next Active Directory Integration"
 msgstr ""
-"Sie dürfen ihre E-Mailadresse nicht ändern. Das Plugin \"Next Active "
-"Directory Integration\" verhindert die Änderung."
+"Zusätzliche Information bereitgestellt durch Next Active Directory "
+"Integration"
+
+#: classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:103
+msgid "Reenter password"
+msgstr "Passwort neu eingeben"
+
+#: classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:104
+msgid ""
+"If you want to save the changes in \"Additional Information\" back to the "
+"Active Directory you must enter your password."
+msgstr ""
+"Wenn Sie die Änderungen unter <em>Zusätzliche Informationen</em> zum Active "
+"Directory synchronisieren möchten, müssen Sie ihr Passwort eingeben."
+
+#: classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:105
+msgid "Profile can not be edited or synchronized back to Active Directory:"
+msgstr ""
+"Das Profil kann nicht bearbeitet oder zum Active Directory synchronisiert "
+"werden:"
 
 #: classes/Adi/User/Profile/Ui/ProvideDisableUserOption.php:70
 msgid "User Disabled"
@@ -2692,29 +2678,14 @@ msgstr ""
 "Benutzer \"%s\" mit ID \"%s\" wurde manuell von \"%s\" mit der ID \"%s\" "
 "deaktiviert."
 
-#: classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:102
-msgid "Additional Information provided by Next Active Directory Integration"
-msgstr ""
-"Zusätzliche Information bereitgestellt durch Next Active Directory "
-"Integration"
-
-#: classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:103
-msgid "Reenter password"
-msgstr "Passwort neu eingeben"
-
-#: classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:104
+#: classes/Adi/User/Profile/Ui/TriggerActiveDirectorySynchronization.php:159
 msgid ""
-"If you want to save the changes in \"Additional Information\" back to the "
-"Active Directory you must enter your password."
+"Error on writing additional attributes back to Active Directory. Service "
+"Account is not setup properly. Please contact your WordPress administrator."
 msgstr ""
-"Wenn Sie die Änderungen unter <em>Zusätzliche Informationen</em> zum Active "
-"Directory synchronisieren möchten, müssen Sie ihr Passwort eingeben."
-
-#: classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:105
-msgid "Profile can not be edited or synchronized back to Active Directory:"
-msgstr ""
-"Das Profil kann nicht bearbeitet oder zum Active Directory synchronisiert "
-"werden:"
+"Es ist ein Fehler beim Synchronisieren der Daten zum Active Directory "
+"aufgetreten. Der Service Account ist nicht richtig konfiguriert. Bitte "
+"kontaktieren sie ihren WordPress Administrator."
 
 #: classes/Adi/User/Profile/Ui/TriggerActiveDirectorySynchronization.php:179
 msgid ""
@@ -2731,3 +2702,37 @@ msgid ""
 msgstr ""
 "Der Versuch, zusätzliche Attribute zurück zum Active Directory zu schreiben, "
 "ist fehlgeschlagen. Bitte kontaktieren Sie ihren Administrator."
+
+#: classes/Adi/User/Profile/Ui/PreventEmailChange.php:98
+msgid ""
+"You must not change your email address. The plugin 'Next Active Directory "
+"Integration' prevents it."
+msgstr ""
+"Sie dürfen ihre E-Mailadresse nicht ändern. Das Plugin \"Next Active "
+"Directory Integration\" verhindert die Änderung."
+
+#. Name of the plugin
+msgid "Next Active Directory Integration"
+msgstr "Next Active Directory Integration"
+
+#. Description of the plugin
+msgid ""
+"This is the successor of the Active Directory Integration plug-in which "
+"allows you to authenticate, authorize, create and update users through "
+"Active Directory."
+msgstr ""
+"Dies ist der Nachfolger vom Active Directory Integration plug-in. Dieser "
+"erlaubt ihnen mit hilfe des Active Directory benutzer zu authorisieren, "
+"authentifizieren, zu erstellen und zu aktuallisieren."
+
+#. URI of the plugin
+msgid "https://www.active-directory-wp.com"
+msgstr "https://www.active-directory-wp.com"
+
+#. Author of the plugin
+msgid "NeosIT GmbH"
+msgstr "NeosIT GmbH"
+
+#. Author URI of the plugin
+msgid "http://www.neos-it.de/"
+msgstr "http://www.neos-it.de/"
