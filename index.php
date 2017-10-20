@@ -25,6 +25,9 @@ require_once(dirname(__FILE__)."/constants.php");
 require_once(dirname(__FILE__)."/Autoloader.php");
 require_once(dirname(__FILE__)."/functions.php");
 
+// init dummy logger in order to prevent fatal errors for outdated premium extensions
+require_once(dirname(__FILE__) . "/classes/Core/DummyLogger/DummyLogger.php");
+
 $autoLoader = new NextADInt_Autoloader();
 $autoLoader->register();
 
