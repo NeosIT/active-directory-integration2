@@ -117,13 +117,14 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
-= 2.0.15 =
+= 2.1.0 =
 * ADD: NADI is now using Monolog for everything related to logs
 * ADD: added a button to manually persist "Logging" configurations
 * FIX: user attributes are now correctly logged
 * FIX: fixed a problem where the port configuration for LDAPS was not used
 * FIX: updated twig to the latest 1.x version. (2.x requires >= PHP 7.0.0)
 * ADD: debug logs messages will be not displayed in the frontend log anymore in order to prevent an overflow
+* ADD: dummy logger in order to prevent outdated premium extensions from crashing
 * REMOVED: removed log4php from NADI
 
 = 2.0.14 =
