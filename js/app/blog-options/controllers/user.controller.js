@@ -35,6 +35,7 @@
             $scope.option = {
                 account_suffix: $valueHelper.findValue("account_suffix", data, "").split(";"),
                 exclude_usernames_from_authentication: $valueHelper.findValue("exclude_usernames_from_authentication", data, "").split(";"),
+				allow_proxyaddress_login: $valueHelper.findValue("allow_proxyaddress_login", data),
                 use_samaccountname_for_new_users: $valueHelper.findValue("use_samaccountname_for_new_users", data),
                 auto_create_user: $valueHelper.findValue("auto_create_user", data),
                 auto_update_user: $valueHelper.findValue("auto_update_user", data),
@@ -53,6 +54,7 @@
             $scope.permission = {
                 account_suffix: $valueHelper.findPermission("account_suffix", data),
                 exclude_usernames_from_authentication: $valueHelper.findPermission("exclude_usernames_from_authentication", data),
+				allow_proxyaddress_login: $valueHelper.findPermission("allow_proxyaddress_login", data),
                 use_samaccountname_for_new_users: $valueHelper.findPermission("use_samaccountname_for_new_users", data),
                 auto_create_user: $valueHelper.findPermission("auto_create_user", data),
                 auto_update_user: $valueHelper.findPermission("auto_update_user", data),
@@ -73,6 +75,7 @@
             $scope.messages = {
                 account_suffix: $valueHelper.findMessage("account_suffix", data),
                 exclude_usernames_from_authentication: $valueHelper.findMessage("exclude_usernames_from_authentication", data),
+				allow_proxyaddress_login: $valueHelper.findMessage("allow_proxyaddress_login", data),
                 use_samaccountname_for_new_users: $valueHelper.findMessage("use_samaccountname_for_new_users", data),
                 auto_create_user: $valueHelper.findMessage("auto_create_user", data),
                 auto_update_user: $valueHelper.findMessage("auto_update_user", data),
