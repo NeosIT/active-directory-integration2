@@ -35,7 +35,8 @@ class NextADInt_Ldap_Connection
 	 */
 	public function __construct(NextADInt_Multisite_Configuration_Service $configuration)
 	{
-		if (!class_exists('adLDAP')) {
+		// Use our extended version of the adLDAP library.
+		if (!class_exists('NextADInt_adLDAP')) {
 			// get NextAdInt_adLdap
 			require_once '_adLDAP.php';
 		}

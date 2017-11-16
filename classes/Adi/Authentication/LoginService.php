@@ -138,13 +138,11 @@ class NextADInt_Adi_Authentication_LoginService
 		// https://wordpress.org/support/topic/fatal-error-after-login-and-suffix-question/
 		$login = stripcslashes($login);
 
-		$this->logger->debug("The login: " . $login);
+		// EJN - 2017/11/16 - Allow users to log in with one of their email addresses specified in proxyAddresses
 		// Check if this looks like a ProxyAddress and look up sAMAccountName if we are allowing ProxyAddresses as login.
 		$allowProxyAddressLogin = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ALLOW_PROXYADDRESS_LOGIN);
 		if($allowProxyAddressLogin && strpos($login, '@') !== false) {
-			$this->logger->debug("Checking if this is a proxy address.");
 			$login = $this->lookupFromProxyAddresses($login);
-			$this->logger->debug("After looking up sAMAccountName: " . $login);
 		}
 		
 		// login must not be empty or user must not be an admin
@@ -187,13 +185,15 @@ class NextADInt_Adi_Authentication_LoginService
 	/**
 	 * Lookup the user's sAMAccountName by their SMTP proxy addresses. If not found, just return the proxy address.
 	 *
+	 * EJN - 2017/11/16 - Allow users to log in with one of their email addresses specified in proxyAddresses
+	 *
 	 * @param String $proxyAddress The proxy address to try looking up.
 	 *
 	 * @return The associated sAMAccountName or $proxyAddress if not found.
 	 */
 	public function lookupFromProxyAddresses($proxyAddress) {
 		
-		// Use the Sync username and password since anonymous bind can't search.
+		// Use the Sync to WordpPress username and password since anonymous bind can't search.
 		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setUsername($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER));
 		$connectionDetails->setPassword($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD));
@@ -207,11 +207,13 @@ class NextADInt_Adi_Authentication_LoginService
 		if($domainControllerIsAvailable) {
 			$samaccountname = $this->ldapConnection->findByProxyAddress($proxyAddress);
 		
+			// If this email address wasn't specified in anyone's proxyAddresses attributes, just return the original value.
 			if($samaccountname === false) {
 				return $proxyAddress;
 			}
 		}
 		
+		// Return the account we looked up.
 		return $samaccountname;		
 	}
 
