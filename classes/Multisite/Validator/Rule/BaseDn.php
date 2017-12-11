@@ -27,6 +27,12 @@ class NextADInt_Multisite_Validator_Rule_BaseDn extends NextADInt_Core_Validator
 	 */
 	public function validate($value, $data)
 	{
+
+		// DME: ADI-563 | Github Issue #49 If baseDN is empty there is no need to continue format validation. We return true in order to allow an empty BaseDN
+		if ($value == '') {
+			return true;
+		}
+
 		// check if baseDN starts with a special character
 		$re = '/[\W]+/';
 		preg_match_all($re, $value[0], $matches);

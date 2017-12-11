@@ -816,12 +816,6 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		$verifyBaseDnWarningRule = new NextADInt_Multisite_Validator_Rule_BaseDnWarn($verifyBaseDnWarning, NextADInt_Core_Message_Type::WARNING);
 		$validator->addRule(NextADInt_Adi_Configuration_Options::BASE_DN, $verifyBaseDnWarningRule);
 
-		$verifyBaseDnMessage = __(
-			'Base DN must not be empty', 'next-active-directory-integration'
-		);
-		$verifyUsernameRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyBaseDnMessage);
-		$validator->addRule(NextADInt_Adi_Configuration_Options::BASE_DN, $verifyUsernameRule);
-
 	}
 
 }
