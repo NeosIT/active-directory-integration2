@@ -81,6 +81,9 @@ class NextADInt_Core_Logger
 
 		// Check permission to Logging path before we register a stream appender to prevent exception thrown for trying to access file without permission
 		if (!NextADInt_Core_Logger::hasWritingPermission($logPath)) {
+
+			error_log("Could not write to nadi-debug.log file in " . $logPath . " . Please check permissions.");
+
 			// Create a frontend only Logger due missing permissions to write to file
 			NextADInt_Core_Logger::createFrontendOnlyLogger();
 			return;
@@ -170,30 +173,7 @@ class NextADInt_Core_Logger
 	 */
 	private static function hasWritingPermission($pathToFile)
 	{
-		$isPathWritable = is_writable($pathToFile); // TODO With NADI 2.0.15 customPath will only be the path and we will always call the log file debug.log
-
-		if ($isPathWritable) {
-			$doesFileExists = file_exists($pathToFile . 'nadi-debug.log');
-			if ($doesFileExists) {
-				return true;
-			}
-			error_log("Could not find nadi-debug.log file. Trying to create it.");
-
-			$fileCreated = fopen($pathToFile . 'nadi-debug.log', 'w');
-
-			if ($fileCreated !== false) {
-				return true;
-			}
-
-			error_log("Could not create NADI debug.log file. Missing permission ?");
-
-			return false;
-		}
-
-		// Log to PHP error log, that we need writing permission to the NADI log file
-		error_log("Missing writing permission to path: $pathToFile");
-
-		return false;
+		return touch($pathToFile . 'nadi-debug.log');
 	}
 
 	/**

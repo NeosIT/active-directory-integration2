@@ -117,17 +117,27 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.1.0 =
+* ADD: NADI is now using Monolog for everything related to logs
+* ADD: added a button to manually persist "Logging" configurations
+* FIX: user attributes are now correctly logged
+* FIX: fixed a problem where the port configuration for LDAPS was not used
+* FIX: updated twig to the latest 1.x version. (2.x requires >= PHP 7.0.0)
+* ADD: debug logs messages will be not displayed in the frontend log anymore in order to prevent an overflow
+* ADD: dummy logger in order to prevent outdated premium extensions from crashing
+* REMOVED: removed log4php from NADI
+
 = 2.0.14 =
 * ADD: added frontend information banners for NADI premium extensions
 * ADD: added frontend information about why "Sync to WordPress" can not be started
-* FIX: members of not mapped security groups will not receive the default role "Subscriber"
+* FIX: members of not mapped security groups will now receive the default role "Subscriber"
 * FIX: "Clean existing Roles" is now default set to false
 * ADD: added new style for configuration page
 * FIX: fixed some style issues
-* ADD: added logic to determine if an nadi option already exists in the db to prevent the problem saving options with default value true
+* ADD: added logic to determine if a NADI option already exists in the DB to prevent the problem saving options with default value true
 * ADD: added detailed log on which UAC flag is responsible for users not beeing imported
 * FIX: fixed logs destroying the user profile while trying to update a user profile / also catched exception
-* FIX: fixed template conditions causing problems in Microsoft Edges
+* FIX: fixed template conditions causing problems in Microsoft Edge
 
 
 = 2.0.13 =
