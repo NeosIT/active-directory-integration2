@@ -146,6 +146,8 @@ class NextADInt_Adi_Init
 		// load internationalization (i18n)
 		load_plugin_textdomain('next-active-directory-integration', false, plugin_basename(NEXT_AD_INT_PATH) . '/languages');
 
+		//wp_die();
+
 		// ADI-354 (dme)
 		$configurationService = $this->dc()->getConfiguration();
 		$enableLogging = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
