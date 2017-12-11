@@ -62,7 +62,6 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	// Security
 	const FALLBACK_TO_LOCAL_PASSWORD = 'fallback_to_local_password';
 	const ENABLE_LOST_PASSWORD_RECOVERY = 'enable_lost_password_recovery';
-	const ENABLE_SMARTCARD_USER_LOGIN = 'enable_smartcard_user_login';
 
 	// Security - Brute Force Protection
 	const MAX_LOGIN_ATTEMPTS = 'max_login_attempts';
@@ -1019,18 +1018,6 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$sanitizer         => array('selection', 0),
 				$showPermission    => true,
 				$transient         => false,
-			),
-			// Allows users who usually require a smart card to log in using NADI
-			self::ENABLE_SMARTCARD_USER_LOGIN              => array(
-				$title       => __('Enable login for smart card Users', 'next-active-directory-integration'),
-				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
-				$description => __('Enabling this option allows users, who require a smart card, to authenticate against the Active Directory.',
-					'next-active-directory-integration'),
-				$detail      => __('Enables login for smart card users.', 'next-active-directory-integration'),
-				$default     => false,
-				$sanitizer   => array('boolean'),
-				$showPermission => true,
-				$transient      => false,
 			),
 			// Maximum number of failed login attempts before the account is blocked
 			self::MAX_LOGIN_ATTEMPTS            => array(

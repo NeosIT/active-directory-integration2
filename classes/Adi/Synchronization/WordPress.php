@@ -519,7 +519,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 				);
 			}
 
-			if ($this->isSmartCardRequired($uac) && !$this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ENABLE_SMARTCARD_USER_LOGIN)) {
+			if ($this->isSmartCardRequired($uac)) {
 				throw new Exception(
 					sprintf(
 						__('The account of user "%s" requires a smart card for login.', 'next-active-directory-integration'),

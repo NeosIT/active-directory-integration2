@@ -79,7 +79,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Environment', 'next-active-directory-integration') => array(
+			__('Environment', 'next-active-directory-integration')  => array(
 				// Group Name
 				self::ANGULAR_CONTROLLER => 'EnvironmentController',
 				self::MULTISITE_ONLY => false,
@@ -111,7 +111,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('User', 'next-active-directory-integration') => array(
+			__('User', 'next-active-directory-integration')             => array(
 				// Group Name
 				self::ANGULAR_CONTROLLER => 'UserController',
 				self::MULTISITE_ONLY => false,
@@ -137,7 +137,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Password', 'next-active-directory-integration') => array(
+			__('Password', 'next-active-directory-integration')        => array(
 				self::ANGULAR_CONTROLLER => 'PasswordController',
 				self::MULTISITE_ONLY => false,
 				// Group name
@@ -164,8 +164,8 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				__('Permissions', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => array(
 						__(
-							'On this page you can configure whether only specific Active Directory Security groups should be granted access to WordPress. You can also define if certain Active Directory security groups should have WordPress role permissions by default.',
-							'next-active-directory-integration'
+						'On this page you can configure whether only specific Active Directory Security groups should be granted access to WordPress. You can also define if certain Active Directory security groups should have WordPress role permissions by default.',
+						'next-active-directory-integration'
 						),
 						__(
 							'<span class="adi-pe-message"><b>Premium-Extensions: </b>Custom Role Management <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
@@ -190,10 +190,10 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						'Single Sign On Configuration',
 						'next-active-directory-integration'
 					),
-						__(
-							'<span class="adi-pe-message"><b>Premium-Extensions: </b>SingleSignOn for BuddyPress, WooCommerce und Ultimate Member <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
-							'next-active-directory-integration'
-						)),
+					__(
+						'<span class="adi-pe-message"><b>Premium-Extensions: </b>SingleSignOn for BuddyPress, WooCommerce und Ultimate Member <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
+						'next-active-directory-integration'
+					)),
 					// Option elements in group
 					self::OPTIONS => array(
 						NextADInt_Adi_Configuration_Options::SSO_ENABLED,
@@ -203,29 +203,18 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 				),
 				// Group name
-				__('Login', 'next-active-directory-integration') => array(
-					self::DESCRIPTION => array(__(
-						'Login Configuration',
-						'next-active-directory-integration'
-					)),
-					// Option elements in group
-					self::OPTIONS => array(
-						NextADInt_Adi_Configuration_Options::ENABLE_SMARTCARD_USER_LOGIN,
-					),
-				),
-				// Group name
 				__('Brute-Force-Protection', 'next-active-directory-integration') => array(
 					// Group description
 					self::DESCRIPTION => __(
-						'For security reasons you can use the following options to prevent brute force attacks on your user accounts. <br>' .
-						'<div class="update-message notice inline notice-warning notice-alt">' .
-						'We highly recommend you to use <a href="https://wordpress.org/plugins/better-wp-security/">iThemes Security</a> to secure your WordPress environment. <br>' .
-						'NADI Brute Force Protection will not receive updates anymore after the NADI v2.0.13 release and we are planning on removing it completely later this year.' .
-						'</div>',
+                        'For security reasons you can use the following options to prevent brute force attacks on your user accounts. <br>' .
+					    '<div class="update-message notice inline notice-warning notice-alt">'.
+                        'We highly recommend you to use <a href="https://wordpress.org/plugins/better-wp-security/">iThemes Security</a> to secure your WordPress environment. <br>' .
+                        'NADI Brute Force Protection will not receive updates anymore after the NADI v2.0.13 release and we are planning on removing it completely later this year.' .
+                        '</div>',
 						'next-active-directory-integration'
 					),
 					// Group elements in group
-					self::OPTIONS => array(
+					self::OPTIONS     => array(
 						NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS,
 						NextADInt_Adi_Configuration_Options::BLOCK_TIME,
 						NextADInt_Adi_Configuration_Options::USER_NOTIFICATION,
@@ -260,13 +249,13 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						),
 					),
 					// Group elements in group
-					self::OPTIONS => array(
+					self::OPTIONS     => array(
 						NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES,
 					),
 				),
 			),
 			// Tab name
-			__('Sync to AD', 'next-active-directory-integration') => array(
+			__('Sync to AD', 'next-active-directory-integration')        => array(
 				self::ANGULAR_CONTROLLER => 'SyncToAdController',
 				self::MULTISITE_ONLY => false,
 				// Group name
@@ -286,7 +275,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Sync to WordPress', 'next-active-directory-integration') => array(
+			__('Sync to WordPress', 'next-active-directory-integration')      => array(
 				self::ANGULAR_CONTROLLER => 'SyncToWordpressController',
 				self::MULTISITE_ONLY => false,
 				// Group name
@@ -297,7 +286,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						'next-active-directory-integration'
 					),
 					// Group elements in group
-					self::OPTIONS => array(
+					self::OPTIONS     => array(
 						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED,
 						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS,
 						NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER,
@@ -309,7 +298,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				),
 			),
 			// Tab name
-			__('Logging', 'next-active-directory-integration') => array(
+			__('Logging', 'next-active-directory-integration')      => array(
 				self::ANGULAR_CONTROLLER => 'LoggingController',
 				self::MULTISITE_ONLY => false,
 				// Group name
@@ -320,7 +309,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						'next-active-directory-integration'
 					),
 					// Group elements in group
-					self::OPTIONS => array(
+					self::OPTIONS     => array(
 						NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING,
 						NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH,
 					),
