@@ -35,11 +35,12 @@ class NextADInt_Ldap_Connection
 	 */
 	public function __construct(NextADInt_Multisite_Configuration_Service $configuration)
 	{
-		if (!class_exists('adLDAP')) {
-			// get adLdap
-			require_once NEXT_AD_INT_PATH . '/vendor/adLDAP/adLDAP.php';
+		// Use our extended version of the adLDAP library.
+		if (!class_exists('NextADInt_adLDAP')) {
+			// get NextAdInt_adLdap
+			require_once '_adLDAP.php';
 		}
-
+		
 		$this->configuration = $configuration;
 
 		$this->logger = NextADInt_Core_Logger::getLogger();
@@ -242,7 +243,7 @@ class NextADInt_Ldap_Connection
 	 */
 	function createAdLdap($config)
 	{
-		$this->adldap = new adLDAP($config);
+		$this->adldap = new NextADInt_adLDAP($config);
 	}
 
 	/**
@@ -263,6 +264,18 @@ class NextADInt_Ldap_Connection
 	public function isConnected()
 	{
 		return is_object($this->adldap);
+	}
+	
+	/**
+	 *  Find the sAMAccountName associated with a ProxyAddress
+	 *  
+	 *  @param string $proxyAddress The proxy address to check
+	 *  
+	 *  @return false if not found or the sAMAccountName.
+	 */
+	public function findByProxyAddress($proxyAddress)
+	{
+		return $this->adldap->findByProxyAddress($proxyAddress);
 	}
 
 	/**
