@@ -212,6 +212,8 @@ class NextADInt_Adi_Authentication_LoginService
 				return $proxyAddress;
 			}
 		}
+
+		$this->logger->info("Found sAMAccountName '" . $samaccountname . "' for proxy address '" . $proxyAddress . "'.");
 		
 		// Return the account we looked up.
 		return $samaccountname;		
