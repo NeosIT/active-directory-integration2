@@ -177,9 +177,9 @@ class NextADInt_Adi_Role_Manager
 
 		if ($cleanExistingRoles) {
 			$wpUser->set_role("");
-			$this->logger->warn("Cleaning Existing Roles true for user " . $wpUser->user_login . "existing roles will be deleted.");
+			$this->logger->warn("Cleaning existing roles true for user '" . $wpUser->user_login . "' existing roles will be deleted.");
 		} else {
-			$this->logger->warn("Cleaning Existing Roles false for user " . $wpUser->user_login . " existing roles will stay untouched.");
+			$this->logger->warn("Cleaning existing roles false for user '" . $wpUser->user_login . "' existing roles will stay untouched.");
 		}
 
 		// which roles are available?
@@ -194,7 +194,7 @@ class NextADInt_Adi_Role_Manager
 			if ($availableRoles->is_role($role)) {
 				$wpUser->add_role($role);
 			} else {
-				$this->logger->warn("Can not add role '$role' to " . $wpUser->user_login . " because the role does NOT exist.");
+				$this->logger->warn("Can not add role '$role' to '" . $wpUser->user_login . "' because the role does NOT exist.");
 			}
 		}
 

@@ -16,6 +16,7 @@ if (class_exists('NextADInt_Core_Util_LoggerUtil')) {
  */
 abstract class NextADInt_Core_Util_LoggerUtil
 {
+
 	private function __construct()
 	{
 	}
@@ -25,28 +26,26 @@ abstract class NextADInt_Core_Util_LoggerUtil
 	}
 
 	/**
-	 * Iterate through all the given $messages and log them using the given {@see Logger::error()}.
+	 * Iterate through all the given $messages and log them as error.
 	 *
-	 * @param Logger $logger
 	 * @param array  $messages
 	 */
-	public static function error(Logger $logger, array $messages)
+	public static function error(array $messages)
 	{
 		foreach ($messages as $message) {
-			$logger->error($message);
+			NextADInt_Core_Logger::getLogger()->error($message);
 		}
 	}
 
 	/**
-	 * Iterate through all the given $messages and log them using the given {@see Logger::debug()}.
+	 * Iterate through all the given $messages and log them as debug.
 	 *
-	 * @param Logger $logger
 	 * @param array  $messages
 	 */
-	public static function debug(Logger $logger, array $messages)
+	public static function debug(array $messages)
 	{
 		foreach ($messages as $message) {
-			$logger->debug($message);
+			NextADInt_Core_Logger::getLogger()->debug($message);
 		}
 	}
 }
