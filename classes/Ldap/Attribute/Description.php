@@ -16,7 +16,7 @@ if (class_exists('NextADInt_Ldap_Attribute_Description')) {
 class NextADInt_Ldap_Attribute_Description
 {
 	private static $descriptions = null;
-	
+
 	private static function initializeDescriptions() {
 		self::$descriptions = array(
 			// General
@@ -63,6 +63,11 @@ class NextADInt_Ldap_Attribute_Description
 			'company'                       => __('Company', 'next-active-directory-integration'),
 			'manager'                       => __('Manager', 'next-active-directory-integration'),
 			'directreports'                 => __('Direct reports', 'next-active-directory-integration'),
+
+			// Pictures
+			'thumbnailPhoto'                => __('Thumbnail Photo', 'next-active-directory-integration'),
+			'jpegPhoto'                 	=> __('Jpeg Photo', 'next-active-directory-integration'),
+			'thumbnailLogo'                 => __('Thumbnail Logo', 'next-active-directory-integration'),
 		);
 	}
 
@@ -113,7 +118,7 @@ class NextADInt_Ldap_Attribute_Description
 		if (null === self::$descriptions) {
 			self::initializeDescriptions();
 		}
-		
+
 		// return all values
 		return self::$descriptions;
 	}
