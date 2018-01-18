@@ -85,7 +85,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				self::MULTISITE_ONLY => false,
 				__('Active Directory Environment', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
-						'On this page you can configure the connection details for your Active Directory.',
+						'On this page you can configure the connection details for your Active Directory. If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/Environment.html">documentation</a>.',
 						'next-active-directory-integration'
 					),
 					// Option elements in group
@@ -117,7 +117,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				self::MULTISITE_ONLY => false,
 				__('User Settings', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
-						'On this page you can configure how users should be created, updated and displayed. You can also prevent specific users from authenticating against the Active Directory. ',
+						'On this page you can configure how users should be created, updated and displayed. You can also prevent specific users from authenticating against the Active Directory. If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/User.html">documentation</a>.',
 						'next-active-directory-integration'
 					),
 					// Option elements in group
@@ -143,7 +143,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				// Group name
 				__('Password', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
-						'The password configuration page allows you to configure if users should be able to change their password, how failed authentications should be handled and so on.',
+						'The password configuration page allows you to configure if users should be able to change their password, how failed authentications should be handled etc. . If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/Password.html">documentation</a>.',
 						'next-active-directory-integration'
 					),
 					// Option elements in group
@@ -164,7 +164,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				__('Permissions', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => array(
 						__(
-						'On this page you can configure whether only specific Active Directory Security groups should be granted access to WordPress. You can also define if certain Active Directory security groups should have WordPress role permissions by default.',
+						'On this page you can configure whether only specific Active Directory Security groups should be granted access to WordPress. You can also define if certain Active Directory security groups should have WordPress role permissions by default. If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/Permissions.html">documentation</a>.',
 						'next-active-directory-integration'
 						),
 						__(
@@ -187,7 +187,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				// Group name
 				__('Single Sign On', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => array(__(
-						'Single Sign On Configuration',
+						'Single Sign On Configuration. If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/Security.html">documentation</a>.',
 						'next-active-directory-integration'
 					),
 					__(
@@ -234,11 +234,11 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					// Group description
 					self::DESCRIPTION => array(
 						__(
-							'User attributes from the Active Directory are stored as User Meta Data. These attributes can then be used in your themes and they can be shown on the profile page of your users.',
+							'User attributes from the Active Directory are stored as User Meta Data. These attributes can then be used in your themes and they can be shown on the profile page of your users. ',
 							'next-active-directory-integration'
 						),
 						__(
-							'The attributes are only stored in the WordPress database if you activate "Automatic User Creation" and are only updated if you activate "Automatic User Update" on tab "User".',
+							'The attributes are only stored in the WordPress database if you activate "Automatic User Creation" and are only updated if you activate "Automatic User Update" on tab "User". If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/Attributes.html">documentation</a>.',
 							'next-active-directory-integration'
 						),
 						'',
@@ -261,7 +261,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				// Group name
 				__('Sync To Active Directory', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => __(
-						'Synchronize WordPress profiles back to Active Directory.',
+						'Synchronize WordPress profiles back to Active Directory. If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/Sync_to_AD.html">documentation</a>.',
 						'next-active-directory-integration'
 					),
 					// Group elements in group
@@ -282,7 +282,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				__('Sync To WordPress', 'next-active-directory-integration') => array(
 					// Group description
 					self::DESCRIPTION => __(
-						'You can import/update the users from Active Directory, for example by using a cron job.',
+						'You can import/update the users from Active Directory, for example by using a cron job. If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/Sync_to_WordPress.html">documentation</a>.',
 						'next-active-directory-integration'
 					),
 					// Group elements in group
@@ -305,7 +305,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				__('Logging', 'next-active-directory-integration') => array(
 					// Group description
 					self::DESCRIPTION => __(
-						'On this tab you can configure the NADI event logger.',
+						'On this tab you can configure the NADI event logger. If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/Logger.html">documentation</a>.',
 						'next-active-directory-integration'
 					),
 					// Group elements in group
