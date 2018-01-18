@@ -406,7 +406,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Base DN', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
-					'Base DN (e.g. "ou=unit,dc=domain,dc=tld" or "cn=users,dc=domain,dc=tld")', 'next-active-directory-integration'
+					'Base DN (e.g. "dc=domain,dc=tld" or "ou=unit,dc=domain,dc=tld" or "cn=users,dc=domain,dc=tld") This option depends on your Active Directory configurations.', 'next-active-directory-integration'
 				),
 				$detail      => array(
 					__(
