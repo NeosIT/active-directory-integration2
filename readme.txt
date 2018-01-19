@@ -127,6 +127,7 @@ For detailed information you can visit the official [GitHub repository of Active
 * FIX: its now possible to enter an empty base dn
 * FIX: adjusted base DN description
 * REMOVED: whitespaces inside the rendered curl and wget tags
+* REMOVED: old code that caused an warning with PHP 7.2.0 changes to count() and sizeOf()
 
 = 2.1.0 =
 * ADD: NADI is now using Monolog for everything related to logs
