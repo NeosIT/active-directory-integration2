@@ -204,6 +204,17 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 				),
 				// Group name
+				__('Login', 'next-active-directory-integration') => array(
+					self::DESCRIPTION => array(__(
+						'Login Configuration',
+						'next-active-directory-integration'
+					)),
+					// Option elements in group
+					self::OPTIONS => array(
+						NextADInt_Adi_Configuration_Options::ENABLE_SMARTCARD_USER_LOGIN,
+					),
+				),
+				// Group name
 				__('Brute-Force-Protection', 'next-active-directory-integration') => array(
 					// Group description
 					self::DESCRIPTION => __(
