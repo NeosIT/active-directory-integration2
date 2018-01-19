@@ -117,6 +117,18 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.1.1 =
+* ADD: proxy address login (Special thanks to Github user *nedwidek* for contributing this functionality)
+* ADD: profile picture ad attributes to the ad attributes dropdown at the ad attributes configuration page
+* ADD: claims based authentication (Special thanks to Github user *rgottsch* for contributing this functionality)
+* ADD: new option to decide if you want to grant smart card users access to the WordPress environment
+* ADD: links to the specific documentation pages for each configuration page
+* ADD: powershell script to trigger "Sync to WordPress" and "Sync to AD" (Special thanks to Github user *nemchik* for contributing this)
+* FIX: its now possible to enter an empty base dn
+* FIX: adjusted base DN description
+* REMOVED: whitespaces inside the rendered curl and wget tags
+* REMOVED: old code that caused an warning with PHP 7.2.0 changes to count() and sizeOf()
+
 = 2.1.0 =
 * ADD: NADI is now using Monolog for everything related to logs
 * ADD: added a button to manually persist "Logging" configurations
