@@ -7,3 +7,5 @@ test/build/**
 test-*.bat
 ant-*.bat
 /.project
+vendor
+!vendor/adLDAP

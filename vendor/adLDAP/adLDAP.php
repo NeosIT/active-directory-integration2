@@ -2874,7 +2874,6 @@ class adLDAP {
 
 		// Return false if we didn't find exactly one entry.
 		if($entries['count'] == 0 || $entries['count'] > 1) {
-//			$logger->debug("Number of entries: " . $entries['count']);
 			return false;
 		}
 
