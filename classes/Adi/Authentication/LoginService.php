@@ -619,8 +619,6 @@ class NextADInt_Adi_Authentication_LoginService
 
 		$autoUpdateUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER);
 		$autoUpdatePassword = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD);
-		$hasMappedWordPressRole = sizeof($user->getRoleMapping()) > 0;
-
 
 		// ADI-116: The behavior changed with 2.0.x and has been agreed with CST on 2016-03-02.
 		// In 1.0.x users were only updated if the options "Auto Create User" AND "Auto Update User" had been enabled.
@@ -637,11 +635,6 @@ class NextADInt_Adi_Authentication_LoginService
 
 		// in any case the sAMAccountName has to be updated
 		$this->userManager->updateSAMAccountName($user->getId(), $user->getCredentials()->getSAMAccountName());
-
-		if (!$hasMappedWordPressRole) {
-			// prevent from removing any existing WordPress roles
-			return false;
-		}
 
 		// if autoUpdateUser is disabled we still have to update his role
 		$this->userManager->updateUserRoles($user->getId(), $user->getRoleMapping());
