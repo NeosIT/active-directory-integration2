@@ -13,7 +13,7 @@ if (class_exists('NextADInt_Adi_Authentication_LoginService')) {
  * This class registers the "authenticate" callback in WordPress and is responsible for the authentication process.
  *
  * @author Tobias Hellmann <the@neos-it.de>
- * @access pubic
+ * @access public
  */
 class NextADInt_Adi_Authentication_LoginService
 {

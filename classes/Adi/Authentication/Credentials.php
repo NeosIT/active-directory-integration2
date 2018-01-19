@@ -33,6 +33,9 @@ class NextADInt_Adi_Authentication_Credentials
 	/** @var string */
 	private $password;
 
+	/** @var NextADInt_Core_Logger */
+	private $logger;
+
 	/**
 	 * NextADInt_Adi_Authentication_Credentials constructor.
 	 *
@@ -43,6 +46,7 @@ class NextADInt_Adi_Authentication_Credentials
 	 */
 	public function __construct($login = '', $password = '')
 	{
+		$this->logger = NextADInt_Core_Logger::getLogger();
 		$this->setLogin($login);
 		$this->setPassword($password);
 	}
@@ -69,11 +73,20 @@ class NextADInt_Adi_Authentication_Credentials
 	 *
 	 * @param $login should contain '\' to separate the NETBIOS name from the sAMAccountName
 	 */
-	public function setNetbiosName($login) {
+	public function setNetbiosName($login)
+	{
 		$parts = explode("\\", $login);
-
 		if (sizeof($parts) >= 2) {
-			$this->netbiosName = strtoupper($parts[0]);
+
+			// ADI-564 | Github Issue#44 check if the username has claims prefixed, then the REMOTE_USER looks like this 0#.w|domain\username
+			$parts_claims = explode("|", $parts[0]);
+			if (sizeof($parts_claims) >= 2) {
+				$this->logger->info("Claim detected. Removing claim from netBiosName.");
+				$this->netbiosName = strtoupper($parts_claims[1]);
+				$this->logger->info("NetBiosName is now set to '" . $this->netbiosName . "'.");
+			} else {
+				$this->netbiosName = strtoupper($parts[0]);
+			}
 		}
 	}
 
@@ -173,9 +186,10 @@ class NextADInt_Adi_Authentication_Credentials
 	/**
 	 * @return string|null if NETBIOS name is available it is returned in upper case
 	 */
-    public function getNetbiosName() {
+	public function getNetbiosName()
+	{
 		return $this->netbiosName;
-    }
+	}
 
 	/**
 	 * @return string
@@ -220,6 +234,6 @@ class NextADInt_Adi_Authentication_Credentials
 	public function __toString()
 	{
 		return "Credentials={login='" . $this->login . "',sAMAccountName='" . $this->sAMAccountName
-		. "',userPrincipalName='" . $this->getUserPrincipalName() . "',netbios='" . $this->netbiosName . "'}";
+			. "',userPrincipalName='" . $this->getUserPrincipalName() . "',netbios='" . $this->netbiosName . "'}";
 	}
 }
