@@ -38,6 +38,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	// User - User Settings
 	const EXCLUDE_USERNAMES_FROM_AUTHENTICATION = 'exclude_usernames_from_authentication';
 	const ACCOUNT_SUFFIX = 'account_suffix';
+	const ALLOW_PROXYADDRESS_LOGIN = 'allow_proxyaddress_login';
 	const USE_SAMACCOUNTNAME_FOR_NEW_USERS = 'use_samaccountname_for_new_users';
 	const AUTO_CREATE_USER = 'auto_create_user';
 	const AUTO_UPDATE_USER = 'auto_update_user';
@@ -548,6 +549,24 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
                 $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_account_suffix)"',
 				$default     => '',
 				$sanitizer   => array('accumulation', ';', array('string', false, true)),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			// Should the user be able to use one of their ProxyAddresses instead of their sAMAccountName for login? Their sAMAccountName will be looked up from the ProxyAddress.
+			self::ALLOW_PROXYADDRESS_LOGIN => array(
+				$title       => __('Allow users to login with one of their ProxyAddresses', 'next-active-directory-integration'),
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
+				$description => __(
+					'If checked, users will be able to use one of their ProxyAddreses instead of their sAMAccountName to login.',
+					'next-active-directory-integration'
+				),
+				$detail      => __(
+					'Instead of using the user principal name for newly created users, the sAMAccountName will be used. The ProxyAddress will be used to lookup the sAMAccountName.',
+					'next-active-directory-integration'
+				),
+				$angularAttributes => '',
+				$default     => false,
+				$sanitizer   => array('boolean'),
 				$showPermission    => true,
 				$transient         => false,
 			),
