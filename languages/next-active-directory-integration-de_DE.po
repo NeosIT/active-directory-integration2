@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-22 16:34+0000\n"
-"PO-Revision-Date: 2018-01-22 16:41+0000\n"
+"POT-Creation-Date: 2018-01-22 16:49+0000\n"
+"PO-Revision-Date: 2018-01-22 16:50+0000\n"
 "Last-Translator: admin <sfi@neos-it.de>\n"
 "Language-Team: German\n"
 "Language: de-DE\n"
@@ -22,29 +22,15 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: vendor"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:209
-msgid ""
-"For security reasons you can use the following options to prevent brute "
-"force attacks on your user accounts."
-msgstr ""
-"Aus Sicherheitsgründen können Sie die folgenden Einstellungen verwenden, um "
-"wiederholte fehlerhafte Anmeldeversuche zu verhindern."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:213
-msgid ""
-"<div class=\"update-message notice inline notice-warning notice-alt\"> We "
-"highly recommend you to use <a href=\"https://wordpress.org/plugins/better-"
-"wp-security/\">iThemes Security</a> to secure your WordPress environment. "
-"<br> NADI Brute Force Protection will not receive updates anymore after the "
-"NADI v2.0.13 release and we are planning on removing it completely later "
-"this year. </div>"
-msgstr ""
-"<div class=\"update-message notice inline notice-warning notice-alt\"> Wir "
-"empfehlen die Verwendung des <a href=\"https://wordpress.org/plugins/better-"
-"wp-security/\">iThemes Security</a> Plugins um Ihre WordPress-Instanz zu "
-"schützen. <br> Der Brute-Force-Schutz wird ab der NADI Version 2.0.13 keine "
-"weiteren Updates erhalten. Diese Funktion soll künftig entfernt werden. "
-"</div>"
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:110
+#:
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:122
+#:
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:89
+#:
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:88
+msgid "Show log output"
+msgstr "Log-Ausgabe anzeigen"
 
 #: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Init.php:114
 #, php-format
@@ -1686,15 +1672,15 @@ msgstr "Active Directory Integration"
 msgid "Test authentication"
 msgstr "Test der Authentifizierung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:100
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:102
 #:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:111
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:114
 msgid "Test Active Directory authentication"
 msgstr "Teste Active Directory Authentifizierung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:101
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:103
 #:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:112
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:115
 msgid ""
 "Please enter the username and password for the account you want to "
 "authenticate with. After submitting the request you will get the debug "
@@ -1704,9 +1690,9 @@ msgstr ""
 "dem Sie sich authentifizieren wollen. Nach dem Absenden erhalten Sie eine "
 "Ausgabe zur weiteren Analyse."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:102
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:104
 #:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:113
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:116
 msgid ""
 "For this page feature of blocking user accounts with failed login attempts "
 "is disabled. You do not have to worry about locking an account."
@@ -1715,51 +1701,51 @@ msgstr ""
 "Anmeldeversuche deaktiviert. Sie müssen sich keine Sorgen darüber machen, "
 "dass Ihr Konto gesperrt wird."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:103
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:105
 msgid "Please note that the entered password is not masked."
 msgstr ""
 "Bitte beachten Sie, dass das Passwort im <strong>Klartext</strong> "
 "dargestellt wird."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:104
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:106
 #:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:115
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:118
 msgid "Username:"
 msgstr "Benutzername:"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:105
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:107
 #:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:116
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:119
 msgid "Password (will be shown):"
 msgstr "Passwort (wird angezeigt):"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:106
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:108
 #:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:117
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:120
 msgid "Try to authenticate again"
 msgstr "Teste Authentifizierung erneut"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:107
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:109
 #:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:118
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:121
 msgid "Try to authenticate"
 msgstr "Teste Authentifizierung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:114
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:117
 msgid "Please note that the entered password <strong>is not masked</strong>."
 msgstr ""
 "Bitte beachten Sie, dass das Passwort im <strong>Klartext</strong> "
 "dargestellt wird."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:142
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:146
 msgid "You do not have sufficient permissions."
 msgstr "Sie besitzen nicht die benötigten Rechte."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:155
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:159
 msgid "User logged on."
 msgstr "Benutzer angemeldet."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:157
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:161
 msgid "Logon failed."
 msgstr "Anmeldung fehlgeschlagen."
 
@@ -2445,13 +2431,37 @@ msgstr ""
 msgid "Brute-Force-Protection"
 msgstr "Brute-Force-Schutz"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:230
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:209
+msgid ""
+"For security reasons you can use the following options to prevent brute "
+"force attacks on your user accounts."
+msgstr ""
+"Aus Sicherheitsgründen können Sie die folgenden Einstellungen verwenden, um "
+"wiederholte fehlerhafte Anmeldeversuche zu verhindern."
+
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:214
+msgid ""
+"<div class=\"update-message notice inline notice-warning notice-alt\"> We "
+"highly recommend you to use <a href=\"https://wordpress.org/plugins/better-"
+"wp-security/\">iThemes Security</a> to secure your WordPress environment. "
+"<br> NADI Brute Force Protection will not receive updates anymore after the "
+"NADI v2.0.13 release and we are planning on removing it completely later "
+"this year. </div>"
+msgstr ""
+"<div class=\"update-message notice inline notice-warning notice-alt\"> Wir "
+"empfehlen die Verwendung des <a href=\"https://wordpress.org/plugins/better-"
+"wp-security/\">iThemes Security</a> Plugins um Ihre WordPress-Instanz zu "
+"schützen. <br> Der Brute-Force-Schutz wird ab der NADI Version 2.0.13 keine "
+"weiteren Updates erhalten. Diese Funktion soll künftig entfernt werden. "
+"</div>"
+
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:231
 #:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:234
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:235
 msgid "Attributes"
 msgstr "Attribute"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:237
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:238
 msgid ""
 "User attributes from the Active Directory are stored as User Meta Data. "
 "These attributes can then be used in your themes and they can be shown on "
@@ -2461,7 +2471,7 @@ msgstr ""
 "gespeichert. Diese Eigenschaften können in Ihren Themes benutzt werden oder "
 "auf der WordPress-Profilseite der Benutzer angezeigt werden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:241
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:242
 msgid ""
 "The attributes are only stored in the WordPress database if you activate "
 "\"Automatic User Creation\" and are only updated if you activate \"Automatic "
@@ -2471,7 +2481,7 @@ msgstr ""
 "die Optionen Automatisches Erstellen von Benutzern und Automatisches "
 "Aktuallisieren von Benutzern unter dem Reiter Benutzer aktiviert haben."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:246
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:247
 #, php-format
 msgid ""
 "The following WordPress attributes are reserved by NADI and cannot be used: "
@@ -2480,7 +2490,7 @@ msgstr ""
 "Die folgenden WordPress-Attribute sind durch NADI reserviert und können "
 "nicht benutzt werden: %s"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:247
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:248
 msgid ""
 "<span class=\"adi-pe-message\"><b>Premium-Extensions: </b>BuddyPress simple "
 "attributes, BuddyPress profile photo, Profile Pictures and User Photo "
@@ -2492,35 +2502,35 @@ msgstr ""
 "integration <a href=\"https://active-directory-wp.com/premium-extension/\">"
 "verfügbar</a>.</span>"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:259
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:260
 #:
 #: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:58
 msgid "Sync to AD"
 msgstr "Sync to AD"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:263
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:264
 #:
 #: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:82
 msgid "Sync To Active Directory"
 msgstr "Sync to Active Directory"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:264
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:265
 msgid "Synchronize WordPress profiles back to Active Directory."
 msgstr "Synchronisiert WordPress-Profile zurück zum Active Directory"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:279
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:280
 #:
 #: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:58
 msgid "Sync to WordPress"
 msgstr "Sync to WordPress"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:283
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:284
 #:
 #: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:82
 msgid "Sync To WordPress"
 msgstr "Sync to WordPress"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:285
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:286
 msgid ""
 "You can import/update the users from Active Directory, for example by using "
 "a cron job."
@@ -2528,13 +2538,13 @@ msgstr ""
 "Sie können Benutzer aus dem Actice Directory importieren oder aktuallisieren "
 "indem Sie ein Cron-Job verwenden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:302
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:303
 #:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:306
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:307
 msgid "Logging"
 msgstr "Logging"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:308
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:309
 msgid "On this tab you can configure the NADI event logger."
 msgstr ""
 "In diesem Tab können Einstellung bezüglich des NADI Event Loggers "
@@ -2582,9 +2592,9 @@ msgstr ""
 "und \"Sync to Ad aktivieren\" aktiviert ist. Außerdem muss ein Service "
 "Account hinterlegt wurden sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:109
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:110
 #:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:108
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:109
 #:
 #: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/View/Page/Abstract.php:81
 msgid "You do not have sufficient permissions to access this page."
@@ -2592,11 +2602,11 @@ msgstr ""
 "Sie besitzen nicht die benötigten Berechtigungen, um auf diese Seite "
 "zuzugreifen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:121
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:122
 msgid "Sync to AD succeeded."
 msgstr "Sync to AD erfolgreich."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:123
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:124
 msgid "Sync to AD failed."
 msgstr "Sync to AD fehlgeschlagen."
 
@@ -2625,11 +2635,11 @@ msgstr ""
 "und \"Sync to WordPress aktivieren\" aktiviert ist. Außerdem muss ein "
 "Service Account hinterlegt wurden sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:118
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:119
 msgid "Sync to WordPress succeeded."
 msgstr "Sync to WordPress erfolreich."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:120
+#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:121
 msgid "Sync to WordPress failed."
 msgstr "Sync to WordPress fehlgeschlagen."
 
