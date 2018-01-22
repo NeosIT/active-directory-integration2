@@ -205,14 +205,16 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				// Group name
 				__('Brute-Force-Protection', 'next-active-directory-integration') => array(
 					// Group description
-					self::DESCRIPTION => __(
-                        'For security reasons you can use the following options to prevent brute force attacks on your user accounts. <br>' .
-					    '<div class="update-message notice inline notice-warning notice-alt">'.
-                        'We highly recommend you to use <a href="https://wordpress.org/plugins/better-wp-security/">iThemes Security</a> to secure your WordPress environment. <br>' .
-                        'NADI Brute Force Protection will not receive updates anymore after the NADI v2.0.13 release and we are planning on removing it completely later this year.' .
-                        '</div>',
+					self::DESCRIPTION => array(
+					    __(
+                            'For security reasons you can use the following options to prevent brute force attacks on your user accounts.',
+                            'next-active-directory-integration'
+                        ),
+                        // editing translations with loco-translate will not detect concatenated strings
+                        __(
+					    '<div class="update-message notice inline notice-warning notice-alt"> We highly recommend you to use <a href="https://wordpress.org/plugins/better-wp-security/">iThemes Security</a> to secure your WordPress environment. <br> NADI Brute Force Protection will not receive updates anymore after the NADI v2.0.13 release and we are planning on removing it completely later this year. </div>',
 						'next-active-directory-integration'
-					),
+					)),
 					// Group elements in group
 					self::OPTIONS     => array(
 						NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS,
