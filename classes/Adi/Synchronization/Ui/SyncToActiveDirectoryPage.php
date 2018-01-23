@@ -85,8 +85,9 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 			'userId' => __('User-ID: (optional)', 'next-active-directory-integration'),
 			'repeatAction' => __('Repeat WordPress to Active Directory synchronization', 'next-active-directory-integration'),
 			'startAction' => __('Start WordPress to Active Directory synchronization', 'next-active-directory-integration'),
-			'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked. Also, a service account has to be provided.', 'next-active-directory-integration')
-		);
+			'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked. Also, a service account has to be provided.', 'next-active-directory-integration'),
+            'showLogOutput' => __('Show log output', 'next-active-directory-integration')
+        );
 		$params['i18n'] = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 
 		// render
