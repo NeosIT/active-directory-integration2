@@ -100,7 +100,8 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 				'descriptionLine2' => 'Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:',
 				'repeatAction' => 'Repeat AD to WordPress synchronization',
 				'startAction' => 'Start AD to WordPress synchronization',
-				'syncDisabled' => 'Check that a connection to a domain controller is established and \'Enable sync to WordPress\' is checked. Also, a service account has to be provided.'
+				'syncDisabled' => 'Check that a connection to a domain controller is established and \'Enable sync to WordPress\' is checked. Also, a service account has to be provided.',
+				'showLogOutput' => __('Show log output', 'next-active-directory-integration')
 			),
 			'domainSidSet' => 1,
 			'syncEnabled' => 1,
