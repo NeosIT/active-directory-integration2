@@ -1062,26 +1062,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function updateUser_ifAutoUpdateIsDisabled_itReturnsFalse()
-	{
-		$sut = $this->sut();
-
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad");
-		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
-
-		$this->behave($this->configuration, 'getOptionValue', false);
-
-		$this->userManager->expects($this->never())
-			->method('update');
-
-		$actual = $sut->updateUser($adiUser);
-
-		$this->assertFalse($actual);
-	}
-
-	/**
-	 * @test
-	 */
 	public function updateUser_ifAutoUpdateIsDisabledButRoleIsAvailable_itStillUpdatesTheUsersRole()
 	{
 		$sut = $this->sut();

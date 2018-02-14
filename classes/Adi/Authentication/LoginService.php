@@ -13,7 +13,7 @@ if (class_exists('NextADInt_Adi_Authentication_LoginService')) {
  * This class registers the "authenticate" callback in WordPress and is responsible for the authentication process.
  *
  * @author Tobias Hellmann <the@neos-it.de>
- * @access pubic
+ * @access public
  */
 class NextADInt_Adi_Authentication_LoginService
 {
@@ -138,6 +138,13 @@ class NextADInt_Adi_Authentication_LoginService
 		// https://wordpress.org/support/topic/fatal-error-after-login-and-suffix-question/
 		$login = stripcslashes($login);
 
+		// EJN - 2017/11/16 - Allow users to log in with one of their email addresses specified in proxyAddresses
+		// Check if this looks like a ProxyAddress and look up sAMAccountName if we are allowing ProxyAddresses as login.
+		$allowProxyAddressLogin = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ALLOW_PROXYADDRESS_LOGIN);
+		if($allowProxyAddressLogin && strpos($login, '@') !== false) {
+			$login = $this->lookupFromProxyAddresses($login);
+		}
+		
 		// login must not be empty or user must not be an admin
 		if (!$this->requiresActiveDirectoryAuthentication($login)) {
 			return false;
@@ -173,6 +180,43 @@ class NextADInt_Adi_Authentication_LoginService
 			$this->logger->warn("XML-RPC Login detected ! Preventing further authentication.");
 			wp_die(__("Next ADI prevents XML RPC authentication!", 'next-active-directory-integration'));
 		}
+	}
+	
+	/**
+	 * Lookup the user's sAMAccountName by their SMTP proxy addresses. If not found, just return the proxy address.
+	 *
+	 * EJN - 2017/11/16 - Allow users to log in with one of their email addresses specified in proxyAddresses
+	 *
+	 * @param String $proxyAddress The proxy address to try looking up.
+	 *
+	 * @return The associated sAMAccountName or $proxyAddress if not found.
+	 */
+	public function lookupFromProxyAddresses($proxyAddress) {
+		
+		// Use the Sync to WordpPress username and password since anonymous bind can't search.
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails->setUsername($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER));
+		$connectionDetails->setPassword($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD));
+		
+		// LDAP_Connection
+		$this->ldapConnection->connect($connectionDetails);
+
+		// check if domain controller is available
+		$domainControllerIsAvailable = $this->ldapConnection->checkPorts();
+		
+		if($domainControllerIsAvailable) {
+			$samaccountname = $this->ldapConnection->findByProxyAddress($proxyAddress);
+		
+			// If this email address wasn't specified in anyone's proxyAddresses attributes, just return the original value.
+			if($samaccountname === false) {
+				return $proxyAddress;
+			}
+		}
+
+		$this->logger->info("Found sAMAccountName '" . $samaccountname . "' for proxy address '" . $proxyAddress . "'.");
+		
+		// Return the account we looked up.
+		return $samaccountname;		
 	}
 
 	/**
@@ -225,7 +269,7 @@ class NextADInt_Adi_Authentication_LoginService
 	{
 		return new NextADInt_Adi_Authentication_Credentials($login, $password);
 	}
-
+	
 	/**
 	 * Check if the Active Directory authentication is required or not.
 	 * If the username is empty or the user is WordPress first/admin account, an Active Directory authentication will *not* be executed.
@@ -619,8 +663,6 @@ class NextADInt_Adi_Authentication_LoginService
 
 		$autoUpdateUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER);
 		$autoUpdatePassword = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD);
-		$hasMappedWordPressRole = sizeof($user->getRoleMapping()) > 0;
-
 
 		// ADI-116: The behavior changed with 2.0.x and has been agreed with CST on 2016-03-02.
 		// In 1.0.x users were only updated if the options "Auto Create User" AND "Auto Update User" had been enabled.
@@ -637,11 +679,6 @@ class NextADInt_Adi_Authentication_LoginService
 
 		// in any case the sAMAccountName has to be updated
 		$this->userManager->updateSAMAccountName($user->getId(), $user->getCredentials()->getSAMAccountName());
-
-		if (!$hasMappedWordPressRole) {
-			// prevent from removing any existing WordPress roles
-			return false;
-		}
 
 		// if autoUpdateUser is disabled we still have to update his role
 		$this->userManager->updateUserRoles($user->getId(), $user->getRoleMapping());

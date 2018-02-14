@@ -96,6 +96,8 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$params['nonce'] = wp_create_nonce(self::NONCE); // add nonce for security
 		$params['message'] = $this->result;
 		$params['log'] = $this->log;
+
+		// TODO @dme duplicated code?
         $params['i18n'] = array(
             'title' => __('Test Active Directory authentication', 'next-active-directory-integration'),
             'descriptionLine1' => __('Please enter the username and password for the account you want to authenticate with. After submitting the request you will get the debug output.', 'next-active-directory-integration'),
@@ -104,7 +106,8 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
             'username' => __('Username:', 'next-active-directory-integration'),
             'password' => __('Password (will be shown):', 'next-active-directory-integration'),
             'tryAgain' => __('Try to authenticate again', 'next-active-directory-integration'),
-            'tryAuthenticate' => __('Try to authenticate', 'next-active-directory-integration')
+            'tryAuthenticate' => __('Try to authenticate', 'next-active-directory-integration'),
+            'showLogOutput' => __('Show log output', 'next-active-directory-integration')
         );
 
 		$i18n = array(
@@ -115,7 +118,8 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
             'username' => __('Username:', 'next-active-directory-integration'),
             'password' => __('Password (will be shown):', 'next-active-directory-integration'),
             'tryAgain' => __('Try to authenticate again', 'next-active-directory-integration'),
-            'tryAuthenticate' => __('Try to authenticate', 'next-active-directory-integration')
+            'tryAuthenticate' => __('Try to authenticate', 'next-active-directory-integration'),
+            'showLogOutput' => __('Show log output', 'next-active-directory-integration')
         );
 		$params['i18n'] = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 

@@ -4,10 +4,9 @@
     <div>
         {{ i18n.descriptionLine1|raw }}<br>
         {{ i18n.descriptionLine2|raw }}<br>
-        <code>curl --data "next_ad_int-task=sync-to-wordpress&auth-code={{ authCode }}" {{ blogUrl }}
-            /wp-admin/admin.php</code></br>
-        <code>wget --post-data "next_ad_int-task=sync-to-wordpress&auth-code={{ authCode }}" {{ blogUrl }}
-            /wp-admin/admin.php</code>
+        <code>curl --data "next_ad_int-task=sync-to-wordpress&auth-code={{ authCode }}" {{ blogUrl }}/wp-admin/admin.php</code><br>
+        <code>wget --post-data "next_ad_int-task=sync-to-wordpress&auth-code={{ authCode }}" {{ blogUrl }}/wp-admin/admin.php</code><br>
+        <code>powershell -Command "Invoke-WebRequest -Uri {{ blogUrl }}/wp-admin/admin.php -Method POST -Body @{'next_ad_int-task'='sync-to-wordpress';'auth-code'='{{ authCode }}'}"</code>
     </div>
 
     <br>
@@ -46,7 +45,7 @@
 
             <button class="button button-primary" type="button" data-toggle="collapse" data-target="#log-output"
                     aria-expanded="false">
-                Show log output
+                {{ i18n.showLogOutput }}
             </button>
             <div class="collapse" id="log-output">
                 <table class="table table-hover table-condensed table-responsive adi-log-table">

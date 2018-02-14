@@ -38,6 +38,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	// User - User Settings
 	const EXCLUDE_USERNAMES_FROM_AUTHENTICATION = 'exclude_usernames_from_authentication';
 	const ACCOUNT_SUFFIX = 'account_suffix';
+	const ALLOW_PROXYADDRESS_LOGIN = 'allow_proxyaddress_login';
 	const USE_SAMACCOUNTNAME_FOR_NEW_USERS = 'use_samaccountname_for_new_users';
 	const AUTO_CREATE_USER = 'auto_create_user';
 	const AUTO_UPDATE_USER = 'auto_update_user';
@@ -62,6 +63,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	// Security
 	const FALLBACK_TO_LOCAL_PASSWORD = 'fallback_to_local_password';
 	const ENABLE_LOST_PASSWORD_RECOVERY = 'enable_lost_password_recovery';
+	const ENABLE_SMARTCARD_USER_LOGIN = 'enable_smartcard_user_login';
 
 	// Security - Brute Force Protection
 	const MAX_LOGIN_ATTEMPTS = 'max_login_attempts';
@@ -406,7 +408,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title       => __('Base DN', 'next-active-directory-integration'),
 				$type        => NextADInt_Multisite_Option_Type::TEXT,
 				$description => __(
-					'Base DN (e.g. "ou=unit,dc=domain,dc=tld" or "cn=users,dc=domain,dc=tld")', 'next-active-directory-integration'
+					'Base DN (e.g. "dc=domain,dc=tld" or "ou=unit,dc=domain,dc=tld" or "cn=users,dc=domain,dc=tld") This option depends on your Active Directory configurations.', 'next-active-directory-integration'
 				),
 				$detail      => array(
 					__(
@@ -548,6 +550,24 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
                 $angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_account_suffix)"',
 				$default     => '',
 				$sanitizer   => array('accumulation', ';', array('string', false, true)),
+				$showPermission    => true,
+				$transient         => false,
+			),
+			// Should the user be able to use one of their ProxyAddresses instead of their sAMAccountName for login? Their sAMAccountName will be looked up from the ProxyAddress.
+			self::ALLOW_PROXYADDRESS_LOGIN => array(
+				$title       => __('Allow users to login with one of their ProxyAddresses', 'next-active-directory-integration'),
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
+				$description => __(
+					'If checked, users will be able to use one of their ProxyAddreses instead of their sAMAccountName to login.',
+					'next-active-directory-integration'
+				),
+				$detail      => __(
+					'Instead of using the user principal name for newly created users, the sAMAccountName will be used. The ProxyAddress will be used to lookup the sAMAccountName.',
+					'next-active-directory-integration'
+				),
+				$angularAttributes => '',
+				$default     => false,
+				$sanitizer   => array('boolean'),
 				$showPermission    => true,
 				$transient         => false,
 			),
@@ -1018,6 +1038,18 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$sanitizer         => array('selection', 0),
 				$showPermission    => true,
 				$transient         => false,
+			),
+			// Allows users who usually require a smart card to log in using NADI
+			self::ENABLE_SMARTCARD_USER_LOGIN              => array(
+				$title       => __('Enable login for smart card Users', 'next-active-directory-integration'),
+				$type        => NextADInt_Multisite_Option_Type::CHECKBOX,
+				$description => __('Enabling this option allows users, who require a smart card, to authenticate against the Active Directory.',
+					'next-active-directory-integration'),
+				$detail      => __('Enables login for smart card users.', 'next-active-directory-integration'),
+				$default     => false,
+				$sanitizer   => array('boolean'),
+				$showPermission => true,
+				$transient      => false,
 			),
 			// Maximum number of failed login attempts before the account is blocked
 			self::MAX_LOGIN_ATTEMPTS            => array(

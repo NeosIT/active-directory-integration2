@@ -519,13 +519,19 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 				);
 			}
 
-			if ($this->isSmartCardRequired($uac)) {
-				throw new Exception(
-					sprintf(
-						__('The account of user "%s" requires a smart card for login.', 'next-active-directory-integration'),
-						$username
-					)
-				);
+			if ($this->isSmartCardRequired($uac) && !$this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ENABLE_SMARTCARD_USER_LOGIN)) {
+
+				//ADI-594 If user is already disabled there is no need to disable him again. This prevents -DISABLED getting attached multiple times
+				if (!$this->userManager->isDisabled($adiUser->getId())) {
+					throw new Exception(
+						sprintf(
+							__('The account of user "%s" requires a smart card for login.', 'next-active-directory-integration'),
+							$username
+						)
+					);
+				}
+
+				return false;
 			}
 		} catch (Exception $e) {
 			$this->logger->warn("Disable user '{$username}': " . $e->getMessage());
