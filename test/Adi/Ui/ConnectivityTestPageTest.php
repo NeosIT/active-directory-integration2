@@ -115,7 +115,8 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
                 'username' => 'Username:',
                 'password' => 'Password (will be shown):',
                 'tryAgain' => 'Try to authenticate again',
-                'tryAuthenticate' => 'Try to authenticate'
+                'tryAuthenticate' => 'Try to authenticate',
+				'showLogOutput' => 'Show log output',
             )
 		);
 

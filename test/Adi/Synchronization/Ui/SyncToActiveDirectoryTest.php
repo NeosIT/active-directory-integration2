@@ -158,7 +158,8 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest extends Ut_BasicTest
 					'userId' => 'User-ID: (optional)',
 					'repeatAction' => 'Repeat WordPress to Active Directory synchronization',
 					'startAction' => 'Start WordPress to Active Directory synchronization',
-					'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked. Also, a service account has to be provided.', 'next-active-directory-integration')
+					'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked. Also, a service account has to be provided.', 'next-active-directory-integration'),
+					'showLogOutput' => __('Show log output', 'next-active-directory-integration')
 				),
 				'domainSidSet' => 1,
 				'syncEnabled' => 1,
