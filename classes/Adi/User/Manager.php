@@ -219,7 +219,7 @@ class NextADInt_Adi_User_Manager
 			$this->checkDuplicateEmail($wpUserLogin, $email);
 
 			// create a new user and assign the id to the user object
-			$userId = $this->userRepository->create($user);
+			$userId = $this->userRepository->create($user, $email);
 			NextADInt_Core_Util_ExceptionUtil::handleWordPressErrorAsException($userId);
 			$user->setId($userId);
 
