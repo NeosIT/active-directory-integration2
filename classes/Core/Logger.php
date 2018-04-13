@@ -251,7 +251,10 @@ class NextADInt_Core_Logger
 	{
 		$handlers = NextADInt_Core_Logger::getHandlers();
 		$frontendHandler = NextADInt_Core_Logger::getFrontendHandler($handlers);
-		$frontendHandler->enable();
+
+		if (is_object($frontendHandler)) {
+            $frontendHandler->enable();
+        }
 	}
 
 	/**
@@ -261,7 +264,10 @@ class NextADInt_Core_Logger
 	{
 		$handlers = NextADInt_Core_Logger::getHandlers();
 		$frontendHandler = NextADInt_Core_Logger::getFrontendHandler($handlers);
-		$frontendHandler->disable();
+
+		if (is_object($frontendHandler)) {
+            $frontendHandler->disable();
+        }
 	}
 
 	/**
@@ -271,7 +277,12 @@ class NextADInt_Core_Logger
 	{
 		$handlers = NextADInt_Core_Logger::getHandlers();
 		$frontendHandler = NextADInt_Core_Logger::getFrontendHandler($handlers);
-		return $frontendHandler->getBufferedLog();
+
+		if (is_object($frontendHandler)) {
+            return $frontendHandler->getBufferedLog();
+        }
+
+        return null;
 	}
 
 	/**

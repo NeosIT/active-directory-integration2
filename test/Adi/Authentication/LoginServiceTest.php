@@ -998,7 +998,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username@test.ad");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
 
 		$this->configuration->expects($this->exactly(1))
@@ -1019,7 +1019,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$sut = $this->sut();
 		$this->mockFunction__();
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username@test.ad");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
 
 		$this->behave($this->configuration, 'getOptionValue', false);
@@ -1043,7 +1043,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$username = "USERNAME";
 
 		$roleMapping = new NextADInt_Adi_Role_Mapping($username);
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username@test.ad");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
 		$adiUser->setRoleMapping($roleMapping);
 
@@ -1070,7 +1070,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$suffix = "SUFFIX";
 
 		$roleMapping = new NextADInt_Adi_Role_Mapping($username);
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username@test.ad");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
 		$adiUser->setId(666);
 		$wpUser = new WP_User();
@@ -1103,7 +1103,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$suffix = "SUFFIX";
 
 		$roleMapping = new NextADInt_Adi_Role_Mapping($username);
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username@test.ad");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
 
 		$adiUser->setRoleMapping($roleMapping);

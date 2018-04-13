@@ -142,7 +142,10 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		}
 
 		$upn = $ldapAttributes->getFilteredValue('userprincipalname');
+		$samaccountname = $ldapAttributes->getFilteredValue('samaccountname');
 		$credentials = self::createCredentials($upn, '');
+        // ADI-620: make sure that the sAMAccountName is explicitly set as it does not have to correlate with the userPrincipalName
+		$credentials->setSAMAccountName($samaccountname);
 
 		return $credentials;
 	}
