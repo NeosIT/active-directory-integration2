@@ -266,55 +266,6 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	}
 
 	/**
-	 * @since ADI-295
-	 * @test
-	 */
-	public function postActivation_itRegistersShowLicensePurchaseInformation()
-	{
-		global $pagenow;
-		$pagenow = 'plugins.php';
-		$_REQUEST['activate'] = 'false';
-
-		$sut = $this->sut(array('dc'));
-		$dc = $this->mockDependencyContainer($sut);
-
-		WP_Mock::expectActionAdded('after_plugin_row_' . NEXT_AD_INT_PLUGIN_FILE,
-			array($sut, 'showLicensePurchaseInformation'),
-		99,2);
-
-		$sut->postActivation();
-	}
-
-	/**
-	 * @since ADI-295
-	 * @outputBuffering
-	 * @test
-	 */
-	public function showLicensePurchaseInformation_itShowsPurchaseInformation() {
-		WP_Mock::wpFunction('is_plugin_active', array(
-			'args'   => NEXT_AD_INT_PLUGIN_FILE,
-			'times'  => 1,
-			'return' => true));
-
-		$sut = $this->sut(array('dc'));
-		$this->mockFunctionEsc_html__();
-		$dc = $this->mockDependencyContainer($sut);
-
-		$fakeService = $this->createAnonymousMock(array('getOptionValue'));
-		$dc->expects($this->once())
-			->method('getConfigurationService')
-			->willReturn($fakeService);
-
-		$fakeService->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY)
-			->willReturn('');
-
-		$this->expectOutputRegex('/Please purchase/');
-		$sut->showLicensePurchaseInformation(null, null);
-	}
-
-	/**
 	 * @test
 	 */
 	public function run_itDoesNotProceed_ifNoMultisite()
