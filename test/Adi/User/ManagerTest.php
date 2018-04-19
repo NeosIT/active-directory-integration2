@@ -206,7 +206,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function createAdiUser_itMapsRoles()
 	{
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username@test.ad", "password");
 
 		$userGuid = 'e16d5d9c-xxxx-xxxx-9b8b-969fdf4b2702';
 
@@ -225,7 +225,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function createAdiUser_itFindsTheWordPressUser()
 	{
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username@test.ad", "password");
 		$sut = $this->sut(array('findByActiveDirectoryUsername'));
 
 		$wpUser = (object)array('ID' => 1, 'user_login' => 'username');
@@ -245,7 +245,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function createAdiUser_itCopiesCredentialValues()
 	{
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username@test.ad", "password");
 		$sut = $this->sut(array('findByUsername'));
 		$ldapAttributes = new NextADInt_Ldap_Attributes();
 
@@ -276,7 +276,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$wpUser->user_login = 'username';
 
 		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('samAccountName' => 'username'));
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username@test.ad", "password");
 
 		$this->userRepository->expects($this->once())
 			->method('findBySAMAccountName')
@@ -302,7 +302,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$wpUser->user_login = 'username';
 
 		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('samAccountName' => 'username'));
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username@test.ad", "password");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username@test.ad", "password");
 
 		$this->userRepository->expects($this->once())
 			->method('findBySAMAccountName')
@@ -933,7 +933,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 			'objectGUID' => 'guid',
 		);
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials('username');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('username');
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes(array(), $attributes));
 		$adiUser->setRoleMapping($roleMapping);
 		$adiUser->setId($userId);

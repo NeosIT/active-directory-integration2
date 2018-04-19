@@ -134,7 +134,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_Basi
 	 */
 	public function validateAuthenticationState_withoutFailedAuthentication_doesNotThrowException()
 	{
-		$credentials = new NextADInt_Adi_Authentication_Credentials('max@test.ad');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('max@test.ad');
 		$sut = $this->sut(array('getSessionHandler'));
 
 		$this->sessionHandler->expects($this->once())
@@ -152,7 +152,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_Basi
 	 */
 	public function validateAuthenticationState_withFailedAuthentication_throwsException()
 	{
-		$credentials = new NextADInt_Adi_Authentication_Credentials('max@test.ad');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('max@test.ad');
 		$sut = $this->sut(array('getSessionHandler'));
 
 		$this->expectAuthenticationException('User has already failed to authenticate. Stop retrying.');

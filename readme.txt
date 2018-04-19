@@ -2,7 +2,7 @@
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows
 Requires at least: 4.0
-Tested up to: 4.7.2
+Tested up to: 4.9.5
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -125,6 +125,10 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 == Changelog ==
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
+
+= 2.1.2 =
+* FIXED: NTLM authentication not working if samAccountName of a user does not match the part of the UPN in front of the suffix
+* REMOVED: NADI support license nag message on WordPress plug-in page
 
 = 2.1.1 =
 * ADD: Github#59 proxy address login (Special thanks to Github user *nedwidek* for contributing this functionality)

@@ -83,9 +83,6 @@ class NextADInt_Adi_Init
 	{
 		global $pagenow;
 
-		// show purchase support license information
-		add_action('after_plugin_row_' . NEXT_AD_INT_PLUGIN_FILE, array($this, 'showLicensePurchaseInformation'), 99, 2);
-
 		// do as few checks as possible
 		if (($pagenow == 'plugins.php') && isset($_REQUEST['activate']) && ($_REQUEST['activate'] == 'true')) {
 			// user views the 'plug-ins' page
@@ -95,29 +92,6 @@ class NextADInt_Adi_Init
 			}
 		}
 	}
-
-	/**
-	 * Show purchase support license information if license has not been already set
-	 *
-	 * @since ADI-295
-	 * @param string $file
-	 * @param mixed $pluginData
-	 */
-	public function showLicensePurchaseInformation($file, $pluginData)
-	{
-		if (is_plugin_active(NEXT_AD_INT_PLUGIN_FILE)) {
-			$configurationService = $this->dc()->getConfigurationService();
-			$licenseKey = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
-
-			if (empty($licenseKey)) {
-                $link = '<a href="https://www.active-directory-wp.com/" style="color: #fff; text-decoration: underline">https://www.active-directory-wp.com/</a>';
-                $text = esc_html__('Please purchase a valid Next Active Directory Integration support license from %s to support this plug-in.', 'next-active-directory-integration');
-                $text = sprintf($text, $link);
-				echo '<tr><td colspan="3" style="vertical-align: middle; background-color: #ef693e; color: #fff">' . $text . '</td>';
-			}
-		}
-	}
-
 
 	/**
 	 * This function will be executed when the plugin is deactivated.

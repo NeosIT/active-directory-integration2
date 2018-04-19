@@ -400,7 +400,7 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 		$adiUser = $this->createMock('NextADInt_Adi_User');
 
 		$this->behave($adiUser, 'getUserLogin', 'username');
-		$this->behave($adiUser, 'getCredentials', new NextADInt_Adi_Authentication_Credentials('username', 'password'));
+		$this->behave($adiUser, 'getCredentials', NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('username', 'password'));
 
 		WP_Mock::wpFunction('is_wp_error', array(
 			'args'   => array($wpError),
@@ -430,7 +430,7 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 		$adiUser = $this->createMock('NextADInt_Adi_User');
 
 		$this->behave($adiUser, 'getUserLogin', 'username');
-		$this->behave($adiUser, 'getCredentials', new NextADInt_Adi_Authentication_Credentials('username', 'password'));
+		$this->behave($adiUser, 'getCredentials', NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('username', 'password'));
 
 		WP_Mock::wpFunction('wp_create_user', array(
 			'args'   => array('username', 'password'),

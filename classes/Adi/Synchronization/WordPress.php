@@ -114,7 +114,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 			$failedSync = 0;
 
 			foreach ($users as $guid => $sAMAccountName) {
-				$credentials = new NextADInt_Adi_Authentication_Credentials($sAMAccountName);
+				$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($sAMAccountName);
 				$status = -1;
 
 				try {

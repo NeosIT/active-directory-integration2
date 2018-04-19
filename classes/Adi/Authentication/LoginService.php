@@ -267,7 +267,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 */
 	public static function createCredentials($login, $password)
 	{
-		return new NextADInt_Adi_Authentication_Credentials($login, $password);
+		return NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($login, $password);
 	}
 	
 	/**
