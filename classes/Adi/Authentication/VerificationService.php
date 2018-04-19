@@ -61,7 +61,7 @@ class NextADInt_Adi_Authentication_VerificationService
 
 		if ($isConnected) {
 			$attributeService = $this->getCustomAttributeService();
-			$objectSid = $attributeService->getObjectSid(new NextADInt_Adi_Authentication_Credentials($username));
+			$objectSid = $attributeService->getObjectSid(NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($username));
 
 			// ADI-412: There *should* be an objectSID as we now fall back from sAMAccountName to userPrincipalName
 			if (false === $objectSid) {

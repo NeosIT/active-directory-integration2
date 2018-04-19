@@ -39,7 +39,7 @@ class Ut_User_HelperTest extends Ut_BasicTest
 		$adiUser = $this->createMock('NextADInt_Adi_User');
 		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes(array(), $ldapAttributes));
 		$this->behave($adiUser, 'getId', 1);
-		$this->behave($adiUser, 'getCredentials', new NextADInt_Adi_Authentication_Credentials('username'));
+		$this->behave($adiUser, 'getCredentials', NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('username'));
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')

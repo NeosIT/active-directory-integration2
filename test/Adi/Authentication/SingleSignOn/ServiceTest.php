@@ -99,7 +99,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	public function createUpnCredentials_withCorrectCredentials_returnCredentialsWithUpn()
 	{
 		$expected = 'someusername@test.ad';
-		$credentials = new NextADInt_Adi_Authentication_Credentials('someUsername', 'somePassword');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('someUsername', 'somePassword');
 		$ldapAttributes = new NextADInt_Ldap_Attributes(array('userprincipalname' => 'someUsername'), array('userprincipalname' => $expected));
 
 		$sut = $this->sut();
@@ -119,7 +119,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	 */
 	public function createUpnCredentials_withWrongCredentials_throwsException()
 	{
-		$credentials = new NextADInt_Adi_Authentication_Credentials('testUser', 'somePassword');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('testUser', 'somePassword');
 		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array());
 
 		$sut = $this->sut();
@@ -702,7 +702,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	public function authenticate_whenAuthenticationWithUpn_itReturnsTrue()
 	{
 		$username = 'username@company.local';
-		$credentials = new NextADInt_Adi_Authentication_Credentials($username, '');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($username, '');
 		$profile = 1;
 		$user = new WP_User(1, $username, 1);
 
@@ -779,7 +779,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	public function authenticate_whenAuthenticationWithNetbiosAndSamaccountName_itReturnsTrue()
 	{
 		$username = 'netbios\samaccountname';
-		$credentials = new NextADInt_Adi_Authentication_Credentials($username, '');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($username, '');
 		$profile = 1;
 		$user = new WP_User(1, $username, 1);
 
@@ -828,7 +828,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 			->with($credentials->getUpnSuffix())
 			->willReturn($credentials->getUpnSuffix());
 
-		$newCredentials = new NextADInt_Adi_Authentication_Credentials('samaccountname');
+		$newCredentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('samaccountname');
 
 		$sut->expects($this->once())
 			->method('tryAuthenticatableSuffixes')
@@ -1045,7 +1045,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	 */
 	public function kerberosAuth_withCorrectCredentials_returnsValid()
 	{
-		$credentials = new NextADInt_Adi_Authentication_Credentials('someUsername@test.ad', 'somePassword');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('someUsername@test.ad', 'somePassword');
 		$validator = new NextADInt_Adi_Authentication_SingleSignOn_Validator();
 		$profile = array();
 
@@ -1071,8 +1071,8 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	 */
 	public function kerberosAuth_withCorrectCredentials_withoutUpnSuffix_returnsValid()
 	{
-		$credentials = new NextADInt_Adi_Authentication_Credentials('someUsername', 'somePassword');
-		$credentials_withUpn = new NextADInt_Adi_Authentication_Credentials('someUsername', 'somePassword');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('someUsername', 'somePassword');
+		$credentials_withUpn = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('someUsername', 'somePassword');
 		$credentials_withUpn->setUpnSuffix('@test.ad');
 		$validator = new NextADInt_Adi_Authentication_SingleSignOn_Validator();
 		$profile = array();
@@ -1100,8 +1100,8 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	 */
 	public function ntlmAuth_withCorrectCredentials_returnsValid()
 	{
-		$credentials = new NextADInt_Adi_Authentication_Credentials('TEST\someUsername', 'somePassword');
-		$credentials_withUpn = new NextADInt_Adi_Authentication_Credentials('someUsername', 'somePassword');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('TEST\someUsername', 'somePassword');
+		$credentials_withUpn = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('someUsername', 'somePassword');
 		$credentials_withUpn->setUpnSuffix('@test.ad');
 		$validator = new NextADInt_Adi_Authentication_SingleSignOn_Validator();
 		$profile = array();
@@ -1130,8 +1130,8 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	public function ntlmAuth_withCorrectCredentials_noProfileFount_throwsException()
 	{
 		$netBIOSname = 'TEST';
-		$credentials = new NextADInt_Adi_Authentication_Credentials($netBIOSname . '\someUsername', 'somePassword');
-		$credentials_withUpn = new NextADInt_Adi_Authentication_Credentials('someUsername', 'somePassword');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($netBIOSname . '\someUsername', 'somePassword');
+		$credentials_withUpn = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('someUsername', 'somePassword');
 		$credentials_withUpn->setUpnSuffix('@test.ad');
 		$validator = new NextADInt_Adi_Authentication_SingleSignOn_Validator();
 

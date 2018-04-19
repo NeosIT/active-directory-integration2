@@ -8,7 +8,8 @@ if (class_exists('NextADInt_Adi_Authentication_Credentials')) {
 }
 
 /**
- * NextADInt_Adi_Authentication_Credentials encapsulates login credentials
+ * NextADInt_Adi_Authentication_Credentials encapsulates login credentials.
+ * This class is mutable so parts of the credentials can be updated due to AD/LDAP lookups.
  *
  * @author  Christopher Klein <ckl@neos-it.de>
  * @access public
@@ -39,7 +40,7 @@ class NextADInt_Adi_Authentication_Credentials
 	/**
 	 * NextADInt_Adi_Authentication_Credentials constructor.
 	 *
-	 * @param string $login Login in form 'username' (sAMAccountName) or 'username@domain' (userPrincipalName)
+	 * @param string $login Login in form 'username' (sAMAccountName), 'username@domain' (userPrincipalName) or 'NETBIOS\sAMAccountName'
 	 * @param string $password
 	 *
 	 * @throws Exception
@@ -52,70 +53,10 @@ class NextADInt_Adi_Authentication_Credentials
 	}
 
 	/**
-	 * Set login credential, extract sAMAccountName, NETBIOS name, userPrincipalName and UPN suffix
-	 *
-	 * @param string $login
-	 *
-	 * @throws Exception if login is empty
+	 * @param $login
 	 */
-	public function setLogin($login)
-	{
-		$login = NextADInt_Core_Util_StringUtil::toLowerCase(trim($login));
+	public function setLogin($login) {
 		$this->login = $login;
-
-		$this->setUserPrincipalName($login);
-		$this->setNetbiosName($login);
-		$this->setSAMAccountName($this->getUpnUsername());
-	}
-
-	/**
-	 * Update the NETBIOS name of the $login name. If available, the NETBIOS name is converted to upper case.
-	 *
-	 * @param $login should contain '\' to separate the NETBIOS name from the sAMAccountName
-	 */
-	public function setNetbiosName($login)
-	{
-		$parts = explode("\\", $login);
-		if (sizeof($parts) >= 2) {
-
-			// ADI-564 | Github Issue#44 check if the username has claims prefixed, then the REMOTE_USER looks like this 0#.w|domain\username
-			$parts_claims = explode("|", $parts[0]);
-			if (sizeof($parts_claims) >= 2) {
-				$this->logger->info("Claim detected. Removing claim from netBiosName.");
-				$this->netbiosName = strtoupper($parts_claims[1]);
-				$this->logger->info("NetBiosName is now set to '" . $this->netbiosName . "'.");
-			} else {
-				$this->netbiosName = strtoupper($parts[0]);
-			}
-		}
-	}
-
-	/**
-	 * Set the user principal name.
-	 *
-	 * @param $userPrincipalName If this string contains an '@' character the first part is set as userPrincipalName, the second as upnSuffix.
-	 * @throws Exception
-	 */
-	public function setUserPrincipalName($userPrincipalName)
-	{
-		NextADInt_Core_Assert::notEmpty($userPrincipalName, "userPrincipalName must not be empty");
-		$userPrincipalName = NextADInt_Core_Util_StringUtil::toLowerCase(trim($userPrincipalName));
-
-		$parts = explode('@', $userPrincipalName);
-
-		if (sizeof($parts) >= 2) {
-			$this->upnUsername = $parts[0];
-			$this->upnSuffix = $parts[1];
-
-			return;
-		}
-
-		$this->upnUsername = $userPrincipalName;
-		$parts = explode("\\", $userPrincipalName);
-
-		if (sizeof($parts) >= 2) {
-			$this->upnUsername = $parts[1];
-		}
 	}
 
 	/**
@@ -165,6 +106,19 @@ class NextADInt_Adi_Authentication_Credentials
 	}
 
 	/**
+	 * Set the user principal name
+	 * @param $userPrincipalName
+	 */
+	public function setUserPrincipalName($userPrincipalName) {
+		$parts = explode("@", $userPrincipalName);
+
+		if ($parts >= 2) {
+			$this->upnUsername = $parts[0];
+			$this->upnSuffix = $parts[1];
+		}
+	}
+
+	/**
 	 * Update password
 	 *
 	 * @param $password
@@ -182,6 +136,14 @@ class NextADInt_Adi_Authentication_Credentials
 		return $this->password;
 	}
 
+
+	/**
+	 * @param string|null
+	 */
+	public function setNetbiosName($netbiosName)
+	{
+		$this->netbiosName = $netbiosName;
+	}
 
 	/**
 	 * @return string|null if NETBIOS name is available it is returned in upper case
@@ -206,13 +168,6 @@ class NextADInt_Adi_Authentication_Credentials
 	public function setSAMAccountName($sAMAccountName)
 	{
 		$this->sAMAccountName = $sAMAccountName;
-
-		// split the sAMAcountName from the logon name
-		$parts = explode('\\', $sAMAccountName);
-
-		if ($parts >= 2) {
-			$this->sAMAccountName = array_pop($parts);
-		}
 	}
 
 	/**

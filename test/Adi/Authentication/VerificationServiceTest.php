@@ -92,7 +92,7 @@ class Ut_NextADInt_Adi_Authentication_VerificationServiceTest extends Ut_BasicTe
 		
 		$this->attributeService->expects($this->once())
 			->method('getObjectSid')
-			->with(new NextADInt_Adi_Authentication_Credentials($data['verification_username']))
+			->with(NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($data['verification_username']))
 			->willReturn("1234");
 		
 		$sut->findActiveDirectoryDomainSid($data);
