@@ -664,17 +664,17 @@ class NextADInt_Adi_Authentication_LoginService
 		$autoUpdateUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER);
 		$autoUpdatePassword = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD);
 
+		// ADI-474: Update the password if the respective option is enabled
+		if ($autoUpdatePassword) {
+			$this->userManager->updatePassword($user);
+		}
+
 		// ADI-116: The behavior changed with 2.0.x and has been agreed with CST on 2016-03-02.
 		// In 1.0.x users were only updated if the options "Auto Create User" AND "Auto Update User" had been enabled.
 		// With 2.0.x the option "Auto Update User" is only responsible for that.
 		if ($autoUpdateUser) {
 			// updateWordPressAccount already delegates to role update and updating of sAMAccountName
 			return $this->userManager->update($user);
-		}
-
-		// ADI-474: Update the password if the respective option is enabled
-		if ($autoUpdatePassword) {
-			$this->userManager->updatePassword($user);
 		}
 
 		// in any case the sAMAccountName has to be updated
