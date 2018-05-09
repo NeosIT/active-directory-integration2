@@ -416,42 +416,53 @@ class NextADInt_Ldap_Connection
 	 * Custom debug method for information to prevent output of long binary data
 	 *
 	 * @issue ADI-420
+	 * @issue ADI-628 refactored methode since each() is flagged deprecated with PHP 7.2.5
 	 * @param array $userInfo in adLDAP format
 	 * @return string
 	 */
 	public function __debug($userInfo = array()) {
-		$r = '';
+		$result = "";
 		$maxOutputChars = 32;
 
-		while (list($idxOrAttribute, $value) = each($userInfo)) {
-			if (!is_numeric($idxOrAttribute)) {
+		foreach ($userInfo as $key => $attribute) {
+			if (!is_numeric($key)) {
 				continue;
 			}
 
-			// only match the "[0] => cn" parts
-			$r .= "$value={";
-			$data = $userInfo[$value];
+			$result .= "$attribute={";
+			$data = $userInfo[$attribute];
 
-			// $data = [count => 1, 0 => 'my cn']
-			while (list($idxOfAttribute, $valueOfAttribute) = each($data)) {
-				if (!is_numeric($idxOfAttribute)) {
+			foreach ($data as $index => $element) {
+				if (!is_numeric($index)) {
 					continue;
 				}
 
 				// remove any linebreaks or carriagereturns from the attributes
-                $valueOfAttribute = preg_replace("/\r\n|\r|\n/",'',$valueOfAttribute);
-				$r .=  NextADInt_Core_Util_StringUtil::firstChars($valueOfAttribute, 500);
+				$element = preg_replace("/\r\n|\r|\n/",'',$element);
+
+				if ($attribute === "objectguid") {
+					try {
+						$element = NextADInt_Core_Util_StringUtil::binaryToGuid($element);
+					} catch (Exception $exception) {
+						$this->logger->error("An exception occurred trying to convert binary to GUID. Exception: " . $exception->getMessage());
+					}
+
+				}
+
+				$result .=  NextADInt_Core_Util_StringUtil::firstChars($element, 500);
+
 			}
 
-			$r .= "}, ";
+			$result .= "}, ";
+
 		}
 
-		if (strlen($r) > 0) {
+		if (strlen($result) > 0) {
 			// remove last ", " part if given
-			$r = substr($r, 0, -2);
+			$result = substr($result, 0, -2);
 		}
 
-		return $r;
+		return $result;
 	}
 
 	/**
