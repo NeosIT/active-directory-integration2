@@ -234,9 +234,9 @@ class NextADInt_Adi_User_Persistence_Repository
 	 *
 	 * @throws NextADInt_Core_Exception_WordPressErrorException
 	 */
-	public function create(NextADInt_Adi_User $user)
+	public function create(NextADInt_Adi_User $user, $email)
 	{
-		$result = wp_create_user($user->getUserLogin(), $user->getCredentials()->getPassword());
+		$result = wp_create_user($user->getUserLogin(), $user->getCredentials()->getPassword(), $email);
 
 		if (is_wp_error($result)) {
 			// log error
