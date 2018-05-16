@@ -188,16 +188,11 @@ class NextADInt_Adi_Init
 			$this->registerSsoHooks();
 		}
 
-		if ($this->isOnLoginPage()) {
-			$this->registerLoginHooks();
-
-			// further hooks must not be executed
-			return false;
-		}
-
 		$currentUserId = wp_get_current_user()->ID;
 
 		if (!$currentUserId) {
+			$this->registerLoginHooks();
+			
 			// the current user is not logged in so further hooks must not be processed
 			return false;
 		}
