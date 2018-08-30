@@ -191,7 +191,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 
 		wp_enqueue_script('next_ad_int_app_module', NEXT_AD_INT_URL . '/js/app/app.module.js', array(),
 			NextADInt_Multisite_Ui::VERSION_PAGE_JS);
-		wp_enqueue_script('next_ad_int_app_config', NEXT_AD_INT_URL . '/js/app/app.config.js', array(),
+		wp_enqueue_script('next_ad_int_app_config', NEXT_AD_INT_URL . '/js/app/app.nadi.js', array(),
 			NextADInt_Multisite_Ui::VERSION_PAGE_JS);
 
 		// add the service js files

@@ -245,7 +245,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_config',
-					NEXT_AD_INT_URL . '/js/app/app.config.js',
+					NEXT_AD_INT_URL . '/js/app/app.nadi.js',
 					array(),
                     NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -382,7 +382,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_password',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/password.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/credential.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
