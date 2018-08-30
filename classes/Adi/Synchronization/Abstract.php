@@ -126,6 +126,8 @@ abstract class NextADInt_Adi_Synchronization_Abstract
 			if ($this->isVerifiedDomainMember($userDomainSid)) {
 				$wpUsername = $user->user_login;
 				$r[NextADInt_Core_Util_StringUtil::toLowerCase($guid)] = $wpUsername;
+			} else {
+				$this->logger->warning('User with name ' . $user->user_login . 'is not a member of the target domain.');
 			}
 		}
 
