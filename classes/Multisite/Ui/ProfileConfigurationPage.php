@@ -198,7 +198,7 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
 			'/js/app/profile-options/controllers/user.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
 		wp_enqueue_script('next_ad_int_profile_options_controller_password', NEXT_AD_INT_URL .
-			'/js/app/profile-options/controllers/password.controller.js',
+			'/js/app/profile-options/controllers/credential.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
 		wp_enqueue_script('next_ad_int_profile_options_controller_permission', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/permission.controller.js',

@@ -180,7 +180,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		);
 		wp_enqueue_script(
 			'next_ad_int_blog_options_controller_password', NEXT_AD_INT_URL .
-			'/js/app/blog-options/controllers/password.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
+			'/js/app/blog-options/controllers/credential.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
 			'next_ad_int_blog_options_controller_permission', NEXT_AD_INT_URL .
@@ -242,7 +242,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		);
 
 		wp_enqueue_script('next_ad_int_app_module', NEXT_AD_INT_URL . '/js/app/app.module.js', array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS);
-		wp_enqueue_script('next_ad_int_app_config', NEXT_AD_INT_URL . '/js/app/app.config.js', array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS);
+		wp_enqueue_script('next_ad_int_app_config', NEXT_AD_INT_URL . '/js/app/app.nadi.js', array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS);
 
 		// add the service js files
 		wp_enqueue_script(
