@@ -479,7 +479,9 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	protected function loginUser($user, $exit = true)
 	{
 		// ADI-418: Accessing un-protected URLs directly with SSO enabled redirect does not work
-		$redirectTo = (isset($_SERVER['REDIRECT_URL']) && !empty($_SERVER['REDIRECT_URL'])) ? $_SERVER['REDIRECT_URL'] : null;
+//		$redirectTo = (isset($_SERVER['REDIRECT_URL']) && !empty($_SERVER['REDIRECT_URL'])) ? $_SERVER['REDIRECT_URL'] : null; TODO remove after dicussing this change with @CKL
+		// ADI-644
+		$redirectTo = (isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : null;
 		// default redirect if WordPress forces itself a login, e.g. when accessing /wp-admin
 		$redirectTo = (!empty($_REQUEST['redirect_to'])) ? $_REQUEST['redirect_to'] : $redirectTo;
 		// if not set, fall back to the home url
