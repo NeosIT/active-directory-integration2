@@ -32,6 +32,11 @@ class NextADInt_Ldap_Attribute
 	private $viewable;
 
 	/**
+	 * @var bool
+	 */
+	private $overwriteWithEmpty;
+
+	/**
 	 * Get the type of the attribute like string, bool, list etc.
 	 *
 	 * @return mixed
@@ -131,7 +136,23 @@ class NextADInt_Ldap_Attribute
 		$this->viewable = $viewable;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function isOverwriteWithEmpty()
+	{
+		return $this->overwriteWithEmpty;
+	}
+
+	/**
+	 * @param bool $overwriteWithEmpty
+	 */
+	public function setOverwriteWithEmpty($overwriteWithEmpty)
+	{
+		$this->overwriteWithEmpty = $overwriteWithEmpty === 'true'? true: false;
+	}
+
 	public function __toString() {
-		return "Attribute " . $this->metakey . "={type='" . $this->type . "', syncable='" . $this->syncable . "', viewable='" .  $this->viewable . "}";
+		return "Attribute " . $this->metakey . "={type='" . $this->type . "', syncable='" . $this->syncable . "', viewable='" .  $this->viewable . "', overwriteWithEmpty='" . $this->overwriteWithEmpty ."}";
 	}
 }
