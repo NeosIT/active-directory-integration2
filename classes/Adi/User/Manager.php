@@ -532,7 +532,7 @@ class NextADInt_Adi_User_Manager
 				$value = NextADInt_Ldap_Attribute_Converter::formatAttributeValue($attribute->getType(), $value);
 				$value = trim($value);
 
-				if (empty($value)  && !$attribute->isOverwriteWithEmpty()) {
+				if (empty($value) && !$attribute->isOverwriteWithEmpty()) {
 					$message = "AD attribute '$name'' is empty. Local value '" . $attribute . "' left unchanged.";
 					$host->getLogger()->debug($message);
 

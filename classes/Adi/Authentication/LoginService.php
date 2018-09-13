@@ -477,7 +477,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @return bool
 	 * @throws Exception
 	 */
-	protected function isUserAuthorized($userGuid)
+	function isUserAuthorized($userGuid)
 	{
 		// create role mapping with user's GUID
 		$roleMapping = $this->roleManager->createRoleMapping($userGuid);

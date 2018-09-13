@@ -69,10 +69,9 @@ class NextADInt_Adi_Cron_UrlTrigger
 		// NADI-636 return json to prevent user being redirected to wp-login.php
 		if($success) {
             wp_send_json(array('success' => true));
-        }
-
-        wp_send_json(array('success' => false, 'message' => 'Please refer to your NADI log file'), 500);
-
+		} else {
+			wp_send_json(array('success' => false, 'message' => 'Please refer to your NADI log file'), 500);
+		}
 	}
 
     /**
