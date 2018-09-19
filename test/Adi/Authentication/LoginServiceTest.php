@@ -443,26 +443,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->with($username, $suffix, $password)
 			->willReturn(true);
 
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP)
-			->willReturn(true);
-
-		$this->roleManager->expects($this->once())
-			->method('createRoleMapping')
-			->with($userGuid)
-			->willReturn($roleMapping);
-
-		$this->roleManager->expects($this->once())
-			->method('isInAuthorizationGroup')
-			->with($roleMapping)
-			->willReturn(true);
-
-		$this->attributeService->expects($this->once())
-			->method('findLdapAttributesOfUsername')
-			->with($username)
-			->willReturn($attributes);
-
 		$actual = $sut->authenticateAtActiveDirectory($username, $suffix, $password);
 		$this->assertTrue($actual);
 	}
