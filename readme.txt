@@ -130,6 +130,8 @@ For detailed information you can visit the official [GitHub repository of Active
 * ADD: added message on the profile configuration page to inform customers about end of PHP version <7.1 support
 * ADD: json response for "Sync to WordPress" triggered via powershell
 * ADD: improved logging in within the Connection.php class
+* ADD: missing German translations
+* ADD: PHP_AUTH_USER to SSO username variables
 * FIXED: app.config and password.controller.config being flagged by customer firewalls / security plugins which resulted in them not being loaded properly (renamed them)
 * FIXED: redirect to target site not working properly after being authenticated via NADI SSO
 * FIXED: isUserAuthorized() not working properly with UPNs
