@@ -198,6 +198,14 @@
     display: inline-block;
 }
 
+.adi-important-message {
+    color: #fff;
+    background-color: #d73b34;
+    padding: 3px 10px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
 div .no-padding-left {
     padding-left: 0;
 }

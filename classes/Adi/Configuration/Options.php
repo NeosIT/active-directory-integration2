@@ -1011,7 +1011,8 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$elements          => array(
 					NextADInt_Adi_Authentication_SingleSignOn_Variable::REMOTE_USER   => NextADInt_Adi_Authentication_SingleSignOn_Variable::REMOTE_USER,
 					NextADInt_Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER => NextADInt_Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER,
-                    NextADInt_Adi_Authentication_SingleSignOn_Variable::HTTP_X_REMOTE_USER => NextADInt_Adi_Authentication_SingleSignOn_Variable::HTTP_X_REMOTE_USER
+                    NextADInt_Adi_Authentication_SingleSignOn_Variable::HTTP_X_REMOTE_USER => NextADInt_Adi_Authentication_SingleSignOn_Variable::HTTP_X_REMOTE_USER,
+					NextADInt_Adi_Authentication_SingleSignOn_Variable::PHP_AUTH_USER => NextADInt_Adi_Authentication_SingleSignOn_Variable::PHP_AUTH_USER
 				),
 				$description       => __(
 					'The PHP server variable which is used by the web server to retrieve the current user.',

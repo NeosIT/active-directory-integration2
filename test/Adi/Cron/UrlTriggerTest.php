@@ -62,7 +62,7 @@ class Ut_Cron_UrlTriggerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function httpRequestEntryPoint_storeValuesInPost_delegateWithPostValues()
+	public function httpRequestEntryPoint_storeValuesInPost_delegateWithPostValues_returnJsonSuccessTrue()
 	{
 		$sut = $this->sut(array('processHttpRequest'));
 
@@ -70,7 +70,35 @@ class Ut_Cron_UrlTriggerTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('processHttpRequest')
-			->with($_POST);
+			->with($_POST)
+			->willReturn(true);
+
+		wp_mock::userFunction('wp_send_json', array(
+			'times'  => 1,
+			'args' => array(array('success' => true))
+		));
+
+		$sut->httpRequestEntryPoint();
+	}
+
+	/**
+	 * @test
+	 */
+	public function httpRequestEntryPoint_storeValuesInPost_delegateWithPostValues_returnJsonSuccessFalse()
+	{
+		$sut = $this->sut(array('processHttpRequest'));
+
+		$_POST = array('key' => 'value');
+
+		$sut->expects($this->once())
+			->method('processHttpRequest')
+			->with($_POST)
+			->willReturn(false);
+
+		wp_mock::userFunction('wp_send_json', array(
+			'times'  => 1,
+			'args' => array(array('success' => false, 'message' => 'Please refer to your NADI log file'), 500)
+		));
 
 		$sut->httpRequestEntryPoint();
 	}

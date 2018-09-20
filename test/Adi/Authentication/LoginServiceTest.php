@@ -413,64 +413,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function authenticateAtActiveDirectory_itReturnsFalse_whenUserIsNotInAuthorizationGroup()
-	{
-		$sut = $this->sut(array('bruteForceProtection', 'refreshBruteForceProtectionStatusForUser'));
-
-		$username = 'testUser';
-		$suffix = "@company.it";
-		$password = "1234";
-		$userGuid = 'e16d5d9c-xxxx-xxxx-9b8b-969fdf4b2702';
-
-		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
-
-		$attributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => $userGuid));
-
-		$this->ldapConnection->expects($this->exactly(1))
-			->method('checkPorts')
-			->willReturn(true);
-
-		$this->ldapConnection->expects($this->once())
-			->method('connect')
-			->with(new NextADInt_Ldap_ConnectionDetails())
-			->willReturn(true);
-
-		$this->ldapConnection->expects($this->once())
-			->method('authenticate')
-			->with($username, $suffix, $password)
-			->willReturn(true);
-
-		$sut->expects($this->exactly(2) /* before and after authentication */)
-			->method('bruteForceProtection')
-			->with($username);
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP)
-			->willReturn(true);
-
-		$this->roleManager->expects($this->once())
-			->method('createRoleMapping')
-			->with($userGuid)
-			->willReturn($roleMapping);
-
-		$this->roleManager->expects($this->once())
-			->method('isInAuthorizationGroup')
-			->with($roleMapping)
-			->willReturn(false);
-
-		$this->attributeService->expects($this->once())
-			->method('findLdapAttributesOfUsername')
-			->with($username)
-			->willReturn($attributes);
-
-		$returnedValue = $sut->authenticateAtActiveDirectory($username, $suffix, $password);
-		$this->assertFalse($returnedValue);
-	}
-
-	/**
-	 * @test
-	 */
 	public function authenticateAtActiveDirectory_itReturnsTrue_whenAuthenticationSucceeds()
 	{
 		$sut = $this->sut(array('bruteForceProtection', 'refreshBruteForceProtectionStatusForUser'));
@@ -500,26 +442,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->method('authenticate')
 			->with($username, $suffix, $password)
 			->willReturn(true);
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP)
-			->willReturn(true);
-
-		$this->roleManager->expects($this->once())
-			->method('createRoleMapping')
-			->with($userGuid)
-			->willReturn($roleMapping);
-
-		$this->roleManager->expects($this->once())
-			->method('isInAuthorizationGroup')
-			->with($roleMapping)
-			->willReturn(true);
-
-		$this->attributeService->expects($this->once())
-			->method('findLdapAttributesOfUsername')
-			->with($username)
-			->willReturn($attributes);
 
 		$actual = $sut->authenticateAtActiveDirectory($username, $suffix, $password);
 		$this->assertTrue($actual);
@@ -777,11 +699,12 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	 */
 	public function postAuthentication_itReturnsFalse_whenUserIsDisabled()
 	{
-		$sut = $this->sut(array('createOrUpdateUser'));
+		$sut = $this->sut(array('createOrUpdateUser', 'isUserAuthorized'));
 
 		$credentials = NextADInt_Adi_Authentication_LoginService::createCredentials('username', 'password');
 
 		$wpUser = (object)(array('ID' => 666));
+
 		$sut->expects($this->once())
 			->method('createOrUpdateUser')
 			->with($credentials)
@@ -790,6 +713,23 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$this->userManager->expects($this->once())
 			->method('isDisabled')
 			->with(666)
+			->willReturn(true);
+
+		// NADI 2.1.3 removed 'with' std object check due is_wp_error mock method did not accept this parameter
+		wp_mock::userFunction('is_wp_error', array(
+			'times'  => 1,
+			'returns' => false,
+		));
+
+		wp_mock::userFunction('get_user_meta', array(
+			'times' => 1,
+			'args' => array(666, 'next_ad_int_objectguid', true),
+			'return' => 123,
+		));
+
+		$sut->expects($this->once())
+			->method('isUserAuthorized')
+			->with(123)
 			->willReturn(true);
 
 		$this->assertEquals(false, $sut->postAuthentication($credentials));

@@ -29,7 +29,8 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_VariableTest extends Ut_Basic
 		$expected = array(
 			NextADInt_Adi_Authentication_SingleSignOn_Variable::REMOTE_USER,
 			NextADInt_Adi_Authentication_SingleSignOn_Variable::X_REMOTE_USER,
-            NextADInt_Adi_Authentication_SingleSignOn_Variable::HTTP_X_REMOTE_USER
+            NextADInt_Adi_Authentication_SingleSignOn_Variable::HTTP_X_REMOTE_USER,
+			NextADInt_Adi_Authentication_SingleSignOn_Variable::PHP_AUTH_USER
 		);
 
 		$actual = NextADInt_Adi_Authentication_SingleSignOn_Variable::getValues();

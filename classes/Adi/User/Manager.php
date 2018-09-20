@@ -451,8 +451,7 @@ class NextADInt_Adi_User_Manager
 		$filteredAttributes = $this->filterDisallowedAttributes($ldapAttributes, $attributeWhiteList);
 		$filteredAttributes = $this->filterEmptyAttributes(
 			$filteredAttributes,
-			$attributeWhiteList,
-			$userMetaEmptyOverwrite
+			$attributeWhiteList
 		);
 
 		// iterate over all userAttributeValues
@@ -519,13 +518,13 @@ class NextADInt_Adi_User_Manager
 	 *
 	 * @return array
 	 */
-	protected function filterEmptyAttributes($ldapAttributes, $whitelist, $userMetaEmptyOverwrite)
+	protected function filterEmptyAttributes($ldapAttributes, $whitelist)
 	{
 		// workaround: $this in closures are only allowed as of PHP 5.4
 		$host = &$this;
 
 		return NextADInt_Core_Util_ArrayUtil::filter(
-			function ($value, $name) use ($whitelist, $userMetaEmptyOverwrite, $host) {
+			function ($value, $name) use ($whitelist, $host) {
 				/* @var $attribute NextADInt_Ldap_Attribute */
 				$attribute = NextADInt_Core_Util_ArrayUtil::get($name, $whitelist, false);
 
@@ -533,7 +532,7 @@ class NextADInt_Adi_User_Manager
 				$value = NextADInt_Ldap_Attribute_Converter::formatAttributeValue($attribute->getType(), $value);
 				$value = trim($value);
 
-				if (empty($value) && !$userMetaEmptyOverwrite) {
+				if (empty($value) && !$attribute->isOverwriteWithEmpty()) {
 					$message = "AD attribute '$name'' is empty. Local value '" . $attribute . "' left unchanged.";
 					$host->getLogger()->debug($message);
 

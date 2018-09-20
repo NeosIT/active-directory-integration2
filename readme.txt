@@ -2,7 +2,7 @@
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows
 Requires at least: 4.0
-Tested up to: 4.9.5
+Tested up to: 4.9.8
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -125,6 +125,18 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 == Changelog ==
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
+
+= 2.1.3 =
+* ADD: added message on the profile configuration page to inform customers about end of PHP version <7.1 support
+* ADD: json response for "Sync to WordPress" triggered via powershell
+* ADD: improved logging in within the Connection.php class
+* ADD: missing German translations
+* ADD: PHP_AUTH_USER to SSO username variables
+* FIXED: app.config and password.controller.config being flagged by customer firewalls / security plugins which resulted in them not being loaded properly (renamed them)
+* FIXED: redirect to target site not working properly after being authenticated via NADI SSO
+* FIXED: isUserAuthorized() not working properly with UPNs
+* FIXED: "Set local Password" not working if "Automatic user update" was enabled at the same time
+* FIXED: "Overwrite with empty value" not working anymore
 
 = 2.1.2 =
 * FIXED: NTLM authentication not working if samAccountName of a user does not match the part of the UPN in front of the suffix

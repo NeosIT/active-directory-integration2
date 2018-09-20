@@ -23,12 +23,15 @@ class NextADInt_Adi_Authentication_SingleSignOn_Variable
     // ADI-389 see github issue#29
     const HTTP_X_REMOTE_USER = 'HTTP_X_REMOTE_USER';
 
+    const PHP_AUTH_USER = 'PHP_AUTH_USER';
+
 	public static function getValues()
 	{
 		return array(
 			self::REMOTE_USER,
 			self::X_REMOTE_USER,
-            self::HTTP_X_REMOTE_USER
+            self::HTTP_X_REMOTE_USER,
+			self::PHP_AUTH_USER
 		);
 	}
 }
