@@ -704,6 +704,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$credentials = NextADInt_Adi_Authentication_LoginService::createCredentials('username', 'password');
 
 		$wpUser = (object)(array('ID' => 666));
+
 		$sut->expects($this->once())
 			->method('createOrUpdateUser')
 			->with($credentials)
@@ -714,18 +715,17 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->with(666)
 			->willReturn(true);
 
+		// NADI 2.1.3 removed 'with' std object check due is_wp_error mock method did not accept this parameter
 		wp_mock::userFunction('is_wp_error', array(
 			'times'  => 1,
-			'args' => $wpUser,
-			'return' => false,
+			'returns' => false,
 		));
 
 		wp_mock::userFunction('get_user_meta', array(
-			'times'  => 1,
+			'times' => 1,
 			'args' => array(666, 'next_ad_int_objectguid', true),
 			'return' => 123,
 		));
-
 
 		$sut->expects($this->once())
 			->method('isUserAuthorized')
