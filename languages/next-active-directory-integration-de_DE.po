@@ -2,17 +2,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-22 16:49+0000\n"
-"PO-Revision-Date: 2018-01-22 16:50+0000\n"
-"Last-Translator: admin <sfi@neos-it.de>\n"
-"Language-Team: German\n"
-"Language: de-DE\n"
+"POT-Creation-Date: 2018-09-20 07:20+0000\n"
+"PO-Revision-Date: 2018-09-20 07:44+0000\n"
+"Last-Translator: root <a@b.ad>\n"
+"Language-Team: Deutsch\n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Loco-Source-Locale: de_DE\n"
-"X-Generator: Loco - https://localise.biz/\n"
+"X-Generator: Loco https://localise.biz/\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -22,26 +22,19 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: vendor"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:110
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:122
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:89
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:88
-msgid "Show log output"
-msgstr "Log-Ausgabe anzeigen"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Init.php:114
-#, php-format
+#: classes/Adi/Authentication/LoginService.php:108
 msgid ""
-"Please purchase a valid Next Active Directory Integration support license "
-"from %s to support this plug-in."
+"Lost Password feature has been disabled by the \"Next Active Directory "
+"Integration\" plugin."
 msgstr ""
-"Bitte kaufe eine gültige Next Active Directory Integration Support Lizenz "
-"von %s, um das Plugin zu unterstützen."
+"Die \"Password vergessen?\" Funktion wurde durch das \"Next Active Directory "
+"Integration\" Plugin deaktiviert."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/ImportService.php:101
+#: classes/Adi/Authentication/LoginService.php:181
+msgid "Next ADI prevents XML RPC authentication!"
+msgstr "NADI verhindert die Authenifizierung über die XML RPC Schnittstelle."
+
+#: classes/Adi/Configuration/ImportService.php:101
 msgid ""
 "You are running inside a Multisite network installation. This requires you "
 "to add a new NADI profile or edit the default NADI profile."
@@ -49,7 +42,7 @@ msgstr ""
 "Sie nutzen eine WordPress Multisite Installation. Es wird vorausgesetzt, "
 "dass Sie ein neues NADI Profil anlegen oder das Standartprofil bearbeiten."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/ImportService.php:105
+#: classes/Adi/Configuration/ImportService.php:105
 #, php-format
 msgid ""
 "<strong>There are %d sites in your Multisite network which have a previous "
@@ -61,7 +54,7 @@ msgstr ""
 "existierenden Installationen deaktivieren und erstellen Sie für jede ein "
 "neues Profil!</strong>"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/ImportService.php:110
+#: classes/Adi/Configuration/ImportService.php:110
 msgid ""
 "Migration of previous ADI options are not supported when running in "
 "Multisite installations. Please verify the NADI configuration"
@@ -70,7 +63,7 @@ msgstr ""
 "Installationen nicht unterstützt. Bitte überprüfen Sie die NADI "
 "Einstellungen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/ImportService.php:116
+#: classes/Adi/Configuration/ImportService.php:116
 msgid ""
 "Options of a previous ADI installation have been migrated. You <strong>"
 "must</strong> re-enter the credentials of <em>Sync to WordPress/AD</em> "
@@ -80,23 +73,21 @@ msgstr ""
 "Sie <strong>müssen</strong> die Einstellungen für den <em>Sync to "
 "WordPress/AD</em> Service Account neu vornehmen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:222
+#: classes/Adi/Configuration/Options.php:224
 msgid "Profile name:"
 msgstr "Profilname:"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:224
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:228
+#: classes/Adi/Configuration/Options.php:226
+#: classes/Adi/Configuration/Options.php:230
 msgid "Name for the current profile"
 msgstr "Name des aktuellen Profils"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:239
+#: classes/Adi/Configuration/Options.php:241
 msgid "Support license key:"
 msgstr "Support-Lizenzschlüssel"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:241
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:245
+#: classes/Adi/Configuration/Options.php:243
+#: classes/Adi/Configuration/Options.php:247
 msgid ""
 "Please enter your support license key here, if you have a paid <a "
 "href='https://active-directory-wp.com/shop-overview/'>NADI license</a>. It "
@@ -108,15 +99,15 @@ msgstr ""
 "Dieser wird benötigt, um Unterstützung durch die <a href='https://neos-it."
 "de'>NeosIT GmbH</a> zu erhalten."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:256
+#: classes/Adi/Configuration/Options.php:258
 msgid "Enable NADI"
 msgstr "NADI aktivieren"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:258
+#: classes/Adi/Configuration/Options.php:260
 msgid "Enable/Disable Next Active Directory Integration"
 msgstr "Aktiviert/Deaktiviert Next Active Directory Integration"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:262
+#: classes/Adi/Configuration/Options.php:264
 msgid ""
 "Next Active Directory Integration is only used if this option is checked. If "
 "you are running a WordPress Multisite Installation you can disable the  NADI "
@@ -126,15 +117,15 @@ msgstr ""
 "aktiviert ist. Wenn Sie eine WordPress Multisite Installation verwenden, "
 "können Sie diese Option für spezifische Seiten deaktivieren."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:272
+#: classes/Adi/Configuration/Options.php:274
 msgid "Enable \"Test authentication\""
 msgstr "Aktiviere \"Test Authentifizierung\""
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:277
+#: classes/Adi/Configuration/Options.php:279
 msgid "Enable/Disable Test authentication"
 msgstr "Aktiviere/Deaktiviere Test Authentifizierung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:281
+#: classes/Adi/Configuration/Options.php:283
 msgid ""
 "The menu entry \"Test authentication\" can be enabled or disabled, based "
 "upon this configuration"
@@ -142,15 +133,15 @@ msgstr ""
 "Der Menü Eintrag \"Test Authentifizierung\" kann mit dieser Optionen "
 "aktiviert bzw. deaktiviert werden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:291
+#: classes/Adi/Configuration/Options.php:293
 msgid "Enable \"Sync to AD\""
 msgstr "Aktiviere \"Sync to AD\""
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:296
+#: classes/Adi/Configuration/Options.php:298
 msgid "Enable/Disable Sync to AD"
 msgstr "Aktiviert/Deaktiviert Sync to AD"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:300
+#: classes/Adi/Configuration/Options.php:302
 msgid ""
 "The menu entry \"Sync to AD\" can be enabled or disabled, based upon this "
 "configuration"
@@ -158,15 +149,15 @@ msgstr ""
 "Der Menü Eintrag \"Sync to AD\" kann mit dieser Optionen aktiviert bzw. "
 "deaktiviert werden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:310
+#: classes/Adi/Configuration/Options.php:312
 msgid "Enable \"Sync to WordPress\""
 msgstr "Aktiviere \"Sync to WordPress\""
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:315
+#: classes/Adi/Configuration/Options.php:317
 msgid "Enable/Disable Sync to WordPress"
 msgstr "Aktiviert/Deaktiviert Sync to WordPress"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:319
+#: classes/Adi/Configuration/Options.php:321
 msgid ""
 "The menu entry \"Sync to WordPress\" can be enabled or disabled, based upon "
 "this configuration"
@@ -174,17 +165,17 @@ msgstr ""
 "Der Menü Eintrag \"Sync to WordPress\" kann mit dieser Optionen aktiviert "
 "bzw. deaktiviert werden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:330
+#: classes/Adi/Configuration/Options.php:332
 msgid "Domain controllers"
 msgstr "Domänencontroller"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:332
+#: classes/Adi/Configuration/Options.php:334
 msgid "Domain controllers used to authenticate and authorize the users"
 msgstr ""
 "Der Domänencontroller wird benutzt, um Benutzer zu authentifizieren und zu "
 "autorisieren"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:336
+#: classes/Adi/Configuration/Options.php:338
 msgid ""
 "The domain controller represents the Active Directory server used to "
 "authenticate and authorize your users. You can find your currently set "
@@ -195,11 +186,11 @@ msgstr ""
 "können Ihren aktuellen Domänencontroller durch \"Start -> Run -> nslookup\" "
 "finden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:349
+#: classes/Adi/Configuration/Options.php:351
 msgid "Port"
 msgstr "Port"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:351
+#: classes/Adi/Configuration/Options.php:353
 msgid ""
 "Port on which the Active Directory listens. Unencrypted LDAP or STARTTLS use "
 "port 389. LDAPS listens on port 636."
@@ -207,7 +198,7 @@ msgstr ""
 "Port auf dem das Active Directory lauscht. Unverschlüsseltes LDAP oder "
 "STARTTLS lauschen auf Port 389. LDAPS lauscht auf Port 636."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:352
+#: classes/Adi/Configuration/Options.php:354
 msgid ""
 "This option defines the Active Directory communication port and is by "
 "default set to 389."
@@ -215,35 +206,33 @@ msgstr ""
 "Diese Option definiert den Active Directory Kommunikationsport. "
 "Standardmäßig ist dieser auf 389 gesetzt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:364
+#: classes/Adi/Configuration/Options.php:366
 msgid "Use encryption"
 msgstr "Verschlüsslung benutzen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:367
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:120
+#: classes/Adi/Configuration/Options.php:369
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:120
 msgid "None"
 msgstr "Keine"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:368
+#: classes/Adi/Configuration/Options.php:370
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:369
+#: classes/Adi/Configuration/Options.php:371
 msgid "LDAPS"
 msgstr "LDAPS"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:371
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:373
+#: classes/Adi/Configuration/Options.php:373
+#: classes/Adi/Configuration/Options.php:375
 msgid "This option handles the encryption type for the LDAP connection."
 msgstr "Diese Option steuert den Verschlüsselungstyp für die LDAP Verbindung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:375
+#: classes/Adi/Configuration/Options.php:377
 msgid "None: No encryption is be used."
 msgstr "Keine: Es wird keine Verschlüsselung verwendet."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:376
+#: classes/Adi/Configuration/Options.php:378
 msgid ""
 "STARTTLS: Enabling this option activates TLS (Transport Layer Security), "
 "which secures the data transport between your Active Directory server and "
@@ -257,7 +246,7 @@ msgstr ""
 "sollte die Option <em>Port</em> auf \"389\" gesetzt sein. Bitte beachten Sie,"
 " dass STARTTLS <strong>nicht</strong> das selbe ist wie LDAPS."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:377
+#: classes/Adi/Configuration/Options.php:379
 msgid ""
 "LDAPS: The LDAP connection uses LDAPS. By default, Active Directory listens "
 "on port 636 for LDAPS connections."
@@ -265,11 +254,11 @@ msgstr ""
 "LDAPS: Die LDAP Verbindung verwendet LDAPS. Standardmäßig ist der Port auf "
 "dem das Active Directory bei einer LDAPS Verbindung lauscht auf 363 gesetzt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:388
+#: classes/Adi/Configuration/Options.php:390
 msgid "LDAP network timeout"
 msgstr "LDAP Netzwerk Timeout"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:390
+#: classes/Adi/Configuration/Options.php:392
 msgid ""
 "Seconds after the connection attempt to Active Directory times out. After "
 "this period WordPress falls back to local authentication. By default it is "
@@ -280,7 +269,7 @@ msgstr ""
 "Authentifizierung zurück. Standardmäßig ist diese Option auf \"5\" Sekunden "
 "gesetzt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:394
+#: classes/Adi/Configuration/Options.php:396
 msgid ""
 "This option describes the time in seconds which has to pass after a "
 "connection attempt to the Active Dirctory server before the the connection "
@@ -292,17 +281,21 @@ msgstr ""
 "Authentifizierung zurück fällt. Der Standardwert für diese Option beträgt "
 "\"5\" Sekunden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:406
+#: classes/Adi/Configuration/Options.php:408
 msgid "Base DN"
 msgstr "Base DN"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:408
+#: classes/Adi/Configuration/Options.php:410
 msgid ""
-"Base DN (e.g. \"ou=unit,dc=domain,dc=tld\" or \"cn=users,dc=domain,dc=tld\")"
+"Base DN (e.g. \"dc=domain,dc=tld\" or \"ou=unit,dc=domain,dc=tld\" or "
+"\"cn=users,dc=domain,dc=tld\") This option depends on your Active Directory "
+"configurations."
 msgstr ""
-"Base DN (z.B. \"ou=unit,dc=domain,dc=tld\" or \"cn=users,dc=domain,dc=tld\")"
+"Base DN (e.g. \"dc=domain,dc=tld\" or \"ou=unit,dc=domain,dc=tld\" or "
+"\"cn=users,dc=domain,dc=tld\") Der Wert dieser Option hängt von ihren Active "
+"Directory Einstellungen ab."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:412
+#: classes/Adi/Configuration/Options.php:414
 msgid ""
 "You can find your Active Directory Base DN, if you follow this step by step "
 "guide correctly."
@@ -310,37 +303,37 @@ msgstr ""
 "Sie können ihren Active Directory Base DN finden, indem Sie folgende "
 "Schritte befolgen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:416
+#: classes/Adi/Configuration/Options.php:418
 msgid "1. Connect to your Active Directory server by using Remote Desktop."
 msgstr ""
 "1. Verbinden Sie sich zu ihrem Active Directory Server  über Remote Desktop."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:417
+#: classes/Adi/Configuration/Options.php:419
 msgid ""
 "2. Start -> Administrative Tools -> Active Directory Users and Computers"
 msgstr ""
 "2. Start -> Administratorwerkzeuge -> Active Directory Benutzer und Computer"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:418
+#: classes/Adi/Configuration/Options.php:420
 msgid "3. Click on your Domain Controller -> right-click Users -> Properties"
 msgstr ""
 "3. Klicken Sie auf Domänencontroller -> Rechtsklick Benutzer -> Attribute"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:419
+#: classes/Adi/Configuration/Options.php:421
 msgid "4. Attribute -> Select distinguishedName in the list -> press View"
 msgstr ""
 "4. Attribute -> wählen Sie distinguishedName in der Liste aus -> drücken Sie "
 "Anzeigen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:420
+#: classes/Adi/Configuration/Options.php:422
 msgid "5. Copy your Base DN."
 msgstr "5. Kopieren Sie ihren Base DN."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:430
+#: classes/Adi/Configuration/Options.php:432
 msgid "Username"
 msgstr "Benutzername"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:432
+#: classes/Adi/Configuration/Options.php:434
 msgid ""
 "Username used to authenticate against the Active Directory in order to "
 "connect your WordPress site or profile to a domain (e.g. administration@test."
@@ -351,7 +344,7 @@ msgstr ""
 "verwendeten Profil und einer Domäne herzustellen (z. B. administration@test."
 "ad)."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:436
+#: classes/Adi/Configuration/Options.php:438
 msgid ""
 "You have to enter a valid Active Directory account to connect your WordPress "
 "site to a specific Active Directory domain."
@@ -360,15 +353,13 @@ msgstr ""
 "zwischen der WordPress Seite / dem WordPress Profil und einer Active "
 "Directory-Domäne herzustellen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:449
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:140
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:144
+#: classes/Adi/Configuration/Options.php:451
+#: classes/Adi/Configuration/Ui/Layout.php:147
+#: classes/Adi/Configuration/Ui/Layout.php:151
 msgid "Password"
 msgstr "Passwort"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:451
+#: classes/Adi/Configuration/Options.php:453
 msgid ""
 "Password used to authenticate against the Active Directory in order to "
 "connect your WordPress site or profile to a domain."
@@ -377,7 +368,7 @@ msgstr ""
 "authentifizieren und eine Verbindung zwischen der WordPress Seite / dem "
 "verwendeten Profil und einer Domäne herzustellen. "
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:455
+#: classes/Adi/Configuration/Options.php:457
 msgid ""
 "You have to enter the password for the Active Directory user in order to "
 "connect your WordPress site or profile to a domain."
@@ -386,37 +377,35 @@ msgstr ""
 "Verbindung zwischen der WordPress Seite / dem Profil und einer Active "
 "Directory-Domäne herstellen zu können."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:468
+#: classes/Adi/Configuration/Options.php:470
 msgid "Domain SID"
 msgstr "Domain SID"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:470
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:474
+#: classes/Adi/Configuration/Options.php:472
+#: classes/Adi/Configuration/Options.php:476
 msgid ""
 "Shows whether the current WordPress site is connected to an AD domain or not."
 msgstr ""
 "Diese Option zeigt an, ob die WordPress Seite / das Profil eine Verbindung "
 "zu einer Active Directory Domäne besitzt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:487
+#: classes/Adi/Configuration/Options.php:489
 msgid "NetBIOS name"
 msgstr "NetBIOS Name"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:489
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:493
+#: classes/Adi/Configuration/Options.php:491
+#: classes/Adi/Configuration/Options.php:495
 msgid ""
 "The NetBIOS name of the connected Active Directory is required for NTLM SSO."
 msgstr ""
 "Der NetBIOS Name des verbundenen Active Directory wird für das NTLM SSO "
 "benötigt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:506
+#: classes/Adi/Configuration/Options.php:508
 msgid "Exclude usernames from authentication"
 msgstr "Schließt Benutzernamen von der Authentifizierung aus"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:508
+#: classes/Adi/Configuration/Options.php:510
 msgid ""
 "Entered usernames will always be excluded from NADI login authentication. "
 "Usernames are case-insensitive."
@@ -425,7 +414,7 @@ msgstr ""
 "ausgeschlossen. Groß-/Kleinschreibung wird <strong>nicht</strong> "
 "berücksichtigt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:513
+#: classes/Adi/Configuration/Options.php:515
 msgid ""
 "Every username you have entered will not be authenticated against the Active "
 "Directory, instead the WordPress authentication mechanism is used. You have "
@@ -436,11 +425,11 @@ msgstr ""
 "Authentifizierungsmechanismus verwendet. Du muss explizit jeden "
 "Benutzernamen mit jeden verwendeten Suffix eintragen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:526
+#: classes/Adi/Configuration/Options.php:528
 msgid "Account suffix"
 msgstr "Suffix für Benutzernamen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:528
+#: classes/Adi/Configuration/Options.php:530
 msgid ""
 "This suffix will be appended to all usernames during the Active Directory "
 "authentication process, e.g. \"@company.local\"."
@@ -448,7 +437,7 @@ msgstr ""
 "Dieses Suffix wird an alle Benutzernamen während des "
 "Authentifizierungsvorgangs angehangen (z. B. \"@company.local\")."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:533
+#: classes/Adi/Configuration/Options.php:535
 msgid ""
 "The Account suffix is added to all usernames during the Active Directory "
 "authentication process."
@@ -456,7 +445,7 @@ msgstr ""
 "Dieses Account Suffix wird an alle Benutzernamen während des Active "
 "Directory Authentifizierungsvorgangs angehangen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:537
+#: classes/Adi/Configuration/Options.php:539
 msgid ""
 "Example: An *Account Suffix* \"@company.local\" is used. When the user "
 "\"my_username\" logs in, the complete username is set to "
@@ -466,11 +455,11 @@ msgstr ""
 "Wenn der Benutzer \"mein_benutzername\" sich einloggen möchte, wird der "
 "komplette Benutzername auf \"mein_benutzername@company.local\" gesetzt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:541
+#: classes/Adi/Configuration/Options.php:543
 msgid "Do not forget to start the suffix with \"@\"."
 msgstr "Vergessen Sie nicht, das Suffix mit \"@\" zu beginnen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:542
+#: classes/Adi/Configuration/Options.php:544
 msgid ""
 "If you have multiple account suffixes like *@emea.company.local*, *@africa."
 "company.local* enter each of them and put the primary domain name (@company."
@@ -481,11 +470,33 @@ msgstr ""
 "den primären Domänennamen (@Company.local) an <strong>letzter</strong> "
 "Position hinzu."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:556
+#: classes/Adi/Configuration/Options.php:558
+msgid "Allow users to login with one of their ProxyAddresses"
+msgstr "Erlaubt Benutzern sich über eine Proxy Adresse anzumelden."
+
+#: classes/Adi/Configuration/Options.php:560
+msgid ""
+"If checked, users will be able to use one of their ProxyAddreses instead of "
+"their sAMAccountName to login."
+msgstr ""
+"Durch das Aktivieren dieser Option, haben Benutzer die Möglichkeit sich über "
+"eine ihrer Proxy Adressen zu authentifizieren."
+
+#: classes/Adi/Configuration/Options.php:564
+msgid ""
+"Instead of using the user principal name for newly created users, the "
+"sAMAccountName will be used. The ProxyAddress will be used to lookup the "
+"sAMAccountName."
+msgstr ""
+"Anstatt des UserPrincipalName wird für neu erstellte Benutzer der "
+"sAMAccountName verwendet. Die Proxy Adresse wird benutzt um den "
+"sAMAccountName herauszufinden."
+
+#: classes/Adi/Configuration/Options.php:576
 msgid "Use sAMAccountName for newly created users"
 msgstr "Benutze sAMAccountName für neu erstellte Benutzer"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:558
+#: classes/Adi/Configuration/Options.php:578
 msgid ""
 "If checked, the sAMAccountName will be set as username for newly created "
 "users."
@@ -493,7 +504,7 @@ msgstr ""
 "Wenn diese Option aktiviert ist, wird NADI beim Erstellen neuer Benutzer den "
 "sAMAccountName als Benutzername in WordPress setzen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:562
+#: classes/Adi/Configuration/Options.php:582
 msgid ""
 "Instead of using the user principal name for newly created users, the "
 "sAMAccountName will be used."
@@ -502,11 +513,11 @@ msgstr ""
 "erstellten Benutzern der sAMAccountName als Benutzername in WordPress "
 "gesetzt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:574
+#: classes/Adi/Configuration/Options.php:594
 msgid "Automatic user creation"
 msgstr "Automatische Erstellung von Benutzern"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:576
+#: classes/Adi/Configuration/Options.php:596
 msgid ""
 "If enabled, users will be created in your WordPress instance after they have "
 "successful authenticated."
@@ -514,12 +525,12 @@ msgstr ""
 "Wenn aktiviert, werden Benutzer, die sich erfolgreich am Active Directory "
 "authentifizieren, automatisch in der WordPress-Instanz erstellt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:581
+#: classes/Adi/Configuration/Options.php:601
 msgid "Created users will obtain the subscriber role by default."
 msgstr ""
 "Neu erstellte Benutzer bekommen automatisch die Rolle subscriber zugewiesen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:585
+#: classes/Adi/Configuration/Options.php:605
 msgid ""
 "The default role can be altered, by using the Role equivalent groups option "
 "inside the Permission Tab."
@@ -527,11 +538,11 @@ msgstr ""
 "Die Standardrolle kann beeinflusst werden, indem die \"Zuordnung von "
 "Berechtigungsgruppen\" unter dem Reiter \"Berechtigungen\" angepasst werden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:595
+#: classes/Adi/Configuration/Options.php:615
 msgid "Automatic user synchronization"
 msgstr "Automatische Synchronisation von Benutzern"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:597
+#: classes/Adi/Configuration/Options.php:617
 msgid ""
 "After a successful login a users WordPress profile will be automatically "
 "synchronized with his Active Directory account."
@@ -539,7 +550,7 @@ msgstr ""
 "Nach erfolgreichem Anmelden in WordPress, wird das WordPress-Benutzerkonto "
 "automatisch mit dem Active Directory Account synchronisiert."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:600
+#: classes/Adi/Configuration/Options.php:620
 msgid ""
 "Enabling this option will result in NADI synchronizing the user's "
 "information every time they login to WordPress."
@@ -548,15 +559,15 @@ msgstr ""
 "Benutzers in WordPress das WordPress-Profil mit den Daten aus dem Active "
 "Directory synchronisieren."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:604
+#: classes/Adi/Configuration/Options.php:624
 msgid "Requires \"Automatic user creation\" to be enabled."
 msgstr "\"Automatische Erstellung von Benutzern\" muss aktiviert sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:614
+#: classes/Adi/Configuration/Options.php:634
 msgid "Automatically update user description"
 msgstr "Automatische Aktualisierung der Benutzerbeschreibung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:616
+#: classes/Adi/Configuration/Options.php:636
 msgid ""
 "Automatically updates the description of users after login and for newly "
 "created users"
@@ -564,7 +575,7 @@ msgstr ""
 "Aktualisiert automatisch die Beschreibung von erfolgreich angemeldeten und "
 "neu erstellten Benutzern."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:619
+#: classes/Adi/Configuration/Options.php:639
 msgid ""
 "This option will only work if you already have \"Automatic user creation\" "
 "and \"Automatic user update\" enabled. As the title says it will "
@@ -574,13 +585,12 @@ msgstr ""
 "Diese Option funktioniert nur wenn \"Automatische Erstellung von Benutzern\" "
 "und \"Automatisches Aktualisieren von Benutzern\" aktiviert sind."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:631
+#: classes/Adi/Configuration/Options.php:651
 msgid "Default email domain"
 msgstr "Standard E-Mail Domain"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:633
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:637
+#: classes/Adi/Configuration/Options.php:653
+#: classes/Adi/Configuration/Options.php:657
 msgid ""
 "If the Active Directory attribute \"mail\" is blank, a user's email will be "
 "set to username@ValueOfThisTextbox."
@@ -588,23 +598,23 @@ msgstr ""
 "Wenn das Active Directory Attribut 'mail' leer ist, wird die E-Mail eines "
 "Benutzers auf benutzername@$WERT gesetzt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:649
+#: classes/Adi/Configuration/Options.php:669
 msgid "Email address conflict handling"
 msgstr "Behandlung von E-Mail-Adresskonflikten"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:652
+#: classes/Adi/Configuration/Options.php:672
 msgid "Prevent (recommended)"
 msgstr "Verhindern (empfohlen)"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:653
+#: classes/Adi/Configuration/Options.php:673
 msgid "Allow (UNSAFE)"
 msgstr "Erlauben (unsicher)"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:654
+#: classes/Adi/Configuration/Options.php:674
 msgid "Create"
 msgstr "Erstellen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:656
+#: classes/Adi/Configuration/Options.php:676
 msgid ""
 "This option handles email address conflicts caused by creating multiple "
 "users using the same email address."
@@ -612,7 +622,7 @@ msgstr ""
 "Diese Option behandelt die auftretenden Konflikte, wenn Benutzer in der "
 "WordPress Datenbank mit gleicher E-Mailadresse erstellt werden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:658
+#: classes/Adi/Configuration/Options.php:678
 msgid ""
 "This option handles email address conflicts caused by creating multiple "
 "users using the same email address. WordPress requires a unique email "
@@ -622,7 +632,7 @@ msgstr ""
 "WordPress Datenbank mit gleicher E-Mailadresse erstellt werden. WordPress "
 "setzt einzigartige E-Mail Adressen für jeden Benutzer voraus."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:660
+#: classes/Adi/Configuration/Options.php:680
 msgid ""
 "Prevent: User is not created, if his email address is already in use by "
 "another user. (recommended)"
@@ -630,12 +640,12 @@ msgstr ""
 "Verhindern: Benutzer wird nicht erstellt, wenn die E-Mailadresse bereits in "
 "Benutzung ist (empfohlen)."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:664
+#: classes/Adi/Configuration/Options.php:684
 msgid "Allow: Allow users to share one email address. (UNSAFE)"
 msgstr ""
 "Erlauben: Erlaubt Benutzern sich eine E-Mailadresse zu teilen (UNSICHER)."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:665
+#: classes/Adi/Configuration/Options.php:685
 msgid ""
 "Create: In case of a conflict, the new user is created with a unique and "
 "randomly generated email address."
@@ -643,11 +653,11 @@ msgstr ""
 "Erstellen: Im Falle eines Konflikts wird der neue Benutzer mir einer "
 "einzigartigen, zufällig erstellen E-Mailadresse generiert."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:676
+#: classes/Adi/Configuration/Options.php:696
 msgid "Prevent email change"
 msgstr "Änderungen der E-Mailadresse verhindern"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:678
+#: classes/Adi/Configuration/Options.php:698
 msgid ""
 "Prevents users authenticated by Active Directory from changing their email "
 "address in WordPress."
@@ -655,7 +665,7 @@ msgstr ""
 "Verhindert, dass Benutzer, die sich gegenüber des Active Directory "
 "authentifiziert haben, ihre E-Mailadresse in WordPress ändern."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:683
+#: classes/Adi/Configuration/Options.php:703
 msgid ""
 "Activating this option will forbid users authenticated by Active Directory "
 "to change their email address in in WordPress."
@@ -663,51 +673,49 @@ msgstr ""
 "Diese Option verhindert, dass Benutzer die bereits gegen das Active "
 "Directory authentifiziert wurden, ihre E-Mailadresse in WordPress ändern."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:687
+#: classes/Adi/Configuration/Options.php:707
 msgid "This option does not apply to the administrator."
 msgstr "Diese Option betrifft nicht die Administratoren."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:698
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:27
+#: classes/Adi/Configuration/Options.php:718
+#: classes/Ldap/Attribute/Description.php:27
 msgid "Display name"
 msgstr "Anzeigename"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:701
+#: classes/Adi/Configuration/Options.php:721
 msgid "sAMAccountName (the username)"
 msgstr "sAMAccountName (der Benutzername)"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:702
+#: classes/Adi/Configuration/Options.php:722
 msgid "displayName"
 msgstr "Anzeigename"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:703
+#: classes/Adi/Configuration/Options.php:723
 msgid "description"
 msgstr "Beschreibung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:704
+#: classes/Adi/Configuration/Options.php:724
 msgid "givenName (firstname)"
 msgstr "givenName (Vorname)"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:705
+#: classes/Adi/Configuration/Options.php:725
 msgid "SN (lastname)"
 msgstr "SN (Nachname)"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:706
+#: classes/Adi/Configuration/Options.php:726
 msgid "givenName SN (firstname lastname)"
 msgstr "givenName SN (Vorname Nachname)"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:707
+#: classes/Adi/Configuration/Options.php:727
 msgid "CN (Common Name, the whole name)"
 msgstr "CN (Common Name, der ganze Name)"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:708
+#: classes/Adi/Configuration/Options.php:728
 msgid "mail"
 msgstr " mail (E-Mail)"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:710
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:714
+#: classes/Adi/Configuration/Options.php:730
+#: classes/Adi/Configuration/Options.php:734
 msgid ""
 "This option allows you to configure how users should be displayed inside "
 "posts/comments."
@@ -715,11 +723,11 @@ msgstr ""
 "Diese Option erlaubt Ihnen zu konfigurieren, wie Benutzer bei neuen "
 "Einträgen/Kommentaren dargestellt werden sollen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:726
+#: classes/Adi/Configuration/Options.php:746
 msgid "Show user status"
 msgstr "Zeige Benutzerstatus an"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:728
+#: classes/Adi/Configuration/Options.php:748
 msgid ""
 "Show additional columns (<em>NADI User</em>, <em>disabled</em>) inside the "
 "WordPress users list."
@@ -727,15 +735,15 @@ msgstr ""
 "Zeige extra Spalten <em>NADI Benutzer</em>, <em>deaktivert</em> in der "
 "WordPress Benutzerliste an."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:730
+#: classes/Adi/Configuration/Options.php:750
 msgid "Show additional columns"
 msgstr "Zeige extra Spalten"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:738
+#: classes/Adi/Configuration/Options.php:758
 msgid "Fallback to local password"
 msgstr "Lokale Passwortauthentifizierung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:740
+#: classes/Adi/Configuration/Options.php:760
 msgid ""
 "Fallback to local(WordPress) password check if Active Directory "
 "authentication fails."
@@ -743,7 +751,7 @@ msgstr ""
 "Bei fehlgeschlagener Active Directory-Authentifizierung, kann der Benutzer "
 "sich gegenüber WordPress authentifizieren."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:744
+#: classes/Adi/Configuration/Options.php:764
 msgid ""
 "If this option is enabled, users who failed to authenticate against Active "
 "Directory will try to authenticate using the local WordPress password."
@@ -752,7 +760,7 @@ msgstr ""
 "fehlgeschlagenen Authentifizierung gegen das Active Directory noch einmal "
 "gegen das lokale WordPress-Passwort authentifizieren."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:748
+#: classes/Adi/Configuration/Options.php:768
 msgid ""
 "But this might be a security risk (for example, if the local password is "
 "outdated). <b>It's recommended to turn this off.</b>"
@@ -761,11 +769,11 @@ msgstr ""
 "Passwort veraltet ist. <strong>Es wird empfohlen, diese Option zu "
 "deaktivieren.</strong>"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:761
+#: classes/Adi/Configuration/Options.php:781
 msgid "Set local password on first successful login"
 msgstr "Setze das lokale Passwort bei erster erfolgreicher Anmeldung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:763
+#: classes/Adi/Configuration/Options.php:783
 msgid ""
 "The first time a user successfully logs in his local password will be "
 "equated with the password he used to authenticate against the Active "
@@ -775,7 +783,7 @@ msgstr ""
 "das lokale WordPress Passwort auf das Passwort gesetzt, das beim "
 "Authentifizieren gegen das Active Directory verwendet wurde."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:768
+#: classes/Adi/Configuration/Options.php:788
 msgid ""
 "The first time a user successfully logs in his local password will be "
 "equated with the password he used to authenticate against the Active "
@@ -787,34 +795,33 @@ msgstr ""
 "Authentifizieren gegen das Active Directory verwendet wurde. Ist diese "
 "Option deaktiviert wird ein zufälliges Passwort gesetzt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:772
+#: classes/Adi/Configuration/Options.php:792
 msgid ""
 "If this option is deactivated a random password for this user will be set."
 msgstr ""
 "Wenn diese Option deaktiviert ist, wird ein zufällig generiertes Passwort "
 "als lokales Passwort gesetzt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:773
+#: classes/Adi/Configuration/Options.php:793
 msgid ""
 "The option does only work if *User > Automatic user creation* is enabled."
 msgstr ""
 "Diese Option funktioniert nur, wenn <em>Benutzer > Automatisches Erstellen "
 "von Benutzern</em> aktiviert ist."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:783
+#: classes/Adi/Configuration/Options.php:803
 msgid "Allow local password changes"
 msgstr "Erlaube lokale Passwortänderung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:785
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:790
+#: classes/Adi/Configuration/Options.php:805
+#: classes/Adi/Configuration/Options.php:810
 msgid ""
 "Enabling this option allows users to change their local WordPress password."
 msgstr ""
 "Das Aktivieren dieser Option erlaubt esm Benutzern ihr lokales WordPress-"
 "Passwort zu ändern."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:791
+#: classes/Adi/Configuration/Options.php:811
 msgid ""
 "This option has <strong>no</strong> effect on the Active Directory password "
 "and will <strong>not</strong> be synchronized back to the Active Directory."
@@ -823,11 +830,11 @@ msgstr ""
 "Directory Passwort und wird  <strong>nicht</strong> zurück zum Active "
 "Directory synchronisiert."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:802
+#: classes/Adi/Configuration/Options.php:822
 msgid "Automatic password update"
 msgstr "Automatisches Aktualisieren des Passworts"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:804
+#: classes/Adi/Configuration/Options.php:824
 msgid ""
 "This option updates the local password every time a user successfully logs "
 "in."
@@ -835,7 +842,7 @@ msgstr ""
 "Diese Option aktualisiert das lokale Passwort eines Benutzers bei jedem "
 "erfolgreichem Login."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:809
+#: classes/Adi/Configuration/Options.php:829
 msgid ""
 "This option updates the local password every time a user successfully logs "
 "in. If a user has changed his Active Directory password and successfully "
@@ -849,7 +856,7 @@ msgstr ""
 "gegen das Active Directory authentifiziert dann wird das lokale Passwort "
 "automatisch mit dem Active Directory Passwort überschrieben."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:813
+#: classes/Adi/Configuration/Options.php:833
 msgid ""
 "Note: Activating this option makes little sense if <em>Allow local password "
 "changes</em> is enabled."
@@ -857,7 +864,7 @@ msgstr ""
 "Hinwes: Das Aktivieren dieser Option ergibt keinen Sinn , wenn <em>Lokale "
 "Passwort Änderung erlauben</em> aktiviert ist."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:817
+#: classes/Adi/Configuration/Options.php:837
 msgid ""
 "Works only if <em>User &gt; Automatic user creation</em> and <em>User &gt; "
 "Automatic user synchronization</em> is enabled."
@@ -866,11 +873,11 @@ msgstr ""
 "Benutzern</em> und <em>Benutzer &gt; Automatisches Synchronisieren von "
 "Benutzern</em>aktiviert sind."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:828
+#: classes/Adi/Configuration/Options.php:848
 msgid "Authorize by group membership"
 msgstr "Autorisierung durch Gruppenmitgliedschaft"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:830
+#: classes/Adi/Configuration/Options.php:850
 msgid ""
 "This option authorizes only members of the given Active Directory security "
 "groups to gain access to WordPress."
@@ -878,7 +885,7 @@ msgstr ""
 "Diese Option autorisiert nur die Benutzer der angegebenen Active Directory-"
 "Sicherheitsgruppen sich in WordPress anzumelden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:834
+#: classes/Adi/Configuration/Options.php:854
 msgid ""
 "This option authorizes only members of the given Active Directory security "
 "groups to gain access to WordPress. This authorization occurs <strong>"
@@ -888,22 +895,22 @@ msgstr ""
 "Sicherheitsgruppen sich in WordPress anzumelden. Die Autorisierung erfolgt "
 "<strong>nach</strong> der Authentifizierung."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:846
+#: classes/Adi/Configuration/Options.php:866
 msgid "Authorization group(s)"
 msgstr "Autorisierungsgruppen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:848
+#: classes/Adi/Configuration/Options.php:868
 msgid ""
 "If not empty, only the defined security groups have access to WordPress."
 msgstr ""
 "Wenn dieses Feld <strong>nicht</strong> leer ist, haben nur die Mitglieder "
 "der hier eingetragenen Sicherheitsgruppen Zugang zu WordPress."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:853
+#: classes/Adi/Configuration/Options.php:873
 msgid "Please define your Authorization group(s) here."
 msgstr "Bitte geben Sie die Autorisierungsgruppe(n) hier an."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:857
+#: classes/Adi/Configuration/Options.php:877
 msgid ""
 "Works only if \"User > Automatic user creation\" and \"User > Automatic user "
 "synchronization\" are enabled."
@@ -912,18 +919,18 @@ msgstr ""
 "Benutzern</em> und <em>Benutzer > Automatisches Synchronisieren von "
 "Benutzern</em> aktiviert sind."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:870
+#: classes/Adi/Configuration/Options.php:890
 msgid "Role equivalent groups"
 msgstr "Zuordnung von Berechtigungsgruppen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:872
+#: classes/Adi/Configuration/Options.php:892
 msgid ""
 "List of one or multiple Active Directory security groups which correspond to "
 "WordPress' roles."
 msgstr ""
 "Zuordnung zwischen Active Directory-Sicherheitsgruppen und WordPress-Rollen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:877
+#: classes/Adi/Configuration/Options.php:897
 msgid ""
 "Please enter the names of the Active Directory security groups which "
 "correspond to WordPress user roles using the following schema."
@@ -931,31 +938,31 @@ msgstr ""
 "Bitte tragen Sie die Namen der Active Directory-Sicherheitsgruppen ein, die "
 "Sie mit WordPress-Rollen verknüpfen möchten."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:881
+#: classes/Adi/Configuration/Options.php:901
 msgid "Example:"
 msgstr "Beispiel:"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:882
+#: classes/Adi/Configuration/Options.php:902
 msgid "ad-group=wp-role;"
 msgstr "ad-group=wp-role;"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:883
+#: classes/Adi/Configuration/Options.php:903
 msgid "wordpressadmins=administrator;"
 msgstr "wordpressadmins=administrator;"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:884
+#: classes/Adi/Configuration/Options.php:904
 msgid "wordpressmoderator=editor;"
 msgstr "wordpressmoderator=editor;"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:885
+#: classes/Adi/Configuration/Options.php:905
 msgid "wordpressuser=contributor;"
 msgstr "wordpressuser=contributor;"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:886
+#: classes/Adi/Configuration/Options.php:906
 msgid " (3.8 Capability vs. Role Table)"
 msgstr " (3.8 Capability vs. Role Table)"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:892
+#: classes/Adi/Configuration/Options.php:912
 msgid ""
 "Group memberships cannot be checked across domains.  So if you have two "
 "domains, instr and qc, and qc is the domain specified above, if instr is "
@@ -968,11 +975,11 @@ msgstr ""
 "ist, dann können instr Benutzer authentifiziert werden, aber es kann nicht "
 "abgefragt werden welche Gruppenmitgliedschaft sie besitzen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:906
+#: classes/Adi/Configuration/Options.php:926
 msgid "Clean existing Roles"
 msgstr "Existierende Rollen entfernen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:908
+#: classes/Adi/Configuration/Options.php:928
 msgid ""
 "Disabling this option will result in NADI not removing previous assigned "
 "WordPress roles anymore while updating the user."
@@ -980,21 +987,21 @@ msgstr ""
 "Wenn Sie diese Option deaktivieren, werden vorher zugewiesenen WordPress "
 "Rollen nicht entfernt während der Nutzer aktualisiert wird."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:913
+#: classes/Adi/Configuration/Options.php:933
 msgid "-"
 msgstr "-"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:925
+#: classes/Adi/Configuration/Options.php:945
 msgid "Enable lost password recovery"
 msgstr "Aktiviere Zurücksetzen des Passworts"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:927
+#: classes/Adi/Configuration/Options.php:947
 msgid "The user can reset his password in the login screen."
 msgstr ""
 "Der Benutzer hat die Möglichkeit, sein WordPress-Passwort auf der "
 "Anmeldeseite zurückzusetzen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:928
+#: classes/Adi/Configuration/Options.php:948
 msgid ""
 "Enabling this option will allow users to reset their local password in the "
 "login screen."
@@ -1002,13 +1009,12 @@ msgstr ""
 "Das Aktivieren dieser Option erlaubt dem Benutzer das lokale WordPress "
 "Passwort auf der Anmeldeseite zurückzusetzen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:940
+#: classes/Adi/Configuration/Options.php:960
 msgid "Enable SSO"
 msgstr "SSO aktivieren"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:942
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:946
+#: classes/Adi/Configuration/Options.php:962
+#: classes/Adi/Configuration/Options.php:966
 msgid ""
 "This option will grant users the possibility to Single Sign On WordPress "
 "once they got authenticated against Active Directory."
@@ -1017,19 +1023,15 @@ msgstr ""
 "verwenden, nachdem er erfolgreich gegen das Active Directory authentifiziert "
 "wurde."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:957
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1257
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1376
+#: classes/Adi/Configuration/Options.php:977
+#: classes/Adi/Configuration/Options.php:1289
+#: classes/Adi/Configuration/Options.php:1408
 msgid "Service account username"
 msgstr "Service Account Benutzername"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:959
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:963
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1378
+#: classes/Adi/Configuration/Options.php:979
+#: classes/Adi/Configuration/Options.php:983
+#: classes/Adi/Configuration/Options.php:1410
 msgid ""
 "Username of an Active Directory account with read permissions for the users "
 "in the Active Directory (e.g. \"ldapuser@company.local\")."
@@ -1037,17 +1039,14 @@ msgstr ""
 "Benutzername eines Active Directory-Benutzers mit Leserechten für alle "
 "Benutzer im Active Directory. Beispiel: 'ldapuser@company.local'"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:974
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1275
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1394
+#: classes/Adi/Configuration/Options.php:994
+#: classes/Adi/Configuration/Options.php:1307
+#: classes/Adi/Configuration/Options.php:1426
 msgid "Service account password"
 msgstr "Service Account Passwort"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:976
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:978
+#: classes/Adi/Configuration/Options.php:996
+#: classes/Adi/Configuration/Options.php:998
 msgid ""
 "Password of an Active Directory account with read permissions for the users "
 "in the Active Directory."
@@ -1055,11 +1054,11 @@ msgstr ""
 "Passwort eines Active Directory-Benutzers mit Leserechten für alle Benutzer "
 "im Active Directory."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:989
+#: classes/Adi/Configuration/Options.php:1009
 msgid "Username variable"
 msgstr "Variable mit Benutzernamen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:996
+#: classes/Adi/Configuration/Options.php:1016
 msgid ""
 "The PHP server variable which is used by the web server to retrieve the "
 "current user."
@@ -1067,12 +1066,12 @@ msgstr ""
 "Die PHP Servervariable, die vom Webserver genutzt wird, um den aktuellen "
 "Benutzer auszulesen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1002
+#: classes/Adi/Configuration/Options.php:1022
 #, php-format
 msgid "%s: The default server variable."
 msgstr "%s: Die standard Servervariable."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1006
+#: classes/Adi/Configuration/Options.php:1026
 #, php-format
 msgid ""
 "%s: Is used when working with proxies. The variable \"REMOTE_USER\" must be "
@@ -1081,7 +1080,7 @@ msgstr ""
 "%s: Wird in Kombination mit einem Proxy verwendet. Die Variable "
 "\\\"REMOTE_USER\\\" muss vom Proxy weitergeleitet werden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1011
+#: classes/Adi/Configuration/Options.php:1031
 #, php-format
 msgid ""
 "%s: All http headers are prefixed HTTP_ so that you can distinguish between "
@@ -1090,11 +1089,28 @@ msgstr ""
 "%s: Alle http Header besitzen das Prefix HTTP_ damit Sie, sie von den "
 "Umgebungsvariablen unterscheiden können."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1024
+#: classes/Adi/Configuration/Options.php:1044
+msgid "Enable login for smart card Users"
+msgstr "Erlaubt das Login für Smart Card Benutzer"
+
+#: classes/Adi/Configuration/Options.php:1046
+msgid ""
+"Enabling this option allows users, who require a smart card, to authenticate "
+"against the Active Directory."
+msgstr ""
+"Durch das aktivieren dieser Option erlauben Sie Benutzern die normalerweise "
+"eine Smart Card für das Login benötigen, sich an der WordPress Umgebung "
+"anzumelden."
+
+#: classes/Adi/Configuration/Options.php:1048
+msgid "Enables login for smart card users."
+msgstr "Aktiviert das Login für Smart Card Benutzer."
+
+#: classes/Adi/Configuration/Options.php:1056
 msgid "Maximum number of allowed login attempts"
 msgstr "Maximale Anzahl an Authentifizierungsversuchen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1026
+#: classes/Adi/Configuration/Options.php:1058
 msgid ""
 "Maximum number of failed login attempts before a user account is blocked. If "
 "empty or \"0\" <em>Brute Force Protection</em> is disabled."
@@ -1103,7 +1119,7 @@ msgstr ""
 "gesperrt wird. Wenn diese Option auf \"0\" gesetzt wird, ist <em>Brute Force "
 "Protection</em> deaktiviert."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1031
+#: classes/Adi/Configuration/Options.php:1063
 msgid ""
 "Please enter the amount of tries a user has to login with his correct "
 "username and password combination before he gets blocked for the specified "
@@ -1112,11 +1128,11 @@ msgstr ""
 "Bitte geben Sie die Anzahl der Anmeldeversuche ein, die ein Benutzer besitzt,"
 " bevor er für die von Ihnen angegebene Zeit gesperrt wird."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1035
+#: classes/Adi/Configuration/Options.php:1067
 msgid "You can set the time below this option."
 msgstr "Sie können die Sperrzeit unter dieser Option festlegen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1039
+#: classes/Adi/Configuration/Options.php:1071
 msgid ""
 "If you want to disable the Brute Force Protection just set the maximum "
 "number of allowed login attempts to 0."
@@ -1124,11 +1140,11 @@ msgstr ""
 "Wenn Sie den Brute Force Schutz deaktivieren möchten, setzen Sie einfach die "
 "maximale Anzahl an erlaubten Authentifizierungsversuche auf '0'."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1052
+#: classes/Adi/Configuration/Options.php:1084
 msgid "Blocking time"
 msgstr "Sperrzeit"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1054
+#: classes/Adi/Configuration/Options.php:1086
 msgid ""
 "Time in seconds for which the account is blocked if too many failed login "
 "attempts occurred."
@@ -1136,7 +1152,7 @@ msgstr ""
 "Geben Sie an, wie lange ein Benutzer bei Erreichen des fehlgeschlagenen "
 "Login Limits gesperrt werden soll (Zeit in Sekunden)."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1058
+#: classes/Adi/Configuration/Options.php:1090
 msgid ""
 "With help of this option you can set the time a user is being blocked after "
 "the amount of failed login attempts has been reached."
@@ -1144,16 +1160,16 @@ msgstr ""
 "Über diese Option können Sie festlegen, wie lange ein Benutzer gesperrt "
 "werden soll, wenn er das Limit für fehlerhafte Logins erreicht hat."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1070
+#: classes/Adi/Configuration/Options.php:1102
 msgid "Notify users of blocked account"
 msgstr "Benachrichtige Benutzer über Kontosperrung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1072
+#: classes/Adi/Configuration/Options.php:1104
 msgid "Notify a user by e-mail when his account has been blocked."
 msgstr ""
 "Benachrichtige den Benutzer, sobald sein WordPress-Konto gesperrt wurde."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1073
+#: classes/Adi/Configuration/Options.php:1105
 msgid ""
 "If enabled *NADI* notifies the user by email that his account has been "
 "blocked."
@@ -1161,17 +1177,17 @@ msgstr ""
 "Wenn diese Option aktiviert ist, wird ein Benutzer per E-Mail darüber "
 "informiert, dass sein Konto gesperrt wurde."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1085
+#: classes/Adi/Configuration/Options.php:1117
 msgid "Notify admins of blocked accounts"
 msgstr "Benachrichtige Administratoren über gesperrte Konten"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1087
+#: classes/Adi/Configuration/Options.php:1119
 msgid "Notify admin(s) by e-mail when a user account has been blocked."
 msgstr ""
 "Benachrichtigte Administratoren per E-Mail, sobald das WordPress-Konto eines "
 "Benutzers gesperrt wurde."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1088
+#: classes/Adi/Configuration/Options.php:1120
 msgid ""
 "Enabling this option will also notify the admin(s) about blocked user "
 "accounts."
@@ -1179,16 +1195,16 @@ msgstr ""
 "Das Aktivieren dieser Option führt zur Benachrichtigung des/der "
 "Administrators(en), sobald das Konto eines Benutzers gesperrt wurde."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1099
+#: classes/Adi/Configuration/Options.php:1131
 msgid "Email addresses for notifications"
 msgstr "E-Mailadressen für Benachrichtigung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1101
+#: classes/Adi/Configuration/Options.php:1133
 msgid "Given email addresses will receive emails for admin notifications."
 msgstr ""
 "Geben Sie die E-Mailadressen für die Administratorbenachrichtigungen an."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1105
+#: classes/Adi/Configuration/Options.php:1137
 msgid ""
 "If the admin notification event is triggered and no admin email have been "
 "set, the email is forwarded to the blog administrator's email address."
@@ -1197,11 +1213,11 @@ msgstr ""
 "Administrator E-Mailadresse hinterlegt ist, wird stattdessen der Blog "
 "Administrator per E-Mail informiert."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1118
+#: classes/Adi/Configuration/Options.php:1150
 msgid "From email address"
 msgstr "Absender E-Mail Adresse"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1120
+#: classes/Adi/Configuration/Options.php:1152
 msgid ""
 "Email address the Brute Force Protection information email should be send "
 "from."
@@ -1209,7 +1225,7 @@ msgstr ""
 "Absender E-Mail Adresse von der aus die Brute Force Protection Informations "
 "Emails versendet werden sollen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1124
+#: classes/Adi/Configuration/Options.php:1156
 msgid ""
 "If you leave this field blank WordPress will build the \"from email "
 "address\" by itself. (wordpress@domain.local)"
@@ -1217,67 +1233,65 @@ msgstr ""
 "Wenn sie dieses Feld leer lassen, wird WordPress die Absender E-Mail Adresse "
 "selbst erzeugen. (Bsp. wordpress@domain.local)"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1136
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1138
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1139
+#: classes/Adi/Configuration/Options.php:1168
+#: classes/Adi/Configuration/Options.php:1170
+#: classes/Adi/Configuration/Options.php:1171
 msgid "Allow login via XML-RPC"
 msgstr "Erlaube den Login über die XML-RPC Schnittstelle"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1155
+#: classes/Adi/Configuration/Options.php:1187
 msgid "Additional User Attributes"
 msgstr "Zusätzliche Benutzerattribute"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1161
+#: classes/Adi/Configuration/Options.php:1193
 msgid "AD User Attribute:"
 msgstr "AD Benutzerattribut:"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1168
+#: classes/Adi/Configuration/Options.php:1200
 msgid "Data Type:"
 msgstr "Datentyp:"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1170
+#: classes/Adi/Configuration/Options.php:1202
 msgid "Only a text"
 msgstr "Nur ein Text"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1171
+#: classes/Adi/Configuration/Options.php:1203
 msgid "An array with texts"
 msgstr "Ein Array von Texten"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1172
+#: classes/Adi/Configuration/Options.php:1204
 msgid "Natural number"
 msgstr "Natürliche Zahl"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1173
+#: classes/Adi/Configuration/Options.php:1205
 msgid "Boolean"
 msgstr "Boolean"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1174
+#: classes/Adi/Configuration/Options.php:1206
 msgid "Octet"
 msgstr "Octet"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1175
+#: classes/Adi/Configuration/Options.php:1207
 msgid "Time"
 msgstr "Zeit"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1176
+#: classes/Adi/Configuration/Options.php:1208
 msgid "Timestamp"
 msgstr "Zeitstempel"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1177
+#: classes/Adi/Configuration/Options.php:1209
 msgid "CN"
 msgstr "CN"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1184
+#: classes/Adi/Configuration/Options.php:1216
 msgid "User Meta Key:"
 msgstr "User Meta Key:"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1188
+#: classes/Adi/Configuration/Options.php:1220
 msgid "Enter additional Active Directory attributes."
 msgstr "Fügen Sie zusätzliche Active Directory-Attribute hinzu."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1193
+#: classes/Adi/Configuration/Options.php:1225
 msgid ""
 "Additional Attributes that should appear on the user profile must also be "
 "placed in \"Attributes to show\"."
@@ -1285,17 +1299,17 @@ msgstr ""
 "Zusätzliche Attribute, die im WordPress-Benutzerprofi angezeigt werden "
 "sollen, müssen die Checkbox \"In Benutzer Profil anzeigen\" gesetzt haben"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1207
+#: classes/Adi/Configuration/Options.php:1239
 msgid "Enable sync to AD"
 msgstr "Aktiviere Sync to AD"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1209
+#: classes/Adi/Configuration/Options.php:1241
 msgid "Synchronize the user's WordPress profile back to Active Directory."
 msgstr ""
 "Synchronisiert das WordPress-Profil eines Benutzers zurück zum Active "
 "Directory."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1214
+#: classes/Adi/Configuration/Options.php:1246
 msgid ""
 "By enabling this option NADI will automatically synchronize the user's "
 "profile back to the Active Directory if it has changed."
@@ -1304,7 +1318,7 @@ msgstr ""
 "Benutzern zurück zum Active Directory synchronisieren, sobald es zu "
 "Änderungen kommt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1218
+#: classes/Adi/Configuration/Options.php:1250
 msgid ""
 "The synchronization is automatically triggered whenever a user profile gets "
 "updated."
@@ -1312,11 +1326,11 @@ msgstr ""
 "Die Synchronisation wird jedes Mal ausgelöst, sobald das WordPress-"
 "Benutzerprofil aktualisiert wird."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1229
+#: classes/Adi/Configuration/Options.php:1261
 msgid "Use Sync To AD service account"
 msgstr "Benutze Sync to AD Service Account"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1231
+#: classes/Adi/Configuration/Options.php:1263
 msgid ""
 "By enabling this option users will not be asked for their Active Directory "
 "password when updating their WordPress user profile. Instead a central "
@@ -1330,7 +1344,7 @@ msgstr ""
 "deaktiviert</strong> ist , müssen Sie dafür sorgen, dass ihr Active "
 "Directory richtig konfiguriert ist."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1236
+#: classes/Adi/Configuration/Options.php:1268
 msgid ""
 "By enabling this option users will not be asked for their Active Directory "
 "password when updating their WordPress user profile. Instead a central "
@@ -1341,7 +1355,7 @@ msgstr ""
 "möchten. Stattdessen wird der zentral hinterlegte Active Directory Service "
 "Account benutzt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1240
+#: classes/Adi/Configuration/Options.php:1272
 msgid ""
 "If this option is disabled, you need to set the required permissions in the "
 "Active Directory. Please refer to the documentation on how to do this."
@@ -1350,7 +1364,7 @@ msgstr ""
 "im Active Directory vergeben. Bitte werfen Sie dazu einen Blick in die "
 "Dokumentation."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1244
+#: classes/Adi/Configuration/Options.php:1276
 msgid ""
 "NOTICE: The password of this service account is stored encrypted, but **USE "
 "IT AT YOUR OWN RISK**. To avoid this you have to grant your users the "
@@ -1361,7 +1375,7 @@ msgstr ""
 "Möglichkeit wäre den Benutzern das Ändern ihrer AD Attribute zu erlauben. "
 "Für Details werfen Sie bitten einen Blick in unsere FAQ."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1259
+#: classes/Adi/Configuration/Options.php:1291
 msgid ""
 "Username of an Active Directory account with write permissions for the users "
 "in the Active Directory (e.g. administrator@company.local)."
@@ -1369,7 +1383,7 @@ msgstr ""
 "Benutzername eines Active Directory Accounts mit Schreibrechten für die "
 "Benutzer in Active Directory (z. B. adminstrator@company.local)."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1263
+#: classes/Adi/Configuration/Options.php:1295
 msgid ""
 "If you define a Sync To AD service account with write permissions inside the "
 "Active Directory, changes will automatically be written to the Active "
@@ -1379,13 +1393,13 @@ msgstr ""
 "Active Directory festlegen, werden Änderungen automatisch über diesen "
 "Benutzer in das Active Directory geschrieben."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1277
+#: classes/Adi/Configuration/Options.php:1309
 msgid ""
 "Password for Sync To AD service account. Leave empty if password should not "
 "be changed."
 msgstr "Passwort für den <em>Sync To AD Service Account</em> "
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1280
+#: classes/Adi/Configuration/Options.php:1312
 msgid ""
 "This option defines a NEW password for the Sync To AD service account. Leave "
 "this field blank if you do not want to change the password."
@@ -1393,18 +1407,17 @@ msgstr ""
 "Diese Option definiert ein das Passwort für den <em>Sync To AD Service "
 "Account</em>."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1292
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1335
+#: classes/Adi/Configuration/Options.php:1324
+#: classes/Adi/Configuration/Options.php:1367
 msgid "Auth code"
 msgstr "Auth Code"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1294
+#: classes/Adi/Configuration/Options.php:1326
 msgid "This code is needed for Sync to AD."
 msgstr ""
 "Dieser Code wird für die Synchronisation zum Active Directory verwendet."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1298
+#: classes/Adi/Configuration/Options.php:1330
 msgid ""
 "The authentication code is used to authenticate the global sync user against "
 "the Active Directory."
@@ -1412,13 +1425,12 @@ msgstr ""
 "Der Auth Code wird zur Authentifizierung des Service Accounts gegen das "
 "Active Directory verwendet."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1311
+#: classes/Adi/Configuration/Options.php:1343
 msgid "Enable sync to WordPress"
 msgstr "Aktiviere Sync To WordPress"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1313
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1318
+#: classes/Adi/Configuration/Options.php:1345
+#: classes/Adi/Configuration/Options.php:1350
 msgid ""
 "Enabling this option will allow NADI to sync users from the Active Directory "
 "to the WordPress database."
@@ -1426,7 +1438,7 @@ msgstr ""
 "Durch das Aktivieren dieser Option kann NADI  Benutzer aus dem Active "
 "Directory in die WordPress-Datenbank synchronisieren."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1322
+#: classes/Adi/Configuration/Options.php:1354
 msgid ""
 "Hint: You could use a cron job, which is nothing more than a timetable "
 "executing the Sync to WordPress/update at defined times, to always keep your "
@@ -1438,17 +1450,16 @@ msgstr ""
 "Datenbank immer mit den aktuellsten Daten aus ihrem Active Directory auf dem "
 "neuesten Stand gehalten."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1337
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1338
+#: classes/Adi/Configuration/Options.php:1369
+#: classes/Adi/Configuration/Options.php:1370
 msgid "This code is needed for Sync to WordPress."
 msgstr "Dieser Code wird für <em>Sync to WordPress</em> benötigt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1351
+#: classes/Adi/Configuration/Options.php:1383
 msgid "Import members of security groups"
 msgstr "Importiere Mitglieder aus Sicherheitsgruppen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1353
+#: classes/Adi/Configuration/Options.php:1385
 msgid ""
 "The members of the security groups entered here will be imported. See the "
 "documentation on how to import members of Domain Users or Domain "
@@ -1459,7 +1470,7 @@ msgstr ""
 "Sie Mitglieder der Sicheheitsgruppen <em>Domänen-Benutzer</em> und <em>"
 "Domänen Administratoren</em> importieren können."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1358
+#: classes/Adi/Configuration/Options.php:1390
 msgid ""
 "Here you can enter the security groups which will be imported every time "
 "Sync To WordPress is executed."
@@ -1467,7 +1478,7 @@ msgstr ""
 "Hier können Sie die Sicherheitsgruppen angeben, deren Mitglieder bei jedem "
 "<em>Sync to WordPress</em> aktualisiert bzw. importiert werden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1362
+#: classes/Adi/Configuration/Options.php:1394
 msgid ""
 "If you want to include the users of the built in user group \"Domain Users\" "
 "you have to enter \"id:513\". More information can be found in the official "
@@ -1477,7 +1488,7 @@ msgstr ""
 "Benutzer</em> importieren möchten, müssen Sie \"id:513\" angeben. Weitere "
 "Informationen finden Sie in der offiziellen Dokumentation."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1382
+#: classes/Adi/Configuration/Options.php:1414
 msgid ""
 "In order to import multiple users at once you have to define a user with "
 "Active Directory users read permission."
@@ -1486,11 +1497,11 @@ msgstr ""
 "Account</em> mit Leseberechtigungen für Benutzer im Active Directory "
 "festlegen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1396
+#: classes/Adi/Configuration/Options.php:1428
 msgid "Password for Sync to WordPress user."
 msgstr "Passwort für <em>Sync to WordPress Service Account</em>."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1397
+#: classes/Adi/Configuration/Options.php:1429
 msgid ""
 "As you already defined the Sync to WordPress service account username before "
 "you now have to define the password for this user as well."
@@ -1498,13 +1509,12 @@ msgstr ""
 "Bitte geben Sie das Passwort für den zuvor angegebenen <em>Sync to WordPress "
 "Service Account</em> Benutzer an."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1409
+#: classes/Adi/Configuration/Options.php:1441
 msgid "Automatically deactivate users"
 msgstr "Automatisches Deaktivieren von Benutzern"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1411
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1415
+#: classes/Adi/Configuration/Options.php:1443
+#: classes/Adi/Configuration/Options.php:1447
 msgid ""
 "Deactivated users can only be re-activated manually by administrators on the "
 "users profile page or by using the *Sync to WordPress* feature."
@@ -1513,22 +1523,21 @@ msgstr ""
 "WordPress-Benutzerprofil aktiviert werden oder durch das Benutzen der <em>"
 "Sync to WordPress</em>-Funktion."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1427
+#: classes/Adi/Configuration/Options.php:1459
 msgid "Import disabled users"
 msgstr "Deaktivierte Benutzer importieren"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1429
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1433
+#: classes/Adi/Configuration/Options.php:1461
+#: classes/Adi/Configuration/Options.php:1465
 msgid "Users deactivated in Active Directory are synchronized to WordPress."
 msgstr ""
 "Im Active Directory deaktivierte Benutzer werden zu WordPress synchronisiert."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1445
+#: classes/Adi/Configuration/Options.php:1477
 msgid "Enable Logging"
 msgstr "Aktiviere Logging"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1447
+#: classes/Adi/Configuration/Options.php:1479
 msgid ""
 "If enabled, NADI will create a logfile at the default location "
 "\"PLUGINPATH/logs/debug.log\". <button class=\"button button-primary\" ng-"
@@ -1540,7 +1549,7 @@ msgstr ""
 "click=\"activateLogging()\" ng-show=\"isSaveDisabled\"> Logging "
 "Einstellungen speichern</button>"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1451
+#: classes/Adi/Configuration/Options.php:1483
 msgid ""
 "If enabled, NADI will create a logfile and start logging to it. Default path "
 "is \"PLUGINPATH/logs/debug.log\"."
@@ -1548,18 +1557,18 @@ msgstr ""
 "Wenn diese Option aktiviert ist wird NADI eine Logdatei anlegen. Hierfür \n"
 "wird der folgende  Standardpfad benutzt: \"PLUGINPFAD/logs/debug.log\"."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1463
+#: classes/Adi/Configuration/Options.php:1495
 msgid "Custom Path"
 msgstr "Eigener Pfad"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1465
+#: classes/Adi/Configuration/Options.php:1497
 msgid ""
 "The logfile will be created at the set location. (e.g. /custompath/logs/)."
 msgstr ""
 "Die Logdatei wird in dem von Ihnen angegebenen Pfad erstellt. (z.b. "
 "/custompath/logs/)."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Options.php:1469
+#: classes/Adi/Configuration/Options.php:1501
 msgid ""
 "If you do not have permission for the default path on your system you can "
 "set a new path. The debug.log file will be created at the set location."
@@ -1568,51 +1577,11 @@ msgstr ""
 "können sie einen neuen Pfad angeben. Die Logdatei wird in dem von ihnen "
 "angegebenen Pfad erstellt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/WordPress.php:508
-#, php-format
-msgid "User \"%s\" no longer found in Active Directory."
-msgstr "Benutzer \"%s\" wurde nicht im Active Directory gefunden."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/WordPress.php:514
-#, php-format
-msgid ""
-"User \"%s\" has no normal Active Directory user account. Only user accounts "
-"can be synchronized."
-msgstr ""
-"Benutzer \"%s\" besitzt kein normales Active Directory-Benutzerkonto. Es "
-"können nur Benutzerkonten synchronisiert werden."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/WordPress.php:525
-#, php-format
-msgid "The account of user \"%s\" requires a smart card for login."
-msgstr "Das Konto von Benutzer \"%s\" benötigt zur Anmeldung eine Smartcard."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/WordPress.php:568
-#, php-format
-msgid "User \"%s\" is disabled in Active Directory."
-msgstr "Benutzer \"%s\" ist im  Active Directory deaktiviert."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/ActiveDirectory.php:219
-msgid "Synchronization is not enabled"
-msgstr "Synchronisation nicht aktiviert"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/ActiveDirectory.php:225
-msgid "This user does not have a corresponding Active Directory account"
-msgstr "Dieser Benutzer besitzt kein Active Directory-Konto"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/ActiveDirectory.php:229
-msgid ""
-"This user is not editable because there is no Sync To AD service account "
-"available"
-msgstr ""
-"Dieser Benutzer kann nicht bearbeitet werden, da kein <em>Sync to AD Service "
-"Account</em> hinterlegt wurde."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Mail/Message.php:47
+#: classes/Adi/Mail/Message.php:47
 msgid "Account blocked"
 msgstr "Konto gesperrt"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Mail/Message.php:83
+#: classes/Adi/Mail/Message.php:83
 #, php-format
 msgid ""
 "Someone tried to login into the WordPress site \"%s\" (%s) with your "
@@ -1622,7 +1591,7 @@ msgstr ""
 "Benutzer \"%s\" anzumelden - nach zu vielen falschen Versuchen wurde er "
 "gestoppt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Mail/Message.php:84
+#: classes/Adi/Mail/Message.php:84
 #, php-format
 msgid ""
 "Someone tried to login into the WordPress site \"%s\" (%s) with the username "
@@ -1632,29 +1601,29 @@ msgstr ""
 "Benutzer \"%s\" anzumelden - nach zu vielen falschen Versuchen wurde er "
 "gestoppt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Mail/Message.php:85
+#: classes/Adi/Mail/Message.php:85
 #, php-format
 msgid "This account is associated with \"%s %s\" and the email address \"%s\"."
 msgstr "Der Account ist assoziiert mit \"%s %s\" und der E-Mail Adresse \"%s\""
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Mail/Message.php:86
+#: classes/Adi/Mail/Message.php:86
 #, php-format
 msgid "The login attempt was made from IP-Address: %s"
 msgstr "Der Loginversuch erfolgte von der IP-Adresse %s"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Mail/Message.php:87
+#: classes/Adi/Mail/Message.php:87
 #, php-format
 msgid "For security reasons this account is now blocked for %d seconds."
 msgstr "Aus Sicherheitsgründen ist dein Account für %d Sekunden blockiert."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Mail/Message.php:88
+#: classes/Adi/Mail/Message.php:88
 msgid ""
 "PLEASE CONTACT AN ADMIN IF SOMEONE STILL TRIES TO LOGIN INTO YOUR ACCOUNT."
 msgstr ""
 "BITTE KONTAKTIERE EINEN ADMINISTRATOR, WENN JEMAND IMMER NOCH VERSUCHT, SICH "
 "IN DEINEN ACCOUNT EINZULOGGEN."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Mail/Message.php:89
+#: classes/Adi/Mail/Message.php:89
 msgid ""
 "THIS IS A SYSTEM GENERATED E-MAIL, PLEASE DO NOT RESPOND TO THE E-MAIL "
 "ADDRESS SPECIFIED ABOVE."
@@ -1662,25 +1631,57 @@ msgstr ""
 "DIES IST EINE AUTOMATISCH GENERIERTE NACHRICHT, BITTE ANTWORTEN SIE NICHT "
 "DIESER E-MAIL-ADRESSE."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/Menu.php:77
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Multisite/Ui/Menu.php:61
-msgid "Active Directory Integration"
-msgstr "Active Directory Integration"
+#: classes/Adi/Synchronization/ActiveDirectory.php:219
+msgid "Synchronization is not enabled"
+msgstr "Synchronisation nicht aktiviert"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:84
+#: classes/Adi/Synchronization/ActiveDirectory.php:225
+msgid "This user does not have a corresponding Active Directory account"
+msgstr "Dieser Benutzer besitzt kein Active Directory-Konto"
+
+#: classes/Adi/Synchronization/ActiveDirectory.php:229
+msgid ""
+"This user is not editable because there is no Sync To AD service account "
+"available"
+msgstr ""
+"Dieser Benutzer kann nicht bearbeitet werden, da kein <em>Sync to AD Service "
+"Account</em> hinterlegt wurde."
+
+#: classes/Adi/Synchronization/WordPress.php:508
+#, php-format
+msgid "User \"%s\" no longer found in Active Directory."
+msgstr "Benutzer \"%s\" wurde nicht im Active Directory gefunden."
+
+#: classes/Adi/Synchronization/WordPress.php:514
+#, php-format
+msgid ""
+"User \"%s\" has no normal Active Directory user account. Only user accounts "
+"can be synchronized."
+msgstr ""
+"Benutzer \"%s\" besitzt kein normales Active Directory-Benutzerkonto. Es "
+"können nur Benutzerkonten synchronisiert werden."
+
+#: classes/Adi/Synchronization/WordPress.php:528
+#, php-format
+msgid "The account of user \"%s\" requires a smart card for login."
+msgstr "Das Konto von Benutzer \"%s\" benötigt zur Anmeldung eine Smartcard."
+
+#: classes/Adi/Synchronization/WordPress.php:574
+#, php-format
+msgid "User \"%s\" is disabled in Active Directory."
+msgstr "Benutzer \"%s\" ist im  Active Directory deaktiviert."
+
+#: classes/Adi/Ui/ConnectivityTestPage.php:84
 msgid "Test authentication"
 msgstr "Test der Authentifizierung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:102
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:114
+#: classes/Adi/Ui/ConnectivityTestPage.php:102
+#: classes/Adi/Ui/ConnectivityTestPage.php:114
 msgid "Test Active Directory authentication"
 msgstr "Teste Active Directory Authentifizierung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:103
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:115
+#: classes/Adi/Ui/ConnectivityTestPage.php:103
+#: classes/Adi/Ui/ConnectivityTestPage.php:115
 msgid ""
 "Please enter the username and password for the account you want to "
 "authenticate with. After submitting the request you will get the debug "
@@ -1690,9 +1691,8 @@ msgstr ""
 "dem Sie sich authentifizieren wollen. Nach dem Absenden erhalten Sie eine "
 "Ausgabe zur weiteren Analyse."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:104
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:116
+#: classes/Adi/Ui/ConnectivityTestPage.php:104
+#: classes/Adi/Ui/ConnectivityTestPage.php:116
 msgid ""
 "For this page feature of blocking user accounts with failed login attempts "
 "is disabled. You do not have to worry about locking an account."
@@ -1701,387 +1701,426 @@ msgstr ""
 "Anmeldeversuche deaktiviert. Sie müssen sich keine Sorgen darüber machen, "
 "dass Ihr Konto gesperrt wird."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:105
+#: classes/Adi/Ui/ConnectivityTestPage.php:105
 msgid "Please note that the entered password is not masked."
 msgstr ""
 "Bitte beachten Sie, dass das Passwort im <strong>Klartext</strong> "
 "dargestellt wird."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:106
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:118
+#: classes/Adi/Ui/ConnectivityTestPage.php:106
+#: classes/Adi/Ui/ConnectivityTestPage.php:118
 msgid "Username:"
 msgstr "Benutzername:"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:107
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:119
+#: classes/Adi/Ui/ConnectivityTestPage.php:107
+#: classes/Adi/Ui/ConnectivityTestPage.php:119
 msgid "Password (will be shown):"
 msgstr "Passwort (wird angezeigt):"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:108
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:120
+#: classes/Adi/Ui/ConnectivityTestPage.php:108
+#: classes/Adi/Ui/ConnectivityTestPage.php:120
 msgid "Try to authenticate again"
 msgstr "Teste Authentifizierung erneut"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:109
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:121
+#: classes/Adi/Ui/ConnectivityTestPage.php:109
+#: classes/Adi/Ui/ConnectivityTestPage.php:121
 msgid "Try to authenticate"
 msgstr "Teste Authentifizierung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:117
+#: classes/Adi/Ui/ConnectivityTestPage.php:110
+#: classes/Adi/Ui/ConnectivityTestPage.php:122
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:89
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:88
+#: test/Adi/Synchronization/Ui/SyncToActiveDirectoryTest.php:162
+#: test/Adi/Synchronization/Ui/SyncToWordPressTest.php:104
+msgid "Show log output"
+msgstr "Log-Ausgabe anzeigen"
+
+#: classes/Adi/Ui/ConnectivityTestPage.php:117
 msgid "Please note that the entered password <strong>is not masked</strong>."
 msgstr ""
 "Bitte beachten Sie, dass das Passwort im <strong>Klartext</strong> "
 "dargestellt wird."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:146
+#: classes/Adi/Ui/ConnectivityTestPage.php:146
 msgid "You do not have sufficient permissions."
 msgstr "Sie besitzen nicht die benötigten Rechte."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:159
+#: classes/Adi/Ui/ConnectivityTestPage.php:159
 msgid "User logged on."
 msgstr "Benutzer angemeldet."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Ui/ConnectivityTestPage.php:161
+#: classes/Adi/Ui/ConnectivityTestPage.php:161
 msgid "Logon failed."
 msgstr "Anmeldung fehlgeschlagen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Authentication/LoginService.php:108
-msgid ""
-"Lost Password feature has been disabled by the \"Next Active Directory "
-"Integration\" plugin."
-msgstr ""
-"Die \"Password vergessen?\" Funktion wurde durch das \"Next Active Directory "
-"Integration\" Plugin deaktiviert."
+#: classes/Adi/Ui/Menu.php:77 classes/Adi/Multisite/Ui/Menu.php:61
+msgid "Active Directory Integration"
+msgstr "Active Directory Integration"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Authentication/LoginService.php:174
-msgid "Next ADI prevents XML RPC authentication!"
-msgstr "NADI verhindert die Authenifizierung über die XML RPC Schnittstelle."
+#: classes/Ldap/Attribute/Description.php:23
+msgid "Common Name"
+msgstr "Allgeminer Name"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:83
-msgid "Profile options"
-msgstr "Profiloptionen"
+#: classes/Ldap/Attribute/Description.php:24
+msgid "First name"
+msgstr "Vorname"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:115
-msgid ""
-"The current profile contains unsaved changes. Are you sure you want to "
-"continue?"
-msgstr ""
-"Das aktuelle Profil enthält nicht-gespeicherte Änderungen. Sind Sie sicher "
-"das Sie fortfahren wollen ?"
+#: classes/Ldap/Attribute/Description.php:25
+msgid "Initials"
+msgstr "Initialien"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:116
-msgid "The current profile is associated with the following sites:"
-msgstr "Das aktuelle Profil ist mit den folgenden Seiten verknüpft:"
+#: classes/Ldap/Attribute/Description.php:26
+msgid "Last name"
+msgstr "Nachname"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:117
-msgid ""
-"The current profile is associated with {{ associations.length }} sites. Are "
-"you sure you want to delete this profile?"
-msgstr ""
-"Das aktuelle Profil ist mit {{ associations.length }} Seiten verbunden. Sind "
-"Sie sicher, dass Sie das Profil löschen möchten?"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:118
-msgid "Assign to profile:"
-msgstr "Neues Profil zuweisen:"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:119
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Configuration/Persistence/ProfileRepository.php:154
-msgid "New Profile"
-msgstr "Neues Profil"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:121
-msgid "Configure Settings for Profile : "
-msgstr "Einstellungen für Profil :"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:122
-msgid "Create new profile"
-msgstr "Erstelle ein neues Profil"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:123
-msgid "Delete profile"
-msgstr "Profil löschen"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:124
-msgid "View associated profiles"
-msgstr "Zeige verbundene Profile"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:125
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:103
-msgid "Regenerate Auth Code"
-msgstr "Neuen Auth Code erstellen"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:126
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:104
-msgid "Security group"
-msgstr "Sicherheitsgruppen"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:127
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:105
-msgid "WordPress role"
-msgstr "WordPress-Rollen"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:128
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:106
-msgid "Please select a role"
-msgstr "Bitte wähle eine Rolle aus"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:129
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:107
-msgid "Verify"
-msgstr "Verifizieren"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:130
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:108
-msgid "AD Attributes"
-msgstr "AD Attribute"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:131
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:109
-msgid "Data Type"
-msgstr "Datentypen"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:132
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:110
-msgid "Wordpress Attribute"
-msgstr "WordPress-Attribut"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:133
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:111
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:28
+#: classes/Ldap/Attribute/Description.php:28
+#: classes/Multisite/Ui/BlogConfigurationPage.php:111
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:133
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:134
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:112
+#: classes/Ldap/Attribute/Description.php:29
+msgid "Office"
+msgstr "Büro"
+
+#: classes/Ldap/Attribute/Description.php:30
+msgid "Telephone number"
+msgstr "Telefonnummer"
+
+#: classes/Ldap/Attribute/Description.php:31
+msgid "E-mail"
+msgstr "E-mail"
+
+#: classes/Ldap/Attribute/Description.php:32
+msgid "Web Page"
+msgstr "Webseite"
+
+#: classes/Ldap/Attribute/Description.php:35
+msgid "User logon name"
+msgstr "Benutzername"
+
+#: classes/Ldap/Attribute/Description.php:38
+msgid "Street"
+msgstr "Straße"
+
+#: classes/Ldap/Attribute/Description.php:39
+msgid "P.O. Box"
+msgstr "P.O. Box Nummer"
+
+#: classes/Ldap/Attribute/Description.php:40
+msgid "City"
+msgstr "Stadt"
+
+#: classes/Ldap/Attribute/Description.php:41
+msgid "State"
+msgstr "Bundesland"
+
+#: classes/Ldap/Attribute/Description.php:42
+msgid "ZIP/Postal cide"
+msgstr "Postleitzahl"
+
+#: classes/Ldap/Attribute/Description.php:43
+msgid "Country abbreviation"
+msgstr "Länderkürzel"
+
+#: classes/Ldap/Attribute/Description.php:44
+msgid "Country"
+msgstr "Land"
+
+#: classes/Ldap/Attribute/Description.php:45
+msgid "Country code (number)"
+msgstr "Landesvorwahl"
+
+#: classes/Ldap/Attribute/Description.php:48
+msgid "Home"
+msgstr "Telefonnummer"
+
+#: classes/Ldap/Attribute/Description.php:49
+msgid "Home (other)"
+msgstr "Telefonnummer (andere)"
+
+#: classes/Ldap/Attribute/Description.php:50
+msgid "Pager"
+msgstr "Pager"
+
+#: classes/Ldap/Attribute/Description.php:51
+msgid "Pager (other)"
+msgstr "Pager (andere)"
+
+#: classes/Ldap/Attribute/Description.php:52
+msgid "Mobile"
+msgstr "Handy"
+
+#: classes/Ldap/Attribute/Description.php:53
+msgid "Mobile (Other)"
+msgstr "Handy (andere)"
+
+#: classes/Ldap/Attribute/Description.php:54
+msgid "Fax"
+msgstr "Fax"
+
+#: classes/Ldap/Attribute/Description.php:55
+msgid "Fax (other)"
+msgstr "Fax (andere)"
+
+#: classes/Ldap/Attribute/Description.php:56
+msgid "IP Phone"
+msgstr "IP Telefon"
+
+#: classes/Ldap/Attribute/Description.php:57
+msgid "IP Phone (other)"
+msgstr "IP Telefon (andere)"
+
+#: classes/Ldap/Attribute/Description.php:58
+msgid "Notes"
+msgstr "Notizen"
+
+#: classes/Ldap/Attribute/Description.php:61
+msgid "Title"
+msgstr "Titel"
+
+#: classes/Ldap/Attribute/Description.php:62
+msgid "Department"
+msgstr "Abteilung"
+
+#: classes/Ldap/Attribute/Description.php:63
+msgid "Company"
+msgstr "Firma"
+
+#: classes/Ldap/Attribute/Description.php:64
+msgid "Manager"
+msgstr "Manager"
+
+#: classes/Ldap/Attribute/Description.php:65
+msgid "Direct reports"
+msgstr "Direct reports"
+
+#: classes/Ldap/Attribute/Description.php:68
+msgid "Thumbnail Photo"
+msgstr "Thumbnail Photo"
+
+#: classes/Ldap/Attribute/Description.php:69
+msgid "Jpeg Photo"
+msgstr "Jpeg Photo"
+
+#: classes/Ldap/Attribute/Description.php:70
+msgid "Thumbnail Logo"
+msgstr "Thumbnail Logo"
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:49
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:90
+msgid "Profile assignment"
+msgstr "Profilzuweisung"
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:89
+msgid "Search"
+msgstr "Suchen"
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:91
+msgid "Default profile"
+msgstr "Standardprofil"
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:92
+msgid "--- None assigned"
+msgstr "--- Nicht zugewiesen"
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:93
+msgid "Apply"
+msgstr "Übernehmen"
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:94
+msgid "Change selected blogs to profile"
+msgstr "Ändere Profil der ausgewählten Blogs "
+
+#: classes/Multisite/Ui/BlogProfileRelationshipPage.php:95
+msgid "--- Use default profile"
+msgstr "--- Benutze Standardprofil"
+
+#: classes/Multisite/Ui/ProfileConfigurationController.php:49
+#: classes/Multisite/Ui/BlogConfigurationPage.php:125
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:147
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:477
+msgid "An error occurred while saving the configuration."
+msgstr "Beim Speichern der Einstellungen ist ein Fehler aufgetreten."
+
+#: classes/Multisite/Ui/ProfileConfigurationController.php:52
+msgid "The configuration was saved successfully."
+msgstr "Die Konfiguration wurde erfolgreich gespeichert."
+
+#: classes/Multisite/Ui/ProfileController.php:157
+msgid "An error occurred while deleting the profile."
+msgstr "Beim Löschen dieses Profils ist ein Fehler aufgetreten."
+
+#: classes/Multisite/Ui/ProfileController.php:160
+msgid "The profile was deleted successfully."
+msgstr "Das Profil wurde erfolgreich gelöscht."
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:72
+msgid "Configuration"
+msgstr "Einstellungen"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:102
+msgid "Next Active Directory Integration Blog Configuration"
+msgstr "Next Active Directory Integration Blog Einstellungen"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:103
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:125
+msgid "Regenerate Auth Code"
+msgstr "Neuen Auth Code erstellen"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:104
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:126
+msgid "Security group"
+msgstr "Sicherheitsgruppen"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:105
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:127
+msgid "WordPress role"
+msgstr "WordPress-Rollen"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:106
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:128
+msgid "Please select a role"
+msgstr "Bitte wähle eine Rolle aus"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:107
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:129
+msgid "Verify"
+msgstr "Verifizieren"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:108
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:130
+msgid "AD Attributes"
+msgstr "AD Attribute"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:109
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:131
+msgid "Data Type"
+msgstr "Datentypen"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:110
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:132
+msgid "Wordpress Attribute"
+msgstr "WordPress-Attribut"
+
+#: classes/Multisite/Ui/BlogConfigurationPage.php:112
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:134
 msgid "View in User Profile"
 msgstr "In Benutzerprofil anzeigen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:135
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:113
+#: classes/Multisite/Ui/BlogConfigurationPage.php:113
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:135
 msgid "Sync to Ad"
 msgstr "Sync to Ad"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:136
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:114
+#: classes/Multisite/Ui/BlogConfigurationPage.php:114
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:136
 msgid "Overwrite with empty value"
 msgstr "Mit leerem Wert überschreiben"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:137
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:115
+#: classes/Multisite/Ui/BlogConfigurationPage.php:115
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:137
 msgid "Do you really want to regenerate a new AuthCode?"
 msgstr "Möchten Sie wirklich einen neuen Auth Code generieren?"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:138
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:116
+#: classes/Multisite/Ui/BlogConfigurationPage.php:116
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:138
 msgid "WordPress Site is currently connected to Domain: "
 msgstr "WordPress Seite / Profil ist momentan mit folgender Domäne verbunden: "
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:139
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:117
+#: classes/Multisite/Ui/BlogConfigurationPage.php:117
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:139
 msgid "Verification successful! WordPress site is now connected to Domain: "
 msgstr ""
 "Verifizierung erfolgreich! Ihr WordPress-Blog ist nun mit der folgenden "
 "Domäne verbunden: "
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:140
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:118
+#: classes/Multisite/Ui/BlogConfigurationPage.php:118
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:140
 msgid "Verification successful!"
 msgstr "Verifizierung erfolgreich!"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:141
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:119
+#: classes/Multisite/Ui/BlogConfigurationPage.php:119
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:141
 msgid "Verification failed! Please check your logfile for further information."
 msgstr ""
 "Verifizierung fehlgeschlagen! Bitte überprüfen Sie die Log-Datei für weitere "
 "Informationen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:142
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:120
+#: classes/Multisite/Ui/BlogConfigurationPage.php:120
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:142
 msgid "Manage Permissions"
 msgstr "Verwalte Berechtigungen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:143
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:121
+#: classes/Multisite/Ui/BlogConfigurationPage.php:121
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:143
 msgid "No options exists"
 msgstr "Es existieren keine Optionen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:144
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:122
+#: classes/Multisite/Ui/BlogConfigurationPage.php:122
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:144
 msgid "Please wait..."
 msgstr "Bitte warten..."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:145
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:123
+#: classes/Multisite/Ui/BlogConfigurationPage.php:123
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:145
 msgid "Save"
 msgstr "Speichern"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:146
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:124
+#: classes/Multisite/Ui/BlogConfigurationPage.php:124
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:146
 msgid "You have to verify the connection to the AD before saving."
 msgstr ""
 "Sie müssen die Verbindung zu einer Domäne verifizieren bevor Sie speichern "
 "können."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:147
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:477
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationController.php:49
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:125
-msgid "An error occurred while saving the configuration."
-msgstr "Beim Speichern der Einstellungen ist ein Fehler aufgetreten."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:148
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:126
+#: classes/Multisite/Ui/BlogConfigurationPage.php:126
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:148
 msgid "The configuration has been saved successfully."
 msgstr "Die Einstellungen wurden erfolgreich gespeichert. "
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:419
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/test/Multisite/Ui/ProfileConfigurationPageTest.php:881
-msgid "Input field is invisible."
-msgstr "Eingabefeld ist unsichtbar."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:423
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/test/Multisite/Ui/ProfileConfigurationPageTest.php:885
-msgid "Deactivated and option value not shown."
-msgstr "Deaktiviert und Wert wird nicht angezeigt."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:427
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/test/Multisite/Ui/ProfileConfigurationPageTest.php:889
-msgid "Deactivated and option value shown."
-msgstr "Deaktiviert und Wert wird angezeigt."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationPage.php:431
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/test/Multisite/Ui/ProfileConfigurationPageTest.php:893
-msgid "Blog admin sets the option value."
-msgstr "Blog-Administrator setzt den Wert."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileController.php:157
-msgid "An error occurred while deleting the profile."
-msgstr "Beim Löschen dieses Profils ist ein Fehler aufgetreten."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileController.php:160
-msgid "The profile was deleted successfully."
-msgstr "Das Profil wurde erfolgreich gelöscht."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/ProfileConfigurationController.php:52
-msgid "The configuration was saved successfully."
-msgstr "Die Konfiguration wurde erfolgreich gespeichert."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogProfileRelationshipPage.php:49
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogProfileRelationshipPage.php:90
-msgid "Profile assignment"
-msgstr "Profilzuweisung"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogProfileRelationshipPage.php:89
-msgid "Search"
-msgstr "Suchen"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogProfileRelationshipPage.php:91
-msgid "Default profile"
-msgstr "Standardprofil"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogProfileRelationshipPage.php:92
-msgid "--- None assigned"
-msgstr "--- Nicht zugewiesen"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogProfileRelationshipPage.php:93
-msgid "Apply"
-msgstr "Übernehmen"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogProfileRelationshipPage.php:94
-msgid "Change selected blogs to profile"
-msgstr "Ändere Profil der ausgewählten Blogs "
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogProfileRelationshipPage.php:95
-msgid "--- Use default profile"
-msgstr "--- Benutze Standardprofil"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:72
-msgid "Configuration"
-msgstr "Einstellungen"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:102
-msgid "Next Active Directory Integration Blog Configuration"
-msgstr "Next Active Directory Integration Blog Einstellungen"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:608
+#: classes/Multisite/Ui/BlogConfigurationPage.php:608
 msgid "Username has to contain a suffix."
 msgstr "Der Benutzername muss ein Suffix enthalten."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:609
+#: classes/Multisite/Ui/BlogConfigurationPage.php:609
 msgid "The given value is invalid."
 msgstr "Der angegebene Wert ist ungültig."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:612
+#: classes/Multisite/Ui/BlogConfigurationPage.php:612
 msgid "This value must not be empty."
 msgstr "Dieser Wert darf nicht leer sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:622
+#: classes/Multisite/Ui/BlogConfigurationPage.php:622
 msgid ""
 "Account Suffix does not match the required style. (e.g. \"@company.local\")"
 msgstr ""
 "Das Suffix des Benutzerkontos entspricht nicht dem erwarteten Format (z. B. "
 "\"@company.local\")."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:629
+#: classes/Multisite/Ui/BlogConfigurationPage.php:629
 msgid "Please remove the \"@\", it will be added automatically."
 msgstr "Bitte entfernen Sie das \"@\", es wird automatisch hinzugefügt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:634
+#: classes/Multisite/Ui/BlogConfigurationPage.php:634
 msgid "Maximum login attempts has to be numeric and cannot be negative."
 msgstr ""
 "Die maximale Anzahl an Anmeldeversuchen muss eine Zahl und nicht negativ "
 "sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:638
+#: classes/Multisite/Ui/BlogConfigurationPage.php:638
 msgid "Blocking Time has to be numeric and cannot be negative."
 msgstr "Die Sperrzeit muss eine Zahl und nicht negativ sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:642
+#: classes/Multisite/Ui/BlogConfigurationPage.php:642
 msgid ""
 "Admin email does not match the required style. (e.g. \"admin@company.local\")"
 msgstr ""
 "Die Administrator E-Mail entspricht nicht dem erwarteten Format (z. B. "
 "\"admin@company.local\")."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:649
+#: classes/Multisite/Ui/BlogConfigurationPage.php:649
 msgid ""
 "From email does not match the required style. (e.g. \"wordpress@company."
 "local\")"
@@ -2089,19 +2128,19 @@ msgstr ""
 "Absender E-Mail Adresse stimmt nicht mit dem vorausgesetzten Format über ein."
 " (Bsp. \"wordpress@company.local\")"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:659
+#: classes/Multisite/Ui/BlogConfigurationPage.php:659
 msgid "Username must not be empty."
 msgstr "Der Benutzername darf nicht leer sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:671
+#: classes/Multisite/Ui/BlogConfigurationPage.php:671
 msgid "Password must not be empty."
 msgstr "Das Passwort darf nicht leer sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:687
+#: classes/Multisite/Ui/BlogConfigurationPage.php:687
 msgid "The role super admin can only be set inside a profile."
 msgstr "Die Rolle \"super admin\" kann nur in einem Profil gesetzt werden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:688
+#: classes/Multisite/Ui/BlogConfigurationPage.php:688
 msgid ""
 "At least one security group is associated with a non existing WordPress role."
 " Please select an existing role for the group."
@@ -2110,27 +2149,26 @@ msgstr ""
 "WordPress Rolle verknüpft. Bitte wähle für diese Gruppe eine existierende \n"
 "Rolle aus."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:693
+#: classes/Multisite/Ui/BlogConfigurationPage.php:693
 msgid "Cannot use default attribute names for custom attribute mapping."
 msgstr ""
 "Bitte verwenden Sie keine Default Attribut Namen für benutzerdefinierte "
 "Attribute."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:702
+#: classes/Multisite/Ui/BlogConfigurationPage.php:702
 msgid "Ad Attribute / Data Type / WordPress Attribute cannot be empty!"
 msgstr "Ad Attribut / Daten Typ / WordPress Attribut darf nicht leer sein!"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:709
+#: classes/Multisite/Ui/BlogConfigurationPage.php:709
 msgid "You cannot use the same WordPress Attribute multiple times."
 msgstr "Sie können nicht das gleiche WordPress-Attribut mehrmals verwenden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:713
+#: classes/Multisite/Ui/BlogConfigurationPage.php:713
 msgid "You cannot use the same Ad Attribute multiple times."
 msgstr "Sie können nicht das gleiche Ad Attribut mehrmals verwenden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:754
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:760
+#: classes/Multisite/Ui/BlogConfigurationPage.php:754
+#: classes/Multisite/Ui/BlogConfigurationPage.php:760
 msgid ""
 "Verification Username does not match the required style. (e.g. "
 "\"Administrator@test.ad\")"
@@ -2138,176 +2176,155 @@ msgstr ""
 "Der Benutzername entspricht nicht dem erwarteten Format (z. B. "
 "\"Administrator@test.ad\")"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:766
+#: classes/Multisite/Ui/BlogConfigurationPage.php:766
 msgid "Verification Password cannot be empty."
 msgstr "Das Passwort darf nicht leer sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:784
+#: classes/Multisite/Ui/BlogConfigurationPage.php:784
 msgid "Port has to be numeric and in the range from 0 - 65535."
 msgstr "Der Port muss eine Zahl zwischen 0 - 65535 sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:788
+#: classes/Multisite/Ui/BlogConfigurationPage.php:788
 msgid "Network timeout has to be numeric and cannot be negative."
 msgstr "Der Netzwerk Timeout muss eine Zahl und nicht negativ sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:792
+#: classes/Multisite/Ui/BlogConfigurationPage.php:792
 msgid "Domain Controller cannot be empty."
 msgstr "Domänencontroller darf nicht leer sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:807
+#: classes/Multisite/Ui/BlogConfigurationPage.php:807
 msgid "Base DN does not match the required style. (e.g. \"DC=test,DC=ad\")"
 msgstr ""
 "Base DN entspricht nicht dem benötigten Format. (e.g. \"DC=test,DC=ad\")"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:813
+#: classes/Multisite/Ui/BlogConfigurationPage.php:813
 msgid "Base DN consists of only one DC. (e.g. \"DC=test,DC=ad\")"
 msgstr "Base DN besteht nur aus einem DC. (e.g. \"DC=test,DC=ad\")"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/BlogConfigurationPage.php:819
-msgid "Base DN must not be empty"
-msgstr "Base DN darf nicht leer sein"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:83
+msgid "Profile options"
+msgstr "Profiloptionen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:23
-msgid "Common Name"
-msgstr "Allgeminer Name"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:115
+msgid ""
+"The current profile contains unsaved changes. Are you sure you want to "
+"continue?"
+msgstr ""
+"Das aktuelle Profil enthält nicht-gespeicherte Änderungen. Sind Sie sicher "
+"das Sie fortfahren wollen ?"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:24
-msgid "First name"
-msgstr "Vorname"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:116
+msgid "The current profile is associated with the following sites:"
+msgstr "Das aktuelle Profil ist mit den folgenden Seiten verknüpft:"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:25
-msgid "Initials"
-msgstr "Initialien"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:117
+msgid ""
+"The current profile is associated with {{ associations.length }} sites. Are "
+"you sure you want to delete this profile?"
+msgstr ""
+"Das aktuelle Profil ist mit {{ associations.length }} Seiten verbunden. Sind "
+"Sie sicher, dass Sie das Profil löschen möchten?"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:26
-msgid "Last name"
-msgstr "Nachname"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:118
+msgid "Assign to profile:"
+msgstr "Neues Profil zuweisen:"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:29
-msgid "Office"
-msgstr "Büro"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:119
+#: classes/Multisite/Configuration/Persistence/ProfileRepository.php:154
+msgid "New Profile"
+msgstr "Neues Profil"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:30
-msgid "Telephone number"
-msgstr "Telefonnummer"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:121
+msgid "Configure Settings for Profile : "
+msgstr "Einstellungen für Profil :"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:31
-msgid "E-mail"
-msgstr "E-mail"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:122
+msgid "Create new profile"
+msgstr "Erstelle ein neues Profil"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:32
-msgid "Web Page"
-msgstr "Webseite"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:123
+msgid "Delete profile"
+msgstr "Profil löschen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:35
-msgid "User logon name"
-msgstr "Benutzername"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:124
+msgid "View associated profiles"
+msgstr "Zeige verbundene Profile"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:38
-msgid "Street"
-msgstr "Straße"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:419
+#: test/Multisite/Ui/ProfileConfigurationPageTest.php:881
+msgid "Input field is invisible."
+msgstr "Eingabefeld ist unsichtbar."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:39
-msgid "P.O. Box"
-msgstr "P.O. Box Nummer"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:423
+#: test/Multisite/Ui/ProfileConfigurationPageTest.php:885
+msgid "Deactivated and option value not shown."
+msgstr "Deaktiviert und Wert wird nicht angezeigt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:40
-msgid "City"
-msgstr "Stadt"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:427
+#: test/Multisite/Ui/ProfileConfigurationPageTest.php:889
+msgid "Deactivated and option value shown."
+msgstr "Deaktiviert und Wert wird angezeigt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:41
-msgid "State"
-msgstr "Bundesland"
+#: classes/Multisite/Ui/ProfileConfigurationPage.php:431
+#: test/Multisite/Ui/ProfileConfigurationPageTest.php:893
+msgid "Blog admin sets the option value."
+msgstr "Blog-Administrator setzt den Wert."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:42
-msgid "ZIP/Postal cide"
-msgstr "Postleitzahl"
+#: classes/Adi/Authentication/Ui/ShowBlockedMessage.php:62
+#, php-format
+msgid ""
+"Authentication denied by Next Active Directory Integration Brute Force "
+"Protection. Your account is blocked for %s seconds."
+msgstr ""
+"Die Authentifizierung wurde von der Brute Force Protection des Next Active "
+"Directory Integration Plugins abgelehnt. Dein Account ist für %s Sekunden "
+"blockiert."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:43
-msgid "Country abbreviation"
-msgstr "Länderkürzel"
+#: classes/Adi/Authentication/Ui/ShowBlockedMessage.php:75
+#, php-format
+msgid ""
+"Authentication denied by Next Active Directory Integration Brute Force "
+"Protection. <br> Your account is blocked for %s seconds."
+msgstr ""
+"Die Authentifizierung wurde durch die Next Active Directory Integration "
+"Brute Force Protection verhindert. <br> Ihr Account wurde für %s Sekunden "
+"gesperrt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:44
-msgid "Country"
-msgstr "Land"
+#: classes/Adi/Authentication/Ui/SingleSignOn.php:32
+msgid "Log in using SSO"
+msgstr "Anmeldung über SSO"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:45
-msgid "Country code (number)"
-msgstr "Landesvorwahl"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:48
-msgid "Home"
-msgstr "Telefonnummer"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:49
-msgid "Home (other)"
-msgstr "Telefonnummer (andere)"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:50
-msgid "Pager"
-msgstr "Pager"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:51
-msgid "Pager (other)"
-msgstr "Pager (andere)"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:52
-msgid "Mobile"
-msgstr "Handy"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:53
-msgid "Mobile (Other)"
-msgstr "Handy (andere)"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:54
-msgid "Fax"
-msgstr "Fax"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:55
-msgid "Fax (other)"
-msgstr "Fax (andere)"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:56
-msgid "IP Phone"
-msgstr "IP Telefon"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:57
-msgid "IP Phone (other)"
-msgstr "IP Telefon (andere)"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:58
-msgid "Notes"
-msgstr "Notizen"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:61
-msgid "Title"
-msgstr "Titel"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:62
-msgid "Department"
-msgstr "Abteilung"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:63
-msgid "Company"
-msgstr "Firma"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:64
-msgid "Manager"
-msgstr "Manager"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Ldap/Attribute/Description.php:65
-msgid "Direct reports"
-msgstr "Direct reports"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:55
+#: classes/Adi/Configuration/Ui/Layout.php:55
 msgid "Profile"
 msgstr "Profil"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:58
+#: classes/Adi/Configuration/Ui/Layout.php:58
 msgid "Profile Options"
 msgstr "Profiloptionen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:64
+#: classes/Adi/Configuration/Ui/Layout.php:65
+msgid ""
+"<span class=\"adi-important-message\"><b>IMPORTANT NOTICE: END OF PHP "
+"VERSION <7.1 SUPPORT </b></span><br><span>We hereby inform you that as of <b>"
+"31.12.2018</b> NADI will no longer support PHP version <b>< 7.1</b> due to "
+"security support being dropped for <b>PHP 5.6</b> and <b>PHP 7.0</b> as you "
+"can see in the <a href=\"http://php.net/supported-versions.php\" "
+"target=\"_blank\">official PHP documentation</a>. For security reasons and "
+"in order to use NADI in 2019 we hereby politely encourage you to migrate "
+"your environments to at least <b>PHP 7.1</b> until then.</span><br>"
+msgstr ""
+"<span class=\"adi-important-message\"><b>WICHTIGE INFORMATION: ENDE DES "
+"SUPPORTS VON PHP VERSION <7.1  </b></span><br><span>Wir informieren Sie "
+"hiermit, dass NADI ab dem <b>31.12.2018</b> keine  PHP Version unter <b>< 7."
+"1</b> mehr unterstützen wird. Grund dafür ist, dass der Sicherheitssupport "
+"von <b>PHP 5.6</b> und <b>PHP 7.0</b> durch das offizielle PHP Entwickler "
+"Team eingestellt wird. Wir beziehen uns dabei auf die Informationen aus <a "
+"href=\"http://php.net/supported-versions.php\" target=\"_blank\">der "
+"offiziellen PHP Dokumentation</a>. Aus Sicherheitsgründen und um NADI ab "
+"2019 weiter benutzen zu können möchten wir Sie hiermit höflich bitten bis "
+"dahin ihre Umgebung auf mindestens <b>PHP 7.1</b> zu migrieren.</span><br>"
+
+#: classes/Adi/Configuration/Ui/Layout.php:69
 msgid ""
 "On this page you can configure whether NADI should be enabled for a specific "
 "profile or not."
@@ -2315,87 +2332,104 @@ msgstr ""
 "Auf dieser Seite können Sie einstellen, ob NADI für ein bestimmtes Profil "
 "aktiviert sein soll oder nicht."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:69
+#: classes/Adi/Configuration/Ui/Layout.php:74
 msgid "Menu"
 msgstr "Menü"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:70
+#: classes/Adi/Configuration/Ui/Layout.php:75
 msgid "It is also possible to only disable certain NADI features."
 msgstr "Es ist auch möglich, einzelne NADI-Funktionen zu deaktivieren."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:82
+#: classes/Adi/Configuration/Ui/Layout.php:88
 msgid "Environment"
 msgstr "Umgebung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:86
+#: classes/Adi/Configuration/Ui/Layout.php:92
 msgid "Active Directory Environment"
 msgstr "Active Directory-Umgebung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:87
+#: classes/Adi/Configuration/Ui/Layout.php:93
 msgid ""
 "On this page you can configure the connection details for your Active "
-"Directory."
+"Directory. If you require further information about this page please take a "
+"look at our <a target=\"_blank\" href=\"https://active-directory-wp."
+"com/docs/Configuration/Environment.html\">documentation</a>."
 msgstr ""
-"Auf dieser Seite können Sie die Verbindungsinformationen für Ihr Active "
-"Directory hinterlegen."
+"Auf dieser Seite können Sie die Verbindungsinformationen für ihr Active "
+"Directory hinterlegen. Für weitere Informationen zu dieser Seite besuchen "
+"Sie bitte unsere <a target=\"_blank\" href=\"https://active-directory-wp."
+"com/docs/Configuration/Environment.html\">Dokumentation</a>."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:100
+#: classes/Adi/Configuration/Ui/Layout.php:106
 msgid "Verify Credentials"
 msgstr "Anmeldedaten für die Verifizierung"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:101
+#: classes/Adi/Configuration/Ui/Layout.php:107
 msgid "Connect your WordPress site or profile to a domain."
 msgstr ""
 "Verbinden Sie Ihre WordPress-Seite oder Ihr WordPress-Profil mit einer "
 "Domäne."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:114
+#: classes/Adi/Configuration/Ui/Layout.php:120
 msgid "User"
 msgstr "Benutzer"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:118
+#: classes/Adi/Configuration/Ui/Layout.php:124
 msgid "User Settings"
 msgstr "Benutzereinstellungen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:119
+#: classes/Adi/Configuration/Ui/Layout.php:125
 msgid ""
 "On this page you can configure how users should be created, updated and "
 "displayed. You can also prevent specific users from authenticating against "
-"the Active Directory. "
+"the Active Directory. If you require further information about this page "
+"please take a look at our <a target=\"_blank\" href=\"https://active-"
+"directory-wp.com/docs/Configuration/User.html\">documentation</a>."
 msgstr ""
-"Auf dieser Seite können Sie festlegen, wie Benutzer erstellt, aktualisiert "
-"und angezeigt werden sollen. Außerdem können Sie bestimmte Benutzer von der "
-"Authentifizierung gegen das Active Directory ausschließen."
+"Auf dieser Seite können Sie einstellen, wie Benutzer erstellt, aktuallisiert "
+"und angezeigt werden sollen. Sie können außerdem spezifische Benutzer von "
+"der Authentifizierung am Active Directory ausschließen. Für weitere "
+"Informationen zu dieser Seite besuchen Sie bitte unsere <a target=\"_blank\" "
+"href=\"https://active-directory-wp.com/docs/Configuration/User.html\">"
+"Dokumentation</a>."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:145
+#: classes/Adi/Configuration/Ui/Layout.php:152
 msgid ""
 "The password configuration page allows you to configure if users should be "
 "able to change their password, how failed authentications should be handled "
-"and so on."
+"etc. . If you require further information about this page please take a look "
+"at our <a target=\"_blank\" href=\"https://active-directory-wp."
+"com/docs/Configuration/Password.html\">documentation</a>."
 msgstr ""
-"Die Passworteinstellungen erlauben Ihnen festzulegen, ob z. B. Benutzer die "
-"Möglichkeit haben sollen, ihr Passwort zu ändern, wie fehlgeschlagene "
-"Authentifizierungen behandelt werden sollen usw."
+"Auf dieser Seite können Sie einstellen, ob es Benutzern möglich sein soll "
+"ihr WordPress Passwort zu ändern, wie fehlgeschlagene Authentifizierungen "
+"behandelt werden sollen usw. . Für weitere Informationen zu dieser Seite "
+"besuchen Sie bitte unsere <a target=\"_blank\" href=\"https://active-"
+"directory-wp.com/docs/Configuration/Password.html\">Dokumentation</a>."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:160
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:164
+#: classes/Adi/Configuration/Ui/Layout.php:167
+#: classes/Adi/Configuration/Ui/Layout.php:171
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:166
+#: classes/Adi/Configuration/Ui/Layout.php:173
 msgid ""
 "On this page you can configure whether only specific Active Directory "
 "Security groups should be granted access to WordPress. You can also define "
 "if certain Active Directory security groups should have WordPress role "
-"permissions by default."
+"permissions by default. If you require further information about this page "
+"please take a look at our <a target=\"_blank\" href=\"https://active-"
+"directory-wp.com/docs/Configuration/Permissions.html\">documentation</a>."
 msgstr ""
-"Auf dieser Seite können Sie festlegen, ob nur Mitglieder festgelegter "
-"Sicherheitsgruppen Zugang zu WordPress haben sollen. Außerdem können Sie "
-"festlegen, welche WordPress-Berechtigungen Mitglieder bestimmter Active "
-"Directory Sicherheitsgruppen standardmäßig besitzen sollen."
+"Auf dieser Seite können Sie konfigurieren, ob nur Benutzer aus bestimmten "
+"Active Directory Sicherheitsgruppen Zugriff auf WordPress haben sollen. Sie "
+"können zudem konfigurieren ob bestimmten Active Directory Sicherheitsgruppen "
+"automatisch bestimmte WordPress Rollen zugewiesen werden sollen. Für weitere "
+"Informationen zu dieser Seite besuchen Sie bitte unsere <a target=\"_blank\" "
+"href=\"https://active-directory-wp.com/docs/Configuration/Permissions.html\">"
+"Dokumentation</a>."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:170
+#: classes/Adi/Configuration/Ui/Layout.php:177
 msgid ""
 "<span class=\"adi-pe-message\"><b>Premium-Extensions: </b>Custom Role "
 "Management <a href=\"https://active-directory-wp.com/premium-extension/\">"
@@ -2405,19 +2439,25 @@ msgstr ""
 "Management <a href=\"https://active-directory-wp.com/premium-extension/\">"
 "verfügbar</a>.</span>"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:184
+#: classes/Adi/Configuration/Ui/Layout.php:191
 msgid "Security"
 msgstr "Sicherheit"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:188
+#: classes/Adi/Configuration/Ui/Layout.php:195
 msgid "Single Sign On"
 msgstr "Single Sign On"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:189
-msgid "Single Sign On Configuration"
-msgstr "Single Sign On Konfiguration"
+#: classes/Adi/Configuration/Ui/Layout.php:196
+msgid ""
+"Single Sign On Configuration. If you require further information about this "
+"page please take a look at our <a target=\"_blank\" href=\"https://active-"
+"directory-wp.com/docs/Configuration/Security.html\">documentation</a>."
+msgstr ""
+"Single Sign On Einstellungen. Für weitere Informationen zu dieser Seite "
+"besuchen Sie bitte unsere <a target=\"_blank\" href=\"https://active-"
+"directory-wp.com/docs/Configuration/Security.html\">Dokumentation</a>."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:193
+#: classes/Adi/Configuration/Ui/Layout.php:200
 msgid ""
 "<span class=\"adi-pe-message\"><b>Premium-Extensions: </b>SingleSignOn for "
 "BuddyPress, WooCommerce und Ultimate Member <a href=\"https://active-"
@@ -2427,11 +2467,20 @@ msgstr ""
 "BuddyPress, WooCommerce und Ultimate Member <a href=\"https://active-"
 "directory-wp.com/premium-extension/\">verfügbar</a>.</span>"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:206
+#. Group name
+#: classes/Adi/Configuration/Ui/Layout.php:213
+msgid "Login"
+msgstr "Login"
+
+#: classes/Adi/Configuration/Ui/Layout.php:214
+msgid "Login Configuration"
+msgstr "Login Einstellungen"
+
+#: classes/Adi/Configuration/Ui/Layout.php:224
 msgid "Brute-Force-Protection"
 msgstr "Brute-Force-Schutz"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:209
+#: classes/Adi/Configuration/Ui/Layout.php:227
 msgid ""
 "For security reasons you can use the following options to prevent brute "
 "force attacks on your user accounts."
@@ -2439,7 +2488,7 @@ msgstr ""
 "Aus Sicherheitsgründen können Sie die folgenden Einstellungen verwenden, um "
 "wiederholte fehlerhafte Anmeldeversuche zu verhindern."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:214
+#: classes/Adi/Configuration/Ui/Layout.php:232
 msgid ""
 "<div class=\"update-message notice inline notice-warning notice-alt\"> We "
 "highly recommend you to use <a href=\"https://wordpress.org/plugins/better-"
@@ -2455,33 +2504,38 @@ msgstr ""
 "weiteren Updates erhalten. Diese Funktion soll künftig entfernt werden. "
 "</div>"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:231
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:235
+#: classes/Adi/Configuration/Ui/Layout.php:249
+#: classes/Adi/Configuration/Ui/Layout.php:253
 msgid "Attributes"
 msgstr "Attribute"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:238
+#: classes/Adi/Configuration/Ui/Layout.php:256
 msgid ""
 "User attributes from the Active Directory are stored as User Meta Data. "
 "These attributes can then be used in your themes and they can be shown on "
-"the profile page of your users."
+"the profile page of your users. "
 msgstr ""
-"Benutzerattribute aus dem Active Directory werden als Benutzer Meta-Daten "
-"gespeichert. Diese Eigenschaften können in Ihren Themes benutzt werden oder "
-"auf der WordPress-Profilseite der Benutzer angezeigt werden."
+"Benutzer Attribute aus dem Active Directory werden als User Meta Daten "
+"gespeichert. Diese Attribute können Sie dann in ihrem Theme benutzen und auf "
+"der Profil Seite ihrer Benutzer anzeigen lassen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:242
+#: classes/Adi/Configuration/Ui/Layout.php:260
 msgid ""
 "The attributes are only stored in the WordPress database if you activate "
 "\"Automatic User Creation\" and are only updated if you activate \"Automatic "
-"User Update\" on tab \"User\"."
+"User Update\" on tab \"User\". If you require further information about this "
+"page please take a look at our <a target=\"_blank\" href=\"https://active-"
+"directory-wp.com/docs/Configuration/Attributes.html\">documentation</a>."
 msgstr ""
-"Die Attribute werden nur in der WordPress-Datenbank gespeichert, wenn Sie "
-"die Optionen Automatisches Erstellen von Benutzern und Automatisches "
-"Aktuallisieren von Benutzern unter dem Reiter Benutzer aktiviert haben."
+"Die Attribute werden nur in der WordPress Datenbank gespeichert, wenn Sie "
+"die Option \"Automatische Erstellung von Benutzern\" aktivieren und werden "
+"nur aktuallisiert wenn Sie die Option \"Automatische Synchronisation von "
+"Benutzern\" auf der Einstellungsseite \"Benutzer\" aktivieren. Für weitere "
+"Informationen zu dieser Seite besuchen Sie bitte unsere <a target=\"_blank\" "
+"href=\"https://active-directory-wp.com/docs/Configuration/Attributes.html\">"
+"Dokumentation</a>."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:247
+#: classes/Adi/Configuration/Ui/Layout.php:265
 #, php-format
 msgid ""
 "The following WordPress attributes are reserved by NADI and cannot be used: "
@@ -2490,7 +2544,7 @@ msgstr ""
 "Die folgenden WordPress-Attribute sind durch NADI reserviert und können "
 "nicht benutzt werden: %s"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:248
+#: classes/Adi/Configuration/Ui/Layout.php:266
 msgid ""
 "<span class=\"adi-pe-message\"><b>Premium-Extensions: </b>BuddyPress simple "
 "attributes, BuddyPress profile photo, Profile Pictures and User Photo "
@@ -2502,55 +2556,69 @@ msgstr ""
 "integration <a href=\"https://active-directory-wp.com/premium-extension/\">"
 "verfügbar</a>.</span>"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:260
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:58
+#: classes/Adi/Configuration/Ui/Layout.php:278
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:58
 msgid "Sync to AD"
 msgstr "Sync to AD"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:264
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:82
+#: classes/Adi/Configuration/Ui/Layout.php:282
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:82
 msgid "Sync To Active Directory"
 msgstr "Sync to Active Directory"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:265
-msgid "Synchronize WordPress profiles back to Active Directory."
-msgstr "Synchronisiert WordPress-Profile zurück zum Active Directory"
+#: classes/Adi/Configuration/Ui/Layout.php:283
+msgid ""
+"Synchronize WordPress profiles back to Active Directory. If you require "
+"further information about this page please take a look at our <a "
+"target=\"_blank\" href=\"https://active-directory-wp."
+"com/docs/Configuration/Sync_to_AD.html\">documentation</a>."
+msgstr ""
+"Synchronisiert WordPress Profile zurück zum Active Directory. Für weitere "
+"Informationen zu dieser Seite besuchen Sie bitte unsere <a target=\"_blank\" "
+"href=\"https://active-directory-wp.com/docs/Configuration/Sync_to_AD.html\">"
+"Dokumentation</a>."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:280
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:58
+#: classes/Adi/Configuration/Ui/Layout.php:298
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:58
 msgid "Sync to WordPress"
 msgstr "Sync to WordPress"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:284
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:82
+#: classes/Adi/Configuration/Ui/Layout.php:302
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:82
 msgid "Sync To WordPress"
 msgstr "Sync to WordPress"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:286
+#: classes/Adi/Configuration/Ui/Layout.php:304
 msgid ""
 "You can import/update the users from Active Directory, for example by using "
-"a cron job."
+"a cron job. If you require further information about this page please take a "
+"look at our <a target=\"_blank\" href=\"https://active-directory-wp."
+"com/docs/Configuration/Sync_to_WordPress.html\">documentation</a>."
 msgstr ""
-"Sie können Benutzer aus dem Actice Directory importieren oder aktuallisieren "
-"indem Sie ein Cron-Job verwenden."
+"Sie können ihre Benutzer aus dem Active Directory importieren/aktuallisieren "
+"indem Sie zum Beispiel einen Cron Job verwenden. Für weitere Informationen "
+"zu dieser Seite besuchen Sie bitte unsere <a target=\"_blank\" href=\"https:"
+"//active-directory-wp.com/docs/Configuration/Sync_to_WordPress.html\">"
+"Dokumentation</a>."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:303
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:307
+#: classes/Adi/Configuration/Ui/Layout.php:321
+#: classes/Adi/Configuration/Ui/Layout.php:325
 msgid "Logging"
 msgstr "Logging"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Ui/Layout.php:309
-msgid "On this tab you can configure the NADI event logger."
+#: classes/Adi/Configuration/Ui/Layout.php:327
+msgid ""
+"On this tab you can configure the NADI event logger. If you require further "
+"information about this page please take a look at our <a target=\"_blank\" "
+"href=\"https://active-directory-wp.com/docs/Configuration/Logger.html\">"
+"documentation</a>."
 msgstr ""
-"In diesem Tab können Einstellung bezüglich des NADI Event Loggers "
-"vorgenommen werden."
+"Auf dieser Seite können Sie den NADI Event Logger konfigurieren. Für weitere "
+"Informationen zu dieser Seite besuchen Sie bitte unsere <a target=\"_blank\" "
+"href=\"https://active-directory-wp.com/docs/Configuration/Logger.html\">"
+"Dokumentation</a>."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:83
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:83
 msgid ""
 "If you want to trigger Sync to Active Directory, you must know the URL to "
 "the index.php of your blog:"
@@ -2558,9 +2626,8 @@ msgstr ""
 "Wenn Sie <em>Sync to Active Directory</em> auslösen möchten, müssen Sie die "
 "URL zur index.php Ihres Blogs kennen:"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:84
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:84
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:84
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:84
 msgid ""
 "Settings like auth-code etc. depends on the current blog. So be careful "
 "which blog you are using. Here are some examples:"
@@ -2569,21 +2636,20 @@ msgstr ""
 "also vorsichtig dabei und achten Sie darauf welchen Blog Sie zurzeit "
 "verwenden. Hier sind ein paar Beispiele:"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:85
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:85
 msgid "User-ID: (optional)"
 msgstr "User-ID: (optional)"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:86
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:86
 msgid "Repeat WordPress to Active Directory synchronization"
 msgstr "Wiederhole <em>WordPress to Active Directory Synchronisation</em>"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:87
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:87
 msgid "Start WordPress to Active Directory synchronization"
 msgstr "Starte <em>WordPress to Active Directory Synchronisation</em>"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:88
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/test/Adi/Synchronization/Ui/SyncToActiveDirectoryTest.php:161
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:88
+#: test/Adi/Synchronization/Ui/SyncToActiveDirectoryTest.php:161
 msgid ""
 "Check that a connection to a domain controller is established and 'Enable "
 "sync to AD' is checked. Also, a service account has to be provided."
@@ -2592,25 +2658,23 @@ msgstr ""
 "und \"Sync to Ad aktivieren\" aktiviert ist. Außerdem muss ein Service "
 "Account hinterlegt wurden sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:110
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:109
-#:
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/View/Page/Abstract.php:81
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:110
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:109
+#: classes/Multisite/View/Page/Abstract.php:81
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 "Sie besitzen nicht die benötigten Berechtigungen, um auf diese Seite "
 "zuzugreifen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:122
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:122
 msgid "Sync to AD succeeded."
 msgstr "Sync to AD erfolgreich."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:124
+#: classes/Adi/Synchronization/Ui/SyncToActiveDirectoryPage.php:124
 msgid "Sync to AD failed."
 msgstr "Sync to AD fehlgeschlagen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:83
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:83
 msgid ""
 "If you want to trigger Sync to WordPress, you must know the URL to the index."
 "php of your blog:"
@@ -2618,15 +2682,15 @@ msgstr ""
 "Wenn Sie <em>Sync to WordPress</em> auslösen möchten, müssen Sie die URL zur "
 "index.php Ihres Blogs kennen:"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:85
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:85
 msgid "Repeat AD to WordPress synchronization"
 msgstr "Wiederhole <em>AD to WordPress Synchronisation</em>."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:86
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:86
 msgid "Start AD to WordPress synchronization"
 msgstr "Starte <em>AD to WordPress Synchronisation</em>"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:87
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:87
 msgid ""
 "Check that a connection to a domain controller is established and 'Enable "
 "sync to WordPress' is checked. Also, a service account has to be provided."
@@ -2635,59 +2699,35 @@ msgstr ""
 "und \"Sync to WordPress aktivieren\" aktiviert ist. Außerdem muss ein "
 "Service Account hinterlegt wurden sein."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:119
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:119
 msgid "Sync to WordPress succeeded."
 msgstr "Sync to WordPress erfolreich."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:121
+#: classes/Adi/Synchronization/Ui/SyncToWordPressPage.php:121
 msgid "Sync to WordPress failed."
 msgstr "Sync to WordPress fehlgeschlagen."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Authentication/Ui/SingleSignOn.php:32
-msgid "Log in using SSO"
-msgstr "Anmeldung über SSO"
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Authentication/Ui/ShowBlockedMessage.php:62
-#, php-format
-msgid ""
-"Authentication denied by Next Active Directory Integration Brute Force "
-"Protection. Your account is blocked for %s seconds."
-msgstr ""
-"Die Authentifizierung wurde von der Brute Force Protection des Next Active "
-"Directory Integration Plugins abgelehnt. Dein Account ist für %s Sekunden "
-"blockiert."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Authentication/Ui/ShowBlockedMessage.php:75
-#, php-format
-msgid ""
-"Authentication denied by Next Active Directory Integration Brute Force "
-"Protection. <br> Your account is blocked for %s seconds."
-msgstr ""
-"Die Authentifizierung wurde durch die Next Active Directory Integration "
-"Brute Force Protection verhindert. <br> Ihr Account wurde für %s Sekunden "
-"gesperrt."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Ui/ExtendUserList.php:88
+#: classes/Adi/User/Ui/ExtendUserList.php:88
 msgid "NADI User"
 msgstr "NADI Benutzer"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Ui/ExtendUserList.php:89
+#: classes/Adi/User/Ui/ExtendUserList.php:89
 msgid "Disabled"
 msgstr "Deaktiviert"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Ui/ExtendUserList.php:93
+#: classes/Adi/User/Ui/ExtendUserList.php:93
 msgid "Managed by CRM"
 msgstr "Verwaltet durch CRM"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Ui/ExtendUserList.php:156
+#: classes/Adi/User/Ui/ExtendUserList.php:156
 msgid "User is disabled by NADI."
 msgstr "Benutzer ist durch NADI deaktiviert."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Configuration/Persistence/ProfileRepository.php:269
+#: classes/Multisite/Configuration/Persistence/ProfileRepository.php:269
 msgid "My NADI profile"
 msgstr "Mein NADI Profil"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Configuration/Persistence/ProfileRepository.php:270
+#: classes/Multisite/Configuration/Persistence/ProfileRepository.php:270
 msgid ""
 "This profile has been created by the plugin installation automatically. It "
 "can safely be deleted."
@@ -2695,70 +2735,53 @@ msgstr ""
 "Dieses Profil wurde automatisch bei der Installation von NADI erstellt und "
 "kann ohne Probleme gelöscht werden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/Table/ProfileAssignment.php:63
+#: classes/Multisite/Ui/Table/ProfileAssignment.php:63
 msgid "Cannot find valid site name."
 msgstr "Der valide Seitenname konnte nicht gefunden werden."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/Table/ProfileAssignment.php:74
+#: classes/Multisite/Ui/Table/ProfileAssignment.php:74
 msgid "Site Name"
 msgstr "Seitenname"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/Table/ProfileAssignment.php:75
+#: classes/Multisite/Ui/Table/ProfileAssignment.php:75
 msgid "URL"
 msgstr "URL"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Multisite/Ui/Table/ProfileAssignment.php:270
+#: classes/Multisite/Ui/Table/ProfileAssignment.php:270
 #, php-format
 msgid "Select %s"
 msgstr "Auswählen %s"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Configuration/Import/Ui/ExtendPluginList.php:64
+#: classes/Adi/Configuration/Import/Ui/ExtendPluginList.php:64
 msgid "Download ADI v1 configuration"
 msgstr "Download ADI v1 Konfigurationen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Multisite/Site/Ui/ExtendSiteList.php:60
+#: classes/Adi/Multisite/Site/Ui/ExtendSiteList.php:60
 msgid "Active NADI profile"
 msgstr "Aktives NADI-Profil"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Multisite/Site/Ui/ExtendSiteList.php:83
+#: classes/Adi/Multisite/Site/Ui/ExtendSiteList.php:83
 #, php-format
 msgid "%s (default profile)"
 msgstr "%s (Standardprofil)"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/Multisite/Site/Ui/ExtendSiteList.php:95
+#: classes/Adi/Multisite/Site/Ui/ExtendSiteList.php:95
 msgid "None assigned"
 msgstr "Nicht zugewiesen"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/TriggerActiveDirectorySynchronization.php:159
+#: classes/Adi/User/Profile/Ui/PreventEmailChange.php:98
 msgid ""
-"Error on writing additional attributes back to Active Directory. Service "
-"Account is not setup properly. Please contact your WordPress administrator."
+"You must not change your email address. The plugin 'Next Active Directory "
+"Integration' prevents it."
 msgstr ""
-"Es ist ein Fehler beim Synchronisieren der Daten zum Active Directory "
-"aufgetreten. Der Service Account ist nicht richtig konfiguriert. Bitte "
-"kontaktieren sie ihren WordPress Administrator."
+"Sie dürfen ihre E-Mailadresse nicht ändern. Das Plugin \"Next Active "
+"Directory Integration\" verhindert die Änderung."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/TriggerActiveDirectorySynchronization.php:179
-msgid ""
-"No password given, so additional attributes have not been written back to "
-"Active Directory"
-msgstr ""
-"Es wurde kein Passwort angegeben. Zusätzliche Attribute wurden nicht zurück "
-"in das Active Directory geschrieben."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/TriggerActiveDirectorySynchronization.php:196
-msgid ""
-"Error on writing additional attributes back to Active Directory. Please "
-"contact your WordPress administrator?"
-msgstr ""
-"Der Versuch, zusätzliche Attribute zurück zum Active Directory zu schreiben, "
-"ist fehlgeschlagen. Bitte kontaktieren Sie ihren Administrator."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/ProvideDisableUserOption.php:70
+#: classes/Adi/User/Profile/Ui/ProvideDisableUserOption.php:70
 msgid "User Disabled"
 msgstr "Benutzer deaktiviert"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/ProvideDisableUserOption.php:71
+#: classes/Adi/User/Profile/Ui/ProvideDisableUserOption.php:71
 msgid ""
 "If selected, the user can not log in and his e-mail address will be changed "
 "for security reasons. The e-mail address is restored if the user is "
@@ -2768,11 +2791,11 @@ msgstr ""
 "und seine E-Mailadresse wird aus Sicherheitsgründen geändert. Die E-"
 "Mailadresse wird bei Aktivierung des Benutzers wiederhergestellt."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/ProvideDisableUserOption.php:72
+#: classes/Adi/User/Profile/Ui/ProvideDisableUserOption.php:72
 msgid "Information on last disabling: "
 msgstr "Informationen zur letzten Deaktivierung: "
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/ProvideDisableUserOption.php:73
+#: classes/Adi/User/Profile/Ui/ProvideDisableUserOption.php:73
 msgid ""
 "Attention: This flag is automatically set (or unset) by Sync to WordPresss "
 "and its state may change on next run of synchronization."
@@ -2781,7 +2804,7 @@ msgstr ""
 "aktiviert (bzw. deaktiviert). Der aktuelle Status kann sich also bei der "
 "nächsten Synchronisation ändern."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/ProvideDisableUserOption.php:107
+#: classes/Adi/User/Profile/Ui/ProvideDisableUserOption.php:107
 #, php-format
 msgid ""
 "User \"%s\" with ID \"%s\" manually disabled by \"%s\" with the ID \"%s\"."
@@ -2789,25 +2812,17 @@ msgstr ""
 "Benutzer \"%s\" mit ID \"%s\" wurde manuell von \"%s\" mit der ID \"%s\" "
 "deaktiviert."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/PreventEmailChange.php:98
-msgid ""
-"You must not change your email address. The plugin 'Next Active Directory "
-"Integration' prevents it."
-msgstr ""
-"Sie dürfen ihre E-Mailadresse nicht ändern. Das Plugin \"Next Active "
-"Directory Integration\" verhindert die Änderung."
-
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:102
+#: classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:102
 msgid "Additional Information provided by Next Active Directory Integration"
 msgstr ""
 "Zusätzliche Information bereitgestellt durch Next Active Directory "
 "Integration"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:103
+#: classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:103
 msgid "Reenter password"
 msgstr "Passwort neu eingeben"
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:104
+#: classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:104
 msgid ""
 "If you want to save the changes in \"Additional Information\" back to the "
 "Active Directory you must enter your password."
@@ -2815,11 +2830,36 @@ msgstr ""
 "Wenn Sie die Änderungen unter <em>Zusätzliche Informationen</em> zum Active "
 "Directory synchronisieren möchten, müssen Sie ihr Passwort eingeben."
 
-#: ../../../../../Work/Projects/php/active-directory-integration2/classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:105
+#: classes/Adi/User/Profile/Ui/ShowLdapAttributes.php:105
 msgid "Profile can not be edited or synchronized back to Active Directory:"
 msgstr ""
 "Das Profil kann nicht bearbeitet oder zum Active Directory synchronisiert "
 "werden:"
+
+#: classes/Adi/User/Profile/Ui/TriggerActiveDirectorySynchronization.php:159
+msgid ""
+"Error on writing additional attributes back to Active Directory. Service "
+"Account is not setup properly. Please contact your WordPress administrator."
+msgstr ""
+"Es ist ein Fehler beim Synchronisieren der Daten zum Active Directory "
+"aufgetreten. Der Service Account ist nicht richtig konfiguriert. Bitte "
+"kontaktieren sie ihren WordPress Administrator."
+
+#: classes/Adi/User/Profile/Ui/TriggerActiveDirectorySynchronization.php:179
+msgid ""
+"No password given, so additional attributes have not been written back to "
+"Active Directory"
+msgstr ""
+"Es wurde kein Passwort angegeben. Zusätzliche Attribute wurden nicht zurück "
+"in das Active Directory geschrieben."
+
+#: classes/Adi/User/Profile/Ui/TriggerActiveDirectorySynchronization.php:196
+msgid ""
+"Error on writing additional attributes back to Active Directory. Please "
+"contact your WordPress administrator?"
+msgstr ""
+"Der Versuch, zusätzliche Attribute zurück zum Active Directory zu schreiben, "
+"ist fehlgeschlagen. Bitte kontaktieren Sie ihren Administrator."
 
 #. Name of the plugin
 msgid "Next Active Directory Integration"
