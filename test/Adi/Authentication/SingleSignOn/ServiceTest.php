@@ -366,15 +366,11 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 
 	/**
 	 * @test
+	 * Check authenticateAtActiveDirectory overwrite comment
 	 */
-	public function authenticateAtActiveDirectory_delegatesCallToIsUserAuthorized()
+	public function authenticateAtActiveDirectory_returnsTrue()
 	{
-		$sut = $this->sut(array('isUserAuthorized'));
-
-		$sut->expects($this->once())
-			->method('isUserAuthorized')
-			->with('test', '@test')
-			->willReturn(true);
+		$sut = $this->sut();
 
 		$actual = $sut->authenticateAtActiveDirectory('test', '@test', '');
 
