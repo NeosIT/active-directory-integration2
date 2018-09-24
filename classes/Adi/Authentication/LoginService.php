@@ -671,8 +671,6 @@ class NextADInt_Adi_Authentication_LoginService
 
 		// ADI-474: Update the password if the respective option is enabled
 		if ($autoUpdatePassword) {
-			// ADI-648 Register WordPress Filter to suppress "Your password was changed" to users
-			add_filter( 'send_password_change_email', '__return_false' );
 			$this->userManager->updatePassword($user);
 		}
 		// ADI-116: The behavior changed with 2.0.x and has been agreed with CST on 2016-03-02.
