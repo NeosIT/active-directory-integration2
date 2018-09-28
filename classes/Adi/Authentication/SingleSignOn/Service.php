@@ -344,7 +344,10 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	}
 
 	/**
-	 * Try to authenticate the user against the Active Directory.
+	 * Since the web server already authenticated the user at this point we can simply return true.
+	 * The LoginService.php post authentication will check if the user is authorized and the createAndUpdate method will
+	 * return false if the given user could not be found. @CKL and @DME discussed several corner cases but we could not
+	 * find a problem with this solution.
 	 *
 	 * @param string $username
 	 * @param null|string $accountSuffix
@@ -354,7 +357,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	 */
 	public function authenticateAtActiveDirectory($username, $accountSuffix, $password)
 	{
-		return $this->isUserAuthorized($username, $accountSuffix);
+		return true;
 	}
 
 	/**
