@@ -233,6 +233,17 @@ jQuery(document).ready(function () {
         });
     }
 
+    // This snipped fixes the helper tab menu not expanding correctly due to Bootstrap CSS overwriting WordPress "hidden" class
+    // Reference: https://wordpress.stackexchange.com/questions/127179/how-to-fix-wordpress-dashboard-screen-option-help-button-its-not-working
+    jQuery(document).ready(function ($) {
+        $("#contextual-help-link").click(function () {
+            $("#contextual-help-wrap").css("cssText", "display: block !important;");
+        });
+        $("#show-settings-link").click(function () {
+            $("#screen-options-wrap").css("cssText", "display: block !important;");
+        });
+    });
+
     //Calling the showActiveHelpTabs function so that only settings from the first time loaded page are shown.
     jQuery( document ).ready(function() {
         showActiveHelpTabs();
