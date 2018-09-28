@@ -351,6 +351,9 @@ class NextADInt_Adi_User_Manager
 	{
 		NextADInt_Core_Assert::notNull($user, "userId must be a valid id");
 
+		// ADI-648 Register WordPress Filter to suppress "Your password was changed" to users
+		$this->disableEmailNotification();
+
 		$userId = $user->getId();
 		$password = $user->getCredentials()->getPassword();
 
