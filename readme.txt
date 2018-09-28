@@ -126,6 +126,12 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.1.4 =
+* FIXED: isUserAuthorized() prevented login for users successfully authenticated via SSO at Active Directory due username was passed instead of guid
+* FIXED: HelperTabs not opening anymore due bootstrap css .hidden class overwrites WordPress css .hidden class
+* FIXED: verify connection input and button share the same element ID causing a DOM error in the browser console log
+* ADDED: SSO Username variable helper tab content now contains a table including all supported variables and their current $_SERVER values
+
 = 2.1.3 =
 * ADD: added message on the profile configuration page to inform customers about end of PHP version <7.1 support
 * ADD: json response for "Sync to WordPress" triggered via powershell

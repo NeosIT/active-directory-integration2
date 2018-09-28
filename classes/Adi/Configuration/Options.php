@@ -1063,10 +1063,10 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 						</tr>
 					  </tbody>
 					</table>',
-						$_SERVER["REMOTE_USER"],
-						$_SERVER["X-REMOTE-USER"],
-						$_SERVER["HTTP_X_REMOTE_USER"],
-						$_SERVER["PHP_AUTH_USER"]
+						(isset($_SERVER["REMOTE_USER"]) ? $_SERVER["REMOTE_USER"] : ""),
+						(isset($_SERVER["X-REMOTE-USER"]) ? $_SERVER["X-REMOTE-USER"] : ""),
+						(isset($_SERVER["HTTP_X_REMOTE_USER"]) ? $_SERVER["HTTP_X_REMOTE_USER"] : ""),
+						(isset($_SERVER["PHP_AUTH_USER"]) ? $_SERVER["PHP_AUTH_USER"] : "")
 
 				)),
 				$angularAttributes => 'ng-disabled="((!option.sso) || ((permission.sso == 2) || (permission.sso == 1))',
