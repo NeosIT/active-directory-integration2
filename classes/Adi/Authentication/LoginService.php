@@ -634,14 +634,7 @@ class NextADInt_Adi_Authentication_LoginService
 		 *
 		 * By default the $wpUser | WP_USER is returned.
 		 */
-		$wpUser = apply_filters(NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user', $credentials, $ldapAttributes, $wpUser);
-
-		if (!is_object($wpUser)) {
-			$this->logger->debug('Could not determine valid WP_USER. Authentication for this user failed. This could be caused by the "auth_after_create_or_update_user" filter.');
-			return false;
-		}
-
-		return $wpUser;
+		return apply_filters(NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user', $credentials, $ldapAttributes, $wpUser);
 	}
 
 	/**
