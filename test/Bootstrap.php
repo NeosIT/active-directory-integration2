@@ -95,7 +95,8 @@ if (!defined('ABSPATH')) {
         {
             $this->data = (object) array(
                 'user_login' => 'hugo',
-                'user_email' => 'hugo@test.ad'
+                'user_email' => 'hugo@test.ad',
+				'ID' => '666'
             );
         }
 
@@ -106,6 +107,10 @@ if (!defined('ABSPATH')) {
         public function setExpectedUserEmail($expected) {
             $this->data->user_email = $expected;
         }
+
+		public function setID($expected) {
+			$this->data->ID = $expected;
+		}
 	}
 
     class WP_MS_Sites_List_Table {

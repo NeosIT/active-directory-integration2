@@ -366,15 +366,11 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 
 	/**
 	 * @test
+	 * Check authenticateAtActiveDirectory overwrite comment
 	 */
-	public function authenticateAtActiveDirectory_delegatesCallToIsUserAuthorized()
+	public function authenticateAtActiveDirectory_returnsTrue()
 	{
-		$sut = $this->sut(array('isUserAuthorized'));
-
-		$sut->expects($this->once())
-			->method('isUserAuthorized')
-			->with('test', '@test')
-			->willReturn(true);
+		$sut = $this->sut();
 
 		$actual = $sut->authenticateAtActiveDirectory('test', '@test', '');
 
@@ -956,7 +952,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		$user = $this->createWpUserMock();
 		$sut = $this->sut();
 
-		$_SERVER['REDIRECT_URL'] = '/my-redirect-url';
+		$_SERVER['REQUEST_URI'] = '/my-redirect-url';
 		$user = $this->createWpUserMock();
 		$sut = $this->sut();
 
@@ -986,7 +982,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		WP_Mock::wpFunction(
 			'wp_safe_redirect', array(
 				'times' => 1,
-				'args'  => $_SERVER['REDIRECT_URL'],
+				'args'  => $_SERVER['REQUEST_URI'],
 			)
 		);
 

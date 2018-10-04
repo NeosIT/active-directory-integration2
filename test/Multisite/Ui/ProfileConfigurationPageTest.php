@@ -287,7 +287,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_config',
-					NEXT_AD_INT_URL . '/js/app/app.config.js',
+					NEXT_AD_INT_URL . '/js/app/app.nadi.js',
 					array(),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -437,7 +437,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_profile_options_controller_password',
-					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/password.controller.js',
+					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/credential.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),

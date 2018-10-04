@@ -630,6 +630,7 @@ class NextADInt_Ldap_Connection
 
 			if ($groupMembers === false) {
 				// false means that the security group could not be retrieved
+				$this->logger->error('Could not find Active Directory Security Group with name: ' . $group);
 				continue;
 			}
 

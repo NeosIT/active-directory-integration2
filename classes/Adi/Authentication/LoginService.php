@@ -411,33 +411,6 @@ class NextADInt_Adi_Authentication_LoginService
 			return false;
 		}
 
-		return $this->isUserAuthorized($username);
-	}
-
-	/**
-	 * Check if user must be authorized by security group membership and if yes if he belongs to one of the authorized security groups.
-	 *
-	 * @param $username sAMAccountName or userPrincipalName and suffix.
-	 * @return bool
-	 */
-	protected function isUserAuthorized($username)
-	{
-		// ADI-428: Previously, the user has ben authorized by his username and and account suffix. This could lead to serious problems if the userPrincipalName (without suffix) had been used multiple times.
-		$ldapAttributes = $this->attributeService->findLdapAttributesOfUsername($username);
-		$userGuid = $ldapAttributes->getFilteredValue('objectguid');
-
-		// create role mapping with user's GUID
-		$roleMapping = $this->roleManager->createRoleMapping($userGuid);
-
-		// check if an user is in a authorization ad group if the user must be a member for login
-		$authorizeByGroup = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP);
-
-		if ($authorizeByGroup && !$this->roleManager->isInAuthorizationGroup($roleMapping)) {
-			$this->logger->error("User '$username' with GUID: '$userGuid' is not in an authorization group.");
-
-			return false;
-		}
-
 		return true;
 	}
 
@@ -498,6 +471,30 @@ class NextADInt_Adi_Authentication_LoginService
 	}
 
 	/**
+	 * Check if user must be authorized by security group membership and if yes if he belongs to one of the authorized security groups.
+	 *
+	 * @param $userGuid
+	 * @return bool
+	 * @throws Exception
+	 */
+	function isUserAuthorized($userGuid)
+	{
+		// create role mapping with user's GUID
+		$roleMapping = $this->roleManager->createRoleMapping($userGuid);
+
+		// check if an user is in a authorization ad group if the user must be a member for login
+		$authorizeByGroup = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP);
+
+		if ($authorizeByGroup && !$this->roleManager->isInAuthorizationGroup($roleMapping)) {
+			$this->logger->error("User with GUID: '$userGuid' is not in an authorization group.");
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Block or unblock user.
 	 *
 	 * @param $username
@@ -549,6 +546,14 @@ class NextADInt_Adi_Authentication_LoginService
 
 		// ADI-256: user does only have a valid id if he is already inside the directory or has been created with "Auto Create User" == on
 		if (is_object($wpUser) && !is_wp_error($wpUser) && ($wpUser->ID > 0)) {
+
+			$userGuid = get_user_meta($wpUser->ID, 'next_ad_int_objectguid', true);
+
+			// ADI-627 Moved isUserAuthorized to postAuthentication because otherwise we cant retrieve the GUID and can not reliable check the authorization group
+			if (!$this->isUserAuthorized($userGuid)) {
+				return false;
+			}
+
 			if ($this->userManager->isDisabled($wpUser->ID)) {
 				$this->logger->error("Unable to login user. User is disabled.");
 
@@ -664,17 +669,16 @@ class NextADInt_Adi_Authentication_LoginService
 		$autoUpdateUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER);
 		$autoUpdatePassword = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD);
 
+		// ADI-474: Update the password if the respective option is enabled
+		if ($autoUpdatePassword) {
+			$this->userManager->updatePassword($user);
+		}
 		// ADI-116: The behavior changed with 2.0.x and has been agreed with CST on 2016-03-02.
 		// In 1.0.x users were only updated if the options "Auto Create User" AND "Auto Update User" had been enabled.
 		// With 2.0.x the option "Auto Update User" is only responsible for that.
 		if ($autoUpdateUser) {
 			// updateWordPressAccount already delegates to role update and updating of sAMAccountName
 			return $this->userManager->update($user);
-		}
-
-		// ADI-474: Update the password if the respective option is enabled
-		if ($autoUpdatePassword) {
-			$this->userManager->updatePassword($user);
 		}
 
 		// in any case the sAMAccountName has to be updated

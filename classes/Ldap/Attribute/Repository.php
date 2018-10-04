@@ -324,6 +324,8 @@ class NextADInt_Ldap_Attribute_Repository
 		$sync = self::resolveSyncToAd($attribute);
 		$show = self::resolveViewInUserProfile($attribute);
 
+		$overwriteWithEmpty = self::resolveOverwriteWithEmpty($attribute);
+
 		// create object
 		$metaObject = new NextADInt_Ldap_Attribute();
 		$metaObject->setType($type);
@@ -331,6 +333,7 @@ class NextADInt_Ldap_Attribute_Repository
 		$metaObject->setDescription($description);
 		$metaObject->setSyncable($sync);
 		$metaObject->setViewable($show);
+		$metaObject->setOverwriteWithEmpty($overwriteWithEmpty);
 
 		return $metaObject;
 	}
@@ -378,6 +381,22 @@ class NextADInt_Ldap_Attribute_Repository
 	public static function resolveWordPressAttribute($array, $default = '')
 	{
 		$value = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE, $array,
+			$default);
+
+		return trim($value);
+	}
+
+	/**
+	 * Get the meta key from a line of the additional attribute definition.
+	 *
+	 * @param array  $array
+	 * @param string $default
+	 *
+	 * @return mixed|string
+	 */
+	public static function resolveOverwriteWithEmpty($array, $default = '')
+	{
+		$value = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_OVERWRITE_EMPTY, $array,
 			$default);
 
 		return trim($value);
