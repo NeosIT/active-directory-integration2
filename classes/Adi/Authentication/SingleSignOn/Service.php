@@ -467,7 +467,9 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	 */
 	public function register()
 	{
-		add_action('wp_logout', array($this, 'logout'));
+		// ADI-659 wOffice theme exits after their logout redirect which results in the SSO user logged out session value to not be updated properly.
+		// To bypass this we register our wp_logout hook with the highest priority possible.
+		add_action('wp_logout', array($this, 'logout'), 1);
 		add_action('init', array($this, 'authenticate'));
 	}
 

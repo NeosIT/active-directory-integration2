@@ -218,6 +218,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					// Option elements in group
 					self::OPTIONS => array(
 						NextADInt_Adi_Configuration_Options::ENABLE_SMARTCARD_USER_LOGIN,
+						NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_ENABLED
 					),
 				),
 				// Group name

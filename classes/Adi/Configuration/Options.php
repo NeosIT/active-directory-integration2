@@ -102,6 +102,9 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const SSO_PASSWORD = 'sso_password';
 	const SSO_ENVIRONMENT_VARIABLE = 'sso_environment_variable';
 
+	// Custom Login Page
+	const CUSTOM_LOGIN_PAGE_ENABLED = 'custom_login_page_enabled';
+
 	// additional attribute mapping
 	const ATTRIBUTES_COLUMN_TYPE = "type";
 	const ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE = "wordpress_attribute";
@@ -1082,6 +1085,18 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$description => __('Enabling this option allows users, who require a smart card, to authenticate against the Active Directory.',
 					'next-active-directory-integration'),
 				$detail => __('Enables login for smart card users.', 'next-active-directory-integration'),
+				$default => false,
+				$sanitizer => array('boolean'),
+				$showPermission => true,
+				$transient => false,
+			),
+			// Allows users to authenticate against the Active Directory using NADI on a custom login page
+			self::CUSTOM_LOGIN_PAGE_ENABLED => array(
+				$title => __('Enables login using a custom login page', 'next-active-directory-integration'),
+				$type => NextADInt_Multisite_Option_Type::CHECKBOX,
+				$description => __('Enabling this option allows users to authenticate against the Active Directory using custom login page.',
+					'next-active-directory-integration'),
+				$detail => __('Enables authentication against the Active Directory on a custom login page.', 'next-active-directory-integration'),
 				$default => false,
 				$sanitizer => array('boolean'),
 				$showPermission => true,

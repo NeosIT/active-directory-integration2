@@ -398,6 +398,14 @@ class NextADInt_Adi_Init
 			$r = true;
 		}
 
+		$customLoginPageEnabled = $this->dc()->getConfiguration()->getOptionValue(NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_ENABLED);
+
+		if ($customLoginPageEnabled) {
+			if (isset($_SERVER["REQUEST_URI"]) && strpos($_SERVER["REQUEST_URI"], '/login') !== false) {
+				$r = true;
+			}
+		}
+
 		$r = apply_filters(NEXT_AD_INT_PREFIX . 'auth_enable_login_check', $r);
 
 		return $r;
