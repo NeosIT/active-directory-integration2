@@ -756,6 +756,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->willReturn(false);
 
 		$this->assertEquals($wpUser, $sut->postAuthentication($credentials));
+        $this->assertTrue($sut->hasCurrentUserAccessGranted());
 	}
 
 	/**

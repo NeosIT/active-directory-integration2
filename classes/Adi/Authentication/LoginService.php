@@ -46,7 +46,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 */
 	private $roleManager;
 
-	private $currentUserAuthenticated;
+	private $currentUserHasAccessGranted;
 
 	/**
 	 * @param NextADInt_Adi_Authentication_Persistence_FailedLoginRepository|null $failedLogin
@@ -79,7 +79,7 @@ class NextADInt_Adi_Authentication_LoginService
 
 		$this->logger = NextADInt_Core_Logger::getLogger();
 
-		$this->currentUserAuthenticated = false;
+		$this->currentUserHasAccessGranted = false;
 	}
 
 	/**
@@ -548,19 +548,23 @@ class NextADInt_Adi_Authentication_LoginService
 
 		// ADI-256: user does only have a valid id if he is already inside the directory or has been created with "Auto Create User" == on
 		if (is_object($wpUser) && !is_wp_error($wpUser) && ($wpUser->ID > 0)) {
-
+		    // state: user is authenticated, we won't explicitly set any flag
 			$userGuid = get_user_meta($wpUser->ID, 'next_ad_int_objectguid', true);
 
 			// ADI-627 Moved isUserAuthorized to postAuthentication because otherwise we cant retrieve the GUID and can not reliable check the authorization group
 			if (!$this->isUserAuthorized($userGuid)) {
 				return false;
 			}
+			// state: user is authorized
 
 			if ($this->userManager->isDisabled($wpUser->ID)) {
 				$this->logger->error("Unable to login user. User is disabled.");
 
 				return false;
 			}
+
+			// state: user is authenticated, authorized and enabled -> grant access to WordPress
+            $this->currentUserHasAccessGranted = true;
 		}
 
 		return $wpUser;
@@ -621,10 +625,6 @@ class NextADInt_Adi_Authentication_LoginService
 			$this->logger->error("Unable to update or create '" . $adiUser . "': " . $wpUser->get_error_message());
 
 			return $wpUser;
-		}
-
-		if (is_object($wpUser)) {
-			$this->currentUserAuthenticated = true;
 		}
 
 		/**
@@ -742,9 +742,9 @@ class NextADInt_Adi_Authentication_LoginService
 	 *
 	 * @return bool
 	 */
-	public function isCurrentUserAuthenticated()
+	public function hasCurrentUserAccessGranted()
 	{
-		return $this->currentUserAuthenticated;
+		return $this->currentUserHasAccessGranted;
 	}
 
 	/**
