@@ -61,13 +61,13 @@ class Ut_NextADInt_Adi_Authentication_PasswordValidationServiceTest extends Ut_B
 	/**
 	 * @test
 	 */
-	public function overridePasswordCheck_isAuthenticated()
+	public function overridePasswordCheck_isAuthorized()
 	{
 		$sut = $this->sut(null);
 		$userId = '2';
 
 		$this->loginService->expects($this->once())
-			->method('isCurrentUserAuthenticated')
+			->method('hasCurrentUserAccessGranted')
 			->willReturn(true);
 
 		$returnedValue = $sut->overridePasswordCheck(null, null, null, $userId);
@@ -85,7 +85,7 @@ class Ut_NextADInt_Adi_Authentication_PasswordValidationServiceTest extends Ut_B
 		$reason = "Spam";
 
 		$this->loginService->expects($this->once())
-			->method('isCurrentUserAuthenticated')
+			->method('hasCurrentUserAccessGranted')
 			->willReturn(false);
 
 		WP_Mock::wpFunction('get_user_meta', array(
