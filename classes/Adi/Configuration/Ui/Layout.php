@@ -71,18 +71,18 @@ class NextADInt_Adi_Configuration_Ui_Layout
 							'next-active-directory-integration'
 						),
 					),
-					__('Menu', 'next-active-directory-integration') => array(
-						self::DESCRIPTION => __(
-							'It is also possible to only disable certain NADI features.',
-							'next-active-directory-integration'
-						),
-						self::OPTIONS => array(
-							NextADInt_Adi_Configuration_Options::SHOW_MENU_TEST_AUTHENTICATION,
-							NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_AD,
-							NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_WORDPRESS
-						)
-					),
-				),
+                ),
+                __('Menu', 'next-active-directory-integration') => array(
+                    self::DESCRIPTION => __(
+                        'It is also possible to only disable certain NADI features.',
+                        'next-active-directory-integration'
+                    ),
+                    self::OPTIONS => array(
+                        NextADInt_Adi_Configuration_Options::SHOW_MENU_TEST_AUTHENTICATION,
+                        NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_AD,
+                        NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_WORDPRESS
+                    )
+                ),
 			),
 			// Tab name
 			__('Environment', 'next-active-directory-integration') => array(
