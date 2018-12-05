@@ -292,7 +292,7 @@ class NextADInt_Adi_Configuration_ImportService
 		$data = $this->convertAttributeMapping($customAttributes, $attributesToShow, $overwriteEmpty);
 		$configurationString = '';
 
-		while (list($attribute, $setting) = each($data)) {
+		foreach ($data as $attribute => $setting) {
 			$subsettings = array($attribute,
 				$setting['type'],
 				$setting['wordpress_attribute'],
