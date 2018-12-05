@@ -88,6 +88,8 @@ class NextADInt_Adi_Authentication_LoginService
 	public function register()
 	{
 		add_filter('authenticate', array($this, 'authenticate'), 10, 3);
+		add_filter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user', array($this, 'beforeCreateOrUpdateUser'), 10 , 2);
+		add_filter(NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user', array($this, 'afterCreateOrUpdateUser'), 10, 3);
 
 		// disable 'lost password' feature
 		$enableLostPasswordRecovery = $this->configuration->getOptionValue(
@@ -593,6 +595,20 @@ class NextADInt_Adi_Authentication_LoginService
 		// update the real sAMAccountName of the credentials. This could be totally different from the userPrincipalName user for login
 		$credentials->setSAMAccountName($ldapAttributes->getFilteredValue('samaccountname'));
 
+		/**
+		 * This filter can be used in order to implement custom checks validating the ldapAttributes and credentials of
+		 * the user currently trying to authenticate against your Active Directory.
+		 *
+		 * By default this filter returns true | boolean
+		 *
+		 */
+		$preCreateStatus = apply_filters(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user', $credentials, $ldapAttributes);
+
+		if (!$preCreateStatus) {
+			$this->logger->debug('PreCreateStatus is false. The user will not be created nor updated. If this behavior is not intended, please if your custom logic for the "auth_before_create_or_update_user" filter works properly.');
+			return false;
+		}
+
 		$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
 
 		// ADI-309: domain SID gets not synchronized
@@ -611,7 +627,14 @@ class NextADInt_Adi_Authentication_LoginService
 			return $wpUser;
 		}
 
-		return $wpUser;
+		/**
+		 * This filter can be used in order to implement custom checks validating the credentials, ldapAttributes and $wpUser of
+		 * the user currently trying to authenticate against your Active Directory. You can intercept the authentication process
+		 * by returning false.
+		 *
+		 * By default the $wpUser | WP_USER is returned.
+		 */
+		return apply_filters(NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user', $credentials, $ldapAttributes, $wpUser);
 	}
 
 	/**
@@ -794,5 +817,24 @@ class NextADInt_Adi_Authentication_LoginService
 	public function getRoleManager()
 	{
 		return $this->roleManager;
+	}
+
+	/**
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
+	 * @param array $ldapAttributes
+	 * @return boolean
+	 */
+	public function beforeCreateOrUpdateUser($credentials, $ldapAttributes) {
+		return true;
+	}
+
+	/**
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
+	 * @param NextADInt_Adi_User $adiUser
+	 * @param WP_User $wpUser
+	 * @return boolean|WP_User
+	 */
+	public function afterCreateOrUpdateUser($credentials, $adiUser, $wpUser) {
+		return $wpUser;
 	}
 }

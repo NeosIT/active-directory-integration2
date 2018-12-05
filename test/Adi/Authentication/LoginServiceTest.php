@@ -863,6 +863,10 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->method('updateUser')
 			->willReturn(555);
 
+        \WP_Mock::onFilter( NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user' )
+                ->with($credentials, $ldapAttributes, 555)
+                ->reply(555);
+
 		$actual = $sut->createOrUpdateUser($credentials);
 
 		$this->assertEquals(555, $actual);
@@ -898,6 +902,10 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('createUser')
 			->willReturn(555);
+
+        \WP_Mock::onFilter( NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user' )
+                ->with($credentials, $ldapAttributes, 555)
+                ->reply(555);
 
 		$actual = $sut->createOrUpdateUser($credentials);
 
