@@ -88,8 +88,6 @@ class NextADInt_Adi_Authentication_LoginService
 	public function register()
 	{
 		add_filter('authenticate', array($this, 'authenticate'), 10, 3);
-		add_filter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user', array($this, 'beforeCreateOrUpdateUser'), 10 , 2);
-		add_filter(NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user', array($this, 'afterCreateOrUpdateUser'), 10, 3);
 
 		// disable 'lost password' feature
 		$enableLostPasswordRecovery = $this->configuration->getOptionValue(
@@ -101,6 +99,15 @@ class NextADInt_Adi_Authentication_LoginService
 			add_action('lost_password', array($this, 'disableLostPassword'));
 		}
 	}
+
+    /**
+     * Register custom authentication hooks required during the authentication process.
+     */
+	public function registerAuthenticationHooks()
+    {
+        add_filter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user', array($this, 'beforeCreateOrUpdateUser'), 10 , 2);
+        add_filter(NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user', array($this, 'afterCreateOrUpdateUser'), 10, 3);
+    }
 
 	/**
 	 * Prevent WordPress' password recovery b/c password is managed by Active Directory.
