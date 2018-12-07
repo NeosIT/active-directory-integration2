@@ -1,5 +1,5 @@
 <?php
-if (!defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	die('Access denied.');
 }
 
@@ -64,11 +64,12 @@ class NextADInt_Adi_Init
 				// ADI-393: the current user will be added to the excluded usernames.
 				// At a later point we check for ID = 1 (local WordPress admin) but this user can be different from the current user (= another WordPress administrator).
 				$currentUser = wp_get_current_user();
-				$optionName = NextADInt_Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION;
+				$optionName  = NextADInt_Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION;
 				$optionValue = $currentUser->user_login;
 
 				if (is_multisite()) {
-					$this->dc()->getProfileConfigurationRepository()->persistSanitizedValue($profileId, $optionName, $optionValue);
+					$this->dc()->getProfileConfigurationRepository()->persistSanitizedValue($profileId, $optionName,
+						$optionValue);
 				} else {
 					$this->dc()->getBlogConfigurationRepository()->persistSanitizedValue(0, $optionName, $optionValue);
 				}
@@ -118,12 +119,13 @@ class NextADInt_Adi_Init
 		}
 
 		// load internationalization (i18n)
-		load_plugin_textdomain('next-active-directory-integration', false, plugin_basename(NEXT_AD_INT_PATH) . '/languages');
+		load_plugin_textdomain('next-active-directory-integration', false,
+			plugin_basename(NEXT_AD_INT_PATH) . '/languages');
 
 		// ADI-354 (dme)
 		$configurationService = $this->dc()->getConfiguration();
-		$enableLogging = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
-		$customPath = $configurationService->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
+		$enableLogging        = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
+		$customPath           = $configurationService->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
 
 		NextADInt_Core_Logger::initializeLogger($enableLogging, $customPath);
 
@@ -195,9 +197,15 @@ class NextADInt_Adi_Init
 			return false;
 		}
 
+		// ADI-665 register the hooks required during the test authentication process
+		if ($this->isOnTestAuthenticationPage()) {
+			$this->registerAuthenticationHooks();
+		}
+
+
 		$currentUserId = wp_get_current_user()->ID;
 
-		if (!$currentUserId) {
+		if ( ! $currentUserId) {
 			// the current user is not logged in so further hooks must not be processed
 			return false;
 		}
@@ -235,7 +243,7 @@ class NextADInt_Adi_Init
 	public function runMultisite()
 	{
 		// only network dashboard views are relevant
-		if (!$this->isOnNetworkDashboard()) {
+		if ( ! $this->isOnNetworkDashboard()) {
 			return;
 		}
 
@@ -266,8 +274,17 @@ class NextADInt_Adi_Init
 	{
 		// register authentication
 		$this->dc()->getLoginService()->register();
+		$this->dc()->getLoginService()->registerAuthenticationHooks();
 		// register custom password validation
 		$this->dc()->getPasswordValidationService()->register();
+	}
+
+	/**
+	 * Register hooks required during the test authentication process.
+	 */
+	public function registerAuthenticationHooks()
+	{
+		$this->dc()->getLoginService()->registerAuthenticationHooks();
 	}
 
 	/**
@@ -389,10 +406,10 @@ class NextADInt_Adi_Init
 	{
 		$r = false;
 
-		$page = $_SERVER['PHP_SELF'];
-		$required = "wp-login.php";
+		$page        = $_SERVER['PHP_SELF'];
+		$required    = "wp-login.php";
 		$isOnWpLogin = substr($page, -strlen($required)) == $required;
-		$isOnXmlRpc = strpos($page, 'xmlrpc.php') !== false;
+		$isOnXmlRpc  = strpos($page, 'xmlrpc.php') !== false;
 
 		if ($isOnWpLogin || $isOnXmlRpc) {
 			$r = true;
@@ -401,5 +418,13 @@ class NextADInt_Adi_Init
 		$r = apply_filters(NEXT_AD_INT_PREFIX . 'auth_enable_login_check', $r);
 
 		return $r;
+	}
+
+	/**
+	 * Return true if current page is the test authentication page.
+	 */
+	public function isOnTestAuthenticationPage()
+	{
+		return isset($_GET['page']) && $_GET['page'] === 'next_ad_int_test_connection';
 	}
 }
