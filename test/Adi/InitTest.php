@@ -682,20 +682,27 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function registerLoginHooks()
 	{
-		$sut = $this->sut(array('initialize', 'dc'));
-		$dc = $this->mockDependencyContainer($sut);
-		$fakeService = $this->createAnonymousMock(array('register'));
+		$sut                           = $this->sut(array('initialize', 'dc'));
+		$dc                            = $this->mockDependencyContainer($sut);
+		$fakeLoginService              = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
+		$fakePasswordValidationService = $this->createAnonymousMock(array('register'));
+
+		$dc->expects($this->exactly(2))
+		   ->method('getLoginService')
+		   ->willReturn($fakeLoginService);
 
 		$dc->expects($this->once())
-			->method('getLoginService')
-			->willReturn($fakeService);
+		   ->method('getPasswordValidationService')
+		   ->willReturn($fakePasswordValidationService);
 
-		$dc->expects($this->once())
-			->method('getPasswordValidationService')
-			->willReturn($fakeService);
+		$fakeLoginService->expects($this->exactly(1))
+		                 ->method('register');
 
-		$fakeService->expects($this->exactly(2) /* previous service calls */)
-			->method('register');
+		$fakeLoginService->expects($this->exactly(1))
+		                 ->method('registerAuthenticationHooks');
+
+		$fakePasswordValidationService->expects($this->exactly(1))
+		                              ->method('register');
 
 		$sut->registerLoginHooks();
 	}
@@ -827,5 +834,55 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 			)
 			->setMethods($methods)
 			->getMock();
+	}
+
+	/**
+	 * @test
+	 * @issue ADI-665
+	 */
+	public function ADI_665_registerAuthenticationHooks_willCallLoginService()
+    {
+        $sut = $this->sut(array('dc'));
+        $dc = $this->mockDependencyContainer($sut);
+        $fakeService = $this->createAnonymousMock(array('registerAuthenticationHooks'));
+
+        $dc->expects($this->once())
+           ->method('getLoginService')
+           ->willReturn($fakeService);
+
+        $fakeService->expects($this->exactly(1))
+                    ->method('registerAuthenticationHooks');
+
+        $sut->registerAuthenticationHooks();
+    }
+
+	/**
+	 * @test
+	 * @issue ADI-665
+	 */
+    public function ADI_665_isOnTestAuthenticationPage_returnsTrue()
+    {
+    	$sut = $this->sut();
+
+	    $_GET['page'] = 'next_ad_int_test_connection';
+
+	    $actual = $sut->isOnTestAuthenticationPage();
+
+    	$this->assertTrue($actual);
+    }
+
+	/**
+	 * @test
+	 * @issue ADI-665
+	 */
+	public function ADI_665_isOnTestAuthenticationPage_returnsFalse()
+	{
+		$sut = $this->sut();
+
+		$_GET['page'] = 'next_ad_int_sync_to_wordpress';
+
+		$actual = $sut->isOnTestAuthenticationPage();
+
+		$this->assertFalse($actual);
 	}
 }
