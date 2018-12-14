@@ -832,6 +832,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @return boolean
 	 */
 	public function beforeCreateOrUpdateUser($credentials, $ldapAttributes) {
+        $this->logger->info("Hook beforeCreateOrUpdateUser executed");
 		return true;
 	}
 
@@ -842,6 +843,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @return boolean|WP_User
 	 */
 	public function afterCreateOrUpdateUser($credentials, $adiUser, $wpUser) {
+        $this->logger->info("Hook afterCreateOrUpdateUser executed, wpUser: '" . is_object($wpUser) . "'");
 		return $wpUser;
 	}
 }
