@@ -686,6 +686,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 		$dc                            = $this->mockDependencyContainer($sut);
 		$fakeLoginService              = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
 		$fakePasswordValidationService = $this->createAnonymousMock(array('register'));
+		$fakeAuthorizationService      = $this->createAnonymousMock(array('register'));
 
 		$dc->expects($this->exactly(2))
 		   ->method('getLoginService')
@@ -695,6 +696,10 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 		   ->method('getPasswordValidationService')
 		   ->willReturn($fakePasswordValidationService);
 
+		$dc->expects($this->once())
+            ->method('getAuthorizationService')
+            ->willReturn($fakeAuthorizationService);
+
 		$fakeLoginService->expects($this->exactly(1))
 		                 ->method('register');
 
@@ -703,6 +708,9 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 		$fakePasswordValidationService->expects($this->exactly(1))
 		                              ->method('register');
+
+		$fakeAuthorizationService->expects($this->exactly(1))
+                                ->method('register');
 
 		$sut->registerLoginHooks();
 	}

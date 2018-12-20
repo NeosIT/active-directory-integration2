@@ -46,7 +46,10 @@ class NextADInt_Adi_Authentication_LoginService
 	 */
 	private $roleManager;
 
-	private $currentUserHasAccessGranted;
+    /**
+     * @var NextADInt_Adi_LoginState
+     */
+	private $loginState;
 
 	/**
 	 * @param NextADInt_Adi_Authentication_Persistence_FailedLoginRepository|null $failedLogin
@@ -57,6 +60,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param NextADInt_Adi_Authentication_Ui_ShowBlockedMessage|null $userBlockedMessage
 	 * @param NextADInt_Ldap_Attribute_Service $attributeService
 	 * @param NextADInt_Adi_Role_Manager $roleManager
+     * @param NextADInt_Adi_LoginState $loginState
 	 */
 	public function __construct(NextADInt_Adi_Authentication_Persistence_FailedLoginRepository $failedLogin = null,
 								NextADInt_Multisite_Configuration_Service $configuration,
@@ -65,7 +69,8 @@ class NextADInt_Adi_Authentication_LoginService
 								NextADInt_Adi_Mail_Notification $mailNotification = null,
 								NextADInt_Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
 								NextADInt_Ldap_Attribute_Service $attributeService,
-								NextADInt_Adi_Role_Manager $roleManager
+								NextADInt_Adi_Role_Manager $roleManager,
+                                NextADInt_Adi_LoginState $loginState
 	)
 	{
 		$this->failedLogin = $failedLogin;
@@ -76,10 +81,9 @@ class NextADInt_Adi_Authentication_LoginService
 		$this->userBlockedMessage = $userBlockedMessage;
 		$this->attributeService = $attributeService;
 		$this->roleManager = $roleManager;
+		$this->loginState = $loginState;
 
 		$this->logger = NextADInt_Core_Logger::getLogger();
-
-		$this->currentUserHasAccessGranted = false;
 	}
 
 	/**
@@ -165,10 +169,12 @@ class NextADInt_Adi_Authentication_LoginService
 		$credentials = self::createCredentials($login, $password);
 		$suffixes = $this->detectAuthenticatableSuffixes($credentials->getUpnSuffix());
 
-		return $this->tryAuthenticatableSuffixes(
+		$r = $this->tryAuthenticatableSuffixes(
 			$credentials,
 			$suffixes
 		);
+
+		return $r;
 	}
 
 	/**
@@ -234,7 +240,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 * @param array $suffixes
 	 *
-	 * @return bool
+	 * @return false|WP_User
 	 * @throws Exception
 	 */
 	public function tryAuthenticatableSuffixes(NextADInt_Adi_Authentication_Credentials $credentials, $suffixes = array())
@@ -555,23 +561,10 @@ class NextADInt_Adi_Authentication_LoginService
 
 		// ADI-256: user does only have a valid id if he is already inside the directory or has been created with "Auto Create User" == on
 		if (is_object($wpUser) && !is_wp_error($wpUser) && ($wpUser->ID > 0)) {
-		    // state: user is authenticated, we won't explicitly set any flag
-			$userGuid = get_user_meta($wpUser->ID, 'next_ad_int_objectguid', true);
+			// state: user is authenticated
+            $this->loginState->setAuthenticationSucceeded();
 
-			// ADI-627 Moved isUserAuthorized to postAuthentication because otherwise we cant retrieve the GUID and can not reliable check the authorization group
-			if (!$this->isUserAuthorized($userGuid)) {
-				return false;
-			}
-			// state: user is authorized
-
-			if ($this->userManager->isDisabled($wpUser->ID)) {
-				$this->logger->error("Unable to login user. User is disabled.");
-
-				return false;
-			}
-
-			// state: user is authenticated, authorized and enabled -> grant access to WordPress
-            $this->currentUserHasAccessGranted = true;
+            // ADI-671: we no longer pollute this class with authorization topics, see Authorization\Service.php
 		}
 
 		return $wpUser;
@@ -742,16 +735,6 @@ class NextADInt_Adi_Authentication_LoginService
 		$this->logger->debug("User '$login' has local WordPress ID '$userId'.");
 
 		return new WP_User($userId);
-	}
-
-	/**
-	 * Return whether the current user is authenticated or not
-	 *
-	 * @return bool
-	 */
-	public function hasCurrentUserAccessGranted()
-	{
-		return $this->currentUserHasAccessGranted;
 	}
 
 	/**

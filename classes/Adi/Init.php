@@ -202,7 +202,6 @@ class NextADInt_Adi_Init
             $this->dc()->getLoginService()->registerAuthenticationHooks();
 		}
 
-
 		$currentUserId = wp_get_current_user()->ID;
 
 		if ( ! $currentUserId) {
@@ -277,6 +276,8 @@ class NextADInt_Adi_Init
 		$this->dc()->getLoginService()->registerAuthenticationHooks();
 		// register custom password validation
 		$this->dc()->getPasswordValidationService()->register();
+		// register authorization (groups, user enabled, ...)
+        $this->dc()->getAuthorizationService()->register();
 	}
 
 	/**
@@ -293,6 +294,7 @@ class NextADInt_Adi_Init
 
 		$this->dc()->getSsoService()->register();
 		$this->dc()->getSsoService()->registerAuthenticationHooks();
+        $this->dc()->getAuthorizationService()->register();
 	}
 
 	/**

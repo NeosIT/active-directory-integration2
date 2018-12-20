@@ -100,6 +100,10 @@ if (!defined('ABSPATH')) {
             );
         }
 
+        public function __get($name) {
+            return $this->data->$name;
+        }
+
         public function setExpectedUserLogin($expected) {
             $this->data->user_login = $expected;
         }

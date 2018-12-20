@@ -30,6 +30,9 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	/* @var NextADInt_Adi_Role_Manager|PHPUnit_Framework_MockObject_MockObject $roleManager */
 	private $roleManager;
 
+    /** @var NextADInt_Adi_LoginState */
+	private $loginState;
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -42,8 +45,8 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$this->userBlockedMessage = $this->createMock('NextADInt_Adi_Authentication_Ui_ShowBlockedMessage');
 		$this->attributeService = $this->createMock('NextADInt_Ldap_Attribute_Service');
 		$this->roleManager = $this->createMock('NextADInt_Adi_Role_Manager');
+		$this->loginState = new NextADInt_Adi_LoginState();
 	}
-
 
 	public function tearDown()
 	{
@@ -66,6 +69,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 					$this->userBlockedMessage,
 					$this->attributeService,
 					$this->roleManager,
+                    $this->loginState
 				)
 			)
 			->setMethods($methods)
@@ -342,7 +346,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$actual = $sut->detectAuthenticatableSuffixes('@test.ad');
 
-
 		$this->assertEquals(array('@test.ad'), $actual);
 	}
 
@@ -359,7 +362,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->willReturn('@test.ad;@domain.tld');
 
 		$actual = $sut->detectAuthenticatableSuffixes('domain.tld');
-
 
 		$this->assertEquals(array('@domain.tld', '@test.ad'), $actual);
 	}
@@ -697,47 +699,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function postAuthentication_itReturnsFalse_whenUserIsDisabled()
-	{
-		$sut = $this->sut(array('createOrUpdateUser', 'isUserAuthorized'));
-
-		$credentials = NextADInt_Adi_Authentication_LoginService::createCredentials('username', 'password');
-
-		$wpUser = (object)(array('ID' => 666));
-
-		$sut->expects($this->once())
-			->method('createOrUpdateUser')
-			->with($credentials)
-			->willReturn($wpUser);
-
-		$this->userManager->expects($this->once())
-			->method('isDisabled')
-			->with(666)
-			->willReturn(true);
-
-		// NADI 2.1.3 removed 'with' std object check due is_wp_error mock method did not accept this parameter
-		wp_mock::userFunction('is_wp_error', array(
-			'times'  => 1,
-			'returns' => false,
-		));
-
-		wp_mock::userFunction('get_user_meta', array(
-			'times' => 1,
-			'args' => array(666, 'next_ad_int_objectguid', true),
-			'return' => 123,
-		));
-
-		$sut->expects($this->once())
-			->method('isUserAuthorized')
-			->with(123)
-			->willReturn(true);
-
-		$this->assertEquals(false, $sut->postAuthentication($credentials));
-	}
-
-	/**
-	 * @test
-	 */
 	public function postAuthentication_itReturnsWpUser_whenCreateOrUpdateSucceeds()
 	{
 		$sut = $this->sut(array('createOrUpdateUser'));
@@ -750,13 +711,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->with($credentials)
 			->willReturn($wpUser);
 
-		$this->userManager->expects($this->once())
-			->method('isDisabled')
-			->with(666)
-			->willReturn(false);
-
 		$this->assertEquals($wpUser, $sut->postAuthentication($credentials));
-        $this->assertTrue($sut->hasCurrentUserAccessGranted());
 	}
 
 	/**

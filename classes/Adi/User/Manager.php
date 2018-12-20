@@ -125,13 +125,14 @@ class NextADInt_Adi_User_Manager
 		return $wpUser;
 	}
 
-	/**
-	 * Check if user $userId is disabled
-	 *
-	 * @param integer $userId
-	 *
-	 * @return bool
-	 */
+    /**
+     * Check if user $userId is disabled
+     *
+     * @param integer $userId
+     *
+     * @return bool
+     * @throws Exception
+     */
 	public function isDisabled($userId)
 	{
 		NextADInt_Core_Assert::validId($userId);

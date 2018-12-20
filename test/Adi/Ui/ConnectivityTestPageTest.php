@@ -259,7 +259,7 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 			'Support Hash: ' . hash('sha256', $supportString)
 		);
 
-		$sut = $this->sut(array('connectToActiveDirectory', 'detectSystemEnvironment', 'detectSupportData'));
+		$sut = $this->sut(array('authenticateAndAuthorize', 'detectSystemEnvironment', 'detectSupportData'));
 
 		$sut->expects($this->once())
 			->method('detectSupportData')
@@ -270,7 +270,7 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 			->willReturn(array(array('PHP', '5.5')));
 
 		$sut->expects($this->once())
-			->method('connectToActiveDirectory')
+			->method('authenticateAndAuthorize')
 			->with($username, $password)
 			->willReturn(666);
 
