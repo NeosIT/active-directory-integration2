@@ -199,7 +199,7 @@ class NextADInt_Adi_Init
 
 		// ADI-665 register the hooks required during the test authentication process
 		if ($this->isOnTestAuthenticationPage()) {
-			$this->registerAuthenticationHooks();
+            $this->dc()->getLoginService()->registerAuthenticationHooks();
 		}
 
 
@@ -280,14 +280,6 @@ class NextADInt_Adi_Init
 	}
 
 	/**
-	 * Register hooks required during the test authentication process.
-	 */
-	public function registerAuthenticationHooks()
-	{
-		$this->dc()->getLoginService()->registerAuthenticationHooks();
-	}
-
-	/**
 	 * Register hooks during WordPress load
 	 */
 	public function registerSsoHooks()
@@ -300,6 +292,7 @@ class NextADInt_Adi_Init
 		}
 
 		$this->dc()->getSsoService()->register();
+		$this->dc()->getSsoService()->registerAuthenticationHooks();
 	}
 
 	/**

@@ -840,26 +840,6 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	 * @test
 	 * @issue ADI-665
 	 */
-	public function ADI_665_registerAuthenticationHooks_willCallLoginService()
-    {
-        $sut = $this->sut(array('dc'));
-        $dc = $this->mockDependencyContainer($sut);
-        $fakeService = $this->createAnonymousMock(array('registerAuthenticationHooks'));
-
-        $dc->expects($this->once())
-           ->method('getLoginService')
-           ->willReturn($fakeService);
-
-        $fakeService->expects($this->exactly(1))
-                    ->method('registerAuthenticationHooks');
-
-        $sut->registerAuthenticationHooks();
-    }
-
-	/**
-	 * @test
-	 * @issue ADI-665
-	 */
     public function ADI_665_isOnTestAuthenticationPage_returnsTrue()
     {
     	$sut = $this->sut();

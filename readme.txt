@@ -126,6 +126,10 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.1.6 =
+* FIXED: custom authentication filters were not registered properly (ADI-665) this will fix SSO related issues
+* FIXED: test authentication will now properly check for authorization groups again
+
 = 2.1.5 =
 * FIXED: replaced all references to the deprecated each-function with foreach (ADI-628)
 * FIXED: authorization groups will now properly prevent users from logging in (ADI-664, https://wordpress.org/support/topic/authorization-groups-not-working/ Thanks to shmew22, GitHub #92 Thanks to pokertour)
