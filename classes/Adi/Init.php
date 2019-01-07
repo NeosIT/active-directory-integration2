@@ -186,14 +186,9 @@ class NextADInt_Adi_Init
 			return false;
 		}
 
-		if ($this->isSsoEnabled()) {
-			$this->registerSsoHooks();
-		}
-
-		if ($this->isOnLoginPage()) {
-			$this->registerLoginHooks();
-
-			// further hooks must not be executed
+		// register all required authorization and authentication hooks
+		if (!$this->registerAuthentication()) {
+			// further hooks must not be executed if registerAuthentication returns false (should only happen if on login page)
 			return false;
 		}
 
@@ -267,34 +262,41 @@ class NextADInt_Adi_Init
 	}
 
 	/**
-	 * Register hooks during the login procedure
+	 * Register all required authentication and authorization hooks.
+	 *
+	 * @return bool
 	 */
-	public function registerLoginHooks()
-	{
-		// register authentication
-		$this->dc()->getLoginService()->register();
-		$this->dc()->getLoginService()->registerAuthenticationHooks();
-		// register custom password validation
-		$this->dc()->getPasswordValidationService()->register();
-		// register authorization (groups, user enabled, ...)
-        $this->dc()->getAuthorizationService()->register();
-	}
-
-	/**
-	 * Register hooks during WordPress load
-	 */
-	public function registerSsoHooks()
-	{
+	public function registerAuthentication() {
 		$isOnLoginPage = $this->isOnLoginPage();
+		$isSsoEnabled = $this->isSsoEnabled();
 
-		// register sso
-		if ($isOnLoginPage) {
-			$this->dc()->getSsoPage()->register();
+		// register authorization (groups, user enabled, ...)
+		$this->dc()->getAuthorizationService()->register();
+
+		if ($isSsoEnabled) {
+			$this->dc()->getSsoService()->register();
+			$this->dc()->getSsoService()->registerAuthenticationHooks();
 		}
 
-		$this->dc()->getSsoService()->register();
-		$this->dc()->getSsoService()->registerAuthenticationHooks();
-        $this->dc()->getAuthorizationService()->register();
+		if ($isOnLoginPage) {
+
+			// register authentication
+			$this->dc()->getLoginService()->register();
+			// register custom password validation
+			$this->dc()->getPasswordValidationService()->register();
+
+			if ($isSsoEnabled) {
+				$this->dc()->getSsoPage()->register();
+			} else {
+				// we *must* register the authentication hooks of LoginService in case we are *not* using SSO
+				$this->dc()->getLoginService()->registerAuthenticationHooks();
+			}
+
+			// further hooks must not be executed
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
