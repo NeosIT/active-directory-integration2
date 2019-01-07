@@ -38,8 +38,6 @@ class NextADInt_Adi_Init
 	/**
 	 * This function will be executed when the plugin is activated.
 	 * The 'activation' hook is called by AJAX so you can not output anything. Use {#postActivation()} to register any UI hooks.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function activation()
 	{
@@ -138,8 +136,6 @@ class NextADInt_Adi_Init
 	 * minimize the memory footprint and loading times.
 	 *
 	 * This method will not proceed if the user is currently viewing the Multisite network dashboard.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function run()
 	{
@@ -201,7 +197,7 @@ class NextADInt_Adi_Init
             $this->dc()->getLoginService()->registerAuthenticationHooks();
 		}
 
-		$currentUserId = wp_get_current_user()->ID;
+		$currentUserId = wp_get_current_user()->ID; // Attribute ID will show 0 if there is no user.
 
 		if ( ! $currentUserId) {
 			// the current user is not logged in so further hooks must not be processed
@@ -209,6 +205,7 @@ class NextADInt_Adi_Init
 		}
 
 		// log out disabled user
+        // TODO NADI-671 this should no longer be required due to the new registerAuthentication() hooks
 		if ($this->dc()->getUserManager()->isDisabled($currentUserId)) {
 			wp_logout();
 
