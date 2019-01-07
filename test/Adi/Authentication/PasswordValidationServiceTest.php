@@ -9,15 +9,15 @@ class Ut_NextADInt_Adi_Authentication_PasswordValidationServiceTest extends Ut_B
 	/* @var NextADInt_Multisite_Configuration_Service| PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	/* @var NextADInt_Adi_Authentication_LoginService| PHPUnit_Framework_MockObject_MockObject */
-	private $loginService;
+	/* @var NextADInt_Adi_LoginState| PHPUnit_Framework_MockObject_MockObject */
+	private $loginState;
 
 	public function setUp()
 	{
 		parent::setUp();
 
 		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
-		$this->loginService = $this->createMock('NextADInt_Adi_Authentication_LoginService');
+		$this->loginState = new NextADInt_Adi_LoginState();
 	}
 
 	public function tearDown()
@@ -50,7 +50,7 @@ class Ut_NextADInt_Adi_Authentication_PasswordValidationServiceTest extends Ut_B
 		return $this->getMockBuilder('NextADInt_Adi_Authentication_PasswordValidationService')
 			->setConstructorArgs(
 				array(
-					$this->loginService,
+					$this->loginState,
 					$this->configuration
 				)
 			)
@@ -65,45 +65,11 @@ class Ut_NextADInt_Adi_Authentication_PasswordValidationServiceTest extends Ut_B
 	{
 		$sut = $this->sut(null);
 		$userId = '2';
-
-		$this->loginService->expects($this->once())
-			->method('hasCurrentUserAccessGranted')
-			->willReturn(true);
+		$this->loginState->setAuthenticationSucceeded();
 
 		$returnedValue = $sut->overridePasswordCheck(null, null, null, $userId);
 
 		$this->assertEquals(true, $returnedValue);
-	}
-
-	/**
-	 * @test
-	 */
-	public function overridePasswordCheck_userDisabled()
-	{
-		$sut = $this->sut(null);
-		$userId = '2';
-		$reason = "Spam";
-
-		$this->loginService->expects($this->once())
-			->method('hasCurrentUserAccessGranted')
-			->willReturn(false);
-
-		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled', true),
-			'times'  => '1',
-			'return' => true)
-		);
-
-		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
-			'times'  => '1',
-			'return' => $reason)
-		);
-
-		$returnedValue = $sut->overridePasswordCheck(null, null, null, $userId);
-
-		$this->assertEquals(false, $returnedValue);
-
 	}
 
 	/**
@@ -114,12 +80,6 @@ class Ut_NextADInt_Adi_Authentication_PasswordValidationServiceTest extends Ut_B
 		$sut = $this->sut(null);
 		$userId = '2';
 		$check = true;
-
-		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled', true),
-			'times'  => '1',
-			'return' => false)
-		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
 			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
@@ -146,12 +106,6 @@ class Ut_NextADInt_Adi_Authentication_PasswordValidationServiceTest extends Ut_B
 		$userId = '2';
 
 		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled', true),
-			'times'  => '1',
-			'return' => false)
-		);
-
-		WP_Mock::wpFunction('get_user_meta', array(
 			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
 			'times'  => '1',
 			'return' => true)
@@ -164,10 +118,7 @@ class Ut_NextADInt_Adi_Authentication_PasswordValidationServiceTest extends Ut_B
 
 		$returnedValue = $sut->overridePasswordCheck(null, null, null, $userId);
 		$this->assertFalse($returnedValue);
-
-
 	}
-
 
 	/**
 	 * @test
@@ -177,12 +128,6 @@ class Ut_NextADInt_Adi_Authentication_PasswordValidationServiceTest extends Ut_B
 		$sut = $this->sut(null);
 		$userId = '2';
 		$check = true;
-
-		WP_Mock::wpFunction('get_user_meta', array(
-			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled', true),
-			'times'  => '1',
-			'return' => false)
-		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
 			'args'   => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),

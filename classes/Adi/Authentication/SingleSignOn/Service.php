@@ -42,11 +42,12 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 								NextADInt_Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
 								NextADInt_Ldap_Attribute_Service $attributeService,
 								NextADInt_Adi_Role_Manager $roleManager,
-								NextADInt_Adi_Authentication_SingleSignOn_Validator $validation
+								NextADInt_Adi_Authentication_SingleSignOn_Validator $validation,
+                                NextADInt_Adi_LoginState $loginState
 	)
 	{
 		parent::__construct($failedLogin, $configuration, $ldapConnection, $userManager, $mailNotification,
-			$userBlockedMessage, $attributeService, $roleManager);
+			$userBlockedMessage, $attributeService, $roleManager, $loginState);
 
 		$this->validation = $validation;
 		$this->logger = NextADInt_Core_Logger::getLogger();
@@ -107,6 +108,8 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 
 			// authenticate the given user and run the default procedure form the LoginService
 			$user = parent::authenticate(null, $credentials->getUserPrincipalName());
+			// as SSO runs during the "init" phase, we need to call the 'authorize' filter on our own
+			$user = apply_filters('authorize', $user);
 
 			$validation->validateUser($user);
 
@@ -122,7 +125,6 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 
 		return true;
 	}
-
 
 	/**
 	 * Create new credentials based upon sAMAccountName or userPrincipalName
