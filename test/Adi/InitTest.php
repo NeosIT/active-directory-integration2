@@ -331,7 +331,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	public function run_itRegisterCore_whenActive()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'isActive', 'registerCore',
-			'registerAdministrationMenu'));
+			'registerAdministrationMenu', 'finishRegistration'));
 
 		$sut->expects($this->once())
 			->method('isActive')
@@ -343,6 +343,9 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('registerAdministrationMenu');
+
+		$sut->expects($this->once())
+            ->method('finishRegistration');
 
 		$sut->run();
 	}
@@ -528,7 +531,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	public function runMultisite_itRegistersTheSharedAdministrationHooks_whenInMultisiteEnvironment()
 	{
 		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
-			'registerMigrationHook'));
+			'registerMigrationHook', 'finishRegistration'));
 		$dc = $this->mockDependencyContainer($sut);
 
 		$this->loginUser($sut, null, null);
@@ -550,6 +553,9 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('registerSharedAdministrationHooks');
 
+		$sut->expects($this->once())
+            ->method('finishRegistration');
+
 		$sut->runMultisite();
 	}
 
@@ -559,7 +565,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	public function runMultisite_itRegistersTheMultisiteAdministrationHooks_whenInMultisiteEnvironment()
 	{
 		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
-			'registerMigrationHook'));
+			'registerMigrationHook', 'finishRegistration'));
 		$dc = $this->mockDependencyContainer($sut);
 
 		$this->loginUser($sut, null, null);
@@ -583,6 +589,9 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 		$multisiteMenu->expects($this->once())
 			->method('register');
+
+        $sut->expects($this->once())
+            ->method('finishRegistration');
 
 		$sut->runMultisite();
 	}
@@ -714,6 +723,16 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 		$sut->registerLoginHooks();
 	}
+
+    /**
+     * @test
+     */
+	public function finishRegistration() {
+	    WP_Mock::expectAction('next_ad_int_loaded');
+
+	    $sut = $this->sut();
+	    $sut->finishRegistration();
+    }
 
 	/**
 	 * @test

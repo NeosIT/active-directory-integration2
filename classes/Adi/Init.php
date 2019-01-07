@@ -156,6 +156,8 @@ class NextADInt_Adi_Init
 		if ($this->isActive()) {
 			// only with an active ADI profile the core has to be registered
 			if (true !== $this->registerCore()) {
+                $this->finishRegistration();
+
 				// the core has not been completely initialized so we do not have to proceed
 				return;
 			}
@@ -163,6 +165,8 @@ class NextADInt_Adi_Init
 
 		// the menu must be activated so that in a multisite setup the blog administrator can enable/disable ADI
 		$this->registerAdministrationMenu();
+
+		$this->finishRegistration();
 	}
 
 	// ---
@@ -223,6 +227,15 @@ class NextADInt_Adi_Init
 		return true;
 	}
 
+    /**
+     * Signal that NADI registration has been finished. It simply calls the WordPress action 'nadi_loaded'
+     * @since 2.1.8
+     * @see ADI-672
+     */
+	public function finishRegistration() {
+	    do_action('next_ad_int_loaded');
+    }
+
 	/**
 	 * Register hooks used for migrations
 	 */
@@ -251,6 +264,7 @@ class NextADInt_Adi_Init
 
 		$this->dc()->getExtendSiteList()->register();
 		$this->dc()->getMultisiteMenu()->register();
+        $this->finishRegistration();
 	}
 
 	/**

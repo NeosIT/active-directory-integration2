@@ -33,5 +33,4 @@ class NextADInt_Adi_Authentication_Ui_SingleSignOn
 		$url = esc_url(add_query_arg('reauth', 'sso'));
 		echo '<p><a href="' . $url . '">' . $message . '</a></p>';
 	}
-
 }
