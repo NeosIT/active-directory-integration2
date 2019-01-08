@@ -192,11 +192,6 @@ class NextADInt_Adi_Init
 			return false;
 		}
 
-		// ADI-665 register the hooks required during the test authentication process
-		if ($this->isOnTestAuthenticationPage()) {
-            $this->dc()->getLoginService()->registerAuthenticationHooks();
-		}
-
 		$currentUserId = wp_get_current_user()->ID; // Attribute ID will show 0 if there is no user.
 
 		if ( ! $currentUserId) {
@@ -280,9 +275,18 @@ class NextADInt_Adi_Init
 	public function registerAuthentication() {
 		$isOnLoginPage = $this->isOnLoginPage();
 		$isSsoEnabled = $this->isSsoEnabled();
+		$isOnTestAuthenticationPage = $this->isOnTestAuthenticationPage();
 
 		// register authorization (groups, user enabled, ...)
 		$this->dc()->getAuthorizationService()->register();
+
+		// ADI-665 register the hooks required during the test authentication process
+		if ($isOnTestAuthenticationPage) {
+			$this->dc()->getLoginService()->registerAuthenticationHooks();
+
+			// further hooks must not be executed
+			return true;
+		}
 
 		if ($isSsoEnabled) {
 			$this->dc()->getSsoService()->register();

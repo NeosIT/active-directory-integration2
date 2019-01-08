@@ -32,8 +32,6 @@
         <testsuite name="unit">
             <directory>test</directory>
         </testsuite>
-    </testsuites>
-    <testsuites>
         <testsuite name="integration">
             <directory>./test/Ldap/ConnectionIT.php</directory>
             <directory>./test/Role/ManagerIT.php</directory>

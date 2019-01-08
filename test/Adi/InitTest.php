@@ -931,13 +931,12 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
      */
     public function registerCore_willRegisterHooks()
     {
-        $sut = $this->sut(array('registerAuthentication', 'isOnTestAuthenticationPage', 'dc',
+        $sut = $this->sut(array('registerAuthentication', 'dc',
             'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks'));
         $dc = $this->mockDependencyContainer($sut);
         $userManager = $this->createAnonymousMock(array('isDisabled'));
 
         $sut->expects($this->once())->method('registerAuthentication')->willReturn(true);
-        $sut->expects($this->once())->method('isOnTestAuthenticationPage')->willReturn(false);
 
         WP_Mock::wpFunction('wp_get_current_user', array(
             'times' => 1,
@@ -959,11 +958,10 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
      */
     public function registerCore_willReturnFalse_currentUserHasNoId()
     {
-        $sut = $this->sut(array('registerAuthentication', 'dc', 'isOnTestAuthenticationPage'));
+        $sut = $this->sut(array('registerAuthentication', 'dc'));
         $dc = $this->mockDependencyContainer($sut);
 
         $sut->expects($this->once())->method('registerAuthentication')->willReturn(true);
-        $sut->expects($this->once())->method('isOnTestAuthenticationPage')->willReturn(false);
 
         WP_Mock::wpFunction('wp_get_current_user', array(
             'times' => 1,

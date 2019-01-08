@@ -162,7 +162,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		}
 
 		return array(
-			'status' => $information['authentication_result'],
+			'status' => $information['authentication_result'] instanceof WP_User
 		);
 	}
 
@@ -268,11 +268,13 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
             $loginState
 		);
 
+        global $wp_filter;
+
         // remove authorization filters which have already been applied before
         remove_all_filters('authorize');
 
 		$authorizationService = new NextADInt_Adi_Authorization_Service($this->configuration, $this->userManager, $this->roleManager, $loginState);
-		// re-register the authorization filter
+		// register the authorization filter
 		$authorizationService->register();
 
 		// apply the authoriaztion
