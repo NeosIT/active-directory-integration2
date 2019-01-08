@@ -268,8 +268,6 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
             $loginState
 		);
 
-        global $wp_filter;
-
         // remove authorization filters which have already been applied before
         remove_all_filters('authorize');
 
