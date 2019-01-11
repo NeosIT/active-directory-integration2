@@ -49,8 +49,6 @@ class NextADInt_Adi_Authentication_Credentials
 	 *
 	 * @param string $login Login in form 'username' (sAMAccountName), 'username@domain' (userPrincipalName) or 'NETBIOS\sAMAccountName'
 	 * @param string $password
-	 *
-	 * @throws Exception
 	 */
 	public function __construct($login = '', $password = '')
 	{

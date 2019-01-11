@@ -119,10 +119,14 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 
 			// authenticate the given user and run the default procedure form the LoginService
 			$authenticatedCredentials = parent::authenticate(null, $credentials->getUserPrincipalName());
-			// TODO Wenn kein gültiger Benutzer authentifiziert und autorisiert wurde, muss hier eine Exception geworfen werden
+			if(!$authenticatedCredentials) {
+				throw new NextADInt_Adi_Authentication_Exception("Unable to authenticate user" . $credentials->getUserPrincipalName());
+			}
+
+
 			// as SSO runs during the "init" phase, we need to call the 'authorize' filter on our own
-			$user = apply_filters('authorize', $authenticatedCredentials);
-			$user = apply_filters(NEXT_AD_INT_PREFIX . 'login_succeeded', $authenticatedCredentials);
+			apply_filters('authorize', $authenticatedCredentials);
+			apply_filters(NEXT_AD_INT_PREFIX . 'login_succeeded', $authenticatedCredentials);
 
 			// if our user is authenticated and we have a WordPress user, we
 			$sessionHandler->clearValue(self::FAILED_SSO_UPN);

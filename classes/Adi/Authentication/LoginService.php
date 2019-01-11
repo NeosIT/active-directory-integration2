@@ -54,7 +54,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param NextADInt_Adi_Mail_Notification|null $mailNotification
 	 * @param NextADInt_Adi_Authentication_Ui_ShowBlockedMessage|null $userBlockedMessage
 	 * @param NextADInt_Ldap_Attribute_Service $attributeService
-	 * @param NextADInt_Adi_Role_Manager $roleManager
+	 * @param NextADInt_Adi_LoginState $loginState
 	 */
 	public function __construct(NextADInt_Adi_Authentication_Persistence_FailedLoginRepository $failedLogin = null,
 								NextADInt_Multisite_Configuration_Service $configuration,
@@ -118,6 +118,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param string $password
 	 *
 	 * @return WP_Error|WP_User|false
+	 * @throws Exception
 	 */
 	public function authenticate($user = null /* required for WordPress callback */, $login = '', $password = '')
 	{

@@ -286,8 +286,7 @@ class NextADInt_Adi_Init
 			return true;
 		}
 
-		// TODO Ticket referenzieren
-		// NADI-XXX
+		// NADI-673
 		$this->dc()->getLoginSucceededService()->register();
 
 		if ($isSsoEnabled) {
