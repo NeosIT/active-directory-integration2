@@ -89,7 +89,6 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 					$this->mailNotification,
 					$this->userBlockedMessage,
 					$this->attributeService,
-					$this->roleManager,
 					$this->ssoValidation,
                     $this->loginState
 				)

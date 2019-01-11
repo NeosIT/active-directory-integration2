@@ -801,6 +801,32 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $sut->registerCore();
     }
 
+	/**
+	 * @test
+	 */
+	public function registerAuthentication_onTestAuthenticationPage_willRegisterHooks_returnsTrue()
+	{
+		$sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'dc', 'isOnTestAuthenticationPage'));
+		$dc = $this->mockDependencyContainer($sut);
+		$authService = $this->createAnonymousMock(array('register'));
+
+		$sut->expects($this->once())->method('isOnLoginPage')->willReturn(false);
+		$sut->expects($this->once())->method('isSsoenabled')->willreturn(false);
+		$sut->expects($this->once())->method('isOnTestAuthenticationPage')->willreturn(true);
+
+		// mock dependency container calls and return individual mocked services
+		$dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
+
+		// check method calls on mocked services
+		$authService->expects($this->once())->method('register');
+
+		// invoke method call
+		$actual = $sut->registerAuthentication();
+
+		// assertions
+		$this->assertTrue($actual);
+	}
+
     /**
      * @test
      */
@@ -810,6 +836,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $dc = $this->mockDependencyContainer($sut);
         $authService = $this->createAnonymousMock(array('register'));
         $loginService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
+	    $loginSucceededService = $this->createAnonymousMock(array('register'));
         $pwValidationService = $this->createAnonymousMock(array('register'));
 
         $sut->expects($this->once())->method('isOnLoginPage')->willReturn(true);
@@ -817,15 +844,16 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
         // mock dependency container calls and return individual mocked services
         $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
+        $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
         $dc->expects($this->never())->method('getSsoService');
-        $dc->expects($this->exactly(2))->method('getLoginService')->willReturn($loginService);
+        $dc->expects($this->once())->method('getLoginService')->willReturn($loginService);
         $dc->expects($this->once())->method('getPasswordValidationService')->willReturn($pwValidationService);
 
         // check method calls on mocked services
         $authService->expects($this->once())->method('register');
+	    $loginSucceededService->expects($this->once())->method('register');
         $loginService->expects($this->once())->method('register');
         $pwValidationService->expects($this->once())->method('register');
-        $loginService->expects($this->once())->method('registerAuthenticationHooks');
 
         // invoke method call
         $actual = $sut->registerAuthentication();
@@ -842,17 +870,20 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'dc'));
         $dc = $this->mockDependencyContainer($sut);
         $authService = $this->createAnonymousMock(array('register'));
+	    $loginSucceededService = $this->createAnonymousMock(array('register'));
 
-        $sut->expects($this->once())->method('isOnLoginPage')->willReturn(false);
+	    $sut->expects($this->once())->method('isOnLoginPage')->willReturn(false);
         $sut->expects($this->once())->method('isSsoEnabled')->willReturn(false);
 
         // mock dependency container calls and return individual mocked services
         $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
+	    $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
 
-        // check method calls on mocked services
+	    // check method calls on mocked services
         $authService->expects($this->once())->method('register');
+	    $loginSucceededService->expects($this->once())->method('register');
 
-        // invoke method call
+	    // invoke method call
         $actual = $sut->registerAuthentication();
 
         // assertions
@@ -868,18 +899,20 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $dc = $this->mockDependencyContainer($sut);
         $authService = $this->createAnonymousMock(array('register'));
         $ssoService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
+	    $loginSucceededService = $this->createAnonymousMock(array('register'));
 
         $sut->expects($this->once())->method('isOnLoginPage')->willReturn(false);
         $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
 
         // mock dependency container calls and return individual mocked services
         $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
-        $dc->expects($this->exactly(2))->method('getSsoService')->willReturn($ssoService);
+        $dc->expects($this->once())->method('getSsoService')->willReturn($ssoService);
+	    $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
 
-        // check method calls on mocked services
+	    // check method calls on mocked services
         $authService->expects($this->once())->method('register');
-        $ssoService->expects($this->once())->method('register');
-        $ssoService->expects($this->once())->method('registerAuthenticationHooks');
+	    $loginSucceededService->expects($this->once())->method('register');
+	    $ssoService->expects($this->once())->method('register');
 
         // invoke method call
         $actual = $sut->registerAuthentication();
@@ -900,21 +933,23 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $loginService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
         $pwValidationService = $this->createAnonymousMock(array('register'));
         $ssoPage = $this->createAnonymousMock(array('register'));
+	    $loginSucceededService = $this->createAnonymousMock(array('register'));
 
         $sut->expects($this->once())->method('isOnLoginPage')->willReturn(true);
         $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
 
         // mock dependency container calls and return individual mocked services
         $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
-        $dc->expects($this->exactly(2))->method('getSsoService')->willReturn($ssoService);
-        $dc->expects($this->exactly(1))->method('getLoginService')->willReturn($loginService);
+        $dc->expects($this->once())->method('getSsoService')->willReturn($ssoService);
+        $dc->expects($this->once())->method('getLoginService')->willReturn($loginService);
         $dc->expects($this->once())->method('getPasswordValidationService')->willReturn($pwValidationService);
         $dc->expects($this->once())->method('getSsoPage')->willReturn($ssoPage);
+	    $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
 
         // check method calls on mocked services
         $authService->expects($this->once())->method('register');
-        $ssoService->expects($this->once())->method('register');
-        $ssoService->expects($this->once())->method('registerAuthenticationHooks');
+	    $loginSucceededService->expects($this->once())->method('register');
+	    $ssoService->expects($this->once())->method('register');
         $loginService->expects($this->once())->method('register');
         $pwValidationService->expects($this->once())->method('register');
         $ssoPage->expects($this->once())->method('register');

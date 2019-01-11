@@ -109,9 +109,9 @@ class NextADInt_Adi_Authorization_Service
 	/**
 	 * Check if the given user is an AD user and has a
 	 *
-	 * @param null|WP_User|WP_Error $authenticatedCredentials
+	 * @param null|NextADInt_Adi_Authentication_Credentials|WP_Error $authenticatedCredentials
 	 *
-	 * @return WP_Error|WP_User
+	 * @return WP_Error|NextADInt_Adi_Authentication_Credentials
 	 * @throws Exception
 	 */
 	public function isUserInAuthorizationGroup($authenticatedCredentials)
