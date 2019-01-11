@@ -148,6 +148,7 @@ class NextADInt_Adi_User_Manager
 	 * @param NextADInt_Ldap_Attributes $ldapAttributes
 	 *
 	 * @return NextADInt_Adi_User
+	 * @throws Exception
 	 */
 	public function createAdiUser(NextADInt_Adi_Authentication_Credentials $credentials, NextADInt_Ldap_Attributes $ldapAttributes)
 	{

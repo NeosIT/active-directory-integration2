@@ -282,15 +282,16 @@ class NextADInt_Adi_Init
 
 		// ADI-665 register the hooks required during the test authentication process
 		if ($isOnTestAuthenticationPage) {
-			$this->dc()->getLoginService()->registerAuthenticationHooks();
-
 			// further hooks must not be executed
 			return true;
 		}
 
+		// TODO Ticket referenzieren
+		// NADI-XXX
+		$this->dc()->getLoginSucceededService()->register();
+
 		if ($isSsoEnabled) {
 			$this->dc()->getSsoService()->register();
-			$this->dc()->getSsoService()->registerAuthenticationHooks();
 		}
 
 		if ($isOnLoginPage) {
@@ -302,9 +303,6 @@ class NextADInt_Adi_Init
 
 			if ($isSsoEnabled) {
 				$this->dc()->getSsoPage()->register();
-			} else {
-				// we *must* register the authentication hooks of LoginService in case we are *not* using SSO
-				$this->dc()->getLoginService()->registerAuthenticationHooks();
 			}
 
 			// further hooks must not be executed

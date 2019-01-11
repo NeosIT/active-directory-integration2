@@ -1,10 +1,10 @@
 <?php
-if (!defined('ABSPATH')) {
-    die('Access denied.');
+if ( ! defined('ABSPATH')) {
+	die('Access denied.');
 }
 
 if (class_exists('NextADInt_Adi_LoginState')) {
-    return;
+	return;
 }
 
 /**
@@ -16,49 +16,62 @@ if (class_exists('NextADInt_Adi_LoginState')) {
  */
 class NextADInt_Adi_LoginState
 {
-    /**
-     * Indicate that the user has been logged in by NADI
-     * @var bool
-     */
-    private $authenticated = false;
+	/**
+	 * Indicate that the user has been logged in by NADI
+	 * @var bool
+	 */
+	private $authenticated = false;
 
-    /**
-     * Not yet used
-     * @var bool
-     */
-    private $authorized = false;
+	/**
+	 * null indicates that no authorization has been done
+	 * @var bool|null
+	 */
+	private $authorized = null;
 
-    /**
-     * Return if user has been authenticated by NADI
-     * @return bool
-     */
-    public function isAuthenticated()
-    {
-        return $this->authenticated;
-    }
+	/**
+	 * Return if user has been authenticated by NADI
+	 * @return bool
+	 */
+	public function isAuthenticated()
+	{
+		return $this->authenticated;
+	}
 
-    /**
-     * Return true if user has been authorized by NADI
-     * @return bool
-     */
-    public function isAuthorized()
-    {
-        return $this->authorized;
-    }
+	/**
+	 * Return true if user has been authorized by NADI
+	 * @return bool
+	 */
+	public function isAuthorized()
+	{
+		return $this->authorized;
+	}
 
-    /**
-     * Set the NADI authentication has succeeded
-     */
-    public function setAuthenticationSucceeded()
-    {
-        $this->authenticated = true;
-    }
+	/**
+	 * Set the NADI authentication has succeeded
+	 */
+	public function setAuthenticationSucceeded()
+	{
+		$this->authenticated = true;
+	}
 
-    /**
-     * Set the NADI authorization has succeeded
-     */
-    public function setAuthorizationSucceeded()
-    {
-        $this->authorized = true;
-    }
+	/**
+	 * Set the NADI authorization has succeeded
+	 */
+	public function setAuthorizationSucceeded()
+	{
+		$this->authorized = true;
+	}
+
+	public function setAuthorizationFailed()
+	{
+		$this->authorized = false;
+	}
+
+	/**
+	 * Return true if authentication is valid and authorization is valid or not done
+	 */
+	public function isAuthenticatedAndAuthorized()
+	{
+		return $this->isAuthenticated() && ($this->isAuthorized() !== false);
+	}
 }
