@@ -46,7 +46,7 @@ class NextADInt_Adi_User_LoginSucceededService
 	public function __construct(
 		NextADInt_Adi_LoginState $loginState,
 		NextADInt_Ldap_Attribute_Service $attributeService,
-		NextADInt_Adi_User_Manager $userManager,
+		NextADInt_Adi_User_Manager $userManager = null,
 		NextADInt_Ldap_Connection $ldapConnection,
 		NextADInt_Multisite_Configuration_Service $configuration
 	) {
@@ -86,7 +86,7 @@ class NextADInt_Adi_User_LoginSucceededService
 	 * This method updates or creates an user depending on the parameters.
 	 * It internally delegates to createUser or updateUser.
 	 *
-	 * @param $wpUser
+	 * @param NextADInt_Adi_Authentication_Credentials|WP_Error $wpUser
 	 *
 	 * @return false|int|WP_Error
 	 * @throws Exception
@@ -110,7 +110,8 @@ class NextADInt_Adi_User_LoginSucceededService
 		// ADI-395: wrong base DN leads to exception during Test Authentication
 		// If the base DN is wrong then no LDAP attributes can be loaded and getRaw() is false
 		if (false === $ldapAttributes->getRaw()) {
-			$this->logger->error("Not creating/updating user because expected LDAP attributes could not be loaded.");
+			$this->logger->error("Unable to create / update the user due to missing ldap attributes.");
+
 
 			return false;
 		}
@@ -129,7 +130,7 @@ class NextADInt_Adi_User_LoginSucceededService
 			$authenticatedCredentials, $ldapAttributes);
 
 		if ( ! $preCreateStatus) {
-			$this->logger->debug('PreCreateStatus is false. The user will not be created nor updated. If this behavior is not intended, please if your custom logic for the "auth_before_create_or_update_user" filter works properly.');
+			$this->logger->debug('The preCreateStatus returned false. The user will not be created or updated. If this behavior is not intended, please verify your custom logic using the "auth_before_create_or_update_user" filter works properly.');
 
 			return false;
 		}
@@ -273,7 +274,7 @@ class NextADInt_Adi_User_LoginSucceededService
 
 	/**
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
-	 * @param array $ldapAttributes
+	 * @param NextADInt_Ldap_Attributes $ldapAttributes
 	 *
 	 * @return boolean
 	 */
