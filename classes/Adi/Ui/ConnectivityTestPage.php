@@ -155,14 +155,18 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$this->log = NextADInt_Core_Logger::getBufferedLog();
 		NextADInt_Core_Logger::disableFrontendHandler();
 
-		if ($information['authentication_result'] instanceof WP_User) {
+		$result = $information['authentication_result'];
+		$succeeded = false;
+
+		if ($result instanceof WP_User || $result instanceof NextADInt_Adi_Authentication_Credentials) {
 			$this->result = esc_html__('User logged on.', 'next-active-directory-integration');
+			$succeeded = true;
 		} else {
 			$this->result = esc_html__('Logon failed.', 'next-active-directory-integration');
 		}
 
 		return array(
-			'status' => $information['authentication_result'] instanceof WP_User
+			'status' => $succeeded
 		);
 	}
 
@@ -264,7 +268,6 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 			null,
 			null,
 			$this->attributeService,
-			$this->roleManager,
             $loginState
 		);
 

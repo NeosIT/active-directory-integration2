@@ -41,16 +41,27 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 								NextADInt_Adi_Mail_Notification $mailNotification = null,
 								NextADInt_Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
 								NextADInt_Ldap_Attribute_Service $attributeService,
-								NextADInt_Adi_Role_Manager $roleManager,
 								NextADInt_Adi_Authentication_SingleSignOn_Validator $validation,
                                 NextADInt_Adi_LoginState $loginState
 	)
 	{
 		parent::__construct($failedLogin, $configuration, $ldapConnection, $userManager, $mailNotification,
-			$userBlockedMessage, $attributeService, $roleManager, $loginState);
+			$userBlockedMessage, $attributeService, $loginState);
 
 		$this->validation = $validation;
 		$this->logger = NextADInt_Core_Logger::getLogger();
+	}
+
+	/**
+	 * Register all hooks for our single sign on.
+	 */
+	public function register()
+	{
+		add_action('wp_logout', array($this, 'logout'));
+		add_action('init', array($this, 'authenticate'));
+
+		// after login has succeeded, we want the current identified user to be automatically logged in
+		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this, 'loginUser'), 19, 1);
 	}
 
 	/**
@@ -107,15 +118,18 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 			}
 
 			// authenticate the given user and run the default procedure form the LoginService
-			$user = parent::authenticate(null, $credentials->getUserPrincipalName());
-			// as SSO runs during the "init" phase, we need to call the 'authorize' filter on our own
-			$user = apply_filters('authorize', $user);
+			$authenticatedCredentials = $this->parentAuthenticate($credentials);
+			if(!$authenticatedCredentials) {
+				throw new NextADInt_Adi_Authentication_Exception("Unable to authenticate user" . $credentials->getUserPrincipalName());
+			}
 
-			$validation->validateUser($user);
+
+			// as SSO runs during the "init" phase, we need to call the 'authorize' filter on our own
+			apply_filters('authorize', $authenticatedCredentials);
+			apply_filters(NEXT_AD_INT_PREFIX . 'login_succeeded', $authenticatedCredentials);
 
 			// if our user is authenticated and we have a WordPress user, we
 			$sessionHandler->clearValue(self::FAILED_SSO_UPN);
-			$this->loginUser($user);
 		} catch (NextADInt_Adi_Authentication_Exception $e) {
 			$this->logger->error('User could not be authenticated using SSO. ' . $e->getMessage());
 			$sessionHandler->setValue(self::FAILED_SSO_UPN, $credentials->getUserPrincipalName());
@@ -124,6 +138,19 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		}
 
 		return true;
+	}
+
+	/**
+	 * Delegate to parent authenticate method call.
+	 *
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
+	 *
+	 * @return false|NextADInt_Adi_Authentication_Credentials
+	 * @throws Exception
+	 */
+	public function parentAuthenticate($credentials)
+	{
+		return parent::authenticate(null, $credentials->getUserPrincipalName());
 	}
 
 	/**
@@ -188,7 +215,9 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	 *
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 * @param NextADInt_Adi_Authentication_SingleSignOn_Validator $validation
+	 *
 	 * @return NextADInt_Adi_Authentication_Credentials
+	 * @throws NextADInt_Adi_Authentication_Exception
 	 */
 	function kerberosAuth(NextADInt_Adi_Authentication_Credentials $credentials, NextADInt_Adi_Authentication_SingleSignOn_Validator $validation)
 	{
@@ -465,22 +494,18 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	}
 
 	/**
-	 * Register all hooks for our single sign on.
-	 */
-	public function register()
-	{
-		add_action('wp_logout', array($this, 'logout'));
-		add_action('init', array($this, 'authenticate'));
-	}
-
-	/**
 	 * If the user is not logged in, perform a login for the given user.
 	 *
-	 * @param      $user
-	 * @param bool $exit
+	 * @param WP_User $user
+	 * @param boolean $exit
+	 *
+	 * @return WP_User
 	 */
-	protected function loginUser($user, $exit = true)
+	public function loginUser($user, $exit = true)
 	{
+		if (!($user instanceof WP_User)) {
+			return $user;
+		}
 
 		$redirectTo = (isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : null;
 
@@ -513,6 +538,8 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		if ($exit) {
 			exit;
 		}
+
+		return $user;
 	}
 
 	/**
