@@ -230,6 +230,8 @@ class NextADInt_Adi_User_Persistence_Repository
 	/**
 	 * @param NextADInt_Adi_User $user
 	 *
+	 * @param $email
+	 *
 	 * @return int|WP_Error
 	 *
 	 * @throws NextADInt_Core_Exception_WordPressErrorException
