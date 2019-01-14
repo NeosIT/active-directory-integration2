@@ -126,6 +126,16 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.1.6 =
+* FIXED: custom authentication filters were not registered properly (ADI-665) this will fix SSO related issues
+* FIXED: test authentication will now properly check for authorization groups again
+
+= 2.1.5 =
+* FIXED: replaced all references to the deprecated each-function with foreach (ADI-628)
+* FIXED: authorization groups will now properly prevent users from logging in (ADI-664, https://wordpress.org/support/topic/authorization-groups-not-working/ Thanks to shmew22, GitHub #92 Thanks to pokertour)
+* FIXED: the menu-visibility options were missing inside the profile-tab (ADI-663, https://wordpress.org/support/topic/menu-items-missing-3/ Thanks to 5tu)
+* ADDED: 2 new filters to allow for custom validation during the authentication process (ADI-657, GitHub #89 Thanks to Destabilizator)
+
 = 2.1.4 =
 * FIXED: isUserAuthorized() prevented login for users successfully authenticated via SSO at Active Directory due username was passed instead of guid
 * FIXED: HelperTabs not opening anymore due bootstrap css .hidden class overwrites WordPress css .hidden class

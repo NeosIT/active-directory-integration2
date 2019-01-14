@@ -55,6 +55,11 @@ if (!defined('ABSPATH')) {
 		{
 			return $this->errors;
 		}
+
+		public function get_error_message()
+		{
+			return $this->value[0];
+		}
 	}
 
 	class WP_Roles
@@ -98,6 +103,10 @@ if (!defined('ABSPATH')) {
                 'user_email' => 'hugo@test.ad',
 				'ID' => '666'
             );
+        }
+
+        public function __get($name) {
+            return $this->data->$name;
         }
 
         public function setExpectedUserLogin($expected) {
