@@ -117,7 +117,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param string $login
 	 * @param string $password
 	 *
-	 * @return WP_Error|WP_User|false
+	 * @return false|NextADInt_Adi_Authentication_Credentials
 	 * @throws Exception
 	 */
 	public function authenticate($user = null /* required for WordPress callback */, $login = '', $password = '')

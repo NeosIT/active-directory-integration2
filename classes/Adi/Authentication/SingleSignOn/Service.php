@@ -118,7 +118,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 			}
 
 			// authenticate the given user and run the default procedure form the LoginService
-			$authenticatedCredentials = parent::authenticate(null, $credentials->getUserPrincipalName());
+			$authenticatedCredentials = $this->parentAuthenticate($credentials);
 			if(!$authenticatedCredentials) {
 				throw new NextADInt_Adi_Authentication_Exception("Unable to authenticate user" . $credentials->getUserPrincipalName());
 			}
@@ -138,6 +138,19 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		}
 
 		return true;
+	}
+
+	/**
+	 * Delegate to parent authenticate method call.
+	 *
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
+	 *
+	 * @return false|NextADInt_Adi_Authentication_Credentials
+	 * @throws Exception
+	 */
+	public function parentAuthenticate($credentials)
+	{
+		return parent::authenticate(null, $credentials->getUserPrincipalName());
 	}
 
 	/**
