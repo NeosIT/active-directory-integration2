@@ -900,6 +900,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $authService = $this->createAnonymousMock(array('register'));
         $ssoService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
 	    $loginSucceededService = $this->createAnonymousMock(array('register'));
+	    $configurationService  = $this->createAnonymousMock(array('getOptionValue'));
 
         $sut->expects($this->once())->method('isOnLoginPage')->willReturn(false);
         $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
@@ -908,10 +909,15 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
         $dc->expects($this->once())->method('getSsoService')->willReturn($ssoService);
 	    $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
+	    $dc->expects($this->once())->method('getConfiguration')->willReturn($configurationService);
 
 	    // check method calls on mocked services
         $authService->expects($this->once())->method('register');
 	    $loginSucceededService->expects($this->once())->method('register');
+	    $configurationService->expects($this->once())
+	                         ->method('getOptionValue')
+	                         ->with(NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_ENABLED)
+	                         ->willReturn(false);
 	    $ssoService->expects($this->once())->method('register');
 
         // invoke method call
@@ -934,6 +940,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $pwValidationService = $this->createAnonymousMock(array('register'));
         $ssoPage = $this->createAnonymousMock(array('register'));
 	    $loginSucceededService = $this->createAnonymousMock(array('register'));
+	    $configurationService  = $this->createAnonymousMock(array('getOptionValue'));
 
         $sut->expects($this->once())->method('isOnLoginPage')->willReturn(true);
         $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
@@ -945,10 +952,15 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $dc->expects($this->once())->method('getPasswordValidationService')->willReturn($pwValidationService);
         $dc->expects($this->once())->method('getSsoPage')->willReturn($ssoPage);
 	    $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
+	    $dc->expects($this->once())->method('getConfiguration')->willReturn($configurationService);
 
-        // check method calls on mocked services
+	    // check method calls on mocked services
         $authService->expects($this->once())->method('register');
 	    $loginSucceededService->expects($this->once())->method('register');
+	    $configurationService->expects($this->once())
+	                         ->method('getOptionValue')
+	                         ->with(NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_ENABLED)
+	                         ->willReturn(false);
 	    $ssoService->expects($this->once())->method('register');
         $loginService->expects($this->once())->method('register');
         $pwValidationService->expects($this->once())->method('register');
