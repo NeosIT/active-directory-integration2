@@ -290,7 +290,13 @@ class NextADInt_Adi_Init
 		$this->dc()->getLoginSucceededService()->register();
 
 		if ($isSsoEnabled) {
-			$this->dc()->getSsoService()->register();
+			// ADI-659 check if user has enabled custom login option
+			// enabling this option will set the wp_logout action priority to 1
+			$useCustomLoginPage = $this->dc()->getConfiguration()->getOptionValue(
+				NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_ENABLED
+			);
+
+			$this->dc()->getSsoService()->register($useCustomLoginPage);
 		}
 
 		if ($isOnLoginPage) {
