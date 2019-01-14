@@ -54,10 +54,15 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 
 	/**
 	 * Register all hooks for our single sign on.
+	 *
+	 * @issue ADI-659 added optional $increaseLogoutPriority parameter
+	 *
+	 * @param $increaseLogoutExecutionPriority
 	 */
-	public function register()
+	public function register($increaseLogoutExecutionPriority = false)
 	{
-		add_action('wp_logout', array($this, 'logout'));
+		// ADI-659 enable earlier execution than default 10 to enable wOffice compatibility
+		add_action('wp_logout', array($this, 'logout'), $increaseLogoutExecutionPriority ? 1 : 10);
 		add_action('init', array($this, 'authenticate'));
 
 		// after login has succeeded, we want the current identified user to be automatically logged in
