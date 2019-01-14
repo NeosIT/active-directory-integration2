@@ -1,3 +1,5 @@
+// ADI-634 We had to rename this file since some firewalls block files with names containing strings like 'config' or 'password'
+
 var $valueHelper = next_ad_int.util.ValueHelper;
 var $arrayUtil = next_ad_int.util.ArrayUtil;
 

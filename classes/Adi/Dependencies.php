@@ -505,7 +505,8 @@ class NextADInt_Adi_Dependencies
 				$this->getMailNotification(),
 				$this->getShowBlockedMessage(),
 				$this->getAttributeService(),
-				$this->getRoleManager()
+				$this->getRoleManager(),
+                $this->getLoginState()
 			);
 		}
 
@@ -524,7 +525,7 @@ class NextADInt_Adi_Dependencies
 	{
 		if ($this->passwordValidationService == null) {
 			$this->passwordValidationService = new NextADInt_Adi_Authentication_PasswordValidationService(
-				$this->getLoginService(),
+				$this->getLoginState(),
 				$this->getConfiguration()
 			);
 		}
@@ -1100,7 +1101,8 @@ class NextADInt_Adi_Dependencies
 				$this->getShowBlockedMessage(),
 				$this->getAttributeService(),
 				$this->getRoleManager(),
-				$this->getSsoValidator()
+				$this->getSsoValidator(),
+                $this->getLoginState()
 			);
 		}
 
@@ -1141,4 +1143,41 @@ class NextADInt_Adi_Dependencies
 
 		return $this->ssoValidator;
 	}
+
+    /**
+     * @var NextADInt_Adi_LoginState
+     */
+	private $loginState = null;
+
+    /**
+     * @return NextADInt_Adi_LoginState
+     */
+	public function getLoginState() {
+	    if ($this->loginState == null) {
+	        $this->loginState = new NextADInt_Adi_LoginState();
+        }
+
+	    return $this->loginState;
+    }
+
+    /**
+     * @var NextADInt_Adi_Authorization_Service
+     */
+	private $authorizationService = null;
+
+    /**
+     * @return NextADInt_Adi_Authorization_Service
+     */
+    public function getAuthorizationService() {
+	    if ($this->authorizationService == null) {
+	        $this->authorizationService = new NextADInt_Adi_Authorization_Service(
+	            $this->getConfiguration(),
+                $this->getUserManager(),
+                $this->getRoleManager(),
+                $this->getLoginState()
+            );
+        }
+
+	    return $this->authorizationService;
+    }
 }

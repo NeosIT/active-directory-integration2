@@ -1019,7 +1019,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('filterEmptyAttributes')
-			->with($ldapAttributes, $attributes, true)
+			->with($ldapAttributes, $attributes)
 			->willReturn($ldapAttributes);
 
 		$this->metaRepository->expects($this->once())
@@ -1091,6 +1091,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$telephonenumber = new NextADInt_Ldap_Attribute();
 		$telephonenumber->setType('string');
 		$telephonenumber->setMetakey('t_n');
+		$telephonenumber->setOverwriteWithEmpty('true');
 
 		$whitelist = array(
 			'telephonenumber' => $telephonenumber,
@@ -1100,7 +1101,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 			'telephonenumber' => '',
 		);
 
-		$actual = $this->invokeMethod($sut, 'filterEmptyAttributes', array($ldapAttributes, $whitelist, true));
+		$actual = $this->invokeMethod($sut, 'filterEmptyAttributes', array($ldapAttributes, $whitelist));
 
 		$this->assertEquals(1, count($actual));
 	}
