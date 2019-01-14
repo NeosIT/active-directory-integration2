@@ -37,4 +37,11 @@
             <directory>./test/Role/ManagerIT.php</directory>
         </testsuite>
     </testsuites>
+    <!-- ENABLE TO GET LOCAL CODE COVERAGE WORKING -->
+    <!-- DISABLE BEFORE PUSHING TO PRODUCTION -->
+    <!--<filter>-->
+        <!--<whitelist>-->
+            <!--<directory suffix=".php">classes</directory>-->
+        <!--</whitelist>-->
+    <!--</filter>-->
 </phpunit>

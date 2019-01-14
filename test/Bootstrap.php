@@ -55,6 +55,11 @@ if (!defined('ABSPATH')) {
 		{
 			return $this->errors;
 		}
+
+		public function get_error_message()
+		{
+			return $this->value[0];
+		}
 	}
 
 	class WP_Roles

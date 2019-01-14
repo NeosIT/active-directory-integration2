@@ -89,7 +89,6 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 					$this->mailNotification,
 					$this->userBlockedMessage,
 					$this->attributeService,
-					$this->roleManager,
 					$this->ssoValidation,
                     $this->loginState
 				)
@@ -700,76 +699,54 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	/**
 	 * @test
 	 */
-	public function authenticate_whenAuthenticationWithUpn_itReturnsTrue()
+	public function authenticate_userNotAuthenticated_withValidUpn_willTriggerKerberosAuth_itReturnsTrue()
 	{
-		$username = 'username@company.local';
-		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($username, '');
-		$profile = 1;
-		$user = new WP_User(1, $username, 1);
+		$sut              = $this->sut(array('findUsername', 'getSessionHandler', 'clearAuthenticationState', 'kerberosAuth', 'parentAuthenticate'));
+		$expectedUsername = 'john.doe@test.ad';
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($expectedUsername);
 
-		WP_Mock::wpFunction('is_user_logged_in', array(
-			'times' => 1,
-			'return' => false,
-		));
-
-		$sut = $this->sut(
-			array('kerberosAuth', 'findUsername', 'openLdapConnection', 'getSessionHandler', 'findCorrespondingConfiguration',
-				'loginUser', 'requiresActiveDirectoryAuthentication', 'detectAuthenticatableSuffixes',
-				'tryAuthenticatableSuffixes')
+		WP_Mock::wpFunction(
+			'is_user_logged_in', array(
+				'times'  => 1,
+				'return' => false
+			)
 		);
 
 		$sut->expects($this->once())
-			->method('findUsername')
-			->willReturn($username);
+		    ->method('findUsername')
+		    ->willReturn($expectedUsername);
 
 		$sut->expects($this->once())
-			->method('getSessionHandler')
-			->willReturn($this->sessionHandler);
+		    ->method('getSessionHandler')
+		    ->willReturn($this->sessionHandler);
+
+		$sut->expects($this->once())
+		    ->method('clearAuthenticationState');
 
 		$this->ssoValidation->expects($this->once())
-			->method('validateUrl');
+		                    ->method('validateUrl');
 
 		$this->ssoValidation->expects($this->once())
-			->method('validateAuthenticationState')
-			->with($credentials);
+		                    ->method('validateLogoutState');
 
 		$this->ssoValidation->expects($this->once())
-			->method('validateLogoutState');
+		                    ->method('validateAuthenticationState')
+							->with($credentials);
+
+		$sut->expects($this->once())
+			->method('parentAuthenticate')
+			->willReturn($credentials);
 
 		$sut->expects($this->once())
 			->method('kerberosAuth')
 			->with($credentials, $this->ssoValidation)
 			->willReturn($credentials);
 
-		$sut->expects($this->once())
-			->method('requiresActiveDirectoryAuthentication')
-			->with($credentials->getUserPrincipalName())
-			->willReturn(true);
-
-		$sut->expects($this->once())
-			->method('detectAuthenticatableSuffixes')
-			->with($credentials->getUpnSuffix())
-			->willReturn($credentials->getUpnSuffix());
-
-		$sut->expects($this->once())
-			->method('tryAuthenticatableSuffixes')
-			->with($credentials, $credentials->getUpnSuffix())
-			->willReturn($user);
-
-		$this->ssoValidation->expects($this->once())
-			->method('validateUser')
-			->with($user);
-
-		$sut->expects($this->once())
-			->method('loginUser')
-			->with($user)
-			->willReturn($username);
-
 		$this->sessionHandler->expects($this->once())
 			->method('clearValue')
-			->with('failedSsoUpn');
+			->with($sut::FAILED_SSO_UPN);
 
-		$actual = $this->invokeMethod($sut, 'authenticate', array(null, '', ''));
+		$actual = $sut->authenticate(null, '', '');
 
 		$this->assertTrue($actual);
 	}
@@ -777,81 +754,111 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	/**
 	 * @test
 	 */
-	public function authenticate_whenAuthenticationWithNetbiosAndSamaccountName_itReturnsTrue()
+	public function authenticate_userNotAuthenticated_withNetbios_willTriggerNtlmAuth_itReturnsTrue()
 	{
-		$username = 'netbios\samaccountname';
-		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($username, '');
-		$profile = 1;
-		$user = new WP_User(1, $username, 1);
+		$sut              = $this->sut(array('findUsername', 'getSessionHandler', 'clearAuthenticationState', 'ntlmAuth', 'parentAuthenticate'));
+		$expectedUsername = 'test\\john.doe';
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($expectedUsername);
 
-		WP_Mock::wpFunction('is_user_logged_in', array(
-			'times' => 1,
-			'return' => false,
-		));
-
-
-		$sut = $this->sut(
-			array('ntlmAuth', 'findUsername', 'openLdapConnection', 'getSessionHandler', 'findCorrespondingConfiguration',
-				'loginUser', 'requiresActiveDirectoryAuthentication', 'detectAuthenticatableSuffixes',
-				'tryAuthenticatableSuffixes')
+		WP_Mock::wpFunction(
+			'is_user_logged_in', array(
+				'times'  => 1,
+				'return' => false
+			)
 		);
 
 		$sut->expects($this->once())
-			->method('findUsername')
-			->willReturn($username);
+		    ->method('findUsername')
+		    ->willReturn($expectedUsername);
 
 		$sut->expects($this->once())
-			->method('getSessionHandler')
-			->willReturn($this->sessionHandler);
+		    ->method('getSessionHandler')
+		    ->willReturn($this->sessionHandler);
+
+		$sut->expects($this->once())
+		    ->method('clearAuthenticationState');
 
 		$this->ssoValidation->expects($this->once())
-			->method('validateUrl');
+		                    ->method('validateUrl');
 
 		$this->ssoValidation->expects($this->once())
-			->method('validateAuthenticationState')
-			->with($credentials);
+		                    ->method('validateLogoutState');
 
 		$this->ssoValidation->expects($this->once())
-			->method('validateLogoutState');
+		                    ->method('validateAuthenticationState')
+		                    ->with($credentials);
 
 		$sut->expects($this->once())
-			->method('ntlmAuth')
-			->with($credentials, $this->ssoValidation)
-			->willReturn($credentials);
+		    ->method('parentAuthenticate')
+		    ->willReturn($credentials);
 
 		$sut->expects($this->once())
-			->method('requiresActiveDirectoryAuthentication')
-			->with($credentials->getUserPrincipalName())
-			->willReturn(true);
-
-		$sut->expects($this->once())
-			->method('detectAuthenticatableSuffixes')
-			->with($credentials->getUpnSuffix())
-			->willReturn($credentials->getUpnSuffix());
-
-		$newCredentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('samaccountname');
-
-		$sut->expects($this->once())
-			->method('tryAuthenticatableSuffixes')
-			->with($newCredentials, $credentials->getUpnSuffix())
-			->willReturn($user);
-
-		$this->ssoValidation->expects($this->once())
-			->method('validateUser')
-			->with($user);
-
-		$sut->expects($this->once())
-			->method('loginUser')
-			->with($user)
-			->willReturn($username);
+		    ->method('ntlmAuth')
+		    ->with($credentials, $this->ssoValidation)
+		    ->willReturn($credentials);
 
 		$this->sessionHandler->expects($this->once())
-			->method('clearValue')
-			->with('failedSsoUpn');
+		                     ->method('clearValue')
+		                     ->with($sut::FAILED_SSO_UPN);
 
-		$actual = $this->invokeMethod($sut, 'authenticate', array(null, '', ''));
+		$actual = $sut->authenticate(null, '', '');
 
 		$this->assertTrue($actual);
+	}
+
+	/**
+	 * @test
+	 */
+	public function authenticate_userNotAuthenticated_authenticationFails_itReturnsFalse()
+	{
+		$sut              = $this->sut(array('findUsername', 'getSessionHandler', 'clearAuthenticationState', 'kerberosAuth', 'parentAuthenticate'));
+		$expectedUsername = 'john.doe@test.ad';
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($expectedUsername);
+
+		WP_Mock::wpFunction(
+			'is_user_logged_in', array(
+				'times'  => 1,
+				'return' => false
+			)
+		);
+
+		$sut->expects($this->once())
+		    ->method('findUsername')
+		    ->willReturn($expectedUsername);
+
+		$sut->expects($this->once())
+		    ->method('getSessionHandler')
+		    ->willReturn($this->sessionHandler);
+
+		$sut->expects($this->once())
+		    ->method('clearAuthenticationState');
+
+		$this->ssoValidation->expects($this->once())
+		                    ->method('validateUrl');
+
+		$this->ssoValidation->expects($this->once())
+		                    ->method('validateLogoutState');
+
+		$this->ssoValidation->expects($this->once())
+		                    ->method('validateAuthenticationState')
+		                    ->with($credentials);
+
+		$sut->expects($this->once())
+		    ->method('kerberosAuth')
+		    ->with($credentials, $this->ssoValidation)
+		    ->willReturn($credentials);
+
+		$sut->expects($this->once())
+		    ->method('parentAuthenticate')
+		    ->willReturn(null);
+
+		$this->sessionHandler->expects($this->once())
+			->method('setValue')
+			->with($sut::FAILED_SSO_UPN, $credentials->getUserPrincipalName());
+
+		$actual = $sut->authenticate(null, '', '');
+
+		$this->assertFalse($actual);
 	}
 
 	/**

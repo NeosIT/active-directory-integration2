@@ -76,7 +76,7 @@ class NextADInt_Adi_Authentication_PasswordValidationService
         }
 
         // return true for users authenticated by ADI (should never happen, but who knows?)
-        if ($this->loginState->isAuthenticated()) {
+        if ($this->loginState->isAuthenticatedAndAuthorized()) {
             $this->logger->debug('User has been successfully authenticated by the "Active Directory Integration" plugin: override local (WordPress) password check.');
 
             return true;

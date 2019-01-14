@@ -12,213 +12,255 @@ class Ut_NextADInt_Adi_Authorization_ServiceTest extends Ut_BasicTest
 	/* @var NextADInt_Adi_User_Manager| PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
-    /* @var NextADInt_Adi_Role_Manager| PHPUnit_Framework_MockObject_MockObject */
-    private $roleManager;
+	/* @var NextADInt_Adi_Role_Manager| PHPUnit_Framework_MockObject_MockObject */
+	private $roleManager;
 
-    /** @var NextADInt_Adi_LoginState */
-    private $loginState;
+	/** @var NextADInt_Adi_LoginState */
+	private $loginState;
 
 	public function setUp()
 	{
 		parent::setUp();
 
 		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
-		$this->userManager = $this->createMock('NextADInt_Adi_User_Manager');
-        $this->roleManager = $this->createMock('NextADInt_Adi_Role_Manager');
-        $this->loginState = new NextADInt_Adi_LoginState();
+		$this->userManager   = $this->createMock('NextADInt_Adi_User_Manager');
+		$this->roleManager   = $this->createMock('NextADInt_Adi_Role_Manager');
+		$this->loginState    = new NextADInt_Adi_LoginState();
 	}
 
-    /**
-     * @param null $methods
-     * @param bool $simulated
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-	public function sut($methods = null, $simulated = false) {
-        return $this->getMockBuilder('NextADInt_Adi_Authorization_Service')
-            ->setConstructorArgs(
-                array(
-                    $this->configuration,
-                    $this->userManager,
-                    $this->roleManager,
-                    $this->loginState)
-            )->setMethods($methods)
-            ->getMock();
+	/**
+	 * @param null $methods
+	 * @param bool $simulated
+	 *
+	 * @return NextADInt_Adi_Authorization_Service|PHPUnit_Framework_MockObject_MockObject
+	 */
+	public function sut($methods = null, $simulated = false)
+	{
+		return $this->getMockBuilder('NextADInt_Adi_Authorization_Service')
+		            ->setConstructorArgs(
+			            array(
+				            $this->configuration,
+				            $this->userManager,
+				            $this->roleManager,
+				            $this->loginState
+			            )
+		            )->setMethods($methods)
+		            ->getMock();
 
-    }
+	}
 
 	public function tearDown()
 	{
 		parent::tearDown();
 	}
 
-    /**
-     * @test
-     */
-    public function authorizationIsNever_ifUserHasNotBeenPreviouslyAuthenticated() {
-        $r = $this->sut()->checkAuthorizationRequired(null);
+	/**
+	 * @test
+	 */
+	public function authorizationIsNever_ifUserHasNotBeenPreviouslyAuthenticated()
+	{
+		$r = $this->sut()->checkAuthorizationRequired(null);
 
-        $this->assertFalse($r);
-    }
+		$this->assertFalse($r);
+	}
 
-    /**
-     * @test
-     */
-    public function authorizationIsNeverRequiredForAdmins() {
-        $wpAdmin = new WP_User();
-        $wpAdmin->setId(1);
+	/**
+	 * @test
+	 */
+	public function authorizationIsNeverRequiredForAdmins()
+	{
+		$wpAdmin = new WP_User();
+		$wpAdmin->setId(1);
 
-        $r = $this->sut()->checkAuthorizationRequired($wpAdmin);
+		$r = $this->sut()->checkAuthorizationRequired($wpAdmin);
 
-        $this->assertFalse($r);
-    }
+		$this->assertFalse($r);
+	}
 
-    /**
-     * @test
-     */
-    public function isUserEnabled_returnsError_ifUserIsDisabled()
-    {
-        $sut = $this->sut(array('checkAuthorizationRequired'));
-        $wpUser = new WP_User();
-        $wpUser->setId(2);
+	/**
+	 * @test
+	 */
+	public function checkAuthorizationRequired_withValidCredentials_returnsTrue()
+	{
+		$this->assertTrue($this->sut()->checkAuthorizationRequired(new NextADInt_Adi_Authentication_Credentials()));
+	}
 
-        $sut->expects($this->once())
-            ->method('checkAuthorizationRequired')
-            ->with($wpUser)
-            ->willReturn($wpUser->ID);
+	/**
+	 * @test
+	 * @issue ADI-673
+	 */
+	public function register_willRegisterExpectedFilter()
+	{
+		$sut = $this->sut();
 
-        $this->userManager->expects($this->once())
-            ->method('isDisabled')
-            ->with($wpUser->ID)
-            ->willReturn(true);
+		WP_Mock::expectFilterAdded('authenticate', array($sut, 'authorizeAfterAuthentication'), 15, 3);
+		WP_Mock::expectFilterAdded('authorize', array($sut, 'isUserInAuthorizationGroup'), 10, 1);
 
-        wp_mock::userFunction('get_user_meta', array(
-            'times' => 1,
-            'args' => array($wpUser->ID, 'next_ad_int_user_disabled_reason', true),
-            'return' => "msg",
-        ));
+		$sut->register();
+	}
 
-        $r = $sut->isUserEnabled($wpUser, 'username', '');
+	/**
+	 * @test
+	 * @issue ADI-673
+	 */
+	public function authorizeAfterAuthentication_willApplyExpectedFilter()
+	{
+		$credentials    = new NextADInt_Adi_Authentication_Credentials();
+		$expectedResult = new WP_User();
+		$sut            = $this->sut();
 
-        $this->assertTrue($r instanceof WP_Error);
-        $this->assertEquals('user_disabled', $r->getErrorKey());
-    }
+		WP_Mock::onFilter('authorize')->with($credentials)->reply($expectedResult);
 
-    /**
-     * @test
-     */
-    public function isUserEnabled_returnsAuthenticatedUser_ifUserIsEnabled() {
-        $sut = $this->sut(array('checkAuthorizationRequired'));
-        $wpUser = new WP_User();
-        $wpUser->setId(2);
+		$actual = $sut->authorizeAfterAuthentication($credentials, 'john.doe');
+		$this->assertEquals($expectedResult, $actual);
+	}
 
-        $sut->expects($this->once())
-            ->method('checkAuthorizationRequired')
-            ->with($wpUser)
-            ->willReturn($wpUser->ID);
+	/**
+	 * @test
+	 * @issue ADI-673
+	 */
+	public function isUserInAuthorizationGroup()
+	{
+		$credentials    = new NextADInt_Adi_Authentication_Credentials();
+		$expectedResult = new WP_User();
+		$sut            = $this->sut();
 
-        $this->userManager->expects($this->once())
-            ->method('isDisabled')
-            ->with($wpUser->ID)
-            ->willReturn(false);
+		WP_Mock::onFilter('authorize')->with($credentials)->reply($expectedResult);
 
-        wp_mock::userFunction('get_user_meta', array(
-            'times' => 0,
-        ));
+		$actual = $sut->authorizeAfterAuthentication($credentials, 'john.doe');
+		$this->assertEquals($expectedResult, $actual);
+	}
 
-        $r = $sut->isUserEnabled($wpUser, 'username', '');
+	/**
+	 * @test
+	 */
+	public function isUserInAuthorizationGroup_withValidCredentials_authorizeByGroupsDisabled_returnsExpected()
+	{
+		$credentials = new NextADInt_Adi_Authentication_Credentials();
+		$sut         = $this->sut();
 
-        $this->assertEquals($wpUser, $r);
-    }
+		$this->configuration->expects($this->once())
+		                    ->method('getOptionValue')
+		                    ->willReturn(false);
 
-    /**
-     * @test
-     */
-    public function isUserInAuthorizationGroup_ifAuthorizeByGroupIsDisabled_itSucceeds() {
-        $sut = $this->sut(array('checkAuthorizationRequired'));
-        $wpUser = new WP_User();
-        $wpUser->setId(2);
+		$actual = $sut->isUserInAuthorizationGroup($credentials);
 
-        $sut->expects($this->once())
-            ->method('checkAuthorizationRequired')
-            ->with($wpUser)
-            ->willReturn($wpUser->ID);
+		$this->assertEquals($credentials, $actual);
+	}
 
-        $this->configuration->expects($this->once())
-            ->method('getOptionValue')
-            ->with(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP)
-            ->willReturn(false);
+	/**
+	 * @test
+	 */
+	public function isUserInAuthorizationGroup_withInvalidCredentials_returnsExpected()
+	{
+		$credentials = new WP_Error();
+		$sut         = $this->sut();
 
-        $this->assertEquals($wpUser, $sut->isUserInAuthorizationGroup($wpUser, 'username'));
-    }
+		$this->configuration->expects($this->never())->method('getOptionValue');
 
-    /**
-     * @test
-     */
-    public function isUserInAuthorizationGroup_ifUserIsOnlyLocalAvailable_itSucceeds() {
-        $sut = $this->sut(array('checkAuthorizationRequired'));
-        $wpUser = new WP_User();
-        $wpUser->setId(2);
+		$actual = $sut->isUserInAuthorizationGroup($credentials);
 
-        $sut->expects($this->once())
-            ->method('checkAuthorizationRequired')
-            ->with($wpUser)
-            ->willReturn($wpUser->ID);
+		$this->assertEquals($credentials, $actual);
+	}
 
-        $this->configuration->expects($this->once())
-            ->method('getOptionValue')
-            ->with(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP)
-            ->willReturn(true);
+	/**
+	 * @test
+	 */
+	public function isUserInAuthorizationGroup_withValidCredentials_missingGuid_returnsExpected()
+	{
+		$credentials = new NextADInt_Adi_Authentication_Credentials();
+		$sut         = $this->sut();
+		$this->loginState->setAuthenticationSucceeded();
 
-        wp_mock::userFunction('get_user_meta', array(
-            'times' => 1,
-            'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . 'objectguid', true),
-            'return' => null
-        ));
+		$this->configuration->expects($this->once())
+		                    ->method('getOptionValue')
+		                    ->willReturn(true);
 
-        $this->assertEquals($wpUser, $sut->isUserInAuthorizationGroup($wpUser, 'username'));
-    }
+		$this->roleManager->expects($this->never())->method('createRoleMapping');
 
-    /**
-     * @test
-     */
-    public function isUserInAuthorizationGroup_ifUserIsFromAd_andHeDoesNotBelongAuthorizationGroup_itFails() {
-        $sut = $this->sut(array('checkAuthorizationRequired'));
-        $wpUser = new WP_User();
-        $wpUser->setId(2);
+		$actual = $sut->isUserInAuthorizationGroup($credentials);
 
-        $sut->expects($this->once())
-            ->method('checkAuthorizationRequired')
-            ->with($wpUser)
-            ->willReturn($wpUser->ID);
+		$this->assertEquals($credentials, $actual);
+	}
 
-        $this->configuration->expects($this->once())
-            ->method('getOptionValue')
-            ->with(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP)
-            ->willReturn(true);
+	/**
+	 * @test
+	 */
+	public function isUserInAuthorizationGroup_withValidCredentials_notAuthenticated_returnsExpected()
+	{
+		$credentials = new NextADInt_Adi_Authentication_Credentials();
+		$credentials->setObjectGuid('f764c1fc-8f7c-4b43-97b6-782002ade47c');
+		$sut = $this->sut();
 
-        wp_mock::userFunction('get_user_meta', array(
-            'times' => 1,
-            'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . 'objectguid', true),
-            'return' => 'guid'
-        ));
+		$this->configuration->expects($this->once())
+		                    ->method('getOptionValue')
+		                    ->willReturn(true);
 
-        $this->loginState->setAuthenticationSucceeded();
+		$this->roleManager->expects($this->never())->method('createRoleMapping');
 
-        $roleMapping = new NextADInt_Adi_Role_Mapping('guid');
+		$actual = $sut->isUserInAuthorizationGroup($credentials);
 
-        $this->roleManager->expects($this->once())
-            ->method('createRoleMapping')
-            ->with('guid')
-            ->willReturn($roleMapping);
+		$this->assertEquals($credentials, $actual);
+	}
 
-        $this->roleManager->expects($this->once())
-            ->method('isInAuthorizationGroup')
-            ->with($roleMapping)
-            ->willReturn(false);
+	/**
+	 * @test
+	 */
+	public function isUserInAuthorizationGroup_withValidCredentials_userNotInAuthGroup_returnsExpected()
+	{
+		$credentials = new NextADInt_Adi_Authentication_Credentials();
+		$guid        = 'f764c1fc-8f7c-4b43-97b6-782002ade47c';
+		$credentials->setObjectGuid($guid);
+		$roleMapping = new NextADInt_Adi_Role_Mapping($guid);
 
-        $r = $sut->isUserInAuthorizationGroup($wpUser, 'username');
+		$this->loginState->setAuthenticationSucceeded();
+		$sut = $this->sut();
 
-        $this->assertTrue($r instanceof WP_Error);
-        $this->assertEquals('user_not_authorized', $r->getErrorKey());
-    }
+		$this->configuration->expects($this->once())
+		                    ->method('getOptionValue')
+		                    ->willReturn(true);
+
+		$this->roleManager->expects($this->once())
+		                  ->method('createRoleMapping')
+		                  ->with($guid)->willReturn($roleMapping);
+
+		$this->roleManager->expects($this->once())
+		                  ->method('isInAuthorizationGroup')
+		                  ->with($roleMapping)->willReturn(false);
+
+		$actual = $sut->isUserInAuthorizationGroup($credentials);
+
+		$this->assertFalse($this->loginState->isAuthorized());
+		$this->assertTrue($actual instanceof WP_Error);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isUserInAuthorizationGroup_withValidCredentials_userInAuthGroup_returnsExpected()
+	{
+		$credentials = new NextADInt_Adi_Authentication_Credentials();
+		$guid        = 'f764c1fc-8f7c-4b43-97b6-782002ade47c';
+		$credentials->setObjectGuid($guid);
+		$roleMapping = new NextADInt_Adi_Role_Mapping($guid);
+
+		$this->loginState->setAuthenticationSucceeded();
+		$sut = $this->sut();
+
+		$this->configuration->expects($this->once())
+		                    ->method('getOptionValue')
+		                    ->willReturn(true);
+
+		$this->roleManager->expects($this->once())
+		                  ->method('createRoleMapping')
+		                  ->with($guid)->willReturn($roleMapping);
+
+		$this->roleManager->expects($this->once())
+		                  ->method('isInAuthorizationGroup')
+		                  ->with($roleMapping)->willReturn(true);
+
+		$actual = $sut->isUserInAuthorizationGroup($credentials);
+
+		$this->assertEquals($credentials, $actual);
+	}
 }

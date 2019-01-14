@@ -505,7 +505,6 @@ class NextADInt_Adi_Dependencies
 				$this->getMailNotification(),
 				$this->getShowBlockedMessage(),
 				$this->getAttributeService(),
-				$this->getRoleManager(),
                 $this->getLoginState()
 			);
 		}
@@ -1100,7 +1099,6 @@ class NextADInt_Adi_Dependencies
 				$this->getMailNotification(),
 				$this->getShowBlockedMessage(),
 				$this->getAttributeService(),
-				$this->getRoleManager(),
 				$this->getSsoValidator(),
                 $this->getLoginState()
 			);
@@ -1180,4 +1178,26 @@ class NextADInt_Adi_Dependencies
 
 	    return $this->authorizationService;
     }
+
+	/**
+	 * @var NextADInt_Adi_User_LoginSucceededService
+	 */
+	private $loginSucceededService = null;
+
+	/**
+	 * @return NextADInt_Adi_User_LoginSucceededService
+	 */
+	public function getLoginSucceededService() {
+		if ($this->loginSucceededService == null) {
+			$this->loginSucceededService = new NextADInt_Adi_User_LoginSucceededService(
+				$this->getLoginState(),
+				$this->getAttributeService(),
+				$this->getUserManager(),
+				$this->getLdapConnection(),
+				$this->getConfiguration()
+			);
+		}
+
+		return $this->loginSucceededService;
+	}
 }
