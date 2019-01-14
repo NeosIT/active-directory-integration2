@@ -1,5 +1,5 @@
 <?php
-if (!defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	die('Access denied.');
 }
 
@@ -37,13 +37,18 @@ class NextADInt_Adi_Authentication_Credentials
 	/** @var NextADInt_Core_Logger */
 	private $logger;
 
+	/** @var string|null $objectGuid */
+	private $objectGuid;
+
+	/** @var integer|null $wordPressUserId
+	 */
+	private $wordPressUserId;
+
 	/**
 	 * NextADInt_Adi_Authentication_Credentials constructor.
 	 *
 	 * @param string $login Login in form 'username' (sAMAccountName), 'username@domain' (userPrincipalName) or 'NETBIOS\sAMAccountName'
 	 * @param string $password
-	 *
-	 * @throws Exception
 	 */
 	public function __construct($login = '', $password = '')
 	{
@@ -55,7 +60,8 @@ class NextADInt_Adi_Authentication_Credentials
 	/**
 	 * @param $login
 	 */
-	public function setLogin($login) {
+	public function setLogin($login)
+	{
 		$this->login = $login;
 	}
 
@@ -98,7 +104,7 @@ class NextADInt_Adi_Authentication_Credentials
 	{
 		$r = $this->upnUsername;
 
-		if (!empty($this->upnSuffix)) {
+		if ( ! empty($this->upnSuffix)) {
 			$r .= '@' . $this->upnSuffix;
 		}
 
@@ -107,14 +113,16 @@ class NextADInt_Adi_Authentication_Credentials
 
 	/**
 	 * Set the user principal name
+	 *
 	 * @param $userPrincipalName
 	 */
-	public function setUserPrincipalName($userPrincipalName) {
+	public function setUserPrincipalName($userPrincipalName)
+	{
 		$parts = explode("@", $userPrincipalName);
 
 		if ($parts >= 2) {
 			$this->upnUsername = $parts[0];
-			$this->upnSuffix = $parts[1];
+			$this->upnSuffix   = $parts[1];
 		}
 	}
 
@@ -163,6 +171,7 @@ class NextADInt_Adi_Authentication_Credentials
 
 	/**
 	 * If the string contains a slash ('\') it uses the part after the slash as sAMAccountName
+	 *
 	 * @param string $sAMAccountName
 	 */
 	public function setSAMAccountName($sAMAccountName)
@@ -186,9 +195,42 @@ class NextADInt_Adi_Authentication_Credentials
 		$this->upnUsername = $upnUsername;
 	}
 
+	/**
+	 * @return string|null
+	 */
+	public function getObjectGuid()
+	{
+		return $this->objectGuid;
+	}
+
+	/**
+	 * @param string|null $objectGuid
+	 */
+	public function setObjectGuid($objectGuid)
+	{
+		$this->objectGuid = $objectGuid;
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getWordPressUserId()
+	{
+		return $this->wordPressUserId;
+	}
+
+	/**
+	 * @param int|null $wordPressUserId
+	 */
+	public function setWordPressUserId($wordPressUserId)
+	{
+		$this->wordPressUserId = $wordPressUserId;
+	}
+
 	public function __toString()
 	{
 		return "Credentials={login='" . $this->login . "',sAMAccountName='" . $this->sAMAccountName
-			. "',userPrincipalName='" . $this->getUserPrincipalName() . "',netbios='" . $this->netbiosName . "'}";
+		       . "',userPrincipalName='" . $this->getUserPrincipalName() . "',netbios='" . $this->netbiosName
+		       . "',objectGuid='" . $this->objectGuid . "',wordPressUserId='" . $this->wordPressUserId . "'}";
 	}
 }

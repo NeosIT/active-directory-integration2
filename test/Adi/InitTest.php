@@ -331,7 +331,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	public function run_itRegisterCore_whenActive()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'isActive', 'registerCore',
-			'registerAdministrationMenu'));
+			'registerAdministrationMenu', 'finishRegistration'));
 
 		$sut->expects($this->once())
 			->method('isActive')
@@ -343,6 +343,9 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('registerAdministrationMenu');
+
+		$sut->expects($this->once())
+            ->method('finishRegistration');
 
 		$sut->run();
 	}
@@ -403,28 +406,13 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function registerCore_itRegistersLoginHooks_whenUserIsOnLoginPage()
-	{
-		$sut = $this->sut(array('registerLoginHooks', 'isSsoEnabled', 'isOnLoginPage'));
-
-		$sut->expects($this->once())
-			->method('isOnLoginPage')
-			->willReturn(true);
-
-		$sut->expects($this->once())
-			->method('registerLoginHooks');
-
-		$this->assertFalse($sut->registerCore());
-	}
-
-	/**
-	 * @test
-	 */
 	public function registerCore_itLogsOutTheCurrentUser_whenUserIsDisabled()
 	{
-		$sut = $this->sut(array('dc', 'isSsoEnabled', 'registerSharedAdministrationHooks'));
+		$sut = $this->sut(array('dc', 'isSsoEnabled', 'registerSharedAdministrationHooks', 'registerAuthentication'));
 
 		$this->loginUser($sut, 666, true);
+
+		$sut->expects($this->once())->method('registerAuthentication')->willReturn(true);
 
 		WP_Mock::wpFunction('wp_logout', array(
 			'times' => 1));
@@ -438,71 +426,20 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function run_itRegistersTheMigrationHook()
+	public function run_itRegistersHooks()
 	{
-		$sut = $this->sut(array('dc', 'isActive', 'isOnNetworkDashboard', 'initialize',
-			'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks',
-			'registerAdministrationMenu', 'registerMigrationHook', 'isSsoEnabled'));
-		$this->loginUser($sut, 666, false);
+		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'registerMigrationHook', 'isActive',
+            'registerCore', 'registerAdministrationMenu', 'finishRegistration'));
 
-		$sut->expects($this->once())
-			->method('isActive')
-			->willReturn(true);
+        $sut->expects($this->once())->method('isOnNetworkDashboard')->willReturn(false);
+        $sut->expects($this->once())->method('isActive')->willReturn(true);
+        $sut->expects($this->once())->method('registerCore')->willReturn(true);
 
-		$sut->expects($this->once())
-			->method('registerMigrationHook');
+        $sut->expects($this->once())->method('registerMigrationHook');
+        $sut->expects($this->once())->method('registerAdministrationMenu');
+        $sut->expects($this->once())->method('finishRegistration');
 
 		$sut->run();
-	}
-
-	/**
-	 * @test
-	 */
-	public function run_itRegistersTheSharedAdministrationHooks()
-	{
-		$sut = $this->sut(array('dc', 'isActive', 'isOnNetworkDashboard', 'initialize',
-			'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks',
-			'registerAdministrationMenu', 'registerMigrationHook', 'isSsoEnabled'));
-		$this->loginUser($sut, 666, false);
-
-		$sut->expects($this->once())
-			->method('isActive')
-			->willReturn(true);
-
-		$sut->expects($this->once())
-			->method('registerSharedAdministrationHooks');
-
-		$sut->run();
-	}
-
-	/**
-	 * @test
-	 */
-	public function run_itRegistersTheUserProfileHooks()
-	{
-		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
-			'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu', 'isSsoEnabled'));
-		$this->loginUser($sut, 666, false);
-
-		$sut->expects($this->once())
-			->method('registerUserProfileHooks');
-
-		$this->assertTrue($sut->registerCore());
-	}
-
-	/**
-	 * @test
-	 */
-	public function registerCore_itRegistersTheAdministrationHooks()
-	{
-		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
-			'registerUserProfileHooks', 'registerAdministrationHooks', 'registerAdministrationMenu', 'isSsoEnabled'));
-		$this->loginUser($sut, 666, false);
-
-		$sut->expects($this->once())
-			->method('registerAdministrationHooks');
-
-		$this->assertTrue($sut->registerCore());
 	}
 
 	/**
@@ -528,7 +465,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	public function runMultisite_itRegistersTheSharedAdministrationHooks_whenInMultisiteEnvironment()
 	{
 		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
-			'registerMigrationHook'));
+			'registerMigrationHook', 'finishRegistration'));
 		$dc = $this->mockDependencyContainer($sut);
 
 		$this->loginUser($sut, null, null);
@@ -550,6 +487,9 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('registerSharedAdministrationHooks');
 
+		$sut->expects($this->once())
+            ->method('finishRegistration');
+
 		$sut->runMultisite();
 	}
 
@@ -559,7 +499,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	public function runMultisite_itRegistersTheMultisiteAdministrationHooks_whenInMultisiteEnvironment()
 	{
 		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
-			'registerMigrationHook'));
+			'registerMigrationHook', 'finishRegistration'));
 		$dc = $this->mockDependencyContainer($sut);
 
 		$this->loginUser($sut, null, null);
@@ -583,6 +523,9 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 		$multisiteMenu->expects($this->once())
 			->method('register');
+
+        $sut->expects($this->once())
+            ->method('finishRegistration');
 
 		$sut->runMultisite();
 	}
@@ -677,28 +620,15 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 		return $dc;
 	}
 
-	/**
-	 * @test
-	 */
-	public function registerLoginHooks()
-	{
-		$sut = $this->sut(array('initialize', 'dc'));
-		$dc = $this->mockDependencyContainer($sut);
-		$fakeService = $this->createAnonymousMock(array('register'));
+    /**
+     * @test
+     */
+	public function finishRegistration() {
+	    WP_Mock::expectAction('next_ad_int_loaded');
 
-		$dc->expects($this->once())
-			->method('getLoginService')
-			->willReturn($fakeService);
-
-		$dc->expects($this->once())
-			->method('getPasswordValidationService')
-			->willReturn($fakeService);
-
-		$fakeService->expects($this->exactly(2) /* previous service calls */)
-			->method('register');
-
-		$sut->registerLoginHooks();
-	}
+	    $sut = $this->sut();
+	    $sut->finishRegistration();
+    }
 
 	/**
 	 * @test
@@ -828,4 +758,254 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 			->setMethods($methods)
 			->getMock();
 	}
+
+	/**
+	 * @test
+	 * @issue ADI-665
+	 */
+    public function ADI_665_isOnTestAuthenticationPage_returnsTrue()
+    {
+    	$sut = $this->sut();
+
+	    $_GET['page'] = 'next_ad_int_test_connection';
+
+	    $actual = $sut->isOnTestAuthenticationPage();
+
+    	$this->assertTrue($actual);
+    }
+
+	/**
+	 * @test
+	 * @issue ADI-665
+	 */
+	public function ADI_665_isOnTestAuthenticationPage_returnsFalse()
+	{
+		$sut = $this->sut();
+
+		$_GET['page'] = 'next_ad_int_sync_to_wordpress';
+
+		$actual = $sut->isOnTestAuthenticationPage();
+
+		$this->assertFalse($actual);
+	}
+
+    /**
+     * @test
+     */
+	public function registerCore_willCall_registerAuthentication()
+    {
+        $sut = $this->sut(array('registerAuthentication'));
+
+        $sut->expects($this->once())->method('registerAuthentication');
+
+        $sut->registerCore();
+    }
+
+	/**
+	 * @test
+	 */
+	public function registerAuthentication_onTestAuthenticationPage_willRegisterHooks_returnsTrue()
+	{
+		$sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'dc', 'isOnTestAuthenticationPage'));
+		$dc = $this->mockDependencyContainer($sut);
+		$authService = $this->createAnonymousMock(array('register'));
+
+		$sut->expects($this->once())->method('isOnLoginPage')->willReturn(false);
+		$sut->expects($this->once())->method('isSsoenabled')->willreturn(false);
+		$sut->expects($this->once())->method('isOnTestAuthenticationPage')->willreturn(true);
+
+		// mock dependency container calls and return individual mocked services
+		$dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
+
+		// check method calls on mocked services
+		$authService->expects($this->once())->method('register');
+
+		// invoke method call
+		$actual = $sut->registerAuthentication();
+
+		// assertions
+		$this->assertTrue($actual);
+	}
+
+    /**
+     * @test
+     */
+    public function registerAuthentication_onLoginPage_SsoDisabled_willRegisterHooks_returnsFalse()
+    {
+        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'dc'));
+        $dc = $this->mockDependencyContainer($sut);
+        $authService = $this->createAnonymousMock(array('register'));
+        $loginService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
+	    $loginSucceededService = $this->createAnonymousMock(array('register'));
+        $pwValidationService = $this->createAnonymousMock(array('register'));
+
+        $sut->expects($this->once())->method('isOnLoginPage')->willReturn(true);
+        $sut->expects($this->once())->method('isSsoEnabled')->willReturn(false);
+
+        // mock dependency container calls and return individual mocked services
+        $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
+        $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
+        $dc->expects($this->never())->method('getSsoService');
+        $dc->expects($this->once())->method('getLoginService')->willReturn($loginService);
+        $dc->expects($this->once())->method('getPasswordValidationService')->willReturn($pwValidationService);
+
+        // check method calls on mocked services
+        $authService->expects($this->once())->method('register');
+	    $loginSucceededService->expects($this->once())->method('register');
+        $loginService->expects($this->once())->method('register');
+        $pwValidationService->expects($this->once())->method('register');
+
+        // invoke method call
+        $actual = $sut->registerAuthentication();
+
+        // assertions
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @test
+     */
+    public function registerAuthentication_notOnLoginPage_SsoDisabled_willRegisterHooks_returnsTrue()
+    {
+        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'dc'));
+        $dc = $this->mockDependencyContainer($sut);
+        $authService = $this->createAnonymousMock(array('register'));
+	    $loginSucceededService = $this->createAnonymousMock(array('register'));
+
+	    $sut->expects($this->once())->method('isOnLoginPage')->willReturn(false);
+        $sut->expects($this->once())->method('isSsoEnabled')->willReturn(false);
+
+        // mock dependency container calls and return individual mocked services
+        $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
+	    $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
+
+	    // check method calls on mocked services
+        $authService->expects($this->once())->method('register');
+	    $loginSucceededService->expects($this->once())->method('register');
+
+	    // invoke method call
+        $actual = $sut->registerAuthentication();
+
+        // assertions
+        $this->assertTrue($actual);
+    }
+
+    /**
+     * @test
+     */
+    public function registerAuthentication_notOnLoginPage_SsoEnabled_willRegisterHooks_returnsTrue()
+    {
+        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'dc'));
+        $dc = $this->mockDependencyContainer($sut);
+        $authService = $this->createAnonymousMock(array('register'));
+        $ssoService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
+	    $loginSucceededService = $this->createAnonymousMock(array('register'));
+
+        $sut->expects($this->once())->method('isOnLoginPage')->willReturn(false);
+        $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
+
+        // mock dependency container calls and return individual mocked services
+        $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
+        $dc->expects($this->once())->method('getSsoService')->willReturn($ssoService);
+	    $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
+
+	    // check method calls on mocked services
+        $authService->expects($this->once())->method('register');
+	    $loginSucceededService->expects($this->once())->method('register');
+	    $ssoService->expects($this->once())->method('register');
+
+        // invoke method call
+        $actual = $sut->registerAuthentication();
+
+        // assertions
+        $this->assertTrue($actual);
+    }
+
+    /**
+     * @test
+     */
+    public function registerAuthentication_onLoginPage_SsoEnabled_willRegisterHooks_returnsFalse()
+    {
+        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'dc'));
+        $dc = $this->mockDependencyContainer($sut);
+        $authService = $this->createAnonymousMock(array('register'));
+        $ssoService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
+        $loginService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
+        $pwValidationService = $this->createAnonymousMock(array('register'));
+        $ssoPage = $this->createAnonymousMock(array('register'));
+	    $loginSucceededService = $this->createAnonymousMock(array('register'));
+
+        $sut->expects($this->once())->method('isOnLoginPage')->willReturn(true);
+        $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
+
+        // mock dependency container calls and return individual mocked services
+        $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
+        $dc->expects($this->once())->method('getSsoService')->willReturn($ssoService);
+        $dc->expects($this->once())->method('getLoginService')->willReturn($loginService);
+        $dc->expects($this->once())->method('getPasswordValidationService')->willReturn($pwValidationService);
+        $dc->expects($this->once())->method('getSsoPage')->willReturn($ssoPage);
+	    $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
+
+        // check method calls on mocked services
+        $authService->expects($this->once())->method('register');
+	    $loginSucceededService->expects($this->once())->method('register');
+	    $ssoService->expects($this->once())->method('register');
+        $loginService->expects($this->once())->method('register');
+        $pwValidationService->expects($this->once())->method('register');
+        $ssoPage->expects($this->once())->method('register');
+
+        // invoke method call
+        $actual = $sut->registerAuthentication();
+
+        // assertions
+        $this->assertFalse($actual);
+    }
+
+    /**
+     * @test
+     */
+    public function registerCore_willRegisterHooks()
+    {
+        $sut = $this->sut(array('registerAuthentication', 'dc',
+            'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks'));
+        $dc = $this->mockDependencyContainer($sut);
+        $userManager = $this->createAnonymousMock(array('isDisabled'));
+
+        $sut->expects($this->once())->method('registerAuthentication')->willReturn(true);
+
+        WP_Mock::wpFunction('wp_get_current_user', array(
+            'times' => 1,
+            'return' => (object)array('ID' => 555)));
+
+        $dc->expects($this->once())->method('getUserManager')->willReturn($userManager);
+        $userManager->expects($this->once())->method('isDisabled')->willReturn(false);
+        $sut->expects($this->once())->method('registerSharedAdministrationHooks');
+        $sut->expects($this->once())->method('registerUserProfileHooks');
+        $sut->expects($this->once())->method('registerAdministrationHooks');
+
+        $actual = $sut->registerCore();
+
+        $this->assertTrue($actual);
+    }
+
+    /**
+     * @test
+     */
+    public function registerCore_willReturnFalse_currentUserHasNoId()
+    {
+        $sut = $this->sut(array('registerAuthentication', 'dc'));
+        $dc = $this->mockDependencyContainer($sut);
+
+        $sut->expects($this->once())->method('registerAuthentication')->willReturn(true);
+
+        WP_Mock::wpFunction('wp_get_current_user', array(
+            'times' => 1,
+            'return' => (object)array('ID'=>0)));  // Attribute ID will show 0 if there is no user.
+
+        $dc->expects($this->never())->method('getUserManager');
+
+        $actual = $sut->registerCore();
+
+        $this->assertFalse($actual);
+    }
 }

@@ -115,7 +115,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @param array|null $methods
 	 *
-	 * @return mixed
+	 * @return PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function createAnonymousMock($methods)
 	{

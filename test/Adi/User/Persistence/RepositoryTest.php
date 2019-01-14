@@ -393,6 +393,8 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 	 */
 	public function create_withErrorOnCreation_throwsException()
 	{
+		$email = 'john.doe@test.ad';
+
 		$sut = $this->sut(null);
 
 		$wpError = $this->createMockedObject('WP_Error', array(), array('get_error_messages'));
@@ -409,7 +411,7 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 		));
 
 		WP_Mock::wpFunction('wp_create_user', array(
-			'args'   => array('username', 'password'),
+			'args'   => array('username', 'password', $email),
 			'times'  => 1,
 			'return' => $wpError,
 		));
@@ -417,7 +419,7 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 		$this->exceptionUtil->shouldReceive('handleWordPressErrorAsException')
 			->once();
 
-		$sut->create($adiUser);
+		$sut->create($adiUser, $email);
 	}
 
 	/**
@@ -425,6 +427,8 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 	 */
 	public function create_itReturnsResult()
 	{
+		$email = 'john.doe@test.ad';
+
 		$sut = $this->sut(null);
 
 		$adiUser = $this->createMock('NextADInt_Adi_User');
@@ -433,7 +437,7 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 		$this->behave($adiUser, 'getCredentials', NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('username', 'password'));
 
 		WP_Mock::wpFunction('wp_create_user', array(
-			'args'   => array('username', 'password'),
+			'args'   => array('username', 'password', $email),
 			'times'  => 1,
 			'return' => 1,
 		));
@@ -447,7 +451,7 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 		$this->exceptionUtil->shouldReceive('handleWordPressErrorAsException')
 			->never();
 
-		$actual = $sut->create($adiUser);
+		$actual = $sut->create($adiUser, $email);
 		$this->assertEquals(1, $actual);
 	}
 

@@ -125,13 +125,14 @@ class NextADInt_Adi_User_Manager
 		return $wpUser;
 	}
 
-	/**
-	 * Check if user $userId is disabled
-	 *
-	 * @param integer $userId
-	 *
-	 * @return bool
-	 */
+    /**
+     * Check if user $userId is disabled
+     *
+     * @param integer $userId
+     *
+     * @return bool
+     * @throws Exception
+     */
 	public function isDisabled($userId)
 	{
 		NextADInt_Core_Assert::validId($userId);
@@ -147,6 +148,7 @@ class NextADInt_Adi_User_Manager
 	 * @param NextADInt_Ldap_Attributes $ldapAttributes
 	 *
 	 * @return NextADInt_Adi_User
+	 * @throws Exception
 	 */
 	public function createAdiUser(NextADInt_Adi_Authentication_Credentials $credentials, NextADInt_Ldap_Attributes $ldapAttributes)
 	{
@@ -219,7 +221,7 @@ class NextADInt_Adi_User_Manager
 			$this->checkDuplicateEmail($wpUserLogin, $email);
 
 			// create a new user and assign the id to the user object
-			$userId = $this->userRepository->create($user);
+			$userId = $this->userRepository->create($user, $email);
 			NextADInt_Core_Util_ExceptionUtil::handleWordPressErrorAsException($userId);
 			$user->setId($userId);
 
