@@ -174,12 +174,27 @@ class Ut_NextADInt_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTe
 			'times' => 1,)
 		);
 
-		$testObject = (object)array();
+		$errors = (object)array();
 
-		$sut->preventEmailChange($testObject, null, $user);
+		$sut->preventEmailChange($errors, null, $user);
 		$this->assertEquals('test@company.it', $_POST['email']);
 		$this->assertEquals('test@company.it', $_REQUEST['email']);
 	}
+
+    /**
+     * @test
+     * @see ADI-670
+     */
+    public function ADI_670_disablePreventEmailChange_ifUserParameterIsMissing() {
+        $errors = (object)array();
+        $user = (object)array('missing_ID' => -1);
+
+        $sut = $this->sut(null);
+
+        \WP_Mock::expectFilterNotAdded('send_password_change_email', '__return_false');
+
+        $sut->preventEmailChange($errors, null, $user);
+    }
 
 	/**
 	 * @test

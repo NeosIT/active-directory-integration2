@@ -155,14 +155,14 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$this->log = NextADInt_Core_Logger::getBufferedLog();
 		NextADInt_Core_Logger::disableFrontendHandler();
 
-		if ($information['authentication_result']) {
+		if ($information['authentication_result'] instanceof WP_User) {
 			$this->result = esc_html__('User logged on.', 'next-active-directory-integration');
 		} else {
 			$this->result = esc_html__('Logon failed.', 'next-active-directory-integration');
 		}
 
 		return array(
-			'status' => $information['authentication_result'],
+			'status' => $information['authentication_result'] instanceof WP_User
 		);
 	}
 
@@ -193,7 +193,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		}
 
 		$this->logger->info('*** Establishing Active Directory connection ***');
-		$authenticationResult = $this->connectToActiveDirectory($username, $password);
+		$authenticationResult = $this->authenticateAndAuthorize($username, $password);
 
 		return array(
 			'authentication_result' => $authenticationResult
@@ -244,17 +244,19 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	}
 
 	/**
-	 * Connect to the Active Directory with given username and password
+	 * Connect to the Active Directory with given username and password and execute any "authorize" filter
 	 *
 	 * @param string $username
 	 * @param string $password
 	 *
 	 * @return bool if authentication was successful
 	 */
-	function connectToActiveDirectory($username, $password)
+	function authenticateAndAuthorize($username, $password)
 	{
+	    $loginState = new NextADInt_Adi_LoginState();
+
 		// create login authenticator with custom logger
-		$loginAuthenticator = new NextADInt_Adi_Authentication_LoginService(
+        $loginAuthenticator = new NextADInt_Adi_Authentication_LoginService(
 			null,
 			$this->configuration,
 			$this->ldapConnection,
@@ -262,10 +264,19 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 			null,
 			null,
 			$this->attributeService,
-			$this->roleManager
+			$this->roleManager,
+            $loginState
 		);
 
-		return $loginAuthenticator->authenticate(null, $username, $password);
+        // remove authorization filters which have already been applied before
+        remove_all_filters('authorize');
+
+		$authorizationService = new NextADInt_Adi_Authorization_Service($this->configuration, $this->userManager, $this->roleManager, $loginState);
+		// register the authorization filter
+		$authorizationService->register();
+
+		// apply the authoriaztion
+		return apply_filters('authorize', $loginAuthenticator->authenticate(null, $username, $password));
 	}
 
 	public function getLog()

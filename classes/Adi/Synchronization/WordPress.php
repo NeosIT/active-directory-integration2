@@ -98,7 +98,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		}
 
 		$startTime = time();
-		$this->logger->debug('START: findSynchronizableUsers(): ' . $startTime);
+		$this->logger->debug('START: findSynchronizableUsers()');
 		$users = $this->findSynchronizableUsers();
 		$totalTimeNeeded = time() - $startTime;
 		$this->logger->debug('END: findSynchronizableUsers(): Duration:  ' . $totalTimeNeeded . ' seconds');

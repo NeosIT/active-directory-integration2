@@ -30,6 +30,9 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	/* @var NextADInt_Adi_Role_Manager|PHPUnit_Framework_MockObject_MockObject $roleManager */
 	private $roleManager;
 
+    /** @var NextADInt_Adi_LoginState */
+	private $loginState;
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -42,8 +45,8 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$this->userBlockedMessage = $this->createMock('NextADInt_Adi_Authentication_Ui_ShowBlockedMessage');
 		$this->attributeService = $this->createMock('NextADInt_Ldap_Attribute_Service');
 		$this->roleManager = $this->createMock('NextADInt_Adi_Role_Manager');
+		$this->loginState = new NextADInt_Adi_LoginState();
 	}
-
 
 	public function tearDown()
 	{
@@ -66,6 +69,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 					$this->userBlockedMessage,
 					$this->attributeService,
 					$this->roleManager,
+                    $this->loginState
 				)
 			)
 			->setMethods($methods)
@@ -342,7 +346,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$actual = $sut->detectAuthenticatableSuffixes('@test.ad');
 
-
 		$this->assertEquals(array('@test.ad'), $actual);
 	}
 
@@ -359,7 +362,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->willReturn('@test.ad;@domain.tld');
 
 		$actual = $sut->detectAuthenticatableSuffixes('domain.tld');
-
 
 		$this->assertEquals(array('@domain.tld', '@test.ad'), $actual);
 	}
@@ -413,64 +415,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function authenticateAtActiveDirectory_itReturnsFalse_whenUserIsNotInAuthorizationGroup()
-	{
-		$sut = $this->sut(array('bruteForceProtection', 'refreshBruteForceProtectionStatusForUser'));
-
-		$username = 'testUser';
-		$suffix = "@company.it";
-		$password = "1234";
-		$userGuid = 'e16d5d9c-xxxx-xxxx-9b8b-969fdf4b2702';
-
-		$roleMapping = new NextADInt_Adi_Role_Mapping("username");
-
-		$attributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => $userGuid));
-
-		$this->ldapConnection->expects($this->exactly(1))
-			->method('checkPorts')
-			->willReturn(true);
-
-		$this->ldapConnection->expects($this->once())
-			->method('connect')
-			->with(new NextADInt_Ldap_ConnectionDetails())
-			->willReturn(true);
-
-		$this->ldapConnection->expects($this->once())
-			->method('authenticate')
-			->with($username, $suffix, $password)
-			->willReturn(true);
-
-		$sut->expects($this->exactly(2) /* before and after authentication */)
-			->method('bruteForceProtection')
-			->with($username);
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP)
-			->willReturn(true);
-
-		$this->roleManager->expects($this->once())
-			->method('createRoleMapping')
-			->with($userGuid)
-			->willReturn($roleMapping);
-
-		$this->roleManager->expects($this->once())
-			->method('isInAuthorizationGroup')
-			->with($roleMapping)
-			->willReturn(false);
-
-		$this->attributeService->expects($this->once())
-			->method('findLdapAttributesOfUsername')
-			->with($username)
-			->willReturn($attributes);
-
-		$returnedValue = $sut->authenticateAtActiveDirectory($username, $suffix, $password);
-		$this->assertFalse($returnedValue);
-	}
-
-	/**
-	 * @test
-	 */
 	public function authenticateAtActiveDirectory_itReturnsTrue_whenAuthenticationSucceeds()
 	{
 		$sut = $this->sut(array('bruteForceProtection', 'refreshBruteForceProtectionStatusForUser'));
@@ -500,26 +444,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->method('authenticate')
 			->with($username, $suffix, $password)
 			->willReturn(true);
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP)
-			->willReturn(true);
-
-		$this->roleManager->expects($this->once())
-			->method('createRoleMapping')
-			->with($userGuid)
-			->willReturn($roleMapping);
-
-		$this->roleManager->expects($this->once())
-			->method('isInAuthorizationGroup')
-			->with($roleMapping)
-			->willReturn(true);
-
-		$this->attributeService->expects($this->once())
-			->method('findLdapAttributesOfUsername')
-			->with($username)
-			->willReturn($attributes);
 
 		$actual = $sut->authenticateAtActiveDirectory($username, $suffix, $password);
 		$this->assertTrue($actual);
@@ -775,29 +699,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function postAuthentication_itReturnsFalse_whenUserIsDisabled()
-	{
-		$sut = $this->sut(array('createOrUpdateUser'));
-
-		$credentials = NextADInt_Adi_Authentication_LoginService::createCredentials('username', 'password');
-
-		$wpUser = (object)(array('ID' => 666));
-		$sut->expects($this->once())
-			->method('createOrUpdateUser')
-			->with($credentials)
-			->willReturn($wpUser);
-
-		$this->userManager->expects($this->once())
-			->method('isDisabled')
-			->with(666)
-			->willReturn(true);
-
-		$this->assertEquals(false, $sut->postAuthentication($credentials));
-	}
-
-	/**
-	 * @test
-	 */
 	public function postAuthentication_itReturnsWpUser_whenCreateOrUpdateSucceeds()
 	{
 		$sut = $this->sut(array('createOrUpdateUser'));
@@ -809,11 +710,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->method('createOrUpdateUser')
 			->with($credentials)
 			->willReturn($wpUser);
-
-		$this->userManager->expects($this->once())
-			->method('isDisabled')
-			->with(666)
-			->willReturn(false);
 
 		$this->assertEquals($wpUser, $sut->postAuthentication($credentials));
 	}
@@ -922,6 +818,10 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 			->method('updateUser')
 			->willReturn(555);
 
+        \WP_Mock::onFilter( NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user' )
+                ->with($credentials, $ldapAttributes, 555)
+                ->reply(555);
+
 		$actual = $sut->createOrUpdateUser($credentials);
 
 		$this->assertEquals(555, $actual);
@@ -957,6 +857,10 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('createUser')
 			->willReturn(555);
+
+        \WP_Mock::onFilter( NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user' )
+                ->with($credentials, $ldapAttributes, 555)
+                ->reply(555);
 
 		$actual = $sut->createOrUpdateUser($credentials);
 

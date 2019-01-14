@@ -82,7 +82,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Validator
 	/**
 	 * Check if the user logged did not log out manually.
 	 *
-	 * @throws NextADInt_Adi_Authentication_Exception if the user logged out manually.
+	 * @throws NextADInt_Adi_Authentication_LogoutException if the user logged out manually.
 	 */
 	public function validateLogoutState()
 	{
@@ -96,7 +96,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Validator
 	/**
 	 * Check if the user is on a valid page.
 	 *
-	 * @throws NextADInt_Adi_Authentication_Exception if the user is on the logout page
+	 * @throws NextADInt_Adi_Authentication_LogoutException if the user is on the logout page
 	 */
 	public function validateUrl()
 	{

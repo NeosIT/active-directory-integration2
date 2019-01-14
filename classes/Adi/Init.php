@@ -1,5 +1,5 @@
 <?php
-if (!defined('ABSPATH')) {
+if ( ! defined('ABSPATH')) {
 	die('Access denied.');
 }
 
@@ -38,8 +38,6 @@ class NextADInt_Adi_Init
 	/**
 	 * This function will be executed when the plugin is activated.
 	 * The 'activation' hook is called by AJAX so you can not output anything. Use {#postActivation()} to register any UI hooks.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function activation()
 	{
@@ -64,11 +62,12 @@ class NextADInt_Adi_Init
 				// ADI-393: the current user will be added to the excluded usernames.
 				// At a later point we check for ID = 1 (local WordPress admin) but this user can be different from the current user (= another WordPress administrator).
 				$currentUser = wp_get_current_user();
-				$optionName = NextADInt_Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION;
+				$optionName  = NextADInt_Adi_Configuration_Options::EXCLUDE_USERNAMES_FROM_AUTHENTICATION;
 				$optionValue = $currentUser->user_login;
 
 				if (is_multisite()) {
-					$this->dc()->getProfileConfigurationRepository()->persistSanitizedValue($profileId, $optionName, $optionValue);
+					$this->dc()->getProfileConfigurationRepository()->persistSanitizedValue($profileId, $optionName,
+						$optionValue);
 				} else {
 					$this->dc()->getBlogConfigurationRepository()->persistSanitizedValue(0, $optionName, $optionValue);
 				}
@@ -118,12 +117,13 @@ class NextADInt_Adi_Init
 		}
 
 		// load internationalization (i18n)
-		load_plugin_textdomain('next-active-directory-integration', false, plugin_basename(NEXT_AD_INT_PATH) . '/languages');
+		load_plugin_textdomain('next-active-directory-integration', false,
+			plugin_basename(NEXT_AD_INT_PATH) . '/languages');
 
 		// ADI-354 (dme)
 		$configurationService = $this->dc()->getConfiguration();
-		$enableLogging = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
-		$customPath = $configurationService->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
+		$enableLogging        = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
+		$customPath           = $configurationService->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
 
 		NextADInt_Core_Logger::initializeLogger($enableLogging, $customPath);
 
@@ -136,8 +136,6 @@ class NextADInt_Adi_Init
 	 * minimize the memory footprint and loading times.
 	 *
 	 * This method will not proceed if the user is currently viewing the Multisite network dashboard.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function run()
 	{
@@ -154,6 +152,8 @@ class NextADInt_Adi_Init
 		if ($this->isActive()) {
 			// only with an active ADI profile the core has to be registered
 			if (true !== $this->registerCore()) {
+                $this->finishRegistration();
+
 				// the core has not been completely initialized so we do not have to proceed
 				return;
 			}
@@ -161,6 +161,8 @@ class NextADInt_Adi_Init
 
 		// the menu must be activated so that in a multisite setup the blog administrator can enable/disable ADI
 		$this->registerAdministrationMenu();
+
+		$this->finishRegistration();
 	}
 
 	// ---
@@ -184,25 +186,21 @@ class NextADInt_Adi_Init
 			return false;
 		}
 
-		if ($this->isSsoEnabled()) {
-			$this->registerSsoHooks();
-		}
-
-		if ($this->isOnLoginPage()) {
-			$this->registerLoginHooks();
-
-			// further hooks must not be executed
+		// register all required authorization and authentication hooks
+		if (!$this->registerAuthentication()) {
+			// further hooks must not be executed if registerAuthentication returns false (should only happen if on login page)
 			return false;
 		}
 
-		$currentUserId = wp_get_current_user()->ID;
+		$currentUserId = wp_get_current_user()->ID; // Attribute ID will show 0 if there is no user.
 
-		if (!$currentUserId) {
+		if ( ! $currentUserId) {
 			// the current user is not logged in so further hooks must not be processed
 			return false;
 		}
 
 		// log out disabled user
+        // TODO NADI-671 this should no longer be required due to the new registerAuthentication() hooks
 		if ($this->dc()->getUserManager()->isDisabled($currentUserId)) {
 			wp_logout();
 
@@ -221,6 +219,15 @@ class NextADInt_Adi_Init
 		return true;
 	}
 
+    /**
+     * Signal that NADI registration has been finished. It simply calls the WordPress action 'nadi_loaded'
+     * @since 2.1.8
+     * @see ADI-672
+     */
+	public function finishRegistration() {
+	    do_action('next_ad_int_loaded');
+    }
+
 	/**
 	 * Register hooks used for migrations
 	 */
@@ -235,7 +242,7 @@ class NextADInt_Adi_Init
 	public function runMultisite()
 	{
 		// only network dashboard views are relevant
-		if (!$this->isOnNetworkDashboard()) {
+		if ( ! $this->isOnNetworkDashboard()) {
 			return;
 		}
 
@@ -249,6 +256,7 @@ class NextADInt_Adi_Init
 
 		$this->dc()->getExtendSiteList()->register();
 		$this->dc()->getMultisiteMenu()->register();
+        $this->finishRegistration();
 	}
 
 	/**
@@ -260,29 +268,50 @@ class NextADInt_Adi_Init
 	}
 
 	/**
-	 * Register hooks during the login procedure
+	 * Register all required authentication and authorization hooks.
+	 *
+	 * @return bool
 	 */
-	public function registerLoginHooks()
-	{
-		// register authentication
-		$this->dc()->getLoginService()->register();
-		// register custom password validation
-		$this->dc()->getPasswordValidationService()->register();
-	}
-
-	/**
-	 * Register hooks during WordPress load
-	 */
-	public function registerSsoHooks()
-	{
+	public function registerAuthentication() {
 		$isOnLoginPage = $this->isOnLoginPage();
+		$isSsoEnabled = $this->isSsoEnabled();
+		$isOnTestAuthenticationPage = $this->isOnTestAuthenticationPage();
 
-		// register sso
-		if ($isOnLoginPage) {
-			$this->dc()->getSsoPage()->register();
+		// register authorization (groups, user enabled, ...)
+		$this->dc()->getAuthorizationService()->register();
+
+		// ADI-665 register the hooks required during the test authentication process
+		if ($isOnTestAuthenticationPage) {
+			$this->dc()->getLoginService()->registerAuthenticationHooks();
+
+			// further hooks must not be executed
+			return true;
 		}
 
-		$this->dc()->getSsoService()->register();
+		if ($isSsoEnabled) {
+			$this->dc()->getSsoService()->register();
+			$this->dc()->getSsoService()->registerAuthenticationHooks();
+		}
+
+		if ($isOnLoginPage) {
+
+			// register authentication
+			$this->dc()->getLoginService()->register();
+			// register custom password validation
+			$this->dc()->getPasswordValidationService()->register();
+
+			if ($isSsoEnabled) {
+				$this->dc()->getSsoPage()->register();
+			} else {
+				// we *must* register the authentication hooks of LoginService in case we are *not* using SSO
+				$this->dc()->getLoginService()->registerAuthenticationHooks();
+			}
+
+			// further hooks must not be executed
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -389,10 +418,10 @@ class NextADInt_Adi_Init
 	{
 		$r = false;
 
-		$page = $_SERVER['PHP_SELF'];
-		$required = "wp-login.php";
+		$page        = $_SERVER['PHP_SELF'];
+		$required    = "wp-login.php";
 		$isOnWpLogin = substr($page, -strlen($required)) == $required;
-		$isOnXmlRpc = strpos($page, 'xmlrpc.php') !== false;
+		$isOnXmlRpc  = strpos($page, 'xmlrpc.php') !== false;
 
 		if ($isOnWpLogin || $isOnXmlRpc) {
 			$r = true;
@@ -401,5 +430,13 @@ class NextADInt_Adi_Init
 		$r = apply_filters(NEXT_AD_INT_PREFIX . 'auth_enable_login_check', $r);
 
 		return $r;
+	}
+
+	/**
+	 * Return true if current page is the test authentication page.
+	 */
+	public function isOnTestAuthenticationPage()
+	{
+		return isset($_GET['page']) && $_GET['page'] === 'next_ad_int_test_connection';
 	}
 }

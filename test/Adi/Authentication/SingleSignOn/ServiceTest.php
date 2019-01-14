@@ -42,6 +42,9 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	/** @var NextADInt_Adi_Authentication_SingleSignOn_Validator|PHPUnit_Framework_MockObject_MockObject $ssoValidation */
 	private $ssoValidation;
 
+    /** @var NextADInt_Adi_LoginState|PHPUnit_Framework_MockObject_MockObject $loginState */
+	private $loginState;
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -56,6 +59,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		$this->roleManager = $this->createMock('NextADInt_Adi_Role_Manager');
 		$this->sessionHandler = $this->createMock('NextADInt_Core_Session_Handler');
 		$this->ssoValidation = $this->createMock('NextADInt_Adi_Authentication_SingleSignOn_Validator');
+		$this->loginState = new NextADInt_Adi_LoginState();
 
 		// mock away our internal php calls
 		$this->native = $this->createMockedNative();
@@ -87,6 +91,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 					$this->attributeService,
 					$this->roleManager,
 					$this->ssoValidation,
+                    $this->loginState
 				)
 			)
 			->setMethods($methods)
@@ -366,15 +371,11 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 
 	/**
 	 * @test
+	 * Check authenticateAtActiveDirectory overwrite comment
 	 */
-	public function authenticateAtActiveDirectory_delegatesCallToIsUserAuthorized()
+	public function authenticateAtActiveDirectory_returnsTrue()
 	{
-		$sut = $this->sut(array('isUserAuthorized'));
-
-		$sut->expects($this->once())
-			->method('isUserAuthorized')
-			->with('test', '@test')
-			->willReturn(true);
+		$sut = $this->sut();
 
 		$actual = $sut->authenticateAtActiveDirectory('test', '@test', '');
 
@@ -956,7 +957,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		$user = $this->createWpUserMock();
 		$sut = $this->sut();
 
-		$_SERVER['REDIRECT_URL'] = '/my-redirect-url';
+		$_SERVER['REQUEST_URI'] = '/my-redirect-url';
 		$user = $this->createWpUserMock();
 		$sut = $this->sut();
 
@@ -986,7 +987,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		WP_Mock::wpFunction(
 			'wp_safe_redirect', array(
 				'times' => 1,
-				'args'  => $_SERVER['REDIRECT_URL'],
+				'args'  => $_SERVER['REQUEST_URI'],
 			)
 		);
 
