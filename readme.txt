@@ -126,6 +126,9 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.1.7 =
+* FIXED: the hooks auth_before_create_or_update_user and auth_after_create_or_update_user were not registered so the SSO authentication always failed silently (ADI-668)
+
 = 2.1.6 =
 * FIXED: custom authentication filters were not registered properly (ADI-665) this will fix SSO related issues
 * FIXED: test authentication will now properly check for authorization groups again
