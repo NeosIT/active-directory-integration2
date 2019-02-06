@@ -406,26 +406,6 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function registerCore_itLogsOutTheCurrentUser_whenUserIsDisabled()
-	{
-		$sut = $this->sut(array('dc', 'isSsoEnabled', 'registerSharedAdministrationHooks', 'registerAuthentication'));
-
-		$this->loginUser($sut, 666, true);
-
-		$sut->expects($this->once())->method('registerAuthentication')->willReturn(true);
-
-		WP_Mock::wpFunction('wp_logout', array(
-			'times' => 1));
-
-		$sut->expects($this->never())
-			->method('registerSharedAdministrationHooks');
-
-		$this->assertFalse($sut->registerCore());
-	}
-
-	/**
-	 * @test
-	 */
 	public function run_itRegistersHooks()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'registerMigrationHook', 'isActive',
@@ -980,8 +960,6 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
     {
         $sut = $this->sut(array('registerAuthentication', 'dc',
             'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks'));
-        $dc = $this->mockDependencyContainer($sut);
-        $userManager = $this->createAnonymousMock(array('isDisabled'));
 
         $sut->expects($this->once())->method('registerAuthentication')->willReturn(true);
 
@@ -989,8 +967,6 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
             'times' => 1,
             'return' => (object)array('ID' => 555)));
 
-        $dc->expects($this->once())->method('getUserManager')->willReturn($userManager);
-        $userManager->expects($this->once())->method('isDisabled')->willReturn(false);
         $sut->expects($this->once())->method('registerSharedAdministrationHooks');
         $sut->expects($this->once())->method('registerUserProfileHooks');
         $sut->expects($this->once())->method('registerAdministrationHooks');

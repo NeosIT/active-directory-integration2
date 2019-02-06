@@ -26,6 +26,9 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 	/** @var NextADInt_Adi_Role_Manager|PHPUnit_Framework_MockObject_MockObject $roleManager */
 	private $roleManager;
 
+	/** @var NextADInt_Adi_User_LoginSucceededService */
+	private $loginSucceededService;
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -36,6 +39,7 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 		$this->attributeService = $this->createMock('NextADInt_Ldap_Attribute_Service');
 		$this->userManager = $this->createMock('NextADInt_Adi_User_Manager');
 		$this->roleManager = $this->createMock('NextADInt_Adi_Role_Manager');
+		$this->loginSucceededService = $this->createMock('NextADInt_Adi_User_LoginSucceededService');
 
 		$this->mockFunctionEsc_html__();
 
@@ -74,7 +78,8 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 					$this->ldapConnection,
 					$this->attributeService,
 					$this->userManager,
-					$this->roleManager
+					$this->roleManager,
+					$this->loginSucceededService
 				)
 			)
 			->setMethods($methods)
