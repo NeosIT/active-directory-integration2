@@ -30,6 +30,9 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	/** @var NextADInt_Adi_LoginState */
 	private $loginState;
 
+	/** @var NextADInt_Adi_User_LoginSucceededService */
+	private $loginSucceededService;
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -41,6 +44,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$this->mailNotification      = $this->createMock('NextADInt_Adi_Mail_Notification');
 		$this->userBlockedMessage    = $this->createMock('NextADInt_Adi_Authentication_Ui_ShowBlockedMessage');
 		$this->attributeService      = $this->createMock('NextADInt_Ldap_Attribute_Service');
+		$this->loginSucceededService = $this->createMock('NextADInt_Adi_User_LoginSucceededService');
 		$this->loginState            = new NextADInt_Adi_LoginState();
 	}
 
@@ -64,7 +68,8 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 				            $this->mailNotification,
 				            $this->userBlockedMessage,
 				            $this->attributeService,
-				            $this->loginState
+				            $this->loginState,
+				            $this->loginSucceededService
 			            )
 		            )
 		            ->setMethods($methods)

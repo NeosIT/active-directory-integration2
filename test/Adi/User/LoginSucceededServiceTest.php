@@ -71,8 +71,6 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 
 		WP_Mock::expectFilterAdded(NEXT_AD_INT_PREFIX . 'login_succeeded', array($sut, 'updateOrCreateUser'), 10, 1);
 
-		WP_Mock::expectFilterAdded(NEXT_AD_INT_PREFIX . 'login_succeeded', array($sut, 'checkUserEnabled'), 15, 1);
-
 		WP_Mock::expectFilterAdded(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user',
 			array($sut, 'beforeCreateOrUpdateUser'),
 			10, 2);
@@ -618,6 +616,10 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 			'times' => 1,
 			'args' => array($wpUserId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
 			'return' => $expectedReason
+		));
+
+		WP_Mock::wpFunction('remove_filter', array(
+			'times' => 2
 		));
 
 		$actual = $sut->checkUserEnabled($wpUser);

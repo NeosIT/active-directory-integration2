@@ -45,6 +45,9 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
     /** @var NextADInt_Adi_LoginState|PHPUnit_Framework_MockObject_MockObject $loginState */
 	private $loginState;
 
+	/** @var NextADInt_Adi_User_LoginSucceededService */
+	private $loginSucceededService;
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -59,6 +62,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		$this->roleManager = $this->createMock('NextADInt_Adi_Role_Manager');
 		$this->sessionHandler = $this->createMock('NextADInt_Core_Session_Handler');
 		$this->ssoValidation = $this->createMock('NextADInt_Adi_Authentication_SingleSignOn_Validator');
+		$this->loginSucceededService = $this->createMock('NextADInt_Adi_User_LoginSucceededService');
 		$this->loginState = new NextADInt_Adi_LoginState();
 
 		// mock away our internal php calls
@@ -90,7 +94,8 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 					$this->userBlockedMessage,
 					$this->attributeService,
 					$this->ssoValidation,
-                    $this->loginState
+                    $this->loginState,
+					$this->loginSucceededService
 				)
 			)
 			->setMethods($methods)
