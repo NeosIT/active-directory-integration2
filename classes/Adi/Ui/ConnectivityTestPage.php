@@ -48,6 +48,9 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	/** @var  NextADInt_Ldap_Connection */
 	private $ldapConnection;
 
+	/** @var NextADInt_Adi_User_LoginSucceededService */
+	private $loginSucceededService;
+
 	/**
 	 * @param NextADInt_Multisite_View_TwigContainer $twigContainer
 	 * @param NextADInt_Multisite_Configuration_Service $configuration
@@ -55,13 +58,15 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	 * @param NextADInt_Ldap_Attribute_Service $attributeService
 	 * @param NextADInt_Adi_User_Manager $userManager
 	 * @param NextADInt_Adi_Role_Manager $roleManager
+	 * @param NextADInt_Adi_User_LoginSucceededService $loginSucceededService
 	 */
 	public function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer,
 								NextADInt_Multisite_Configuration_Service $configuration,
 								NextADInt_Ldap_Connection $ldapConnection,
 								NextADInt_Ldap_Attribute_Service $attributeService,
 								NextADInt_Adi_User_Manager $userManager,
-								NextADInt_Adi_Role_Manager $roleManager)
+								NextADInt_Adi_Role_Manager $roleManager,
+								NextADInt_Adi_User_LoginSucceededService $loginSucceededService)
 	{
 		parent::__construct($twigContainer);
 
@@ -70,6 +75,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$this->ldapConnection = $ldapConnection;
 		$this->userManager = $userManager;
 		$this->roleManager = $roleManager;
+		$this->loginSucceededService = $loginSucceededService;
 
 		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
@@ -268,7 +274,8 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 			null,
 			null,
 			$this->attributeService,
-            $loginState
+            $loginState,
+	        $this->loginSucceededService
 		);
 
         // remove authorization filters which have already been applied before

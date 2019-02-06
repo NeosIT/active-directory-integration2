@@ -199,14 +199,6 @@ class NextADInt_Adi_Init
 			return false;
 		}
 
-		// log out disabled user
-        // TODO NADI-671 this should no longer be required due to the new registerAuthentication() hooks
-		if ($this->dc()->getUserManager()->isDisabled($currentUserId)) {
-			wp_logout();
-
-			return false;
-		}
-
 		// shared hooks
 		$this->registerSharedAdministrationHooks();
 
