@@ -34,6 +34,9 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	/** @var NextADInt_Adi_Authentication_SingleSignOn_Validator */
 	private $validation;
 
+	/** @var NextADInt_Adi_User_LoginSucceededService $loginSucceededService */
+	private $loginSucceededService;
+
 	public function __construct(NextADInt_Adi_Authentication_Persistence_FailedLoginRepository $failedLogin = null,
 								NextADInt_Multisite_Configuration_Service $configuration,
 								NextADInt_Ldap_Connection $ldapConnection,
@@ -42,14 +45,16 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 								NextADInt_Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
 								NextADInt_Ldap_Attribute_Service $attributeService,
 								NextADInt_Adi_Authentication_SingleSignOn_Validator $validation,
-                                NextADInt_Adi_LoginState $loginState
+                                NextADInt_Adi_LoginState $loginState,
+								NextADInt_Adi_User_LoginSucceededService $loginSucceededService
 	)
 	{
 		parent::__construct($failedLogin, $configuration, $ldapConnection, $userManager, $mailNotification,
-			$userBlockedMessage, $attributeService, $loginState);
+			$userBlockedMessage, $attributeService, $loginState, $loginSucceededService);
 
 		$this->validation = $validation;
 		$this->logger = NextADInt_Core_Logger::getLogger();
+		$this->loginSucceededService = $loginSucceededService;
 	}
 
 	/**
@@ -65,6 +70,8 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		add_action('wp_logout', array($this, 'logout'), $increaseLogoutExecutionPriority ? 1 : 10);
 		add_action('init', array($this, 'authenticate'));
 
+		// for SSO we have to re-register the user-disabled hook
+		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this->loginSucceededService, 'checkUserEnabled'), 15, 1);
 		// after login has succeeded, we want the current identified user to be automatically logged in
 		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this, 'loginUser'), 19, 1);
 	}

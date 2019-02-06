@@ -46,6 +46,9 @@ class NextADInt_Adi_Authentication_LoginService
      */
 	private $loginState;
 
+	/** @var NextADInt_Adi_User_LoginSucceededService $loginSucceededService */
+	private $loginSucceededService;
+
 	/**
 	 * @param NextADInt_Adi_Authentication_Persistence_FailedLoginRepository|null $failedLogin
 	 * @param NextADInt_Multisite_Configuration_Service $configuration
@@ -55,6 +58,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param NextADInt_Adi_Authentication_Ui_ShowBlockedMessage|null $userBlockedMessage
 	 * @param NextADInt_Ldap_Attribute_Service $attributeService
 	 * @param NextADInt_Adi_LoginState $loginState
+	 * @param NextADInt_Adi_User_LoginSucceededService $loginSucceededService
 	 */
 	public function __construct(NextADInt_Adi_Authentication_Persistence_FailedLoginRepository $failedLogin = null,
 								NextADInt_Multisite_Configuration_Service $configuration,
@@ -63,7 +67,8 @@ class NextADInt_Adi_Authentication_LoginService
 								NextADInt_Adi_Mail_Notification $mailNotification = null,
 								NextADInt_Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
 								NextADInt_Ldap_Attribute_Service $attributeService,
-                                NextADInt_Adi_LoginState $loginState
+                                NextADInt_Adi_LoginState $loginState,
+								NextADInt_Adi_User_LoginSucceededService $loginSucceededService
 	)
 	{
 		$this->failedLogin = $failedLogin;
@@ -74,6 +79,7 @@ class NextADInt_Adi_Authentication_LoginService
 		$this->userBlockedMessage = $userBlockedMessage;
 		$this->attributeService = $attributeService;
 		$this->loginState = $loginState;
+		$this->loginSucceededService = $loginSucceededService;
 
 		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
@@ -94,6 +100,9 @@ class NextADInt_Adi_Authentication_LoginService
 			add_filter('allow_password_reset', '__return_false');
 			add_action('lost_password', array($this, 'disableLostPassword'));
 		}
+
+		// for normal login we have to check for disabled users by hooking into wp_authenticate_user
+		add_filter('wp_authenticate_user', array($this->loginSucceededService, 'checkUserEnabled'), 10, 2);
 	}
 
 	/**

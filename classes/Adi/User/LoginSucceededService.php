@@ -68,8 +68,6 @@ class NextADInt_Adi_User_LoginSucceededService
 		// TODO: Dokumentation (API und Workflow anpassen!)
 		// this filter returns a WP_User or WP_Error object
 		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this, 'updateOrCreateUser'), 10, 1);
-		// this is some sort of post-authorization and effects only updated users already existing inside the WordPress database
-		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this, 'checkUserEnabled'), 15, 1);
 
 		// custom filters
 		add_filter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user', array($this, 'beforeCreateOrUpdateUser'),
@@ -78,7 +76,8 @@ class NextADInt_Adi_User_LoginSucceededService
 			3);
 	}
 
-	public function updateOrCreateAfterSuccessfulLogin($authenticatedCredentials, $username, $password = null) {
+	public function updateOrCreateAfterSuccessfulLogin($authenticatedCredentials, $username, $password = null)
+	{
 		return apply_filters(NEXT_AD_INT_PREFIX . 'login_succeeded', $authenticatedCredentials);
 	}
 
@@ -252,7 +251,7 @@ class NextADInt_Adi_User_LoginSucceededService
 	 * @return WP_User|WP_Error
 	 * @throws Exception
 	 */
-	public function checkUserEnabled($wpUser)
+	public function checkUserEnabled($wpUser, $password = null)
 	{
 		if (!($wpUser instanceof WP_user)) {
 			return $wpUser;
@@ -264,6 +263,9 @@ class NextADInt_Adi_User_LoginSucceededService
 			if ($this->userManager->isDisabled($userId)) {
 				$reason = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true);
 				$this->logger->debug("User is disabled. Reason: $reason");
+
+				remove_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
+				remove_filter('authenticate', 'wp_authenticate_email_password', 20, 3);
 
 				return new WP_Error('user_disabled', __('<strong>ERROR</strong>: The user has been disabled'));
 			}
