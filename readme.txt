@@ -2,7 +2,7 @@
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows
 Requires at least: 4.0
-Tested up to: 4.9.8
+Tested up to: 5.0.3
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -125,6 +125,13 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 == Changelog ==
 
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
+
+= 2.1.8 =
+* FIXED: compatibility issues when using the Woffice theme (ADI-659)
+* FIXED: missing email parameter when creating users (GitHub #74 Thanks to nefarius, ADI-615)
+* FIXED: an issue with the 'Prevent email change' option (https://wordpress.org/support/topic/new-user-creation-error/ Thanks to mlipenk, ADI-670)
+* ADDED: new hook to hide the 'Log in using SSO' option (https://wordpress.org/support/topic/remove-link-log-in-using-sso-on-login-page/ Thanks to vyatcheslav, ADI-672)
+* FIXED: refactored post authentication logic into separate services (ADI-671, ADI-673)
 
 = 2.1.7 =
 * FIXED: the hooks auth_before_create_or_update_user and auth_after_create_or_update_user were not registered so the SSO authentication always failed silently (ADI-668)
