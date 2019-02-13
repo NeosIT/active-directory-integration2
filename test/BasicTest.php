@@ -1,12 +1,14 @@
 <?php
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
  * Basic class for unit tests
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
+abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 {
 	public static function setUpBeforeClass()
 	{
@@ -33,7 +35,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return PHPUnit_Framework_MockObject_MockObject
 	 */
-	public function createMock($className)
+	public function createMock($className): MockObject
 	{
 		if (!class_exists($className) && !interface_exists($className)) {
 			echo "You create a new class/interface '$className'. Be careful.";
@@ -75,7 +77,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 	 */
 	public function expectExceptionThrown($exception, $exceptionMessage = '')
 	{
-		$this->setExpectedException($exception, $exceptionMessage);
+		$this->expectException($exception, $exceptionMessage);
 	}
 
 	/**

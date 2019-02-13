@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<project name="Active Directory Integration 2" default="full-build">
+<project name="Active Directory Integration 2" default="full-build" xmlns:unless="ant:unless">
 	<property name="php" value="php" />
 	<property name="pdepend" value="pdepend"/>
 	<property name="phpcpd" value="phpcpd"/>
@@ -8,6 +8,7 @@
 	<property name="phploc" value="phploc"/>
 	<property name="phpmd" value="phpmd"/>
 	<property name="phpunit" value="phpunit.phar"/>
+	<property name="phpunitLogFile" value="" />
 	<property name="testsuite" value="unit" />
 	<property name="composer" value="composer" />
 	<property name="msgfmt" value="msgfmt" />
@@ -219,6 +220,8 @@
 			<arg value="${testsuite}" />
 			<arg value="--configuration"/>
 			<arg path="${basedir}/phpunit.xml"/>
+			<arg value="--log-junit" unless:blank="${phpunitLogFile}" />
+			<arg path="${basedir}/${phpunitLogFile}" unless:blank="${phpunitLogFile}" />
 		</exec>
 		<property name="phpunit.done" value="true"/>
 	</target>
@@ -234,6 +237,8 @@
 			<arg value="--configuration"/>
 			<arg path="${basedir}/phpunit.xml"/>
 			<arg value="--no-coverage"/>
+			<arg value="--log-junit" unless:blank="${phpunitLogFile}" />
+			<arg path="${basedir}/${phpunitLogFile}" unless:blank="${phpunitLogFile}" />
 		</exec>
 		<property name="phpunit.done" value="true"/>
 	</target>
@@ -287,22 +292,16 @@
 			<arg value="install" />
 			<arg value="--no-dev" />
 		</exec>
-		<delete file="${basedir}/.gitignore"/>
-		<delete file="${basedir}/README.md"/>
-		<delete file="${basedir}/phpunit.xml"/>
-		<delete file="${basedir}/phpmd.xml"/>
-		<delete file="${basedir}/phpdox.xml"/>
-		<delete file="${basedir}/composer.json"/>
-		<delete file="${basedir}/composer.lock"/>
-		<delete file="${basedir}/logs/.gitignore"/>
-		<delete file="${basedir}/logs/debug.log"/>
-		<delete file="${basedir}/vendor/.gitignore"/>
 		<delete dir="${basedir}/.git"/>
 		<delete dir="${basedir}/.idea"/>
 		<delete dir="${basedir}/build"/>
+		<delete dir="${basedir}/generatedJUnitFiles"/>
+		<delete file="${basedir}/logs/.gitignore"/>
+		<delete file="${basedir}/logs/debug.log"/>
 		<delete dir="${basedir}/test-ui"/>
 		<delete dir="${basedir}/test"/>
 		<delete dir="${basedir}/vendor/bin"/>
+		<delete file="${basedir}/vendor/.gitignore"/>
 		<delete>
 			<fileset dir="${basedir}/vendor/twig/twig">
 				<include name="*"/>
@@ -325,6 +324,15 @@
 		<delete dir="${basedir}/vendor/paragonie/random_compat/dist"/>
 		<delete dir="${basedir}/vendor/paragonie/random_compat/other"/>
 		<delete dir="${basedir}/vendor/paragonie/random_compat/build-phar.sh"/>
+		<delete file="${basedir}/.gitignore"/>
+		<delete file="${basedir}/composer.json"/>
+		<delete file="${basedir}/composer.lock"/>
+		<delete file="${basedir}/debug.log"/>
+		<delete file="${basedir}/Jenkinsfile"/>
+		<delete file="${basedir}/phpdox.xml"/>
+		<delete file="${basedir}/phpmd.xml"/>
+		<delete file="${basedir}/phpunit.xml"/>
+		<delete file="${basedir}/README.md"/>
 		<!-- self destruction -->
 		<delete file="${basedir}/build.xml"/>
 	</target>

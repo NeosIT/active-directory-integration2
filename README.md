@@ -16,11 +16,11 @@ After the cloning you have to update the dependencies with help of *Composer* (e
 To install composer follow the instructions on [https://getcomposer.org/download/](https://getcomposer.org/download/).
 	
 ### Testing
-Tests are made with PHPUnit 5.7. Get PHPUnit 5.7 with
+Tests are made with PHPUnit 7. Get PHPUnit 7 with
 
 ```shell
 	# get PHPUnit
-	wget https://phar.phpunit.de/phpunit-5.7.phar
+	wget https://phar.phpunit.de/phpunit-7.phar
 ```
 
 #### Running unit tests
@@ -88,5 +88,5 @@ More specialized tasks are
 You can provide the variable *php* (*-Dphp=path-to-php-binary*) and *pdepend*, *phpcpd*, *phpcs*, *phpdox*, *phploc*, *phpunit* to configure the tool paths:
 
 ```shell
-	ant -Dphp=/usr/bin/php-5.6.15 -Dpdepend=/opt/php-env/ci/pdepend.phar -Dphpcpd=/opt/php-env/ci/phpcpd.phar
+	ant -Dphp=/usr/bin/php-7.3.3 -Dpdepend=/opt/php-env/ci/pdepend.phar -Dphpcpd=/opt/php-env/ci/phpcpd.phar
 ```

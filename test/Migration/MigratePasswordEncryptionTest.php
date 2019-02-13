@@ -71,6 +71,7 @@ class Ut_NextADInt_Migration_MigratePasswordEncryptionTest extends Ut_BasicTest
 	}
 
 	/**
+     * @requires extension mcrypt
 	 * @test
 	 */
 	public function legacyDecrypt_decryptOldPassword_returnPlainTextPassword() {
