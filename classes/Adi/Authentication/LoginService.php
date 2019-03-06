@@ -49,6 +49,9 @@ class NextADInt_Adi_Authentication_LoginService
 	/** @var NextADInt_Adi_User_LoginSucceededService $loginSucceededService */
 	private $loginSucceededService;
 
+	/** @var boolean */
+	private $isRegistered = false;
+
 	/**
 	 * @param NextADInt_Adi_Authentication_Persistence_FailedLoginRepository|null $failedLogin
 	 * @param NextADInt_Multisite_Configuration_Service $configuration
@@ -89,6 +92,11 @@ class NextADInt_Adi_Authentication_LoginService
 	 */
 	public function register()
 	{
+	    // don't allow multiple registrations of the same LoginService instance
+	    if ($this->isRegistered) {
+	        return;
+        }
+
 		add_filter('authenticate', array($this, 'authenticate'), 10, 3);
 
 		// disable 'lost password' feature

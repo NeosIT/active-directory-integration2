@@ -25,6 +25,9 @@ class NextADInt_Adi_Authentication_PasswordValidationService
     /* @var Logger $logger */
     private $logger;
 
+    /** @var boolean */
+    private $isRegistered = false;
+
     /**
      * @param NextADInt_Adi_LoginState $loginState
      * @param NextADInt_Multisite_Configuration_Service $configuration
@@ -44,6 +47,11 @@ class NextADInt_Adi_Authentication_PasswordValidationService
      */
     public function register()
     {
+        // don't allow multiple registrations of the same LoginService instance
+        if ($this->isRegistered) {
+            return;
+        }
+
         add_filter('check_password', array($this, 'overridePasswordCheck'), 10, 4);
     }
 
