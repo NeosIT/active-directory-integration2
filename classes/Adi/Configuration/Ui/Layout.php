@@ -99,6 +99,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS,
 						NextADInt_Adi_Configuration_Options::PORT,
 						NextADInt_Adi_Configuration_Options::ENCRYPTION,
+						NextADInt_Adi_Configuration_Options::ALLOW_SELF_SIGNED,
 						NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT,
 						NextADInt_Adi_Configuration_Options::BASE_DN
 					),

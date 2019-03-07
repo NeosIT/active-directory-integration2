@@ -142,6 +142,14 @@ class adLDAP {
 	protected $_ad_port=389;
 	
 	/**
+	 * Self-signed certificate on AD server
+     *
+     * @var boolean
+     *
+	 */
+	protected $_allow_self_signed = false;
+
+	/**
 	 * If we have PHP 5.3 or above we can set the LDAP_OPT_NETWORK_TIMEOUT to another value
 	 * Default is -1 which means infinite
 	 * (EXTENDED)
@@ -353,6 +361,26 @@ class adLDAP {
     }
     
     /**
+    * Set allow_self_signed certificate
+    * 
+    * @param boolean
+    */
+    public function set_allow_self_signed($status)
+    {
+        $this->_allow_self_signed = $status;
+    }
+    
+    /**
+    * Get allow_self_signed
+    * 
+    * @return integer
+    */
+    public function get_allow_self_signed()
+    {
+          return $this->_allow_self_signed;
+    }
+    
+    /**
     * Set network timeout
     * 
     * @param integer $_seconds
@@ -400,6 +428,7 @@ class adLDAP {
             if (array_key_exists("use_tls",$options)){ $this->_use_tls=$options["use_tls"]; }
             if (array_key_exists("recursive_groups",$options)){ $this->_recursive_groups=$options["recursive_groups"]; }
 			if (array_key_exists("ad_port",$options)){ $this->_ad_port=$options["ad_port"]; }
+        	if (array_key_exists("allow_self_signed",$options)){ $this->_allow_self_signed=$options["allow_self_signed"]; }
         	if (array_key_exists("network_timeout",$options)){ $this->_network_timeout=$options["network_timeout"]; }
         }
         
@@ -426,6 +455,10 @@ class adLDAP {
     */
     public function connect() {
     	ldap_set_option($this->_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
+
+        if ($this->_allow_self_signed == true) {
+            ldap_set_option($this->_conn, LDAP_OPT_X_TLS_REQUIRE_CERT, 0);
+        }
 
         // Connect to the AD/LDAP server as the username/password
         $this->_last_used_dc = $this->random_controller();

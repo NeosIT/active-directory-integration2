@@ -23,6 +23,7 @@ class NextADInt_Ldap_ConnectionDetails
 	private $networkTimeout = null;
 	private $username = null;
 	private $password = null;
+    private $selfSigned = null;
 
 	/**
 	 * Get the custom base dn.
@@ -99,11 +100,30 @@ class NextADInt_Ldap_ConnectionDetails
 			$encryption = 'none';
 		}
 
-        NextADInt_Core_Assert::condition(
-			in_array(NextADInt_Core_Util_StringUtil::toLowerCase($encryption), NextADInt_Multisite_Option_Encryption::getValues()),
-			'Encryption type must be one of none, starttls or ldaps');
-
+		NextADInt_Core_Assert::condition(
+						 in_array(NextADInt_Core_Util_StringUtil::toLowerCase($encryption), NextADInt_Multisite_Option_Encryption::getValues()),
+						 'Encryption type must be one of none, starttls or ldaps');
+		
 		$this->encryption = $encryption;
+	}
+  
+        /**
+	 * Get the allow_self_signed setting.
+	 * If this value is null, the Connection.php will use the value set by the blog or network admin.
+	 * @return null
+	 */
+        public function getSelfSigned()
+        {
+	   return $this->selfSigned;
+	}
+  
+	/**
+	 * Set the allow_self_signed setting
+	 * @param bool $selfSigned
+	 */
+	public function setSelfSigned($selfSigned)
+	{
+		$this->selfSigned = $selfSigned;
 	}
 
 	/**

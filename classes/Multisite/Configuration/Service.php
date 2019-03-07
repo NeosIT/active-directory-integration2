@@ -327,6 +327,7 @@ class NextADInt_Multisite_Configuration_Service
 		$arrEnvironmentOptions = array(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS,
 			NextADInt_Adi_Configuration_Options::PORT,
 			NextADInt_Adi_Configuration_Options::USE_TLS,
+			NextADInt_Adi_Configuration_Options::SELF_SIGNED,
 			NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT,
 			NextADInt_Adi_Configuration_Options::BASE_DN,
 			NextADInt_Adi_Configuration_Options::DOMAIN_SID,

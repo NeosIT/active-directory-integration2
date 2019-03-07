@@ -88,6 +88,7 @@ class NextADInt_Ldap_Connection
             //ADI-482 enable LDAPS support
             'use_ssl'            => $useSsl,  //LDAP over Ssl
 			'network_timeout'    => $this->getNetworkTimeout($connectionDetails),
+            'allow_self_signed'  => $this->getSelfSigned($connectionDetails),
 			'ad_username'        => $connectionDetails->getUsername(),
 			'ad_password'        => $connectionDetails->getPassword(),
 		);
@@ -215,6 +216,23 @@ class NextADInt_Ldap_Connection
 		}
 
 		return $encryption;
+	}
+
+	/**
+	 * Return allow_self_signed based upon the $connectionDetails.
+	 *
+	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
+	 *
+	 * @return mixed
+	 */
+	public function getSelfSigned(NextADInt_Ldap_ConnectionDetails $connectionDetails)
+	{
+		$selfSigned = $connectionDetails->getSelfSigned();
+
+		if (null === $selfSigned) {
+			$selfSigned = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ALLOW_SELF_SIGNED);
+		}
+		return $selfSigned;
 	}
 
 	/**

@@ -28,6 +28,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const PORT = 'port';
 	const ENCRYPTION = 'encryption';
 	const USE_TLS = 'use_tls';
+	const ALLOW_SELF_SIGNED = 'allow_self_signed';
 	const NETWORK_TIMEOUT = 'network_timeout';
 	const BASE_DN = 'base_dn';
 	const VERIFICATION_USERNAME = 'verification_username';
@@ -385,6 +386,24 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$angularAttributes => '',
 				$default => 'none',
 				$sanitizer => array('selection', 0),
+				$showPermission => true,
+				$transient => false,
+			),
+			// self-signed certificate (LDAP_OPT_X_TLS_REQUIRE_CERT) Boolean
+			self::ALLOW_SELF_SIGNED => array(
+				$title => __('Allow self-signed certificates'),
+				$type => NextADInt_Multisite_Option_Type::CHECKBOX,
+				$description => __(
+						   ' Enable/Disable Allow self-signed certificates',
+						   'next-active-directory-integration'
+						   ),
+				$detail => __(
+					      'The menu entry "Allow self-signed certificates" can be enabled or disabled, based upon this configuration',
+					      'next-active-directory-integration'
+					      ),
+				$default => NULL,
+				$sanitizer => array('boolean'),
+				$angularAttributes => '',
 				$showPermission => true,
 				$transient => false,
 			),

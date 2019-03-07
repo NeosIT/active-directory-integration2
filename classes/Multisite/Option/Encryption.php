@@ -20,6 +20,7 @@ class NextADInt_Multisite_Option_Encryption
 	const NONE = 'none',
 		STARTTLS = 'starttls',
 		LDAPS = 'ldaps';
+    
 
 	public static function getValues()
 	{
