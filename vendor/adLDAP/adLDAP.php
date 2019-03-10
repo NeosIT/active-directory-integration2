@@ -457,9 +457,14 @@ class adLDAP {
     	ldap_set_option($this->_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
 
         if ($this->_allow_self_signed == true) {
+	  if(version_compare(PHP_VERSION, '7.0.5', '>=')) {
             ldap_set_option($this->_conn, LDAP_OPT_X_TLS_REQUIRE_CERT, 0);
-        }
-
+	  } else {
+	    // Older versions of PHP (<7.0.5) need this environment setting to ignore the certificate
+	    putenv('LDAPTLS_REQCERT=never');
+	  }
+	}
+	
         // Connect to the AD/LDAP server as the username/password
         $this->_last_used_dc = $this->random_controller();
 
