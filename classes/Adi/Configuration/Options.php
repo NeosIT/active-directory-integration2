@@ -96,11 +96,12 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const SYNC_TO_WORDPRESS_DISABLE_USERS = 'disable_users';
 	const SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS = 'sync_to_wordpress_import_disabled_users';
 
-	// Single Sign On
+	// Security - Single Sign On
 	const SSO_ENABLED = 'sso';
 	const SSO_USER = 'sso_user';
 	const SSO_PASSWORD = 'sso_password';
 	const SSO_ENVIRONMENT_VARIABLE = 'sso_environment_variable';
+	const SSO_DISABLE_FOR_XMLRPC = 'sso_disable_for_xmlrpc';
 
 	// Custom Login Page
 	const CUSTOM_LOGIN_PAGE_ENABLED = 'custom_login_page_enabled';
@@ -1078,7 +1079,25 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$showPermission => true,
 				$transient => false,
 			),
-			// Allows users who usually require a smart card to log in using NADI
+            // NADIS-92/ADI-679: Add option to disable SSO when using XML-RPC
+            self::SSO_DISABLE_FOR_XMLRPC => array(
+                $title => __('Disable SSO for XML-RPC', 'next-active-directory-integration'),
+                $type => NextADInt_Multisite_Option_Type::CHECKBOX,
+                $description => __(
+                    'When using the XML-RPC endpoint, SSO will be disabled',
+                    'next-active-directory-integration'
+                ),
+                $detail => __(
+                    'If you want to make tools like Live Writer working in an SSO environment, SSO must be deactivated for XML-RPC as Live Writer does not work with Kerberos or NTLM.',
+                    'next-active-directory-integration'
+                ),
+                $angularAttributes => 'ng-disabled="((!option.sso) || ((permission.sso == 2) || (permission.sso == 1))',
+                $default => false,
+                $sanitizer => array('boolean'),
+                $showPermission => true,
+                $transient => false,
+            ),
+            // Allows users who usually require a smart card to log in using NADI
 			self::ENABLE_SMARTCARD_USER_LOGIN => array(
 				$title => __('Enable login for smart card Users', 'next-active-directory-integration'),
 				$type => NextADInt_Multisite_Option_Type::CHECKBOX,

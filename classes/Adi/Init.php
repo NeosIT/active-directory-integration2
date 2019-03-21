@@ -282,17 +282,29 @@ class NextADInt_Adi_Init
 		$this->dc()->getLoginSucceededService()->register();
 
 		if ($isSsoEnabled) {
-			// ADI-659 check if user has enabled custom login option
-			// enabling this option will set the wp_logout action priority to 1
-			$useCustomLoginPage = $this->dc()->getConfiguration()->getOptionValue(
-				NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_ENABLED
-			);
+		    $isOnXmlRpcPage = $this->isOnXmlRpcPage();
+		    $isSsoDisabledForXmlRpc = $this->isSsoDisabledForXmlRpc();
+		    // by default, when we are in this branch, the SSO service will be registered
+		    $registerSso = true;
 
-			$this->dc()->getSsoService()->register($useCustomLoginPage);
+		    // NADIS-92, ADI-679: add option to disable SSO when using XML-RPC
+            // we need to skip the SSO registration
+		    if ($isOnXmlRpcPage && $isSsoDisabledForXmlRpc) {
+		        $registerSso = false;
+            }
+
+		    if ($registerSso) {
+                // ADI-659 check if user has enabled custom login option
+                // enabling this option will set the wp_logout action priority to 1
+                $useCustomLoginPage = $this->dc()->getConfiguration()->getOptionValue(
+                    NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_ENABLED
+                );
+
+                $this->dc()->getSsoService()->register($useCustomLoginPage);
+            }
 		}
 
 		if ($isOnLoginPage) {
-
 			// register authentication
 			$this->dc()->getLoginService()->register();
 			// register custom password validation
@@ -401,6 +413,15 @@ class NextADInt_Adi_Init
 		return (bool)$this->dc()->getConfiguration()->getOptionValue(NextADInt_Adi_Configuration_Options::SSO_ENABLED);
 	}
 
+    /**
+     * Return if SSO is disabled for XML-RPC access
+     * @return bool
+     */
+	function isSsoDisabledForXmlRpc()
+    {
+        return (bool)$this->dc()->getConfiguration()->getOptionValue(NextADInt_Adi_Configuration_Options::SSO_DISABLE_FOR_XMLRPC);
+    }
+
 
 	/**
 	 * Return true if the user is currently on the login page or executes a log in.
@@ -416,7 +437,7 @@ class NextADInt_Adi_Init
 		$page        = $_SERVER['PHP_SELF'];
 		$required    = "wp-login.php";
 		$isOnWpLogin = substr($page, -strlen($required)) == $required;
-		$isOnXmlRpc  = strpos($page, 'xmlrpc.php') !== false;
+		$isOnXmlRpc  = $this->isOnXmlRpcPage();
 
 		if ($isOnWpLogin || $isOnXmlRpc) {
 			$r = true;
@@ -434,6 +455,15 @@ class NextADInt_Adi_Init
 
 		return $r;
 	}
+
+    /**
+     * Return if the current endpoint is xmlrpc.php
+     *
+     * @return bool
+     */
+	public function isOnXmlRpcPage() {
+	    return strpos($_SERVER['PHP_SELF'], 'xmlrpc.php') !== false;
+    }
 
 	/**
 	 * Return true if current page is the test authentication page.

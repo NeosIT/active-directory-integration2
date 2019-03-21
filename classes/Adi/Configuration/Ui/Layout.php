@@ -207,6 +207,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::SSO_USER,
 						NextADInt_Adi_Configuration_Options::SSO_PASSWORD,
 						NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE,
+                        NextADInt_Adi_Configuration_Options::SSO_DISABLE_FOR_XMLRPC
 					),
 				),
 				// Group name
