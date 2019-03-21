@@ -68,13 +68,14 @@ class NextADInt_Adi_User_Manager
 		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
-	/**
-	 * Find the WordPress user by its internal WordPress id.
-	 *
-	 * @param integer $userId
-	 *
-	 * @return WP_User|false
-	 */
+    /**
+     * Find the WordPress user by its internal WordPress id.
+     *
+     * @param integer $userId
+     *
+     * @return WP_User|false
+     * @throws Exception
+     */
 	public function findById($userId)
 	{
 		NextADInt_Core_Assert::validId($userId);
@@ -82,20 +83,21 @@ class NextADInt_Adi_User_Manager
 		return $this->userRepository->findById($userId);
 	}
 
-	/**
-	 * Lookup the given usernames (sAMAccountName and userPrincipalName) in the WordPress database.
-	 * They are looked up in the following order
-	 * <ul>
-	 * <li>ADI meta attribute sAMAccountName = $sAMAccountName</li>
-	 * <li>WordPress user_login = $userPrincipalName</li>
-	 * <li>WordPress user_login = $sAMAccountName</li>
-	 * </ul>
-	 *
-	 * @param string $sAMAccountName not empty
-	 * @param string|null $userPrincipalName not empty
-	 *
-	 * @return WP_User
-	 */
+    /**
+     * Lookup the given usernames (sAMAccountName and userPrincipalName) in the WordPress database.
+     * They are looked up in the following order
+     * <ul>
+     * <li>ADI meta attribute sAMAccountName = $sAMAccountName</li>
+     * <li>WordPress user_login = $userPrincipalName</li>
+     * <li>WordPress user_login = $sAMAccountName</li>
+     * </ul>
+     *
+     * @param string $sAMAccountName not empty
+     * @param string|null $userPrincipalName not empty
+     *
+     * @return WP_User
+     * @throws Exception
+     */
 	public function findByActiveDirectoryUsername($sAMAccountName, $userPrincipalName)
 	{
 		NextADInt_Core_Assert::notEmpty($sAMAccountName, "sAMAccountName must not be empty");
@@ -155,17 +157,24 @@ class NextADInt_Adi_User_Manager
 		NextADInt_Core_Assert::notNull($credentials, "credentials must not be null");
 		NextADInt_Core_Assert::notNull($ldapAttributes, "ldapAttributes must not be null");
 
-		// NADIS-1: Changed findUserByGuid to findUserBySamAccountName to be able to detect the right user if no guid is available
-		$wpUser = $this->userRepository->findBySAMAccountName($credentials->getSAMAccountName());
+        // ADI-428: Create role mapping based upon the user's objectGUID and not on his sAMAccountName
+        $userGuid = $ldapAttributes->getFilteredValue('objectguid');
+        $roleMapping = $this->roleManager->createRoleMapping($userGuid);
 
+        // NADIS-98/ADI-688: Use objectGuid as primary attribute to identify the user
+        $wpUser = $this->userRepository->findByObjectGuid($userGuid);
+
+        // if user could not be found (= not synchronized yet to WordPress), fall back to sAMAccountName
+        if (!$wpUser) {
+            // NADIS-1: Changed findUserByGuid to findUserBySamAccountName to be able to detect the right user if no guid is available
+            $wpUser = $this->userRepository->findBySAMAccountName($credentials->getSAMAccountName());
+        }
+
+        // if sAMAccountName is also not registered, fall back to UPN
 		if (!$wpUser) {
 			$wpUser = $this->findByActiveDirectoryUsername($credentials->getSAMAccountName(),
 				$credentials->getUserPrincipalName());
 		}
-
-		// ADI-428: Create role mapping based upon the user's objectGUID and not on his sAMAccountName
-		$userGuid = $ldapAttributes->getFilteredValue('objectguid');
-		$roleMapping = $this->roleManager->createRoleMapping($userGuid);
 
 		$r = new NextADInt_Adi_User($credentials, $ldapAttributes);
 
@@ -182,15 +191,16 @@ class NextADInt_Adi_User_Manager
 		return $r;
 	}
 
-	/**
-	 * Create a new {@see WP_User} and persist it.
-	 *
-	 * @param NextADInt_Adi_User $user
-	 * @param bool $syncToWordPress
-	 * @param bool $writeUserMeta
-	 *
-	 * @return WP_User|WP_Error WP_User if creation has been a success
-	 */
+    /**
+     * Create a new {@see WP_User} and persist it.
+     *
+     * @param NextADInt_Adi_User $user
+     * @param bool $syncToWordPress
+     * @param bool $writeUserMeta
+     *
+     * @return WP_User|WP_Error WP_User if creation has been a success
+     * @throws Exception
+     */
 	public function create(NextADInt_Adi_User $user, $syncToWordPress = false, $writeUserMeta = true)
 	{
 		NextADInt_Core_Assert::notNull($user, "user must not be null");
