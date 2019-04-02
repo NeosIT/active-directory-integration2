@@ -34,9 +34,14 @@ $autoLoader->register();
 // load plugin dependencies with composer autoloader
 require_once(dirname(__FILE__)."/vendor/autoload.php");
 
-$requirements = new NextADInt_Adi_Requirements();
-if (!$requirements->check()) {
-	return;
+// NADI-692: We have to skip the requirements check if wp-cli is used.
+// Otherwise the requirements will/might fail if any of the required PHP modules is not enabled for php-cli and NADI will disable it on its own.
+if (!defined('WP_CLI')) {
+    $requirements = new NextADInt_Adi_Requirements();
+
+    if (!$requirements->check()) {
+        return;
+    }
 }
 
 // start plugin
@@ -69,5 +74,5 @@ add_action('set_current_user', array($adiPlugin, 'runMultisite'));
  * @return NextADInt_Adi_Dependencies
  */
 function next_ad_int() {
-	return NextADInt_Adi_Dependencies::getInstance();
+    return NextADInt_Adi_Dependencies::getInstance();
 }
