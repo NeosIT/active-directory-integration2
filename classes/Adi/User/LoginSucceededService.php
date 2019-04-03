@@ -206,13 +206,14 @@ class NextADInt_Adi_User_LoginSucceededService
 		return $this->userManager->create($user);
 	}
 
-	/**
-	 * If "Auto Update User" is enabled, the user's profile data is updated. In any case if a $userRole is present, it is synchronized with the backend.
-	 *
-	 * @param NextADInt_Adi_User $user
-	 *
-	 * @return false|WP_User false if creation is only simulated; int if user has been updated.
-	 */
+    /**
+     * If "Auto Update User" is enabled, the user's profile data is updated. In any case if a $userRole is present, it is synchronized with the backend.
+     *
+     * @param NextADInt_Adi_User $user
+     *
+     * @return false|WP_User false if creation is only simulated; int if user has been updated.
+     * @throws Exception
+     */
 	function updateUser(NextADInt_Adi_User $user)
 	{
 		$this->logger->debug("Checking preconditions for updating existing user " . $user);

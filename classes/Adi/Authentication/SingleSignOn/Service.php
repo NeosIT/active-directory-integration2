@@ -76,15 +76,16 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this, 'loginUser'), 19, 1);
 	}
 
-	/**
-	 * Check if the user can be authenticated using user from the client machine.
-	 *
-	 * @param null $user
-	 * @param string $login
-	 * @param string $password
-	 *
-	 * @return bool
-	 */
+    /**
+     * Check if the user can be authenticated using user from the client machine.
+     *
+     * @param null $user
+     * @param string $login
+     * @param string $password
+     *
+     * @return bool
+     * @throws Exception
+     */
 	public function authenticate($user = null /* required for WordPress callback */, $login = '', $password = '')
 	{
 		// if the user is already logged in, do not continue

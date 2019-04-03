@@ -396,6 +396,9 @@ class NextADInt_Adi_Dependencies
 				$this->getUserMetaRepository(),
 				$this->getUserRepository()
 			);
+
+			// register any hooks
+			$this->userManager->register();
 		}
 
 		return $this->userManager;
