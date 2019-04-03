@@ -46,6 +46,7 @@ As an owner of a valid support license you have access to the following premium 
 * Buddy Press simple attributes: Synchronize attributes from Active Directory/NADI to BuddyPress' custom profiles
 * Login with Ultimate Member: Let UM users log in by using NADI
 * Login with WooCommerce: Let WooCommerce users log in by using NADI
+* WP-CLI: Execute common NADI tasks (Sync to WordPress, Sync to AD) with help of WP-CLI
 
 = Requirements =
 
@@ -126,10 +127,15 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
 
 = 2.1.9 =
+* ADDED: Premium extension [WP-CLI](https://active-directory-wp.com/premium-extension/) to execute "Sync to WordPress/AD" with wp-cli to circumvent webserver/proxy timeouts (NADIS-98)
 * ADDED: option to disable SSO when using XML-RPC (ADI-679, NADIS-92)
 * FIXED: when changing the sAMAccountName or userPrincipalName in the AD a new user would have been created in WordPress (ADI-688, NADIS-89)
 * FIXED: Ultimate Member premium plug-in no longer works with new NADI version (ADI-687, NADIS-96)
 * FIXED: bug in adLDAP library; when LDAPS is enabled a custom port would not have been applied (ADI-690, NADIS-94)
+* ADDED: hook next_ad_int_user_create_email which is executed when "Duplicate email prevention" is set to "Create" (ADI-691)
+* FIXED: various issues with "Duplicate email prevention"; refactored logic (ADI-691)
+* FIXED: NADI got disabled when using any WP-CLI command (ADI-692)
+* ADDED: logging configuration can be set with filters (ADI-693)
 
 = 2.1.8 =
 * FIXED: compatibility issues when using the Woffice theme (ADI-659)
