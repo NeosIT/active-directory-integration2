@@ -880,13 +880,42 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         // assertions
         $this->assertTrue($actual);
     }
+    /**
+     * @see NADIS-92, ADI-679
+     * @since 2.1.9
+     * @test
+     */
+    public function registerAuthentication_disableSsoForXmlRpc_notRegistersSsoService()
+    {
+        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'isOnXmlRpcPage', 'isSsoDisabledForXmlRpc', 'dc'));
+        $dc = $this->mockDependencyContainer($sut);
+        $authService = $this->createAnonymousMock(array('register'));
+        $ssoService = $this->createAnonymousMock(array('register'));
+        $loginSucceededService = $this->createAnonymousMock(array('register'));
+        $configurationService  = $this->createAnonymousMock(array('getOptionValue'));
+
+        // mock dependency container calls and return individual mocked services
+        $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
+        $dc->expects($this->never())->method('getSsoService');
+        $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
+
+        $sut->expects($this->once())->method('isOnLoginPage')->willReturn(false);
+        $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
+        $sut->expects($this->once())->method('isOnXmlRpcPage')->willReturn(true);
+        $sut->expects($this->once())->method('isSsoDisabledForXmlRpc')->willReturn(true);
+
+        $ssoService->expects($this->never())->method('register');
+
+        // invoke method call
+        $actual = $sut->registerAuthentication();
+    }
 
     /**
      * @test
      */
     public function registerAuthentication_notOnLoginPage_SsoEnabled_willRegisterHooks_returnsTrue()
     {
-        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'dc'));
+        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'isOnXmlRpcPage', 'isSsoDisabledForXmlRpc', 'dc'));
         $dc = $this->mockDependencyContainer($sut);
         $authService = $this->createAnonymousMock(array('register'));
         $ssoService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
@@ -895,6 +924,8 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
         $sut->expects($this->once())->method('isOnLoginPage')->willReturn(false);
         $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
+        $sut->expects($this->once())->method('isOnXmlRpcPage')->willReturn(false);
+        $sut->expects($this->once())->method('isSsoDisabledForXmlRpc')->willReturn(false);
 
         // mock dependency container calls and return individual mocked services
         $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
@@ -923,12 +954,17 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
      */
     public function registerAuthentication_onLoginPage_SsoEnabled_willRegisterHooks_returnsFalse()
     {
-        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'dc'));
+        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'isOnXmlRpcPage', 'isSsoDisabledForXmlRpc', 'dc'));
         $dc = $this->mockDependencyContainer($sut);
         $authService = $this->createAnonymousMock(array('register'));
         $ssoService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
 	    $loginSucceededService = $this->createAnonymousMock(array('register'));
 	    $configurationService  = $this->createAnonymousMock(array('getOptionValue'));
+
+        $sut->expects($this->once())->method('isOnLoginPage')->willReturn(true);
+        $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
+        $sut->expects($this->once())->method('isOnXmlRpcPage')->willReturn(false);
+        $sut->expects($this->once())->method('isSsoDisabledForXmlRpc')->willReturn(false);
 
         // mock dependency container calls and return individual mocked services
         $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
