@@ -162,17 +162,24 @@ class NextADInt_Adi_User_Manager
 		NextADInt_Core_Assert::notNull($credentials, "credentials must not be null");
 		NextADInt_Core_Assert::notNull($ldapAttributes, "ldapAttributes must not be null");
 
-		// NADIS-1: Changed findUserByGuid to findUserBySamAccountName to be able to detect the right user if no guid is available
-		$wpUser = $this->userRepository->findBySAMAccountName($credentials->getSAMAccountName());
+        // ADI-428: Create role mapping based upon the user's objectGUID and not on his sAMAccountName
+        $userGuid = $ldapAttributes->getFilteredValue('objectguid');
+        $roleMapping = $this->roleManager->createRoleMapping($userGuid);
 
+        // NADIS-98/ADI-688: Use objectGuid as primary attribute to identify the user
+        $wpUser = $this->userRepository->findByObjectGuid($userGuid);
+
+        // if user could not be found (= not synchronized yet to WordPress), fall back to sAMAccountName
+        if (!$wpUser) {
+            // NADIS-1: Changed findUserByGuid to findUserBySamAccountName to be able to detect the right user if no guid is available
+            $wpUser = $this->userRepository->findBySAMAccountName($credentials->getSAMAccountName());
+        }
+
+        // if sAMAccountName is also not registered, fall back to UPN
 		if (!$wpUser) {
 			$wpUser = $this->findByActiveDirectoryUsername($credentials->getSAMAccountName(),
 				$credentials->getUserPrincipalName());
 		}
-
-		// ADI-428: Create role mapping based upon the user's objectGUID and not on his sAMAccountName
-		$userGuid = $ldapAttributes->getFilteredValue('objectguid');
-		$roleMapping = $this->roleManager->createRoleMapping($userGuid);
 
 		$r = new NextADInt_Adi_User($credentials, $ldapAttributes);
 

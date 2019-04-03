@@ -16,11 +16,21 @@ if (class_exists('NextADInt_Adi_Authentication_Ui_SingleSignOn')) {
  */
 class NextADInt_Adi_Authentication_Ui_SingleSignOn
 {
+    /**
+     * @var bool
+     */
+    private $isRegistered = false;
+
 	/**
 	 * Register our action to add the SSO link to the login page.
 	 */
 	public function register()
 	{
+        // don't allow multiple registrations of the same LoginService instance
+        if ($this->isRegistered) {
+            return;
+        }
+
 		add_action('login_form', array($this, 'generateLoginFooter'), 1);
 	}
 

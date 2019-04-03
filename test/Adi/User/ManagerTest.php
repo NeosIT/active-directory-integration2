@@ -264,6 +264,37 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		}
 	}
 
+    /**
+     * @test
+     * @see NADIS-98, ADI-688
+     * @since 2.1.9
+     */
+    public function createAdiUser_itFindsUserByObjectGuid() {
+        $sut = $this->sut(array('findByActiveDirectoryUsername'));
+
+        $wpUser = $this->createMock('WP_User');
+        $wpUser->ID = 1;
+        $wpUser->user_login = 'username';
+
+        $ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('samAccountName' => 'username', 'objectguid' => '666-666'));
+        $credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username@test.ad", "password");
+
+        $this->userRepository->expects($this->once())
+            ->method('findByObjectGuid')
+            ->with('666-666')
+            ->willReturn($wpUser);
+
+        $this->userRepository->expects($this->never())
+            ->method('findBySAMAccountName')
+            ->with('username');
+
+        $sut->expects($this->never())
+            ->method('findByActiveDirectoryUsername')
+            ->with('username', 'username@test.ad');
+
+        $sut->createAdiUser($credentials, $ldapAttributes);
+    }
+
 	/**
 	 * @test
 	 */
