@@ -139,6 +139,8 @@ class NextADInt_Adi_Init
 	 */
 	public function run()
 	{
+	    $this->registerHooks();
+
 		// this method won't be executed when the Multisite network dashboard is shown
 		if ($this->isOnNetworkDashboard()) {
 			return;
@@ -164,6 +166,15 @@ class NextADInt_Adi_Init
 
 		$this->finishRegistration();
 	}
+
+    /**
+     * Register any hooks.
+     * TODO: Replace current registration mechanism with WordPress' hooks architecture.
+     */
+	public function registerHooks()
+    {
+        add_action(NEXT_AD_INT_PREFIX . 'register_form_login_services', array($this, 'registerFormLoginServices'), 10, 0);
+    }
 
 	// ---
 	// single site environment
@@ -305,14 +316,7 @@ class NextADInt_Adi_Init
 		}
 
 		if ($isOnLoginPage) {
-			// register authentication
-			$this->dc()->getLoginService()->register();
-			// register custom password validation
-			$this->dc()->getPasswordValidationService()->register();
-
-			if ($isSsoEnabled) {
-				$this->dc()->getSsoPage()->register();
-			}
+		    do_action(NEXT_AD_INT_PREFIX . 'register_form_login_services');
 
 			// further hooks must not be executed
 			return false;
@@ -320,6 +324,22 @@ class NextADInt_Adi_Init
 
 		return true;
 	}
+
+    /**
+     * Register the hooks in LoginService, PasswordValidationService and SSO link (if SSO is enabled).
+     * Each of those classes checks for only one registration of hooks.
+     */
+	public function registerFormLoginServices()
+    {
+        // register authentication
+        $this->dc()->getLoginService()->register();
+        // register custom password validation
+        $this->dc()->getPasswordValidationService()->register();
+
+        if ($this->isSsoEnabled()) {
+            $this->dc()->getSsoPage()->register();
+        }
+    }
 
 	/**
 	 * Register hook for synchronization
