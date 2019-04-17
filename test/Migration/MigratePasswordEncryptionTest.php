@@ -72,7 +72,8 @@ class Ut_NextADInt_Migration_MigratePasswordEncryptionTest extends Ut_BasicTest
 
 	/**
 	 * @requires extension mcrypt
-     * @ignore
+     * @requires extension mcrypt
+	 * @test
 	 */
 	public function legacyDecrypt_decryptOldPassword_returnPlainTextPassword() {
 		$encryptedText = 'iJJg0bUBGel2H3yI2M3SVvfznAURBKU8q2DyMlUKmDA=_CsKZQsl857xDEFJLvfnafsjrwFFVvWglHb6rqjOcOstmZ' .

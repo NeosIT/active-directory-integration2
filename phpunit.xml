@@ -10,23 +10,23 @@
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true"
         forceCoversAnnotation="false"
-        mapTestClassNameToCoveredClassName="false"
-        printerClass="PHPUnit_TextUI_ResultPrinter"
+        printerClass="PHPUnit\TextUI\ResultPrinter"
         processIsolation="false"
         stopOnError="false"
         stopOnFailure="false"
         stopOnIncomplete="false"
         stopOnSkipped="false"
-        testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
         timeoutForSmallTests="1"
         timeoutForMediumTests="10"
         timeoutForLargeTests="60"
-        verbose="false">
+        verbose="false"
+        beStrictAboutTestsThatDoNotTestAnything="false"
+        >
 	<logging>
 		<log type="coverage-html" target="./build/coverage"/>
 		<log type="coverage-clover" target="build/logs/clover.xml"/>
 		<log type="coverage-crap4j" target="build/logs/crap4j.xml"/>
-		<log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
+		<log type="junit" target="build/logs/junit.xml" />
 	</logging>
 	<testsuites>
         <testsuite name="unit">
