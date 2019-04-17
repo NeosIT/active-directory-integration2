@@ -264,6 +264,37 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		}
 	}
 
+    /**
+     * @test
+     * @see NADIS-98, ADI-688
+     * @since 2.1.9
+     */
+    public function createAdiUser_itFindsUserByObjectGuid() {
+        $sut = $this->sut(array('findByActiveDirectoryUsername'));
+
+        $wpUser = $this->createMock('WP_User');
+        $wpUser->ID = 1;
+        $wpUser->user_login = 'username';
+
+        $ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('samAccountName' => 'username', 'objectguid' => '666-666'));
+        $credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username@test.ad", "password");
+
+        $this->userRepository->expects($this->once())
+            ->method('findByObjectGuid')
+            ->with('666-666')
+            ->willReturn($wpUser);
+
+        $this->userRepository->expects($this->never())
+            ->method('findBySAMAccountName')
+            ->with('username');
+
+        $sut->expects($this->never())
+            ->method('findByActiveDirectoryUsername')
+            ->with('username', 'username@test.ad');
+
+        $sut->createAdiUser($credentials, $ldapAttributes);
+    }
+
 	/**
 	 * @test
 	 */
@@ -386,7 +417,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	 */
 	public function create_itChecksForDuplicateMail()
 	{
-		$sut = $this->sut(array('checkDuplicateEmail', 'update', 'appendSuffixToNewUser'));
+		$sut = $this->sut(array('handleEmailAddressOfUser', 'update', 'appendSuffixToNewUser'));
 
 		$adiUser = $this->createMock('NextADInt_Adi_User');
 		$credentials = $this->createMock('NextADInt_Adi_Authentication_Credentials');
@@ -404,8 +435,8 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 			->willReturn('email@test.ad');
 
 		$sut->expects($this->once())
-			->method('checkDuplicateEmail')
-			->with('userprincipalname', 'email@test.ad');
+			->method('handleEmailAddressOfUser')
+			->with(null, 'email@test.ad');
 
 		$this->exceptionUtil->shouldReceive('handleWordPressErrorAsException')
 			->with(100)
@@ -503,75 +534,6 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 			->willReturn('1');
 
 		$this->assertTrue($sut->useSamAccountNameForNewUsers());
-	}
-
-	/**
-	 * @test
-	 */
-	public function checkDuplicateEmail_withExistingEmail_throwsException()
-	{
-		$sut = $this->sut();
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::PREVENT);
-
-		$this->userRepository->expects($this->once())
-			->method('isEmailExisting')
-			->with('test@test.com')
-			->willReturn(true);
-
-		$this->exceptionUtil->shouldReceive('handleWordPressErrorAsException')
-			->once();
-
-		$this->invokeMethod($sut, 'checkDuplicateEmail', array('username', 'test@test.com'));
-	}
-
-	/**
-	 * @test
-	 */
-	public function checkDuplicateEmail_withPreventionAndWithoutExistingEmail_doesNotThrowException()
-	{
-		$sut = $this->sut();
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::PREVENT);
-
-		$this->userRepository->expects($this->once())
-			->method('isEmailExisting')
-			->with('test@test.com')
-			->willReturn(false);
-
-		$this->exceptionUtil->shouldReceive('handleWordPressErrorAsException')
-			->never();
-
-		$this->invokeMethod($sut, 'checkDuplicateEmail', array('username', 'test@test.com'));
-	}
-
-	/**
-	 * @test
-	 */
-	public function checkDuplicateEmail_withoutPreventionAndWithExistingEmail_doesNotThrowException()
-	{
-		$sut = $this->sut();
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::ALLOW);
-
-		$this->userRepository->expects($this->once())
-			->method('isEmailExisting')
-			->with('test@test.com')
-			->willReturn(true);
-
-		$this->exceptionUtil->shouldReceive('handleWordPressErrorAsException')
-			->never();
-
-		$this->invokeMethod($sut, 'checkDuplicateEmail', array('username', 'test@test.com'));
 	}
 
 	/**
@@ -1133,9 +1095,9 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function updateEmail_withValidEmailAndDuplicateEmailPrevention_doesNotTriggerUpdateRepositoryMethods()
+	public function updateEmail_notUpdatesEmail_whenAlreadyAssignedToUser()
 	{
-		$sut = $this->sut(array('getEmailForUpdate'));
+		$sut = $this->sut(array('handleEmailAddressOfUser'));
 
 		$email = 'test@test.com';
 		$this->wpUser->user_email = $email;
@@ -1157,9 +1119,9 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 			->willReturn($this->wpUser);
 
 		$sut->expects($this->once())
-			->method('getEmailForUpdate')
+			->method('handleEmailAddressOfUser')
 			->with($this->wpUser, $email)
-			->willReturn(false);
+			->willReturn($email);
 
 		$this->userRepository->expects($this->once())
 			->method('findById')
@@ -1174,11 +1136,12 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function updateEmail_withValidEmailAndDuplicateEmailAllowed_doesTriggerUpdateRepositoryMethods()
+	public function updateEmail_doesTriggerUpdateRepositoryMethods_whenEmailMustBeSetToNewAddress()
 	{
-		$sut = $this->sut(array('getEmailForUpdate'));
+		$sut = $this->sut(array('handleEmailAddressOfUser'));
 
 		$email = 'test@test.com';
+		$newEmail = 'new@test.com';
 		$this->wpUser->user_email = $email;
 
 		$adiUser = $this->createMock('NextADInt_Adi_User');
@@ -1198,9 +1161,9 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 			->willReturn($this->wpUser);
 
 		$sut->expects($this->once())
-			->method('getEmailForUpdate')
+			->method('handleEmailAddressOfUser')
 			->with($this->wpUser, $email)
-			->willReturn($email);
+			->willReturn($newEmail);
 
 		$this->userRepository->expects($this->once())
 			->method('findById')
@@ -1208,7 +1171,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->userRepository->expects($this->once())
 			->method('updateEmail')
-			->with(1, $email);
+			->with(1, $newEmail);
 
 		$this->invokeMethod($sut, 'updateEmail', array($adiUser, $email));
 	}
@@ -1216,149 +1179,249 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function getEmailForUpdate_withDuplicateEmailPreventionAllow_returnsEmailAndSetsWordPressConstant()
+	public function handleEmailAddressOfUser_returnsPreferredEmail_whenEmailDoesNotExist()
 	{
 		$sut = $this->sut();
+		$preferredEmail = 'test@test.com';
 
-		$this->configuration->expects($this->once())
+		$this->userRepository->expects($this->once())
+			->method('isEmailExisting')
+			->with($preferredEmail)
+			->willReturn(false);
+
+		$this->userRepository->expects($this->never())
+            ->method('findByEmail')
+            ->with($preferredEmail);
+
+		$actual = $this->invokeMethod($sut, 'handleEmailAddressOfUser', array($this->wpUser, $preferredEmail));
+        $this->assertFalse(defined('WP_IMPORTING'));
+
+		$this->assertEquals($preferredEmail, $actual);
+	}
+
+    /**
+     * @test
+     */
+    public function handleEmailAddressOfUser_returnsPreferredEmail_whenEmailAlreadyBelongsToOwner()
+    {
+        $sut = $this->sut();
+        $preferredEmail = 'test@test.com';
+
+        $this->userRepository->expects($this->once())
+            ->method('isEmailExisting')
+            ->with($preferredEmail)
+            ->willReturn(true);
+
+        $this->userRepository->expects($this->once())
+            ->method('findByEmail')
+            ->with($preferredEmail)
+            ->willReturn($this->wpUser);
+
+        $actual = $this->invokeMethod($sut, 'handleEmailAddressOfUser', array($this->wpUser, $preferredEmail));
+        $this->assertFalse(defined('WP_IMPORTING'));
+
+        $this->assertEquals($preferredEmail, $actual);
+    }
+
+    /**
+	 * @test
+	 */
+	public function handleEmailAddressOfUser_returnsPreferredEmail_evenIfItIsAlreadyInUse_whenDuplicateEmailPreventionIsAllow()
+	{
+		$sut = $this->sut();
+        $preferredEmail = 'test@test.com';
+        $ownerOfMail = $this->createMock('WP_User');
+        $ownerOfMail->ID = 555;
+
+        $this->userRepository->expects($this->once())
+            ->method('isEmailExisting')
+            ->with($preferredEmail)
+            ->willReturn(true);
+
+        $this->userRepository->expects($this->once())
+            ->method('findByEmail')
+            ->with($preferredEmail)
+            ->willReturn($ownerOfMail);
+
+        $this->configuration->expects($this->once())
 			->method('getOptionValue')
 			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
 			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::ALLOW);
 
-		$this->userRepository->expects($this->never())
-			->method('isEmailExisting')
-			->with('test@test.com')
-			->willReturn(false);
+        $this->assertFalse(defined('WP_IMPORTING'));
 
-		$this->userHelper->expects($this->never())
-			->method('createUniqueEmailAddress')
-			->with('test@test.com')
-			->willReturn('unique@test.com');
+		$actual = $this->invokeMethod($sut, 'handleEmailAddressOfUser', array($this->wpUser, 'test@test.com'));
+        $this->assertTrue(defined('WP_IMPORTING'));
 
-		$this->assertFalse(defined('WP_IMPORTING'));
 
-		$actual = $this->invokeMethod($sut, 'getEmailForUpdate', array($this->wpUser, 'test@test.com'));
-
-		$this->assertTrue(defined('WP_IMPORTING'));
-		$this->assertTrue(WP_IMPORTING);
-		$this->assertEquals('test@test.com', $actual);
+		$this->assertEquals($preferredEmail, $actual);
 	}
 
-	/**
-	 * @test
-	 */
-	public function getEmailForUpdate_withDuplicateEmailPreventionPreventAndNotExistingEmail_returnsEmail()
-	{
-		$sut = $this->sut();
+    /**
+     * @test
+     */
+    public function handleEmailAddressOfUser_throwsException_whenDuplicateEmailPreventionIsPrevent()
+    {
+        $sut = $this->sut();
+        $preferredEmail = 'test@test.com';
+        $ownerOfMail = $this->createMock('WP_User');
+        $ownerOfMail->ID = 555;
 
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::PREVENT);
+        $this->userRepository->expects($this->once())
+            ->method('isEmailExisting')
+            ->with($preferredEmail)
+            ->willReturn(true);
 
-		$this->userRepository->expects($this->once())
-			->method('isEmailExisting')
-			->with('test@test.com')
-			->willReturn(false);
+        $this->userRepository->expects($this->once())
+            ->method('findByEmail')
+            ->with($preferredEmail)
+            ->willReturn($ownerOfMail);
 
-		$this->userHelper->expects($this->never())
-			->method('createUniqueEmailAddress')
-			->with('test@test.com')
-			->willReturn('unique@test.com');
+        $this->configuration->expects($this->once())
+            ->method('getOptionValue')
+            ->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
+            ->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::PREVENT);
 
-		$actual = $this->invokeMethod($sut, 'getEmailForUpdate', array($this->wpUser, 'test@test.com'));
+        $this->exceptionUtil->shouldReceive('handleWordPressErrorAsException')
+            ->once()
+            ->with(\Mockery::on(function(WP_Error $wpError) {
+               return 'duplicateEmailPrevention' == $wpError->getErrorKey();
+            }));
 
-		$this->assertEquals('test@test.com', $actual);
-	}
+        $actual = $this->invokeMethod($sut, 'handleEmailAddressOfUser', array($this->wpUser, 'test@test.com'));
+    }
 
-	/**
-	 * @test
-	 */
-	public function getEmailForUpdate_withDuplicateEmailPreventionCreateAndNotExistingUserEmail_returnsUniqueEmail()
-	{
-		$sut = $this->sut();
+    /**
+     * @test
+     */
+    public function handleEmailAddressOfUser_createsNewEmail_whenDuplicateEmailPreventionIsCreate()
+    {
+        $sut = $this->sut();
+        $preferredEmail = 'test@test.com';
+        $ownerOfMail = $this->createMock('WP_User');
+        $ownerOfMail->ID = 555;
 
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::CREATE);
+        $this->userRepository->expects($this->once())
+            ->method('isEmailExisting')
+            ->with($preferredEmail)
+            ->willReturn(true);
 
-		$this->userRepository->expects($this->once())
-			->method('isEmailExisting')
-			->with('test@test.com')
-			->willReturn(true);
+        $this->userRepository->expects($this->once())
+            ->method('findByEmail')
+            ->with($preferredEmail)
+            ->willReturn($ownerOfMail);
 
-		$this->userHelper->expects($this->once())
-			->method('createUniqueEmailAddress')
-			->with('test@test.com')
-			->willReturn('unique@test.com');
+        $this->configuration->expects($this->once())
+            ->method('getOptionValue')
+            ->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
+            ->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::CREATE);
 
-		$this->wpUser->user_email = null;
+        $expectedResult = 'unique@test.com';
 
-		$actual = $this->invokeMethod($sut, 'getEmailForUpdate', array($this->wpUser, 'test@test.com'));
+        WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'user_create_email')->with($this->wpUser, $preferredEmail)->reply($expectedResult);
 
-		$this->assertEquals('unique@test.com', $actual);
-	}
+        $actual = $this->invokeMethod($sut, 'handleEmailAddressOfUser', array($this->wpUser, 'test@test.com'));
+        $this->assertEquals($expectedResult, $actual);
+    }
 
-	/**
-	 * @test
-	 */
-	public function getEmailForUpdate_withDuplicateEmailPreventionCreateAndExistingUserEmail_returnsFalse()
-	{
-		$sut = $this->sut();
+    /**
+     * @test
+     */
+    public function handleEmailAddressOfUser_throwsGenericException_whenStateMachineStateIsUnknown()
+    {
+        $sut = $this->sut();
+        $preferredEmail = 'test@test.com';
+        $ownerOfMail = $this->createMock('WP_User');
+        $ownerOfMail->ID = 555;
 
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::CREATE);
+        $this->userRepository->expects($this->once())
+            ->method('isEmailExisting')
+            ->with($preferredEmail)
+            ->willReturn(true);
 
-		$this->userRepository->expects($this->once())
-			->method('isEmailExisting')
-			->with('test@test.com')
-			->willReturn(true);
+        $this->userRepository->expects($this->once())
+            ->method('findByEmail')
+            ->with($preferredEmail)
+            ->willReturn($ownerOfMail);
 
-		$this->userHelper->expects($this->never())
-			->method('createUniqueEmailAddress')
-			->with('test@test.com')
-			->willReturn('unique@test.com');
+        $this->configuration->expects($this->once())
+            ->method('getOptionValue')
+            ->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
+            ->willReturn('invalid_state');
 
-		$this->wpUser->user_email = 'test@test.com';
+        $this->exceptionUtil->shouldReceive('handleWordPressErrorAsException')
+            ->once()
+            ->with(\Mockery::on(function(WP_Error $wpError) {
+                return 'invalidDuplicateEmailPreventionState' == $wpError->getErrorKey();
+            }));
 
-		$actual = $this->invokeMethod($sut, 'getEmailForUpdate', array($this->wpUser, 'test@test.com'));
+        $actual = $this->invokeMethod($sut, 'handleEmailAddressOfUser', array($this->wpUser, 'test@test.com'));
+        $this->assertEquals(false, $actual);
+    }
 
-		$this->assertEquals(false, $actual);
-	}
+    /**
+     * @test
+     */
+	public function createNewEmailForExistingAddress_itCreatesEmail_whenUserHasBeenJustCreated() {
+	    $sut = $this->sut();
 
-	/**
-	 * @test
-	 */
-	public function getEmailForUpdate_withAllOptionsFalse_returnsFalse()
-	{
-		$sut = $this->sut();
+        $preferredEmail = 'test@test.com';
+        $expectedResult = 'unique@test.com';
 
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION)
-			->willReturn(NextADInt_Adi_User_DuplicateEmailPrevention::PREVENT);
+        $this->userHelper->expects($this->once())
+            ->method('createUniqueEmailAddress')
+            ->with($preferredEmail)
+            ->willReturn($expectedResult);
 
-		$this->userRepository->expects($this->once())
-			->method('isEmailExisting')
-			->with('test@test.com')
-			->willReturn(true);
+        $this->wpUser->user_email = null;
 
-		$this->userHelper->expects($this->never())
-			->method('createUniqueEmailAddress')
-			->with('test@test.com')
-			->willReturn('unique@test.com');
+	    $actual = $this->invokeMethod($sut, 'createNewEmailForExistingAddress', array(null, 'test@test.com'));
 
-		$this->wpUser->user_email = 'test@test.com';
+	    $this->assertEquals($expectedResult, $actual);
+    }
 
-		$actual = $this->invokeMethod($sut, 'getEmailForUpdate', array($this->wpUser, 'test@test.com'));
+    /**
+     * @test
+     */
+    public function createNewEmailForExistingAddress_itCreatesEmail_whenUserHasNoEmail() {
+        $sut = $this->sut();
 
-		$this->assertEquals(false, $actual);
-	}
+        $preferredEmail = 'test@test.com';
+        $expectedResult = 'unique@test.com';
 
-	/**
+        $this->userHelper->expects($this->once())
+            ->method('createUniqueEmailAddress')
+            ->with($preferredEmail)
+            ->willReturn($expectedResult);
+
+        $this->wpUser->user_email = null;
+
+        $actual = $this->invokeMethod($sut, 'createNewEmailForExistingAddress', array($this->wpUser, 'test@test.com'));
+
+        $this->assertEquals($expectedResult, $actual);
+    }
+
+    /**
+     * @test
+     */
+    public function createNewEmailForExistingAddress_itUsesPreferredEmail_asFallback() {
+        $sut = $this->sut();
+
+        $preferredEmail = 'test@test.com';
+        $randomEmail = 'unique@test.com';
+
+        $this->userHelper->expects($this->never())
+            ->method('createUniqueEmailAddress')
+            ->with($preferredEmail);
+
+        $this->wpUser->user_email = $randomEmail;
+
+        $actual = $this->invokeMethod($sut, 'createNewEmailForExistingAddress', array($this->wpUser, $preferredEmail));
+
+        $this->assertEquals($preferredEmail, $actual);
+    }
+
+    /**
 	 * @test
 	 */
 	public function hasActiveDirectoryAccount_acceptsUsername()

@@ -63,7 +63,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 					self::DESCRIPTION => array(
 						__(
-							'<span class="adi-important-message"><b>IMPORTANT NOTICE: END OF PHP VERSION <7.1 SUPPORT </b></span><br><span>We hereby inform you that as of <b>31.12.2018</b> NADI will no longer support PHP version <b>< 7.1</b> due to security support being dropped for <b>PHP 5.6</b> and <b>PHP 7.0</b> as you can see in the <a href="http://php.net/supported-versions.php" target="_blank">official PHP documentation</a>. For security reasons and in order to use NADI in 2019 we hereby politely encourage you to migrate your environments to at least <b>PHP 7.1</b> until then.</span><br>',
+							'<span class="adi-important-message"><b>IMPORTANT NOTICE: END OF PHP VERSION <7.1 SUPPORT </b></span><br><span>We hereby inform you that as of <b>2019-01-01</b> NADI will no longer support PHP version <b>< 7.1</b> due to security support being dropped for <b>PHP 5.6</b> and <b>PHP 7.0</b> as you can see in the <a href="http://php.net/supported-versions.php" target="_blank">official PHP documentation</a>. For security reasons and in order to use NADI in 2019 we hereby politely encourage you to migrate your environments to at least <b>PHP 7.1</b> until then.</span><br>',
 							'next-active-directory-integration'
 						),
 						__(
@@ -175,7 +175,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 							'next-active-directory-integration'
 						),
 						__(
-							'<span class="adi-pe-message"><b>Premium-Extensions: </b>Custom Role Management <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
+							'<span class="adi-pe-message"><b>Premium Extensions: </b>Custom Role Management <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
 							'next-active-directory-integration'
 						),),
 					// Option elements in group
@@ -198,7 +198,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						'next-active-directory-integration'
 					),
 						__(
-							'<span class="adi-pe-message"><b>Premium-Extensions: </b>SingleSignOn for BuddyPress, WooCommerce und Ultimate Member <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
+							'<span class="adi-pe-message"><b>Premium Extensions: </b>SingleSignOn for BuddyPress, WooCommerce und Ultimate Member <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
 							'next-active-directory-integration'
 						)),
 					// Option elements in group
@@ -207,6 +207,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::SSO_USER,
 						NextADInt_Adi_Configuration_Options::SSO_PASSWORD,
 						NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE,
+                        NextADInt_Adi_Configuration_Options::SSO_DISABLE_FOR_XMLRPC
 					),
 				),
 				// Group name
@@ -265,7 +266,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						'',
 						sprintf(__('The following WordPress attributes are reserved by NADI and cannot be used: %s', 'next-active-directory-integration'), implode(', ', NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys())),
 						__(
-							'<span class="adi-pe-message"><b>Premium-Extensions: </b>BuddyPress simple attributes, BuddyPress profile photo, Profile Pictures and User Photo integration <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
+							'<span class="adi-pe-message"><b>Premium Extensions: </b>BuddyPress simple attributes, BuddyPress profile photo, Profile Pictures and User Photo integration <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
 							'next-active-directory-integration'
 						),
 					),

@@ -443,6 +443,10 @@ class adLDAP {
                 // fallback to default SSL port
 				$usePort = 636;
             }
+			
+			// NADIS-94: With some PHP/LDAP compilations, the ldap_connect(..., $usePort) parameter is ignored when SSL is used.
+			// when SSL is being used, we assign the selected port to the URI
+			$url .= ":" . $usePort;
         }
 
 		$this->_conn = ldap_connect($url, $usePort);

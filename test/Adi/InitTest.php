@@ -270,7 +270,10 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	 */
 	public function run_itDoesNotProceed_ifNoMultisite()
 	{
-		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize'));
+		$sut = $this->sut(array('registerHooks', 'isOnNetworkDashboard', 'initialize'));
+
+		$sut->expects($this->once())
+            ->method('registerHooks');
 
 		$sut->expects($this->once())
 			->method('isOnNetworkDashboard')
@@ -349,6 +352,18 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 		$sut->run();
 	}
+
+    /**
+     * @test
+     */
+    public function registerHooks_addsAllActions() {
+        $sut = $this->sut(null);
+
+        \WP_Mock::expectActionAdded(NEXT_AD_INT_PREFIX . 'register_form_login_services', array($sut, 'registerFormLoginServices'), 10, 0);
+
+        $sut->registerHooks();
+        \WP_Mock::assertHooksAdded();
+    }
 
 	/**
 	 * @test
@@ -815,9 +830,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'dc'));
         $dc = $this->mockDependencyContainer($sut);
         $authService = $this->createAnonymousMock(array('register'));
-        $loginService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
 	    $loginSucceededService = $this->createAnonymousMock(array('register'));
-        $pwValidationService = $this->createAnonymousMock(array('register'));
 
         $sut->expects($this->once())->method('isOnLoginPage')->willReturn(true);
         $sut->expects($this->once())->method('isSsoEnabled')->willReturn(false);
@@ -826,14 +839,12 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
         $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
         $dc->expects($this->never())->method('getSsoService');
-        $dc->expects($this->once())->method('getLoginService')->willReturn($loginService);
-        $dc->expects($this->once())->method('getPasswordValidationService')->willReturn($pwValidationService);
+
+        \WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'register_form_login_services');
 
         // check method calls on mocked services
         $authService->expects($this->once())->method('register');
 	    $loginSucceededService->expects($this->once())->method('register');
-        $loginService->expects($this->once())->method('register');
-        $pwValidationService->expects($this->once())->method('register');
 
         // invoke method call
         $actual = $sut->registerAuthentication();
@@ -869,13 +880,42 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         // assertions
         $this->assertTrue($actual);
     }
+    /**
+     * @see NADIS-92, ADI-679
+     * @since 2.1.9
+     * @test
+     */
+    public function registerAuthentication_disableSsoForXmlRpc_notRegistersSsoService()
+    {
+        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'isOnXmlRpcPage', 'isSsoDisabledForXmlRpc', 'dc'));
+        $dc = $this->mockDependencyContainer($sut);
+        $authService = $this->createAnonymousMock(array('register'));
+        $ssoService = $this->createAnonymousMock(array('register'));
+        $loginSucceededService = $this->createAnonymousMock(array('register'));
+        $configurationService  = $this->createAnonymousMock(array('getOptionValue'));
+
+        // mock dependency container calls and return individual mocked services
+        $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
+        $dc->expects($this->never())->method('getSsoService');
+        $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
+
+        $sut->expects($this->once())->method('isOnLoginPage')->willReturn(false);
+        $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
+        $sut->expects($this->once())->method('isOnXmlRpcPage')->willReturn(true);
+        $sut->expects($this->once())->method('isSsoDisabledForXmlRpc')->willReturn(true);
+
+        $ssoService->expects($this->never())->method('register');
+
+        // invoke method call
+        $actual = $sut->registerAuthentication();
+    }
 
     /**
      * @test
      */
     public function registerAuthentication_notOnLoginPage_SsoEnabled_willRegisterHooks_returnsTrue()
     {
-        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'dc'));
+        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'isOnXmlRpcPage', 'isSsoDisabledForXmlRpc', 'dc'));
         $dc = $this->mockDependencyContainer($sut);
         $authService = $this->createAnonymousMock(array('register'));
         $ssoService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
@@ -884,6 +924,8 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
         $sut->expects($this->once())->method('isOnLoginPage')->willReturn(false);
         $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
+        $sut->expects($this->once())->method('isOnXmlRpcPage')->willReturn(false);
+        $sut->expects($this->once())->method('isSsoDisabledForXmlRpc')->willReturn(false);
 
         // mock dependency container calls and return individual mocked services
         $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
@@ -912,27 +954,26 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
      */
     public function registerAuthentication_onLoginPage_SsoEnabled_willRegisterHooks_returnsFalse()
     {
-        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'dc'));
+        $sut = $this->sut(array('isOnLoginPage', 'isSsoEnabled', 'isOnXmlRpcPage', 'isSsoDisabledForXmlRpc', 'dc'));
         $dc = $this->mockDependencyContainer($sut);
         $authService = $this->createAnonymousMock(array('register'));
         $ssoService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
-        $loginService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
-        $pwValidationService = $this->createAnonymousMock(array('register'));
-        $ssoPage = $this->createAnonymousMock(array('register'));
 	    $loginSucceededService = $this->createAnonymousMock(array('register'));
 	    $configurationService  = $this->createAnonymousMock(array('getOptionValue'));
 
         $sut->expects($this->once())->method('isOnLoginPage')->willReturn(true);
         $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
+        $sut->expects($this->once())->method('isOnXmlRpcPage')->willReturn(false);
+        $sut->expects($this->once())->method('isSsoDisabledForXmlRpc')->willReturn(false);
 
         // mock dependency container calls and return individual mocked services
         $dc->expects($this->once())->method('getAuthorizationService')->willReturn($authService);
         $dc->expects($this->once())->method('getSsoService')->willReturn($ssoService);
-        $dc->expects($this->once())->method('getLoginService')->willReturn($loginService);
-        $dc->expects($this->once())->method('getPasswordValidationService')->willReturn($pwValidationService);
-        $dc->expects($this->once())->method('getSsoPage')->willReturn($ssoPage);
 	    $dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
 	    $dc->expects($this->once())->method('getConfiguration')->willReturn($configurationService);
+
+        $sut->expects($this->once())->method('isOnLoginPage')->willReturn(true);
+        $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
 
 	    // check method calls on mocked services
         $authService->expects($this->once())->method('register');
@@ -942,15 +983,37 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	                         ->with(NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_ENABLED)
 	                         ->willReturn(false);
 	    $ssoService->expects($this->once())->method('register');
-        $loginService->expects($this->once())->method('register');
-        $pwValidationService->expects($this->once())->method('register');
-        $ssoPage->expects($this->once())->method('register');
 
         // invoke method call
         $actual = $sut->registerAuthentication();
 
         // assertions
         $this->assertFalse($actual);
+    }
+
+    /**
+     * @test
+     */
+    public function registerFormLoginServices_willRegisterHooks()
+    {
+        $sut = $this->sut(array('isSsoEnabled', 'dc'));
+        $dc = $this->mockDependencyContainer($sut);
+
+        $pwValidationService = $this->createAnonymousMock(array('register'));
+        $loginService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
+        $ssoPage = $this->createAnonymousMock(array('register'));
+
+        $sut->expects($this->once())->method('isSsoEnabled')->willReturn(true);
+
+        $dc->expects($this->once())->method('getPasswordValidationService')->willReturn($pwValidationService);
+        $dc->expects($this->once())->method('getLoginService')->willReturn($loginService);
+        $dc->expects($this->once())->method('getSsoPage')->willReturn($ssoPage);
+
+        $loginService->expects($this->once())->method('register');
+        $pwValidationService->expects($this->once())->method('register');
+        $ssoPage->expects($this->once())->method('register');
+
+        $sut->registerFormLoginServices();
     }
 
     /**
