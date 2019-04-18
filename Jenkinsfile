@@ -196,7 +196,6 @@ pipeline {
 	
 						withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: wordpressOrgCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
 							echo "Committing to wordpress.org SVN repository with username ${env.USERNAME}"
-							error("failsafe, username: ${env.USERNAME}")
 
 							sh "svn commit -m '${gitLastMessage}' --non-interactive --no-auth-cache --username '${env.USERNAME}' --password '${env.PASSWORD}'"
 						}
