@@ -14,7 +14,7 @@ def	pipelineConfiguration = [
 		debug: true,
 		spinnakerName: "${projectName}",
 		rocketChat: [
-			channel: "kubedemo"
+			channel: "nextadi"
 		],
 		delivery: [
 			files: [
