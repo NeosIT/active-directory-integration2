@@ -749,11 +749,17 @@ class NextADInt_Adi_User_Manager
 	 */
 	public function disable($userId, $reason)
 	{
-	    if ($this->metaRepository->isUserDisabled($userId)) {
+	    $isUserAlreadyDisabled = $this->metaRepository->isUserDisabled($userId);
+        $wpUser = $this->userRepository->findById($userId);
+
+        // ADI-699: Add hook user_before_disable
+	    do_action(NEXT_AD_INT_PREFIX . 'user_before_disable', $wpUser, $isUserAlreadyDisabled);
+
+        if ($isUserAlreadyDisabled) {
+            $this->logger->debug("User with id '{$userId}' has been already disabled");
 	        return;
         }
 
-		$wpUser = $this->userRepository->findById($userId);
 		$this->metaRepository->disableUser($wpUser, $reason);
 
 		// Change e-mail of user to be disabled to prevent him from restoring his password.
