@@ -749,11 +749,17 @@ class NextADInt_Adi_User_Manager
 	 */
 	public function disable($userId, $reason)
 	{
+	    if ($this->metaRepository->isUserDisabled($userId)) {
+	        return;
+        }
+
 		$wpUser = $this->userRepository->findById($userId);
 		$this->metaRepository->disableUser($wpUser, $reason);
 
 		// Change e-mail of user to be disabled to prevent him from restoring his password.
-		$this->userRepository->updateEmail($userId, $wpUser->user_email . '-DISABLED');
+        $suffix = '-DISABLED';
+        $cleanMail = str_replace($suffix, '', $wpUser->user_email);
+		$this->userRepository->updateEmail($userId, $cleanMail . $suffix);
 		$this->logger->warn('Disabled user with user id ' . $userId . ' with reason: ' . $reason);
 
 		// ADI-145: provide API
