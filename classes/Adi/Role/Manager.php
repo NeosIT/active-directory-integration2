@@ -121,8 +121,6 @@ class NextADInt_Adi_Role_Manager
 		$wordPressRoles = $roleMapping->getWordPressRoles();
 		$hasWordPressRoles = sizeof($wordPressRoles) > 0;
 
-		$roles = $wordPressRoles;
-
 		$cleanExistingRoles = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES);
 
 		// User create specific logic
@@ -143,7 +141,7 @@ class NextADInt_Adi_Role_Manager
 		$wordPressRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_roles', $wordPressRoles, $cleanExistingRoles, $wpUser, $roleMapping);
 
 		$this->logger->info("Security groups " . json_encode($roleMapping->getSecurityGroups())
-			. " are mapped to WordPress roles: " . json_encode($roles));
+			. " are mapped to WordPress roles: " . json_encode($wordPressRoles));
 		$this->updateRoles($wpUser, $wordPressRoles, $cleanExistingRoles);
 
 		return true;
