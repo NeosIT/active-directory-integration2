@@ -495,7 +495,8 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$rawLdapAttributes = $adiUser->getLdapAttributes()->getRaw();
 		$username = $adiUser->getCredentials()->getSAMAccountName();
 
-		$isInActiveDirectory = isset($rawLdapAttributes) && (sizeof($rawLdapAttributes) > 0);
+		// ADI-701: If user is deleted, $rawLdapAttributes is not an array
+		$isInActiveDirectory = isset($rawLdapAttributes) && is_array($rawLdapAttributes) && (sizeof($rawLdapAttributes) > 0);
 		$isInWordPress = ($adiUser->getId() > 0);
 		$uac = $this->userAccountControl($rawLdapAttributes);
 
