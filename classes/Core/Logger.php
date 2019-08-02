@@ -173,7 +173,7 @@ class NextADInt_Core_Logger
 	 */
 	private static function hasWritingPermission($pathToFile)
 	{
-		return touch($pathToFile . 'nadi-debug.log');
+		return @touch($pathToFile . 'nadi-debug.log');
 	}
 
 	/**
