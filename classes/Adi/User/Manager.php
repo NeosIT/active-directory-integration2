@@ -100,7 +100,7 @@ class NextADInt_Adi_User_Manager
      * @param string $sAMAccountName not empty
      * @param string|null $userPrincipalName not empty
      *
-     * @return WP_User
+     * @return WP_User|false
      * @throws Exception
      */
 	public function findByActiveDirectoryUsername($sAMAccountName, $userPrincipalName)
