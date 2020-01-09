@@ -127,11 +127,12 @@ class NextADInt_Core_Logger
 		$nullHandler->close();
 	}
 
-	/**
-	 * @param $loggingPath
-	 * @return \Monolog\Handler\StreamHandler
-	 */
-	private static function createStreamHandler($loggingPath)
+    /**
+     * @param $loggingPath
+     * @return \Monolog\Handler\StreamHandler
+     * @throws Exception
+     */
+	public static function createStreamHandler($loggingPath)
 	{
 		// Create Handlers
 		$streamHandler = new \Monolog\Handler\StreamHandler($loggingPath . 'nadi-debug.log', Monolog\Logger::DEBUG);
@@ -151,7 +152,7 @@ class NextADInt_Core_Logger
 	/**
 	 * @return NextADInt_Core_Logger_Handlers_FrontendLogHandler
 	 */
-	private static function createFrontendHandler()
+	public static function createFrontendHandler()
 	{
 		// Create Handlers
 		$frontendHandler = new NextADInt_Core_Logger_Handlers_FrontendLogHandler(\Monolog\Logger::DEBUG);
@@ -173,7 +174,7 @@ class NextADInt_Core_Logger
 	 */
 	private static function hasWritingPermission($pathToFile)
 	{
-		return touch($pathToFile . 'nadi-debug.log');
+		return @touch($pathToFile . 'nadi-debug.log');
 	}
 
 	/**
