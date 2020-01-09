@@ -122,8 +122,12 @@ class NextADInt_Adi_Init
 
 		// ADI-354 (dme)
 		$configurationService = $this->dc()->getConfiguration();
-		$enableLogging        = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
-		$customPath           = $configurationService->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
+
+		$enableLogging  = $configurationService->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
+		$customPath     = $configurationService->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
+
+		$enableLogging  = apply_filters(NEXT_AD_INT_PREFIX . 'logging_enable', $enableLogging);
+		$customPath     = apply_filters(NEXT_AD_INT_PREFIX . 'logging_custom_path', $customPath);
 
 		NextADInt_Core_Logger::initializeLogger($enableLogging, $customPath);
 
