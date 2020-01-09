@@ -1,4 +1,5 @@
 #!/usr/bin/env groovy
+library 'jenkins-pipeline-configuration'
 library 'jenkins-pipeline-library'
  
 def projectName = "next-active-directory-integration"
