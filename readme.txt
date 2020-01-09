@@ -1,8 +1,8 @@
 ﻿=== Next Active Directory Integration ===
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows, sso
-Requires at least: 4.0
-Tested up to: 5.1.1
+Requires at least: 5.0
+Tested up to: 5.3.2
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -50,8 +50,8 @@ As an owner of a valid support license you have access to the following premium 
 
 = Requirements =
 
-* WordPress since 4.0
-* PHP >= 7.1
+* WordPress since 5.0
+* PHP >= 7.2
 * LDAP support
 * OpenSSL Support for TLS (recommended)
 
@@ -79,7 +79,7 @@ Please read the [FAQ](https://www.active-directory-wp.com/docs/FAQ.html) of our 
 == Installation ==
 
 = Requirements =
-To install Next Active Directory Integration you need at least WordPress 4.0 and PHP 7.1.
+To install Next Active Directory Integration you need at least WordPress 5.0 and PHP 7.2
 
 Although only tested with Apache 2.2 and 2.4 *NADI* should work with all other common web servers like nginx and IIS.
 
@@ -91,12 +91,13 @@ Next Active Directory Integration requires a few PHP modules to be enabled. Plea
 
 = Important =
 
-As of *2019-01-01* NADI will *no* longer support PHP version *< 7.1*. The reason is that security support for PHP 5.6 and PHP 7.0 will be dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php as of December 2018. For security reasons and in order to use NADI in 2019 we hereby politely encourage you to migrate your environments to at least PHP 7.1 until then.
+As of *2020-01-01* NADI did *no* longer support PHP version *< 7.2*. The reason is that security support for PHP 7.1 and below has beeen dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
+For security reasons and in order to use NADI in 2020 we hereby politely encourage you to migrate your environments to at least PHP 7.2 until then.
 
 Thank you all for your support and understanding.
 
 Best regards,
-NeosIT GmbH
+your NADI team.
 
 = Migration from ADI 1.x to NADI =
 Please read [our migration guide](https://www.active-directory-wp.com/docs/Migration/index.html) carefully!
@@ -124,7 +125,19 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 == Changelog ==
 
-For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
+For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
+
+= 2.1.10 =
+
+* CHANGED: minium PHP version to PHP 7.2 due to EOL of PHP 7.1
+* CHANGED Twig version updated to 1.41.0 (ADI-707)
+* FIXED: When a non-existing user inside in WordPress authenticates in a multisite environment the first time, a warning is triggered (ADI-705)
+* FIXED: A deleted user from Active Directory is mapped to the wrong user in WordPress; thanks to T. Kowalchuk (ADI-702)
+* FIXED: PHP warning if user is deleted from Active Directory (ADI-701)
+* FIXED: PHP error if touching of log file failed
+* FIXED: "-DISABLED" suffix is added everytime a user is synchronized (ADI-697, NADIS-110)
+* ADDED: hook next_ad_int_user_before_disable (ADI-699)
+* FIXED: curly brace access (GitHub #119)
 
 = 2.1.9 =
 * ADDED: Premium extension [WP-CLI](https://active-directory-wp.com/premium-extension/) to execute "Sync to WordPress/AD" with wp-cli to circumvent webserver/proxy timeouts (NADIS-98)

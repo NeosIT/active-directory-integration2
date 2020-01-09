@@ -1,4 +1,5 @@
 #!/usr/bin/env groovy
+library 'jenkins-pipeline-configuration'
 library 'jenkins-pipeline-library'
  
 def projectName = "next-active-directory-integration"
@@ -14,7 +15,7 @@ def	pipelineConfiguration = [
 		debug: true,
 		spinnakerName: "${projectName}",
 		rocketChat: [
-			channel: "kubedemo"
+			channel: "nextadi"
 		],
 		delivery: [
 			files: [
