@@ -319,7 +319,11 @@ class NextADInt_Adi_Init
             }
 		}
 
-		if ($isOnLoginPage) {
+		// array of custom login form URIs should be created in NADI settings
+		if ($isOnLoginPage || in_array(strtok($_SERVER["REQUEST_URI"],'?'), array (
+			"/wp-json/jwt-auth/v1/token" ,
+			"/wp-json/jwt-auth/v1/token/validate",
+			))) {
 		    do_action(NEXT_AD_INT_PREFIX . 'register_form_login_services');
 
 			// further hooks must not be executed
