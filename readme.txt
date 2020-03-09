@@ -2,7 +2,7 @@
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows, sso
 Requires at least: 5.0
-Tested up to: 5.3.2
+Tested up to: 5.4
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -14,8 +14,8 @@ Next Active Directory Integration allows WordPress to authenticate, authorize, c
 *Next Active Directory Integration* allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory. *NADI* ist a complete rewrite of its predecessor Active Directory Integration and therefore an own plugin.
 You can easily import users from your Active Directory into your WordPress instance and keep both synchronized through *Next Active Directory Integration's* features.
 
-Even if *NADI* is available for free we hope you purchase a support license to let us continue the work on Next Active Directory Integration.
-You can purchase commercial support licences at [https://www.active-directory-wp.com/shop-overview/](https://www.active-directory-wp.com/shop-overview/). The support license does also contain access to our premium extensions.
+Even if *NADI* is available for free we hope you purchase a plan to let us continue the work on Next Active Directory Integration.
+You can purchase commercial plans at [https://www.active-directory-wp.com/shop-overview/](https://www.active-directory-wp.com/shop-overview/). The plans give you access to our premium extensions.
 
 = Features =
 
@@ -127,10 +127,13 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.1.11 =
+* CHANGED: Tested compatibility with upcoming version 5.4 of WordPress
+
 = 2.1.10 =
 
-* CHANGED: minium PHP version to PHP 7.2 due to EOL of PHP 7.1
-* CHANGED Twig version updated to 1.41.0 (ADI-707)
+* CHANGED: minimum PHP version to PHP 7.2 due to EOL of PHP 7.1
+* CHANGED: Twig version updated to 1.41.0 (ADI-707)
 * FIXED: When a non-existing user inside in WordPress authenticates in a multisite environment the first time, a warning is triggered (ADI-705)
 * FIXED: A deleted user from Active Directory is mapped to the wrong user in WordPress; thanks to T. Kowalchuk (ADI-702)
 * FIXED: PHP warning if user is deleted from Active Directory (ADI-701)
