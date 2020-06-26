@@ -50,7 +50,7 @@ class NextADInt_Adi_Authentication_VerificationService
 		$config->setDomainControllers($data["domain_controllers"]);
 		$config->setPort($data["port"]);
 		$config->setEncryption($data["encryption"]);
-		$config->setSelfSigned($data["allow_self_signed"]);
+		$config->setAllowSelfSigned($data["allow_self_signed"]);
 		$config->setNetworkTimeout($data["network_timeout"]);
 		$config->setBaseDn($data["base_dn"]);
 		$config->setUsername($username);

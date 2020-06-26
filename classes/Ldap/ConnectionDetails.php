@@ -23,7 +23,7 @@ class NextADInt_Ldap_ConnectionDetails
 	private $networkTimeout = null;
 	private $username = null;
 	private $password = null;
-    private $selfSigned = null;
+    private $allowSelfSigned = null;
 
 	/**
 	 * Get the custom base dn.
@@ -112,18 +112,18 @@ class NextADInt_Ldap_ConnectionDetails
 	 * If this value is null, the Connection.php will use the value set by the blog or network admin.
 	 * @return null
 	 */
-        public function getSelfSigned()
+        public function getAllowSelfSigned()
         {
-	   return $this->selfSigned;
+	   return $this->allowSelfSigned;
 	}
   
 	/**
 	 * Set the allow_self_signed setting
 	 * @param bool $selfSigned
 	 */
-	public function setSelfSigned($selfSigned)
+	public function setAllowSelfSigned($allowSelfSigned)
 	{
-		$this->selfSigned = $selfSigned;
+		$this->allowSelfSigned = $allowSelfSigned;
 	}
 
 	/**

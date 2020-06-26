@@ -68,13 +68,19 @@ class NextADInt_Adi_User_Manager
 		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
-	/**
-	 * Find the WordPress user by its internal WordPress id.
-	 *
-	 * @param integer $userId
-	 *
-	 * @return WP_User|false
-	 */
+    public function register() {
+	    // ADI-691: Register callback to handle creation of new email addresses
+        add_filter(NEXT_AD_INT_PREFIX . 'user_create_email', array($this, 'createNewEmailForExistingAddress'), 10, 2);
+    }
+
+    /**
+     * Find the WordPress user by its internal WordPress id.
+     *
+     * @param integer $userId
+     *
+     * @return WP_User|false
+     * @throws Exception
+     */
 	public function findById($userId)
 	{
 		NextADInt_Core_Assert::validId($userId);
@@ -82,20 +88,21 @@ class NextADInt_Adi_User_Manager
 		return $this->userRepository->findById($userId);
 	}
 
-	/**
-	 * Lookup the given usernames (sAMAccountName and userPrincipalName) in the WordPress database.
-	 * They are looked up in the following order
-	 * <ul>
-	 * <li>ADI meta attribute sAMAccountName = $sAMAccountName</li>
-	 * <li>WordPress user_login = $userPrincipalName</li>
-	 * <li>WordPress user_login = $sAMAccountName</li>
-	 * </ul>
-	 *
-	 * @param string $sAMAccountName not empty
-	 * @param string|null $userPrincipalName not empty
-	 *
-	 * @return WP_User
-	 */
+    /**
+     * Lookup the given usernames (sAMAccountName and userPrincipalName) in the WordPress database.
+     * They are looked up in the following order
+     * <ul>
+     * <li>ADI meta attribute sAMAccountName = $sAMAccountName</li>
+     * <li>WordPress user_login = $userPrincipalName</li>
+     * <li>WordPress user_login = $sAMAccountName</li>
+     * </ul>
+     *
+     * @param string $sAMAccountName not empty
+     * @param string|null $userPrincipalName not empty
+     *
+     * @return WP_User|false
+     * @throws Exception
+     */
 	public function findByActiveDirectoryUsername($sAMAccountName, $userPrincipalName)
 	{
 		NextADInt_Core_Assert::notEmpty($sAMAccountName, "sAMAccountName must not be empty");
@@ -155,17 +162,24 @@ class NextADInt_Adi_User_Manager
 		NextADInt_Core_Assert::notNull($credentials, "credentials must not be null");
 		NextADInt_Core_Assert::notNull($ldapAttributes, "ldapAttributes must not be null");
 
-		// NADIS-1: Changed findUserByGuid to findUserBySamAccountName to be able to detect the right user if no guid is available
-		$wpUser = $this->userRepository->findBySAMAccountName($credentials->getSAMAccountName());
+        // ADI-428: Create role mapping based upon the user's objectGUID and not on his sAMAccountName
+        $userGuid = $ldapAttributes->getFilteredValue('objectguid');
+        $roleMapping = $this->roleManager->createRoleMapping($userGuid);
 
+        // NADIS-98/ADI-688: Use objectGuid as primary attribute to identify the user
+        $wpUser = $this->userRepository->findByObjectGuid($userGuid);
+
+        // if user could not be found (= not synchronized yet to WordPress), fall back to sAMAccountName
+        if (!$wpUser) {
+            // NADIS-1: Changed findUserByGuid to findUserBySamAccountName to be able to detect the right user if no guid is available
+            $wpUser = $this->userRepository->findBySAMAccountName($credentials->getSAMAccountName());
+        }
+
+        // if sAMAccountName is also not registered, fall back to UPN
 		if (!$wpUser) {
 			$wpUser = $this->findByActiveDirectoryUsername($credentials->getSAMAccountName(),
 				$credentials->getUserPrincipalName());
 		}
-
-		// ADI-428: Create role mapping based upon the user's objectGUID and not on his sAMAccountName
-		$userGuid = $ldapAttributes->getFilteredValue('objectguid');
-		$roleMapping = $this->roleManager->createRoleMapping($userGuid);
 
 		$r = new NextADInt_Adi_User($credentials, $ldapAttributes);
 
@@ -182,15 +196,16 @@ class NextADInt_Adi_User_Manager
 		return $r;
 	}
 
-	/**
-	 * Create a new {@see WP_User} and persist it.
-	 *
-	 * @param NextADInt_Adi_User $user
-	 * @param bool $syncToWordPress
-	 * @param bool $writeUserMeta
-	 *
-	 * @return WP_User|WP_Error WP_User if creation has been a success
-	 */
+    /**
+     * Create a new {@see WP_User} and persist it.
+     *
+     * @param NextADInt_Adi_User $user
+     * @param bool $syncToWordPress
+     * @param bool $writeUserMeta
+     *
+     * @return WP_User|WP_Error WP_User if creation has been a success
+     * @throws Exception
+     */
 	public function create(NextADInt_Adi_User $user, $syncToWordPress = false, $writeUserMeta = true)
 	{
 		NextADInt_Core_Assert::notNull($user, "user must not be null");
@@ -216,9 +231,8 @@ class NextADInt_Adi_User_Manager
 
 			$user->setUserLogin($wpUserLogin);
 
-			// do not create a user if DUPLICATE_EMAIL_PREVENTION is 'prevent' and the email address is already in use
 			$email = $this->userHelper->getEmailAddress($wpUserLogin, $user->getLdapAttributes()->getFiltered());
-			$this->checkDuplicateEmail($wpUserLogin, $email);
+			$email = $this->handleEmailAddressOfUser(null, $email);
 
 			// create a new user and assign the id to the user object
 			$userId = $this->userRepository->create($user, $email);
@@ -228,8 +242,8 @@ class NextADInt_Adi_User_Manager
 			// ADI-145: provide API
 			do_action(NEXT_AD_INT_PREFIX . 'user_after_create', $user, $syncToWordPress, $writeUserMeta);
 
-			// call updateUser to sync attributes
-			return $this->update($user, $syncToWordPress, $writeUserMeta);
+			// call updateUser to sync attributes but don't update the user's email address as it has been already updated before
+			return $this->update($user, $syncToWordPress, $writeUserMeta, false);
 		} catch (NextADInt_Core_Exception_WordPressErrorException $e) {
 			return $e->getWordPressError();
 		}
@@ -248,40 +262,18 @@ class NextADInt_Adi_User_Manager
 		return (bool)$useSamAccountNameForNewUsers;
 	}
 
-
-	/**
-	 * Check if the given {@see $email} is already existing for another user. If prevention is active and the
-	 * {@see $email} is already existing, an exception is thrown.
-	 *
-	 * @param string $username
-	 * @param string $email
-	 *
-	 * @throws NextADInt_Core_Exception_WordPressErrorException
-	 */
-	protected function checkDuplicateEmail($username, $email)
-	{
-		// get the duplicate email prevention and check if the email is already existing
-		$prevention = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION);
-		$emailAlreadyExists = $this->userRepository->isEmailExisting($email);
-
-		if (NextADInt_Adi_User_DuplicateEmailPrevention::PREVENT == $prevention && $emailAlreadyExists) {
-			// Duplicate emails should be prevented and the email is already existing. So we throw an exception with
-			// our WP_Error
-			$error = new WP_Error('duplicateEmailPrevention', "Can not create user '$username' because he uses an existing email address.");
-			NextADInt_Core_Util_ExceptionUtil::handleWordPressErrorAsException($error);
-		}
-	}
-
-	/**
-	 * Update user information of an existing user
-	 *
-	 * @param NextADInt_Adi_User $user
-	 * @param boolean $syncToWordPress
-	 * @param boolean $writeUserMeta
-	 *
-	 * @return WP_User|WP_Error Updated WordPress user or WP_Error if updating failed
-	 */
-	public function update(NextADInt_Adi_User $user, $syncToWordPress = false, $writeUserMeta = true)
+    /**
+     * Update user information of an existing user
+     *
+     * @param NextADInt_Adi_User $user
+     * @param boolean $syncToWordPress false by default
+     * @param boolean $writeUserMeta true by default
+     * @param bool $updateEmail update the user's email. true by default
+     *
+     * @return WP_User|WP_Error Updated WordPress user or WP_Error if updating failed
+     * @throws Exception
+     */
+	public function update(NextADInt_Adi_User $user, $syncToWordPress = false, $writeUserMeta = true, $updateEmail = true)
 	{
 		NextADInt_Core_Assert::notNull($user, "user must not be null");
 
@@ -309,10 +301,14 @@ class NextADInt_Adi_User_Manager
 			$this->metaRepository->update($user->getId(), NEXT_AD_INT_PREFIX . 'account_suffix',
 				'@' . $credentials->getUpnSuffix());
 
-			// update users email
-			$email = $this->userHelper->getEmailAddress($credentials->getSAMAccountName(),
-				$user->getLdapAttributes()->getFiltered());
-			$this->updateEmail($user, $email);
+			// update users email; this should be only skipped if a user has been previously created.
+            // Otherwise, it's generated email address will be overridden
+            if ($updateEmail) {
+                $email = $this->userHelper->getEmailAddress($credentials->getSAMAccountName(),
+                    $user->getLdapAttributes()->getFiltered());
+
+                $this->updateEmail($user, $email);
+            }
 
 			$wpUser = $this->findById($user->getId());
 
@@ -344,11 +340,12 @@ class NextADInt_Adi_User_Manager
 		}
 	}
 
-	/**
-	 * Check if the password should be updated and update it.
-	 *
-	 * @param NextADInt_Adi_User $user
-	 */
+    /**
+     * Check if the password should be updated and update it.
+     *
+     * @param NextADInt_Adi_User $user
+     * @throws Exception
+     */
 	public function updatePassword($user)
 	{
 		NextADInt_Core_Assert::notNull($user, "userId must be a valid id");
@@ -372,12 +369,13 @@ class NextADInt_Adi_User_Manager
 		add_filter('send_email_change_email', '__return_false');
 	}
 
-	/**
-	 * Update the user, sAMAccountName and roles with by using the {@see NextADInt_Adi_User::getAttributeValues()) and
-	 * {@see NextADInt_Adi_User::getRoleMapping()).
-	 *
-	 * @param NextADInt_Adi_User $user
-	 */
+    /**
+     * Update the user, sAMAccountName and roles with by using the {@see NextADInt_Adi_User::getAttributeValues()) and
+     * {@see NextADInt_Adi_User::getRoleMapping()).
+     *
+     * @param NextADInt_Adi_User $user
+     * @throws Exception
+     */
 	protected function updateWordPressAccount(NextADInt_Adi_User $user)
 	{
 		NextADInt_Core_Assert::notNull($user, "user must not be null");
@@ -399,12 +397,13 @@ class NextADInt_Adi_User_Manager
 		$this->updateUserRoles($user->getId(), $user->getRoleMapping(), $user->isNewUser());
 	}
 
-	/**
-	 * Update the sAMAccountName of given user
-	 *
-	 * @param $userId
-	 * @param $sAMAccountName
-	 */
+    /**
+     * Update the sAMAccountName of given user
+     *
+     * @param $userId
+     * @param $sAMAccountName
+     * @throws Exception
+     */
 	public function updateSAMAccountName($userId, $sAMAccountName)
 	{
 		NextADInt_Core_Assert::validId($userId, "userId must be valid id");
@@ -416,13 +415,14 @@ class NextADInt_Adi_User_Manager
 	}
 
 
-	/**
-	 * Update the roles for the given $userId.
-	 *
-	 * @param integer $userId
-	 * @param NextADInt_Adi_Role_Mapping $roleMapping
-	 * @param bool $isNewUser
-	 */
+    /**
+     * Update the roles for the given $userId.
+     *
+     * @param integer $userId
+     * @param NextADInt_Adi_Role_Mapping $roleMapping
+     * @param bool $isNewUser
+     * @throws Exception
+     */
 	public function updateUserRoles($userId, NextADInt_Adi_Role_Mapping $roleMapping, $isNewUser = false)
 	{
 		NextADInt_Core_Assert::validId($userId, "userId is not valid: $userId");
@@ -436,12 +436,13 @@ class NextADInt_Adi_User_Manager
 		$this->roleManager->synchronizeRoles($wpUser, $roleMapping, $isNewUser);
 	}
 
-	/**
-	 * Update the user meta by the data from the Active Directory ($ldapAttributes)
-	 *
-	 * @param integer $userId
-	 * @param array $ldapAttributes
-	 */
+    /**
+     * Update the user meta by the data from the Active Directory ($ldapAttributes)
+     *
+     * @param integer $userId
+     * @param array $ldapAttributes
+     * @throws Exception
+     */
 	protected function updateUserMetaDataFromActiveDirectory($userId, $ldapAttributes)
 	{
 		NextADInt_Core_Assert::validId($userId, 'userId must be a valid id');
@@ -481,14 +482,15 @@ class NextADInt_Adi_User_Manager
 		}
 	}
 
-	/**
-	 * Filter empty or disallowed attributes from the given $attributeValues.
-	 *
-	 * @param array $ldapAttributes
-	 * @param array $whitelist
-	 *
-	 * @return array
-	 */
+    /**
+     * Filter empty or disallowed attributes from the given $attributeValues.
+     *
+     * @param array $ldapAttributes
+     * @param array $whitelist
+     *
+     * @return array
+     * @throws Exception
+     */
 	protected function filterDisallowedAttributes($ldapAttributes, $whitelist)
 	{
 		NextADInt_Core_Assert::notNull($ldapAttributes, "ldapAttributes must not be null");
@@ -519,7 +521,6 @@ class NextADInt_Adi_User_Manager
 	 *
 	 * @param array $ldapAttributes
 	 * @param array $whitelist
-	 * @param boolean $userMetaEmptyOverwrite
 	 *
 	 * @return array
 	 */
@@ -549,12 +550,13 @@ class NextADInt_Adi_User_Manager
 		);
 	}
 
-	/**
-	 * Update email address for user $userId.
-	 *
-	 * @param NextADInt_Adi_User $user
-	 * @param string $email
-	 */
+    /**
+     * Update email address for user $userId.
+     *
+     * @param NextADInt_Adi_User $user
+     * @param string $email
+     * @throws NextADInt_Core_Exception_WordPressErrorException
+     */
 	protected function updateEmail(NextADInt_Adi_User $user, $email)
 	{
 		// exit if $email is not an email address
@@ -564,58 +566,117 @@ class NextADInt_Adi_User_Manager
 
 		// get userdata
 		$userId = $user->getId();
-		$userData = $this->userRepository->findById($userId);
+		$wpUser = $this->userRepository->findById($userId);
 
-		if (false !== ($userEmail = $this->getEmailForUpdate($userData, $email))) {
+		if ($email !== ($userEmail = $this->handleEmailAddressOfUser($wpUser, $email))) {
+		    // current email and new email differs
 			$this->userRepository->updateEmail($userId, $userEmail);
-
-			return;
 		}
-
-		$this->logger->debug(
-			"Duplicate email address prevention: Existing email '$userData->user_email' left unchanged."
-		);
 	}
 
-	/**
-	 * Check the settings to get the correct email for the user.
-	 *
-	 * @param WP_User $userData
-	 * @param string $email
-	 *
-	 * @return bool|string
-	 */
-	protected function getEmailForUpdate(WP_User $userData, $email)
-	{
-		$duplicateEmailPrevention = $this->configuration->getOptionValue(
-			NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION
-		);
+    /**
+     * Handle the user's email setting:
+     * <ul>
+     * <li>If the email does not exist yet, it will be used</li>
+     * <li>If <em>Duplicate Email prevention</em> is Allow/UNSAFE, the preferred email is also used. This is a hacky way and can be disabled in future WordPress releases</li>
+     * <li>If email does already exist (for a new or existing user) and <em>Duplicate Email prevention</em> is CREATE, the hook next_ad_int_user_create_email is called</li>
+     * <li>If email belongs to another user and <em>Duplicate Email prevention</em> is PREVENT, this method will throw an exception</li>
+     * </ul>
+     *
+     * @see ADI-691
+     * @param WP_User $wpUser |null
+     * @param $preferredEmail
+     * @return string email address to use
+     * @throws NextADInt_Core_Exception_WordPressErrorException If duplicate email is set to PREVENT but email does already exist or any other state is matched
+     */
+	public function handleEmailAddressOfUser($wpUser, $preferredEmail)
+    {
+        // Check if the given emails is already in use. If not, return the current $email.
+        if (!$this->userRepository->isEmailExisting($preferredEmail)) {
+            return $preferredEmail;
+        }
 
-		// Check if duplicate emails are allowed. If duplicate emails are allowed set WP_IMPORTING to TRUE
-		// to force WordPress to take a duplicated email.
-		if (NextADInt_Adi_User_DuplicateEmailPrevention::ALLOW == $duplicateEmailPrevention) {
-			if (!defined('WP_IMPORTING')) {
-				define('WP_IMPORTING', true); // This is a dirty hack. See wp-includes/registration.php
-			}
+        // ---
+        // At this point, the email does already exist.
+        // ---
 
-			return $email;
-		}
+        $ownerOfPreferredEmail = $this->userRepository->findByEmail($preferredEmail);
+        // if the owner of the email it the user to change, the email update will succeed
+        if ($wpUser != null && ($wpUser->ID == $ownerOfPreferredEmail->ID)) {
+            return $preferredEmail;
+        }
 
-		// Check if the given emails is already in use. If not, return the current $email.
-		if (!$this->userRepository->isEmailExisting($email)) {
-			return $email;
-		}
+        // ---
+        // The email address does already exist but its ownership is not for the current user.
+        // We have to check for *Duplicate email prevention* setting.
+        // ---
 
-		// Check if the user has no email and an email should be created
-		if (NextADInt_Adi_User_DuplicateEmailPrevention::CREATE == $duplicateEmailPrevention && !$userData->user_email) {
-			$newEmail = $this->userHelper->createUniqueEmailAddress($email);
-			$this->logger->debug("Duplicate email address prevention: email changed from '$email' to '$newEmail'.");
+        // ADI-691: Introduce hook for duplicate e-mail handling
+        $duplicateEmailPrevention = $this->configuration->getOptionValue(
+            NextADInt_Adi_Configuration_Options::DUPLICATE_EMAIL_PREVENTION
+        );
 
-			return $newEmail;
-		}
+        // Check if duplicate emails are allowed. If duplicate emails are allowed set WP_IMPORTING to TRUE
+        // to force WordPress to take a duplicated email.
+        if (NextADInt_Adi_User_DuplicateEmailPrevention::ALLOW == $duplicateEmailPrevention) {
+            if (!defined('WP_IMPORTING')) {
+                define('WP_IMPORTING', true); // This is a dirty hack. See wp-includes/registration.php
+            }
 
-		return false;
-	}
+            return $preferredEmail;
+        }
+
+        // ---
+        // Email address belongs to another user. How to handle this conflict?
+        // ---
+
+        // With PREVENT we will throw an exception.
+        if (NextADInt_Adi_User_DuplicateEmailPrevention::PREVENT == $duplicateEmailPrevention) {
+            $error = new WP_Error('duplicateEmailPrevention', "Can not use email address '$preferredEmail' for user as it does already exist inside WordPress.");
+            NextADInt_Core_Util_ExceptionUtil::handleWordPressErrorAsException($error);
+
+            // return only required for unit tests
+            return false;
+        }
+
+        // With CREATE, we wil initiate the creation of a new email address
+        if (NextADInt_Adi_User_DuplicateEmailPrevention::CREATE == $duplicateEmailPrevention) {
+            // ADI-691: Add hook for creating new emails
+            return apply_filters(NEXT_AD_INT_PREFIX . 'user_create_email', $wpUser, $preferredEmail);
+        }
+
+        NextADInt_Core_Util_ExceptionUtil::handleWordPressErrorAsException(new WP_Error('invalidDuplicateEmailPreventionState', "Unkonwn state how to handle email address '$preferredEmail'"));
+
+        // return only required for unit tests
+        return false;
+    }
+
+    /**
+     * This hook is called in case of <em>Duplicate email prevention</em> is set to <em>CREATE</em>.
+     * It creates a unique email if
+     * <ul>
+     * <li>the user to change ($wpUserToChange) is null (= new user)</li>
+     * <li>or the email of user to change inside the WordPress' database is not set</li>
+     * </ul>
+     *
+     * In any other case the preferred email is returned
+     *
+     * @since 2.1.9
+     * @see ADI-691
+     * @param WP_User|null $wpUserToChange null, if user has not been created yet
+     * @param $preferredEmail
+     * @return string
+     */
+    public function createNewEmailForExistingAddress($wpUserToChange, $preferredEmail) {
+        $r = $preferredEmail;
+
+        if (!$wpUserToChange || !$wpUserToChange->user_email) {
+            $r = $this->userHelper->createUniqueEmailAddress($preferredEmail);
+            $this->logger->debug("Duplicate email address prevention: email changed from '$preferredEmail' to '$r'.");
+        }
+
+        return $r;
+    }
 
 	/**
 	 * Check if the given WP_User or user ID has a connected Active Directory account to its WordPress account
@@ -649,11 +710,12 @@ class NextADInt_Adi_User_Manager
 		return (!empty($result));
 	}
 
-	/**
-	 * Enable the user for this plugin.
-	 *
-	 * @param integer $userId
-	 */
+    /**
+     * Enable the user for this plugin.
+     *
+     * @param integer $userId
+     * @throws Exception
+     */
 	public function enable($userId)
 	{
 		NextADInt_Core_Assert::validId($userId);
@@ -687,11 +749,23 @@ class NextADInt_Adi_User_Manager
 	 */
 	public function disable($userId, $reason)
 	{
-		$wpUser = $this->userRepository->findById($userId);
+	    $isUserAlreadyDisabled = $this->metaRepository->isUserDisabled($userId);
+        $wpUser = $this->userRepository->findById($userId);
+
+        // ADI-699: Add hook user_before_disable
+	    do_action(NEXT_AD_INT_PREFIX . 'user_before_disable', $wpUser, $isUserAlreadyDisabled);
+
+        if ($isUserAlreadyDisabled) {
+            $this->logger->debug("User with id '{$userId}' has been already disabled");
+	        return;
+        }
+
 		$this->metaRepository->disableUser($wpUser, $reason);
 
 		// Change e-mail of user to be disabled to prevent him from restoring his password.
-		$this->userRepository->updateEmail($userId, $wpUser->user_email . '-DISABLED');
+        $suffix = '-DISABLED';
+        $cleanMail = str_replace($suffix, '', $wpUser->user_email);
+		$this->userRepository->updateEmail($userId, $cleanMail . $suffix);
 		$this->logger->warn('Disabled user with user id ' . $userId . ' with reason: ' . $reason);
 
 		// ADI-145: provide API

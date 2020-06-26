@@ -165,6 +165,12 @@ class NextADInt_Adi_User_Persistence_Repository
 	 */
 	public function findByObjectGuid($guid)
 	{
+	    // ADI-702: A deleted user from Active Directory is mapped to the wrong user in WordPress
+        // Originally fixed and report by T. Kowalchuk <kowaty[at]<redacted>wi.us>
+	    if (empty(trim($guid))) {
+	        return false;
+        }
+
 		$result = $this->findByMetaKey(NEXT_AD_INT_PREFIX . self::META_KEY_OBJECT_GUID, $guid);
 
 		return NextADInt_Core_Util_ArrayUtil::findFirstOrDefault($result, false);

@@ -165,7 +165,7 @@ class adLDAP {
 	 *
 	 * @var unknown_type
 	 */
-	const VERSION = '3.3.2 EXTENDED (201302271401)';
+	const VERSION = '3.3.2 EXTENDED (20200626)';
 
 	/**
 	 * ADI-545 Debug information about LDAP Connection (DME)
@@ -457,14 +457,14 @@ class adLDAP {
     	ldap_set_option($this->_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
 
         if ($this->_allow_self_signed == true) {
-	  if(version_compare(PHP_VERSION, '7.0.5', '>=')) {
-            ldap_set_option($this->_conn, LDAP_OPT_X_TLS_REQUIRE_CERT, 0);
-	  } else {
-	    // Older versions of PHP (<7.0.5) need this environment setting to ignore the certificate
-	    putenv('LDAPTLS_REQCERT=never');
-	  }
-	}
-	
+            if (version_compare(PHP_VERSION, '7.0.5', '>=')) {
+                ldap_set_option($this->_conn, LDAP_OPT_X_TLS_REQUIRE_CERT, 0);
+            } else {
+                // Older versions of PHP (<7.0.5) need this environment setting to ignore the certificate
+                putenv('LDAPTLS_REQCERT=never');
+            }
+        }
+
         // Connect to the AD/LDAP server as the username/password
         $this->_last_used_dc = $this->random_controller();
 
@@ -481,6 +481,10 @@ class adLDAP {
                 // fallback to default SSL port
 				$usePort = 636;
             }
+			
+			// NADIS-94: With some PHP/LDAP compilations, the ldap_connect(..., $usePort) parameter is ignored when SSL is used.
+			// when SSL is being used, we assign the selected port to the URI
+			$url .= ":" . $usePort;
         }
 
 		$this->_conn = ldap_connect($url, $usePort);
@@ -500,6 +504,8 @@ class adLDAP {
 		}
         
         if ($this->_use_tls) {
+            // if this returns a warning "Unable to start TLS: Server is unavailable", the AD does not provide a certificate on port 389
+            // @see https://active-directory-wp.com/docs/Networking/Encryption_with_TLS.html
            ldap_start_tls($this->_conn);
         }
                
@@ -817,6 +823,7 @@ class adLDAP {
     	$filter="(&(objectCategory=user)(primarygroupid=".$pgid."))";
     	
     	// Let's use paging if available
+        // gh-#127: PHP 7.4 compatibility; ldap_control_paged* is deprecated
     	if (function_exists('ldap_control_paged_result')) {
     		
     		$pageSize = 500;
@@ -825,7 +832,7 @@ class adLDAP {
 	    	$users_page = array();
 	    	
 	    	do {
-	    		ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
+	    		@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
 	    	
 		        $sr = ldap_search($this->_conn, $this->_base_dn, $filter, array('dn'));
 		        $users_page = ldap_get_entries($this->_conn, $sr);
@@ -835,13 +842,13 @@ class adLDAP {
 		        }
 		        
 		        $users = array_merge($users, $users_page);
-	    		ldap_control_paged_result_response($this->_conn, $sr, $cookie);
+	    		@ldap_control_paged_result_response($this->_conn, $sr, $cookie);
 	    		 
 	    	} while($cookie !== null && $cookie != '');
 			
 			$users['count'] = count($users) -1; // Set a new count value !important!
 			
-			ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
+			@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
 	    	
     	} else {
     		
@@ -1007,6 +1014,7 @@ class adLDAP {
         if ($fields===NULL){ $fields=array("member","memberof","cn","description","distinguishedname","objectcategory","samaccountname"); }
         
         // Let's use paging if available
+        // gh-#127: PHP 7.4 compatibility; ldap_control_paged* is deprecated
 		if (function_exists('ldap_control_paged_result')) {
         
         	$pageSize = 500;
@@ -1015,7 +1023,7 @@ class adLDAP {
         	$entries_page = array();
         
         	do {
-        		ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
+        		@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
         
         		$sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
         		$entries_page = ldap_get_entries($this->_conn, $sr);
@@ -1025,13 +1033,13 @@ class adLDAP {
         		}
         
         		$entries = array_merge($entries, $entries_page);
-        		ldap_control_paged_result_response($this->_conn, $sr, $cookie);
+        		@ldap_control_paged_result_response($this->_conn, $sr, $cookie);
         
         	} while($cookie !== null && $cookie != '');
 			
 			$entries['count'] = count($entries) - 1; // Set a new count value !important!
 			
-			ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
+			@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
         
         } else {
         
@@ -2726,7 +2734,7 @@ class adLDAP {
     protected function encode_password($password){
         $password="\"".$password."\"";
         $encoded="";
-        for ($i=0; $i <strlen($password); $i++){ $encoded.="{$password{$i}}\000"; }
+        for ($i=0; $i <strlen($password); $i++){ $encoded.="{$password[$i]}\000"; }
         return ($encoded);
     }
     

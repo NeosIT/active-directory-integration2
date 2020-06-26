@@ -1,8 +1,8 @@
 ﻿=== Next Active Directory Integration ===
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
-Tags: authentication, active directory, ldap, authorization, security, windows
-Requires at least: 4.0
-Tested up to: 5.0.3
+Tags: authentication, active directory, ldap, authorization, security, windows, sso
+Requires at least: 5.0
+Tested up to: 5.4
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -14,8 +14,8 @@ Next Active Directory Integration allows WordPress to authenticate, authorize, c
 *Next Active Directory Integration* allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory. *NADI* ist a complete rewrite of its predecessor Active Directory Integration and therefore an own plugin.
 You can easily import users from your Active Directory into your WordPress instance and keep both synchronized through *Next Active Directory Integration's* features.
 
-Even if *NADI* is available for free we hope you purchase a support license to let us continue the work on Next Active Directory Integration.
-You can purchase commercial support licences at [https://www.active-directory-wp.com/shop-overview/](https://www.active-directory-wp.com/shop-overview/). The support license does also contain access to our premium extensions.
+Even if *NADI* is available for free we hope you purchase a plan to let us continue the work on Next Active Directory Integration.
+You can purchase commercial support plans at [https://www.active-directory-wp.com/shop-overview/](https://www.active-directory-wp.com/shop-overview/). The support plans give you access to our premium extensions and guarantee an ongoing development of the plug-in.
 
 = Features =
 
@@ -39,18 +39,19 @@ You can purchase commercial support licences at [https://www.active-directory-wp
 
 = Premium Extensions =
 
-As an owner of a valid support license you have access to the following premium extensions:
+As an owner of a valid support plan you have access to the following premium extensions:
 
 * Profile Pictures: Synchronize profile photos from Active Directory to WordPress without a 3rd party plug-in
 * BuddyPress profile photo: Synchronize profile photos from Active Directory to BuddyPress
 * Buddy Press simple attributes: Synchronize attributes from Active Directory/NADI to BuddyPress' custom profiles
 * Login with Ultimate Member: Let UM users log in by using NADI
 * Login with WooCommerce: Let WooCommerce users log in by using NADI
+* WP-CLI: Execute common NADI tasks (Sync to WordPress, Sync to AD) with help of WP-CLI
 
 = Requirements =
 
-* WordPress since 4.0
-* PHP >= 5.6
+* WordPress since 5.0
+* PHP >= 7.2
 * LDAP support
 * OpenSSL Support for TLS (recommended)
 
@@ -78,25 +79,25 @@ Please read the [FAQ](https://www.active-directory-wp.com/docs/FAQ.html) of our 
 == Installation ==
 
 = Requirements =
-To install Next Active Directory Integration you need at least WordPress 4.0 and PHP 5.6
+To install Next Active Directory Integration you need at least WordPress 5.0 and PHP 7.2
 
 Although only tested with Apache 2.2 and 2.4 *NADI* should work with all other common web servers like nginx and IIS.
 
-Next Active Directory Integration requires a few PHP modules to be enabled. Please verify in your `php.ini` that *ldap*, *mbstring* and *openssl* are activated.
+Next Active Directory Integration requires a few PHP modules to be enabled. Please verify in your `php.ini` that *ldap* and *openssl* are activated.
 
 	; required by *NADI*
 	extension=php_ldap.dll
-	extension=php_mbstring.dll
 	extension=php_openssl.dll
 
 = Important =
 
-As of *31.12.2018* NADI will *no* longer support PHP version *< 7.1*. The reason is that security support for PHP 5.6 and PHP 7.0 will be dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php as of December 2018. For security reasons and in order to use NADI in 2019 we hereby politely encourage you to migrate your environments to at least PHP 7.1 until then.
+As of *2020-07-01* NADI did *no* longer support PHP version *< 7.2*. The reason is that security support for PHP 7.1 and below has beeen dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
+For security reasons and in order to use NADI in 2020 we hereby politely encourage you to migrate your environments to at least PHP 7.2 until then.
 
 Thank you all for your support and understanding.
 
 Best regards,
-NeosIT GmbH
+your NADI team.
 
 = Migration from ADI 1.x to NADI =
 Please read [our migration guide](https://www.active-directory-wp.com/docs/Migration/index.html) carefully!
@@ -124,7 +125,40 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 == Changelog ==
 
-For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
+For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
+
+= 2.1.12 =
+* ADDED: PR gh-#107: allow self signed certificates
+* CHANGED: notices for minimum PHP version 7.2 due to EOL of PHP 7.1
+* FIXED: Test compatibility with latest stable PHPUnit version
+* FIXED: gh-#127: PHP 7.4 compatibility and deprecation of some ldap_* functions
+* FIXED: various typos and formatting errors in the administration user interface
+
+= 2.1.11 =
+* CHANGED: Tested compatibility with upcoming version 5.4 of WordPress
+
+= 2.1.10 =
+
+* CHANGED: minimum PHP version to PHP 7.2 due to EOL of PHP 7.1
+* CHANGED: Twig version updated to 1.41.0 (ADI-707)
+* FIXED: When a non-existing user inside in WordPress authenticates in a multisite environment the first time, a warning is triggered (ADI-705)
+* FIXED: A deleted user from Active Directory is mapped to the wrong user in WordPress; thanks to T. Kowalchuk (ADI-702)
+* FIXED: PHP warning if user is deleted from Active Directory (ADI-701)
+* FIXED: PHP error if touching of log file failed
+* FIXED: "-DISABLED" suffix is added everytime a user is synchronized (ADI-697, NADIS-110)
+* ADDED: hook next_ad_int_user_before_disable (ADI-699)
+* FIXED: curly brace access (GitHub #119)
+
+= 2.1.9 =
+* ADDED: Premium extension [WP-CLI](https://active-directory-wp.com/premium-extension/) to execute "Sync to WordPress/AD" with wp-cli to circumvent webserver/proxy timeouts (NADIS-98)
+* ADDED: option to disable SSO when using XML-RPC (ADI-679, NADIS-92)
+* FIXED: when changing the sAMAccountName or userPrincipalName in the AD a new user would have been created in WordPress (ADI-688, NADIS-89)
+* FIXED: Ultimate Member premium plug-in no longer works with new NADI version (ADI-687, NADIS-96)
+* FIXED: bug in adLDAP library; when LDAPS is enabled a custom port would not have been applied (ADI-690, NADIS-94)
+* ADDED: hook next_ad_int_user_create_email which is executed when "Duplicate email prevention" is set to "Create" (ADI-691)
+* FIXED: various issues with "Duplicate email prevention"; refactored logic (ADI-691)
+* FIXED: NADI got disabled when using any WP-CLI command (ADI-692)
+* ADDED: logging configuration can be set with filters (ADI-693)
 
 = 2.1.8 =
 * FIXED: compatibility issues when using the Woffice theme (ADI-659)

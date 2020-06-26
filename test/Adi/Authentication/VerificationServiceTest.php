@@ -65,7 +65,8 @@ class Ut_NextADInt_Adi_Authentication_VerificationServiceTest extends Ut_BasicTe
 			'network_timeout' => 5,
 			'base_dn' => 'DC=test;DC=ad',
 			'verification_username' => 'administrator',
-			'verification_password' => 'password'
+			'verification_password' => 'password',
+			'allow_self_signed' => true
 		);
 		
 		$config = new NextADInt_Ldap_ConnectionDetails();
@@ -76,6 +77,7 @@ class Ut_NextADInt_Adi_Authentication_VerificationServiceTest extends Ut_BasicTe
 		$config->setBaseDn($data["base_dn"]);
 		$config->setUsername($data["verification_username"]);
 		$config->setPassword($data["verification_password"]);
+		$config->setAllowSelfSigned($data['allow_self_signed']);
 		
 		$this->ldapConnection->expects($this->once())
 			->method('isConnected')

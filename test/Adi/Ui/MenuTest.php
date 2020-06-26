@@ -82,9 +82,9 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 
 		$sut->expects($this->exactly(1))
 			->method('addAjaxListener')
-			->withConsecutive(
+			->withConsecutive(array(
 				$this->blogConfigurationPage
-			);
+			));
 
 		$sut->register();
 	}

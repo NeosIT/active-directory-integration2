@@ -67,8 +67,8 @@ class Ut_NextADInt_Adi_Multisite_Ui_MenuTest extends Ut_BasicTest
 		$sut->expects($this->exactly(2))
 			->method('addAjaxListener')
 			->withConsecutive(
-				$this->blogProfileRelationshipPage,
-				$this->profileConfigurationPage
+				[$this->blogProfileRelationshipPage],
+				[$this->profileConfigurationPage]
 			);
 
 		$sut->register();

@@ -245,6 +245,21 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 		$this->assertEquals($wpUser, $actual);
 	}
 
+    /**
+     * @test
+     * @issue ADI-702
+     */
+	public function findByObjectGuid_withEmptyGuid_itReturnsFalse() {
+        $sut = $this->sut(array('findByMetaKey'));
+
+        $sut->expects($this->never())
+            ->method('findByMetaKey');
+
+        $actual = $sut->findByObjectGuid('');
+
+        $this->assertEquals(false, $actual);
+    }
+
 	/**
 	 * @test
 	 */
