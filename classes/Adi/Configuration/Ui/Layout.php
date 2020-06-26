@@ -63,7 +63,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 					self::DESCRIPTION => array(
 						__(
-							'<span class="adi-important-message"><b>IMPORTANT NOTICE: END OF PHP VERSION <7.1 SUPPORT </b></span><br><span>We hereby inform you that as of <b>2019-01-01</b> NADI will no longer support PHP version <b>< 7.1</b> due to security support being dropped for <b>PHP 5.6</b> and <b>PHP 7.0</b> as you can see in the <a href="http://php.net/supported-versions.php" target="_blank">official PHP documentation</a>. For security reasons and in order to use NADI in 2019 we hereby politely encourage you to migrate your environments to at least <b>PHP 7.1</b> until then.</span><br>',
+							'<span class="adi-important-message"><b>IMPORTANT NOTICE: END OF PHP VERSION <7.2 SUPPORT </b></span><br><span>We hereby inform you that as of <b>2020-07-01</b> NADI will no longer support PHP version <b>< 7.2</b> due to security support being dropped for older version as you can see in the <a href="http://php.net/supported-versions.php" target="_blank">official PHP documentation</a>. For security reasons and in order to use NADI in 2020 we hereby politely encourage you to migrate your environments to at least <b>PHP 7.2</b> until then.</span><br>',
 							'next-active-directory-integration'
 						),
 						__(
@@ -256,17 +256,17 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					// Group description
 					self::DESCRIPTION => array(
 						__(
-							'User attributes from the Active Directory are stored as User Meta Data. These attributes can then be used in your themes and they can be shown on the profile page of your users. ',
+							'User attributes from the Active Directory are stored as user meta data. These attributes can then be used in your themes and they can be shown on the profile page of your users. ',
 							'next-active-directory-integration'
 						),
 						__(
-							'The attributes are only stored in the WordPress database if you activate "Automatic User Creation" and are only updated if you activate "Automatic User Update" on tab "User". If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/Attributes.html">documentation</a>.',
+							'The attributes are only stored in the WordPress database if you activate <em>Automatic User Creation</em> and are only updated if you activate <em>Automatic User Update</em> on tab <em>User</em>. If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/Attributes.html">documentation</a>.',
 							'next-active-directory-integration'
 						),
 						'',
-						sprintf(__('The following WordPress attributes are reserved by NADI and cannot be used: %s', 'next-active-directory-integration'), implode(', ', NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys())),
+						sprintf(__('The following WordPress attributes are reserved by NADI and cannot be used: <em>%s</em>', 'next-active-directory-integration'), implode(', ', NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys())),
 						__(
-							'<span class="adi-pe-message"><b>Premium Extensions: </b>BuddyPress simple attributes, BuddyPress profile photo, Profile Pictures and User Photo integration <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
+							'<span class="adi-pe-message"><b>Premium Extensions: </b>BuddyPress Simple Attributes, BuddyPress Profile Photo, Profile Pictures and User Photo integration <a href="https://active-directory-wp.com/premium-extension/">are available</a>.</span>',
 							'next-active-directory-integration'
 						),
 					),
@@ -304,7 +304,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 				__('Sync To WordPress', 'next-active-directory-integration') => array(
 					// Group description
 					self::DESCRIPTION => __(
-						'You can import/update the users from Active Directory, for example by using a cron job. If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/Sync_to_WordPress.html">documentation</a>.',
+						'You can import/update the users from your Active Directory, for example by using a cron job. If you require further information about this page please take a look at our <a target="_blank" href="https://active-directory-wp.com/docs/Configuration/Sync_to_WordPress.html">documentation</a>.',
 						'next-active-directory-integration'
 					),
 					// Group elements in group

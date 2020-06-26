@@ -20,7 +20,7 @@ class NextADInt_Multisite_Option_Attribute
 	const DESCRIPTION = 'description';
 	const DETAIL = 'detail';
 	const ANGULAR_ATTRIBUTES = 'angular_attributes';
-    const ANGULAR_BUTTON_ATTRIBUTES = 'angular_button_attributes';
+	const ANGULAR_BUTTON_ATTRIBUTES = 'angular_button_attributes';
 	const SHOW_PERMISSION = 'show_permission';
 	const TRANSIENT = 'transient';
 

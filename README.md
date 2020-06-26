@@ -32,7 +32,7 @@ Tests are made with PHPUnit 7. Get PHPUnit 7 with
 ```shell
  	cd active-directory-integration2
 	# run unit tests with default PHPUnit configuration
-	php path/to/phpunit.phar --testsuite "unit" --configuration phpunit.xml
+	php ./vendor/bin/phpunit --testsuite "unit" --configuration phpunit.xml
 ``` 
 
 #### Running integration tests 

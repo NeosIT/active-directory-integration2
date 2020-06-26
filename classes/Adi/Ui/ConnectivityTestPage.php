@@ -151,6 +151,7 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		if (!wp_verify_nonce($post['security'], self::NONCE)) {
 			$message = __('You do not have sufficient permissions.', 'next-active-directory-integration');
 			wp_die($message);
+			return;
 		}
 
 		$username = $post['username'];

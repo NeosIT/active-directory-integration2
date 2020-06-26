@@ -783,6 +783,7 @@ class adLDAP {
     	$filter="(&(objectCategory=user)(primarygroupid=".$pgid."))";
     	
     	// Let's use paging if available
+        // gh-#127: PHP 7.4 compatibility; ldap_control_paged* is deprecated
     	if (function_exists('ldap_control_paged_result')) {
     		
     		$pageSize = 500;
@@ -791,7 +792,7 @@ class adLDAP {
 	    	$users_page = array();
 	    	
 	    	do {
-	    		ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
+	    		@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
 	    	
 		        $sr = ldap_search($this->_conn, $this->_base_dn, $filter, array('dn'));
 		        $users_page = ldap_get_entries($this->_conn, $sr);
@@ -801,13 +802,13 @@ class adLDAP {
 		        }
 		        
 		        $users = array_merge($users, $users_page);
-	    		ldap_control_paged_result_response($this->_conn, $sr, $cookie);
+	    		@ldap_control_paged_result_response($this->_conn, $sr, $cookie);
 	    		 
 	    	} while($cookie !== null && $cookie != '');
 			
 			$users['count'] = count($users) -1; // Set a new count value !important!
 			
-			ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
+			@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
 	    	
     	} else {
     		
@@ -973,6 +974,7 @@ class adLDAP {
         if ($fields===NULL){ $fields=array("member","memberof","cn","description","distinguishedname","objectcategory","samaccountname"); }
         
         // Let's use paging if available
+        // gh-#127: PHP 7.4 compatibility; ldap_control_paged* is deprecated
 		if (function_exists('ldap_control_paged_result')) {
         
         	$pageSize = 500;
@@ -981,7 +983,7 @@ class adLDAP {
         	$entries_page = array();
         
         	do {
-        		ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
+        		@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
         
         		$sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
         		$entries_page = ldap_get_entries($this->_conn, $sr);
@@ -991,13 +993,13 @@ class adLDAP {
         		}
         
         		$entries = array_merge($entries, $entries_page);
-        		ldap_control_paged_result_response($this->_conn, $sr, $cookie);
+        		@ldap_control_paged_result_response($this->_conn, $sr, $cookie);
         
         	} while($cookie !== null && $cookie != '');
 			
 			$entries['count'] = count($entries) - 1; // Set a new count value !important!
 			
-			ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
+			@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
         
         } else {
         

@@ -15,7 +15,7 @@ Next Active Directory Integration allows WordPress to authenticate, authorize, c
 You can easily import users from your Active Directory into your WordPress instance and keep both synchronized through *Next Active Directory Integration's* features.
 
 Even if *NADI* is available for free we hope you purchase a plan to let us continue the work on Next Active Directory Integration.
-You can purchase commercial plans at [https://www.active-directory-wp.com/shop-overview/](https://www.active-directory-wp.com/shop-overview/). The plans give you access to our premium extensions.
+You can purchase commercial support plans at [https://www.active-directory-wp.com/shop-overview/](https://www.active-directory-wp.com/shop-overview/). The support plans give you access to our premium extensions and guarantee an ongoing development of the plug-in.
 
 = Features =
 
@@ -39,7 +39,7 @@ You can purchase commercial plans at [https://www.active-directory-wp.com/shop-o
 
 = Premium Extensions =
 
-As an owner of a valid support license you have access to the following premium extensions:
+As an owner of a valid support plan you have access to the following premium extensions:
 
 * Profile Pictures: Synchronize profile photos from Active Directory to WordPress without a 3rd party plug-in
 * BuddyPress profile photo: Synchronize profile photos from Active Directory to BuddyPress
@@ -91,7 +91,7 @@ Next Active Directory Integration requires a few PHP modules to be enabled. Plea
 
 = Important =
 
-As of *2020-01-01* NADI did *no* longer support PHP version *< 7.2*. The reason is that security support for PHP 7.1 and below has beeen dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
+As of *2020-07-01* NADI did *no* longer support PHP version *< 7.2*. The reason is that security support for PHP 7.1 and below has beeen dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
 For security reasons and in order to use NADI in 2020 we hereby politely encourage you to migrate your environments to at least PHP 7.2 until then.
 
 Thank you all for your support and understanding.
@@ -126,6 +126,12 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 == Changelog ==
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
+
+= 2.1.12 =
+* CHANGED: notices for minium PHP version 7.2 due to EOL of PHP 7.1
+* FIXED: Test compatibility with latest stable PHPUnit version
+* FIXED: gh-#127: PHP 7.4 compatibility and deprecation of some ldap_* functions
+* FIXED: various typos and formatting errors in the administration user interface
 
 = 2.1.11 =
 * CHANGED: Tested compatibility with upcoming version 5.4 of WordPress
