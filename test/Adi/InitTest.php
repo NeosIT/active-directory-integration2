@@ -1022,7 +1022,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
     public function registerCore_willRegisterHooks()
     {
         $sut = $this->sut(array('registerAuthentication', 'dc',
-            'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks'));
+            'registerSharedAdministrationHooks', 'registerUserProfileHooks', 'registerAdministrationHooks', 'registerSynchronizationHooks'));
 
         $sut->expects($this->once())->method('registerAuthentication')->willReturn(true);
 
@@ -1033,7 +1033,8 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $sut->expects($this->once())->method('registerSharedAdministrationHooks');
         $sut->expects($this->once())->method('registerUserProfileHooks');
         $sut->expects($this->once())->method('registerAdministrationHooks');
-
+		$sut->expects($this->once())->method('registerSynchronizationHooks');
+		
         $actual = $sut->registerCore();
 
         $this->assertTrue($actual);

@@ -86,6 +86,15 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	}
 
 	/**
+	 * Add Sync to WordPress trigger hook
+	 */
+	public function register()
+	{
+		add_action(NEXT_AD_INT_PREFIX . 'ad2wp_execute_synchronization', array($this, 'synchronize'));
+	}
+
+
+	/**
 	 * Get all users from certain Active Directory groups and import them as WordPress user into the WordPress database.
 	 *
 	 * @return bool
@@ -93,6 +102,9 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 */
 	public function synchronize()
 	{
+
+		$this->logger->info("synchronize called by Sync to WordPress hook");
+
 		if (!$this->prepareForSync()) {
 			return false;
 		}

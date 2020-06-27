@@ -133,6 +133,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 * FIXED: Test compatibility with latest stable PHPUnit version
 * FIXED: gh-#127: PHP 7.4 compatibility and deprecation of some ldap_* functions
 * FIXED: various typos and formatting errors in the administration user interface
+* ADDED: hook for triggering Sync To WordPress and Sync To AD (ADI-526)
 
 = 2.1.11 =
 * CHANGED: Tested compatibility with upcoming version 5.4 of WordPress

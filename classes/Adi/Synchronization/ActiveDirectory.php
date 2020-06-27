@@ -36,6 +36,14 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
+	/**
+	 * Add Sync to WordPress trigger hook
+	 */
+	public function register()
+	{
+		add_action(NEXT_AD_INT_PREFIX . 'wp2ad_execute_synchronization', array($this, 'synchronize'));
+	}
+
 
 	/**
 	 * Get all attribute values of WordPress users and synchronize them with the corresponding Active Directory users.
