@@ -40,7 +40,7 @@ class Ut_Core_Migration_MigratorTest extends Ut_BasicTest
 	/** @var NextADInt_Core_Migration_Persistence_MigrationRepository | PHPUnit_Framework_MockObject_MockObject */
 	private $migrationRepository;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -68,12 +68,12 @@ class Ut_Core_Migration_MigratorTest extends Ut_BasicTest
 
 	/**
 	 * @test
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage The migration with ID "2" has a duplicate.
 	 */
 	public function getOrderedMigrations_withDuplicate_throwsException()
 	{
 		$sut = $this->sut(array('getMigrations'));
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage('The migration with ID "2" has a duplicate.');
 
 		$sut->expects($this->once())
 			->method('getMigrations')

@@ -9,12 +9,12 @@ if (class_exists('Ut_NextADInt_Multisite_Validator_Rule_ConditionalTest')) {
 
 class Ut_NextADInt_Multisite_Validator_Rule_ConditionalTest extends Ut_BasicTest
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

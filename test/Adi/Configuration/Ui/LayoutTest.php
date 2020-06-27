@@ -7,12 +7,12 @@
 class Ut_NextADInt_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 {
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -54,15 +54,13 @@ class Ut_NextADInt_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 		$bruteForce = $security['Brute-Force-Protection'];
 		$this->assertTrue(is_array($bruteForce));
 
+		$actual = array(
+			"For security reasons you can use the following options to prevent brute force attacks on your user accounts.",
+			"<div class=\"update-message notice inline notice-warning notice-alt\"> We highly recommend you to use <a href=\"https://wordpress.org/plugins/better-wp-security/\">iThemes Security</a> to secure your WordPress environment. <br> NADI Brute Force Protection will not receive updates anymore after the NADI v2.0.13 release and we are planning on removing it completely later this year. </div>",
+			);
+
 		$description = $bruteForce[NextADInt_Adi_Configuration_Ui_Layout::DESCRIPTION];
-		$this->assertEquals(
-            'For security reasons you can use the following options to prevent brute force attacks on your user accounts. <br>' .
-            '<div class="update-message notice inline notice-warning notice-alt">'.
-            'We highly recommend you to use <a href="https://wordpress.org/plugins/better-wp-security/">iThemes Security</a> to secure your WordPress environment. <br>' .
-            'NADI Brute Force Protection will not receive updates anymore after the NADI v2.0.13 release and we are planning on removing it completely later this year.' .
-            '</div>',
-			$description
-		);
+		$this->assertEquals($actual, $description);
 
 		$options = $bruteForce[NextADInt_Adi_Configuration_Ui_Layout::OPTIONS];
 		$this->assertEquals(NextADInt_Adi_Configuration_Options::MAX_LOGIN_ATTEMPTS, $options[0]);

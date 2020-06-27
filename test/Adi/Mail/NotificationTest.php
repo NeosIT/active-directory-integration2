@@ -12,7 +12,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	/* @var NextADInt_Ldap_Connection| PHPUnit_Framework_MockObject_MockObject */
 	private $ldapConnection;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -20,7 +20,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$this->ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -71,8 +71,8 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('hugo2', $mail->getUsername());
-				PHPUnit_Framework_Assert::assertEquals(true, $mail->getTargetUser());
+				$this->assertEquals('hugo2', $mail->getUsername());
+				$this->assertEquals(true, $mail->getTargetUser());
 			}));
 
 		$sut->sendNotifications($wpUser);
@@ -106,8 +106,8 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('hugo2', $mail->getUsername());
-				PHPUnit_Framework_Assert::assertEquals(false, $mail->getTargetUser());
+				$this->assertEquals('hugo2', $mail->getUsername());
+				$this->assertEquals(false, $mail->getTargetUser());
 			}));
 
 		$sut->sendNotifications($wpUser);
@@ -165,7 +165,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('hugo', $mail->getUsername());
+				$this->assertEquals('hugo', $mail->getUsername());
 				return true;
 			}));
 
@@ -205,7 +205,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('Hugo', $mail->getFirstName());
+				$this->assertEquals('Hugo', $mail->getFirstName());
 				return true;
 			}));
 
@@ -242,7 +242,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('Testuser', $mail->getSecondName());
+				$this->assertEquals('Testuser', $mail->getSecondName());
 				return true;
 			}));
 
@@ -279,7 +279,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('hugo@test.ad', $mail->getEmail());
+				$this->assertEquals('hugo@test.ad', $mail->getEmail());
 				return true;
 			}));
 
@@ -324,7 +324,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('http://localhost/wordpress1/wordpress', $mail->getBlogUrl());
+				$this->assertEquals('http://localhost/wordpress1/wordpress', $mail->getBlogUrl());
 				return true;
 			}));
 
@@ -380,7 +380,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('admin@test.local', $mail->getFromEmail());
+				$this->assertEquals('admin@test.local', $mail->getFromEmail());
 				return true;
 			}));
 
@@ -436,7 +436,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('', $mail->getFromEmail());
+				$this->assertEquals('', $mail->getFromEmail());
 				return true;
 			}));
 
@@ -481,7 +481,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('My Own Blog', $mail->getBlogName());
+				$this->assertEquals('My Own Blog', $mail->getBlogName());
 				return true;
 			}));
 
@@ -529,7 +529,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('30', $mail->getBlockTime());
+				$this->assertEquals('30', $mail->getBlockTime());
 				return true;
 			}));
 
@@ -568,7 +568,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('127.0.0.1', $mail->getRemoteAddress());
+				$this->assertEquals('127.0.0.1', $mail->getRemoteAddress());
 				return true;
 			}));
 
@@ -757,7 +757,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
 				// validate NextADInt_Adi_Mail_Message object
-				PHPUnit_Framework_Assert::assertEquals('hugo', $mail->getUsername());
+				$this->assertEquals('hugo', $mail->getUsername());
 				return array('invalid1', 'invalid2');
 			}));
 

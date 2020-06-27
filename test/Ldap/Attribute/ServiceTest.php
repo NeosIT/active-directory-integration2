@@ -23,7 +23,7 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	 */
 	private $adLdap;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -38,7 +38,7 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 		$this->adLdap = parent::createMock('adLDAP');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -102,7 +102,7 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 		$attribute->setViewable(true);
 
 		$expected = new NextADInt_Ldap_Attributes(false, array($attribute));
-		$credentials = new NextADInt_Adi_Authentication_Credentials('sam@test.ad', 'pw');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('sam@test.ad', 'pw');
 
 		$sut->expects($this->exactly(3))
 			->method('findLdapAttributesOfUsername')
@@ -257,7 +257,7 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	public function getObjectSid_itReturnsObjectSidOfUsername()
 	{
 		$sut = $this->sut(array('findLdapCustomAttributeOfUser'));
-		$credentials = new NextADInt_Adi_Authentication_Credentials("user@upn");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("user@upn");
 
 		$sut->expects($this->once())
 			->method('findLdapCustomAttributeOfUser')
@@ -284,7 +284,7 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('findLdapCustomAttributeOfUsername'));
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials('user@upnsuffix');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('user@upnsuffix');
 		$attribute = 'attribute';
 
 		$sut->expects($this->exactly(2))

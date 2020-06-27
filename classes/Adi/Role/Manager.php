@@ -40,7 +40,7 @@ class NextADInt_Adi_Role_Manager
 		$this->configuration = $configuration;
 		$this->ldapConnection = $ldapConnection;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -121,8 +121,6 @@ class NextADInt_Adi_Role_Manager
 		$wordPressRoles = $roleMapping->getWordPressRoles();
 		$hasWordPressRoles = sizeof($wordPressRoles) > 0;
 
-		$roles = $wordPressRoles;
-
 		$cleanExistingRoles = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::CLEAN_EXISTING_ROLES);
 
 		// User create specific logic
@@ -143,7 +141,7 @@ class NextADInt_Adi_Role_Manager
 		$wordPressRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_roles', $wordPressRoles, $cleanExistingRoles, $wpUser, $roleMapping);
 
 		$this->logger->info("Security groups " . json_encode($roleMapping->getSecurityGroups())
-			. " are mapped to WordPress roles: " . json_encode($roles));
+			. " are mapped to WordPress roles: " . json_encode($wordPressRoles));
 		$this->updateRoles($wpUser, $wordPressRoles, $cleanExistingRoles);
 
 		return true;
@@ -177,9 +175,9 @@ class NextADInt_Adi_Role_Manager
 
 		if ($cleanExistingRoles) {
 			$wpUser->set_role("");
-			$this->logger->warn("Cleaning Existing Roles true for user " . $wpUser->user_login . "existing roles will be deleted.");
+			$this->logger->warn("Cleaning existing roles true for user '" . $wpUser->user_login . "' existing roles will be deleted.");
 		} else {
-			$this->logger->warn("Cleaning Existing Roles false for user " . $wpUser->user_login . " existing roles will stay untouched.");
+			$this->logger->warn("Cleaning existing roles false for user '" . $wpUser->user_login . "' existing roles will stay untouched.");
 		}
 
 		// which roles are available?
@@ -194,7 +192,7 @@ class NextADInt_Adi_Role_Manager
 			if ($availableRoles->is_role($role)) {
 				$wpUser->add_role($role);
 			} else {
-				$this->logger->warn("Can not add role '$role' to " . $wpUser->user_login . " because the role does NOT exist.");
+				$this->logger->warn("Can not add role '$role' to '" . $wpUser->user_login . "' because the role does NOT exist.");
 			}
 		}
 

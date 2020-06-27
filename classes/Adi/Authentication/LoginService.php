@@ -13,7 +13,7 @@ if (class_exists('NextADInt_Adi_Authentication_LoginService')) {
  * This class registers the "authenticate" callback in WordPress and is responsible for the authentication process.
  *
  * @author Tobias Hellmann <the@neos-it.de>
- * @access pubic
+ * @access public
  */
 class NextADInt_Adi_Authentication_LoginService
 {
@@ -41,12 +41,16 @@ class NextADInt_Adi_Authentication_LoginService
 	/* @var Logger $logger */
 	private $logger;
 
-	/**
-	 * @var NextADInt_Adi_Role_Manager $roleManager
-	 */
-	private $roleManager;
+    /**
+     * @var NextADInt_Adi_LoginState
+     */
+	private $loginState;
 
-	private $currentUserAuthenticated;
+	/** @var NextADInt_Adi_User_LoginSucceededService $loginSucceededService */
+	private $loginSucceededService;
+
+	/** @var boolean */
+	private $isRegistered = false;
 
 	/**
 	 * @param NextADInt_Adi_Authentication_Persistence_FailedLoginRepository|null $failedLogin
@@ -56,7 +60,8 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param NextADInt_Adi_Mail_Notification|null $mailNotification
 	 * @param NextADInt_Adi_Authentication_Ui_ShowBlockedMessage|null $userBlockedMessage
 	 * @param NextADInt_Ldap_Attribute_Service $attributeService
-	 * @param NextADInt_Adi_Role_Manager $roleManager
+	 * @param NextADInt_Adi_LoginState $loginState
+	 * @param NextADInt_Adi_User_LoginSucceededService $loginSucceededService
 	 */
 	public function __construct(NextADInt_Adi_Authentication_Persistence_FailedLoginRepository $failedLogin = null,
 								NextADInt_Multisite_Configuration_Service $configuration,
@@ -65,7 +70,8 @@ class NextADInt_Adi_Authentication_LoginService
 								NextADInt_Adi_Mail_Notification $mailNotification = null,
 								NextADInt_Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
 								NextADInt_Ldap_Attribute_Service $attributeService,
-								NextADInt_Adi_Role_Manager $roleManager
+                                NextADInt_Adi_LoginState $loginState,
+								NextADInt_Adi_User_LoginSucceededService $loginSucceededService
 	)
 	{
 		$this->failedLogin = $failedLogin;
@@ -75,11 +81,10 @@ class NextADInt_Adi_Authentication_LoginService
 		$this->mailNotification = $mailNotification;
 		$this->userBlockedMessage = $userBlockedMessage;
 		$this->attributeService = $attributeService;
-		$this->roleManager = $roleManager;
+		$this->loginState = $loginState;
+		$this->loginSucceededService = $loginSucceededService;
 
-		$this->logger = Logger::getLogger(__CLASS__);
-
-		$this->currentUserAuthenticated = false;
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -87,6 +92,11 @@ class NextADInt_Adi_Authentication_LoginService
 	 */
 	public function register()
 	{
+	    // don't allow multiple registrations of the same LoginService instance
+	    if ($this->isRegistered) {
+	        return;
+        }
+
 		add_filter('authenticate', array($this, 'authenticate'), 10, 3);
 
 		// disable 'lost password' feature
@@ -98,6 +108,9 @@ class NextADInt_Adi_Authentication_LoginService
 			add_filter('allow_password_reset', '__return_false');
 			add_action('lost_password', array($this, 'disableLostPassword'));
 		}
+
+		// for normal login we have to check for disabled users by hooking into wp_authenticate_user
+		add_filter('wp_authenticate_user', array($this->loginSucceededService, 'checkUserEnabled'), 10, 2);
 	}
 
 	/**
@@ -121,7 +134,8 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param string $login
 	 * @param string $password
 	 *
-	 * @return WP_Error|WP_User|false
+	 * @return false|NextADInt_Adi_Authentication_Credentials
+	 * @throws Exception
 	 */
 	public function authenticate($user = null /* required for WordPress callback */, $login = '', $password = '')
 	{
@@ -138,6 +152,13 @@ class NextADInt_Adi_Authentication_LoginService
 		// https://wordpress.org/support/topic/fatal-error-after-login-and-suffix-question/
 		$login = stripcslashes($login);
 
+		// EJN - 2017/11/16 - Allow users to log in with one of their email addresses specified in proxyAddresses
+		// Check if this looks like a ProxyAddress and look up sAMAccountName if we are allowing ProxyAddresses as login.
+		$allowProxyAddressLogin = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ALLOW_PROXYADDRESS_LOGIN);
+		if($allowProxyAddressLogin && strpos($login, '@') !== false) {
+			$login = $this->lookupFromProxyAddresses($login);
+		}
+
 		// login must not be empty or user must not be an admin
 		if (!$this->requiresActiveDirectoryAuthentication($login)) {
 			return false;
@@ -149,10 +170,12 @@ class NextADInt_Adi_Authentication_LoginService
 		$credentials = self::createCredentials($login, $password);
 		$suffixes = $this->detectAuthenticatableSuffixes($credentials->getUpnSuffix());
 
-		return $this->tryAuthenticatableSuffixes(
+		$r = $this->tryAuthenticatableSuffixes(
 			$credentials,
 			$suffixes
 		);
+
+		return $r;
 	}
 
 	/**
@@ -176,12 +199,49 @@ class NextADInt_Adi_Authentication_LoginService
 	}
 
 	/**
+	 * Lookup the user's sAMAccountName by their SMTP proxy addresses. If not found, just return the proxy address.
+	 *
+	 * EJN - 2017/11/16 - Allow users to log in with one of their email addresses specified in proxyAddresses
+	 *
+	 * @param String $proxyAddress The proxy address to try looking up.
+	 *
+	 * @return The associated sAMAccountName or $proxyAddress if not found.
+	 */
+	public function lookupFromProxyAddresses($proxyAddress) {
+
+		// Use the Sync to WordpPress username and password since anonymous bind can't search.
+		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails->setUsername($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER));
+		$connectionDetails->setPassword($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD));
+
+		// LDAP_Connection
+		$this->ldapConnection->connect($connectionDetails);
+
+		// check if domain controller is available
+		$domainControllerIsAvailable = $this->ldapConnection->checkPorts();
+
+		if($domainControllerIsAvailable) {
+			$samaccountname = $this->ldapConnection->findByProxyAddress($proxyAddress);
+
+			// If this email address wasn't specified in anyone's proxyAddresses attributes, just return the original value.
+			if($samaccountname === false) {
+				return $proxyAddress;
+			}
+		}
+
+		$this->logger->info("Found sAMAccountName '" . $samaccountname . "' for proxy address '" . $proxyAddress . "'.");
+
+		// Return the account we looked up.
+		return $samaccountname;
+	}
+
+	/**
 	 * Try every given suffix and authenticate with it against the Active Directory. The first authenticatable suffix is used.
 	 *
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 * @param array $suffixes
 	 *
-	 * @return bool
+	 * @return false|NextADInt_Adi_Authentication_Credentials
 	 * @throws Exception
 	 */
 	public function tryAuthenticatableSuffixes(NextADInt_Adi_Authentication_Credentials $credentials, $suffixes = array())
@@ -223,7 +283,7 @@ class NextADInt_Adi_Authentication_LoginService
 	 */
 	public static function createCredentials($login, $password)
 	{
-		return new NextADInt_Adi_Authentication_Credentials($login, $password);
+		return NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($login, $password);
 	}
 
 	/**
@@ -246,11 +306,13 @@ class NextADInt_Adi_Authentication_LoginService
 		// don't use Active Directory for WordPress' admin user (ID 1)
 		$user = $this->getWordPressUser($login);
 
-		// ID == 1 is the first user in WordPress and therefore an administrator
-		if ($user && ($user->ID === 1)) {
-			$this->logger->debug('User with ID 1 will never be authenticated by this plugin.');
+		if ($user) {
+			// ID == 1 is the first user in WordPress and therefore an administrator
+			if ($user->ID === 1) {
+				$this->logger->debug('User with ID 1 will never be authenticated by this plugin.');
 
-			return false;
+				return false;
+			}
 		}
 
 		if ($this->isUsernameExcludedFromAuthentication($login)) {
@@ -367,33 +429,6 @@ class NextADInt_Adi_Authentication_LoginService
 			return false;
 		}
 
-		return $this->isUserAuthorized($username);
-	}
-
-	/**
-	 * Check if user must be authorized by security group membership and if yes if he belongs to one of the authorized security groups.
-	 *
-	 * @param $username sAMAccountName or userPrincipalName and suffix.
-	 * @return bool
-	 */
-	protected function isUserAuthorized($username)
-	{
-		// ADI-428: Previously, the user has ben authorized by his username and and account suffix. This could lead to serious problems if the userPrincipalName (without suffix) had been used multiple times.
-		$ldapAttributes = $this->attributeService->findLdapAttributesOfUsername($username);
-		$userGuid = $ldapAttributes->getFilteredValue('objectguid');
-
-		// create role mapping with user's GUID
-		$roleMapping = $this->roleManager->createRoleMapping($userGuid);
-
-		// check if an user is in a authorization ad group if the user must be a member for login
-		$authorizeByGroup = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTHORIZE_BY_GROUP);
-
-		if ($authorizeByGroup && !$this->roleManager->isInAuthorizationGroup($roleMapping)) {
-			$this->logger->error("User '$username' with GUID: '$userGuid' is not in an authorization group.");
-
-			return false;
-		}
-
 		return true;
 	}
 
@@ -478,8 +513,9 @@ class NextADInt_Adi_Authentication_LoginService
 		// handle authenticated-status
 		if ($successfulLogin) {
 			$this->failedLogin->deleteLoginAttempts($fullUsername);
-		} elseif ($wpUser != null & $this->userManager->isNadiUser($wpUser)) {
-
+		}
+		// ADI-705: check for existing variable and *not* null; findByActiveDirectoryUsername returns false
+		elseif ($wpUser && $this->userManager->isNadiUser($wpUser)) {
 			$this->failedLogin->increaseLoginAttempts($fullUsername);
 
 			$totalAttempts = $this->failedLogin->findLoginAttempts($fullUsername);
@@ -491,39 +527,12 @@ class NextADInt_Adi_Authentication_LoginService
 	}
 
 	/**
-	 * After authentication the user is created or updated.
-	 * If his account is disabled he is not able to login.
-	 *
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 *
-	 * @return bool false if user is disabled
-	 * @access package
+	 * @return bool|NextADInt_Adi_Authentication_Credentials
+	 * @throws Exception
 	 */
 	function postAuthentication(NextADInt_Adi_Authentication_Credentials $credentials)
-	{
-		$wpUser = $this->createOrUpdateUser($credentials);
-
-		// ADI-256: user does only have a valid id if he is already inside the directory or has been created with "Auto Create User" == on
-		if (is_object($wpUser) && !is_wp_error($wpUser) && ($wpUser->ID > 0)) {
-			if ($this->userManager->isDisabled($wpUser->ID)) {
-				$this->logger->error("Unable to login user. User is disabled.");
-
-				return false;
-			}
-		}
-
-		return $wpUser;
-	}
-
-	/**
-	 * This method updates or creates an user depending on the parameters.
-	 * It internally delegates to createUser or updateUser.
-	 *
-	 * @param NextADInt_Adi_Authentication_Credentials $credentials
-	 *
-	 * @return false|int|WP_Error
-	 */
-	function createOrUpdateUser(NextADInt_Adi_Authentication_Credentials $credentials)
 	{
 		NextADInt_Core_Assert::notNull($credentials, "credentials must not be null");
 
@@ -539,115 +548,12 @@ class NextADInt_Adi_Authentication_LoginService
 
 		// update the real sAMAccountName of the credentials. This could be totally different from the userPrincipalName user for login
 		$credentials->setSAMAccountName($ldapAttributes->getFilteredValue('samaccountname'));
+		$credentials->setObjectGuid($ldapAttributes->getFilteredValue('objectguid'));
 
-		$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
+		// state: user is authenticated
+		$this->loginState->setAuthenticationSucceeded();
 
-		// ADI-309: domain SID gets not synchronized
-		$domainSid = $this->ldapConnection->getDomainSid();
-		$adiUser->getLdapAttributes()->setDomainSid($domainSid);
-
-		if ($adiUser->getId()) {
-			$wpUser = $this->updateUser($adiUser);
-		} else {
-			$wpUser = $this->createUser($adiUser);
-		}
-
-		if (is_wp_error($wpUser)) {
-			$this->logger->error("Unable to update or create '" . $adiUser . "': " . $wpUser->get_error_message());
-
-			return $wpUser;
-		}
-
-		if (is_object($wpUser)) {
-			$this->currentUserAuthenticated = true;
-		}
-
-		return $wpUser;
-	}
-
-	/**
-	 * If "Auto Create User" is enabled, the user is created. If "Auto Create User" is disabled, it returns a WP_Error
-	 *
-	 *
-	 * @param NextADInt_Adi_User $user
-	 *
-	 * @return false|int|WP_Error false if creation is only simulated; int if user has been created by underlying repository; WP_Error if autoCreateUser is disabled.
-	 */
-	public function createUser(NextADInt_Adi_User $user)
-	{
-		$this->logger->debug("Checking preconditions for creating new user " . $user);
-		$autoCreateUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_CREATE_USER);
-
-		// ADI-117: The behavior changed with 2.0.x and has been agreed with CST on 2016-03-02.
-		// In 1.0.x users were created even if auoCreateUser was false but they had a role equivalent group.
-		// With 2.0.x the user is only created if the option "Auto Create User" is enabled.
-		if (!$autoCreateUser) {
-			$error = 'This user exists in Active Directory, but not in the local WordPress instance. The option "Auto Create User" is __not__ enabled but should be.';
-			$this->logger->error($error);
-
-			return new WP_Error(
-				'invalid_username', __(
-					$error,
-					'next-active-directory-integration'
-				)
-			);
-		}
-
-		// if $this->userManager is null, then do not create the user
-		if (!$this->userManager) {
-			$this->logger->warn(
-				"User '{$user->getUsername()}' will not be created because the user login is only simulated."
-			);
-
-			return false;
-		}
-
-		// create user and return WP_User
-		return $this->userManager->create($user);
-	}
-
-	/**
-	 * If "Auto Update User" is enabled, the user's profile data is updated. In any case if a $userRole is present, it is synchronized with the backend.
-	 *
-	 * @param NextADInt_Adi_User $user
-	 *
-	 * @return false|WP_User false if creation is only simulated; int if user has been updated.
-	 */
-	function updateUser(NextADInt_Adi_User $user)
-	{
-		$this->logger->debug("Checking preconditions for updating existing user " . $user);
-
-		$autoUpdateUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER);
-		$autoUpdatePassword = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD);
-		$hasMappedWordPressRole = sizeof($user->getRoleMapping()) > 0;
-
-
-		// ADI-116: The behavior changed with 2.0.x and has been agreed with CST on 2016-03-02.
-		// In 1.0.x users were only updated if the options "Auto Create User" AND "Auto Update User" had been enabled.
-		// With 2.0.x the option "Auto Update User" is only responsible for that.
-		if ($autoUpdateUser) {
-			// updateWordPressAccount already delegates to role update and updating of sAMAccountName
-			return $this->userManager->update($user);
-		}
-
-		// ADI-474: Update the password if the respective option is enabled
-		if ($autoUpdatePassword) {
-			$this->userManager->updatePassword($user);
-		}
-
-		// in any case the sAMAccountName has to be updated
-		$this->userManager->updateSAMAccountName($user->getId(), $user->getCredentials()->getSAMAccountName());
-
-		if (!$hasMappedWordPressRole) {
-			// prevent from removing any existing WordPress roles
-			return false;
-		}
-
-		// if autoUpdateUser is disabled we still have to update his role
-		$this->userManager->updateUserRoles($user->getId(), $user->getRoleMapping());
-
-		// get WP_User from NextADInt_Adi_User
-		return $this->userManager->findById($user->getId());
+		return $credentials;
 	}
 
 	/**
@@ -671,16 +577,6 @@ class NextADInt_Adi_Authentication_LoginService
 		$this->logger->debug("User '$login' has local WordPress ID '$userId'.");
 
 		return new WP_User($userId);
-	}
-
-	/**
-	 * Return whether the current user is authenticated or not
-	 *
-	 * @return bool
-	 */
-	public function isCurrentUserAuthenticated()
-	{
-		return $this->currentUserAuthenticated;
 	}
 
 	/**
@@ -745,13 +641,5 @@ class NextADInt_Adi_Authentication_LoginService
 	public function getLogger()
 	{
 		return $this->logger;
-	}
-
-	/**
-	 * @return NextADInt_Adi_Role_Manager
-	 */
-	public function getRoleManager()
-	{
-		return $this->roleManager;
 	}
 }

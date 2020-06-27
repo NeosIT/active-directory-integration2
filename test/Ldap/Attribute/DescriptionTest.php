@@ -10,12 +10,12 @@
  */
 class Ut_NextADInt_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -28,7 +28,7 @@ class Ut_NextADInt_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 		$descriptions = NextADInt_Ldap_Attribute_Description::findAll();
 
 		$this->assertTrue(is_array($descriptions));
-		$this->assertEquals(35, sizeof($descriptions));
+		$this->assertEquals(38, sizeof($descriptions));
 	}
 
 	/**
@@ -40,7 +40,7 @@ class Ut_NextADInt_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 		$descriptions = NextADInt_Ldap_Attribute_Description::findAll();
 
 		$this->assertTrue(is_array($descriptions));
-		$this->assertEquals(35, sizeof($descriptions));
+		$this->assertEquals(38, sizeof($descriptions));
 	}
 
 	/**

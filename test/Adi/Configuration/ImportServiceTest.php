@@ -18,7 +18,7 @@ class Ut_NextADInt_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 	/* @var NextADInt_Multisite_Option_Provider|PHPUnit_Framework_MockObject_MockObject */
 	private $optionProvider;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -31,7 +31,7 @@ class Ut_NextADInt_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 		NextADInt_Core_Util::native($this->internalNative);
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
         global $wp_version;
         unset($wp_version);

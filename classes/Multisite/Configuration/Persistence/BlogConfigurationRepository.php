@@ -25,7 +25,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	/* @var NextADInt_Core_Encryption $encryptionHandler */
 	private $encryptionHandler;
 
-	/* @var Logger $logger */
+	/* @var Monolog\Logger $logger */
 	private $logger;
 
 	/** @var NextADInt_Multisite_Option_Provider $optionProvider */
@@ -59,7 +59,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 		$this->profileConfigurationRepository = $profileConfigurationRepository;
 		$this->defaultProfileRepository = $defaultProfileRepository;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -177,6 +177,12 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 */
 	public function getDefaultValue($siteId, $optionName, $option)
 	{
+		// gh-#127: PHP 7.4 compatibility; warning if $option is not an array but null
+		if (!is_array($option)) {
+			$this->logger->warn("Option '" . $optionName . "' in site with ID '" . $siteId . "' has no option configuration");
+			return null;
+		}
+
 		$optionValue = $option[NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE];
 
 		// generate with Sanitizer a new value, persist it and find it (again).
@@ -533,4 +539,5 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	{
 		return false;
 	}
+
 }

@@ -24,9 +24,9 @@ class NextADInt_Ldap_Connection
 	/* @var adLDAP $adldap */
 	private $adldap;
 
-	/* @var Logger $logger */
+	/* @var Monolog\ $logger */
 	private $logger;
-	
+
 	/* @var string */
 	private $siteDomainSid;
 
@@ -39,10 +39,10 @@ class NextADInt_Ldap_Connection
 			// get adLdap
 			require_once NEXT_AD_INT_PATH . '/vendor/adLDAP/adLDAP.php';
 		}
-
+		
 		$this->configuration = $configuration;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -58,7 +58,7 @@ class NextADInt_Ldap_Connection
 		try {
 			$this->createAdLdap($config);
 		} catch (Exception $e) {
-			$this->logger->error('Creating adLDAP object failed.', $e);
+			$this->logger->error('Creating adLDAP object failed. ' . $e->getMessage());
 
 			if (is_object($this->adldap)) {
 				$this->logger->debug('adLDAP last error number: ' . print_r($this->adldap->get_last_errno(), true));
@@ -88,6 +88,7 @@ class NextADInt_Ldap_Connection
             //ADI-482 enable LDAPS support
             'use_ssl'            => $useSsl,  //LDAP over Ssl
 			'network_timeout'    => $this->getNetworkTimeout($connectionDetails),
+            'allow_self_signed'  => $this->getAllowSelfSigned($connectionDetails),
 			'ad_username'        => $connectionDetails->getUsername(),
 			'ad_password'        => $connectionDetails->getPassword(),
 		);
@@ -218,6 +219,24 @@ class NextADInt_Ldap_Connection
 	}
 
 	/**
+	 * Return allow_self_signed based upon the $connectionDetails.
+	 *
+	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
+	 *
+	 * @return mixed
+	 */
+	public function getAllowSelfSigned(NextADInt_Ldap_ConnectionDetails $connectionDetails)
+	{
+		$allowSelfSigned = $connectionDetails->getAllowSelfSigned();
+
+		if (null === $allowSelfSigned) {
+			$allowSelfSigned = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ALLOW_SELF_SIGNED);
+		}
+		
+		return $allowSelfSigned;
+	}
+
+	/**
 	 * Return the network timeout based upon the $connectionDetails. If the port is not set the network timeout of the current blog instance is returned.
 	 *
 	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
@@ -263,6 +282,18 @@ class NextADInt_Ldap_Connection
 	public function isConnected()
 	{
 		return is_object($this->adldap);
+	}
+	
+	/**
+	 *  Find the sAMAccountName associated with a ProxyAddress
+	 *  
+	 *  @param string $proxyAddress The proxy address to check
+	 *  
+	 *  @return false if not found or the sAMAccountName.
+	 */
+	public function findByProxyAddress($proxyAddress)
+	{
+		return $this->adldap->findByProxyAddress($proxyAddress);
 	}
 
 	/**
@@ -338,8 +369,11 @@ class NextADInt_Ldap_Connection
 			return true;
 		}
 
-		$message = "Authentication for user '$username' failed because: " . $adLdap->get_last_error();
-		$this->logger->error($message);
+		try {
+			$adLdap->throwConnectionError("Authentication for user '$username' failed");
+		} catch (Exception $ex) {
+			$this->logger->error($ex->getMessage());
+		}
 
 		return false;
 	}
@@ -401,42 +435,53 @@ class NextADInt_Ldap_Connection
 	 * Custom debug method for information to prevent output of long binary data
 	 *
 	 * @issue ADI-420
+	 * @issue ADI-628 refactored methode since each() is flagged deprecated with PHP 7.2.5
 	 * @param array $userInfo in adLDAP format
 	 * @return string
 	 */
 	public function __debug($userInfo = array()) {
-		$r = '';
+		$result = "";
 		$maxOutputChars = 32;
 
-		while (list($idxOrAttribute, $value) = each($userInfo)) {
-			if (!is_numeric($idxOrAttribute)) {
+		foreach ($userInfo as $key => $attribute) {
+			if (!is_numeric($key)) {
 				continue;
 			}
 
-			// only match the "[0] => cn" parts
-			$r .= "$value={";
-			$data = $userInfo[$value];
+			$result .= "$attribute={";
+			$data = $userInfo[$attribute];
 
-			// $data = [count => 1, 0 => 'my cn']
-			while (list($idxOfAttribute, $valueOfAttribute) = each($data)) {
-				if (!is_numeric($idxOfAttribute)) {
+			foreach ($data as $index => $element) {
+				if (!is_numeric($index)) {
 					continue;
 				}
 
 				// remove any linebreaks or carriagereturns from the attributes
-                $valueOfAttribute = preg_replace("/\r\n|\r|\n/",'',$valueOfAttribute);
-				$r .=  NextADInt_Core_Util_StringUtil::firstChars($valueOfAttribute, 500);
+				$element = preg_replace("/\r\n|\r|\n/",'',$element);
+
+				if ($attribute === "objectguid") {
+					try {
+						$element = NextADInt_Core_Util_StringUtil::binaryToGuid($element);
+					} catch (Exception $exception) {
+						$this->logger->error("An exception occurred trying to convert binary to GUID. Exception: " . $exception->getMessage());
+					}
+
+				}
+
+				$result .=  NextADInt_Core_Util_StringUtil::firstChars($element, 500);
+
 			}
 
-			$r .= "}, ";
+			$result .= "}, ";
+
 		}
 
-		if (strlen($r) > 0) {
+		if (strlen($result) > 0) {
 			// remove last ", " part if given
-			$r = substr($r, 0, -2);
+			$result = substr($result, 0, -2);
 		}
 
-		return $r;
+		return $result;
 	}
 
 	/**
@@ -477,19 +522,19 @@ class NextADInt_Ldap_Connection
 		$userGuid = get_user_meta($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true);
 
 		if (empty($attributes)) {
-			$this->logger->debug("Modifying user '$username' skipped. Found no attributes to synchronize to Active Directory.");
+			$this->logger->warn("Modifying user '$username' skipped. Found no attributes to synchronize to Active Directory.");
 
 			return false;
 		}
 
 		$adLdap = $this->getAdLdap();
-		$this->logger->debug("Modifying user '$username' with attributes: " . json_encode($attributes, true));
+		$this->logger->info("Modifying user '$username' with attributes: " . json_encode($attributes, true));
 
 		try {
 			// ADI-452 Trying to update user via GUID.
 			$modified = $adLdap->user_modify_without_schema($userGuid, $attributes, true);
 		} catch (Exception $e) {
-			$this->logger->error("Can not modify user '$username'.", $e);
+			$this->logger->error("Can not modify user '$username'. " . $e->getMessage());
 
 			return false;
 		}
@@ -501,7 +546,7 @@ class NextADInt_Ldap_Connection
 			return false;
 		}
 
-		$this->logger->debug("User '$username' successfully modified.");
+		$this->logger->info("User '$username' successfully modified.");
 
 		return true;
 	}
@@ -514,7 +559,7 @@ class NextADInt_Ldap_Connection
 	public function checkPorts()
 	{
 		if (!NextADInt_Core_Util::native()->isFunctionAvailable('fsockopen')) {
-			$this->logger->debug('Function fsockopen() is not available. Can not check server ports.');
+			$this->logger->error('Function fsockopen() is not available. Can not check server ports.');
 
 			return false;
 		}
@@ -604,6 +649,7 @@ class NextADInt_Ldap_Connection
 
 			if ($groupMembers === false) {
 				// false means that the security group could not be retrieved
+				$this->logger->error('Could not find Active Directory Security Group with name: ' . $group);
 				continue;
 			}
 
@@ -687,7 +733,7 @@ class NextADInt_Ldap_Connection
 				return $adLdap->group_members($group, null);
 			}
 		} catch (Exception $e) {
-			$this->logger->error("Can not get the members of group '$group'.", $e);
+			$this->logger->error("Can not get the members of group '$group'. " . $e->getMessage());
 		}
 
 		return false;

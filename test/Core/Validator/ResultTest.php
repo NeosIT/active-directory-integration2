@@ -8,12 +8,12 @@
  */
 class Ut_NextADInt_Core_Validator_ResultTest extends Ut_BasicTest
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

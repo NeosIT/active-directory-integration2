@@ -59,7 +59,7 @@ class NextADInt_Multisite_Configuration_Persistence_ProfileRepository
 		$this->wordPressRepository = $wordPressRepository;
 		$this->optionProvider = $optionProvider;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**

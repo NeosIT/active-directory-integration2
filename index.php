@@ -2,10 +2,10 @@
 /*
 Plugin Name: Next Active Directory Integration
 Plugin URI: https://www.active-directory-wp.com
-Description: This is the successor of the Active Directory Integration plug-in which allows you to authenticate, authorize, create and update users through Active Directory.
+Description: Enterprise-ready solution to authenticate, authorize and synchronize your Active Directory users to WordPress. Next Active Directory Authentication supports NTLM and Kerberos for Single Sign On.
 Version: REPLACE_BY_JENKINS_SCRIPT
-Author: NeosIT GmbH
-Author URI: http://www.neos-it.de/
+Author: active-directory-wp.com
+Author URI: http://active-directory-wp.com
 Text Domain: next-active-directory-integration
 Domain Path: /languages
 License: GPLv3
@@ -21,9 +21,13 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
+define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH', plugin_dir_path( __FILE__ ));
 require_once(dirname(__FILE__)."/constants.php");
 require_once(dirname(__FILE__)."/Autoloader.php");
 require_once(dirname(__FILE__)."/functions.php");
+
+// init dummy logger in order to prevent fatal errors for outdated premium extensions
+require_once(dirname(__FILE__) . "/classes/Core/DummyLogger/DummyLogger.php");
 
 $autoLoader = new NextADInt_Autoloader();
 $autoLoader->register();
@@ -31,9 +35,14 @@ $autoLoader->register();
 // load plugin dependencies with composer autoloader
 require_once(dirname(__FILE__)."/vendor/autoload.php");
 
-$requirements = new NextADInt_Adi_Requirements();
-if (!$requirements->check()) {
-	return;
+// NADI-692: We have to skip the requirements check if wp-cli is used.
+// Otherwise the requirements will/might fail if any of the required PHP modules is not enabled for php-cli and NADI will disable it on its own.
+if (!defined('WP_CLI')) {
+    $requirements = new NextADInt_Adi_Requirements();
+
+    if (!$requirements->check()) {
+        return;
+    }
 }
 
 // start plugin
@@ -66,5 +75,5 @@ add_action('set_current_user', array($adiPlugin, 'runMultisite'));
  * @return NextADInt_Adi_Dependencies
  */
 function next_ad_int() {
-	return NextADInt_Adi_Dependencies::getInstance();
+    return NextADInt_Adi_Dependencies::getInstance();
 }

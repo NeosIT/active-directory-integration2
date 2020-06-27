@@ -85,8 +85,9 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 			'userId' => __('User-ID: (optional)', 'next-active-directory-integration'),
 			'repeatAction' => __('Repeat WordPress to Active Directory synchronization', 'next-active-directory-integration'),
 			'startAction' => __('Start WordPress to Active Directory synchronization', 'next-active-directory-integration'),
-			'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked. Also, a service account has to be provided.', 'next-active-directory-integration')
-		);
+			'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked. Also, a service account has to be provided.', 'next-active-directory-integration'),
+            'showLogOutput' => __('Show log output', 'next-active-directory-integration')
+        );
 		$params['i18n'] = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 
 		// render
@@ -112,15 +113,10 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 
 		$userId = NextADInt_Core_Util_ArrayUtil::get('userid', $post, '');
 
-		ob_start();
-		NextADInt_Core_Logger::logMessages();
+		NextADInt_Core_Logger::enableFrontendHandler();
 		$result = $this->syncToActiveDirectory->synchronize($userId);
-		$this->log = ob_get_contents();
-		ob_end_clean();
-
-		// split the string and put the single log messages into an array
-		$this->log = explode("<br />", $this->log);
-		$this->log = NextADInt_Core_Util_StringUtil::transformLog($this->log);
+		$this->log = NextADInt_Core_Logger::getBufferedLog();
+		NextADInt_Core_Logger::disableFrontendHandler();
 
 		if ($result) {
 			$this->result = esc_html__('Sync to AD succeeded.', 'next-active-directory-integration');
@@ -195,7 +191,7 @@ class NextADInt_Adi_Synchronization_Ui_SyncToActiveDirectoryPage extends NextADI
 
 		wp_enqueue_script('next_ad_int_app_module', NEXT_AD_INT_URL . '/js/app/app.module.js', array(),
 			NextADInt_Multisite_Ui::VERSION_PAGE_JS);
-		wp_enqueue_script('next_ad_int_app_config', NEXT_AD_INT_URL . '/js/app/app.config.js', array(),
+		wp_enqueue_script('next_ad_int_app_config', NEXT_AD_INT_URL . '/js/app/app.nadi.js', array(),
 			NextADInt_Multisite_Ui::VERSION_PAGE_JS);
 
 		// add the service js files

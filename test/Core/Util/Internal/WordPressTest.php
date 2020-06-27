@@ -6,12 +6,12 @@
  */
 class Ut_NextADInt_Core_Util_Internal_WordPress extends Ut_BasicTest
 {
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         global $wp_version;
         unset($wp_version);

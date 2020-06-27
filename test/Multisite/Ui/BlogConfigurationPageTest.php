@@ -12,7 +12,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	/* @var NextADInt_Multisite_Ui_BlogConfigurationController|PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationController;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -20,7 +20,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->blogConfigurationController = $this->createMock('NextADInt_Multisite_Ui_BlogConfigurationController');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -99,10 +99,10 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
             'verify' => 'Verify',
             'adAttributes' => 'AD Attributes',
             'dataType' => 'Data Type',
-            'wordpressAttribute' => 'Wordpress Attribute',
+            'wordpressAttribute' => 'WordPress Attribute',
             'description' => 'Description',
             'viewInUserProfile' => 'View in User Profile',
-            'syncToAd' => 'Sync to Ad',
+            'syncToAd' => 'Sync to AD',
             'overwriteWithEmptyValue' => 'Overwrite with empty value',
             'wantToRegenerateAuthCode' => 'Do you really want to regenerate a new AuthCode?',
             'wordPressIsConnectedToDomain' => 'WordPress Site is currently connected to Domain: ',
@@ -245,7 +245,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_config',
-					NEXT_AD_INT_URL . '/js/app/app.config.js',
+					NEXT_AD_INT_URL . '/js/app/app.nadi.js',
 					array(),
                     NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -382,7 +382,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_password',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/password.controller.js',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/credential.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -871,7 +871,6 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SSO_PASSWORD][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_BaseDn', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_BaseDnWarn', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][1]);
-		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][2]);
         $this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS][0]);
 	}
 
@@ -1096,10 +1095,9 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->invokeMethod($sut, 'addBaseDnValidators', array($validator));
 		$rules = $validator->getValidationRules();
 
-		$this->assertCount(3, $rules['base_dn']);
+		$this->assertCount(2, $rules['base_dn']);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_BaseDn', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_BaseDnWarn', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][1]);
-		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][2]);
 	}
 
     /**

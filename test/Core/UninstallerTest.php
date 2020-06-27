@@ -8,12 +8,12 @@
  */
 class Ut_NextADInt_Core_UninstallerTest extends Ut_BasicTest
 {
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         global $wp_version;
         unset($wp_version);

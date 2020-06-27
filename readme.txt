@@ -1,8 +1,8 @@
 ﻿=== Next Active Directory Integration ===
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
-Tags: authentication, active directory, ldap, authorization, security, windows
-Requires at least: 4.0
-Tested up to: 4.7.2
+Tags: authentication, active directory, ldap, authorization, security, windows, sso
+Requires at least: 5.0
+Tested up to: 5.4
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -14,8 +14,8 @@ Next Active Directory Integration allows WordPress to authenticate, authorize, c
 *Next Active Directory Integration* allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory. *NADI* ist a complete rewrite of its predecessor Active Directory Integration and therefore an own plugin.
 You can easily import users from your Active Directory into your WordPress instance and keep both synchronized through *Next Active Directory Integration's* features.
 
-Even if *NADI* is available for free we hope you purchase a support license to let us continue the work on Next Active Directory Integration.
-You can purchase commercial support licences at [https://www.active-directory-wp.com/shop-overview/](https://www.active-directory-wp.com/shop-overview/). The support license does also contain access to our premium extensions.
+Even if *NADI* is available for free we hope you purchase a plan to let us continue the work on Next Active Directory Integration.
+You can purchase commercial support plans at [https://www.active-directory-wp.com/shop-overview/](https://www.active-directory-wp.com/shop-overview/). The support plans give you access to our premium extensions and guarantee an ongoing development of the plug-in.
 
 = Features =
 
@@ -39,18 +39,19 @@ You can purchase commercial support licences at [https://www.active-directory-wp
 
 = Premium Extensions =
 
-As an owner of a valid support license you have access to the following premium extensions:
+As an owner of a valid support plan you have access to the following premium extensions:
 
 * Profile Pictures: Synchronize profile photos from Active Directory to WordPress without a 3rd party plug-in
 * BuddyPress profile photo: Synchronize profile photos from Active Directory to BuddyPress
 * Buddy Press simple attributes: Synchronize attributes from Active Directory/NADI to BuddyPress' custom profiles
 * Login with Ultimate Member: Let UM users log in by using NADI
 * Login with WooCommerce: Let WooCommerce users log in by using NADI
+* WP-CLI: Execute common NADI tasks (Sync to WordPress, Sync to AD) with help of WP-CLI
 
 = Requirements =
 
-* WordPress since 4.0
-* PHP >= 5.6
+* WordPress since 5.0
+* PHP >= 7.2
 * LDAP support
 * OpenSSL Support for TLS (recommended)
 
@@ -78,16 +79,25 @@ Please read the [FAQ](https://www.active-directory-wp.com/docs/FAQ.html) of our 
 == Installation ==
 
 = Requirements =
-To install Next Active Directory Integration you need at least WordPress 4.0 and PHP 5.3
+To install Next Active Directory Integration you need at least WordPress 5.0 and PHP 7.2
 
 Although only tested with Apache 2.2 and 2.4 *NADI* should work with all other common web servers like nginx and IIS.
 
-Next Active Directory Integration requires a few PHP modules to be enabled. Please verify in your `php.ini` that *ldap*, *mbstring* and *openssl* are activated.
+Next Active Directory Integration requires a few PHP modules to be enabled. Please verify in your `php.ini` that *ldap* and *openssl* are activated.
 
 	; required by *NADI*
 	extension=php_ldap.dll
-	extension=php_mbstring.dll
 	extension=php_openssl.dll
+
+= Important =
+
+As of *2020-07-01* NADI did *no* longer support PHP version *< 7.2*. The reason is that security support for PHP 7.1 and below has beeen dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
+For security reasons and in order to use NADI in 2020 we hereby politely encourage you to migrate your environments to at least PHP 7.2 until then.
+
+Thank you all for your support and understanding.
+
+Best regards,
+your NADI team.
 
 = Migration from ADI 1.x to NADI =
 Please read [our migration guide](https://www.active-directory-wp.com/docs/Migration/index.html) carefully!
@@ -115,19 +125,117 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 == Changelog ==
 
-For detailed information you can visit the official [GitHub repository of Active Directory Integration 2](https://github.com/NeosIT/active-directory-integration2)
+For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
+
+= 2.1.12 =
+* ADDED: PR gh-#107: allow self signed certificates
+* CHANGED: notices for minimum PHP version 7.2 due to EOL of PHP 7.1
+* FIXED: Test compatibility with latest stable PHPUnit version
+* FIXED: gh-#127: PHP 7.4 compatibility and deprecation of some ldap_* functions
+* FIXED: various typos and formatting errors in the administration user interface
+
+= 2.1.11 =
+* CHANGED: Tested compatibility with upcoming version 5.4 of WordPress
+
+= 2.1.10 =
+
+* CHANGED: minimum PHP version to PHP 7.2 due to EOL of PHP 7.1
+* CHANGED: Twig version updated to 1.41.0 (ADI-707)
+* FIXED: When a non-existing user inside in WordPress authenticates in a multisite environment the first time, a warning is triggered (ADI-705)
+* FIXED: A deleted user from Active Directory is mapped to the wrong user in WordPress; thanks to T. Kowalchuk (ADI-702)
+* FIXED: PHP warning if user is deleted from Active Directory (ADI-701)
+* FIXED: PHP error if touching of log file failed
+* FIXED: "-DISABLED" suffix is added everytime a user is synchronized (ADI-697, NADIS-110)
+* ADDED: hook next_ad_int_user_before_disable (ADI-699)
+* FIXED: curly brace access (GitHub #119)
+
+= 2.1.9 =
+* ADDED: Premium extension [WP-CLI](https://active-directory-wp.com/premium-extension/) to execute "Sync to WordPress/AD" with wp-cli to circumvent webserver/proxy timeouts (NADIS-98)
+* ADDED: option to disable SSO when using XML-RPC (ADI-679, NADIS-92)
+* FIXED: when changing the sAMAccountName or userPrincipalName in the AD a new user would have been created in WordPress (ADI-688, NADIS-89)
+* FIXED: Ultimate Member premium plug-in no longer works with new NADI version (ADI-687, NADIS-96)
+* FIXED: bug in adLDAP library; when LDAPS is enabled a custom port would not have been applied (ADI-690, NADIS-94)
+* ADDED: hook next_ad_int_user_create_email which is executed when "Duplicate email prevention" is set to "Create" (ADI-691)
+* FIXED: various issues with "Duplicate email prevention"; refactored logic (ADI-691)
+* FIXED: NADI got disabled when using any WP-CLI command (ADI-692)
+* ADDED: logging configuration can be set with filters (ADI-693)
+
+= 2.1.8 =
+* FIXED: compatibility issues when using the Woffice theme (ADI-659)
+* FIXED: missing email parameter when creating users (GitHub #74 Thanks to nefarius, ADI-615)
+* FIXED: an issue with the 'Prevent email change' option (https://wordpress.org/support/topic/new-user-creation-error/ Thanks to mlipenk, ADI-670)
+* ADDED: new hook to hide the 'Log in using SSO' option (https://wordpress.org/support/topic/remove-link-log-in-using-sso-on-login-page/ Thanks to vyatcheslav, ADI-672)
+* FIXED: refactored post authentication logic into separate services (ADI-671, ADI-673)
+
+= 2.1.7 =
+* FIXED: the hooks auth_before_create_or_update_user and auth_after_create_or_update_user were not registered so the SSO authentication always failed silently (ADI-668)
+
+= 2.1.6 =
+* FIXED: custom authentication filters were not registered properly (ADI-665) this will fix SSO related issues
+* FIXED: test authentication will now properly check for authorization groups again
+
+= 2.1.5 =
+* FIXED: replaced all references to the deprecated each-function with foreach (ADI-628)
+* FIXED: authorization groups will now properly prevent users from logging in (ADI-664, https://wordpress.org/support/topic/authorization-groups-not-working/ Thanks to shmew22, GitHub #92 Thanks to pokertour)
+* FIXED: the menu-visibility options were missing inside the profile-tab (ADI-663, https://wordpress.org/support/topic/menu-items-missing-3/ Thanks to 5tu)
+* ADDED: 2 new filters to allow for custom validation during the authentication process (ADI-657, GitHub #89 Thanks to Destabilizator)
+
+= 2.1.4 =
+* FIXED: isUserAuthorized() prevented login for users successfully authenticated via SSO at Active Directory due username was passed instead of guid
+* FIXED: HelperTabs not opening anymore due bootstrap css .hidden class overwrites WordPress css .hidden class
+* FIXED: verify connection input and button share the same element ID causing a DOM error in the browser console log
+* ADDED: SSO Username variable helper tab content now contains a table including all supported variables and their current $_SERVER values
+
+= 2.1.3 =
+* ADD: added message on the profile configuration page to inform customers about end of PHP version <7.1 support
+* ADD: json response for "Sync to WordPress" triggered via powershell
+* ADD: improved logging in within the Connection.php class
+* ADD: missing German translations
+* ADD: PHP_AUTH_USER to SSO username variables
+* FIXED: app.config and password.controller.config being flagged by customer firewalls / security plugins which resulted in them not being loaded properly (renamed them)
+* FIXED: redirect to target site not working properly after being authenticated via NADI SSO
+* FIXED: isUserAuthorized() not working properly with UPNs
+* FIXED: "Set local Password" not working if "Automatic user update" was enabled at the same time
+* FIXED: "Overwrite with empty value" not working anymore
+
+= 2.1.2 =
+* FIXED: NTLM authentication not working if samAccountName of a user does not match the part of the UPN in front of the suffix
+* REMOVED: NADI support license nag message on WordPress plug-in page
+
+= 2.1.1 =
+* ADD: Github#59 proxy address login (Special thanks to Github user *nedwidek* for contributing this functionality)
+* ADD: profile picture ad attributes to the ad attributes dropdown at the ad attributes configuration page
+* ADD: Github#44 claims based authentication (Special thanks to Github user *rgottsch* for contributing this functionality)
+* ADD: new option to decide if you want to grant smart card users access to the WordPress environment
+* ADD: links to the specific documentation pages for each configuration page
+* ADD: Github#64 powershell script to trigger "Sync to WordPress" and "Sync to AD" (Special thanks to Github user *nemchik* for contributing this)
+* FIX: Github#49 its now possible to enter an empty base dn
+* FIX: adjusted base DN description
+* FIX: Github#59 typo in LoginService.php
+* REMOVED: whitespaces inside the rendered curl and wget tags
+* REMOVED: old code that caused an warning with PHP 7.2.0 changes to count() and sizeOf()
+
+= 2.1.0 =
+* ADD: NADI is now using Monolog for everything related to logs
+* ADD: added a button to manually persist "Logging" configurations
+* FIX: user attributes are now correctly logged
+* FIX: fixed a problem where the port configuration for LDAPS was not used
+* FIX: updated twig to the latest 1.x version. (2.x requires >= PHP 7.0.0)
+* ADD: debug logs messages will be not displayed in the frontend log anymore in order to prevent an overflow
+* ADD: dummy logger in order to prevent outdated premium extensions from crashing
+* REMOVED: removed log4php from NADI
 
 = 2.0.14 =
 * ADD: added frontend information banners for NADI premium extensions
 * ADD: added frontend information about why "Sync to WordPress" can not be started
-* FIX: members of not mapped security groups will not receive the default role "Subscriber"
+* FIX: members of not mapped security groups will now receive the default role "Subscriber"
 * FIX: "Clean existing Roles" is now default set to false
 * ADD: added new style for configuration page
 * FIX: fixed some style issues
-* ADD: added logic to determine if an nadi option already exists in the db to prevent the problem saving options with default value true
+* ADD: added logic to determine if a NADI option already exists in the DB to prevent the problem saving options with default value true
 * ADD: added detailed log on which UAC flag is responsible for users not beeing imported
 * FIX: fixed logs destroying the user profile while trying to update a user profile / also catched exception
-* FIX: fixed template conditions causing problems in Microsoft Edges
+* FIX: fixed template conditions causing problems in Microsoft Edge
 
 
 = 2.0.13 =

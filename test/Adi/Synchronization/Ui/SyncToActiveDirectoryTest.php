@@ -17,7 +17,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest extends Ut_BasicTest
 	/* @var NextADInt_Adi_Synchronization_ActiveDirectory | PHPUnit_Framework_MockObject_MockObject */
 	private $syncToActiveDirectory;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -26,7 +26,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest extends Ut_BasicTest
 		$this->syncToActiveDirectory = $this->createMock('NextADInt_Adi_Synchronization_ActiveDirectory');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -158,7 +158,8 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest extends Ut_BasicTest
 					'userId' => 'User-ID: (optional)',
 					'repeatAction' => 'Repeat WordPress to Active Directory synchronization',
 					'startAction' => 'Start WordPress to Active Directory synchronization',
-					'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked. Also, a service account has to be provided.', 'next-active-directory-integration')
+					'syncDisabled' => __('Check that a connection to a domain controller is established and \'Enable sync to AD\' is checked. Also, a service account has to be provided.', 'next-active-directory-integration'),
+					'showLogOutput' => __('Show log output', 'next-active-directory-integration')
 				),
 				'domainSidSet' => 1,
 				'syncEnabled' => 1,
@@ -306,7 +307,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_config',
-					NEXT_AD_INT_URL . '/js/app/app.config.js',
+					NEXT_AD_INT_URL . '/js/app/app.nadi.js',
 					array(),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),

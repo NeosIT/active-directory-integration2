@@ -24,7 +24,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTe
 	private $twig;
 
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
 		$this->twigContainer = $this->createMock('NextADInt_Multisite_View_TwigContainer');
@@ -39,7 +39,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ShowLdapAttributesTest extends Ut_BasicTe
 		\WP_Mock::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		\WP_Mock::tearDown();
 	}

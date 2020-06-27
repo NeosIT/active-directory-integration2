@@ -17,7 +17,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	/* @var NextADInt_Core_Util_Internal_Native|\Mockery\MockInterface */
 	private $internalNative;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		if (!class_exists('adLDAP')) {
 			//get adLdap
@@ -33,7 +33,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		NextADInt_Core_Util::native($this->internalNative);
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 		// release mocked native functions
@@ -90,7 +90,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	 */
 	public function createConfiguration_returnsConfiguration()
 	{
-		$sut = $this->sut(array('getBaseDn', 'getDomainControllers', 'getAdPort', 'getUseTls', 'getUseSsl', 'getNetworkTimeout'));
+		$sut = $this->sut(array('getBaseDn', 'getDomainControllers', 'getAdPort', 'getUseTls', 'getUseSsl', 'getNetworkTimeout', 'getAllowSelfSigned'));
 
 		$expected = array(
 			'account_suffix'     => '',
@@ -102,6 +102,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 			'network_timeout'    => 5,
 			'ad_username'        => 'tobi',
 			'ad_password'        => 'Streng Geheim',
+			'allow_self_signed' => true
 		);
 
 		$log = array(
@@ -114,6 +115,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 			'network_timeout'    => 5,
 			'ad_username'        => 'tobi',
 			'ad_password'        => '*** protected password ***',
+			'allow_self_signed' => true
 		);
 
 		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
@@ -127,6 +129,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		parent::expects($sut, $this->once(), 'getUseTls', $connectionDetails, true);
         parent::expects($sut, $this->once(), 'getUseSsl', $connectionDetails, false);
 		parent::expects($sut, $this->once(), 'getNetworkTimeout', $connectionDetails, 5);
+		parent::expects($sut, $this->once(), 'getAllowSelfSigned', $connectionDetails, true);
 
 		$actual = $sut->createConfiguration($connectionDetails);
 		$this->assertEquals($expected, $actual);

@@ -31,7 +31,7 @@ class NextADInt_Adi_Authentication_VerificationService
 	{
 		$this->ldapConnection = $ldapConnection;
 		$this->attributeRepository = $attributeRepository;
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -50,6 +50,7 @@ class NextADInt_Adi_Authentication_VerificationService
 		$config->setDomainControllers($data["domain_controllers"]);
 		$config->setPort($data["port"]);
 		$config->setEncryption($data["encryption"]);
+		$config->setAllowSelfSigned($data["allow_self_signed"]);
 		$config->setNetworkTimeout($data["network_timeout"]);
 		$config->setBaseDn($data["base_dn"]);
 		$config->setUsername($username);
@@ -61,7 +62,7 @@ class NextADInt_Adi_Authentication_VerificationService
 
 		if ($isConnected) {
 			$attributeService = $this->getCustomAttributeService();
-			$objectSid = $attributeService->getObjectSid(new NextADInt_Adi_Authentication_Credentials($username));
+			$objectSid = $attributeService->getObjectSid(NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($username));
 
 			// ADI-412: There *should* be an objectSID as we now fall back from sAMAccountName to userPrincipalName
 			if (false === $objectSid) {

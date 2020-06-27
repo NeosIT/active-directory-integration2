@@ -27,7 +27,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	private $roleManager;
 
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -41,7 +41,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		ob_start();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 		ob_end_clean();
@@ -570,7 +570,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut = $this->sut(null);
 		$this->mockFunction__();
 
-		$adiUser = new NextADInt_Adi_User(new NextADInt_Adi_Authentication_Credentials("username"), new NextADInt_Ldap_Attributes());
+		$adiUser = new NextADInt_Adi_User(NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username"), new NextADInt_Ldap_Attributes());
 		$adiUser->setId(666);
 
 		$this->userManager->expects($this->once())
@@ -589,7 +589,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut = $this->sut(array('isNormalAccount'));
 		$this->mockFunction__();
 
-		$adiUser = new NextADInt_Adi_User(new NextADInt_Adi_Authentication_Credentials("username"),
+		$adiUser = new NextADInt_Adi_User(NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username"),
 			new NextADInt_Ldap_Attributes(array('key' => 'value')));
 		$adiUser->setId(666);
 
@@ -610,7 +610,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut = $this->sut(array('isNormalAccount', 'isSmartCardRequired'));
 		$this->mockFunction__();
 
-		$adiUser = new NextADInt_Adi_User(new NextADInt_Adi_Authentication_Credentials("username"),
+		$adiUser = new NextADInt_Adi_User(NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username"),
 			new NextADInt_Ldap_Attributes(array('key' => 'value')));
 		$adiUser->setId(666);
 
@@ -633,7 +633,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut = $this->sut(array('isNormalAccount', 'isSmartCardRequired'));
 		$this->mockFunction__();
 
-		$adiUser = new NextADInt_Adi_User(new NextADInt_Adi_Authentication_Credentials("username"),
+		$adiUser = new NextADInt_Adi_User(NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username"),
 			new NextADInt_Ldap_Attributes(array('key' => 'value')));
 		$adiUser->setId(666);
 
@@ -658,7 +658,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->behave($this->userManager, "createAdiUser", $this->createMock('NextADInt_Adi_User'));
 
-		$sut->synchronizeUser(new NextADInt_Adi_Authentication_Credentials("username"), 'guid');
+		$sut->synchronizeUser(NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username"), 'guid');
 	}
 
 	/**
@@ -669,7 +669,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
 			'findLdapAttributesOfUser'));
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username");
 		$this->attributeService->expects($this->once())
 			->method('findLdapAttributesOfUser')
 			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad')));
@@ -687,7 +687,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('checkAccountRestrictions', 'findLdapAttributesOfUser', 'createOrUpdateUser'));
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
 
 		$this->attributeService->expects($this->once())
@@ -724,7 +724,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
 			'findLdapAttributesOfUser'));
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
 
 		$this->attributeService->expects($this->once())
@@ -769,7 +769,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
 			'findLdapAttributesOfUser'));
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
 
 		$this->attributeService->expects($this->once())
@@ -818,7 +818,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
 			'findLdapAttributesOfUser'));
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
 
 		$this->attributeService->expects($this->once())
@@ -868,7 +868,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut = $this->sut(array('disableUserWithoutValidGuid', 'checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
 			'findLdapAttributesOfUser'));
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username");
 		$adiUser =  $this->createMock('NextADInt_Adi_User');
 		$ldapAttributes = new NextADInt_Ldap_Attributes();
 		$modifiedAdiUser = $this->createMock('NextADInt_Adi_User');
@@ -900,7 +900,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut = $this->sut(array('disableUserWithoutValidGuid', 'checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
 			'findLdapAttributesOfUser'));
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username");
 		$adiUser =  $this->createMock('NextADInt_Adi_User');
 		$ldapAttributes = new NextADInt_Ldap_Attributes();
 
@@ -929,7 +929,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('checkAccountRestrictions', 'findLdapAttributesOfUser', 'createOrUpdateUser', 'isAccountDisabled'));
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username");
 		$adiUser = new NextADInt_Adi_User($credentials, new NextADInt_Ldap_Attributes());
 
 		$this->attributeService->expects($this->once())
@@ -1127,7 +1127,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 			->with('objectguid')
 			->willReturn(null);
 
-		$credentials = new NextADInt_Adi_Authentication_Credentials('username', 'password');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('username', 'password');
 		$adiUser = new NextADInt_Adi_User($credentials, $ldapAttributes);
 		$adiUser->setId(123);
 
@@ -1158,7 +1158,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	 */
 	public function disableUserWithoutValidGuid_withValidGuid() {
 		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('objectguid' => '123'));
-		$credentials = new NextADInt_Adi_Authentication_Credentials('username', 'password');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('username', 'password');
 
 		$sut = $this->sut(null);
 

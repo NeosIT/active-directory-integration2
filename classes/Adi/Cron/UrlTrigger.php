@@ -57,34 +57,45 @@ class NextADInt_Adi_Cron_UrlTrigger
 		add_action('init', array($this, 'httpRequestEntryPoint'));
 	}
 
-	/**
-	 * Get POST-values and delegate them to the processHttpRequest method.
-	 */
+    /**
+     * Get POST-values and delegate them to the processHttpRequest method.
+     * @throws Exception
+     */
 	public function httpRequestEntryPoint()
 	{
 	    // dont unescape $_POST because only numbers and base64 values will be accessed
-		$this->processHttpRequest($_POST);
+		$success = $this->processHttpRequest($_POST);
+
+		// NADI-636 return json to prevent user being redirected to wp-login.php
+		if($success) {
+            wp_send_json(array('success' => true));
+		} else {
+			wp_send_json(array('success' => false, 'message' => 'Please refer to your NADI log file'), 500);
+		}
 	}
 
-	/**
-	 * Execute synchronize, syncToAd or nothing - depending on $_POST parameters.
-	 *
-	 * @param array $post array content of $_POST
-	 */
+    /**
+     * Execute synchronize, syncToAd or nothing - depending on $_POST parameters.
+     *
+     * @param array $post array content of $_POST
+     *
+     * @return bool
+     * @throws Exception
+     */
 	public function processHttpRequest($post)
 	{
 		$syncMode = self::getSyncMode($post);
 		if (false === $syncMode) {
-			return;
+			return false;
 		}
 
 		$authCode = NextADInt_Core_Util_ArrayUtil::get(self::AUTH_CODE, $post, false);
 		if ( ! $this->validateAuthCode($authCode, $syncMode)) {
-			return;
+			return false;
 		}
 
 		$userId = NextADInt_Core_Util_ArrayUtil::get(self::USER_ID, $post, false);
-		$this->dispatchAction($userId, $syncMode);
+		return $this->dispatchAction($userId, $syncMode);
 	}
 
 	/**
@@ -144,18 +155,21 @@ class NextADInt_Adi_Cron_UrlTrigger
 		echo $value;
 	}
 
-	/**
-	 * Call the syncToAd or synchronize method - depending on the sync mode.
-	 *
-	 * @param int $userId
-	 * @param string $syncMode
-	 */
+    /**
+     * Call the syncToAd or synchronize method - depending on the sync mode.
+     *
+     * @param int $userId
+     * @param string $syncMode
+     *
+     * @return bool
+     * @throws Exception
+     */
 	public function dispatchAction($userId, $syncMode)
 	{
 		if ($syncMode === 1) {
-			$this->syncToWordPress->synchronize();
+			return $this->syncToWordPress->synchronize();
 		} else {
-			$this->syncToActiveDirectory->synchronize($userId);
+			return $this->syncToActiveDirectory->synchronize($userId);
 		}
 	}
 }

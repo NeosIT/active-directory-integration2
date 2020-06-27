@@ -34,7 +34,7 @@ class NextADInt_Adi_User_Persistence_Repository
 
 	public function __construct()
 	{
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -165,6 +165,12 @@ class NextADInt_Adi_User_Persistence_Repository
 	 */
 	public function findByObjectGuid($guid)
 	{
+	    // ADI-702: A deleted user from Active Directory is mapped to the wrong user in WordPress
+        // Originally fixed and report by T. Kowalchuk <kowaty[at]<redacted>wi.us>
+	    if (empty(trim($guid))) {
+	        return false;
+        }
+
 		$result = $this->findByMetaKey(NEXT_AD_INT_PREFIX . self::META_KEY_OBJECT_GUID, $guid);
 
 		return NextADInt_Core_Util_ArrayUtil::findFirstOrDefault($result, false);
@@ -230,13 +236,15 @@ class NextADInt_Adi_User_Persistence_Repository
 	/**
 	 * @param NextADInt_Adi_User $user
 	 *
+	 * @param $email
+	 *
 	 * @return int|WP_Error
 	 *
 	 * @throws NextADInt_Core_Exception_WordPressErrorException
 	 */
-	public function create(NextADInt_Adi_User $user)
+	public function create(NextADInt_Adi_User $user, $email)
 	{
-		$result = wp_create_user($user->getUserLogin(), $user->getCredentials()->getPassword());
+		$result = wp_create_user($user->getUserLogin(), $user->getCredentials()->getPassword(), $email);
 
 		if (is_wp_error($result)) {
 			// log error

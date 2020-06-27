@@ -11,14 +11,14 @@ class Ut_NextADInt_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_B
 	 */
 	private $importService;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
 		$this->importService = $this->createMock('NextADInt_Adi_Configuration_ImportService');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -77,7 +77,7 @@ class Ut_NextADInt_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_B
 
 		$actual = $sut->extendPluginActions(array(), 'name');
 		$this->assertTrue(isset($actual['adi_v1_configuration_export']));
-		$this->assertRegExp('/Download ADI v1/', $actual['adi_v1_configuration_export']);
+		$this->assertMatchesRegularExpression('/Download ADI v1/', $actual['adi_v1_configuration_export']);
 	}
 
 	/**
@@ -208,9 +208,9 @@ class Ut_NextADInt_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_B
 			)
 		);
 
-		$this->assertRegExp('/444/', $actual[0]);
-		$this->assertRegExp('/555/', $actual[0]);
-		$this->assertRegExp('/666/', $actual[0]);
+		$this->assertMatchesRegularExpression('/444/', $actual[0]);
+		$this->assertMatchesRegularExpression('/555/', $actual[0]);
+		$this->assertMatchesRegularExpression('/666/', $actual[0]);
 	}
 
 	/**
@@ -237,9 +237,9 @@ class Ut_NextADInt_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_B
 
 		$actual = $sut->dumpSingleSite();
 
-		$this->assertRegExp('/Single site/', $actual[0]);
+		$this->assertMatchesRegularExpression('/Single site/', $actual[0]);
 		// separator
-		$this->assertRegExp('/Version: 1\.1\.7/', $actual[2]);
+		$this->assertMatchesRegularExpression('/Version: 1\.1\.7/', $actual[2]);
 		// separator
 		$this->assertEquals('config', $actual[4]);
 	}
@@ -268,9 +268,9 @@ class Ut_NextADInt_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_B
 
 		$actual = $sut->dumpNetwork();
 
-		$this->assertRegExp('/WordPress Multisite environment/', $actual[0]);
+		$this->assertMatchesRegularExpression('/WordPress Multisite environment/', $actual[0]);
 		// separator
-		$this->assertRegExp('/Version: 1\.1\.7 \(global/', $actual[2]);
+		$this->assertMatchesRegularExpression('/Version: 1\.1\.7 \(global/', $actual[2]);
 		// separator
 		$this->assertEquals('config', $actual[4]);
 	}
@@ -307,10 +307,10 @@ class Ut_NextADInt_Adi_Configuration_Import_Ui_ExtendPluginListTest extends Ut_B
 
 		$actual = $sut->dumpNetwork();
 
-		$this->assertRegExp('/WordPress Multisite environment/', $actual[0]);
+		$this->assertMatchesRegularExpression('/WordPress Multisite environment/', $actual[0]);
 		// separator
-		$this->assertRegExp('/Blog ID 555/', $actual[2]);
-		$this->assertRegExp('/domain \- path/', $actual[2]);
+		$this->assertMatchesRegularExpression('/Blog ID 555/', $actual[2]);
+		$this->assertMatchesRegularExpression('/domain \- path/', $actual[2]);
 		// separator
 		$this->assertEquals('config', $actual[4]);
 	}

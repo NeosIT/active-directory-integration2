@@ -107,10 +107,10 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
             'verify' => __('Verify', 'next-active-directory-integration'),
             'adAttributes' => __('AD Attributes', 'next-active-directory-integration'),
             'dataType' => __('Data Type', 'next-active-directory-integration'),
-            'wordpressAttribute' => __('Wordpress Attribute', 'next-active-directory-integration'),
+            'wordpressAttribute' => __('WordPress Attribute', 'next-active-directory-integration'),
             'description' => __('Description', 'next-active-directory-integration'),
             'viewInUserProfile' => __('View in User Profile', 'next-active-directory-integration'),
-            'syncToAd' => __('Sync to Ad', 'next-active-directory-integration'),
+            'syncToAd' => __('Sync to AD', 'next-active-directory-integration'),
             'overwriteWithEmptyValue' => __('Overwrite with empty value', 'next-active-directory-integration'),
             'wantToRegenerateAuthCode' => __('Do you really want to regenerate a new AuthCode?', 'next-active-directory-integration'),
             'wordPressIsConnectedToDomain' => __('WordPress Site is currently connected to Domain: ', 'next-active-directory-integration'),
@@ -180,7 +180,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		);
 		wp_enqueue_script(
 			'next_ad_int_blog_options_controller_password', NEXT_AD_INT_URL .
-			'/js/app/blog-options/controllers/password.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
+			'/js/app/blog-options/controllers/credential.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
 			'next_ad_int_blog_options_controller_permission', NEXT_AD_INT_URL .
@@ -242,7 +242,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		);
 
 		wp_enqueue_script('next_ad_int_app_module', NEXT_AD_INT_URL . '/js/app/app.module.js', array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS);
-		wp_enqueue_script('next_ad_int_app_config', NEXT_AD_INT_URL . '/js/app/app.config.js', array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS);
+		wp_enqueue_script('next_ad_int_app_config', NEXT_AD_INT_URL . '/js/app/app.nadi.js', array(), NextADInt_Multisite_Ui::VERSION_PAGE_JS);
 
 		// add the service js files
 		wp_enqueue_script(
@@ -815,12 +815,6 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		);
 		$verifyBaseDnWarningRule = new NextADInt_Multisite_Validator_Rule_BaseDnWarn($verifyBaseDnWarning, NextADInt_Core_Message_Type::WARNING);
 		$validator->addRule(NextADInt_Adi_Configuration_Options::BASE_DN, $verifyBaseDnWarningRule);
-
-		$verifyBaseDnMessage = __(
-			'Base DN must not be empty', 'next-active-directory-integration'
-		);
-		$verifyUsernameRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace($verifyBaseDnMessage);
-		$validator->addRule(NextADInt_Adi_Configuration_Options::BASE_DN, $verifyUsernameRule);
 
 	}
 

@@ -39,14 +39,17 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	/** @var string $result */
 	private $result;
 
-	/** @var string $output */
-	private $output;
+	/** @var array $output */
+	private $log;
 
 	/** @var NextADInt_Adi_Role_Manager */
 	private $roleManager;
 
 	/** @var  NextADInt_Ldap_Connection */
 	private $ldapConnection;
+
+	/** @var NextADInt_Adi_User_LoginSucceededService */
+	private $loginSucceededService;
 
 	/**
 	 * @param NextADInt_Multisite_View_TwigContainer $twigContainer
@@ -55,13 +58,15 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	 * @param NextADInt_Ldap_Attribute_Service $attributeService
 	 * @param NextADInt_Adi_User_Manager $userManager
 	 * @param NextADInt_Adi_Role_Manager $roleManager
+	 * @param NextADInt_Adi_User_LoginSucceededService $loginSucceededService
 	 */
 	public function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer,
 								NextADInt_Multisite_Configuration_Service $configuration,
 								NextADInt_Ldap_Connection $ldapConnection,
 								NextADInt_Ldap_Attribute_Service $attributeService,
 								NextADInt_Adi_User_Manager $userManager,
-								NextADInt_Adi_Role_Manager $roleManager)
+								NextADInt_Adi_Role_Manager $roleManager,
+								NextADInt_Adi_User_LoginSucceededService $loginSucceededService)
 	{
 		parent::__construct($twigContainer);
 
@@ -70,8 +75,9 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$this->ldapConnection = $ldapConnection;
 		$this->userManager = $userManager;
 		$this->roleManager = $roleManager;
+		$this->loginSucceededService = $loginSucceededService;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -95,7 +101,9 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		$params = $this->processData();
 		$params['nonce'] = wp_create_nonce(self::NONCE); // add nonce for security
 		$params['message'] = $this->result;
-		$params['log'] = $this->output;
+		$params['log'] = $this->log;
+
+		// TODO @dme duplicated code?
         $params['i18n'] = array(
             'title' => __('Test Active Directory authentication', 'next-active-directory-integration'),
             'descriptionLine1' => __('Please enter the username and password for the account you want to authenticate with. After submitting the request you will get the debug output.', 'next-active-directory-integration'),
@@ -104,7 +112,8 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
             'username' => __('Username:', 'next-active-directory-integration'),
             'password' => __('Password (will be shown):', 'next-active-directory-integration'),
             'tryAgain' => __('Try to authenticate again', 'next-active-directory-integration'),
-            'tryAuthenticate' => __('Try to authenticate', 'next-active-directory-integration')
+            'tryAuthenticate' => __('Try to authenticate', 'next-active-directory-integration'),
+            'showLogOutput' => __('Show log output', 'next-active-directory-integration')
         );
 
 		$i18n = array(
@@ -115,7 +124,8 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
             'username' => __('Username:', 'next-active-directory-integration'),
             'password' => __('Password (will be shown):', 'next-active-directory-integration'),
             'tryAgain' => __('Try to authenticate again', 'next-active-directory-integration'),
-            'tryAuthenticate' => __('Try to authenticate', 'next-active-directory-integration')
+            'tryAuthenticate' => __('Try to authenticate', 'next-active-directory-integration'),
+            'showLogOutput' => __('Show log output', 'next-active-directory-integration')
         );
 		$params['i18n'] = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 
@@ -141,23 +151,29 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		if (!wp_verify_nonce($post['security'], self::NONCE)) {
 			$message = __('You do not have sufficient permissions.', 'next-active-directory-integration');
 			wp_die($message);
+			return;
 		}
 
 		$username = $post['username'];
 		$password = $post['password'];
 
+		NextADInt_Core_Logger::enableFrontendHandler();
 		$information = $this->collectInformation($username, $password);
-		$this->output = explode("<br />", $information['output']);
-		$this->output = NextADInt_Core_Util_StringUtil::transformLog($this->output);
+		$this->log = NextADInt_Core_Logger::getBufferedLog();
+		NextADInt_Core_Logger::disableFrontendHandler();
 
-		if ($information['authentication_result']) {
+		$result = $information['authentication_result'];
+		$succeeded = false;
+
+		if ($result instanceof WP_User || $result instanceof NextADInt_Adi_Authentication_Credentials) {
 			$this->result = esc_html__('User logged on.', 'next-active-directory-integration');
+			$succeeded = true;
 		} else {
 			$this->result = esc_html__('Logon failed.', 'next-active-directory-integration');
 		}
 
 		return array(
-			'status' => $information['authentication_result'],
+			'status' => $succeeded
 		);
 	}
 
@@ -171,17 +187,6 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	 */
 	function collectInformation($username, $password)
 	{
-		// ADI-354 (dme)
-		$loggingEnabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
-		$customPath = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH);
-		if ($loggingEnabled)
-		{
-			NextADInt_Core_Logger::displayAndLogMessages($customPath);
-		} else {
-			NextADInt_Core_Logger::displayMessages();
-		}
-
-		ob_start();
 
 		// detect support-id
 		$supportData = $this->detectSupportData();
@@ -199,16 +204,10 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 		}
 
 		$this->logger->info('*** Establishing Active Directory connection ***');
-		$authenticationResult = $this->connectToActiveDirectory($username, $password);
-
-		NextADInt_Core_Logger::logMessages();
-		$output = ob_get_contents();
-
-		ob_end_clean();
+		$authenticationResult = $this->authenticateAndAuthorize($username, $password);
 
 		return array(
-			'output' => $output,
-			'authentication_result' => $authenticationResult,
+			'authentication_result' => $authenticationResult
 		);
 	}
 
@@ -256,17 +255,19 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 	}
 
 	/**
-	 * Connect to the Active Directory with given username and password
+	 * Connect to the Active Directory with given username and password and execute any "authorize" filter
 	 *
 	 * @param string $username
 	 * @param string $password
 	 *
 	 * @return bool if authentication was successful
 	 */
-	function connectToActiveDirectory($username, $password)
+	function authenticateAndAuthorize($username, $password)
 	{
+	    $loginState = new NextADInt_Adi_LoginState();
+
 		// create login authenticator with custom logger
-		$loginAuthenticator = new NextADInt_Adi_Authentication_LoginService(
+        $loginAuthenticator = new NextADInt_Adi_Authentication_LoginService(
 			null,
 			$this->configuration,
 			$this->ldapConnection,
@@ -274,15 +275,24 @@ class NextADInt_Adi_Ui_ConnectivityTestPage extends NextADInt_Multisite_View_Pag
 			null,
 			null,
 			$this->attributeService,
-			$this->roleManager
+            $loginState,
+	        $this->loginSucceededService
 		);
 
-		return $loginAuthenticator->authenticate(null, $username, $password);
+        // remove authorization filters which have already been applied before
+        remove_all_filters('authorize');
+
+		$authorizationService = new NextADInt_Adi_Authorization_Service($this->configuration, $this->userManager, $this->roleManager, $loginState);
+		// register the authorization filter
+		$authorizationService->register();
+
+		// apply the authoriaztion
+		return apply_filters('authorize', $loginAuthenticator->authenticate(null, $username, $password));
 	}
 
-	public function getOutput()
+	public function getLog()
 	{
-		return $this->output;
+		return $this->log;
 	}
 
 	/**

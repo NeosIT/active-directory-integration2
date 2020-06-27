@@ -9,7 +9,7 @@ class Ut_User_HelperTest extends Ut_BasicTest
 	/* @var NextADInt_Multisite_Configuration_Service| PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->configuration = $this->getMockBuilder('NextADInt_Multisite_Configuration_Service')
 			->disableOriginalConstructor()
@@ -19,7 +19,7 @@ class Ut_User_HelperTest extends Ut_BasicTest
 		WP_Mock::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		WP_Mock::tearDown();
 	}
@@ -39,7 +39,7 @@ class Ut_User_HelperTest extends Ut_BasicTest
 		$adiUser = $this->createMock('NextADInt_Adi_User');
 		$this->behave($adiUser, 'getLdapAttributes', new NextADInt_Ldap_Attributes(array(), $ldapAttributes));
 		$this->behave($adiUser, 'getId', 1);
-		$this->behave($adiUser, 'getCredentials', new NextADInt_Adi_Authentication_Credentials('username'));
+		$this->behave($adiUser, 'getCredentials', NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('username'));
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')

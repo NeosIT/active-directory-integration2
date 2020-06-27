@@ -13,12 +13,12 @@ if (class_exists('Ut_NextADInt_Multisite_Configuration_Persistence_DefaultProfil
  */
 class Ut_NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepositoryTest extends Ut_BasicTest
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

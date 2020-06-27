@@ -11,12 +11,12 @@ class Ut_NextADInt_Multisite_Validator_Rule_AccountSuffixTest extends Ut_BasicTe
 {
 	const VALIDATION_MESSAGE = 'Username has to contain a suffix.';
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

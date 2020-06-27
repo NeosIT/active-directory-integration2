@@ -12,7 +12,7 @@ class Ut_NextADInt_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
 	/* @var NextADInt_Multisite_Configuration_Persistence_ProfileRepository | PHPUnit_Framework_MockObject_MockObject */
 	private $profileRepository;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -20,7 +20,7 @@ class Ut_NextADInt_Adi_Multisite_Site_Ui_ExtendSiteListTest extends Ut_BasicTest
 		$this->profileRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_ProfileRepository');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

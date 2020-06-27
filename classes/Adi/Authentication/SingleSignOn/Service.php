@@ -34,6 +34,9 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	/** @var NextADInt_Adi_Authentication_SingleSignOn_Validator */
 	private $validation;
 
+	/** @var NextADInt_Adi_User_LoginSucceededService $loginSucceededService */
+	private $loginSucceededService;
+
 	public function __construct(NextADInt_Adi_Authentication_Persistence_FailedLoginRepository $failedLogin = null,
 								NextADInt_Multisite_Configuration_Service $configuration,
 								NextADInt_Ldap_Connection $ldapConnection,
@@ -41,26 +44,48 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 								NextADInt_Adi_Mail_Notification $mailNotification = null,
 								NextADInt_Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
 								NextADInt_Ldap_Attribute_Service $attributeService,
-								NextADInt_Adi_Role_Manager $roleManager,
-								NextADInt_Adi_Authentication_SingleSignOn_Validator $validation
+								NextADInt_Adi_Authentication_SingleSignOn_Validator $validation,
+                                NextADInt_Adi_LoginState $loginState,
+								NextADInt_Adi_User_LoginSucceededService $loginSucceededService
 	)
 	{
 		parent::__construct($failedLogin, $configuration, $ldapConnection, $userManager, $mailNotification,
-			$userBlockedMessage, $attributeService, $roleManager);
+			$userBlockedMessage, $attributeService, $loginState, $loginSucceededService);
 
 		$this->validation = $validation;
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
+		$this->loginSucceededService = $loginSucceededService;
 	}
 
 	/**
-	 * Check if the user can be authenticated using user from the client machine.
+	 * Register all hooks for our single sign on.
 	 *
-	 * @param null $user
-	 * @param string $login
-	 * @param string $password
+	 * @issue ADI-659 added optional $increaseLogoutPriority parameter
 	 *
-	 * @return bool
+	 * @param $increaseLogoutExecutionPriority
 	 */
+	public function register($increaseLogoutExecutionPriority = false)
+	{
+		// ADI-659 enable earlier execution than default 10 to enable wOffice compatibility
+		add_action('wp_logout', array($this, 'logout'), $increaseLogoutExecutionPriority ? 1 : 10);
+		add_action('init', array($this, 'authenticate'));
+
+		// for SSO we have to re-register the user-disabled hook
+		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this->loginSucceededService, 'checkUserEnabled'), 15, 1);
+		// after login has succeeded, we want the current identified user to be automatically logged in
+		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this, 'loginUser'), 19, 1);
+	}
+
+    /**
+     * Check if the user can be authenticated using user from the client machine.
+     *
+     * @param null $user
+     * @param string $login
+     * @param string $password
+     *
+     * @return bool
+     * @throws Exception
+     */
 	public function authenticate($user = null /* required for WordPress callback */, $login = '', $password = '')
 	{
 		// if the user is already logged in, do not continue
@@ -88,8 +113,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		try {
 			$validation->validateUrl();
 			$validation->validateLogoutState();
-		}
-		catch (NextADInt_Adi_Authentication_LogoutException $e) {
+		} catch (NextADInt_Adi_Authentication_LogoutException $e) {
 			$this->logger->info("Skipping further authentication because user is being logged out");
 			return false;
 		}
@@ -107,15 +131,20 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 			}
 
 			// authenticate the given user and run the default procedure form the LoginService
-			$user = parent::authenticate(null, $credentials->getUserPrincipalName());
+			$authenticatedCredentials = $this->parentAuthenticate($credentials);
+			if(!$authenticatedCredentials) {
+				throw new NextADInt_Adi_Authentication_Exception("Unable to authenticate user" . $credentials->getUserPrincipalName());
+			}
 
-			$validation->validateUser($user);
+
+			// as SSO runs during the "init" phase, we need to call the 'authorize' filter on our own
+			apply_filters('authorize', $authenticatedCredentials);
+			apply_filters(NEXT_AD_INT_PREFIX . 'login_succeeded', $authenticatedCredentials);
 
 			// if our user is authenticated and we have a WordPress user, we
 			$sessionHandler->clearValue(self::FAILED_SSO_UPN);
-			$this->loginUser($user);
 		} catch (NextADInt_Adi_Authentication_Exception $e) {
-			$this->logger->error('User could not be authenticated using SSO.', $e);
+			$this->logger->error('User could not be authenticated using SSO. ' . $e->getMessage());
 			$sessionHandler->setValue(self::FAILED_SSO_UPN, $credentials->getUserPrincipalName());
 
 			return false;
@@ -124,6 +153,18 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		return true;
 	}
 
+	/**
+	 * Delegate to parent authenticate method call.
+	 *
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
+	 *
+	 * @return false|NextADInt_Adi_Authentication_Credentials
+	 * @throws Exception
+	 */
+	public function parentAuthenticate($credentials)
+	{
+		return parent::authenticate(null, $credentials->getUserPrincipalName());
+	}
 
 	/**
 	 * Create new credentials based upon sAMAccountName or userPrincipalName
@@ -138,11 +179,14 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		$ldapAttributes = $this->getAttributeService()->findLdapAttributesOfUser($credentials, '');
 
 		if ($ldapAttributes->getRaw() == false) {
-			throw new NextADInt_Adi_Authentication_Exception("User '"  . $credentials->getLogin() . "' does not exist in Active Directory'");
+			throw new NextADInt_Adi_Authentication_Exception("User '" . $credentials->getLogin() . "' does not exist in Active Directory'");
 		}
 
 		$upn = $ldapAttributes->getFilteredValue('userprincipalname');
+		$samaccountname = $ldapAttributes->getFilteredValue('samaccountname');
 		$credentials = self::createCredentials($upn, '');
+		// ADI-620: make sure that the sAMAccountName is explicitly set as it does not have to correlate with the userPrincipalName
+		$credentials->setSAMAccountName($samaccountname);
 
 		return $credentials;
 	}
@@ -165,8 +209,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 			$profile = $this->findBestConfigurationMatchForProfile(NextADInt_Adi_Configuration_Options::NETBIOS_NAME, $credentials->getNetbiosName());
 
 			$validation->validateProfile($profile);
-		}
-		catch (NextADInt_Adi_Authentication_Exception $e) {
+		} catch (NextADInt_Adi_Authentication_Exception $e) {
 			$this->logger->error("Validation of profile for NETBIOS name '" . $credentials->getNetbiosName() . "' failed: " . $e->getMessage());
 
 			throw new NextADInt_Adi_Authentication_Exception("Unable to find matching NADI profile for NETBIOS name '" . $credentials->getNetbiosName() . "'. Is NADI connected to a valid Active Directory domain?");
@@ -185,7 +228,9 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	 *
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 * @param NextADInt_Adi_Authentication_SingleSignOn_Validator $validation
+	 *
 	 * @return NextADInt_Adi_Authentication_Credentials
+	 * @throws NextADInt_Adi_Authentication_Exception
 	 */
 	function kerberosAuth(NextADInt_Adi_Authentication_Credentials $credentials, NextADInt_Adi_Authentication_SingleSignOn_Validator $validation)
 	{
@@ -231,7 +276,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		// ADI-357 unescape already escaped username
 		$unescape = stripslashes($username);
 
-		$this->logger->debug('SSO provided username for environment variable "'.  $envVariable . '" is "' . $username . "'");
+		$this->logger->debug('SSO provided username for environment variable "' . $envVariable . '" is "' . $username . "'");
 
 		return $unescape;
 	}
@@ -287,7 +332,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 
 		// if multiple profiles were found, log a warning and return the first result
 		if (sizeof($profiles) > 1) {
-			$this->logger->warn('Multiple profiles with the same option "' . $option .  '" and enabled SSO were found.');
+			$this->logger->warn('Multiple profiles with the same option "' . $option . '" and enabled SSO were found.');
 		}
 
 		// if no profile given suffix and sso enabled was found, search for profiles with SSO enabled and no suffixes
@@ -343,7 +388,10 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	}
 
 	/**
-	 * Try to authenticate the user against the Active Directory.
+	 * Since the web server already authenticated the user at this point we can simply return true.
+	 * The LoginService.php post authentication will check if the user is authorized and the createAndUpdate method will
+	 * return false if the given user could not be found. @CKL and @DME discussed several corner cases but we could not
+	 * find a problem with this solution.
 	 *
 	 * @param string $username
 	 * @param null|string $accountSuffix
@@ -353,7 +401,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	 */
 	public function authenticateAtActiveDirectory($username, $accountSuffix, $password)
 	{
-		return $this->isUserAuthorized($username, $accountSuffix);
+		return true;
 	}
 
 	/**
@@ -459,24 +507,35 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 	}
 
 	/**
-	 * Register all hooks for our single sign on.
-	 */
-	public function register()
-	{
-		add_action('wp_logout', array($this, 'logout'));
-		add_action('init', array($this, 'authenticate'));
-	}
-
-	/**
 	 * If the user is not logged in, perform a login for the given user.
 	 *
-	 * @param      $user
-	 * @param bool $exit
+	 * @param WP_User $user
+	 * @param boolean $exit
+	 *
+	 * @return WP_User
 	 */
-	protected function loginUser($user, $exit = true)
+	public function loginUser($user, $exit = true)
 	{
-		// ADI-418: Accessing un-protected URLs directly with SSO enabled redirect does not work
-		$redirectTo = (isset($_SERVER['REDIRECT_URL']) && !empty($_SERVER['REDIRECT_URL'])) ? $_SERVER['REDIRECT_URL'] : null;
+		if (!($user instanceof WP_User)) {
+			return $user;
+		}
+
+		$redirectTo = (isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : null;
+
+		/*
+ 		 * ADI-644
+ 		 * This check and redirect to the home url is required for the SSO Login to work.
+ 		 * When a users logs out of its WordPress account it will be redirected to the "/wp-login.php" with loggedout=true
+		 * query parameter. If a user now tries to login via the SSO Login link, the REQUEST_URI will contain loggedout=true
+		 * this will trigger the WordPress logout logic which will then logout the user instantly after an successful authentication.
+		 * To prevent this we check for reauth and redirect the user to the home url. At the moment we think this is the best workaround
+		 * due we did not find any corner cases, yet.
+ 		 */
+
+		if (strpos($redirectTo, 'reauth=sso') !== false) {
+			$redirectTo = home_url('/');
+		}
+
 		// default redirect if WordPress forces itself a login, e.g. when accessing /wp-admin
 		$redirectTo = (!empty($_REQUEST['redirect_to'])) ? $_REQUEST['redirect_to'] : $redirectTo;
 		// if not set, fall back to the home url
@@ -492,6 +551,8 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		if ($exit) {
 			exit;
 		}
+
+		return $user;
 	}
 
 	/**

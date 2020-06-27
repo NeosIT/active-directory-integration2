@@ -12,7 +12,7 @@ class Ut_NextADInt_Core_EncryptionTest extends Ut_BasicTest
 	/**
 	 * // setting up encryptionHandler
 	 */
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 		$this->encryptionHandler = new NextADInt_Core_Encryption();

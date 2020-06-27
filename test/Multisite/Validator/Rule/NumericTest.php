@@ -18,12 +18,12 @@ class Ut_NextADInt_Multisite_Validator_Rule_NumericTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'Validation failed.';
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

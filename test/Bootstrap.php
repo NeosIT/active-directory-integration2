@@ -20,6 +20,7 @@ if (!defined('ABSPATH')) {
 	define('NEXT_AD_INT_TABLE_CONVERSION_PATTERN', '[%-5level] | %msg | %ex');
 	define('AUTH_SALT', '</q|_f-py65|-Cy*E)9$]}jI/x1KqLMIF_rc1g]`=vsa`9RjA,r1ufr(lM2L*YBp');
 	define('OBJECT', 987);
+	define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH', dirname(dirname( __FILE__ )));
 
 	// TODO in eigene Klassen auslagern
 	class WP_Error
@@ -54,6 +55,11 @@ if (!defined('ABSPATH')) {
 		public function getErrors()
 		{
 			return $this->errors;
+		}
+
+		public function get_error_message()
+		{
+			return $this->value[0];
 		}
 	}
 
@@ -95,8 +101,13 @@ if (!defined('ABSPATH')) {
         {
             $this->data = (object) array(
                 'user_login' => 'hugo',
-                'user_email' => 'hugo@test.ad'
+                'user_email' => 'hugo@test.ad',
+				'ID' => '666'
             );
+        }
+
+        public function __get($name) {
+            return $this->data->$name;
         }
 
         public function setExpectedUserLogin($expected) {
@@ -106,6 +117,10 @@ if (!defined('ABSPATH')) {
         public function setExpectedUserEmail($expected) {
             $this->data->user_email = $expected;
         }
+
+		public function setID($expected) {
+			$this->data->ID = $expected;
+		}
 	}
 
     class WP_MS_Sites_List_Table {

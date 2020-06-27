@@ -129,10 +129,10 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
             'verify' => __('Verify', 'next-active-directory-integration'),
             'adAttributes' => __('AD Attributes', 'next-active-directory-integration'),
             'dataType' => __('Data Type', 'next-active-directory-integration'),
-            'wordpressAttribute' => __('Wordpress Attribute', 'next-active-directory-integration'),
+            'wordpressAttribute' => __('WordPress Attribute', 'next-active-directory-integration'),
             'description' => __('Description', 'next-active-directory-integration'),
             'viewInUserProfile' => __('View in User Profile', 'next-active-directory-integration'),
-            'syncToAd' => __('Sync to Ad', 'next-active-directory-integration'),
+            'syncToAd' => __('Sync to AD', 'next-active-directory-integration'),
             'overwriteWithEmptyValue' => __('Overwrite with empty value', 'next-active-directory-integration'),
             'wantToRegenerateAuthCode' => __('Do you really want to regenerate a new AuthCode?', 'next-active-directory-integration'),
             'wordPressIsConnectedToDomain' => __('WordPress Site is currently connected to Domain: ', 'next-active-directory-integration'),
@@ -198,7 +198,7 @@ class NextADInt_Multisite_Ui_ProfileConfigurationPage extends NextADInt_Multisit
 			'/js/app/profile-options/controllers/user.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
 		wp_enqueue_script('next_ad_int_profile_options_controller_password', NEXT_AD_INT_URL .
-			'/js/app/profile-options/controllers/password.controller.js',
+			'/js/app/profile-options/controllers/credential.controller.js',
 			array(), self::VERSION_PROFILE_CONFIGURATION_JS);
 		wp_enqueue_script('next_ad_int_profile_options_controller_permission', NEXT_AD_INT_URL .
 			'/js/app/profile-options/controllers/permission.controller.js',

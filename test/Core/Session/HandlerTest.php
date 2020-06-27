@@ -11,7 +11,7 @@ class Ut_NextADInt_Core_Session_HandlerTest extends Ut_BasicTest
 	/* @var NextADInt_Core_Util_Internal_Native|\Mockery\MockInterface */
 	private $internalNative;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -20,7 +20,7 @@ class Ut_NextADInt_Core_Session_HandlerTest extends Ut_BasicTest
 		NextADInt_Core_Util::native($this->internalNative);
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 		// release mocked native functions

@@ -21,7 +21,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 	/* @var NextADInt_Multisite_Ui_BlogConfigurationController|PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationController;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -32,7 +32,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -150,10 +150,10 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
                     'verify' => 'Verify',
                     'adAttributes' => 'AD Attributes',
                     'dataType' => 'Data Type',
-                    'wordpressAttribute' => 'Wordpress Attribute',
+                    'wordpressAttribute' => 'WordPress Attribute',
                     'description' => 'Description',
                     'viewInUserProfile' => 'View in User Profile',
-                    'syncToAd' => 'Sync to Ad',
+                    'syncToAd' => 'Sync to AD',
                     'overwriteWithEmptyValue' => 'Overwrite with empty value',
                     'wantToRegenerateAuthCode' => 'Do you really want to regenerate a new AuthCode?',
                     'wordPressIsConnectedToDomain' => 'WordPress Site is currently connected to Domain: ',
@@ -287,7 +287,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_config',
-					NEXT_AD_INT_URL . '/js/app/app.config.js',
+					NEXT_AD_INT_URL . '/js/app/app.nadi.js',
 					array(),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
@@ -437,7 +437,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_profile_options_controller_password',
-					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/password.controller.js',
+					NEXT_AD_INT_URL . '/js/app/profile-options/controllers/credential.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_ProfileConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
@@ -960,7 +960,6 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SSO_PASSWORD][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_BaseDn', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_BaseDnWarn', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][1]);
-		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][2]);
 	}
 
 

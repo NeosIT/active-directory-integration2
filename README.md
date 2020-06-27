@@ -1,5 +1,14 @@
 # Next Active Directory Integration
-Next Active Directory Integration allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory. Next ADI ist a complete rewrite of its predecessor [Active Directory Integration](https://wordpress.org/plugins/active-directory-integration/). You can easily import users from your Active Directory into your WordPress instance and keep both synchronized through Next Active Directory Integration's features
+Next Active Directory Integration allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory. Next ADI ist a complete rewrite of its predecessor [Active Directory Integration](https://wordpress.org/plugins/active-directory-integration/). You can easily import users from your Active Directory into your WordPress instance and keep both synchronized through Next Active Directory Integration's features.
+
+If you like this plug-in we'd like to encourage you to purchase a support license from [https://active-directory-wp.com/](https://active-directory-wp.com/shop-overview/) to support the ongoing development of this plug-in.
+
+## Important requirement changes
+As of *2020-01-01* NADI did *no* longer support PHP version *< 7.2*. The reason is that security support for PHP 7.1 and below has beeen dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
+For security reasons and in order to use NADI in 2020 we hereby politely encourage you to migrate your environments to at least PHP 7.2 until then.
+
+
+Thank you all for your support and understanding.
 
 ## Running
 You can download the ready-to-use version from the [WordPress.org Plugin Directory](https://wordpress.org/plugins/next-active-directory-integration) or from the [SVN repository](https://plugins.svn.wordpress.org/next-active-directory-integration) hosted by WordPress.org.
@@ -11,11 +20,11 @@ After the cloning you have to update the dependencies with help of *Composer* (e
 To install composer follow the instructions on [https://getcomposer.org/download/](https://getcomposer.org/download/).
 	
 ### Testing
-Tests are made with PHPUnit 5.7. Get PHPUnit 5.7 with
+Tests are made with PHPUnit 9. Get PHPUnit 9 with
 
 ```shell
 	# get PHPUnit
-	wget https://phar.phpunit.de/phpunit-5.7.phar
+	wget https://phar.phpunit.de/phpunit-9.phar
 ```
 
 #### Running unit tests
@@ -23,7 +32,7 @@ Tests are made with PHPUnit 5.7. Get PHPUnit 5.7 with
 ```shell
  	cd active-directory-integration2
 	# run unit tests with default PHPUnit configuration
-	php path/to/phpunit.phar --testsuite "unit" --configuration phpunit.xml
+	php ./vendor/bin/phpunit --testsuite "unit" --configuration phpunit.xml
 ``` 
 
 #### Running integration tests 
@@ -83,5 +92,5 @@ More specialized tasks are
 You can provide the variable *php* (*-Dphp=path-to-php-binary*) and *pdepend*, *phpcpd*, *phpcs*, *phpdox*, *phploc*, *phpunit* to configure the tool paths:
 
 ```shell
-	ant -Dphp=/usr/bin/php-5.6.15 -Dpdepend=/opt/php-env/ci/pdepend.phar -Dphpcpd=/opt/php-env/ci/phpcpd.phar
+	ant -Dphp=/usr/bin/php-7.3.3 -Dpdepend=/opt/php-env/ci/pdepend.phar -Dphpcpd=/opt/php-env/ci/phpcpd.phar
 ```

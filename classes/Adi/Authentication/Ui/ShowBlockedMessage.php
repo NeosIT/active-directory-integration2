@@ -36,7 +36,7 @@ class NextADInt_Adi_Authentication_Ui_ShowBlockedMessage
 		$this->configuration = $configuration;
 		$this->twigContainer = $twigContainer;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**

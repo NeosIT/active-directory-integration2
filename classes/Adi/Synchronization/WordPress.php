@@ -67,11 +67,11 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 * @param NextADInt_Adi_Role_Manager                $roleManager
 	 */
 	public function __construct(NextADInt_Adi_User_Manager $userManager,
-		NextADInt_Adi_User_Helper $userHelper,
-		NextADInt_Multisite_Configuration_Service $configuration,
-		NextADInt_Ldap_Connection $connection,
-		NextADInt_Ldap_Attribute_Service $attributeService,
-		NextADInt_Adi_Role_Manager $roleManager
+								NextADInt_Adi_User_Helper $userHelper,
+								NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_Ldap_Connection $connection,
+								NextADInt_Ldap_Attribute_Service $attributeService,
+								NextADInt_Adi_Role_Manager $roleManager
 	) {
 		parent::__construct($configuration, $connection, $attributeService);
 
@@ -82,7 +82,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$this->loggingEnabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::LOGGER_ENABLE_LOGGING);
 		$this->customPath = $this->configuration->getOptionValue((NextADInt_Adi_Configuration_Options::LOGGER_CUSTOM_PATH));
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -110,7 +110,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		}
 
 		$startTime = time();
-		$this->logger->debug('START: findSynchronizableUsers(): ' . $startTime);
+		$this->logger->debug('START: findSynchronizableUsers()');
 		$users = $this->findSynchronizableUsers();
 		$totalTimeNeeded = time() - $startTime;
 		$this->logger->debug('END: findSynchronizableUsers(): Duration:  ' . $totalTimeNeeded . ' seconds');
@@ -126,13 +126,13 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 			$failedSync = 0;
 
 			foreach ($users as $guid => $sAMAccountName) {
-				$credentials = new NextADInt_Adi_Authentication_Credentials($sAMAccountName);
+				$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($sAMAccountName);
 				$status = -1;
 
 				try {
 					$status = $this->synchronizeUser($credentials, $guid);
 				} catch (Exception $ex) {
-					$this->logger->error('Failed to synchronize ' . $credentials, $ex);
+					$this->logger->error('Failed to synchronize ' . $credentials . ". " . $ex->getMessage());
 				}
 
 				switch ($status) {
@@ -164,17 +164,8 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 */
 	protected function prepareForSync()
 	{
-
-		// ADI-354 (dme)
-		if (!$this->loggingEnabled) {
-			NextADInt_Core_Logger::displayMessages();
-		} else {
-			NextADInt_Core_Logger::displayAndLogMessages($this->customPath);
-		}
-
-		NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelInfo());
-
 		$enabled = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_ENABLED);
+
 		if (!$enabled) {
 			$this->logger->info('Sync to WordPress is disabled.');
 
@@ -516,7 +507,8 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$rawLdapAttributes = $adiUser->getLdapAttributes()->getRaw();
 		$username = $adiUser->getCredentials()->getSAMAccountName();
 
-		$isInActiveDirectory = isset($rawLdapAttributes) && (sizeof($rawLdapAttributes) > 0);
+		// ADI-701: If user is deleted, $rawLdapAttributes is not an array
+		$isInActiveDirectory = isset($rawLdapAttributes) && is_array($rawLdapAttributes) && (sizeof($rawLdapAttributes) > 0);
 		$isInWordPress = ($adiUser->getId() > 0);
 		$uac = $this->userAccountControl($rawLdapAttributes);
 
@@ -540,13 +532,19 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 				);
 			}
 
-			if ($this->isSmartCardRequired($uac)) {
-				throw new Exception(
-					sprintf(
-						__('The account of user "%s" requires a smart card for login.', 'next-active-directory-integration'),
-						$username
-					)
-				);
+			if ($this->isSmartCardRequired($uac) && !$this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ENABLE_SMARTCARD_USER_LOGIN)) {
+
+				//ADI-594 If user is already disabled there is no need to disable him again. This prevents -DISABLED getting attached multiple times
+				if (!$this->userManager->isDisabled($adiUser->getId())) {
+					throw new Exception(
+						sprintf(
+							__('The account of user "%s" requires a smart card for login.', 'next-active-directory-integration'),
+							$username
+						)
+					);
+				}
+
+				return false;
 			}
 		} catch (Exception $e) {
 			$this->logger->warn("Disable user '{$username}': " . $e->getMessage());
@@ -601,9 +599,6 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 */
 	protected function finishSynchronization($addedUsers, $updatedUsers, $failedSync)
 	{
-		if ($this->loggingEnabled) {
-			NextADInt_Core_Logger::setLevel(LoggerLevel::getLevelDebug());
-		}
 
 		$elapsedTime = $this->getElapsedTime();
 

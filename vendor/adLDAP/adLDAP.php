@@ -142,6 +142,14 @@ class adLDAP {
 	protected $_ad_port=389;
 	
 	/**
+	 * Self-signed certificate on AD server
+     *
+     * @var boolean
+     *
+	 */
+	protected $_allow_self_signed = false;
+
+	/**
 	 * If we have PHP 5.3 or above we can set the LDAP_OPT_NETWORK_TIMEOUT to another value
 	 * Default is -1 which means infinite
 	 * (EXTENDED)
@@ -157,7 +165,15 @@ class adLDAP {
 	 *
 	 * @var unknown_type
 	 */
-	const VERSION = '3.3.2 EXTENDED (201302271401)';
+	const VERSION = '3.3.2 EXTENDED (20200626)';
+
+	/**
+	 * ADI-545 Debug information about LDAP Connection (DME)
+     *
+     * @var boolean
+     *
+	 */
+	protected $_debug = false;
 	
 	
 	// You should not need to edit anything below this line
@@ -345,6 +361,26 @@ class adLDAP {
     }
     
     /**
+    * Set allow_self_signed certificate
+    * 
+    * @param boolean
+    */
+    public function set_allow_self_signed($status)
+    {
+        $this->_allow_self_signed = $status;
+    }
+    
+    /**
+    * Get allow_self_signed
+    * 
+    * @return integer
+    */
+    public function get_allow_self_signed()
+    {
+          return $this->_allow_self_signed;
+    }
+    
+    /**
     * Set network timeout
     * 
     * @param integer $_seconds
@@ -392,6 +428,7 @@ class adLDAP {
             if (array_key_exists("use_tls",$options)){ $this->_use_tls=$options["use_tls"]; }
             if (array_key_exists("recursive_groups",$options)){ $this->_recursive_groups=$options["recursive_groups"]; }
 			if (array_key_exists("ad_port",$options)){ $this->_ad_port=$options["ad_port"]; }
+        	if (array_key_exists("allow_self_signed",$options)){ $this->_allow_self_signed=$options["allow_self_signed"]; }
         	if (array_key_exists("network_timeout",$options)){ $this->_network_timeout=$options["network_timeout"]; }
         }
         
@@ -419,18 +456,47 @@ class adLDAP {
     public function connect() {
     	ldap_set_option($this->_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
 
+        if ($this->_allow_self_signed == true) {
+            if (version_compare(PHP_VERSION, '7.0.5', '>=')) {
+                ldap_set_option($this->_conn, LDAP_OPT_X_TLS_REQUIRE_CERT, 0);
+            } else {
+                // Older versions of PHP (<7.0.5) need this environment setting to ignore the certificate
+                putenv('LDAPTLS_REQCERT=never');
+            }
+        }
+
         // Connect to the AD/LDAP server as the username/password
         $this->_last_used_dc = $this->random_controller();
-        
+
+        // Set default connection url
+        $url = $this->_last_used_dc;
+		$usePort = $this->_ad_port;
+
         if ($this->_use_ssl) {
-            $this->_conn = ldap_connect("ldaps://".$this->_last_used_dc, 636);
-        } else {
-            $this->_conn = ldap_connect($this->_last_used_dc, $this->_ad_port);
+
+            $url = "ldaps://" . $this->_last_used_dc;
+
+            // ADI-545 LDAPS port setting is not used properly (DME)
+            if (!$usePort || $usePort == 389) {
+                // fallback to default SSL port
+				$usePort = 636;
+            }
+			
+			// NADIS-94: With some PHP/LDAP compilations, the ldap_connect(..., $usePort) parameter is ignored when SSL is used.
+			// when SSL is being used, we assign the selected port to the URI
+			$url .= ":" . $usePort;
         }
+
+		$this->_conn = ldap_connect($url, $usePort);
                
         // Set some ldap options for talking to AD
         ldap_set_option($this->_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
         ldap_set_option($this->_conn, LDAP_OPT_REFERRALS, 0);
+
+        // ADI-545 Enable LDAP Connection debugging
+		if ($this->_debug == true) {
+			ldap_set_option($this->_conn, LDAP_OPT_DEBUG_LEVEL, 7);
+		}
         
     	// if we have PHP 5.3 or above set LDAP_OPT_NETWORK_TIMEOUT (EXTENDED)
     	if (($this->_network_timeout > 0) && (version_compare(PHP_VERSION, '5.3.0', '>='))) {
@@ -438,6 +504,8 @@ class adLDAP {
 		}
         
         if ($this->_use_tls) {
+            // if this returns a warning "Unable to start TLS: Server is unavailable", the AD does not provide a certificate on port 389
+            // @see https://active-directory-wp.com/docs/Networking/Encryption_with_TLS.html
            ldap_start_tls($this->_conn);
         }
                
@@ -447,9 +515,9 @@ class adLDAP {
             if (!$this->_bind){
                 if ($this->_use_ssl && !$this->_use_tls){
                     // If you have problems troubleshooting, remove the @ character from the ldap_bind command above to get the actual error message
-                    throw new adLDAPException('Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: ' . $this->get_last_error());
+                    $this->throwConnectionError('Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect.');
                 } else {
-                    throw new adLDAPException('Bind to Active Directory failed. Check the login credentials and/or server details. AD said: ' . $this->get_last_error());
+					$this->throwConnectionError('Bind to Active Directory failed. Check the login credentials and/or server details.');
                 }
             }
         }
@@ -494,7 +562,7 @@ class adLDAP {
             $this->_bind = @ldap_bind($this->_conn, $this->_ad_username, $this->_ad_password);
             if (!$this->_bind){
                 // This should never happen in theory
-                throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->get_last_error());
+                $this->throwConnectionError('Rebind to Active Directory failed.');
             } 
         }
         
@@ -755,6 +823,7 @@ class adLDAP {
     	$filter="(&(objectCategory=user)(primarygroupid=".$pgid."))";
     	
     	// Let's use paging if available
+        // gh-#127: PHP 7.4 compatibility; ldap_control_paged* is deprecated
     	if (function_exists('ldap_control_paged_result')) {
     		
     		$pageSize = 500;
@@ -763,7 +832,7 @@ class adLDAP {
 	    	$users_page = array();
 	    	
 	    	do {
-	    		ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
+	    		@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
 	    	
 		        $sr = ldap_search($this->_conn, $this->_base_dn, $filter, array('dn'));
 		        $users_page = ldap_get_entries($this->_conn, $sr);
@@ -773,13 +842,13 @@ class adLDAP {
 		        }
 		        
 		        $users = array_merge($users, $users_page);
-	    		ldap_control_paged_result_response($this->_conn, $sr, $cookie);
+	    		@ldap_control_paged_result_response($this->_conn, $sr, $cookie);
 	    		 
 	    	} while($cookie !== null && $cookie != '');
 			
 			$users['count'] = count($users) -1; // Set a new count value !important!
 			
-			ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
+			@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
 	    	
     	} else {
     		
@@ -945,6 +1014,7 @@ class adLDAP {
         if ($fields===NULL){ $fields=array("member","memberof","cn","description","distinguishedname","objectcategory","samaccountname"); }
         
         // Let's use paging if available
+        // gh-#127: PHP 7.4 compatibility; ldap_control_paged* is deprecated
 		if (function_exists('ldap_control_paged_result')) {
         
         	$pageSize = 500;
@@ -953,7 +1023,7 @@ class adLDAP {
         	$entries_page = array();
         
         	do {
-        		ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
+        		@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
         
         		$sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
         		$entries_page = ldap_get_entries($this->_conn, $sr);
@@ -963,13 +1033,13 @@ class adLDAP {
         		}
         
         		$entries = array_merge($entries, $entries_page);
-        		ldap_control_paged_result_response($this->_conn, $sr, $cookie);
+        		@ldap_control_paged_result_response($this->_conn, $sr, $cookie);
         
         	} while($cookie !== null && $cookie != '');
 			
 			$entries['count'] = count($entries) - 1; // Set a new count value !important!
 			
-			ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
+			@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
         
         } else {
         
@@ -2664,7 +2734,7 @@ class adLDAP {
     protected function encode_password($password){
         $password="\"".$password."\"";
         $encoded="";
-        for ($i=0; $i <strlen($password); $i++){ $encoded.="{$password{$i}}\000"; }
+        for ($i=0; $i <strlen($password); $i++){ $encoded.="{$password[$i]}\000"; }
         return ($encoded);
     }
     
@@ -2818,8 +2888,47 @@ class adLDAP {
         if ($encode === true && $key != 'password') {
             $item = utf8_encode($item);   
         }
-    }    
+    }
+
+
+	public function throwConnectionError($message) {
+		$error = $this->get_last_error();
+		$errno = $this->get_last_errno();
+
+		$detailedMessage = $message . " [AD: " . $error . "] [AD error code: " . $errno . "]";
+
+		throw new adLDAPException($detailedMessage, $error, $errno);
+	}
+
+	/**
+	 *  Finds the sAMAccountName for the LDAP record that has the given email address in one of its proxyAddresses attributes.
+	 *
+	 *  EJN - 2017/11/16 - Allow users to log in with one of their email addresses specified in proxyAddresses
+	 *
+	 * @param String $proxyAddress The proxy address to use in the look up.
+	 *
+	 * @return The associated sAMAccountName or false if not found or uniquely found.
+     *
+     * @author Erik Nedwidek
+	 */
+	public function findByProxyAddress($proxyAddress)
+	{
+		$filter="(&(objectCategory=user)(proxyAddresses~=smtp:" . $proxyAddress . "))";
+		$fields = array("samaccountname");
+		$sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
+		$entries = ldap_get_entries($this->_conn, $sr);
+
+		// Return false if we didn't find exactly one entry.
+		if($entries['count'] == 0 || $entries['count'] > 1) {
+			return false;
+		}
+
+		return $entries[0]['samaccountname'][0];
+	}
+
 }
+
+
 
 /**
 * adLDAP Exception Handler
@@ -2833,7 +2942,31 @@ class adLDAP {
 *   echo $e;
 *   exit();
 * }
+*
+* ADI-545 adLDAPEception now contains the last LDAP error and last error number (DME)
+*
 */
-class adLDAPException extends Exception {}
+class adLDAPException extends Exception {
+	private $_ldapError = null;
+	private $_ldapErrno = null;
+	private $_message = null;
+	private $_detailedMessage = null;
+
+	public function __construct($message, $detailedMessage = null, $ldapError = null, $ldapErrno = null) {
+		parent::__construct($message);
+
+		$this->_detailedMessage = $detailedMessage != null ? $detailedMessage : $message;
+		$this->_ldapError = $ldapError;
+		$this->_ldapErrno = $ldapErrno;
+	}
+
+	public function getLdapError() {
+		return $this->_ldapError;
+	}
+
+	public function getLdapErrno() {
+		return $this->_ldapErrno;
+	}
+}
 
 ?>

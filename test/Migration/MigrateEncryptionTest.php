@@ -22,7 +22,7 @@ class Ut_NextADInt_Migration_MigrateEncryptionTest extends Ut_BasicTest
 	/** @var NextADInt_Adi_Dependencies|PHPUnit_Framework_MockObject_MockObject $dependencyContainer */
 	private $dependencyContainer;
 
-	public function setUp()
+	public function setUp() : void
 	{
 
 		parent::setUp();
@@ -46,7 +46,7 @@ class Ut_NextADInt_Migration_MigrateEncryptionTest extends Ut_BasicTest
 			->willReturn($this->blogConfigurationRepository);
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

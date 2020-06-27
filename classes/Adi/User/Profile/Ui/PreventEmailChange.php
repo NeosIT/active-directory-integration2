@@ -28,7 +28,7 @@ class NextADInt_Adi_User_Profile_Ui_PreventEmailChange
 	{
 		$this->configuration = $configuration;
 
-		$this->logger = Logger::getLogger(__CLASS__);
+		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
 	/**
@@ -79,11 +79,16 @@ class NextADInt_Adi_User_Profile_Ui_PreventEmailChange
 	 */
 	public function preventEmailChange(&$errors, $update, &$user)
 	{
-		// prevent emails
+        // ADI-670: Compatibility fix with other plug-ins
+        if (!is_object($user) || !property_exists($user, 'ID')) {
+            $this->logger->warn("Some malicious plug-ins have changed the expected \$user parameter so we can't prevent email changes for user");
+            return;
+        }
+
+        // prevent emails
 		add_filter('send_password_change_email', '__return_false');
 		add_filter('send_email_change_email', '__return_false');
 
-		//
 		$samAccountName = get_user_meta($user->ID, NEXT_AD_INT_PREFIX . 'samaccountname', true);
 		$admin = current_user_can('manage_options');
 

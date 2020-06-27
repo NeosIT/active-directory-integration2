@@ -12,7 +12,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationControllerTest extends Ut_Basic
 	/**  @var NextADInt_Multisite_Option_Provider| PHPUnit_Framework_MockObject_MockObject */
 	private $optionProvider;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -24,7 +24,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationControllerTest extends Ut_Basic
 		$this->optionProvider = $this->createMock('NextADInt_Multisite_Option_Provider');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

@@ -1,24 +1,27 @@
 <?php
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
  * Basic class for unit tests
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
+abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 {
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass() : void
 	{
-		NextADInt_Core_Logger::disableLogging();
+		NextADInt_Core_Logger::$isTestmode = true;
+		NextADInt_Core_Logger::createLogger();
 	}
 
-	public function setUp()
+	public function setUp() : void
 	{
 		\WP_Mock::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() :void
 	{
 		\WP_Mock::tearDown();
 		Mockery::close();
@@ -32,7 +35,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return PHPUnit_Framework_MockObject_MockObject
 	 */
-	public function createMock($className)
+	public function createMock($className): MockObject
 	{
 		if (!class_exists($className) && !interface_exists($className)) {
 			echo "You create a new class/interface '$className'. Be careful.";
@@ -74,7 +77,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 	 */
 	public function expectExceptionThrown($exception, $exceptionMessage = '')
 	{
-		$this->setExpectedException($exception, $exceptionMessage);
+		$this->expectException($exception, $exceptionMessage);
 	}
 
 	/**
@@ -114,7 +117,7 @@ abstract class Ut_BasicTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @param array|null $methods
 	 *
-	 * @return mixed
+	 * @return PHPUnit_Framework_MockObject_MockObject
 	 */
 	public function createAnonymousMock($methods)
 	{

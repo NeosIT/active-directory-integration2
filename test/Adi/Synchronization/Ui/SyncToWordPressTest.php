@@ -17,7 +17,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -26,7 +26,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		$this->syncToWordPress = $this->createMock('NextADInt_Adi_Synchronization_WordPress');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -100,7 +100,8 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 				'descriptionLine2' => 'Settings like auth-code etc. depends on the current blog. So be careful which blog you are using. Here are some examples:',
 				'repeatAction' => 'Repeat AD to WordPress synchronization',
 				'startAction' => 'Start AD to WordPress synchronization',
-				'syncDisabled' => 'Check that a connection to a domain controller is established and \'Enable sync to WordPress\' is checked. Also, a service account has to be provided.'
+				'syncDisabled' => 'Check that a connection to a domain controller is established and \'Enable sync to WordPress\' is checked. Also, a service account has to be provided.',
+				'showLogOutput' => __('Show log output', 'next-active-directory-integration')
 			),
 			'domainSidSet' => 1,
 			'syncEnabled' => 1,
@@ -285,7 +286,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_config',
-					NEXT_AD_INT_URL . '/js/app/app.config.js',
+					NEXT_AD_INT_URL . '/js/app/app.nadi.js',
 					array(),
 					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),

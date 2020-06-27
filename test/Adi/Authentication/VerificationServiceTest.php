@@ -16,7 +16,7 @@ class Ut_NextADInt_Adi_Authentication_VerificationServiceTest extends Ut_BasicTe
 	private $attributeService;
 
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -29,7 +29,7 @@ class Ut_NextADInt_Adi_Authentication_VerificationServiceTest extends Ut_BasicTe
 	}
 
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -65,7 +65,8 @@ class Ut_NextADInt_Adi_Authentication_VerificationServiceTest extends Ut_BasicTe
 			'network_timeout' => 5,
 			'base_dn' => 'DC=test;DC=ad',
 			'verification_username' => 'administrator',
-			'verification_password' => 'password'
+			'verification_password' => 'password',
+			'allow_self_signed' => true
 		);
 		
 		$config = new NextADInt_Ldap_ConnectionDetails();
@@ -76,6 +77,7 @@ class Ut_NextADInt_Adi_Authentication_VerificationServiceTest extends Ut_BasicTe
 		$config->setBaseDn($data["base_dn"]);
 		$config->setUsername($data["verification_username"]);
 		$config->setPassword($data["verification_password"]);
+		$config->setAllowSelfSigned($data['allow_self_signed']);
 		
 		$this->ldapConnection->expects($this->once())
 			->method('isConnected')
@@ -92,7 +94,7 @@ class Ut_NextADInt_Adi_Authentication_VerificationServiceTest extends Ut_BasicTe
 		
 		$this->attributeService->expects($this->once())
 			->method('getObjectSid')
-			->with(new NextADInt_Adi_Authentication_Credentials($data['verification_username']))
+			->with(NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($data['verification_username']))
 			->willReturn("1234");
 		
 		$sut->findActiveDirectoryDomainSid($data);

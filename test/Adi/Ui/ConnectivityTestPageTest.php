@@ -26,7 +26,10 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 	/** @var NextADInt_Adi_Role_Manager|PHPUnit_Framework_MockObject_MockObject $roleManager */
 	private $roleManager;
 
-	public function setUp()
+	/** @var NextADInt_Adi_User_LoginSucceededService */
+	private $loginSucceededService;
+
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -36,12 +39,13 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 		$this->attributeService = $this->createMock('NextADInt_Ldap_Attribute_Service');
 		$this->userManager = $this->createMock('NextADInt_Adi_User_Manager');
 		$this->roleManager = $this->createMock('NextADInt_Adi_Role_Manager');
+		$this->loginSucceededService = $this->createMock('NextADInt_Adi_User_LoginSucceededService');
 
 		$this->mockFunctionEsc_html__();
 
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -74,7 +78,8 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 					$this->ldapConnection,
 					$this->attributeService,
 					$this->userManager,
-					$this->roleManager
+					$this->roleManager,
+					$this->loginSucceededService
 				)
 			)
 			->setMethods($methods)
@@ -115,7 +120,8 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
                 'username' => 'Username:',
                 'password' => 'Password (will be shown):',
                 'tryAgain' => 'Try to authenticate again',
-                'tryAuthenticate' => 'Try to authenticate'
+                'tryAuthenticate' => 'Try to authenticate',
+				'showLogOutput' => 'Show log output',
             )
 		);
 
@@ -181,7 +187,7 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
     public function processData_withEscapedCharacter_unescapeThem()
     {
         $sut = $this->sut(array('printSystemEnvironment', 'connectToActiveDirectory', 'collectInformation'));
-        $collectInformationResult = array('output' => 'Test', 'authentication_result' => 666);
+        $collectInformationResult = array('output' => 'Test', 'authentication_result' => new WP_User());
 
         $_POST['username'] = 'test\User'; // should be addslashes('test\User');
         $_POST['password'] = "secret's";
@@ -207,23 +213,19 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
         $actual = $sut->processData();
 
         $this->assertTrue(is_array($actual));
-        $output = $sut->getOutput();
-        // first line has to be the output
-        $this->assertTrue(strpos($output[0], $collectInformationResult['output']) !== false);
-        $this->assertEquals($collectInformationResult['authentication_result'], $actual['status']);
-
+        $this->assertTrue($actual['status']);
     }
 
 	/**
 	 * @test
 	 */
-	public function processData()
+	public function processData_withValidCredentials_returnsTrue()
 	{
 		$sut = $this->sut(array('printSystemEnvironment', 'connectToActiveDirectory', 'collectInformation'));
-		$collectInformationResult = array('output' => 'Test', 'authentication_result' => 666);
+		$collectInformationResult = array('output' => 'Test', 'authentication_result' => true);
 
-		$_POST['username'] = 'testUser';
-		$_POST['password'] = 1234;
+		$_POST['username'] = 'john.doe';
+		$_POST['password'] = 'secret';
 		$_POST['security'] = 'someValue';
 
 		WP_Mock::wpFunction(
@@ -243,46 +245,64 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 		$actual = $sut->processData();
 
 		$this->assertTrue(is_array($actual));
-		$output = $sut->getOutput();
-		// first line has to be the output
-		$this->assertTrue(strpos($output[0], $collectInformationResult['output']) !== false);
-		$this->assertEquals($collectInformationResult['authentication_result'], $actual['status']);
-
+		$this->assertFalse($actual['status']);
 	}
 
 	/**
 	 * @test
 	 */
-	public function collectInformation_itTriesToConnectToActiveDirectory()
+	public function processData_withMissingOrInvalidNonce_dies()
 	{
-		$username = "username";
-		$password = "password";
+		$sut = $this->sut(array('printSystemEnvironment', 'connectToActiveDirectory', 'collectInformation'));
+
+		$_POST['username'] = 'john.doe';
+		$_POST['password'] = 'secret';
+		$_POST['security'] = 'someIncorrectValue';
+
+		WP_Mock::wpFunction(
+			'wp_verify_nonce', array(
+				'args'   => array($_POST['security'], 'Active Directory Integration Test Authentication Nonce'),
+				'times'  => 1,
+				'return' => false,
+			)
+		);
+
+		WP_Mock::wpFunction(
+			'wp_die', array(
+				'args' => 'You do not have sufficient permissions.',
+				'times' => 1
+			)
+		);
+
+		$sut->processData();
+	}
+
+	/**
+	 * @test
+	 */
+	public function collectInformation_performsSystemDetection_returnsExpectedArray()
+	{
+		$username = 'john.doe';
+		$password = 'secret';
+		$expected = new WP_User();
 		$supportString = 'Support for: ###123###http://example.com###ExampleBlogName###';
-		
+		$environment = array(array('PHP', '5.5'));
+
 		$supportData = array(
 			$supportString,
 			'Support Hash: ' . hash('sha256', $supportString)
 		);
 
-		$sut = $this->sut(array('connectToActiveDirectory', 'detectSystemEnvironment', 'detectSupportData'));
+		$sut = $this->sut(array('detectSupportData', 'detectSystemEnvironment', 'authenticateAndAuthorize'));
 
-		$sut->expects($this->once())
-			->method('detectSupportData')
-			->willReturn($supportData);
-		
-		$sut->expects($this->once())
-			->method('detectSystemEnvironment')
-			->willReturn(array(array('PHP', '5.5')));
-
-		$sut->expects($this->once())
-			->method('connectToActiveDirectory')
-			->with($username, $password)
-			->willReturn(666);
+		$sut->expects($this->once())->method('detectSupportData')->willReturn($supportData);
+		$sut->expects($this->once())->method('detectSystemEnvironment')->willReturn($environment);
+		$sut->expects($this->once())->method('authenticateAndAuthorize')->willReturn($expected);
 
 		$actual = $sut->collectInformation($username, $password);
 
-		$this->assertEquals('', $actual['output']);
-		$this->assertEquals(666, $actual['authentication_result']);
+		$this->assertNotEmpty($actual);
+		$this->assertEquals($actual['authentication_result'], $expected);
 	}
 
 	/**

@@ -23,7 +23,7 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 	/* @var NextADInt_Adi_Ui_ConnectivityTestPage | PHPUnit_Framework_MockObject_MockObject */
 	private $connectivityTestPage;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -34,7 +34,7 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 		$this->syncToWordPressPage = $this->createMock('NextADInt_Adi_Synchronization_Ui_SyncToWordPressPage');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -82,9 +82,9 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 
 		$sut->expects($this->exactly(1))
 			->method('addAjaxListener')
-			->withConsecutive(
+			->withConsecutive(array(
 				$this->blogConfigurationPage
-			);
+			));
 
 		$sut->register();
 	}

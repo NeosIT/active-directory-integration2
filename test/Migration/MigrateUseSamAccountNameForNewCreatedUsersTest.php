@@ -21,7 +21,7 @@ class Ut_NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsersTest exte
 	/** @var NextADInt_Adi_Dependencies|PHPUnit_Framework_MockObject_MockObject $dependencyContainer */
 	private $dependencyContainer;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 		$this->dependencyContainer = parent::createMock('NextADInt_Adi_Dependencies');
@@ -44,7 +44,7 @@ class Ut_NextADInt_Migration_MigrateUseSamAccountNameForNewCreatedUsersTest exte
 			->willReturn($this->blogConfigurationRepository);
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

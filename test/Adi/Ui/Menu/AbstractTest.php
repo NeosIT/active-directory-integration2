@@ -17,14 +17,14 @@ class Ut_NextADInt_Adi_Ui_Menu_AbstractTest extends Ut_BasicTest
 	 */
 	private $optionProvider;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
 		$this->optionProvider = $this->createMock('NextADInt_Multisite_Option_Provider');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
