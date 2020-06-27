@@ -127,6 +127,9 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.1.13 = 
+****UNRELEASED****
+
 = 2.1.12 =
 * ADDED: PR gh-#107: allow self signed certificates
 * CHANGED: notices for minimum PHP version 7.2 due to EOL of PHP 7.1
