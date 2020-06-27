@@ -104,7 +104,7 @@ pipeline {
 								sh "ant \
 									-Dphp=${targetPhpConfiguration.bin} \
 									-Dphp_for_phpunit=${targetPhpConfiguration.bin_for_phpunit} \
-									-Dphpunit=${targetPhpConfiguration.phpunit} \
+									-Dphpunit=./vendor/phpunit/phpunit/phpunit \
 									-DphpunitLogFile=build/logs/junit-${target}.xml \
 									quick-build"
 								xunit thresholds: [failed(failureNewThreshold: '0', failureThreshold: '0', unstableNewThreshold: '0', unstableThreshold: '0')], 
