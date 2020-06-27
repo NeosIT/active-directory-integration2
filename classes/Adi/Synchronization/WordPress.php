@@ -91,7 +91,6 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	public function register()
 	{
 		add_action(NEXT_AD_INT_PREFIX . 'ad2wp_execute_synchronization', array($this, 'synchronize'));
-//		$this->logger->info("Registered Sync to WordPress hook");
 	}
 
 

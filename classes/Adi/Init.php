@@ -267,8 +267,6 @@ class NextADInt_Adi_Init
 		// register synchronization trigger hooks
 		$this->registerSynchronizationHooks();
 
-
-
 		return true;
 	}
 
@@ -388,9 +386,8 @@ class NextADInt_Adi_Init
 		// Register Sync to WordPress hook
 		$this->dc()->getSyncToWordPress()->register();
 
-		// Register Sync to Ad hook
+		// Register Sync to AD hook
 		$this->dc()->getSyncToActiveDirectory()->register();
-
 	}
 
 	// ---

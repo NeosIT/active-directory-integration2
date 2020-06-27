@@ -41,7 +41,6 @@ class NextADInt_Adi_Synchronization_ActiveDirectory extends NextADInt_Adi_Synchr
 	 */
 	public function register()
 	{
-//		$this->logger->info("Registered Sync to Active Directory hook");
 		add_action(NEXT_AD_INT_PREFIX . 'wp2ad_execute_synchronization', array($this, 'synchronize'));
 	}
 
