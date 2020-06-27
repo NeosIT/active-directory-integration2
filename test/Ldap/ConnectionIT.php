@@ -17,7 +17,7 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 	/* @var NextADInt_Ldap_ConnectionDetails */
 	protected $connectionDetails;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		\WP_Mock::setUp();
 
@@ -29,7 +29,7 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 		$this->prepareActiveDirectory($this->ldapConnection->getAdLdap());
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		$this->rollbackAdAfterConnectionIt($this->ldapConnection->getAdLdap());
 		\WP_Mock::tearDown();

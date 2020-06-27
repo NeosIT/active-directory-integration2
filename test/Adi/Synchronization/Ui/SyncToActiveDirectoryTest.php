@@ -17,7 +17,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest extends Ut_BasicTest
 	/* @var NextADInt_Adi_Synchronization_ActiveDirectory | PHPUnit_Framework_MockObject_MockObject */
 	private $syncToActiveDirectory;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -26,7 +26,7 @@ class Ut_Adi_Synchronization_Ui_SyncToActiveDirectoryTest extends Ut_BasicTest
 		$this->syncToActiveDirectory = $this->createMock('NextADInt_Adi_Synchronization_ActiveDirectory');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

@@ -15,7 +15,7 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
 	/** @var \Mockery\MockInterface */
 	private $wordPressSiteHelper;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -27,7 +27,7 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
 		NextADInt_Core_Util::native($this->internalNative);
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 		// release mocked native functions
@@ -136,11 +136,11 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
 
 	/**
 	 * @test
-	 * @expectedException RequirementException
 	 */
 	public function requireWordPressVersion_itFails_ifVersionIsTooOld()
 	{
 		$sut = $this->sut();
+		$this->expectException(RequirementException::class);
 
 		// mock away static methods
 		$this->internalNative->expects($this->once())
@@ -157,11 +157,11 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
 
 	/**
 	 * @test
-	 * @expectedException RequirementException
 	 */
 	public function requireLdap_itFails_ifExtensionIsNotLoaded()
 	{
 		$sut = $this->sut();
+		$this->expectException(RequirementException::class);
 
 		// mock away static methods
 		$this->internalNative->expects($this->once())
@@ -194,11 +194,11 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
 
 	/**
 	 * @test
-	 * @expectedException RequirementException
 	 */
 	public function requireMbstring_itFails_ifExtensionIsNotLoaded()
 	{
 		$sut = $this->sut();
+		$this->expectException(RequirementException::class);
 
 		// mock away static methods
 		$this->internalNative->expects($this->once())
@@ -230,11 +230,11 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
 
     /**
      * @test
-     * @expectedException RequirementException
      */
     public function requireOpenSSL_itFails_ifExtensionIsNotLoaded()
     {
         $sut = $this->sut();
+		$this->expectException(RequirementException::class);
 
         // mock away static methods
         $this->internalNative->expects($this->once())
@@ -266,11 +266,11 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
 
 	/**
 	 * @test
-	 * @expectedException RequirementException
 	 */
 	public function preventTooManySites_itFails_ifIsLargeNetwork()
 	{
 		$sut = $this->sut();
+		$this->expectException(RequirementException::class);
 
 		WP_Mock::wpFunction('wp_is_large_network', array(
 			'times'  => 1,
@@ -300,11 +300,11 @@ class Ut_NextADInt_Adi_RequirementsTest extends Ut_BasicTest
 
 	/**
 	 * @test
-	 * @expectedException RequirementException
 	 */
 	public function preventSiteActivation_itFails_ifActivationIsInSite()
 	{
 		$sut = $this->sut();
+		$this->expectException(RequirementException::class);
 
 		WP_Mock::wpFunction('is_network_admin', array(
 			'times'  => 1,

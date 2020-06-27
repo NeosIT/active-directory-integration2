@@ -10,12 +10,12 @@
  */
 class Ut_NextADInt_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

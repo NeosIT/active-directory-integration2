@@ -17,7 +17,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -26,7 +26,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		$this->syncToWordPress = $this->createMock('NextADInt_Adi_Synchronization_WordPress');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

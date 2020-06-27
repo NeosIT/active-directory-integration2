@@ -39,7 +39,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 	/**
 	 * @return NextADInt_Adi_User_Manager|PHPUnit_Framework_MockObject_MockObject
 	 */
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -56,7 +56,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 		$this->exceptionUtil = $this->createUtilClassMock('NextADInt_Core_Util_ExceptionUtil');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

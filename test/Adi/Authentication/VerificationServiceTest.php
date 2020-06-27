@@ -16,7 +16,7 @@ class Ut_NextADInt_Adi_Authentication_VerificationServiceTest extends Ut_BasicTe
 	private $attributeService;
 
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -29,7 +29,7 @@ class Ut_NextADInt_Adi_Authentication_VerificationServiceTest extends Ut_BasicTe
 	}
 
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

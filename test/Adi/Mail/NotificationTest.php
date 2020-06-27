@@ -12,7 +12,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	/* @var NextADInt_Ldap_Connection| PHPUnit_Framework_MockObject_MockObject */
 	private $ldapConnection;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -20,7 +20,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$this->ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

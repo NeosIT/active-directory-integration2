@@ -29,7 +29,7 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 	/** @var NextADInt_Adi_User_LoginSucceededService */
 	private $loginSucceededService;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -45,7 +45,7 @@ class Ut_NextADInt_Adi_Ui_ConnectivityTestPageTest extends Ut_BasicTest
 
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

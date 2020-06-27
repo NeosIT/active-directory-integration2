@@ -18,12 +18,12 @@ class Ut_NextADInt_Multisite_Validator_Rule_PortTest extends Ut_BasicTest
 {
 	const VALIDATION_MESSAGE = 'Port has to be numeric and in the range from 0 - 65535.';
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

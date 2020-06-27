@@ -12,7 +12,7 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 	/* @var */
 	private $internalNative;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -26,7 +26,7 @@ class Ut_NextADInt_Adi_User_Ui_ExtendUserListTest extends Ut_BasicTest
 		NextADInt_Core_Util::native($this->internalNative);
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

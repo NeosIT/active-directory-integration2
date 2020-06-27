@@ -27,7 +27,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	private $roleManager;
 
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -41,7 +41,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		ob_start();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 		ob_end_clean();

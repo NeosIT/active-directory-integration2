@@ -12,7 +12,7 @@ class Ut_NextADInt_Adi_Multisite_Ui_MenuTest extends Ut_BasicTest
 	/* @var NextADInt_Multisite_Ui_ProfileConfigurationPage | PHPUnit_Framework_MockObject_MockObject */
 	private $profileConfigurationPage;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -20,7 +20,7 @@ class Ut_NextADInt_Adi_Multisite_Ui_MenuTest extends Ut_BasicTest
 		$this->profileConfigurationPage = $this->createMock('NextADInt_Multisite_Ui_ProfileConfigurationPage');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

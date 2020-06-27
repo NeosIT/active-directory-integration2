@@ -15,7 +15,7 @@ class Ut_NextADInt_Adi_Authentication_Ui_ShowBlockedMessageTest extends Ut_Basic
 	/* @var Twig_Environment| PHPUnit_Framework_MockObject_MockObject */
 	private $twigEnvironment;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -24,7 +24,7 @@ class Ut_NextADInt_Adi_Authentication_Ui_ShowBlockedMessageTest extends Ut_Basic
 		$this->twigEnvironment = $this->createMock('Twig_Environment');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

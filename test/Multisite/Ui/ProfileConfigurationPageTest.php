@@ -21,7 +21,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 	/* @var NextADInt_Multisite_Ui_BlogConfigurationController|PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationController;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -32,7 +32,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationPageTest extends Ut_BasicTes
 		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

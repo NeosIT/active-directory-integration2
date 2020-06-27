@@ -12,7 +12,7 @@ class Ut_NextADInt_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_Basic
 	/* @var NextADInt_Multisite_Ui_BlogProfileRelationshipController| PHPUnit_Framework_MockObject_MockObject */
 	private $blogProfileRelationshipController;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -20,7 +20,7 @@ class Ut_NextADInt_Multisite_Ui_BlogProfileRelationshipPageTest extends Ut_Basic
 		$this->blogProfileRelationshipController = $this->createMock('NextADInt_Multisite_Ui_BlogProfileRelationshipController');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

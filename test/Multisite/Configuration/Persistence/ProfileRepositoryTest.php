@@ -20,7 +20,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 	/* @var NextADInt_Multisite_Option_Provider */
 	private $optionProvider;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -30,7 +30,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 		$this->optionProvider = new NextADInt_Adi_Configuration_Options();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

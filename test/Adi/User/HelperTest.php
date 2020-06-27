@@ -9,7 +9,7 @@ class Ut_User_HelperTest extends Ut_BasicTest
 	/* @var NextADInt_Multisite_Configuration_Service| PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->configuration = $this->getMockBuilder('NextADInt_Multisite_Configuration_Service')
 			->disableOriginalConstructor()
@@ -19,7 +19,7 @@ class Ut_User_HelperTest extends Ut_BasicTest
 		WP_Mock::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		WP_Mock::tearDown();
 	}

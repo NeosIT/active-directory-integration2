@@ -19,12 +19,12 @@ class Ut_NextADInt_Multisite_Validator_Rule_AttributeMappingNullTest extends Ut_
 
 	const VALIDATION_MESSAGE = 'Ad Attribute / Data Type / WordPress Attribute cannot be empty!';
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

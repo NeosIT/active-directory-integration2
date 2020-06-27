@@ -5,7 +5,7 @@ library 'jenkins-pipeline-library'
 def projectName = "next-active-directory-integration"
 def useVersion = version.uniqueBuildVersion()
 def buildWorkflows = ['Build and Test (Default)', 'Release latest tagged version', 'Release final version ***WARNING***']
-def buildTargets = ['php_7_2', 'php_7_3', 'php_7_4']
+def buildTargets = ['php_7_3', 'php_7_4']
 // ID of credentials used for deploying to wordpress.org
 def wordpressOrgCredentialsId = "neosit_wordpress.org"
 
@@ -103,6 +103,7 @@ pipeline {
 								echo "Execute quick-build"
 								sh "ant \
 									-Dphp=${targetPhpConfiguration.bin} \
+									-Dphp_for_phpunit=${targetPhpConfiguration.bin_for_phpunit} \
 									-Dphpunit=${targetPhpConfiguration.phpunit} \
 									-DphpunitLogFile=build/logs/junit-${target}.xml \
 									quick-build"

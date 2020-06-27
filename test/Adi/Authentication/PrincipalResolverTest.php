@@ -8,12 +8,12 @@
 class Ut_NextADInt_Adi_Authentication_PrincipalResolverTest extends Ut_BasicTest
 {
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

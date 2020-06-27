@@ -13,7 +13,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileControllerTest extends Ut_BasicTest
 	/** @var NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository|PHPUnit_Framework_MockObject_MockObject */
 	private $defaultProfileRepository;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -22,7 +22,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileControllerTest extends Ut_BasicTest
 		$this->defaultProfileRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

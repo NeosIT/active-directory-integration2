@@ -14,12 +14,12 @@ class Ut_NextADInt_Multisite_Validator_Rule_NoDefaultAttributeNameTest extends U
 	/** @var string */
 	private $validTestString = 'givenname:string:next_ad_int_first_name:first name:true:true:true';
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

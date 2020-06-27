@@ -18,12 +18,12 @@ class Ut_NextADInt_Multisite_Validator_Rule_WordPressMetakeyConflictTest extends
 {
 	const VALIDATION_MESSAGE = 'You cannot use the same WordPress Attribute multiple times.';
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

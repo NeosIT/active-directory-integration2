@@ -22,7 +22,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_Basi
 	/* @var NextADInt_Core_Util_Internal_Native|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
 	private $native;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -33,7 +33,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_Basi
 		NextADInt_Core_Util::native($this->native);
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 		NextADInt_Core_Util::native(null);

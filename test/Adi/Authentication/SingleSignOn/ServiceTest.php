@@ -48,7 +48,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	/** @var NextADInt_Adi_User_LoginSucceededService */
 	private $loginSucceededService;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -70,7 +70,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		NextADInt_Core_Util::native($this->native);
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 		NextADInt_Core_Util::native(null);

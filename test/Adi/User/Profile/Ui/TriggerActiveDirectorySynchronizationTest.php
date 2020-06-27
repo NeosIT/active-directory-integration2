@@ -16,7 +16,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest
 	/* @var NextADInt_Ldap_Attribute_Repository | PHPUnit_Framework_MockObject_MockObject */
 	private $attributeRepository;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -25,7 +25,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_TriggerActiveDirectorySynchronizationTest
 		$this->attributeRepository = $this->createMock('NextADInt_Ldap_Attribute_Repository');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

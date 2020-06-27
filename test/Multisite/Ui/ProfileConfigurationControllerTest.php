@@ -12,7 +12,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_Ba
 	/** @var  NextADInt_Multisite_Option_Provider */
 	private $optionProvider;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -20,7 +20,7 @@ class Ut_NextADInt_Multisite_Ui_ProfileConfigurationControllerTest extends Ut_Ba
 		$this->profileConfigurationRepository = $this->createMock('NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

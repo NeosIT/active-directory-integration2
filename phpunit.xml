@@ -10,7 +10,6 @@
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true"
         forceCoversAnnotation="false"
-        printerClass="PHPUnit\TextUI\ResultPrinter"
         processIsolation="false"
         stopOnError="false"
         stopOnFailure="false"
@@ -22,6 +21,9 @@
         verbose="false"
         beStrictAboutTestsThatDoNotTestAnything="false"
         >
+	<php>
+		<ini name="display_errors" value="true" />
+	</php>
 	<logging>
 		<log type="coverage-html" target="./build/coverage"/>
 		<log type="coverage-clover" target="build/logs/clover.xml"/>

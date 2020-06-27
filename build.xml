@@ -214,7 +214,7 @@
 		 unless="phpunit.done"
 		 depends="prepare"
 		 description="Run unit tests with PHPUnit">
-		<exec executable="${php}" resultproperty="result.phpunit" taskname="phpunit">
+		<exec executable="${php_for_phpunit}" resultproperty="result.phpunit" taskname="phpunit">
 			<arg value="${phpunit}" />
 			<arg value="--testsuite" />
 			<arg value="${testsuite}" />

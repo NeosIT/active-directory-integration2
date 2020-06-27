@@ -20,7 +20,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	/* @var NextADInt_Core_Util_Internal_Native|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
 	private $native;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		if (!class_exists('adLDAP')) {
 			//get adLdap
@@ -43,7 +43,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 		NextADInt_Core_Util::native($this->native);
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 		NextADInt_Core_Util::native(null);

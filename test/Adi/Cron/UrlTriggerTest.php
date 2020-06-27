@@ -17,7 +17,7 @@ class Ut_Cron_UrlTriggerTest extends Ut_BasicTest
 	/* @var NextADInt_Adi_Synchronization_WordPress|PHPUnit_Framework_MockObject_MockObject $syncToWordPress */
 	private $syncToWordPress;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
@@ -25,7 +25,7 @@ class Ut_Cron_UrlTriggerTest extends Ut_BasicTest
 		$this->syncToWordPress = $this->createMock('NextADInt_Adi_Synchronization_WordPress');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

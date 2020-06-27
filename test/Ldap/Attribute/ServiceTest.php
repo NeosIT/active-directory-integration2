@@ -23,7 +23,7 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	 */
 	private $adLdap;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -38,7 +38,7 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 		$this->adLdap = parent::createMock('adLDAP');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

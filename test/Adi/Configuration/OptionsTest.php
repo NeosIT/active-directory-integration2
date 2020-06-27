@@ -13,14 +13,14 @@ class Ut_NextADInt_Adi_Configuration_OptionsTest extends Ut_BasicTest
 	/** @var NextADInt_Adi_Configuration_Options */
 	private $sut;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
 		$this->sut = new NextADInt_Adi_Configuration_Options();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		\WP_Mock::tearDown();
 	}

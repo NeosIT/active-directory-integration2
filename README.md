@@ -20,11 +20,11 @@ After the cloning you have to update the dependencies with help of *Composer* (e
 To install composer follow the instructions on [https://getcomposer.org/download/](https://getcomposer.org/download/).
 	
 ### Testing
-Tests are made with PHPUnit 7. Get PHPUnit 7 with
+Tests are made with PHPUnit 9. Get PHPUnit 9 with
 
 ```shell
 	# get PHPUnit
-	wget https://phar.phpunit.de/phpunit-7.phar
+	wget https://phar.phpunit.de/phpunit-9.phar
 ```
 
 #### Running unit tests

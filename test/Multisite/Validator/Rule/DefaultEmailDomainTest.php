@@ -11,12 +11,12 @@ class Ut_NextADInt_Multisite_Validator_Rule_DefaultEmailDomainTest extends Ut_Ba
 {
 	const VALIDATION_MESSAGE = 'Please remove the "@", it will be added automatically.';
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

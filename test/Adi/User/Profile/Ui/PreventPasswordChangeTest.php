@@ -15,7 +15,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_PreventPasswordChangeTest extends Ut_Basi
 	/**
 	 * @return NextADInt_Adi_User_Profile_Ui_PreventPasswordChange|PHPUnit_Framework_MockObject_MockObject
 	 */
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
 		$this->userManager = $this->createMock('NextADInt_Adi_User_Manager');
@@ -23,7 +23,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_PreventPasswordChangeTest extends Ut_Basi
 		WP_Mock::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		WP_Mock::tearDown();
 	}

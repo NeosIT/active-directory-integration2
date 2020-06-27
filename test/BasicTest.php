@@ -10,18 +10,18 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 {
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass() : void
 	{
 		NextADInt_Core_Logger::$isTestmode = true;
 		NextADInt_Core_Logger::createLogger();
 	}
 
-	public function setUp()
+	public function setUp() : void
 	{
 		\WP_Mock::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() :void
 	{
 		\WP_Mock::tearDown();
 		Mockery::close();

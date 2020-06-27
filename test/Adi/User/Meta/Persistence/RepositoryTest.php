@@ -5,12 +5,12 @@
  */
 class Ut_NextADInt_Adi_User_Meta_Persistence_RepositoryTest extends Ut_BasicTest
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

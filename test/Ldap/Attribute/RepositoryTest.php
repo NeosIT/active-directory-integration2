@@ -11,7 +11,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	/* @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $configuration */
 	private $configuration;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -21,7 +21,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			->getMock();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		\WP_Mock::tearDown();
 	}

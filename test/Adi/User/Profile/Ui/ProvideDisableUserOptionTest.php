@@ -15,7 +15,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 	/* @var NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption| PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -24,7 +24,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 		$this->twig = parent::createMock('Twig_Environment');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

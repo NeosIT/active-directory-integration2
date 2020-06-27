@@ -12,14 +12,14 @@ class Ut_NextADInt_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTe
 	/**
 	 * @return NextADInt_Adi_User_Profile_Ui_PreventEmailChange
 	 */
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
 		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

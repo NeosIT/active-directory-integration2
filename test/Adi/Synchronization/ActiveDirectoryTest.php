@@ -16,7 +16,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 	/* @var NextADInt_Ldap_Attribute_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $attributeService;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -27,7 +27,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 		ob_start();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 		ob_end_clean();
@@ -525,7 +525,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 			$this->assertTrue(false /* guard */);
 		}
 		catch (Exception $e) {
-			$this->assertContains("is not enabled", $e->getMessage());
+			$this->assertStringContainsString("is not enabled", $e->getMessage());
 		}
 	}
 
@@ -550,7 +550,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 			$this->assertTrue(false /* guard */);
 		}
 		catch (Exception $e) {
-			$this->assertContains("not have a corresponding Active Directory account", $e->getMessage());
+			$this->assertStringContainsString("not have a corresponding Active Directory account", $e->getMessage());
 		}
 	}
 
@@ -580,7 +580,7 @@ class Ut_Synchronization_ActiveDirectoryTest extends Ut_BasicTest
 			$this->assertTrue(false /* guard */);
 		}
 		catch (Exception $e) {
-			$this->assertContains("no Sync To AD service account available", $e->getMessage());
+			$this->assertStringContainsString("no Sync To AD service account available", $e->getMessage());
 		}
 	}
 

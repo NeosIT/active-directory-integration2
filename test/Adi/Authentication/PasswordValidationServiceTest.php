@@ -12,7 +12,7 @@ class Ut_NextADInt_Adi_Authentication_PasswordValidationServiceTest extends Ut_B
 	/* @var NextADInt_Adi_LoginState| PHPUnit_Framework_MockObject_MockObject */
 	private $loginState;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -20,7 +20,7 @@ class Ut_NextADInt_Adi_Authentication_PasswordValidationServiceTest extends Ut_B
 		$this->loginState = new NextADInt_Adi_LoginState();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

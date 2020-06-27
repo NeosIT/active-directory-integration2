@@ -29,7 +29,7 @@ class Ut_NextADInt_Multisite_View_TwigContainerTest extends Ut_BasicTest
 	/** @var NextADInt_Adi_Authentication_VerificationService|PHPUnit_Framework_MockObject_MockObject */
 	private $verificationService;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -43,7 +43,7 @@ class Ut_NextADInt_Multisite_View_TwigContainerTest extends Ut_BasicTest
 		$this->verificationService = $this->createMock('NextADInt_Adi_Authentication_VerificationService');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
         global $wp_version;
         unset($wp_version);

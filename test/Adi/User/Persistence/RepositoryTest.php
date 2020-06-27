@@ -9,14 +9,14 @@ class Ut_NextADInt_Adi_User_Persistence_RepositoryTest extends Ut_BasicTest
 	/** @var NextADInt_Core_Util_ExceptionUtil|\Mockery\MockInterface */
 	private $exceptionUtil;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
 		$this->exceptionUtil = $this->createUtilClassMock('NextADInt_Core_Util_ExceptionUtil');
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

@@ -22,7 +22,7 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 	/** @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $configuration */
 	private $configuration;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -31,6 +31,11 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 		$this->userManager      = $this->createMock('NextADInt_Adi_User_Manager');
 		$this->ldapConnection   = $this->createMock('NextADInt_Ldap_Connection');
 		$this->configuration    = $this->createMock('NextADInt_Multisite_Configuration_Service');
+	}
+
+	public function tearDown() : void
+	{
+		parent::tearDown();
 	}
 
 	/**
@@ -53,11 +58,6 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 		            )->setMethods($methods)
 		            ->getMock();
 
-	}
-
-	public function tearDown()
-	{
-		parent::tearDown();
 	}
 
 	/**

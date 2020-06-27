@@ -32,7 +32,7 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 	/* @var NextADInt_Core_Util_Internal_Native|\Mockery\MockInterface */
 	private $internalNative;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -51,7 +51,7 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 		NextADInt_Core_Util::native($this->internalNative);
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 		NextADInt_Core_Util::native(null);

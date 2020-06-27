@@ -20,7 +20,7 @@ class It_Role_ManagerIT extends It_BasicTest
 	/* @var NextADInt_Adi_Role_Manager */
 	private $sut;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
 
@@ -31,7 +31,7 @@ class It_Role_ManagerIT extends It_BasicTest
 		$this->prepareActiveDirectory($this->connection->getAdLdap());
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		$this->rollbackAdAfterConnectionIt($this->connection->getAdLdap());
 		Mockery::close();

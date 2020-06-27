@@ -7,12 +7,12 @@
  */
 class Ut_NextADInt_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 {
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}
@@ -105,8 +105,8 @@ class Ut_NextADInt_Multisite_Ui_Table_ProfileAssignmentTest extends Ut_BasicTest
 			));
 		});
 
-		$this->assertContains('<label class="screen-reader-text" for="blog_1">Select domain.com/path</label>', $output);
-		$this->assertContains('<input type="checkbox" id="blog_1" name="allblogs[]" value="1" />', $output);
+		$this->assertStringContainsString('<label class="screen-reader-text" for="blog_1">Select domain.com/path</label>', $output);
+		$this->assertStringContainsString('<input type="checkbox" id="blog_1" name="allblogs[]" value="1" />', $output);
 	}
 
 	/**

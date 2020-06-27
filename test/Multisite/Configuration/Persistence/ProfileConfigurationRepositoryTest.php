@@ -10,7 +10,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 	/** @var NextADInt_Multisite_Option_Provider */
 	private $optionProvider;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 		$this->sanitizer = parent::createMock('NextADInt_Multisite_Option_Sanitizer');
@@ -18,7 +18,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepos
 		$this->optionProvider = new NextADInt_Adi_Configuration_Options();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

@@ -7,12 +7,12 @@
 class Ut_NextADInt_Adi_Configuration_Ui_LayoutTest extends Ut_BasicTest
 {
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown()
+	public function tearDown() : void
 	{
 		parent::tearDown();
 	}

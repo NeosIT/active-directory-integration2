@@ -18,7 +18,7 @@ class Ut_NextADInt_Adi_Authorization_ServiceTest extends Ut_BasicTest
 	/** @var NextADInt_Adi_LoginState */
 	private $loginState;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 
@@ -26,6 +26,11 @@ class Ut_NextADInt_Adi_Authorization_ServiceTest extends Ut_BasicTest
 		$this->userManager   = $this->createMock('NextADInt_Adi_User_Manager');
 		$this->roleManager   = $this->createMock('NextADInt_Adi_Role_Manager');
 		$this->loginState    = new NextADInt_Adi_LoginState();
+	}
+
+	public function tearDown() : void
+	{
+		parent::tearDown();
 	}
 
 	/**
@@ -47,11 +52,6 @@ class Ut_NextADInt_Adi_Authorization_ServiceTest extends Ut_BasicTest
 		            )->setMethods($methods)
 		            ->getMock();
 
-	}
-
-	public function tearDown()
-	{
-		parent::tearDown();
 	}
 
 	/**
