@@ -262,6 +262,29 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		$this->assertEquals($expected, $actual);
 	}
 
+    /**
+     * @test
+     * @since 2.1.13
+     * @see ADI-712
+     */
+	public function ADI_712_findUsername_executesFilters() {
+	    $sut = $this->sut();
+
+        $remoteVariable = 'REMOTE_USER';
+        $expected = 'sAMAccountName@KERBEROS.REALM';
+        $_SERVER[$remoteVariable] = $expected;
+
+        $this->configuration->expects($this->once())
+            ->method('getOptionValue')
+            ->with(NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE)
+            ->willReturn($remoteVariable);
+
+        WP_Mock::expectFilter(NEXT_AD_INT_PREFIX . 'auth_kerberos_rewrite_username', $expected);
+        $actual = $this->invokeMethod($sut, 'findUsername');
+
+        $this->assertEquals($expected, $actual);
+    }
+
 	/**
 	 * @test
 	 */

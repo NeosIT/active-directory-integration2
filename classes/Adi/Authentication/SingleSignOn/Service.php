@@ -278,7 +278,14 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 
 		$this->logger->debug('SSO provided username for environment variable "' . $envVariable . '" is "' . $username . "'");
 
-		return $unescape;
+		// ADI-712, NADIS-133: Add filter to rewrite a Kerberos username
+		$r = apply_filters(NEXT_AD_INT_PREFIX . 'auth_kerberos_rewrite_username', $unescape);
+
+		if ($r != $unescape) {
+		    $this->logger->debug('SSO username has been rewritten to "' . $r . "'");
+        }
+
+		return $r;
 	}
 
 
