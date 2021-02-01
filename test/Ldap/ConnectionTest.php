@@ -135,6 +135,18 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		$this->assertEquals($expected, $actual);
 	}
 
+    /**
+     * @see ADI-713
+     * @since 2.1.13
+     * @test
+     */
+	public function ADI_713_register_userInfo_hookIsRegistered() {
+        $sut = $this->sut(null);
+        WP_Mock::expectFilterAdded(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', array($sut, 'mapUserInfo'), 10, 6);
+
+        $sut->register();
+    }
+
 	/**
 	 * @test
 	 */
@@ -375,8 +387,12 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
+		$username = "hugo";
+		$attributeNames = array("sn", "givenname", "mail");
+
 		$adResult = array(
 			'result',
+			'count' => 1,
 			0 => array(
 				'sn' => array(
 					'count' => 1,
@@ -395,9 +411,43 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 			->with('hugo', array("sn", "givenname", "mail"))
 			->willReturn($adResult);
 
-		$actual = $sut->findAttributesOfUser('hugo', array("sn", "givenname", "mail"));
+        \WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo')
+            ->with(false, $adResult, $adResult['count'], $username, $attributeNames, false)
+            ->reply($adResult[0]);
+
+		$actual = $sut->findAttributesOfUser($username, $attributeNames);
 		$this->assertEquals($adResult[0], $actual);
 	}
+
+    /**
+     * @see ADI-713
+     * @since 2.1.13
+     * @test
+     */
+    public function ADI_713_mapUserInfo_returnsFirstMatch_ifOneIsFound() {
+        $username = "username";
+        $matchesFromLdap = array(array('FIRST'));
+
+        $sut = $this->sut(null);
+        $actual = $sut->mapUserInfo(false, $matchesFromLdap, sizeof($matchesFromLdap), $username, array());
+
+        $this->assertEquals($matchesFromLdap[0], $actual);
+    }
+
+    /**
+     * @see ADI-713
+     * @since 2.1.13
+     * @test
+     */
+    public function ADI_713_mapUserInfo_returnsFalse_ifMultipleAreFound() {
+        $username = "username";
+        $matchesFromLdap = array(array('FIRST'),array('SECOND'));
+
+        $sut = $this->sut(null);
+        $actual = $sut->mapUserInfo(false, $matchesFromLdap, sizeof($matchesFromLdap), $username, array());
+
+        $this->assertEquals(false, $actual);
+    }
 
 	/**
 	 * @test

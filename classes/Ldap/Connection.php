@@ -45,6 +45,14 @@ class NextADInt_Ldap_Connection
 		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
+    /**
+     * Register additional hooks
+     */
+	public function register() {
+        // ADI-713: Map user information when search for GUID, userPrincipalName or sAMAccountName
+        add_filter(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', array($this, 'mapUserInfo'), 10, 6);
+    }
+
 	/**
 	 * Create an connection to the Active Directory. But the state of the connection is unknown.
 	 * You have to check if with $this->checkConnection().
@@ -84,9 +92,9 @@ class NextADInt_Ldap_Connection
 			'base_dn'            => $this->getBaseDn($connectionDetails),
 			'domain_controllers' => $this->getDomainControllers($connectionDetails),
 			'ad_port'            => $this->getAdPort($connectionDetails),
-			'use_tls'            => $useTls,    //StartTLS
-            //ADI-482 enable LDAPS support
-            'use_ssl'            => $useSsl,  //LDAP over Ssl
+			'use_tls'            => $useTls,    // STARTTLS
+            // ADI-482 enable LDAPS support
+            'use_ssl'            => $useSsl,  // LDAP over SSL
 			'network_timeout'    => $this->getNetworkTimeout($connectionDetails),
             'allow_self_signed'  => $this->getAllowSelfSigned($connectionDetails),
 			'ad_username'        => $connectionDetails->getUsername(),
@@ -391,21 +399,54 @@ class NextADInt_Ldap_Connection
 	{
 		$adLdap = $this->getAdLdap();
 
-		$userInfo = $adLdap->user_info($username, $attributeNames, $isGUID);
+        $matchesFromLdap = $adLdap->user_info($username, $attributeNames, $isGUID);
 
-		if ($userInfo === false) {
+		if ($matchesFromLdap === false) {
 			$this->logger->warn("Attributes for '$username': could not be loaded. Does the sAMAccountName or userPrincipalName exist? Is the provided base DN valid?");
 
 			return false;
 		}
 
-		// user does exist, get first element
-		$userInfo = $userInfo[0];
+        // ADI-713: try to extract the user's information from a list of arrays
+    	$userInfo = apply_filters(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', false, $matchesFromLdap, $matchesFromLdap['count'], $username, $attributeNames, $isGUID);
 
-		$this->logger->debug("UserInfo for user '$username': " . $this->__debug($userInfo));
+		if ($userInfo) {
+            $this->logger->debug("UserInfo for user '$username': " . $this->__debug($userInfo));
+        }
 
 		return $userInfo;
 	}
+
+    /**
+     * After the Active Directory has been queried to look for a GUID, userPrincipalName or sAMAccountName, this method will be called.
+     *
+     * @since 2.1.13
+     * @see ADI-713
+     * @param $bestMatch
+     * @param $matchesFromLdap
+     * @param $totalMatches number of matches; due to the adLDAP structure
+     * @param $username
+     * @param $attributeNames
+     * @param $isGUID
+     * @return array|boolean exactly one match or false
+     */
+	public function mapUserInfo($bestMatch, $matchesFromLdap, $totalMatches, $username, $attributeNames, $isGUID = false)
+    {
+        // there has not been a best match specified; this method is the fallback option
+	    if (!$bestMatch) {
+	        // we got more than one result for the DC/GC; this can happen if a sAMAccountName is queried inside a AD forest
+	        if ($totalMatches > 1) {
+                $this->logger->error('The LDAP query for "' . $username . "' returned " . $totalMatches . ' results. You have to do additional configuration if you are running NADI inside an AD forest.');
+                $bestMatch = false;
+            }
+            // we have exactly one result, so we will use it
+	        else {
+                $bestMatch = $matchesFromLdap[0];
+            }
+        }
+
+	    return $bestMatch;
+    }
 
 	/**
 	 * Find the NetBIOS name of the underlying LDAP connection
@@ -439,7 +480,7 @@ class NextADInt_Ldap_Connection
 	 * @param array $userInfo in adLDAP format
 	 * @return string
 	 */
-	public function __debug($userInfo = array()) {
+	private function __debug($userInfo = array()) {
 		$result = "";
 		$maxOutputChars = 32;
 
@@ -465,7 +506,6 @@ class NextADInt_Ldap_Connection
 					} catch (Exception $exception) {
 						$this->logger->error("An exception occurred trying to convert binary to GUID. Exception: " . $exception->getMessage());
 					}
-
 				}
 
 				$result .=  NextADInt_Core_Util_StringUtil::firstChars($element, 500);
