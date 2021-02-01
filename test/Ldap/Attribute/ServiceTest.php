@@ -108,8 +108,8 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 			->method('findLdapAttributesOfUsername')
 			->withConsecutive(
 				array('guid', true),
-				array('sam'),
-				array('sam@test.ad')
+                array('sam@test.ad'),
+				array('sam')
 			)
 			->willReturn($expected);
 
