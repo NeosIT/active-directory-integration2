@@ -2,7 +2,7 @@
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows, sso
 Requires at least: 5.0
-Tested up to: 5.4
+Tested up to: 5.6
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -128,6 +128,9 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = 2.1.13 = 
+* FIXED: When using a Global Catalog (GC), users with same sAMAccountName but different userPrincipalNames are not assigned correct during authentication (NADIS-133)
+* CHANGED: WordPress 5.6 compatibility checked
+
 ****UNRELEASED****
 
 = 2.1.12 =

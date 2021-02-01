@@ -179,12 +179,14 @@ class NextADInt_Ldap_Attribute_Service
 			$ldapAttributes = $this->findLdapAttributesOfUsername($guid, true);
 		}
 
+		// NADIS-133: When using a Global Catalog (GC), users with same sAMAccountName but different userPrincipalNames are not assigned correct during authentication
+		// this requires us to lookup the userPrincipalName *before* the sAMAccountName
 		if (empty($ldapAttributes) || (false == $ldapAttributes->getRaw())) {
-			$ldapAttributes = $this->findLdapAttributesOfUsername($credentials->getSAMAccountName());
+			$ldapAttributes = $this->findLdapAttributesOfUsername($credentials->getUserPrincipalName());
 		}
 
 		if (empty($ldapAttributes) || (false == $ldapAttributes->getRaw())) {
-			$ldapAttributes = $this->findLdapAttributesOfUsername($credentials->getUserPrincipalName());
+			$ldapAttributes = $this->findLdapAttributesOfUsername($credentials->getSAMAccountName());
 		}
 
 		if (empty($ldapAttributes) || (false == $ldapAttributes->getRaw())) {
