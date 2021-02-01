@@ -317,6 +317,8 @@ class NextADInt_Adi_Dependencies
 			$this->ldapConnection = new NextADInt_Ldap_Connection(
 				$this->getConfiguration()
 			);
+
+			$this->ldapConnection->register();
 		}
 
 		return $this->ldapConnection;
