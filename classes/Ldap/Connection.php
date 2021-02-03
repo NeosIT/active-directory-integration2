@@ -39,19 +39,21 @@ class NextADInt_Ldap_Connection
 			// get adLdap
 			require_once NEXT_AD_INT_PATH . '/vendor/adLDAP/adLDAP.php';
 		}
-		
+
 		$this->configuration = $configuration;
 
 		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
-    /**
-     * Register additional hooks
-     */
-	public function register() {
-        // ADI-713: Map user information when search for GUID, userPrincipalName or sAMAccountName
-        add_filter(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', array($this, 'mapUserInfo'), 10, 6);
-    }
+	/**
+	 * Register additional hooks
+	 * @since 2.0.0
+	 */
+	public function register()
+	{
+		// ADI-713: Map user information when search for GUID, userPrincipalName or sAMAccountName
+		add_filter(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', array($this, 'mapUserInfo'), 10, 5);
+	}
 
 	/**
 	 * Create an connection to the Active Directory. But the state of the connection is unknown.
@@ -88,17 +90,17 @@ class NextADInt_Ldap_Connection
 		$useSsl = $this->getUseSsl($connectionDetails);
 
 		$config = array(
-			'account_suffix'     => '',
-			'base_dn'            => $this->getBaseDn($connectionDetails),
+			'account_suffix' => '',
+			'base_dn' => $this->getBaseDn($connectionDetails),
 			'domain_controllers' => $this->getDomainControllers($connectionDetails),
-			'ad_port'            => $this->getAdPort($connectionDetails),
-			'use_tls'            => $useTls,    // STARTTLS
-            // ADI-482 enable LDAPS support
-            'use_ssl'            => $useSsl,  // LDAP over SSL
-			'network_timeout'    => $this->getNetworkTimeout($connectionDetails),
-            'allow_self_signed'  => $this->getAllowSelfSigned($connectionDetails),
-			'ad_username'        => $connectionDetails->getUsername(),
-			'ad_password'        => $connectionDetails->getPassword(),
+			'ad_port' => $this->getAdPort($connectionDetails),
+			'use_tls' => $useTls,    // STARTTLS
+			// ADI-482 enable LDAPS support
+			'use_ssl' => $useSsl,  // LDAP over SSL
+			'network_timeout' => $this->getNetworkTimeout($connectionDetails),
+			'allow_self_signed' => $this->getAllowSelfSigned($connectionDetails),
+			'ad_username' => $connectionDetails->getUsername(),
+			'ad_password' => $connectionDetails->getPassword(),
 		);
 
 		// log connection details
@@ -196,17 +198,17 @@ class NextADInt_Ldap_Connection
 		return $this->getEncryption($connectionDetails) === NextADInt_Multisite_Option_Encryption::STARTTLS;
 	}
 
-    /**
-     * Return the usage of SSL based upon the $connectionDetails. If the usage of SSL is not set the usage of SSL of the current blog instance is returned.
-     *
-     * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
-     *
-     * @return bool
-     */
-    public function getUseSsl(NextADInt_Ldap_ConnectionDetails $connectionDetails)
-    {
-        return $this->getEncryption($connectionDetails) === NextADInt_Multisite_Option_Encryption::LDAPS;
-    }
+	/**
+	 * Return the usage of SSL based upon the $connectionDetails. If the usage of SSL is not set the usage of SSL of the current blog instance is returned.
+	 *
+	 * @param NextADInt_Ldap_ConnectionDetails $connectionDetails
+	 *
+	 * @return bool
+	 */
+	public function getUseSsl(NextADInt_Ldap_ConnectionDetails $connectionDetails)
+	{
+		return $this->getEncryption($connectionDetails) === NextADInt_Multisite_Option_Encryption::LDAPS;
+	}
 
 	/**
 	 * Return the encryption based upon the $connectionDetails. If the encryption is not set the encryption of the current blog instance is returned.
@@ -240,7 +242,7 @@ class NextADInt_Ldap_Connection
 		if (null === $allowSelfSigned) {
 			$allowSelfSigned = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ALLOW_SELF_SIGNED);
 		}
-		
+
 		return $allowSelfSigned;
 	}
 
@@ -291,13 +293,13 @@ class NextADInt_Ldap_Connection
 	{
 		return is_object($this->adldap);
 	}
-	
+
 	/**
 	 *  Find the sAMAccountName associated with a ProxyAddress
-	 *  
-	 *  @param string $proxyAddress The proxy address to check
-	 *  
-	 *  @return false if not found or the sAMAccountName.
+	 *
+	 * @param string $proxyAddress The proxy address to check
+	 *
+	 * @return false if not found or the sAMAccountName.
 	 */
 	public function findByProxyAddress($proxyAddress)
 	{
@@ -389,64 +391,61 @@ class NextADInt_Ldap_Connection
 	/**
 	 * Lookup the requested LDAP attributes for the user from the underlying Active Directory connection
 	 *
-	 * @param string $username
-	 * @param array  $attributeNames
-	 * @param bool   $isGUID
+	 * @param NextADInt_Ldap_UserQuery $userQuery
+	 * @param array $attributeNames
 	 *
 	 * @return array
 	 */
-	public function findAttributesOfUser($username, $attributeNames, $isGUID = false)
+	public function findAttributesOfUser(NextADInt_Ldap_UserQuery $userQuery, $attributeNames)
 	{
 		$adLdap = $this->getAdLdap();
 
-        $matchesFromLdap = $adLdap->user_info($username, $attributeNames, $isGUID);
+		$matchesFromLdap = $adLdap->user_info($userQuery->getPrincipal(), $attributeNames, $userQuery->isGuid());
 
 		if ($matchesFromLdap === false) {
-			$this->logger->warn("Attributes for '$username': could not be loaded. Does the sAMAccountName or userPrincipalName exist? Is the provided base DN valid?");
+			$this->logger->warn("Query '$userQuery' did not return any values. Does the sAMAccountName or userPrincipalName exist? Is the provided base DN valid? Is the Kerberos realm mapped");
 
 			return false;
 		}
 
-        // ADI-713: try to extract the user's information from a list of arrays
-    	$userInfo = apply_filters(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', false, $matchesFromLdap, $matchesFromLdap['count'], $username, $attributeNames, $isGUID);
+		// ADI-713: try to extract the user's information from a list of arrays
+		$userInfo = apply_filters(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', false, $matchesFromLdap, $matchesFromLdap['count'], $userQuery, $attributeNames);
 
 		if ($userInfo) {
-            $this->logger->debug("UserInfo for user '$username': " . $this->__debug($userInfo));
-        }
+			$this->logger->debug("UserInfo for user '" . $userQuery . "': " . $this->__debug($userInfo));
+		}
 
 		return $userInfo;
 	}
 
-    /**
-     * After the Active Directory has been queried to look for a GUID, userPrincipalName or sAMAccountName, this method will be called.
-     *
-     * @since 2.1.13
-     * @see ADI-713
-     * @param $bestMatch
-     * @param $matchesFromLdap
-     * @param $totalMatches number of matches; due to the adLDAP structure
-     * @param $username
-     * @param $attributeNames
-     * @param $isGUID
-     * @return array|boolean exactly one match or false
-     */
-	public function mapUserInfo($bestMatch, $matchesFromLdap, $totalMatches, $username, $attributeNames, $isGUID = false)
-    {
-        // there has not been a best match specified; this method is the fallback option
-	    if (!$bestMatch) {
-	        // we got more than one result for the DC/GC; this can happen if a sAMAccountName is queried inside a AD forest
-	        if ($totalMatches > 1) {
-                $this->logger->error('The LDAP query for "' . $username . "' returned " . $totalMatches . ' results. You have to do additional configuration if you are running NADI inside an AD forest.');
-                $bestMatch = false;
-            }
-            // we have exactly one result, so we will use it
-	        else {
-                $bestMatch = $matchesFromLdap[0];
-            }
-        }
+	/**
+	 * After the Active Directory has been queried to look for a GUID, userPrincipalName or sAMAccountName, this method will be called.
+	 *
+	 * @param boolean|mixed $bestMatch The best match being used. It is false if no match has been found yet.
+	 * @param array $matchesFromLdap
+	 * @param integer $totalMatches number of matches; due to the adLDAP structure
+	 * @param NextADInt_Ldap_UserQuery $userQuery
+	 * @param array $attributeNames
+	 * @return array|boolean the $bestMatch exactly one match or false
+	 * @see ADI-713
+	 * @since 2.1.13
+	 */
+	public function mapUserInfo($bestMatch, $matchesFromLdap, $totalMatches, NextADInt_Ldap_UserQuery $userQuery, $attributeNames)
+	{
+		// there has not been a best match specified; this method is the fallback option
+		if (!$bestMatch) {
+			// we got more than one result for the DC/GC; this can happen if a sAMAccountName is queried inside a AD forest
+			if ($totalMatches > 1) {
+				$this->logger->error('The user query "' . $userQuery . "' returned " . $totalMatches . ' results. You have to do additional configuration if you are running NADI inside an AD forest.');
+				$bestMatch = false;
+			} // we have exactly one result, so we will use it
+			else {
+				$bestMatch = $matchesFromLdap[0];
+			}
+		}
 
-	    return $bestMatch;
-    }
+		return $bestMatch;
+	}
 
 	/**
 	 * Find the NetBIOS name of the underlying LDAP connection
@@ -480,7 +479,8 @@ class NextADInt_Ldap_Connection
 	 * @param array $userInfo in adLDAP format
 	 * @return string
 	 */
-	private function __debug($userInfo = array()) {
+	private function __debug($userInfo = array())
+	{
 		$result = "";
 		$maxOutputChars = 32;
 
@@ -498,7 +498,7 @@ class NextADInt_Ldap_Connection
 				}
 
 				// remove any linebreaks or carriagereturns from the attributes
-				$element = preg_replace("/\r\n|\r|\n/",'',$element);
+				$element = preg_replace("/\r\n|\r|\n/", '', $element);
 
 				if ($attribute === "objectguid") {
 					try {
@@ -508,7 +508,7 @@ class NextADInt_Ldap_Connection
 					}
 				}
 
-				$result .=  NextADInt_Core_Util_StringUtil::firstChars($element, 500);
+				$result .= NextADInt_Core_Util_StringUtil::firstChars($element, 500);
 
 			}
 
@@ -527,14 +527,14 @@ class NextADInt_Ldap_Connection
 	/**
 	 * Lookup all requested attributes and instantly sanitize them.
 	 *
-	 * @param string $username
-	 * @param array  $attributes
+	 * @param NextADInt_Ldap_UserQuery $userQuery
+	 * @param array $attributes
 	 *
 	 * @return array
 	 */
-	public function findSanitizedAttributesOfUser($username, $attributes)
+	public function findSanitizedAttributesOfUser(NextADInt_Ldap_UserQuery $userQuery, $attributes)
 	{
-		$userInfo = $this->findAttributesOfUser($username, $attributes);
+		$userInfo = $this->findAttributesOfUser($userQuery, $attributes);
 		$sanitized = array();
 
 		foreach ($attributes as $attribute) {
@@ -551,7 +551,7 @@ class NextADInt_Ldap_Connection
 	 * ADI-452: Method now takes $wpUser object as first parameter so we can easily access username and Active Directory guid.
 	 *
 	 * @param WP_User $wpUser
-	 * @param array  $attributes Map with attributes and their values
+	 * @param array $attributes Map with attributes and their values
 	 *
 	 * @return bool
 	 * @throws Exception
@@ -626,8 +626,8 @@ class NextADInt_Ldap_Connection
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $domainController
-	 * @param int    $port
-	 * @param int    $timeout
+	 * @param int $port
+	 * @param int $timeout
 	 *
 	 * @return bool true if port could be opened, false if port could not be opened or fsockopen is not available.
 	 */
@@ -714,7 +714,8 @@ class NextADInt_Ldap_Connection
 	 * @param array $members associative array with key => lower-case username, value => username
 	 * @return array
 	 */
-	function filterDomainMembers($members = array()) {
+	function filterDomainMembers($members = array())
+	{
 		$adLdap = $this->getAdLdap();
 		$siteDomainSid = $this->getDomainSid();
 		$r = array();
@@ -736,7 +737,8 @@ class NextADInt_Ldap_Connection
 	 *
 	 * @return mixed|string
 	 */
-	public function getDomainSid() {
+	public function getDomainSid()
+	{
 		if (empty($this->siteDomainSid)) {
 			$this->siteDomainSid = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID);
 		}

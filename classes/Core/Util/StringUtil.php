@@ -253,6 +253,27 @@ class NextADInt_Core_Util_StringUtil
         return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
     }
 
+
+    /**
+     * Check if the given text ends with the given string.
+     *
+     * Thanks to:
+     * http://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php?answertab=votes#tab-top
+     *
+     * @param $needle
+     * @param $haystack
+     *
+     * @return bool
+     */
+    public static function endsWith($needle, $haystack)
+    {
+        $length = strlen( $needle );
+        if( !$length ) {
+            return true;
+        }
+        return substr( $haystack, -$length ) === $needle;
+    }
+
     /**
      * Convert the given string to lowercase using {@link mb_strtolower}.
      *

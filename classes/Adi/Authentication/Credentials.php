@@ -1,5 +1,5 @@
 <?php
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
@@ -11,7 +11,7 @@ if (class_exists('NextADInt_Adi_Authentication_Credentials')) {
  * NextADInt_Adi_Authentication_Credentials encapsulates login credentials.
  * This class is mutable so parts of the credentials can be updated due to AD/LDAP lookups.
  *
- * @author  Christopher Klein <ckl@neos-it.de>
+ * @author  Christopher Klein <me[at]schakko[dot]de>
  * @access public
  */
 class NextADInt_Adi_Authentication_Credentials
@@ -45,9 +45,23 @@ class NextADInt_Adi_Authentication_Credentials
 	private $wordPressUserId;
 
 	/**
+	 * a specific Kerberos realm
+	 * @since 2.2.0
+	 * @var string
+	 */
+	private $kerberosRealm;
+
+	/**
+	 * options for this context
+	 * @since 2.2.0
+	 * @var array
+	 */
+	private $options = array();
+
+	/**
 	 * NextADInt_Adi_Authentication_Credentials constructor.
 	 *
-	 * @param string $login Login in form 'username' (sAMAccountName), 'username@domain' (userPrincipalName) or 'NETBIOS\sAMAccountName'
+	 * @param string $login Login in form 'username' (sAMAccountName), 'username@domain' (userPrincipalName) 'sAMAccountName@REALM' (Kerberors) or 'NETBIOS\sAMAccountName'
 	 * @param string $password
 	 */
 	public function __construct($login = '', $password = '')
@@ -71,6 +85,34 @@ class NextADInt_Adi_Authentication_Credentials
 	public function getLogin()
 	{
 		return $this->login;
+	}
+
+	/**
+	 * Add an additional option to the credential's context
+	 *
+	 * @param $key
+	 * @param $value
+	 * @since 2.2.0
+	 */
+	public function setOption($key, $value)
+	{
+		$this->options[$key] = $value;
+	}
+
+	/**
+	 * Return an option's value. it returns null if the option has not been set.
+	 *
+	 * @param $key
+	 * @return mixed|null
+	 * @since 2.2.0
+	 */
+	public function getOption($key)
+	{
+		if (isset($this->options[$key])) {
+			return $this->options[$key];
+		}
+
+		return NULL;
 	}
 
 	/**
@@ -104,7 +146,7 @@ class NextADInt_Adi_Authentication_Credentials
 	{
 		$r = $this->upnUsername;
 
-		if ( ! empty($this->upnSuffix)) {
+		if (!empty($this->upnSuffix)) {
 			$r .= '@' . $this->upnSuffix;
 		}
 
@@ -122,7 +164,7 @@ class NextADInt_Adi_Authentication_Credentials
 
 		if ($parts >= 2) {
 			$this->upnUsername = $parts[0];
-			$this->upnSuffix   = $parts[1];
+			$this->upnSuffix = $parts[1];
 		}
 	}
 
@@ -227,10 +269,42 @@ class NextADInt_Adi_Authentication_Credentials
 		$this->wordPressUserId = $wordPressUserId;
 	}
 
+	/**
+	 * Get the user's Kerberos realm
+	 * @return string
+	 * @since 2.2.0
+	 */
+	public function getKerberosRealm()
+	{
+		return $this->kerberosRealm;
+	}
+
+	/**
+	 * Set the user's Kerberos realm
+	 * @param $kerberosRealm
+	 * @since 2.2.0
+	 */
+	public function setKerberosRealm($kerberosRealm)
+	{
+		$this->kerberosRealm = $kerberosRealm;
+	}
+
+	/**
+	 * Based upon this credential, a new LDAP query will be created
+	 *
+	 * @return NextADInt_Ldap_UserQuery|QueryForUser
+	 * @since 2.2.0
+	 */
+	public function toUserQuery()
+	{
+		return NextADInt_Ldap_UserQuery::forPrincipal($this->login, $this);
+	}
+
 	public function __toString()
 	{
 		return "Credentials={login='" . $this->login . "',sAMAccountName='" . $this->sAMAccountName
-		       . "',userPrincipalName='" . $this->getUserPrincipalName() . "',netbios='" . $this->netbiosName
-		       . "',objectGuid='" . $this->objectGuid . "',wordPressUserId='" . $this->wordPressUserId . "'}";
+			. "',userPrincipalName='" . $this->getUserPrincipalName() . "',netbios='" . $this->netbiosName
+			. "',objectGuid='" . $this->objectGuid . "',wordPressUserId='" . $this->wordPressUserId
+			. "',kerberosRealm='" . $this->kerberosRealm . "'}";
 	}
 }
