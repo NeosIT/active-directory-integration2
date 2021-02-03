@@ -35,6 +35,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const VERIFICATION_PASSWORD = 'verification_password';
 	const DOMAIN_SID = 'domain_sid';
 	const NETBIOS_NAME = 'netbios_name';
+	const ADDITIONAL_DOMAIN_SIDS = 'additional_domain_sids';
 
 	// User - User Settings
 	const EXCLUDE_USERNAMES_FROM_AUTHENTICATION = 'exclude_usernames_from_authentication';
@@ -523,6 +524,27 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$angularAttributes => '',
 				$default => '',
 				$sanitizer => array('string'),
+				$showPermission => true,
+				$transient => false,
+			),
+			// additional domain SIDs when using a Global Catalog
+			self::ADDITIONAL_DOMAIN_SIDS => array(
+				$title => __('Additional domain SIDs', 'next-active-directory-integration'),
+				$type => NextADInt_Multisite_Option_Type::EDITABLE_LIST,
+				$description => __(
+					'Recognize users during import from these domain SIDs. The specified SIDs are used in <strong>addition</strong> to the already connected domain above.',
+					'next-active-directory-integration'
+				),
+				$detail => array(
+					__(
+						'When using a <em>Global Catalog</em> handling more than one domain, you have to specify each additional domain inside it',
+						'next-active-directory-integration'
+					),
+				),
+				$angularAttributes => '',
+				$angularButtonAttributes => 'ng-show="!$parent.is_input_empty(new_additional_domain_sids)"',
+				$default => '',
+				$sanitizer => array('accumulation', ';', array('string', false, true)),
 				$showPermission => true,
 				$transient => false,
 			),
