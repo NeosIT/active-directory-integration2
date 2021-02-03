@@ -84,7 +84,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
                     )
                 ),
 			),
-			// Tab name
+			// Environment tab
 			__('Environment', 'next-active-directory-integration') => array(
 				// Group Name
 				self::ANGULAR_CONTROLLER => 'EnvironmentController',
@@ -117,7 +117,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					)
 				),
 			),
-			// Tab name
+            // User tab
 			__('User', 'next-active-directory-integration') => array(
 				// Group Name
 				self::ANGULAR_CONTROLLER => 'UserController',
@@ -144,7 +144,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 				),
 			),
-			// Tab name
+			// Password tab
 			__('Password', 'next-active-directory-integration') => array(
 				self::ANGULAR_CONTROLLER => 'PasswordController',
 				self::MULTISITE_ONLY => false,
@@ -164,7 +164,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 				),
 			),
-			// Tab name
+			// Permissions tab
 			__('Permissions', 'next-active-directory-integration') => array(
 				self::ANGULAR_CONTROLLER => 'PermissionController',
 				self::MULTISITE_ONLY => false,
@@ -188,9 +188,9 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 				),
 			),
-			// Tab name
-			__('Security', 'next-active-directory-integration') => array(
-				self::ANGULAR_CONTROLLER => 'SecurityController',
+			// SSO tab
+			__('SSO', 'next-active-directory-integration') => array(
+				self::ANGULAR_CONTROLLER => 'SsoController',
 				self::MULTISITE_ONLY => false,
 				// Group name
 				__('Single Sign On', 'next-active-directory-integration') => array(
@@ -199,7 +199,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						'next-active-directory-integration'
 					),
 						__(
-							'<span class="adi-pe-message"><b>Premium Extensions: </b>SingleSignOn for BuddyPress, WooCommerce und Ultimate Member <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
+							'<span class="adi-pe-message"><b>Premium Extensions: </b>Active Directory Forest, SingleSignOn for BuddyPress, WooCommerce und Ultimate Member <a href="https://active-directory-wp.com/premium-extension/">available</a>.</span>',
 							'next-active-directory-integration'
 						)),
 					// Option elements in group
@@ -208,9 +208,15 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::SSO_USER,
 						NextADInt_Adi_Configuration_Options::SSO_PASSWORD,
 						NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE,
-                        NextADInt_Adi_Configuration_Options::SSO_DISABLE_FOR_XMLRPC
+						NextADInt_Adi_Configuration_Options::SSO_DISABLE_FOR_XMLRPC,
+						NextADInt_Adi_Configuration_Options::KERBEROS_REALM_MAPPINGS,
 					),
 				),
+			),
+            // Security tab
+			__('Security', 'next-active-directory-integration') => array(
+				self::ANGULAR_CONTROLLER => 'SecurityController',
+				self::MULTISITE_ONLY => false,
 				// Group name
 				__('Login', 'next-active-directory-integration') => array(
 					self::DESCRIPTION => array(__(
@@ -248,7 +254,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 				),
 			),
-			// Tab name
+			// Attributes tab
 			__('Attributes', 'next-active-directory-integration') => array(
 				self::ANGULAR_CONTROLLER => 'AttributesController',
 				self::MULTISITE_ONLY => false,
@@ -277,7 +283,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 				),
 			),
-			// Tab name
+			// Sync to AD tab
 			__('Sync to AD', 'next-active-directory-integration') => array(
 				self::ANGULAR_CONTROLLER => 'SyncToAdController',
 				self::MULTISITE_ONLY => false,
@@ -297,7 +303,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 				),
 			),
-			// Tab name
+			// Sync to WordPress tab
 			__('Sync to WordPress', 'next-active-directory-integration') => array(
 				self::ANGULAR_CONTROLLER => 'SyncToWordpressController',
 				self::MULTISITE_ONLY => false,
@@ -320,7 +326,7 @@ class NextADInt_Adi_Configuration_Ui_Layout
 					),
 				),
 			),
-			// Tab name
+			// Logging tab
 			__('Logging', 'next-active-directory-integration') => array(
 				self::ANGULAR_CONTROLLER => 'LoggingController',
 				self::MULTISITE_ONLY => false,
