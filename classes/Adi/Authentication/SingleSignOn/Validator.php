@@ -17,10 +17,6 @@ if (class_exists('NextADInt_Adi_Authentication_SingleSignOn_Validator')) {
  */
 class NextADInt_Adi_Authentication_SingleSignOn_Validator
 {
-	const FAILED_SSO_UPN = NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN;
-
-	const USER_LOGGED_OUT = NextADInt_Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT;
-
 	/**
 	 * Check if the given {@link NextADInt_Ldap_Connection} is connected.
 	 *
@@ -72,9 +68,9 @@ class NextADInt_Adi_Authentication_SingleSignOn_Validator
 	 */
 	public function validateAuthenticationState(NextADInt_Adi_Authentication_Credentials $credentials)
 	{
-		$failedAuthenticateUsername = $this->getSessionHandler()->getValue(self::FAILED_SSO_UPN);
+		$failedAuthenticateUsername = $this->getSessionHandler()->getValue(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_PRINCIPAL);
 
-		if ($failedAuthenticateUsername === $credentials->getUserPrincipalName()) {
+		if (!empty($failedAuthenticateUsername) && ($failedAuthenticateUsername === $credentials->getLogin())) {
 			$this->throwAuthenticationException('User has already failed to authenticate. Stop retrying.');
 		}
 	}
@@ -86,7 +82,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Validator
 	 */
 	public function validateLogoutState()
 	{
-		$userLoggedOut = $this->getSessionHandler()->getValue(self::USER_LOGGED_OUT, false);
+		$userLoggedOut = $this->getSessionHandler()->getValue(NextADInt_Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT, false);
 
 		if ($userLoggedOut) {
 			throw new NextADInt_Adi_Authentication_LogoutException('User will not be logged in via SSO b/c he logged out manually.');

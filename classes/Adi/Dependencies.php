@@ -1108,7 +1108,8 @@ class NextADInt_Adi_Dependencies
 				$this->getAttributeService(),
 				$this->getSsoValidator(),
                 $this->getLoginState(),
-				$this->getLoginSucceededService()
+				$this->getLoginSucceededService(),
+                $this->getSsoProfileLocator()
 			);
 		}
 
@@ -1207,5 +1208,25 @@ class NextADInt_Adi_Dependencies
 		}
 
 		return $this->loginSucceededService;
+	}
+
+	/**
+	 * @var NextADInt_Adi_Authentication_SingleSignOn_Profile_Locator
+	 */
+	private $ssoProfileLocator = null;
+
+	/**
+	 * @since 2.0.0
+	 * @return NextADInt_Adi_Authentication_SingleSignOn_Profile_Locator
+	 */
+	public function getSsoProfileLocator()
+	{
+		if ($this->ssoProfileLocator == null) {
+			$this->ssoProfileLocator = new NextADInt_Adi_Authentication_SingleSignOn_Profile_Locator(
+				$this->getConfiguration()
+			);
+		}
+
+		return $this->ssoProfileLocator;
 	}
 }
