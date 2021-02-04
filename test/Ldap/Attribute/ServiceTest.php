@@ -23,7 +23,7 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	 */
 	private $adLdap;
 
-	public function setUp() : void
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -38,7 +38,7 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 		$this->adLdap = parent::createMock('adLDAP');
 	}
 
-	public function tearDown() : void
+	public function tearDown(): void
 	{
 		parent::tearDown();
 	}
@@ -90,9 +90,9 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function findLdapAttributesOfUser_triggersNecessaryMethods()
+	public function resolveLdapAttributes_triggersNecessaryMethods()
 	{
-		$sut = $this->sut(array('findLdapAttributesOfUsername'));
+		$sut = $this->sut(array('findLdapAttributesOfUser'));
 
 		$attribute = new NextADInt_Ldap_Attribute();
 		$attribute->setMetakey('meta');
@@ -102,18 +102,24 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 		$attribute->setViewable(true);
 
 		$expected = new NextADInt_Ldap_Attributes(false, array($attribute));
-		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('sam@test.ad', 'pw');
+		$userQuery = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('sam@test.ad', 'pw')->toUserQuery()->withGuid('guid');
 
 		$sut->expects($this->exactly(3))
-			->method('findLdapAttributesOfUsername')
+			->method('findLdapAttributesOfUser')
 			->withConsecutive(
-				array('guid', true),
-                array('sam@test.ad'),
-				array('sam')
+				array($this->callback(function (NextADInt_Ldap_UserQuery $q) use ($userQuery) {
+					return $q->getPrincipal() == 'guid' && $q->isGuid();
+				})),
+				array($this->callback(function (NextADInt_Ldap_UserQuery $q) use ($userQuery) {
+					return $q->getPrincipal() == 'sam@test.ad' && !$q->isGuid();
+				})),
+				array($this->callback(function (NextADInt_Ldap_UserQuery $q) use ($userQuery) {
+					return $q->getPrincipal() == 'sam' && !$q->isGuid();
+				})),
 			)
 			->willReturn($expected);
 
-		$actual = $sut->findLdapAttributesOfUser($credentials, 'guid');
+		$actual = $sut->resolveLdapAttributes($userQuery);
 
 		$this->assertEquals($expected, $actual);
 	}
@@ -263,7 +269,7 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('findLdapCustomAttributeOfUser')
-			->with($credentials, 'objectsid')
+			->with($credentials->toUserQuery(), 'objectsid')
 			->willReturn(
 				hex2bin(adLDAP::sidStringToHex($objectSid)));
 
@@ -274,18 +280,26 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 	 * @test
 	 * @issue ADI-412
 	 */
-	public function findLdapCustomAttributeOfUser_whenUserPrincipalNameReturnsNothing_itUsesSamaccountName()
+	public function resolveLdapCustomAttribute_whenUserPrincipalNameReturnsNothing_itUsesSamaccountName()
 	{
-		$sut = $this->sut(array('findLdapCustomAttributeOfUsername'));
+		$sut = $this->sut(array('findLdapCustomAttributeOfUser'));
+		$sAMAccountName = 'user';
+		$upn = $sAMAccountName . '@upnsuffix';
 
-		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('user@upnsuffix');
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($upn);
+		$userQuery = $credentials->toUserQuery();
 		$attribute = 'attribute';
 
 		$sut->expects($this->exactly(2))
-			->method('findLdapCustomAttributeOfUsername')
+			->method('findLdapCustomAttributeOfUser')
 			->withConsecutive(
-				array($credentials->getUserPrincipalName(), $attribute),
-				array($credentials->getSAMAccountName(), $attribute)
+			// TODO
+				array($this->callback(function (NextADInt_Ldap_UserQuery $userQuery) use ($upn) {
+					return $userQuery->getPrincipal() == $upn;
+				}), $attribute),
+				array($this->callback(function (NextADInt_Ldap_UserQuery $userQuery) use ($sAMAccountName) {
+					return $userQuery->getPrincipal() == $sAMAccountName;
+				}), $attribute)
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -294,15 +308,17 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 				)
 			);
 
-		$this->assertEquals('value', $sut->findLdapCustomAttributeOfUser($credentials, $attribute));
+		$this->assertEquals('value', $sut->resolveLdapCustomAttribute($userQuery, $attribute));
 	}
 
 	/**
 	 * @test
 	 * @issue ADI-412
 	 */
-	public function findLdapCustomAttributeOfUsername_whenAttributeIsAvailable_itReturnsValue()
+	public function findLdapCustomAttributeOfUser_whenAttributeIsAvailable_itReturnsValue()
 	{
+		$userQuery = NextADInt_Ldap_UserQuery::forPrincipal('username');
+
 		$sut = $this->sut(array('parseLdapResponse'));
 		$attribute = "objectsid";
 		$attributes = array($attribute);
@@ -310,7 +326,7 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 
 		$this->ldapConnection->expects($this->once())
 			->method('findAttributesOfUser')
-			->with('username', $attributes, false)
+			->with($userQuery, $attributes)
 			->willReturn($rawResponse);
 
 		$sut->expects($this->once())
@@ -318,14 +334,17 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 			->with($attributes, $rawResponse)
 			->willReturn($rawResponse);
 
-		$this->assertEquals('value', $sut->findLdapCustomAttributeOfUsername('username', $attribute));
+		$this->assertEquals('value', $sut->findLdapCustomAttributeOfUser($userQuery, $attribute));
 	}
 
 	/**
 	 * @test
 	 * @issue ADI-145
 	 */
-	public function ADI_145_findLdapAttributesOfUsername_itCallsFilter_nextadi_ldap_filter_synchronizable_attributes() {
+	public function ADI_145_findLdapAttributesOfUser_itCallsFilter_nextadi_ldap_filter_synchronizable_attributes()
+	{
+		$userQuery = NextADInt_Ldap_UserQuery::forPrincipal('username');
+
 		$sut = $this->sut(array('parseLdapResponse'));
 		$attributeNames = array('a', 'b');
 		$modifiedAttributeNames = array('a', 'c');
@@ -336,12 +355,12 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 
 		$this->ldapConnection->expects($this->once())
 			->method('findAttributesOfUser')
-			->with('username', $modifiedAttributeNames, false);
+			->with($userQuery, $modifiedAttributeNames);
 
 		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'ldap_filter_synchronizable_attributes')
-			->with($attributeNames, 'username', false)
+			->with($attributeNames, $userQuery)
 			->reply($modifiedAttributeNames);
 
-		$sut->findLdapAttributesOfUsername('username', false);
+		$sut->findLdapAttributesOfUser($userQuery);
 	}
 }

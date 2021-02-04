@@ -26,7 +26,8 @@ class NextADInt_Adi_Dependencies
 	 *
 	 * @return NextADInt_Adi_Dependencies
 	 */
-	public static function getInstance() {
+	public static function getInstance()
+	{
 		if (self::$_instance === null) {
 			self::$_instance = new NextADInt_Adi_Dependencies();
 		}
@@ -511,7 +512,7 @@ class NextADInt_Adi_Dependencies
 				$this->getMailNotification(),
 				$this->getShowBlockedMessage(),
 				$this->getAttributeService(),
-                $this->getLoginState(),
+				$this->getLoginState(),
 				$this->getLoginSucceededService()
 			);
 		}
@@ -1108,8 +1109,9 @@ class NextADInt_Adi_Dependencies
 				$this->getShowBlockedMessage(),
 				$this->getAttributeService(),
 				$this->getSsoValidator(),
-                $this->getLoginState(),
-				$this->getLoginSucceededService()
+				$this->getLoginState(),
+				$this->getLoginSucceededService(),
+				$this->getSsoProfileLocator()
 			);
 		}
 
@@ -1127,7 +1129,7 @@ class NextADInt_Adi_Dependencies
 	public function getSsoPage()
 	{
 		if ($this->ssoPage == null) {
-		    // TODO SSO Error wp-login
+			// TODO SSO Error wp-login
 			$this->ssoPage = new NextADInt_Adi_Authentication_Ui_SingleSignOn();
 		}
 
@@ -1151,42 +1153,44 @@ class NextADInt_Adi_Dependencies
 		return $this->ssoValidator;
 	}
 
-    /**
-     * @var NextADInt_Adi_LoginState
-     */
+	/**
+	 * @var NextADInt_Adi_LoginState
+	 */
 	private $loginState = null;
 
-    /**
-     * @return NextADInt_Adi_LoginState
-     */
-	public function getLoginState() {
-	    if ($this->loginState == null) {
-	        $this->loginState = new NextADInt_Adi_LoginState();
-        }
+	/**
+	 * @return NextADInt_Adi_LoginState
+	 */
+	public function getLoginState()
+	{
+		if ($this->loginState == null) {
+			$this->loginState = new NextADInt_Adi_LoginState();
+		}
 
-	    return $this->loginState;
-    }
+		return $this->loginState;
+	}
 
-    /**
-     * @var NextADInt_Adi_Authorization_Service
-     */
+	/**
+	 * @var NextADInt_Adi_Authorization_Service
+	 */
 	private $authorizationService = null;
 
-    /**
-     * @return NextADInt_Adi_Authorization_Service
-     */
-    public function getAuthorizationService() {
-	    if ($this->authorizationService == null) {
-	        $this->authorizationService = new NextADInt_Adi_Authorization_Service(
-	            $this->getConfiguration(),
-                $this->getUserManager(),
-                $this->getRoleManager(),
-                $this->getLoginState()
-            );
-        }
+	/**
+	 * @return NextADInt_Adi_Authorization_Service
+	 */
+	public function getAuthorizationService()
+	{
+		if ($this->authorizationService == null) {
+			$this->authorizationService = new NextADInt_Adi_Authorization_Service(
+				$this->getConfiguration(),
+				$this->getUserManager(),
+				$this->getRoleManager(),
+				$this->getLoginState()
+			);
+		}
 
-	    return $this->authorizationService;
-    }
+		return $this->authorizationService;
+	}
 
 	/**
 	 * @var NextADInt_Adi_User_LoginSucceededService
@@ -1196,7 +1200,8 @@ class NextADInt_Adi_Dependencies
 	/**
 	 * @return NextADInt_Adi_User_LoginSucceededService
 	 */
-	public function getLoginSucceededService() {
+	public function getLoginSucceededService()
+	{
 		if ($this->loginSucceededService == null) {
 			$this->loginSucceededService = new NextADInt_Adi_User_LoginSucceededService(
 				$this->getLoginState(),
@@ -1218,10 +1223,11 @@ class NextADInt_Adi_Dependencies
 	/**
 	 * @return mixed|NextADInt_ActiveDirectory_Context|void
 	 */
-	public function getActiveDirectoryContext() {
+	public function getActiveDirectoryContext()
+	{
 		if ($this->activeDirectoryContext == null) {
 			// factory callback to create a new context
-			add_filter(NEXT_AD_INT_PREFIX . 'create_dependency_active_directory_context', function($instance, NextADInt_Multisite_Configuration_Service $configuration) {
+			add_filter(NEXT_AD_INT_PREFIX . 'create_dependency_active_directory_context', function ($instance, NextADInt_Multisite_Configuration_Service $configuration) {
 				if (empty($instance)) {
 					$instance = new NextADInt_ActiveDirectory_Context($configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID));
 				}
@@ -1233,5 +1239,25 @@ class NextADInt_Adi_Dependencies
 		}
 
 		return $this->activeDirectoryContext;
+	}
+
+	/**
+	 * @var NextADInt_Adi_Authentication_SingleSignOn_Profile_Locator
+	 */
+	private $ssoProfileLocator = null;
+
+	/**
+	 * @return NextADInt_Adi_Authentication_SingleSignOn_Profile_Locator
+	 * @since 2.0.0
+	 */
+	public function getSsoProfileLocator()
+	{
+		if ($this->ssoProfileLocator == null) {
+			$this->ssoProfileLocator = new NextADInt_Adi_Authentication_SingleSignOn_Profile_Locator(
+				$this->getConfiguration()
+			);
+		}
+
+		return $this->ssoProfileLocator;
 	}
 }

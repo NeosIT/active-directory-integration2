@@ -20,7 +20,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	/** @var NextADInt_ActiveDirectory_Context|PHPUnit_Framework_MockObject_MockObject */
 	private $activeDirectoryContext;
 
-	public function setUp() : void
+	public function setUp(): void
 	{
 		if (!class_exists('adLDAP')) {
 			//get adLdap
@@ -38,7 +38,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		NextADInt_Core_Util::native($this->internalNative);
 	}
 
-	public function tearDown() : void
+	public function tearDown(): void
 	{
 		parent::tearDown();
 		// release mocked native functions
@@ -68,14 +68,14 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 
 		$config = array(
-			'account_suffix'     => '',
-			'base_dn'            => 'office.local',
+			'account_suffix' => '',
+			'base_dn' => 'office.local',
 			'domain_controllers' => array('1.2.3.4'),
-			'ad_port'            => 389,
-			'use_tls'            => true,
-			'network_timeout'    => 5,
-			'ad_username'        => 'admin',
-			'ad_password'        => '12345',
+			'ad_port' => 389,
+			'use_tls' => true,
+			'network_timeout' => 5,
+			'ad_username' => 'admin',
+			'ad_password' => '12345',
 		);
 
 		$sut->expects($this->once())
@@ -98,28 +98,28 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		$sut = $this->sut(array('getBaseDn', 'getDomainControllers', 'getAdPort', 'getUseTls', 'getUseSsl', 'getNetworkTimeout', 'getAllowSelfSigned'));
 
 		$expected = array(
-			'account_suffix'     => '',
-			'base_dn'            => 'abba',
+			'account_suffix' => '',
+			'base_dn' => 'abba',
 			'domain_controllers' => array('192.168.56.101'),
-			'ad_port'            => 389,
-			'use_tls'            => true,
-            'use_ssl'            => false,
-			'network_timeout'    => 5,
-			'ad_username'        => 'tobi',
-			'ad_password'        => 'Streng Geheim',
+			'ad_port' => 389,
+			'use_tls' => true,
+			'use_ssl' => false,
+			'network_timeout' => 5,
+			'ad_username' => 'tobi',
+			'ad_password' => 'Streng Geheim',
 			'allow_self_signed' => true
 		);
 
 		$log = array(
-			'account_suffix'     => '',
-			'base_dn'            => 'abba',
+			'account_suffix' => '',
+			'base_dn' => 'abba',
 			'domain_controllers' => array('192.168.56.101'),
-			'ad_port'            => 389,
-			'use_tls'            => true,
-            'use_ssl'            => false,
-			'network_timeout'    => 5,
-			'ad_username'        => 'tobi',
-			'ad_password'        => '*** protected password ***',
+			'ad_port' => 389,
+			'use_tls' => true,
+			'use_ssl' => false,
+			'network_timeout' => 5,
+			'ad_username' => 'tobi',
+			'ad_password' => '*** protected password ***',
 			'allow_self_signed' => true
 		);
 
@@ -132,7 +132,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		parent::expects($sut, $this->once(), 'getDomainControllers', $connectionDetails, array('192.168.56.101'));
 		parent::expects($sut, $this->once(), 'getAdPort', $connectionDetails, 389);
 		parent::expects($sut, $this->once(), 'getUseTls', $connectionDetails, true);
-        parent::expects($sut, $this->once(), 'getUseSsl', $connectionDetails, false);
+		parent::expects($sut, $this->once(), 'getUseSsl', $connectionDetails, false);
 		parent::expects($sut, $this->once(), 'getNetworkTimeout', $connectionDetails, 5);
 		parent::expects($sut, $this->once(), 'getAllowSelfSigned', $connectionDetails, true);
 
@@ -140,17 +140,18 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		$this->assertEquals($expected, $actual);
 	}
 
-    /**
-     * @see ADI-713
-     * @since 2.1.13
-     * @test
-     */
-	public function ADI_713_register_userInfo_hookIsRegistered() {
-        $sut = $this->sut(null);
-        WP_Mock::expectFilterAdded(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', array($sut, 'mapUserInfo'), 10, 6);
+	/**
+	 * @see ADI-713
+	 * @since 2.1.13
+	 * @test
+	 */
+	public function ADI_713_register_userInfo_hookIsRegistered()
+	{
+		$sut = $this->sut(null);
+		WP_Mock::expectFilterAdded(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', array($sut, 'mapUserInfo'), 10, 5);
 
-        $sut->register();
-    }
+		$sut->register();
+	}
 
 	/**
 	 * @test
@@ -392,7 +393,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
-		$username = "hugo";
+		$userQuery = NextADInt_Ldap_UserQuery::forPrincipal("hugo");
 		$attributeNames = array("sn", "givenname", "mail");
 
 		$adResult = array(
@@ -401,9 +402,9 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 			0 => array(
 				'sn' => array(
 					'count' => 1,
-					0       => 'Brown',
+					0 => 'Brown',
 				),
-				0    => 'sn',
+				0 => 'sn',
 			),
 		);
 
@@ -416,43 +417,45 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 			->with('hugo', array("sn", "givenname", "mail"))
 			->willReturn($adResult);
 
-        \WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo')
-            ->with(false, $adResult, $adResult['count'], $username, $attributeNames, false)
-            ->reply($adResult[0]);
+		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo')
+			->with(false, $adResult, $adResult['count'], $userQuery, $attributeNames)
+			->reply($adResult[0]);
 
-		$actual = $sut->findAttributesOfUser($username, $attributeNames);
+		$actual = $sut->findAttributesOfUser($userQuery, $attributeNames);
 		$this->assertEquals($adResult[0], $actual);
 	}
 
-    /**
-     * @see ADI-713
-     * @since 2.1.13
-     * @test
-     */
-    public function ADI_713_mapUserInfo_returnsFirstMatch_ifOneIsFound() {
-        $username = "username";
-        $matchesFromLdap = array(array('FIRST'));
+	/**
+	 * @see ADI-713
+	 * @since 2.1.13
+	 * @test
+	 */
+	public function ADI_713_mapUserInfo_returnsFirstMatch_ifOneIsFound()
+	{
+		$userQuery = NextADInt_Ldap_UserQuery::forPrincipal("username");
+		$matchesFromLdap = array(array('FIRST'));
 
-        $sut = $this->sut(null);
-        $actual = $sut->mapUserInfo(false, $matchesFromLdap, sizeof($matchesFromLdap), $username, array());
+		$sut = $this->sut(null);
+		$actual = $sut->mapUserInfo(false, $matchesFromLdap, sizeof($matchesFromLdap), $userQuery, array());
 
-        $this->assertEquals($matchesFromLdap[0], $actual);
-    }
+		$this->assertEquals($matchesFromLdap[0], $actual);
+	}
 
-    /**
-     * @see ADI-713
-     * @since 2.1.13
-     * @test
-     */
-    public function ADI_713_mapUserInfo_returnsFalse_ifMultipleAreFound() {
-        $username = "username";
-        $matchesFromLdap = array(array('FIRST'),array('SECOND'));
+	/**
+	 * @see ADI-713
+	 * @since 2.1.13
+	 * @test
+	 */
+	public function ADI_713_mapUserInfo_returnsFalse_ifMultipleAreFound()
+	{
+		$userQuery = NextADInt_Ldap_UserQuery::forPrincipal("username");
+		$matchesFromLdap = array(array('FIRST'), array('SECOND'));
 
-        $sut = $this->sut(null);
-        $actual = $sut->mapUserInfo(false, $matchesFromLdap, sizeof($matchesFromLdap), $username, array());
+		$sut = $this->sut(null);
+		$actual = $sut->mapUserInfo(false, $matchesFromLdap, sizeof($matchesFromLdap), $userQuery, array());
 
-        $this->assertEquals(false, $actual);
-    }
+		$this->assertEquals(false, $actual);
+	}
 
 	/**
 	 * @test
@@ -713,19 +716,19 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		$sut = $this->sut(array('findAllMembersOfGroup', 'filterDomainMembers'));
 
 		$expected = array(
-			'aa'  => 'aA',
-			'bb'  => 'Bb',
-			'cc'  => 'CC',
-			'd'   => 'd',
+			'aa' => 'aA',
+			'bb' => 'Bb',
+			'cc' => 'CC',
+			'd' => 'd',
 			'eee' => 'eEe',
 		);
 
 		$groupA = array('aa' => 'aA',
-						'bb' => 'Bb',
-						'cc' => 'wrong');
-		$groupB = array('cc'  => 'CC',
-						'd'   => 'd',
-						'eee' => 'eEe');
+			'bb' => 'Bb',
+			'cc' => 'wrong');
+		$groupB = array('cc' => 'CC',
+			'd' => 'd',
+			'eee' => 'eEe');
 
 		$sut->expects($this->exactly(2))
 			->method('findAllMembersOfGroup')

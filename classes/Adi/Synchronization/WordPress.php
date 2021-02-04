@@ -227,7 +227,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	/**
 	 * Convert the given array into our necessary format.
 	 *
-	 * @param $adUsers
+	 * @param $adUsers list of sAMAccountNames
 	 *
 	 * @return array|hashmap key is Active Directory objectGUID, value is username
 	 */
@@ -236,7 +236,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$result = array();
 
 		foreach ($adUsers as $adUser) {
-			$attributes = $this->attributeService->findLdapAttributesOfUsername($adUser);
+			$attributes = $this->attributeService->findLdapAttributesOfUser(NextADInt_Ldap_UserQuery::forPrincipal($adUser));
 			$guid = $attributes->getFilteredValue(NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID);
 
 			$result[NextADInt_Core_Util_StringUtil::toLowerCase($guid)] = $adUser;
@@ -397,7 +397,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		// TODO reduce complexity of this method.
 
 		// ADI-204: in contrast to the login process we use the guid to determine the LDAP attributes
-		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, $guid);
+		$ldapAttributes = $this->attributeService->resolveLdapAttributes(NextADInt_Ldap_UserQuery::forGuid($guid, $credentials));
 
 		// NADIS-1: Checking if the GUID of a user is valid when user does not exist in the active directory anymore. Therefore, disable user and remove domain sid
 		$this->disableUserWithoutValidGuid($ldapAttributes, $credentials);

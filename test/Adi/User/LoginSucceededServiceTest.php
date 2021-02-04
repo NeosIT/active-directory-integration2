@@ -178,8 +178,10 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 		                 ->willReturn(true);
 
 		$this->attributeService->expects($this->once())
-		                       ->method('findLdapAttributesOfUser')
-		                       ->with($credentials, null)
+		                       ->method('resolveLdapAttributes')
+                                ->with($this->callback(function(NextADInt_Ldap_UserQuery $userQuery) use($credentials) {
+                                    return $userQuery->getPrincipal() == $credentials->getLogin();
+                                }))
 		                       ->willReturn(new NextADInt_Ldap_Attributes(false, false));
 
 		$actual = $sut->updateOrCreateUser($credentials);
@@ -206,8 +208,10 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 		                 ->willReturn(true);
 
 		$this->attributeService->expects($this->once())
-		                       ->method('findLdapAttributesOfUser')
-		                       ->with($credentials, null)
+		                       ->method('resolveLdapAttributes')
+                                ->with($this->callback(function(NextADInt_Ldap_UserQuery $userQuery) use($credentials) {
+                                    return $userQuery->getPrincipal() == $credentials->getLogin();
+                                }))
 		                       ->willReturn($expectedLdapAttrs);
 
 		WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user')
@@ -251,8 +255,10 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 		                 ->willReturn(true);
 
 		$this->attributeService->expects($this->once())
-		                       ->method('findLdapAttributesOfUser')
-		                       ->with($credentials, null)
+		                       ->method('resolveLdapAttributes')
+                                ->with($this->callback(function(NextADInt_Ldap_UserQuery $userQuery) use($credentials) {
+                                    return $userQuery->getPrincipal() == $credentials->getLogin();
+                                }))
 		                       ->willReturn($expectedLdapAttrs);
 
 		WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user')
@@ -313,8 +319,10 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 		                 ->willReturn(true);
 
 		$this->attributeService->expects($this->once())
-		                       ->method('findLdapAttributesOfUser')
-		                       ->with($credentials, null)
+		                       ->method('resolveLdapAttributes')
+                                ->with($this->callback(function(NextADInt_Ldap_UserQuery $userQuery) use($credentials) {
+                                    return $userQuery->getPrincipal() == $credentials->getLogin();
+                                }))
 		                       ->willReturn($expectedLdapAttrs);
 
 		WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user')
@@ -373,8 +381,10 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 		                 ->willReturn(true);
 
 		$this->attributeService->expects($this->once())
-		                       ->method('findLdapAttributesOfUser')
-		                       ->with($credentials, null)
+		                       ->method('resolveLdapAttributes')
+                                ->with($this->callback(function(NextADInt_Ldap_UserQuery $userQuery) use($credentials) {
+                                    return $userQuery->getPrincipal() == $credentials->getLogin();
+                                }))
 		                       ->willReturn($expectedLdapAttrs);
 
 		WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user')

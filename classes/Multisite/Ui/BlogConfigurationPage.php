@@ -44,19 +44,20 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	/** @var array map the given subActions to the corresponding methods */
 	private $actionMapping
 		= array(
-			self::SUB_ACTION_GENERATE_AUTHCODE     => self::SUB_ACTION_GENERATE_AUTHCODE,
+			self::SUB_ACTION_GENERATE_AUTHCODE => self::SUB_ACTION_GENERATE_AUTHCODE,
 			self::SUB_ACTION_GET_ALL_OPTION_VALUES => self::SUB_ACTION_GET_ALL_OPTION_VALUES,
 			self::SUB_ACTION_PERSIST_OPTION_VALUES => self::SUB_ACTION_PERSIST_OPTION_VALUES,
-			self::SUB_ACTION_VERIFY_AD_CONNECTION  => self::SUB_ACTION_VERIFY_AD_CONNECTION,
+			self::SUB_ACTION_VERIFY_AD_CONNECTION => self::SUB_ACTION_VERIFY_AD_CONNECTION,
 		);
 
 	/**
-	 * @param NextADInt_Multisite_View_TwigContainer             $twigContainer
+	 * @param NextADInt_Multisite_View_TwigContainer $twigContainer
 	 * @param NextADInt_Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
 	 */
 	public function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer,
 								NextADInt_Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
-	) {
+	)
+	{
 		parent::__construct($twigContainer);
 
 		$this->blogConfigurationController = $blogConfigurationConfigurationControllerController;
@@ -97,40 +98,40 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	 */
 	public function renderAdmin()
 	{
-        // translate twig text
-        $i18n = array(
-            'title' => __('Next Active Directory Integration Blog Configuration', 'next-active-directory-integration'),
-            'regenerateAuthCode' => __('Regenerate Auth Code', 'next-active-directory-integration'),
-            'securityGroup' => __('Security group', 'next-active-directory-integration'),
-            'wordpressRole' => __('WordPress role', 'next-active-directory-integration'),
-            'selectRole' => __('Please select a role', 'next-active-directory-integration'),
-            'verify' => __('Verify', 'next-active-directory-integration'),
-            'adAttributes' => __('AD Attributes', 'next-active-directory-integration'),
-            'dataType' => __('Data Type', 'next-active-directory-integration'),
-            'wordpressAttribute' => __('WordPress Attribute', 'next-active-directory-integration'),
-            'description' => __('Description', 'next-active-directory-integration'),
-            'viewInUserProfile' => __('View in User Profile', 'next-active-directory-integration'),
-            'syncToAd' => __('Sync to AD', 'next-active-directory-integration'),
-            'overwriteWithEmptyValue' => __('Overwrite with empty value', 'next-active-directory-integration'),
-            'wantToRegenerateAuthCode' => __('Do you really want to regenerate a new AuthCode?', 'next-active-directory-integration'),
-            'wordPressIsConnectedToDomain' => __('WordPress Site is currently connected to Domain: ', 'next-active-directory-integration'),
-            'domainConnectionVerificationSuccessful' => __('Verification successful! WordPress site is now connected to Domain: ', 'next-active-directory-integration'),
-            'verificationSuccessful' => __('Verification successful!', 'next-active-directory-integration'),
-            'domainConnectionVerificationFailed' => __('Verification failed! Please check your logfile for further information.', 'next-active-directory-integration'),
-            'managePermissions' => __('Manage Permissions', 'next-active-directory-integration'),
-            'noOptionsExists' => __('No options exists', 'next-active-directory-integration'),
-            'pleaseWait' => __('Please wait...', 'next-active-directory-integration'),
-            'save' => __('Save', 'next-active-directory-integration'),
-            'haveToVerifyDomainConnection' => __('You have to verify the connection to the AD before saving.', 'next-active-directory-integration'),
-            'errorWhileSaving' => __('An error occurred while saving the configuration.', 'next-active-directory-integration'),
-            'savingSuccessful' => __('The configuration has been saved successfully.', 'next-active-directory-integration')
-        );
+		// translate twig text
+		$i18n = array(
+			'title' => __('Next Active Directory Integration Blog Configuration', 'next-active-directory-integration'),
+			'regenerateAuthCode' => __('Regenerate Auth Code', 'next-active-directory-integration'),
+			'securityGroup' => __('Security group', 'next-active-directory-integration'),
+			'wordpressRole' => __('WordPress role', 'next-active-directory-integration'),
+			'selectRole' => __('Please select a role', 'next-active-directory-integration'),
+			'verify' => __('Verify', 'next-active-directory-integration'),
+			'adAttributes' => __('AD Attributes', 'next-active-directory-integration'),
+			'dataType' => __('Data Type', 'next-active-directory-integration'),
+			'wordpressAttribute' => __('WordPress Attribute', 'next-active-directory-integration'),
+			'description' => __('Description', 'next-active-directory-integration'),
+			'viewInUserProfile' => __('View in User Profile', 'next-active-directory-integration'),
+			'syncToAd' => __('Sync to AD', 'next-active-directory-integration'),
+			'overwriteWithEmptyValue' => __('Overwrite with empty value', 'next-active-directory-integration'),
+			'wantToRegenerateAuthCode' => __('Do you really want to regenerate a new AuthCode?', 'next-active-directory-integration'),
+			'wordPressIsConnectedToDomain' => __('WordPress Site is currently connected to Domain: ', 'next-active-directory-integration'),
+			'domainConnectionVerificationSuccessful' => __('Verification successful! WordPress site is now connected to Domain: ', 'next-active-directory-integration'),
+			'verificationSuccessful' => __('Verification successful!', 'next-active-directory-integration'),
+			'domainConnectionVerificationFailed' => __('Verification failed! Please check your logfile for further information.', 'next-active-directory-integration'),
+			'managePermissions' => __('Manage Permissions', 'next-active-directory-integration'),
+			'noOptionsExists' => __('No options exists', 'next-active-directory-integration'),
+			'pleaseWait' => __('Please wait...', 'next-active-directory-integration'),
+			'save' => __('Save', 'next-active-directory-integration'),
+			'haveToVerifyDomainConnection' => __('You have to verify the connection to the AD before saving.', 'next-active-directory-integration'),
+			'errorWhileSaving' => __('An error occurred while saving the configuration.', 'next-active-directory-integration'),
+			'savingSuccessful' => __('The configuration has been saved successfully.', 'next-active-directory-integration')
+		);
 		$i18n = NextADInt_Core_Util_EscapeUtil::escapeHarmfulHtml($i18n);
 
 		$this->display(
 			self::TEMPLATE, array(
 				'nonce' => wp_create_nonce(self::NONCE),// create nonce for security
-                'i18n' => $i18n
+				'i18n' => $i18n
 			)
 		);
 	}
@@ -189,6 +190,10 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		wp_enqueue_script(
 			'next_ad_int_blog_options_controller_security', NEXT_AD_INT_URL .
 			'/js/app/blog-options/controllers/security.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
+		);
+		wp_enqueue_script(
+			'next_ad_int_blog_options_controller_sso', NEXT_AD_INT_URL .
+			'/js/app/blog-options/controllers/sso.controller.js', array(), self::VERSION_BLOG_OPTIONS_JS
 		);
 		wp_enqueue_script(
 			'next_ad_int_blog_options_controller_attributes', NEXT_AD_INT_URL .
@@ -354,10 +359,10 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		}
 
 		return array(
-			'options'        => $data,
+			'options' => $data,
 			'ldapAttributes' => NextADInt_Ldap_Attribute_Description::findAll(),
-			'dataTypes'      => NextADInt_Ldap_Attribute_Repository::findAllAttributeTypes(),
-			'wpRoles'        => NextADInt_Adi_Role_Manager::getRoles(),
+			'dataTypes' => NextADInt_Ldap_Attribute_Repository::findAllAttributeTypes(),
+			'wpRoles' => NextADInt_Adi_Role_Manager::getRoles(),
 		);
 	}
 
@@ -389,7 +394,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		$connection = array();
 
 		// only call verifyInternal if no validation errors were found (warnings are excluded)
-		if(!$validation->containsErrors()) {
+		if (!$validation->containsErrors()) {
 			$connection = $this->verifyInternal($data);
 		}
 
@@ -404,7 +409,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 	 * Verify the connection by the given $data array
 	 *
 	 * @param array $data
-	 * @param null  $profileId
+	 * @param null $profileId
 	 *
 	 * @return array
 	 */
@@ -429,8 +434,8 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 
 		$netBiosName = $this->twigContainer->findActiveDirectoryNetBiosName($data);
 
-        $netBiosData = array();
-		if($netBiosName) {
+		$netBiosData = array();
+		if ($netBiosName) {
 			$netBiosData = $this->prepareNetBiosName($netBiosName);
 			$this->persistNetBiosName($netBiosData, $profileId);
 		}
@@ -456,7 +461,8 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		return false;
 	}
 
-	protected function prepareNetBiosName($netBiosName) {
+	protected function prepareNetBiosName($netBiosName)
+	{
 		if (is_string($netBiosName) && $netBiosName !== '') {
 			return $this->getNetBiosNameForPersistence($netBiosName);
 		}
@@ -476,7 +482,8 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		return array("domain_sid" => $domainSid);
 	}
 
-	protected function getNetBiosNameForPersistence($netBiosName) {
+	protected function getNetBiosNameForPersistence($netBiosName)
+	{
 		return array("netbios_name" => $netBiosName);
 	}
 
@@ -511,7 +518,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		// aggregate all validation results
 		$validation = $this->validate($data);
 		// only call saveBlogOptions if no validation errors are present (warnings are excluded)
-		if(!$validation->containsErrors()) {
+		if (!$validation->containsErrors()) {
 			$connection = $this->blogConfigurationController->saveBlogOptions($data);
 		}
 
@@ -685,7 +692,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 
 			// PERMISSIONS
 			$disallowedRoleMessage = __('The role super admin can only be set inside a profile.', 'next-active-directory-integration');
-            $invalidRoleMessage = __('At least one security group is associated with a non existing WordPress role. Please select an existing role for the group.', 'next-active-directory-integration');
+			$invalidRoleMessage = __('At least one security group is associated with a non existing WordPress role. Please select an existing role for the group.', 'next-active-directory-integration');
 			$disallowedRoleRule = new NextADInt_Multisite_Validator_Rule_DisallowInvalidWordPressRoles(array($disallowedRoleMessage, $invalidRoleMessage));
 			$validator->addRule(NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS, $disallowedRoleRule);
 
@@ -790,8 +797,8 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 		$validator->addRule(NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT, $networkTimeoutRule);
 
 		$domainControllerMessage = __('Domain Controller cannot be empty.', 'next-active-directory-integration');
-        $domainControllerRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace($domainControllerMessage);
-        $validator->addRule(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS, $domainControllerRule);
+		$domainControllerRule = new NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace($domainControllerMessage);
+		$validator->addRule(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS, $domainControllerRule);
 
 		return $validator;
 	}

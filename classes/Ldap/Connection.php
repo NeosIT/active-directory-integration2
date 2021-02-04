@@ -51,11 +51,12 @@ class NextADInt_Ldap_Connection
 
 	/**
 	 * Register additional hooks
+	 * @since 2.0.0
 	 */
 	public function register()
 	{
 		// ADI-713: Map user information when search for GUID, userPrincipalName or sAMAccountName
-		add_filter(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', array($this, 'mapUserInfo'), 10, 6);
+		add_filter(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', array($this, 'mapUserInfo'), 10, 5);
 	}
 
 	/**
@@ -394,29 +395,28 @@ class NextADInt_Ldap_Connection
 	/**
 	 * Lookup the requested LDAP attributes for the user from the underlying Active Directory connection
 	 *
-	 * @param string $username
+	 * @param NextADInt_Ldap_UserQuery $userQuery
 	 * @param array $attributeNames
-	 * @param bool $isGUID
 	 *
 	 * @return array
 	 */
-	public function findAttributesOfUser($username, $attributeNames, $isGUID = false)
+	public function findAttributesOfUser(NextADInt_Ldap_UserQuery $userQuery, $attributeNames)
 	{
 		$adLdap = $this->getAdLdap();
 
-		$matchesFromLdap = $adLdap->user_info($username, $attributeNames, $isGUID);
+		$matchesFromLdap = $adLdap->user_info($userQuery->getPrincipal(), $attributeNames, $userQuery->isGuid());
 
 		if ($matchesFromLdap === false) {
-			$this->logger->warn("Attributes for '$username': could not be loaded. Does the sAMAccountName or userPrincipalName exist? Is the provided base DN valid?");
+			$this->logger->warn("Query '$userQuery' did not return any values. Does the sAMAccountName or userPrincipalName exist? Is the provided base DN valid? Is the Kerberos realm mapped");
 
 			return false;
 		}
 
 		// ADI-713: try to extract the user's information from a list of arrays
-		$userInfo = apply_filters(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', false, $matchesFromLdap, $matchesFromLdap['count'], $username, $attributeNames, $isGUID);
+		$userInfo = apply_filters(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', false, $matchesFromLdap, $matchesFromLdap['count'], $userQuery, $attributeNames);
 
 		if ($userInfo) {
-			$this->logger->debug("UserInfo for user '$username': " . $this->__debug($userInfo));
+			$this->logger->debug("UserInfo for user '" . $userQuery . "': " . $this->__debug($userInfo));
 		}
 
 		return $userInfo;
@@ -425,23 +425,22 @@ class NextADInt_Ldap_Connection
 	/**
 	 * After the Active Directory has been queried to look for a GUID, userPrincipalName or sAMAccountName, this method will be called.
 	 *
-	 * @param $bestMatch
-	 * @param $matchesFromLdap
-	 * @param $totalMatches number of matches; due to the adLDAP structure
-	 * @param $username
-	 * @param $attributeNames
-	 * @param $isGUID
-	 * @return array|boolean exactly one match or false
+	 * @param boolean|mixed $bestMatch The best match being used. It is false if no match has been found yet.
+	 * @param array $matchesFromLdap
+	 * @param integer $totalMatches number of matches; due to the adLDAP structure
+	 * @param NextADInt_Ldap_UserQuery $userQuery
+	 * @param array $attributeNames
+	 * @return array|boolean the $bestMatch exactly one match or false
 	 * @see ADI-713
 	 * @since 2.1.13
 	 */
-	public function mapUserInfo($bestMatch, $matchesFromLdap, $totalMatches, $username, $attributeNames, $isGUID = false)
+	public function mapUserInfo($bestMatch, $matchesFromLdap, $totalMatches, NextADInt_Ldap_UserQuery $userQuery, $attributeNames)
 	{
 		// there has not been a best match specified; this method is the fallback option
 		if (!$bestMatch) {
 			// we got more than one result for the DC/GC; this can happen if a sAMAccountName is queried inside a AD forest
 			if ($totalMatches > 1) {
-				$this->logger->error('The LDAP query for "' . $username . "' returned " . $totalMatches . ' results. You have to do additional configuration if you are running NADI inside an AD forest.');
+				$this->logger->error('The user query "' . $userQuery . "' returned " . $totalMatches . ' results. You have to do additional configuration if you are running NADI inside an AD forest.');
 				$bestMatch = false;
 			} // we have exactly one result, so we will use it
 			else {
@@ -532,14 +531,14 @@ class NextADInt_Ldap_Connection
 	/**
 	 * Lookup all requested attributes and instantly sanitize them.
 	 *
-	 * @param string $username
+	 * @param NextADInt_Ldap_UserQuery $userQuery
 	 * @param array $attributes
 	 *
 	 * @return array
 	 */
-	public function findSanitizedAttributesOfUser($username, $attributes)
+	public function findSanitizedAttributesOfUser(NextADInt_Ldap_UserQuery $userQuery, $attributes)
 	{
-		$userInfo = $this->findAttributesOfUser($username, $attributes);
+		$userInfo = $this->findAttributesOfUser($userQuery, $attributes);
 		$sanitized = array();
 
 		foreach ($attributes as $attribute) {

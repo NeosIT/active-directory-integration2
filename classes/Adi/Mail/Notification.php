@@ -149,7 +149,7 @@ class NextADInt_Adi_Mail_Notification
 	function findADUserAttributeValues($username)
 	{
 		$attributes = array('sn', 'givenname', 'mail');
-		$userAttributeValues = $this->ldapConnection->findSanitizedAttributesOfUser($username, $attributes);
+		$userAttributeValues = $this->ldapConnection->findSanitizedAttributesOfUser(NextADInt_Ldap_UserQuery::forPrincipal($username), $attributes);
 
 		return array(
 			'email'     => NextADInt_Core_Util_ArrayUtil::get('mail', $userAttributeValues),

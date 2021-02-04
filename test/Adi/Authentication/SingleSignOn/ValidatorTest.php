@@ -139,7 +139,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_Basi
 
 		$this->sessionHandler->expects($this->once())
 			->method('getValue')
-			->with(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN)
+			->with(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_PRINCIPAL)
 			->willReturn(null);
 
 		$this->behave($sut, 'getSessionHandler', $this->sessionHandler);
@@ -159,7 +159,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ValidatorTest extends Ut_Basi
 
 		$this->sessionHandler->expects($this->once())
 			->method('getValue')
-			->with(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN)
+			->with(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_PRINCIPAL)
 			->willReturn($credentials->getUserPrincipalName());
 
 		$this->behave($sut, 'getSessionHandler', $this->sessionHandler);

@@ -42,7 +42,7 @@
 
         {% import "option/element/table.twig" as table %}
         {{ table.create(optionName, permission, inputId, false, false, i18n) }}
-        
+
     {% elseif type == constant('NextADInt_Multisite_Option_Type::VERIFICATION_PASSWORD') %}
 
         {% import "option/element/verification_password.twig" as verification_password %}
@@ -57,6 +57,11 @@
 
         {% import "option/element/label.twig" as text %}
         {{ text.create(optionName, permission, inputId) }}
+
+    {% elseif type == constant('NextADInt_Multisite_Option_Type::TEXTAREA') %}
+
+        {% import "option/element/textarea.twig" as textarea %}
+        {{ textarea.create(optionName, permission, inputId) }}
 
     {% else %}
 
