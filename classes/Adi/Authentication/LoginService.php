@@ -41,9 +41,9 @@ class NextADInt_Adi_Authentication_LoginService
 	/* @var Logger $logger */
 	private $logger;
 
-    /**
-     * @var NextADInt_Adi_LoginState
-     */
+	/**
+	 * @var NextADInt_Adi_LoginState
+	 */
 	private $loginState;
 
 	/** @var NextADInt_Adi_User_LoginSucceededService $loginSucceededService */
@@ -70,7 +70,7 @@ class NextADInt_Adi_Authentication_LoginService
 								NextADInt_Adi_Mail_Notification $mailNotification = null,
 								NextADInt_Adi_Authentication_Ui_ShowBlockedMessage $userBlockedMessage = null,
 								NextADInt_Ldap_Attribute_Service $attributeService,
-                                NextADInt_Adi_LoginState $loginState,
+								NextADInt_Adi_LoginState $loginState,
 								NextADInt_Adi_User_LoginSucceededService $loginSucceededService
 	)
 	{
@@ -92,10 +92,10 @@ class NextADInt_Adi_Authentication_LoginService
 	 */
 	public function register()
 	{
-	    // don't allow multiple registrations of the same LoginService instance
-	    if ($this->isRegistered) {
-	        return;
-        }
+		// don't allow multiple registrations of the same LoginService instance
+		if ($this->isRegistered) {
+			return;
+		}
 
 		add_filter('authenticate', array($this, 'authenticate'), 10, 3);
 
@@ -155,7 +155,7 @@ class NextADInt_Adi_Authentication_LoginService
 		// EJN - 2017/11/16 - Allow users to log in with one of their email addresses specified in proxyAddresses
 		// Check if this looks like a ProxyAddress and look up sAMAccountName if we are allowing ProxyAddresses as login.
 		$allowProxyAddressLogin = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::ALLOW_PROXYADDRESS_LOGIN);
-		if($allowProxyAddressLogin && strpos($login, '@') !== false) {
+		if ($allowProxyAddressLogin && strpos($login, '@') !== false) {
 			$login = $this->lookupFromProxyAddresses($login);
 		}
 
@@ -167,7 +167,7 @@ class NextADInt_Adi_Authentication_LoginService
 		// login should be case insensitive
 		$password = stripslashes($password);
 
-		$credentials = self::createCredentials($login, $password);
+		$credentials = $this->buildCredentials($login, $password);
 		$suffixes = $this->detectAuthenticatableSuffixes($credentials->getUpnSuffix());
 
 		$r = $this->tryAuthenticatableSuffixes(
@@ -207,7 +207,8 @@ class NextADInt_Adi_Authentication_LoginService
 	 *
 	 * @return The associated sAMAccountName or $proxyAddress if not found.
 	 */
-	public function lookupFromProxyAddresses($proxyAddress) {
+	public function lookupFromProxyAddresses($proxyAddress)
+	{
 
 		// Use the Sync to WordpPress username and password since anonymous bind can't search.
 		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
@@ -220,11 +221,11 @@ class NextADInt_Adi_Authentication_LoginService
 		// check if domain controller is available
 		$domainControllerIsAvailable = $this->ldapConnection->checkPorts();
 
-		if($domainControllerIsAvailable) {
+		if ($domainControllerIsAvailable) {
 			$samaccountname = $this->ldapConnection->findByProxyAddress($proxyAddress);
 
 			// If this email address wasn't specified in anyone's proxyAddresses attributes, just return the original value.
-			if($samaccountname === false) {
+			if ($samaccountname === false) {
 				return $proxyAddress;
 			}
 		}
@@ -265,7 +266,6 @@ class NextADInt_Adi_Authentication_LoginService
 
 				return $this->postAuthentication($credentials);
 			}
-
 		}
 
 		$this->logger->warn('Login for ' . $credentials . ' failed: none of the suffixes succeeded');
@@ -274,16 +274,24 @@ class NextADInt_Adi_Authentication_LoginService
 	}
 
 	/**
-	 * Create a new instance of Adi_Authentication_ActiveDirectory
+	 * Create a new instance of NextADInt_Adi_Authentication_Credentials
 	 *
 	 * @param $login
 	 * @param $password
 	 *
 	 * @return NextADInt_Adi_Authentication_Credentials
+	 * @since 2.0.0
 	 */
-	public static function createCredentials($login, $password)
+	public function buildCredentials($login, $password)
 	{
-		return NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($login, $password);
+		$r = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($login, $password);
+
+		/**
+		 * @var NextADInt_Adi_Authentication_Credentials
+		 */
+		$r = apply_filters(NEXT_AD_INT_PREFIX . 'auth_configure_credentials', $r);
+
+		return $r;
 	}
 
 	/**
@@ -414,7 +422,7 @@ class NextADInt_Adi_Authentication_LoginService
 		// ADI-450: only increment brute force counter if domain controller is available.
 		// Otherwise, local authentication could still succeed and the counter would still be
 		// incremented
-		if ($domainControllerIsAvailable){
+		if ($domainControllerIsAvailable) {
 			// block or unblock user (depends on the authentication)
 			$this->refreshBruteForceProtectionStatusForUser($username, $accountSuffix, $success);
 		}
@@ -440,8 +448,8 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param $username
 	 * @param $accountSuffix
 	 * @internal param string $fullUsername
-     * @deprecated 1.0.13 use external plugin for brute force protection
-     * @see https://wordpress.org/plugins/better-wp-security/
+	 * @deprecated 1.0.13 use external plugin for brute force protection
+	 * @see https://wordpress.org/plugins/better-wp-security/
 	 */
 	function bruteForceProtection($username, $accountSuffix)
 	{
@@ -495,8 +503,8 @@ class NextADInt_Adi_Authentication_LoginService
 	 * @param $accountSuffix
 	 * @param boolean $successfulLogin if true, the user is un-blocked; otherwise, he is blocked
 	 * @internal param string $fullUsername
-     * @deprecated 1.0.13 use external plugin for brute force protection
-     * @see https://wordpress.org/plugins/better-wp-security/
+	 * @deprecated 1.0.13 use external plugin for brute force protection
+	 * @see https://wordpress.org/plugins/better-wp-security/
 	 */
 	function refreshBruteForceProtectionStatusForUser($username, $accountSuffix, $successfulLogin)
 	{
@@ -513,8 +521,7 @@ class NextADInt_Adi_Authentication_LoginService
 		// handle authenticated-status
 		if ($successfulLogin) {
 			$this->failedLogin->deleteLoginAttempts($fullUsername);
-		}
-		// ADI-705: check for existing variable and *not* null; findByActiveDirectoryUsername returns false
+		} // ADI-705: check for existing variable and *not* null; findByActiveDirectoryUsername returns false
 		elseif ($wpUser && $this->userManager->isNadiUser($wpUser)) {
 			$this->failedLogin->increaseLoginAttempts($fullUsername);
 
@@ -537,7 +544,7 @@ class NextADInt_Adi_Authentication_LoginService
 		NextADInt_Core_Assert::notNull($credentials, "credentials must not be null");
 
 		// ADI-204: during login we have to use the authenticated user principal name
-		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, null);
+		$ldapAttributes = $this->attributeService->resolveLdapAttributes($credentials->toUserQuery());
 
 		// ADI-395: wrong base DN leads to exception during Test Authentication
 		// If the base DN is wrong then no LDAP attributes can be loaded and getRaw() is false
@@ -547,13 +554,27 @@ class NextADInt_Adi_Authentication_LoginService
 		}
 
 		// update the real sAMAccountName of the credentials. This could be totally different from the userPrincipalName user for login
-		$credentials->setSAMAccountName($ldapAttributes->getFilteredValue('samaccountname'));
-		$credentials->setObjectGuid($ldapAttributes->getFilteredValue('objectguid'));
+		$this->updateCredentials($credentials, $ldapAttributes);
 
 		// state: user is authenticated
 		$this->loginState->setAuthenticationSucceeded();
 
 		return $credentials;
+	}
+
+	/**
+	 * Update the credential data (sAMAccountName, userPrincipalName, objectGUID) based upon the filtered LDAP attributes
+	 *
+	 * @param NextADInt_Adi_Authentication_Credentials $credentials
+	 * @param NextADInt_Ldap_Attributes $ldapAttributes
+	 * @pack
+	 * @since 2.0.0
+	 */
+	function updateCredentials(NextADInt_Adi_Authentication_Credentials $credentials, NextADInt_Ldap_Attributes $ldapAttributes)
+	{
+		$credentials->setSAMAccountName($ldapAttributes->getFilteredValue('samaccountname'));
+		$credentials->setObjectGuid($ldapAttributes->getFilteredValue('objectguid'));
+		$credentials->setUserPrincipalName($ldapAttributes->getFilteredValue('userprincipalname'));
 	}
 
 	/**

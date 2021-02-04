@@ -49,7 +49,8 @@ class NextADInt_Adi_User_LoginSucceededService
 		NextADInt_Adi_User_Manager $userManager = null,
 		NextADInt_Ldap_Connection $ldapConnection,
 		NextADInt_Multisite_Configuration_Service $configuration
-	) {
+	)
+	{
 		$this->loginState = $loginState;
 		$this->attributeService = $attributeService;
 		$this->userManager = $userManager;
@@ -92,8 +93,9 @@ class NextADInt_Adi_User_LoginSucceededService
 	 */
 	public function updateOrCreateUser(
 		$wpUser
-	) {
-		if ( ! $this->loginState->isAuthenticated() || $this->loginState->isAuthorized() === false) {
+	)
+	{
+		if (!$this->loginState->isAuthenticated() || $this->loginState->isAuthorized() === false) {
 			return false;
 		}
 
@@ -103,8 +105,9 @@ class NextADInt_Adi_User_LoginSucceededService
 
 		$authenticatedCredentials = $wpUser;
 
+
 		// ADI-204: during login we have to use the authenticated user principal name
-		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($authenticatedCredentials, null);
+		$ldapAttributes = $this->attributeService->resolveLdapAttributes($authenticatedCredentials->toUserQuery());
 
 		// ADI-395: wrong base DN leads to exception during Test Authentication
 		// If the base DN is wrong then no LDAP attributes can be loaded and getRaw() is false
@@ -128,7 +131,7 @@ class NextADInt_Adi_User_LoginSucceededService
 		$preCreateStatus = apply_filters(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user',
 			$authenticatedCredentials, $ldapAttributes);
 
-		if ( ! $preCreateStatus) {
+		if (!$preCreateStatus) {
 			$this->logger->debug('The preCreateStatus returned false. The user will not be created or updated. If this behavior is not intended, please verify your custom logic using the "auth_before_create_or_update_user" filter works properly.');
 
 			return false;
@@ -181,7 +184,7 @@ class NextADInt_Adi_User_LoginSucceededService
 		// ADI-117: The behavior changed with 2.0.x and has been agreed with CST on 2016-03-02.
 		// In 1.0.x users were created even if auoCreateUser was false but they had a role equivalent group.
 		// With 2.0.x the user is only created if the option "Auto Create User" is enabled.
-		if ( ! $autoCreateUser) {
+		if (!$autoCreateUser) {
 			$error = 'This user exists in Active Directory, but not in the local WordPress instance. The option "Auto Create User" is __not__ enabled but should be.';
 			$this->logger->error($error);
 
@@ -194,7 +197,7 @@ class NextADInt_Adi_User_LoginSucceededService
 		}
 
 		// if $this->userManager is null, then do not create the user
-		if ( ! $this->userManager) {
+		if (!$this->userManager) {
 			$this->logger->warn(
 				"User '{$user->getUsername()}' will not be created because the user login is only simulated."
 			);
@@ -206,19 +209,19 @@ class NextADInt_Adi_User_LoginSucceededService
 		return $this->userManager->create($user);
 	}
 
-    /**
-     * If "Auto Update User" is enabled, the user's profile data is updated. In any case if a $userRole is present, it is synchronized with the backend.
-     *
-     * @param NextADInt_Adi_User $user
-     *
-     * @return false|WP_User false if creation is only simulated; int if user has been updated.
-     * @throws Exception
-     */
+	/**
+	 * If "Auto Update User" is enabled, the user's profile data is updated. In any case if a $userRole is present, it is synchronized with the backend.
+	 *
+	 * @param NextADInt_Adi_User $user
+	 *
+	 * @return false|WP_User false if creation is only simulated; int if user has been updated.
+	 * @throws Exception
+	 */
 	function updateUser(NextADInt_Adi_User $user)
 	{
 		$this->logger->debug("Checking preconditions for updating existing user " . $user);
 
-		$autoUpdateUser     = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER);
+		$autoUpdateUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER);
 		$autoUpdatePassword = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD);
 
 		// ADI-474: Update the password if the respective option is enabled

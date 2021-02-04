@@ -36,6 +36,9 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const DOMAIN_SID = 'domain_sid';
 	const NETBIOS_NAME = 'netbios_name';
 
+	// Forest
+	const KERBEROS_REALM_MAPPINGS = 'kerberos_realm_mappings';
+
 	// User - User Settings
 	const EXCLUDE_USERNAMES_FROM_AUTHENTICATION = 'exclude_usernames_from_authentication';
 	const ACCOUNT_SUFFIX = 'account_suffix';
@@ -507,7 +510,6 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$showPermission => true,
 				$transient => false,
 			),
-
 			self::NETBIOS_NAME => array(
 				$title => __('NetBIOS name', 'next-active-directory-integration'),
 				$type => NextADInt_Multisite_Option_Type::LABEL,
@@ -1116,7 +1118,33 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
                 $showPermission => true,
                 $transient => false,
             ),
-            // Allows users who usually require a smart card to log in using NADI
+			// Kerberos realm mappings
+			self::KERBEROS_REALM_MAPPINGS => array(
+				$title => __('Kerberos realm mappings', 'next-active-directory-integration'),
+				$type => NextADInt_Multisite_Option_Type::TEXTAREA,
+				$description => __(
+					'Specify all Kerberos realms and their designated UPN suffixes',
+					'next-active-directory-integration'
+				),
+				$detail => array(
+					__(
+						'This is only required if you are inside an Active Directory forest with a Global Catalog and Kerberos enabled. You need the <em>Multi-domain Forest Premium Extension</em>em>',
+						'next-active-directory-integration'
+					),
+					__('Example:', 'next-active-directory-integration'),
+					__('FIRSTKRBREALM.COM=upnsuffix1.com;', 'next-active-directory-integration'),
+					__('SECONDKRBREALM.COM=upnsuffix2.de,upnsuffix3.org;', 'next-active-directory-integration'),
+					__(
+						'Please take a look at our documentation at <a href="https://active-directory-wp.com/docs/Configuration/Sso" target="__blank">https://active-directory-wp.com/docs/Configuration/Sso</a>',
+						'next-active-directory-integration'
+					),
+				),
+				$angularAttributes => 'ng-disabled="((!option.sso) || ((permission.sso == 2) || (permission.sso == 1))',
+				$default => '',
+				$showPermission => true,
+				$transient => false,
+			),
+			// Allows users who usually require a smart card to log in using NADI
 			self::ENABLE_SMARTCARD_USER_LOGIN => array(
 				$title => __('Enable login for smart card Users', 'next-active-directory-integration'),
 				$type => NextADInt_Multisite_Option_Type::CHECKBOX,

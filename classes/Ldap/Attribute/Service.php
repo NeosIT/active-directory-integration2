@@ -140,24 +140,23 @@ class NextADInt_Ldap_Attribute_Service
 	}
 
 	/**
-	 * Find all LDAP attributes for the user which have been enabled in the blog or multisite
+	 * Find all LDAP attributes for a user based upon the given query
 	 *
-	 * @param string $username GUID, sAMAccountName or userPrincipalName
-	 * @param bool $isGUID
+	 * @param NextADInt_Ldap_UserQuery $userQuery GUID, sAMAccountName or userPrincipalName
 	 *
 	 * @return NextADInt_Ldap_Attributes
 	 */
-	public function findLdapAttributesOfUsername($username, $isGUID = false)
+	public function findLdapAttributesOfUser(NextADInt_Ldap_UserQuery $userQuery)
 	{
 		$attributeNames = $this->attributeRepository->getAttributeNames();
 		$raw = array();
 
 		// ADI-145: provide API
-		$attributeNames = apply_filters(NEXT_AD_INT_PREFIX .  'ldap_filter_synchronizable_attributes', $attributeNames, $username, $isGUID);
+		$attributeNames = apply_filters(NEXT_AD_INT_PREFIX . 'ldap_filter_synchronizable_attributes', $attributeNames, $userQuery);
 
-		if (!empty($username)) {
+		if (!empty($userQuery->getPrincipal())) {
 			// make sure that only non-empty usernames are resolved
-			$raw = $this->ldapConnection->findAttributesOfUser($username, $attributeNames, $isGUID);
+			$raw = $this->ldapConnection->findAttributesOfUser($userQuery, $attributeNames);
 		}
 
 		$filtered = $this->parseLdapResponse($attributeNames, $raw);
@@ -166,27 +165,38 @@ class NextADInt_Ldap_Attribute_Service
 	}
 
 	/**
-	 * Find the LDAP attributes for the given credentials or guid.
+	 * Based upon the query, different markers are tried to find the user:
+	 * <ul>
+	 * <li>if the query is specified as GUID; this if searched first</li>
+	 * <li>userPrincipalName is tried as second</li>
+	 * <li>sAMAccountNAme is tried last in line. This can deliver multiple results in an AD forest. You have to use the Active Directory Forest premium extension</li>
+	 * </ul>
 	 *
-	 * @param NextADInt_Adi_Authentication_Credentials $credentials
-	 * @param string $guid
-	 *
+	 * @param NextADInt_Ldap_UserQuery $userQuery
 	 * @return NextADInt_Ldap_Attributes
+	 * @see ADI-713
 	 */
-	public function findLdapAttributesOfUser(NextADInt_Adi_Authentication_Credentials $credentials, $guid)
+	public function resolveLdapAttributes(NextADInt_Ldap_UserQuery $userQuery)
 	{
-		if (isset($guid)) {
-			$ldapAttributes = $this->findLdapAttributesOfUsername($guid, true);
+		/**
+		 * @var NextADInt_Ldap_Attributes
+		 */
+		$ldapAttributes = null;
+
+		// GUID has priority
+		if ($userQuery->isGuid()) {
+			$ldapAttributes = $this->findLdapAttributesOfUser($userQuery);
 		}
 
 		// NADIS-133: When using a Global Catalog (GC), users with same sAMAccountName but different userPrincipalNames are not assigned correct during authentication
 		// this requires us to lookup the userPrincipalName *before* the sAMAccountName
 		if (empty($ldapAttributes) || (false == $ldapAttributes->getRaw())) {
-			$ldapAttributes = $this->findLdapAttributesOfUsername($credentials->getUserPrincipalName());
+			$ldapAttributes = $this->findLdapAttributesOfUser($userQuery->withPrincipal($userQuery->getCredentials()->getUserPrincipalName()));
 		}
 
+		// fallback to the sAMAccountName
 		if (empty($ldapAttributes) || (false == $ldapAttributes->getRaw())) {
-			$ldapAttributes = $this->findLdapAttributesOfUsername($credentials->getSAMAccountName());
+			$ldapAttributes = $this->findLdapAttributesOfUser($userQuery->withPrincipal($userQuery->getCredentials()->getSAMAccountName()));
 		}
 
 		if (empty($ldapAttributes) || (false == $ldapAttributes->getRaw())) {
@@ -197,16 +207,16 @@ class NextADInt_Ldap_Attribute_Service
 	}
 
 	/**
-	 * Find the custom LDAP attribute for the given username
-	 * @param string $username
+	 * Find the custom LDAP attribute for the given user query
+	 * @param NextADInt_Ldap_UserQuery $userQuery
 	 * @param string $attribute
 	 * @return bool|string false if attribute is empty or not inside the returned array of attribute values
 	 */
-	public function findLdapCustomAttributeOfUsername($username, $attribute)
+	public function findLdapCustomAttributeOfUser(NextADInt_Ldap_UserQuery $userQuery, $attribute)
 	{
 		$attributes = array($attribute);
 
-		$raw = $this->ldapConnection->findAttributesOfUser($username, $attributes, false);
+		$raw = $this->ldapConnection->findAttributesOfUser($userQuery, $attributes);
 		$filtered = $this->parseLdapResponse($attributes, $raw);
 
 		// ADI-412: If the user has no upn
@@ -218,20 +228,20 @@ class NextADInt_Ldap_Attribute_Service
 	}
 
 	/**
-	 * Find a single attribute for the give credentials. It first tests the sAMAccountName and then the userPrincipalName of the credentials
+	 * Find a single attribute for the given credentials. It first tests the userPrincipalName  and then the sAMAccountName of the credentials
 	 *
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
 	 * @param string $attribute
 	 * @return string|bool if attribute could not be found it returns false
 	 */
-	public function findLdapCustomAttributeOfUser(NextADInt_Adi_Authentication_Credentials $credentials, $attribute)
+	public function resolveLdapCustomAttribute(NextADInt_Ldap_UserQuery $userQuery, $attribute)
 	{
-		$value = $this->findLdapCustomAttributeOfUsername($credentials->getUserPrincipalName(), $attribute);
+		$value = $this->findLdapCustomAttributeOfUser($userQuery->withPrincipal($userQuery->getCredentials()->getUserPrincipalName()), $attribute);
 
 		if (false === $value) {
-			$this->logger->warn("Could not locate custom attribute '" . $attribute . "' for userPrincipalName '" . $credentials->getUserPrincipalName() . "'. Fall back to sAMAccountName...'");
+			$this->logger->warn("Could not locate custom attribute '" . $attribute . "' for query '" . $userQuery->getCredentials()->getUserPrincipalName() . "'. Fall back to sAMAccountName...'");
 
-			$value = $this->findLdapCustomAttributeOfUsername($credentials->getSAMAccountName(), $attribute);
+			$value = $this->findLdapCustomAttributeOfUser($userQuery->withPrincipal($userQuery->getCredentials()->getSAMAccountName()), $attribute);
 		}
 
 		return $value;
@@ -246,7 +256,7 @@ class NextADInt_Ldap_Attribute_Service
 	public function getObjectSid(NextADInt_Adi_Authentication_Credentials $credentials)
 	{
 		NextADInt_Core_Assert::notNull($credentials, "credentials must not be null");
-		$objectSid = $this->findLdapCustomAttributeOfUser($credentials, 'objectsid');
+		$objectSid = $this->findLdapCustomAttributeOfUser($credentials->toUserQuery(), 'objectsid');
 
 		if (false === $objectSid) {
 			return false;
@@ -260,7 +270,8 @@ class NextADInt_Ldap_Attribute_Service
 	 *
 	 * @return string|boolean
 	 */
-	public function getNetBiosName() {
+	public function getNetBiosName()
+	{
 		$netBiosName = $this->ldapConnection->findNetBiosName();
 
 		return $netBiosName;

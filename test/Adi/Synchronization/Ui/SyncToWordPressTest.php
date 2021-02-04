@@ -17,7 +17,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
 	private $configuration;
 
-	public function setUp() : void
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -26,7 +26,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 		$this->syncToWordPress = $this->createMock('NextADInt_Adi_Synchronization_WordPress');
 	}
 
-	public function tearDown() : void
+	public function tearDown(): void
 	{
 		parent::tearDown();
 	}
@@ -249,7 +249,7 @@ class Ut_Adi_Synchronization_Ui_SyncToWordPressTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'next_ad_int_shared_util_array',
 					NEXT_AD_INT_URL . '/js/app/shared/utils/array.util.js',
 					array(),

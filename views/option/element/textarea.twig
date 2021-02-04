@@ -1,0 +1,36 @@
+{% macro create(optionName, permission, inputId, network) %}
+
+    {% set inline = getMetadata(optionName, 'INLINE')|join(' ') %}
+    {% set description = getMetadata(optionName, 'DESCRIPTION') %}
+    {% set type = getMetadata(optionName, 'TYPE') %}
+    {% set angularAttributes = getMetadata(optionName, 'ANGULAR_ATTRIBUTES') %}
+    {% set newNetwork = isOnNetworkDashboard() %}
+
+    {% if permission < 3 %}
+        {% set disabled = "disabled" %}
+    {% else %}
+        {% set disabled = "" %}
+    {% endif %}
+
+    {% if not angularAttributes is empty %}
+        {% if newNetwork  %}
+            {% set angularAttributes = angularAttributes ~ ' && (0))"' %}
+        {% else %}
+            {% set angularAttributes = angularAttributes ~ ' && (1))"' %}
+        {% endif %}
+    {% else %}
+        {% set angularAttributes = '' %}
+    {% endif %}
+
+    <!-- TODO ng-hide anpassen -->
+    <textarea cols="50" rows="10" id="{{ inputId }}" {{ inline }} {{ angularAttributes|raw }} {{ disabled }} ng-model="option.{{ optionName }}" ng-class="{ error: messages.{{ optionName }} != null }"></textarea>
+
+    <p>
+        {% import "option/element/error-msg.twig" as errorElement %}
+        {{ errorElement.create(optionName) }}
+    </p>
+
+    {% import "option/element/description.twig" as descriptionElement %}
+    {{ descriptionElement.create(description) }}
+
+{% endmacro %}

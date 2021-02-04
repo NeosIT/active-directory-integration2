@@ -12,7 +12,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 	/* @var NextADInt_Multisite_Ui_BlogConfigurationController|PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationController;
 
-	public function setUp() : void
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -20,7 +20,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->blogConfigurationController = $this->createMock('NextADInt_Multisite_Ui_BlogConfigurationController');
 	}
 
-	public function tearDown() : void
+	public function tearDown(): void
 	{
 		parent::tearDown();
 	}
@@ -90,41 +90,41 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->mockFunction__();
 
 		$nonce = 'some_nonce';
-        $i18n = array(
-            'title' => 'Next Active Directory Integration Blog Configuration',
-            'regenerateAuthCode' => 'Regenerate Auth Code',
-            'securityGroup' => 'Security group',
-            'wordpressRole' => 'WordPress role',
-            'selectRole' => 'Please select a role',
-            'verify' => 'Verify',
-            'adAttributes' => 'AD Attributes',
-            'dataType' => 'Data Type',
-            'wordpressAttribute' => 'WordPress Attribute',
-            'description' => 'Description',
-            'viewInUserProfile' => 'View in User Profile',
-            'syncToAd' => 'Sync to AD',
-            'overwriteWithEmptyValue' => 'Overwrite with empty value',
-            'wantToRegenerateAuthCode' => 'Do you really want to regenerate a new AuthCode?',
-            'wordPressIsConnectedToDomain' => 'WordPress Site is currently connected to Domain: ',
-            'domainConnectionVerificationSuccessful' => 'Verification successful! WordPress site is now connected to Domain: ',
-            'verificationSuccessful' => 'Verification successful!',
-            'domainConnectionVerificationFailed' => 'Verification failed! Please check your logfile for further information.',
-            'managePermissions' => 'Manage Permissions',
-            'noOptionsExists' => 'No options exists',
-            'pleaseWait' => 'Please wait...',
-            'save' => 'Save',
-            'haveToVerifyDomainConnection' => 'You have to verify the connection to the AD before saving.',
-            'errorWhileSaving' => 'An error occurred while saving the configuration.',
-            'savingSuccessful' => 'The configuration has been saved successfully.'
-        );
-
-        WP_Mock::wpFunction('wp_create_nonce', array(
-            'args' => NextADInt_Multisite_Ui_BlogConfigurationPage::NONCE,
-            'times' => 1,
-            'return' => $nonce,)
+		$i18n = array(
+			'title' => 'Next Active Directory Integration Blog Configuration',
+			'regenerateAuthCode' => 'Regenerate Auth Code',
+			'securityGroup' => 'Security group',
+			'wordpressRole' => 'WordPress role',
+			'selectRole' => 'Please select a role',
+			'verify' => 'Verify',
+			'adAttributes' => 'AD Attributes',
+			'dataType' => 'Data Type',
+			'wordpressAttribute' => 'WordPress Attribute',
+			'description' => 'Description',
+			'viewInUserProfile' => 'View in User Profile',
+			'syncToAd' => 'Sync to AD',
+			'overwriteWithEmptyValue' => 'Overwrite with empty value',
+			'wantToRegenerateAuthCode' => 'Do you really want to regenerate a new AuthCode?',
+			'wordPressIsConnectedToDomain' => 'WordPress Site is currently connected to Domain: ',
+			'domainConnectionVerificationSuccessful' => 'Verification successful! WordPress site is now connected to Domain: ',
+			'verificationSuccessful' => 'Verification successful!',
+			'domainConnectionVerificationFailed' => 'Verification failed! Please check your logfile for further information.',
+			'managePermissions' => 'Manage Permissions',
+			'noOptionsExists' => 'No options exists',
+			'pleaseWait' => 'Please wait...',
+			'save' => 'Save',
+			'haveToVerifyDomainConnection' => 'You have to verify the connection to the AD before saving.',
+			'errorWhileSaving' => 'An error occurred while saving the configuration.',
+			'savingSuccessful' => 'The configuration has been saved successfully.'
 		);
 
-        $sut->expects($this->once())
+		WP_Mock::wpFunction('wp_create_nonce', array(
+				'args' => NextADInt_Multisite_Ui_BlogConfigurationPage::NONCE,
+				'times' => 1,
+				'return' => $nonce,)
+		);
+
+		$sut->expects($this->once())
 			->method('display')
 			->with(NextADInt_Multisite_Ui_BlogConfigurationPage::TEMPLATE, array('nonce' => $nonce, 'i18n' => $i18n));
 
@@ -165,7 +165,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'angular.min',
 					NEXT_AD_INT_URL . '/js/libraries/angular.min.js',
 					array(),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -177,7 +177,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'ng-alertify',
 					NEXT_AD_INT_URL . '/js/libraries/ng-alertify.js',
 					array('angular.min'),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -189,7 +189,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'ng-notify',
 					NEXT_AD_INT_URL . '/js/libraries/ng-notify.min.js',
 					array('angular.min'),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -201,7 +201,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'ng-busy',
 					NEXT_AD_INT_URL . '/js/libraries/angular-busy.min.js',
 					array('angular.min'),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -209,11 +209,11 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 
 		WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args'  => array(
+				'args' => array(
 					'next_ad_int_shared_util_array',
 					NEXT_AD_INT_URL . '/js/app/shared/utils/array.util.js',
 					array(),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -224,7 +224,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'next_ad_int_shared_util_value',
 					NEXT_AD_INT_URL . '/js/app/shared/utils/value.util.js',
 					array(),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -236,7 +236,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'next_ad_int_app_module',
 					NEXT_AD_INT_URL . '/js/app/app.module.js',
 					array(),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -247,7 +247,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'next_ad_int_app_config',
 					NEXT_AD_INT_URL . '/js/app/app.nadi.js',
 					array(),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -259,7 +259,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'next_ad_int_shared_service_browser',
 					NEXT_AD_INT_URL . '/js/app/shared/services/browser.service.js',
 					array(),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -271,7 +271,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'next_ad_int_shared_service_template',
 					NEXT_AD_INT_URL . '/js/app/shared/services/template.service.js',
 					array(),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -283,7 +283,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'next_ad_int_shared_service_notification',
 					NEXT_AD_INT_URL . '/js/app/shared/services/notification.service.js',
 					array(),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -294,7 +294,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'next_ad_int_blog_options_service_persistence',
 					NEXT_AD_INT_URL . '/js/app/blog-options/services/persistence.service.js',
 					array(),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -305,7 +305,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 					'next_ad_int_shared_service_list',
 					NEXT_AD_INT_URL . '/js/app/shared/services/list.service.js',
 					array(),
-                    NextADInt_Multisite_Ui::VERSION_PAGE_JS,
+					NextADInt_Multisite_Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
 			)
@@ -405,6 +405,17 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_security',
 					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/security.controller.js',
+					array(),
+					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
+				),
+				'times' => 1,
+			)
+		);
+		WP_Mock::wpFunction(
+			'wp_enqueue_script', array(
+				'args' => array(
+					'next_ad_int_blog_options_controller_sso',
+					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/sso.controller.js',
 					array(),
 					NextADInt_Multisite_Ui_BlogConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -553,45 +564,46 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$sut->loadAdminScriptsAndStyle($hook);
 	}
 
-    /**
-     * @test
-     */
-    public function wpAjaxListener_withEscapedCharacter_unescapeTheseCharacter() {
-        $sut = $this->sut(array('renderJson', 'routeRequest', 'currentUserHasCapability'));
+	/**
+	 * @test
+	 */
+	public function wpAjaxListener_withEscapedCharacter_unescapeTheseCharacter()
+	{
+		$sut = $this->sut(array('renderJson', 'routeRequest', 'currentUserHasCapability'));
 
-        $_POST['data'] = array(
-            "something" => array(
-                "option_value" => "something\'s special",   // WordPress auto escape character like '
-                "option_permission" => 3,
-            ),
-        );
+		$_POST['data'] = array(
+			"something" => array(
+				"option_value" => "something\'s special",   // WordPress auto escape character like '
+				"option_permission" => 3,
+			),
+		);
 
-        $expected = array(
-            "something" => array(
-                "option_value" => "something's special",
-                "option_permission" => 3,
-            ),
-        );
+		$expected = array(
+			"something" => array(
+				"option_value" => "something's special",
+				"option_permission" => 3,
+			),
+		);
 
-        $sut->expects($this->once())
-            ->method('currentUserHasCapability')
-            ->willReturn(true);
+		$sut->expects($this->once())
+			->method('currentUserHasCapability')
+			->willReturn(true);
 
-        WP_Mock::wpFunction('check_ajax_referer', array(
-            'args' => array('Active Directory Integration Configuration Nonce', 'security', true),
-            'times' => 1,
-        ));
+		WP_Mock::wpFunction('check_ajax_referer', array(
+			'args' => array('Active Directory Integration Configuration Nonce', 'security', true),
+			'times' => 1,
+		));
 
-        $sut->expects($this->once())
-            ->method('routeRequest')
-            ->willReturn($expected);
+		$sut->expects($this->once())
+			->method('routeRequest')
+			->willReturn($expected);
 
-        $sut->expects($this->once())
-            ->method('renderJson')
-            ->with($expected);
+		$sut->expects($this->once())
+			->method('renderJson')
+			->with($expected);
 
-        $sut->wpAjaxListener();
-    }
+		$sut->wpAjaxListener();
+	}
 
 	/**
 	 * @test
@@ -749,7 +761,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 			'options' => $expected,
 			'ldapAttributes' => NextADInt_Ldap_Attribute_Description::findAll(),
 			'dataTypes' => NextADInt_Ldap_Attribute_Repository::findAllAttributeTypes(),
-			'wpRoles'        => NextADInt_Adi_Role_Manager::getRoles(),
+			'wpRoles' => NextADInt_Adi_Role_Manager::getRoles(),
 		), $result);
 	}
 
@@ -871,7 +883,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_Conditional', $rules[NextADInt_Adi_Configuration_Options::SSO_PASSWORD][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_BaseDn', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_BaseDnWarn', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][1]);
-        $this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS][0]);
 	}
 
 	/**
@@ -966,7 +978,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$expectedObjectSid = 'S-1-2-34-5678490000-1244323441-1038535101-500';
 		$expectedSid = 'S-1-2-34-5678490000-1244323441-1038535101';
 		$expectedNetBiosName = 'TEST';
-		$expectedNetBiosData  =  array("netbios_name" => $expectedNetBiosName);
+		$expectedNetBiosData = array("netbios_name" => $expectedNetBiosName);
 
 		$sut = $this->sut(array('prepareDomainSid', 'persistDomainSid', 'prepareNetBiosName', 'persistNetBiosName', 'findActiveDirectoryNetBiosName'));
 
@@ -1052,9 +1064,9 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->assertFalse($actual);
 	}
 
-    /**
-     * @test
-     */
+	/**
+	 * @test
+	 */
 	public function getDomainSidForPersistence_returnsValidArray()
 	{
 		$domainSid = 'S-1-23-4-567890-123456';
@@ -1081,7 +1093,7 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_AdminEmail', $rules[NextADInt_Adi_Configuration_Options::VERIFICATION_USERNAME][0]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::VERIFICATION_USERNAME][1]);
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::VERIFICATION_PASSWORD][0]);
-        $this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS][0]);
+		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_NotEmptyOrWhitespace', $rules[NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS][0]);
 	}
 
 	/**
@@ -1100,119 +1112,119 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$this->assertInstanceOf('NextADInt_Multisite_Validator_Rule_BaseDnWarn', $rules[NextADInt_Adi_Configuration_Options::BASE_DN][1]);
 	}
 
-    /**
-     * @test
-     */
-    public function prepareNetBiosName_validName_returnsNetBiosName()
-    {
-        $sut = $this->sut(array('getNetBiosNameForPersistence'));
+	/**
+	 * @test
+	 */
+	public function prepareNetBiosName_validName_returnsNetBiosName()
+	{
+		$sut = $this->sut(array('getNetBiosNameForPersistence'));
 
-        $netBiosName = 'TEST';
-        $expectedNetBiosData = array("netBIOS_name" => $netBiosName);
+		$netBiosName = 'TEST';
+		$expectedNetBiosData = array("netBIOS_name" => $netBiosName);
 
-        $sut->expects($this->once())
-            ->method('getNetBiosNameForPersistence')
-            ->with($netBiosName)
-            ->willReturn($expectedNetBiosData);
+		$sut->expects($this->once())
+			->method('getNetBiosNameForPersistence')
+			->with($netBiosName)
+			->willReturn($expectedNetBiosData);
 
-        $actual = $this->invokeMethod($sut, 'prepareNetBiosName', array($netBiosName));
+		$actual = $this->invokeMethod($sut, 'prepareNetBiosName', array($netBiosName));
 
-        $this->assertEquals($actual, $expectedNetBiosData);
+		$this->assertEquals($actual, $expectedNetBiosData);
 	}
 
-    /**
-     * @test
-     */
-    public function prepareNetBiosName_noNetBiosName_returnsFalse()
-    {
-        $sut = $this->sut(array('getNetBiosNameForPersistence'));
+	/**
+	 * @test
+	 */
+	public function prepareNetBiosName_noNetBiosName_returnsFalse()
+	{
+		$sut = $this->sut(array('getNetBiosNameForPersistence'));
 
-        $netBiosName = '';
+		$netBiosName = '';
 
-        $sut->expects($this->never())
-            ->method('getNetBiosNameForPersistence');
+		$sut->expects($this->never())
+			->method('getNetBiosNameForPersistence');
 
-        $actual = $this->invokeMethod($sut, 'prepareNetBiosName', array($netBiosName));
+		$actual = $this->invokeMethod($sut, 'prepareNetBiosName', array($netBiosName));
 
-        $this->assertEquals($actual, false);
-    }
+		$this->assertEquals($actual, false);
+	}
 
-    /**
-     * @test
-     */
-    public function getNetBiosNameForPersistence_returnsValidArray()
-    {
-        $netBiosName = 'TEST';
+	/**
+	 * @test
+	 */
+	public function getNetBiosNameForPersistence_returnsValidArray()
+	{
+		$netBiosName = 'TEST';
 
-        $sut = $this->sut();
+		$sut = $this->sut();
 
-        $actual = $this->invokeMethod($sut, 'getNetBiosNameForPersistence', array($netBiosName));
-        $this->assertEquals($actual, array("netbios_name" => $netBiosName));
-    }
+		$actual = $this->invokeMethod($sut, 'getNetBiosNameForPersistence', array($netBiosName));
+		$this->assertEquals($actual, array("netbios_name" => $netBiosName));
+	}
 
-    /**
-     * @test
-     */
-    public function persistNetBiosName_calls_saveBlogOptions()
-    {
-        $sut = $this->sut();
-        $data = array();
+	/**
+	 * @test
+	 */
+	public function persistNetBiosName_calls_saveBlogOptions()
+	{
+		$sut = $this->sut();
+		$data = array();
 
-        $this->blogConfigurationController->expects($this->once())
-            ->method('saveBlogOptions')
-            ->with($data)
-            ->willReturn(true);
+		$this->blogConfigurationController->expects($this->once())
+			->method('saveBlogOptions')
+			->with($data)
+			->willReturn(true);
 
-        $actual = $this->invokeMethod($sut, 'persistNetBiosName', array($data));
+		$actual = $this->invokeMethod($sut, 'persistNetBiosName', array($data));
 
-        $this->assertTrue($actual);
-    }
+		$this->assertTrue($actual);
+	}
 
-    /**
-     * @test
-     */
-    public function validateVerification_calls_validateWithValidator()
-    {
-        $sut = $this->sut(array('getVerificationValidator', 'validateWithValidator'));
+	/**
+	 * @test
+	 */
+	public function validateVerification_calls_validateWithValidator()
+	{
+		$sut = $this->sut(array('getVerificationValidator', 'validateWithValidator'));
 
-        $data = array();
-        $validator = new NextADInt_Core_Validator();
-        $result = new NextADInt_Core_Validator_Result();
+		$data = array();
+		$validator = new NextADInt_Core_Validator();
+		$result = new NextADInt_Core_Validator_Result();
 
 
-        $sut->expects($this->once())
-            ->method('getVerificationValidator')
-            ->willReturn($validator);
+		$sut->expects($this->once())
+			->method('getVerificationValidator')
+			->willReturn($validator);
 
-        $sut->expects($this->once())
-            ->method('validateWithValidator')
-            ->with($validator, $data)
-            ->willReturn($result);
+		$sut->expects($this->once())
+			->method('validateWithValidator')
+			->with($validator, $data)
+			->willReturn($result);
 
-        $actual = $this->invokeMethod($sut, 'validateVerification', array($data));
+		$actual = $this->invokeMethod($sut, 'validateVerification', array($data));
 
-        $this->assertEquals($actual, $result);
-    }
+		$this->assertEquals($actual, $result);
+	}
 
-    /**
-     * @test
-     */
-    public function validateWithValidator_calls_givenValidator_validateMethod()
-    {
-        $sut = $this->sut(array('validate'));
+	/**
+	 * @test
+	 */
+	public function validateWithValidator_calls_givenValidator_validateMethod()
+	{
+		$sut = $this->sut(array('validate'));
 
-        $validator = $this->createMock('NextADInt_Core_Validator');
+		$validator = $this->createMock('NextADInt_Core_Validator');
 
-        $data = array();
-        $result = new NextADInt_Core_Validator_Result();
+		$data = array();
+		$result = new NextADInt_Core_Validator_Result();
 
-        $validator->expects($this->once())
-            ->method('validate')
-            ->with($data)
-            ->willReturn($result);
+		$validator->expects($this->once())
+			->method('validate')
+			->with($data)
+			->willReturn($result);
 
-        $actual = $this->invokeMethod($sut, 'validateWithValidator', array($validator, $data));
+		$actual = $this->invokeMethod($sut, 'validateWithValidator', array($validator, $data));
 
-        $this->assertEquals($actual, $result);
-    }
+		$this->assertEquals($actual, $result);
+	}
 }

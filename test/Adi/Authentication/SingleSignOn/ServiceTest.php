@@ -48,6 +48,11 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	/** @var NextADInt_Adi_User_LoginSucceededService */
 	private $loginSucceededService;
 
+    /**
+     * @var NextADInt_Adi_Authentication_SingleSignOn_Profile_Locator|PHPUnit_Framework_MockObject_MockObject
+     */
+	private $ssoProfileLocator;
+
 	public function setUp() : void
 	{
 		parent::setUp();
@@ -64,6 +69,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		$this->ssoValidation = $this->createMock('NextADInt_Adi_Authentication_SingleSignOn_Validator');
 		$this->loginSucceededService = $this->createMock('NextADInt_Adi_User_LoginSucceededService');
 		$this->loginState = new NextADInt_Adi_LoginState();
+        $this->ssoProfileLocator = $this->createMock('NextADInt_Adi_Authentication_SingleSignOn_Profile_Locator');
 
 		// mock away our internal php calls
 		$this->native = $this->createMockedNative();
@@ -95,52 +101,12 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 					$this->attributeService,
 					$this->ssoValidation,
                     $this->loginState,
-					$this->loginSucceededService
+					$this->loginSucceededService,
+                    $this->ssoProfileLocator
 				)
 			)
 			->setMethods($methods)
 			->getMock();
-	}
-
-	/**
-	 * @test
-	 */
-	public function createUpnCredentials_withCorrectCredentials_returnCredentialsWithUpn()
-	{
-		$expected = 'someusername@test.ad';
-		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('someUsername', 'somePassword');
-		$ldapAttributes = new NextADInt_Ldap_Attributes(array('userprincipalname' => 'someUsername'), array('userprincipalname' => $expected));
-
-		$sut = $this->sut();
-
-		$this->attributeService->expects($this->once())
-			->method('findLdapAttributesOfUser')
-			->with($credentials, '')
-			->willReturn($ldapAttributes);
-
-		$actual = $sut->createUpnCredentials($credentials);
-
-		$this->assertEquals($expected, $actual->getLogin());
-	}
-
-	/**
-	 * @test
-	 */
-	public function createUpnCredentials_withWrongCredentials_throwsException()
-	{
-		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('testUser', 'somePassword');
-		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array());
-
-		$sut = $this->sut();
-
-		$this->attributeService->expects($this->once())
-			->method('findLdapAttributesOfUser')
-			->with($credentials, '')
-			->willReturn($ldapAttributes);
-
-		$this->expectExceptionThrown('NextADInt_Adi_Authentication_Exception', "User 'testuser' does not exist in Active Directory");
-
-		$sut->createUpnCredentials($credentials);
 	}
 
 	/**
@@ -189,7 +155,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		$sessionHandler->expects($this->exactly(2))
 			->method('clearValue')
 			->withConsecutive(
-				array(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN),
+				array(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_PRINCIPAL),
 				array(NextADInt_Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT)
 			);
 
@@ -211,7 +177,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		$sessionHandler->expects($this->never())
 			->method('clearValue')
 			->withConsecutive(
-				array(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_UPN),
+				array(NextADInt_Adi_Authentication_SingleSignOn_Service::FAILED_SSO_PRINCIPAL),
 				array(NextADInt_Adi_Authentication_SingleSignOn_Service::USER_LOGGED_OUT)
 			);
 
@@ -306,84 +272,20 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 
 	/**
 	 * @test
-	 */
-	public function findBestConfigurationMatchForProfile_withoutProfile_itReturnsNull()
-	{
-		$sut = $this->sut(array('findSsoEnabledProfiles'));
-		$suffix = '@test';
-
-		$this->behave($sut, 'findSsoEnabledProfiles', array());
-
-		$actual = $sut->findBestConfigurationMatchForProfile(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX, $suffix);
-
-		$this->assertNull($actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function findBestConfigurationMatchForProfile_withoutCorrespondingProfileForSuffix_itReturnsProfileWithoutSuffixSet()
-	{
-		$sut = $this->sut(array('findSsoEnabledProfiles'));
-		$suffix = '@test';
-
-		$profiles = array(
-			array(
-				NextADInt_Adi_Configuration_Options::SSO_ENABLED => true,
-				NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => '@abc',
-			),
-			array(
-				NextADInt_Adi_Configuration_Options::SSO_ENABLED => true,
-				NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => '',
-			),
-		);
-
-		$this->behave($sut, 'findSsoEnabledProfiles', $profiles);
-
-		$expected = $profiles[1];
-		$actual = $sut->findBestConfigurationMatchForProfile(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX, $suffix);
-
-		$this->assertEquals($expected, $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function findBestConfigurationMatchForProfile_withCorrespondingProfileForSuffix_itReturnsCorrectProfile()
-	{
-		$sut = $this->sut(array('findSsoEnabledProfiles'));
-		$suffix = '@test';
-
-		$profiles = array(
-			array(
-				NextADInt_Adi_Configuration_Options::SSO_ENABLED => true,
-				NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => $suffix,
-			),
-			array(
-				NextADInt_Adi_Configuration_Options::SSO_ENABLED => true,
-				NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => '',
-			),
-		);
-
-		$this->behave($sut, 'findSsoEnabledProfiles', $profiles);
-
-		$expected = $profiles[0];
-		$actual = $sut->findBestConfigurationMatchForProfile(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX, $suffix);
-
-		$this->assertEquals($expected, $actual);
-	}
-
-	/**
-	 * @test
 	 * Check authenticateAtActiveDirectory overwrite comment
 	 */
-	public function authenticateAtActiveDirectory_returnsTrue()
+	public function tryAuthenticatableSuffixes_delegatesToParent()
 	{
-		$sut = $this->sut();
+		$sut = $this->sut(array('postAuthentication'));
+        $credentials = new NextADInt_Adi_Authentication_Credentials('username');
 
-		$actual = $sut->authenticateAtActiveDirectory('test', '@test', '');
+		$sut->expects($this->once())
+            ->method('postAuthentication')
+            ->willReturn($credentials);
 
-		$this->assertTrue($actual);
+		$actual = $sut->tryAuthenticatableSuffixes($credentials, array(/* can be null for SSO */));
+
+		$this->assertEquals($credentials, $actual);
 	}
 
 	/**
@@ -420,196 +322,17 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	/**
 	 * @test
 	 */
-	public function normalizeSuffix_withoutSuffix_returnsExpectedResult()
-	{
-		$sut = $this->sut();
-
-		$value = 'test';
-		$expected = '@' . $value;
-		$actual = $this->invokeMethod($sut, 'normalizeSuffix', array($value));
-
-		$this->assertEquals($expected, $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function normalizeSuffix_withExistingSuffix_returnsExpectedResult()
-	{
-		$sut = $this->sut();
-
-		$expected = '@test';
-		$actual = $this->invokeMethod($sut, 'normalizeSuffix', array($expected));
-
-		$this->assertEquals($expected, $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getProfilesWithOptionValue_returnsExpectedResult()
-	{
-		$sut = $this->sut();
-		$suffix = '@test';
-
-		$profiles = array(
-			array(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => $suffix),
-			array(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => ''),
-		);
-
-		$expected = array($profiles[0]);
-		$actual = $this->invokeMethod($sut, 'getProfilesWithOptionValue', array(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX, $suffix, $profiles));
-		$this->assertEquals($expected, $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getProfilesWithoutOptionValue_returnsExpectedResult()
-	{
-		$sut = $this->sut();
-
-		$profiles = array(
-			array(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => '@test'),
-			array(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX => ''),
-		);
-
-		$expected = array($profiles[1]);
-		$actual = $this->invokeMethod($sut, 'getProfilesWithoutOptionValue', array(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX, $profiles));
-		$this->assertEquals($expected, $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function findSsoEnabledProfiles_returnsProfilesWithSsoEnabled()
-	{
-		$sut = $this->sut();
-
-		$config = array(
-			NextADInt_Adi_Configuration_Options::SSO_ENABLED => array(
-				'option_value' => false,
-				'option_permission' => 3,
-			),
-		);
-
-		$profiles = array(
-			array(
-				NextADInt_Adi_Configuration_Options::SSO_ENABLED => array(
-					'option_value' => true,
-					'option_permission' => 3,
-				),
-			),
-			array(
-				NextADInt_Adi_Configuration_Options::SSO_ENABLED => array(
-					'option_value' => false,
-					'option_permission' => 3,
-				),
-			),
-		);
-
-		$this->configuration->expects($this->once())
-			->method('findAllProfiles')
-			->willReturn($profiles);
-
-		$actual = $this->invokeMethod($sut, 'findSsoEnabledProfiles');
-		$this->assertCount(1, $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function findSsoEnabledProfiles_noProfilesFound_returnsEmpty()
-	{
-		$sut = $this->sut();
-
-		$config = array(
-			NextADInt_Adi_Configuration_Options::SSO_ENABLED => array(
-				'option_value' => false,
-				'option_permission' => 3,
-			),
-		);
-
-		$profiles = array();
-
-		$this->configuration->expects($this->once())
-			->method('findAllProfiles')
-			->willReturn($profiles);
-
-		$actual = $this->invokeMethod($sut, 'findSsoEnabledProfiles');
-		$this->assertEmpty($actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function detectAuthenticatableSuffixes_validSuffixes_returnsList()
+	public function detectAuthenticatableSuffixes_validSuffixes_returnsSuffixITself()
 	{
 		$suffix = 'test.ad';
-		$profile = array(
-			'account_suffix' => 'test.ad'
-		);
 
-		$sut = $this->sut(array('findBestConfigurationMatchForProfile'));
-
-
-		$sut->expects($this->once())
-			->method('findBestConfigurationMatchForProfile')
-			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX, $suffix)
-			->willReturn($profile);
+		$sut = $this->sut(null);
 
 		$actual = $sut->detectAuthenticatableSuffixes($suffix);
 
 		$this->assertEquals(array($suffix), $actual);
 	}
 
-	/**
-	 * @test
-	 */
-	public function detectAuthenticatableSuffixes_validSuffixes_withoutProfile_returnsList()
-	{
-		$suffix = 'test.ad';
-
-		$sut = $this->sut(array('findBestConfigurationMatchForProfile'));
-
-
-		$sut->expects($this->once())
-			->method('findBestConfigurationMatchForProfile')
-			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX, $suffix)
-			->willReturn(null);
-
-		$actual = $sut->detectAuthenticatableSuffixes($suffix);
-
-		$this->assertEquals(array($suffix), $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function normalizeProfiles_returnsExpectedResult()
-	{
-		$sut = $this->sut();
-
-		$expected = array(
-			array(
-				'domain_controllers' => '127.0.0.1',
-				'port' => '389',
-			),
-		);
-
-		$actual = $this->invokeMethod(
-			$sut, 'normalizeProfiles', array(
-				array(
-					array(
-						'domain_controllers' => array('option_value' => '127.0.0.1', 'option_permission' => 3),
-						'port' => array('option_value' => '389', 'option_permission' => 3),
-					),
-				),
-			)
-		);
-
-		$this->assertEquals($expected, $actual);
-	}
 
 	/**
 	 * @test
@@ -704,119 +427,9 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	/**
 	 * @test
 	 */
-	public function authenticate_userNotAuthenticated_withValidUpn_willTriggerKerberosAuth_itReturnsTrue()
-	{
-		$sut              = $this->sut(array('findUsername', 'getSessionHandler', 'clearAuthenticationState', 'kerberosAuth', 'parentAuthenticate'));
-		$expectedUsername = 'john.doe@test.ad';
-		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($expectedUsername);
-
-		WP_Mock::wpFunction(
-			'is_user_logged_in', array(
-				'times'  => 1,
-				'return' => false
-			)
-		);
-
-		$sut->expects($this->once())
-		    ->method('findUsername')
-		    ->willReturn($expectedUsername);
-
-		$sut->expects($this->once())
-		    ->method('getSessionHandler')
-		    ->willReturn($this->sessionHandler);
-
-		$sut->expects($this->once())
-		    ->method('clearAuthenticationState');
-
-		$this->ssoValidation->expects($this->once())
-		                    ->method('validateUrl');
-
-		$this->ssoValidation->expects($this->once())
-		                    ->method('validateLogoutState');
-
-		$this->ssoValidation->expects($this->once())
-		                    ->method('validateAuthenticationState')
-							->with($credentials);
-
-		$sut->expects($this->once())
-			->method('parentAuthenticate')
-			->willReturn($credentials);
-
-		$sut->expects($this->once())
-			->method('kerberosAuth')
-			->with($credentials, $this->ssoValidation)
-			->willReturn($credentials);
-
-		$this->sessionHandler->expects($this->once())
-			->method('clearValue')
-			->with($sut::FAILED_SSO_UPN);
-
-		$actual = $sut->authenticate(null, '', '');
-
-		$this->assertTrue($actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function authenticate_userNotAuthenticated_withNetbios_willTriggerNtlmAuth_itReturnsTrue()
-	{
-		$sut              = $this->sut(array('findUsername', 'getSessionHandler', 'clearAuthenticationState', 'ntlmAuth', 'parentAuthenticate'));
-		$expectedUsername = 'test\\john.doe';
-		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($expectedUsername);
-
-		WP_Mock::wpFunction(
-			'is_user_logged_in', array(
-				'times'  => 1,
-				'return' => false
-			)
-		);
-
-		$sut->expects($this->once())
-		    ->method('findUsername')
-		    ->willReturn($expectedUsername);
-
-		$sut->expects($this->once())
-		    ->method('getSessionHandler')
-		    ->willReturn($this->sessionHandler);
-
-		$sut->expects($this->once())
-		    ->method('clearAuthenticationState');
-
-		$this->ssoValidation->expects($this->once())
-		                    ->method('validateUrl');
-
-		$this->ssoValidation->expects($this->once())
-		                    ->method('validateLogoutState');
-
-		$this->ssoValidation->expects($this->once())
-		                    ->method('validateAuthenticationState')
-		                    ->with($credentials);
-
-		$sut->expects($this->once())
-		    ->method('parentAuthenticate')
-		    ->willReturn($credentials);
-
-		$sut->expects($this->once())
-		    ->method('ntlmAuth')
-		    ->with($credentials, $this->ssoValidation)
-		    ->willReturn($credentials);
-
-		$this->sessionHandler->expects($this->once())
-		                     ->method('clearValue')
-		                     ->with($sut::FAILED_SSO_UPN);
-
-		$actual = $sut->authenticate(null, '', '');
-
-		$this->assertTrue($actual);
-	}
-
-	/**
-	 * @test
-	 */
 	public function authenticate_userNotAuthenticated_authenticationFails_itReturnsFalse()
 	{
-		$sut              = $this->sut(array('findUsername', 'getSessionHandler', 'clearAuthenticationState', 'kerberosAuth', 'parentAuthenticate'));
+		$sut              = $this->sut(array('findUsername', 'getSessionHandler', 'clearAuthenticationState', 'delegateAuth', 'parentAuthenticate'));
 		$expectedUsername = 'john.doe@test.ad';
 		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($expectedUsername);
 
@@ -849,7 +462,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		                    ->with($credentials);
 
 		$sut->expects($this->once())
-		    ->method('kerberosAuth')
+		    ->method('delegateAuth')
 		    ->with($credentials, $this->ssoValidation)
 		    ->willReturn($credentials);
 
@@ -859,7 +472,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 
 		$this->sessionHandler->expects($this->once())
 			->method('setValue')
-			->with($sut::FAILED_SSO_UPN, $credentials->getUserPrincipalName());
+			->with($sut::FAILED_SSO_PRINCIPAL, $credentials->getUserPrincipalName());
 
 		$actual = $sut->authenticate(null, '', '');
 
@@ -881,6 +494,39 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 
 		$this->assertFalse($actual);
 	}
+
+    /**
+     * @since 2.2.0
+     * @test
+     */
+    public function delegateAuth_firesHook() {
+	    $sut = $this->sut(array('openLdapConnection', 'updateCredentials'));
+	    $profile = array('test');
+	    $type = NextADInt_Adi_Authentication_SingleSignOn_Profile_Match::KERBEROS_REALM;
+	    $credentials = new NextADInt_Adi_Authentication_Credentials("username");
+
+	    $profileMatch = new NextADInt_Adi_Authentication_SingleSignOn_Profile_Match($profile, $type);
+	    $ldapAttributes = new NextADInt_Ldap_Attributes(array('attr'));
+
+	    $this->ssoProfileLocator->expects($this->once())
+            ->method('locate')
+            ->with($credentials)
+            ->willReturn($profileMatch);
+
+	    $this->attributeService->expects($this->once())
+            ->method('resolveLdapAttributes')
+            ->with($credentials->toUserQuery())
+            ->willReturn($ldapAttributes);
+
+	    $sut->expects($this->once())
+            ->method('updateCredentials')
+            ->with($credentials, $ldapAttributes);
+
+	    \WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'sso_profile_located',
+            $credentials, $profileMatch);
+
+	    $sut->delegateAuth($credentials, $this->ssoValidation);
+    }
 
 	/**
 	 * @test
@@ -914,7 +560,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 
 		$this->sessionHandler->expects($this->never())
 			->method('setValue')
-			->with('failedSsoUpn', $username);
+			->with('failedSsoPrincipal', $username);
 
 		$actual = $this->invokeMethod($sut, 'authenticate', array(null, '', ''));
 
@@ -953,7 +599,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 
 		$this->sessionHandler->expects($this->once())
 			->method('setValue')
-			->with('failedSsoUpn', $username);
+			->with('failedSsoPrincipal', $username);
 
 		$actual = $this->invokeMethod($sut, 'authenticate', array(null, '', ''));
 
@@ -1051,114 +697,5 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		);
 
 		$this->invokeMethod($sut, 'loginUser', array($user, false));
-	}
-
-	/**
-	 * @test
-	 */
-	public function kerberosAuth_withCorrectCredentials_returnsValid()
-	{
-		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('someUsername@test.ad', 'somePassword');
-		$validator = new NextADInt_Adi_Authentication_SingleSignOn_Validator();
-		$profile = array();
-
-		$sut = $this->sut(
-			array('findBestConfigurationMatchForProfile', 'openLdapConnection', 'createUpnCredentials')
-		);
-
-		$sut->expects($this->once())
-			->method('findBestConfigurationMatchForProfile')
-			->willReturn($profile);
-
-		$sut->expects($this->never())
-			->method('createUpnCredentials');
-
-		$actual = $this->invokeMethod($sut, 'kerberosAuth', array($credentials, $validator));
-
-		$this->assertEquals($credentials, $actual);
-
-	}
-
-	/**
-	 * @test
-	 */
-	public function kerberosAuth_withCorrectCredentials_withoutUpnSuffix_returnsValid()
-	{
-		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('someUsername', 'somePassword');
-		$credentials_withUpn = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('someUsername', 'somePassword');
-		$credentials_withUpn->setUpnSuffix('@test.ad');
-		$validator = new NextADInt_Adi_Authentication_SingleSignOn_Validator();
-		$profile = array();
-
-		$sut = $this->sut(
-			array('findBestConfigurationMatchForProfile', 'openLdapConnection', 'createUpnCredentials')
-		);
-
-		$sut->expects($this->once())
-			->method('findBestConfigurationMatchForProfile')
-			->willReturn($profile);
-
-		$sut->expects($this->once())
-			->method('createUpnCredentials')
-			->willReturn($credentials_withUpn);
-
-		$actual = $this->invokeMethod($sut, 'kerberosAuth', array($credentials, $validator));
-
-		$this->assertEquals($credentials_withUpn, $actual);
-
-	}
-
-	/**
-	 * @test
-	 */
-	public function ntlmAuth_withCorrectCredentials_returnsValid()
-	{
-		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('TEST\someUsername', 'somePassword');
-		$credentials_withUpn = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('someUsername', 'somePassword');
-		$credentials_withUpn->setUpnSuffix('@test.ad');
-		$validator = new NextADInt_Adi_Authentication_SingleSignOn_Validator();
-		$profile = array();
-
-		$sut = $this->sut(
-			array('findBestConfigurationMatchForProfile', 'openLdapConnection', 'createUpnCredentials')
-		);
-
-		$sut->expects($this->once())
-			->method('findBestConfigurationMatchForProfile')
-			->willReturn($profile);
-
-		$sut->expects($this->once())
-			->method('createUpnCredentials')
-			->willReturn($credentials_withUpn);
-
-		$actual = $this->invokeMethod($sut, 'ntlmAuth', array($credentials, $validator));
-
-		$this->assertEquals($credentials_withUpn, $actual);
-
-	}
-
-	/**
-	 * @test
-	 */
-	public function ntlmAuth_withCorrectCredentials_noProfileFount_throwsException()
-	{
-		$netBIOSname = 'TEST';
-		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($netBIOSname . '\someUsername', 'somePassword');
-		$credentials_withUpn = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials('someUsername', 'somePassword');
-		$credentials_withUpn->setUpnSuffix('@test.ad');
-		$validator = new NextADInt_Adi_Authentication_SingleSignOn_Validator();
-
-		$sut = $this->sut(
-			array('findBestConfigurationMatchForProfile', 'openLdapConnection', 'createUpnCredentials')
-		);
-
-		$sut->expects($this->once())
-			->method('findBestConfigurationMatchForProfile')
-			->with(NextADInt_Adi_Configuration_Options::NETBIOS_NAME, $netBIOSname)
-			->willReturn(null);
-
-		$this->expectExceptionThrown('NextADInt_Adi_Authentication_Exception', "Unable to find matching NADI profile for NETBIOS name '" . $credentials->getNetbiosName() . "'. Is NADI connected to a valid Active Directory domain?");
-
-		$this->invokeMethod($sut, 'ntlmAuth', array($credentials, $validator));
 	}
 }
