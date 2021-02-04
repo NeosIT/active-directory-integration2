@@ -225,8 +225,11 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 	 */
 	public function updateOrCreateUser_withValidCredentials_errorUpdatingWpUser_returnsWpError()
 	{
+		$userSid = 'S-1-5-21-7623811015-3361044348-030300820-1013';
+		$expectedDomainSid = 'S-1-5-21-7623811015-3361044348-030300820';
+
 		$credentials       = new NextADInt_Adi_Authentication_Credentials();
-		$filteredAttrs     = array('samaccountname' => 'john.doe');
+		$filteredAttrs     = array('samaccountname' => 'john.doe', 'objectsid' => $userSid);
 		$expectedLdapAttrs = new NextADInt_Ldap_Attributes(array(), $filteredAttrs);
 
 		$adiUserCreds = new NextADInt_Adi_Authentication_Credentials('john.doe@test.ad');
@@ -237,7 +240,6 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 
 		$expectedErrorMessage = 'Error during update.';
 		$expectedError        = new WP_Error($expectedErrorMessage);
-		$expectedDomainSid    = 'S-1-5-21-7623811015-3361044348-030300820-1013';
 		$sut                  = $this->sut(array('updateUser'));
 
 		$this->loginState->expects($this->once())
@@ -262,10 +264,6 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 		                  ->with($credentials, $expectedLdapAttrs)
 		                  ->willReturn($expectedAdiUser);
 
-		$this->ldapConnection->expects($this->once())
-		                     ->method('getDomainSid')
-		                     ->willReturn($expectedDomainSid);
-
 		$sut->expects($this->once())
 		    ->method('updateUser')
 		    ->with($expectedAdiUser)
@@ -288,8 +286,12 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 	 */
 	public function updateOrCreateUser_withValidCredentials_errorCreatingWpUser_returnsWpError()
 	{
+		$userSid = 'S-1-5-21-7623811015-3361044348-030300820-1013';
+		$expectedDomainSid = 'S-1-5-21-7623811015-3361044348-030300820';
+
 		$credentials       = new NextADInt_Adi_Authentication_Credentials();
-		$filteredAttrs     = array('samaccountname' => 'john.doe');
+		$filteredAttrs     = array('samaccountname' => 'john.doe', 'objectsid' => $userSid);
+
 		$expectedLdapAttrs = new NextADInt_Ldap_Attributes(array(), $filteredAttrs);
 
 		$adiUserCreds = new NextADInt_Adi_Authentication_Credentials('john.doe@test.ad');
@@ -300,7 +302,6 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 
 		$expectedErrorMessage = 'Error during update.';
 		$expectedError        = new WP_Error($expectedErrorMessage);
-		$expectedDomainSid    = 'S-1-5-21-7623811015-3361044348-030300820-1013';
 		$sut                  = $this->sut(array('createUser'));
 
 		$this->loginState->expects($this->once())
@@ -325,10 +326,6 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 		                  ->with($credentials, $expectedLdapAttrs)
 		                  ->willReturn($expectedAdiUser);
 
-		$this->ldapConnection->expects($this->once())
-		                     ->method('getDomainSid')
-		                     ->willReturn($expectedDomainSid);
-
 		$sut->expects($this->once())
 		    ->method('createUser')
 		    ->with($expectedAdiUser)
@@ -351,8 +348,11 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 	 */
 	public function updateOrCreateUser_withValidCredentials_returnsExpected()
 	{
+		$userSid = 'S-1-5-21-7623811015-3361044348-030300820-1013';
+		$expectedDomainSid = 'S-1-5-21-7623811015-3361044348-030300820';
+
 		$credentials       = new NextADInt_Adi_Authentication_Credentials();
-		$filteredAttrs     = array('samaccountname' => 'john.doe');
+		$filteredAttrs     = array('samaccountname' => 'john.doe', 'objectsid' => $userSid);
 		$expectedLdapAttrs = new NextADInt_Ldap_Attributes(array(), $filteredAttrs);
 
 		$adiUserCreds = new NextADInt_Adi_Authentication_Credentials('john.doe@test.ad');
@@ -362,7 +362,6 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 		$expectedAdiUser->setId(null);
 		$expectedWpUser = new WP_User();
 
-		$expectedDomainSid = 'S-1-5-21-7623811015-3361044348-030300820-1013';
 		$sut               = $this->sut(array('createUser'));
 
 		$this->loginState->expects($this->once())
@@ -387,10 +386,6 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 		                  ->with($credentials, $expectedLdapAttrs)
 		                  ->willReturn($expectedAdiUser);
 
-		$this->ldapConnection->expects($this->once())
-		                     ->method('getDomainSid')
-		                     ->willReturn($expectedDomainSid);
-
 		$sut->expects($this->once())
 		    ->method('createUser')
 		    ->with($expectedAdiUser)
@@ -408,6 +403,8 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 
 		$actual = $sut->updateOrCreateUser($credentials);
 
+		$actualDomainSid = $expectedLdapAttrs->getFilteredValue('domainsid');
+		$this->assertEquals($expectedDomainSid, $actualDomainSid);
 		$this->assertEquals($filteredAttrs['samaccountname'], $credentials->getSAMAccountName());
 		$this->assertEquals(666, $credentials->getWordPressUserId());
 		$this->assertEquals($expectedWpUser, $actual);

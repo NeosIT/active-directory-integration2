@@ -356,20 +356,20 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 * @return int
 	 */
 	public function disableUserWithoutValidGuid($ldapAttributes, $credentials) {
-
-		if (null === $ldapAttributes->getFilteredValue('objectguid')) {
-			// Set domain sid to empty, to prevent non existing user from getting used for sync to wordpress
-			$ldapAttributes->setDomainSid('empty');
-
-			$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
-			$status = $this->createOrUpdateUser($adiUser);
-
-			$this->userManager->disable($adiUser->getId(), 'User no longer exists in Active Directory.');
-
-			$this->logger->warn('Removed domain sid for user ' . $credentials->getLogin());
-
-			return $status;
+		if (!empty($ldapAttributes->getFilteredValue('objectguid'))) {
+			return;
 		}
+
+		// Set domain sid to empty, to prevent non existing user from getting used for sync to wordpress
+		$ldapAttributes->setDomainSid('empty');
+		$this->logger->warn('Removed domain sid for user ' . $credentials->getLogin());
+
+		$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
+		$status = $this->createOrUpdateUser($adiUser);
+
+		$this->userManager->disable($adiUser->getId(), 'User no longer exists in Active Directory.');
+
+		return $status;
 	}
 
 	/**
@@ -399,7 +399,6 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		// ADI-204: in contrast to the login process we use the guid to determine the LDAP attributes
 		$ldapAttributes = $this->attributeService->findLdapAttributesOfUser($credentials, $guid);
 
-
 		// NADIS-1: Checking if the GUID of a user is valid when user does not exist in the active directory anymore. Therefore, disable user and remove domain sid
 		$this->disableUserWithoutValidGuid($ldapAttributes, $credentials);
 
@@ -414,7 +413,8 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		}
 
 		// ADI-235: add domain SID
-		$ldapAttributes->setDomainSid($this->connection->getDomainSid());
+		$userSid = $ldapAttributes->getFilteredValue('objectsid');
+		$ldapAttributes->setDomainSid(NextADInt_ActiveDirectory_Sid::of($userSid)->getDomainPartAsSid()->getFormatted());
 
 		$elapsedTimeLdap = time() - $startTimerLdap;
 		$this->ldapRequestTimeCounter = $this->ldapRequestTimeCounter + $elapsedTimeLdap;

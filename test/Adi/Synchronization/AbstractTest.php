@@ -131,37 +131,11 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 	 */
 	public function findActiveDirectoryUsernames_itIgnoresNonDomainMember()
 	{
-		$sut = $this->sut(array('isVerifiedDomainMember', 'findActiveDirectoryUsers'));
-		
-		
-		$users = array(
-			0 => new WP_User()
-		);
-		
-		$users[0]->ID = 1;
-		$users[0]->user_login = "administrator";
-		
-		
-		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
-				'times'  => '1',
-				'return' => "1234")
-		);
-
-		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
-				'times'  => '1',
-				'return' => "S-1234")
-		);
-		
-		$sut->expects($this->once())
-			->method("isVerifiedDomainMember")
-			->with("S-1234")
-			->willReturn(false);
+		$sut = $this->sut(array('findActiveDirectoryUsers'));
 
 		$sut->expects($this->once())
 			->method("findActiveDirectoryUsers")
-			->willReturn($users);
+			->willReturn([]);
 		
 		$actual = $sut->findActiveDirectoryUsernames();
 		
@@ -174,8 +148,10 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 	 */
 	public function findActiveDirectoryUsernames_itReturnsDomainMember()
 	{
-		$sut = $this->sut(array('isVerifiedDomainMember', 'findActiveDirectoryUsers'));
+		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
+		$context = new NextADInt_ActiveDirectory_Context([$domainSid]);
 
+		$sut = $this->sut(array('isVerifiedDomainMember', 'findActiveDirectoryUsers'));
 
 		$users = array(
 			0 => new WP_User()
@@ -195,17 +171,6 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 				'return' => "1234")
 		);
 
-		WP_Mock::wpFunction('get_user_meta', array(
-				'args'   => array('1', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
-				'times'  => '1',
-				'return' => "S-1234")
-		);
-
-		$sut->expects($this->once())
-			->method("isVerifiedDomainMember")
-			->with("S-1234")
-			->willReturn(true);
-
 		$sut->expects($this->once())
 			->method("findActiveDirectoryUsers")
 			->willReturn($users);
@@ -220,8 +185,10 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 	 */
 	public function findActiveDirectoryUsers_itOnlyReturnsDomainMembers()
 	{
-		$sut = $this->sut(array('isVerifiedDomainMember'));
+		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
+		$context = new NextADInt_ActiveDirectory_Context([$domainSid]);
 
+		$sut = $this->sut(array('isVerifiedDomainMember'));
 
 		$users = array(
 			0 => new WP_User(),
@@ -268,25 +235,18 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 		WP_Mock::wpFunction('get_user_meta', array(
 				'args'   => array('1', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
 				'times'  => '1',
-				'return' => "S-1234")
+				'return' => "S-1-5-21-3623811015-3361044348-30300820-1013")
 		);
 
 		WP_Mock::wpFunction('get_user_meta', array(
 				'args'   => array('2', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
 				'times'  => '1',
-				'return' => "S-4321")
+				'return' => "S-1-5-21-3623811015-3361044348-66666666-1013")
 		);
 
-		$sut->expects($this->exactly(2))
-			->method("isVerifiedDomainMember")
-			->withConsecutive(
-				array("S-1234"),
-				array("S-4321")
-			)
-			->willReturnOnConsecutiveCalls(
-				true,
-				false
-			);
+		$this->ldapConnection
+			->method('getActiveDirectoryContext')
+			->willReturn($context);
 
 		$actual = $sut->findActiveDirectoryUsers();
 
@@ -296,55 +256,36 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function isVerifiedDomainMember_itChecksWithDomainSidOfConnection_returnTrue()
-	{
-		$sut = $this->sut();
-		
-		$this->ldapConnection->expects($this->once())
-			->method('getDomainSid')
-			->willReturn('S-1234');
-		
-		$actual = $sut->isVerifiedDomainMember("S-1234");
-		
-		$this->assertTrue($actual);
-	}
-
-	/**
-	 * @test
-	 */
 	public function isUsernameInDomain_itReturnsTrue_whenUserIsVerifiedDomainMember()
 	{
+		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
+		$context = new NextADInt_ActiveDirectory_Context([$domainSid]);
+
 		$sut = $this->sut(array('isVerifiedDomainMember'));
 		
 		$binarySid = array(
 			0 => array(
 				"objectsid" => array(
-					0 => "1234"
+					0 => 'S-1-5-21-3623811015-3361044348-30300820-1234'
 				)
 			)
 		);
-		
+
 		$this->ldapConnection->expects($this->once())
 			->method("getAdLdap")
 			->willReturn($this->adLDAP);
+
+		$this->ldapConnection
+			->method("getActiveDirectoryContext")
+			->willReturn($context);
 
 		$this->adLDAP->expects($this->once())
 			->method('user_info')
 			->with("administrator", array("objectsid"))
 			->willReturn($binarySid);
 
-		$this->adLDAP->expects($this->once())
-			->method('convertObjectSidBinaryToString')
-			->with("1234")
-			->willReturn('4321');
-		
-		$sut->expects($this->once())
-			->method('isVerifiedDomainMember')
-			->with('4321')
-			->willReturn(true);
-		
 		$actual = $sut->isUsernameInDomain("administrator");
-		
+
 		$this->assertTrue($actual);
 	}
 
@@ -353,12 +294,15 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 	 */
 	public function isUsernameInDomain_itReturnsFalse_whenUserIsNotInDomain()
 	{
-		$sut = $this->sut(array('isVerifiedDomainMember', 'getDomainSid'));
+		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
+		$context = new NextADInt_ActiveDirectory_Context([$domainSid]);
+
+		$sut = $this->sut(array('isVerifiedDomainMember'));
 
 		$binarySid = array(
 			0 => array(
 				"objectsid" => array(
-					0 => "1234"
+					0 => 'S-1-5-21-3623811015-3361044348-66666-1234'
 				)
 			)
 		);
@@ -367,24 +311,14 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 			->method("getAdLdap")
 			->willReturn($this->adLDAP);
 
+		$this->ldapConnection
+			->method("getActiveDirectoryContext")
+			->willReturn($context);
+
 		$this->adLDAP->expects($this->once())
 			->method('user_info')
 			->with("administrator", array("objectsid"))
 			->willReturn($binarySid);
-
-		$this->adLDAP->expects($this->once())
-			->method('convertObjectSidBinaryToString')
-			->with("1234")
-			->willReturn('4321');
-
-		$sut->expects($this->once())
-			->method('isVerifiedDomainMember')
-			->with('4321')
-			->willReturn(false);
-
-		$this->ldapConnection->expects($this->once())
-			->method('getDomainSid')
-			->willReturn("1234");
 
 		$actual = $sut->isUsernameInDomain("administrator");
 

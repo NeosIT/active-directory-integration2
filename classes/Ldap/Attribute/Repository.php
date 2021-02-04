@@ -57,6 +57,7 @@ class NextADInt_Ldap_Attribute_Repository
 			'useraccountcontrol',
 			'objectguid',
 			'domainsid',
+			'objectsid',
 		);
 
 	private static $wellKnownAttributeTypes

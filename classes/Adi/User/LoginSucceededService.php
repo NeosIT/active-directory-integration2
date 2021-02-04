@@ -137,8 +137,8 @@ class NextADInt_Adi_User_LoginSucceededService
 		$adiUser = $this->userManager->createAdiUser($authenticatedCredentials, $ldapAttributes);
 
 		// ADI-309: domain SID gets not synchronized
-		$domainSid = $this->ldapConnection->getDomainSid();
-		$adiUser->getLdapAttributes()->setDomainSid($domainSid);
+		$userSid = NextADInt_ActiveDirectory_Sid::of($ldapAttributes->getFilteredValue('objectsid'));
+		$adiUser->getLdapAttributes()->setDomainSid($userSid->getDomainPartAsSid()->getFormatted());
 
 		if ($adiUser->getId()) {
 			$wpUser = $this->updateUser($adiUser);

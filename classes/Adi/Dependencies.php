@@ -315,7 +315,8 @@ class NextADInt_Adi_Dependencies
 	{
 		if ($this->ldapConnection == null) {
 			$this->ldapConnection = new NextADInt_Ldap_Connection(
-				$this->getConfiguration()
+				$this->getConfiguration(),
+				$this->getActiveDirectoryContext()
 			);
 
 			$this->ldapConnection->register();
@@ -1207,5 +1208,30 @@ class NextADInt_Adi_Dependencies
 		}
 
 		return $this->loginSucceededService;
+	}
+
+	/**
+	 * @var NextADInt_ActiveDirectory_Context
+	 */
+	private $activeDirectoryContext;
+
+	/**
+	 * @return mixed|NextADInt_ActiveDirectory_Context|void
+	 */
+	public function getActiveDirectoryContext() {
+		if ($this->activeDirectoryContext == null) {
+			// factory callback to create a new context
+			add_filter(NEXT_AD_INT_PREFIX . 'create_dependency_active_directory_context', function($instance, NextADInt_Multisite_Configuration_Service $configuration) {
+				if (empty($instance)) {
+					$instance = new NextADInt_ActiveDirectory_Context($configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID));
+				}
+
+				return $instance;
+			}, 10, 2);
+
+			$this->activeDirectoryContext = apply_filters(NEXT_AD_INT_PREFIX . 'create_dependency_active_directory_context', null, $this->getConfiguration());
+		}
+
+		return $this->activeDirectoryContext;
 	}
 }

@@ -417,7 +417,7 @@ class NextADInt_Multisite_View_TwigContainer
 	 *
 	 * @param $data
 	 *
-	 * @return bool
+	 * @return bool|ActiveDirectory_Sid
 	 */
 	public function findActiveDirectoryDomainSid($data)
 	{

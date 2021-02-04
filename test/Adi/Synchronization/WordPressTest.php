@@ -654,7 +654,11 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->attributeService->expects($this->once())
 			->method('findLdapAttributesOfUser')
-			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad')));
+			->willReturn(new NextADInt_Ldap_Attributes(array(),
+				array(
+					'userprincipalname' => 'username@test.ad',
+					'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
+				)));
 
 		$this->behave($this->userManager, "createAdiUser", $this->createMock('NextADInt_Adi_User'));
 
@@ -672,7 +676,11 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username");
 		$this->attributeService->expects($this->once())
 			->method('findLdapAttributesOfUser')
-			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad')));
+			->willReturn(new NextADInt_Ldap_Attributes(array(),
+				array(
+					'userprincipalname' => 'username@test.ad',
+					'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
+				)));
 
 		$this->behave($this->userManager, "createAdiUser", $this->createMock('NextADInt_Adi_User'));
 
@@ -692,7 +700,10 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->attributeService->expects($this->once())
 			->method('findLdapAttributesOfUser')
-			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad')));
+			->willReturn(new NextADInt_Ldap_Attributes(array(), array(
+				'userprincipalname' => 'username@test.ad',
+				'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
+			)));
 
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 
@@ -729,7 +740,12 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->attributeService->expects($this->once())
 			->method('findLdapAttributesOfUser')
-			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad', 'objectguid' => '123')));
+			->willReturn(new NextADInt_Ldap_Attributes(array(),
+				array(
+					'userprincipalname' => 'username@test.ad',
+					'objectguid' => '123',
+					'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
+				)));
 
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 
@@ -774,7 +790,11 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->attributeService->expects($this->once())
 			->method('findLdapAttributesOfUser')
-			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad', 'objectguid' => '123')));
+			->willReturn(new NextADInt_Ldap_Attributes(array(), array(
+				'userprincipalname' => 'username@test.ad',
+				'objectguid' => '123',
+				'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
+			)));
 
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 
@@ -823,7 +843,12 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->attributeService->expects($this->once())
 			->method('findLdapAttributesOfUser')
-			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad', 'objectguid' => '123')));
+			->willReturn(new NextADInt_Ldap_Attributes(array(),
+				array(
+					'userprincipalname' => 'username@test.ad',
+					'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013',
+					'objectguid' => 'any-guid'
+				)));
 
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 
@@ -852,10 +877,6 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 			->method('synchronizeAccountStatus')
 			->with($adiUser, true);
 
-		$this->ldapConnection->expects($this->once())
-			->method("getDomainSid")
-			->willReturn("S-1234");
-
 		$actual = $sut->synchronizeUser($credentials, 'guid');
 		$this->assertEquals(666, $actual);
 	}
@@ -870,7 +891,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username");
 		$adiUser =  $this->createMock('NextADInt_Adi_User');
-		$ldapAttributes = new NextADInt_Ldap_Attributes();
+		$ldapAttributes = new NextADInt_Ldap_Attributes(array(), array('objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'));
 		$modifiedAdiUser = $this->createMock('NextADInt_Adi_User');
 
 		$this->behave($this->userManager, "createAdiUser", $adiUser);
@@ -902,7 +923,10 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username");
 		$adiUser =  $this->createMock('NextADInt_Adi_User');
-		$ldapAttributes = new NextADInt_Ldap_Attributes();
+		$ldapAttributes = new NextADInt_Ldap_Attributes(array(),
+			array(
+				'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
+			));
 
 		$this->behave($this->userManager, "createAdiUser", $adiUser);
 
@@ -934,7 +958,11 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 
 		$this->attributeService->expects($this->once())
 			->method('findLdapAttributesOfUser')
-			->willReturn(new NextADInt_Ldap_Attributes(array(), array('userprincipalname' => 'username@test.ad')));
+			->willReturn(new NextADInt_Ldap_Attributes(array(),
+				array(
+					'userprincipalname' => 'username@test.ad',
+					'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
+				)));
 
 		$this->behave($this->userManager, 'createAdiUser', $adiUser);
 
