@@ -265,23 +265,15 @@ class Ut_NextADInt_Ldap_Attribute_ServiceTest extends Ut_BasicTest
 		$sut = $this->sut(array('findLdapCustomAttributeOfUser'));
 		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("user@upn");
 
+		$objectSid = 'S-1-5-21-2127521184-1604012920-1887927527-72713';
+
 		$sut->expects($this->once())
 			->method('findLdapCustomAttributeOfUser')
-			->with($this->callback(function (NextADInt_Ldap_UserQuery $userQuery) use ($credentials) {
-				return $userQuery->getCredentials() == $credentials;
-			}), 'objectsid')
-			->willReturn("S-1-5-21-0000000000-0000000000-0000000000-1234");
+			->with($credentials->toUserQuery(), 'objectsid')
+			->willReturn(
+				hex2bin(adLDAP::sidStringToHex($objectSid)));
 
-		$this->ldapConnection->expects($this->once())
-			->method('getAdLdap')
-			->willReturn($this->adLdap);
-
-		$this->adLdap->expects($this->once())
-			->method('convertObjectSidBinaryToString')
-			->with('S-1-5-21-0000000000-0000000000-0000000000-1234')
-			->willReturn('S-1-5-21-0000000000-0000000000-0000000000');
-
-		$sut->getObjectSid($credentials);
+		$this->assertEquals('S-1-5-21-2127521184-1604012920-1887927527-72713', $sut->getObjectSid($credentials)->getFormatted());
 	}
 
 	/**

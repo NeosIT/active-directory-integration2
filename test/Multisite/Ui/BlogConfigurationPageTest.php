@@ -975,8 +975,8 @@ class Ut_NextADInt_Multisite_Ui_BlogConfigurationPageTest extends Ut_BasicTest
 		$data = array('option' => 'someValue');
 		$profileId = 1;
 
-		$expectedObjectSid = 'S-1-2-34-5678490000-1244323441-1038535101-500';
-		$expectedSid = 'S-1-2-34-5678490000-1244323441-1038535101';
+		$expectedObjectSid = NextADInt_ActiveDirectory_Sid::of('S-1-5-21-3623811015-3361044348-30300820-1013');
+		$expectedSid = 'S-1-5-21-3623811015-3361044348-30300820';
 		$expectedNetBiosName = 'TEST';
 		$expectedNetBiosData = array("netbios_name" => $expectedNetBiosName);
 

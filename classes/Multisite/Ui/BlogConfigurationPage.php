@@ -425,7 +425,7 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 			return $failedMessage;
 		}
 
-		$domainSid = NextADInt_Core_Util_StringUtil::objectSidToDomainSid($objectSid);
+		$domainSid = $objectSid->getDomainPartAsSid()->getFormatted();
 		$domainSidData = $this->prepareDomainSid($domainSid);
 
 		if (false === $domainSid) {

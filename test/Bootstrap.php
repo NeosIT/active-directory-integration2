@@ -185,8 +185,8 @@ $autoLoader->register();
 require_once "$path/functions.php";
 
 require_once "$path/vendor/autoload.php";
-
 require_once "$path/vendor/twig/twig/lib/Twig/Autoloader.php";
+require_once "$path/vendor/adLDAP/adLDAP.php";
 Twig_Autoloader::register();
 
 require_once "$path/test/BasicTest.php";

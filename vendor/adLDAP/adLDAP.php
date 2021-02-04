@@ -1330,7 +1330,7 @@ class adLDAP {
         if (!$this->_bind){ return (false); }
 
         if ($isGUID === true) {
-            $username = $this->strguid2hex($username);
+            $username = self::strguid2hex($username);
             $filter="objectguid=".$username;
         }
         else if (strstr($username, "@")) {
@@ -1368,7 +1368,7 @@ class adLDAP {
     }
 
     /**
-     * Get a configuration etnry form the CN=Partitions,CN=Configuration object
+     * Get a configuration entry form the CN=Partitions,CN=Configuration object
      *
      * @param $filter
      * @return bool
@@ -2584,7 +2584,7 @@ class adLDAP {
         $r=false;
 
         $gsid = substr_replace($usersid,pack('V',$gid),strlen($usersid)-4,4);
-        $filter='(objectsid='.$this->getTextSID($gsid).')';
+        $filter='(objectsid='. self::convertBinarySidToString($gsid).')';
         $fields=array("samaccountname","distinguishedname");
         $sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
         $entries = ldap_get_entries($this->_conn, $sr);
@@ -2596,29 +2596,68 @@ class adLDAP {
 
         return false;
      }
-     
-    /**
-    * Convert a binary SID to a text SID
-    * 
-    * @param string $binsid A Binary SID
-    * @return string
-    */
-     protected function getTextSID($binsid) {
-        $hex_sid = bin2hex($binsid);
-        $rev = hexdec(substr($hex_sid, 0, 2));
-        $subcount = hexdec(substr($hex_sid, 2, 2));
-        $auth = hexdec(substr($hex_sid, 4, 12));
-        $result = "$rev-$auth";
 
-        for ($x=0;$x < $subcount; $x++) {
-            $subauth[$x] =
-                hexdec($this->little_endian(substr($hex_sid, 16 + ($x * 8), 8)));
-                $result .= "-" . $subauth[$x];
-        }
+	/**
+	 * Convert a binary SID to a text SID
+	 *
+	 * @param string $binsid A Binary SID
+	 * @return string
+	 */
+	public static function convertBinarySidToString($binsid)
+	{
+		$hex_sid = bin2hex($binsid);
+		$rev = hexdec(substr($hex_sid, 0, 2));
+		$subcount = hexdec(substr($hex_sid, 2, 2));
+		$auth = hexdec(substr($hex_sid, 4, 12));
+		$result = "$rev-$auth";
 
-        // Cheat by tacking on the S-
-        return 'S-' . $result;
-     }
+		for ($x = 0; $x < $subcount; $x++) {
+			$subauth[$x] =
+				hexdec(self::little_endian(substr($hex_sid, 16 + ($x * 8), 8)));
+			$result .= "-" . $subauth[$x];
+		}
+
+		// Cheat by tacking on the S-
+		return 'S-' . $result;
+	}
+
+	/**
+	 * Converts the given string into little endian hex format
+	 * @param string $int
+	 * @return string
+	 */
+	public static function toInt32LittleEndianHex($int)
+	{
+		$endian = unpack("N", pack("L", intval($int)));
+		return sprintf("%'08X", $endian[1]);
+	}
+
+	/**
+	 * Converts a SID string to hex.
+	 * "S-1-5-21-2127521184-1604012920-1887927527-72713" will be converted to "010500000000000515000000A065CF7E784B9B5FE77C8770091C0100"
+	 *
+	 * @see https://devblogs.microsoft.com/oldnewthing/20040315-00/?p=40253
+	 * @see https://docs.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-sid
+	 * @see https://en.wikipedia.org/wiki/Security_Identifier
+	 *
+	 * @param string $sid "S-1-5-21-2127521184-1604012920-1887927527-72713"
+	 * @return string "010500000000000515000000A065CF7E784B9B5FE77C8770091C0100"
+	 */
+	public static function sidStringToHex($sid)
+	{
+		$parts = explode("-", $sid);
+
+		$revision = sprintf('%02X', $parts[1]);    // 1
+		$numberOfDashes = sprintf('%02X', substr_count($sid, '-') - 2); //
+		$identifierAuthority = sprintf('%012X', $parts[2]); // 5
+		$subAuthorities = ""; // 21-2127521184-1604012920-1887927527-72713
+
+		for ($i = 3; $i < sizeof($parts); $i++) {
+			$subAuthorities .= self::toInt32LittleEndianHex($parts[$i]);
+		}
+
+		return $revision . $numberOfDashes . $identifierAuthority . $subAuthorities;
+	}
      
     /**
     * Converts a little-endian hex number to one that hexdec() can convert
@@ -2626,7 +2665,7 @@ class adLDAP {
     * @param string $hex A hex code
     * @return string
     */
-     protected function little_endian($hex) {
+     public static function little_endian($hex) {
         $result = '';
         for ($x = strlen($hex) - 2; $x >= 0; $x = $x - 2) {
             $result .= substr($hex, $x, 2);
@@ -2634,17 +2673,6 @@ class adLDAP {
         return $result;
      }
 
-    /**
-     * Convert binary Object SID to string
-     *
-     * @author dme@neos-it.de
-     * @param $bin
-     * @return $string
-     */
-    public function convertObjectSidBinaryToString($bin) {
-       return $this->getTextSID($bin);
-    }
-     
     /**
     * Converts a binary attribute to a string
     * 
@@ -2689,7 +2717,7 @@ class adLDAP {
     * @param string $strGUID A string representation of a GUID
     * @return string
     */
-    protected function strguid2hex($strGUID) {
+    public static function strguid2hex($strGUID) {
         $strGUID = str_replace('-', '', $strGUID);
 
         $octet_str = '\\' . substr($strGUID, 6, 2);

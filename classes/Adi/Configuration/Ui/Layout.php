@@ -116,6 +116,15 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::NETBIOS_NAME
 					)
 				),
+				__('Forest configuration', 'next-active-directory-integration') => array(
+					self::DESCRIPTION => __(
+						'This is only relevant if you are using NADI inside an AD forest. You need the premium extension <a href="https://active-directory-wp.com/premium-extension/active-directory-forest/" target="__blank">Active Directory Forest</a> to have any effect for the forest configuration.',
+						'next-active-directory-integration'
+					),
+					self::OPTIONS => array(
+						NextADInt_Adi_Configuration_Options::ADDITIONAL_DOMAIN_SIDS,
+					)
+				)
 			),
             // User tab
 			__('User', 'next-active-directory-integration') => array(

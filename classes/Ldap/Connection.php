@@ -27,13 +27,16 @@ class NextADInt_Ldap_Connection
 	/* @var Monolog\ $logger */
 	private $logger;
 
-	/* @var string */
-	private $siteDomainSid;
+	/* @var NextADInt_ActiveDirectory_Context */
+	private $activeDirectoryContext;
 
 	/**
 	 * @param NextADInt_Multisite_Configuration_Service $configuration
+	 * @param NextADInt_ActiveDirectory_Context $activeDirectoryContext
 	 */
-	public function __construct(NextADInt_Multisite_Configuration_Service $configuration)
+	public function __construct(NextADInt_Multisite_Configuration_Service $configuration,
+								NextADInt_ActiveDirectory_Context $activeDirectoryContext
+	)
 	{
 		if (!class_exists('adLDAP')) {
 			// get adLdap
@@ -41,6 +44,7 @@ class NextADInt_Ldap_Connection
 		}
 
 		$this->configuration = $configuration;
+		$this->activeDirectoryContext = $activeDirectoryContext;
 
 		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
@@ -466,7 +470,7 @@ class NextADInt_Ldap_Connection
 			return false;
 		}
 
-		$this->logger->debug("Found NetBIOS name '" . $netbios . "' for '" . $this->getDomainSid());
+		$this->logger->debug("Found NetBIOS name '" . $netbios . "' for domain SIDs " . $this->activeDirectoryContext);
 
 		return $netbios;
 	}
@@ -717,33 +721,22 @@ class NextADInt_Ldap_Connection
 	function filterDomainMembers($members = array())
 	{
 		$adLdap = $this->getAdLdap();
-		$siteDomainSid = $this->getDomainSid();
 		$r = array();
 
 		foreach ($members as $member) {
 			$userInfo = $adLdap->user_info($member, array('objectsid'));
-			$userSid = $adLdap->convertObjectSidBinaryToString($userInfo[0]["objectsid"][0]);
 
-			if (strpos($userSid, $siteDomainSid) !== false) {
-				$r[NextADInt_Core_Util_StringUtil::toLowerCase($member)] = $member;
+			$objectSid = NextADInt_ActiveDirectory_Sid::of($userInfo[0]["objectsid"][0]);
+
+			if (!$this->activeDirectoryContext->isMember($objectSid)) {
+				$this->logger->debug("Object '" . $objectSid->getFormatted() . "' does not belong to one of the configured domains of " . $this->activeDirectoryContext);
+				continue;
 			}
+
+			$r[NextADInt_Core_Util_StringUtil::toLowerCase($member)] = $member;
 		}
 
 		return $r;
-	}
-
-	/**
-	 * Return the domain SID of the current synchronization
-	 *
-	 * @return mixed|string
-	 */
-	public function getDomainSid()
-	{
-		if (empty($this->siteDomainSid)) {
-			$this->siteDomainSid = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID);
-		}
-
-		return $this->siteDomainSid;
 	}
 
 	/**
@@ -779,5 +772,13 @@ class NextADInt_Ldap_Connection
 		}
 
 		return false;
+	}
+
+	/**
+	 * @return NextADInt_ActiveDirectory_Context
+	 */
+	public function getActiveDirectoryContext()
+	{
+		return $this->activeDirectoryContext;
 	}
 }

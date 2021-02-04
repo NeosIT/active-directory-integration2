@@ -8,9 +8,9 @@ if (class_exists('NextADInt_Multisite_Configuration_Service')) {
 }
 
 /**
- * Multisite_Configuraiton_Service returns the value for an option name.
+ * Multisite_Configuration_Service returns the value for an option name.
  *
- * Multisite_Configuraiton_Service return the option value depending on the WordPress installation (single/multi side), profile settings and blog settings.
+ * Multisite_Configuration_Service return the option value depending on the WordPress installation (single/multi side), profile settings and blog settings.
  *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access public
@@ -333,7 +333,8 @@ class NextADInt_Multisite_Configuration_Service
 			NextADInt_Adi_Configuration_Options::DOMAIN_SID,
 			NextADInt_Adi_Configuration_Options::VERIFICATION_USERNAME,
 			NextADInt_Adi_Configuration_Options::VERIFICATION_PASSWORD,
-			NextADInt_Adi_Configuration_Options::ENCRYPTION
+			NextADInt_Adi_Configuration_Options::ENCRYPTION,
+			NextADInt_Adi_Configuration_Options::ADDITIONAL_DOMAIN_SIDS
 		); //TODO move somewhere else
 
 		// TODO better solution would be to get viewable configuration through Layout class. But this introduces new

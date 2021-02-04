@@ -40,7 +40,7 @@ class NextADInt_Adi_Authentication_VerificationService
 	 * 
 	 * @param array $data
 	 *
-	 * @return bool false || string $objectId
+	 * @return bool|ActiveDirectory_Sid
 	 */
 	public function findActiveDirectoryDomainSid($data)
 	{
