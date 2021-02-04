@@ -387,8 +387,8 @@ class NextADInt_Adi_Authentication_LoginService
 			// if the user uses one of the stored account suffixes, then return all stored $accountSuffixes
 			$this->logger->debug("User domain '{$suffix}' is in list of account suffixes. Using this as first testable account suffix.");
 
-			unset($arrAuthenticatableSuffixes[$idx]);
-			array_unshift($arrAuthenticatableSuffixes, $suffix);
+			// ADI-716: only return the user's suffix if it is inside the list of authenticatable suffixes
+			return array($suffix);
 		}
 
 		return $arrAuthenticatableSuffixes;

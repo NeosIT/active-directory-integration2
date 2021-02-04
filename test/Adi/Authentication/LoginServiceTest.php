@@ -372,8 +372,9 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 	/**
 	 * @test
+	 * @see ADI-716
 	 */
-	public function detectAuthenticatableSuffixes_itMovesProvidedSuffixToFirstPosition_whenSuffixIsRegistered()
+	public function ADI_716()
 	{
 		$sut = $this->sut();
 
@@ -384,7 +385,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$actual = $sut->detectAuthenticatableSuffixes('domain.tld');
 
-		$this->assertEquals(array('@domain.tld', '@test.ad'), $actual);
+		$this->assertEquals(array('@domain.tld'), $actual);
 	}
 
 	/**
