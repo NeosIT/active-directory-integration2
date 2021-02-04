@@ -23,11 +23,6 @@
 
         $scope.$on('options', function (event, data) {
             $scope.option = {
-                sso: $valueHelper.findValue("sso", data),
-                sso_user: $valueHelper.findValue("sso_user", data),
-                sso_password: $valueHelper.findValue("sso_password", data),
-                sso_environment_variable: $valueHelper.findValue("sso_environment_variable", data),
-                sso_disable_for_xmlrpc: $valueHelper.findValue("sso_disable_for_xmlrpc", data),
                 enable_smartcard_user_login: $valueHelper.findValue("enable_smartcard_user_login", data),
                 custom_login_page_enabled: $valueHelper.findValue("custom_login_page_enabled", data),
                 max_login_attempts: $valueHelper.findValue("max_login_attempts", data),
@@ -44,11 +39,6 @@
             }
 
             $scope.permission = {
-                sso: $valueHelper.findPermission("sso", data),
-                sso_user: $valueHelper.findPermission("sso_user", data),
-                sso_password: $valueHelper.findPermission("sso_password", data),
-                sso_environment_variable: $valueHelper.findPermission("sso_environment_variable", data),
-                sso_disable_for_xmlrpc: $valueHelper.findPermission("sso_disable_for_xmlrpc", data),
                 enable_smartcard_user_login: $valueHelper.findPermission("enable_smartcard_user_login", data),
                 custom_login_page_enabled: $valueHelper.findPermission("custom_login_page_enabled", data),
                 max_login_attempts: $valueHelper.findPermission("max_login_attempts", data),
@@ -58,17 +48,11 @@
                 admin_email: $valueHelper.findPermission("admin_email", data),
                 from_email: $valueHelper.findPermission("from_email", data),
                 allow_xmlrpc_login: $valueHelper.findPermission("allow_xmlrpc_login", data),
-                verification_username : $valueHelper.findPermission("verification_username", data),
-                verification_password : $valueHelper.findPermission("verification_password", data)
             };
         });
 
         $scope.$on('validation', function (event, data) {
             $scope.messages = {
-                sso: $valueHelper.findMessage("sso", data),
-                sso_user: $valueHelper.findMessage("sso_user", data),
-                sso_password: $valueHelper.findMessage("sso_password", data),
-                sso_environment_variable: $valueHelper.findMessage("sso_environment_variable", data),
                 enable_smartcard_user_login: $valueHelper.findMessage("enable_smartcard_user_login", data),
                 custom_login_page_enabled: $valueHelper.findMessage("custom_login_page_enabled", data),
                 max_login_attempts: $valueHelper.findMessage("max_login_attempts", data),

@@ -12,7 +12,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	/* @var NextADInt_Ldap_Connection| PHPUnit_Framework_MockObject_MockObject */
 	private $ldapConnection;
 
-	public function setUp() : void
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -20,7 +20,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$this->ldapConnection = $this->createMock('NextADInt_Ldap_Connection');
 	}
 
-	public function tearDown() : void
+	public function tearDown(): void
 	{
 		parent::tearDown();
 	}
@@ -63,8 +63,8 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 				)
 			);
 
-        $wpUser = new WP_User();
-        $wpUser->setExpectedUserLogin('hugo2');
+		$wpUser = new WP_User();
+		$wpUser->setExpectedUserLogin('hugo2');
 
 		$sut->expects($this->once())
 			->method('sendNotification')
@@ -98,8 +98,8 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 				)
 			);
 
-        $wpUser = new WP_User();
-        $wpUser->setExpectedUserLogin('hugo2');
+		$wpUser = new WP_User();
+		$wpUser->setExpectedUserLogin('hugo2');
 
 		$sut->expects($this->once())
 			->method('sendNotification')
@@ -120,14 +120,14 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getUserMeta', 'findWPUserAttributeValues'));
 
-        \WP_Mock::wpFunction('get_bloginfo', array());
+		\WP_Mock::wpFunction('get_bloginfo', array());
 
-        $wpUser = new WP_User();
+		$wpUser = new WP_User();
 
-        $sut->expects($this->once())
-            ->method('findWPUserAttributeValues')
-            ->with('hugo')
-            ->willReturn(null);
+		$sut->expects($this->once())
+			->method('findWPUserAttributeValues')
+			->with('hugo')
+			->willReturn(null);
 
 		$mail = new NextADInt_Adi_Mail_Message();
 		$mail->setUsername('hugo');
@@ -143,22 +143,22 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getUserMeta', 'sendMails', 'findWPUserAttributeValues'));
 
-        $wpUser = new WP_User();
-        $wpUser->setExpectedUserLogin('hugo');
-        $wpUser->setExpectedUserLogin('hugo@test.ad');
+		$wpUser = new WP_User();
+		$wpUser->setExpectedUserLogin('hugo');
+		$wpUser->setExpectedUserLogin('hugo@test.ad');
 
-        $metaData = array(
-            'email'     => 'hugo@test.ad',
-            'firstName' => 'Hugo',
-            'lastName'  => 'Testuser',
-        );
+		$metaData = array(
+			'email' => 'hugo@test.ad',
+			'firstName' => 'Hugo',
+			'lastName' => 'Testuser',
+		);
 
 		\WP_Mock::wpFunction('get_bloginfo', array());
 
 		$sut->expects($this->once())
-            ->method('findWPUserAttributeValues')
-            ->with('hugo@test.ad')
-            ->willReturn($metaData);
+			->method('findWPUserAttributeValues')
+			->with('hugo@test.ad')
+			->willReturn($metaData);
 
 		$sut->expects($this->once())
 			->method('sendMails')
@@ -183,22 +183,22 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getUserMeta', 'sendMails', 'findWPUserAttributeValues'));
 
-        $wpUser = new WP_User();
-        $wpUser->setExpectedUserLogin('hugo');
-        $wpUser->setExpectedUserLogin('hugo@test.ad');
+		$wpUser = new WP_User();
+		$wpUser->setExpectedUserLogin('hugo');
+		$wpUser->setExpectedUserLogin('hugo@test.ad');
 
-        $metaData = array(
-            'email'     => 'hugo@test.ad',
-            'firstName' => 'Hugo',
-            'lastName'  => 'Testuser',
-        );
+		$metaData = array(
+			'email' => 'hugo@test.ad',
+			'firstName' => 'Hugo',
+			'lastName' => 'Testuser',
+		);
 
-        \WP_Mock::wpFunction('get_bloginfo', array());
+		\WP_Mock::wpFunction('get_bloginfo', array());
 
-        $sut->expects($this->once())
-            ->method('findWPUserAttributeValues')
-            ->with('hugo@test.ad')
-            ->willReturn($metaData);
+		$sut->expects($this->once())
+			->method('findWPUserAttributeValues')
+			->with('hugo@test.ad')
+			->willReturn($metaData);
 
 		$sut->expects($this->once())
 			->method('sendMails')
@@ -220,22 +220,22 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getUserMeta', 'sendMails', 'findWPUserAttributeValues'));
 
-        $wpUser = new WP_User();
-        $wpUser->setExpectedUserLogin('hugo');
-        $wpUser->setExpectedUserLogin('hugo@test.ad');
+		$wpUser = new WP_User();
+		$wpUser->setExpectedUserLogin('hugo');
+		$wpUser->setExpectedUserLogin('hugo@test.ad');
 
-        $metaData = array(
-            'email'     => 'hugo@test.ad',
-            'firstName' => 'Hugo',
-            'lastName'  => 'Testuser',
-        );
+		$metaData = array(
+			'email' => 'hugo@test.ad',
+			'firstName' => 'Hugo',
+			'lastName' => 'Testuser',
+		);
 
-        \WP_Mock::wpFunction('get_bloginfo', array());
+		\WP_Mock::wpFunction('get_bloginfo', array());
 
-        $sut->expects($this->once())
-            ->method('findWPUserAttributeValues')
-            ->with('hugo@test.ad')
-            ->willReturn($metaData);
+		$sut->expects($this->once())
+			->method('findWPUserAttributeValues')
+			->with('hugo@test.ad')
+			->willReturn($metaData);
 
 		$sut->expects($this->once())
 			->method('sendMails')
@@ -257,24 +257,24 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getUserMeta', 'sendMails', 'findWPUserAttributeValues'));
 
-        $wpUser = new WP_User();
-        $wpUser->setExpectedUserLogin('hugo');
-        $wpUser->setExpectedUserLogin('hugo@test.ad');
+		$wpUser = new WP_User();
+		$wpUser->setExpectedUserLogin('hugo');
+		$wpUser->setExpectedUserLogin('hugo@test.ad');
 
-        $metaData = array(
-            'email'     => 'hugo@test.ad',
-            'firstName' => 'Hugo',
-            'lastName'  => 'Testuser',
-        );
+		$metaData = array(
+			'email' => 'hugo@test.ad',
+			'firstName' => 'Hugo',
+			'lastName' => 'Testuser',
+		);
 
-        \WP_Mock::wpFunction('get_bloginfo', array());
+		\WP_Mock::wpFunction('get_bloginfo', array());
 
-        $sut->expects($this->once())
-            ->method('findWPUserAttributeValues')
-            ->with('hugo@test.ad')
-            ->willReturn($metaData);
+		$sut->expects($this->once())
+			->method('findWPUserAttributeValues')
+			->with('hugo@test.ad')
+			->willReturn($metaData);
 
-        $sut->expects($this->once())
+		$sut->expects($this->once())
 			->method('sendMails')
 			->will($this->returnCallback(function ($mail) {
 				/* @var NextADInt_Adi_Mail_Message $mail */
@@ -294,20 +294,20 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getUserMeta', 'sendMails', 'findWPUserAttributeValues'));
 
-        $wpUser = new WP_User();
-        $wpUser->setExpectedUserLogin('hugo');
-        $wpUser->setExpectedUserLogin('hugo@test.ad');
+		$wpUser = new WP_User();
+		$wpUser->setExpectedUserLogin('hugo');
+		$wpUser->setExpectedUserLogin('hugo@test.ad');
 
-        $metaData = array(
-            'email'     => 'hugo@test.ad',
-            'firstName' => 'Hugo',
-            'lastName'  => 'Testuser',
-        );
+		$metaData = array(
+			'email' => 'hugo@test.ad',
+			'firstName' => 'Hugo',
+			'lastName' => 'Testuser',
+		);
 
-        $sut->expects($this->once())
-            ->method('findWPUserAttributeValues')
-            ->with('hugo@test.ad')
-            ->willReturn($metaData);
+		$sut->expects($this->once())
+			->method('findWPUserAttributeValues')
+			->with('hugo@test.ad')
+			->willReturn($metaData);
 
 		\WP_Mock::wpFunction('get_bloginfo', array(
 			'args' => 'url',
@@ -339,20 +339,20 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getUserMeta', 'sendMails', 'findWPUserAttributeValues'));
 
-        $wpUser = new WP_User();
-        $wpUser->setExpectedUserLogin('hugo');
-        $wpUser->setExpectedUserLogin('hugo@test.ad');
+		$wpUser = new WP_User();
+		$wpUser->setExpectedUserLogin('hugo');
+		$wpUser->setExpectedUserLogin('hugo@test.ad');
 
-        $metaData = array(
-            'email'     => 'hugo@test.ad',
-            'firstName' => 'Hugo',
-            'lastName'  => 'Testuser',
-        );
+		$metaData = array(
+			'email' => 'hugo@test.ad',
+			'firstName' => 'Hugo',
+			'lastName' => 'Testuser',
+		);
 
-        $sut->expects($this->once())
-            ->method('findWPUserAttributeValues')
-            ->with('hugo@test.ad')
-            ->willReturn($metaData);
+		$sut->expects($this->once())
+			->method('findWPUserAttributeValues')
+			->with('hugo@test.ad')
+			->willReturn($metaData);
 
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
@@ -395,20 +395,20 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getUserMeta', 'sendMails', 'findWPUserAttributeValues'));
 
-        $wpUser = new WP_User();
-        $wpUser->setExpectedUserLogin('hugo');
-        $wpUser->setExpectedUserLogin('hugo@test.ad');
+		$wpUser = new WP_User();
+		$wpUser->setExpectedUserLogin('hugo');
+		$wpUser->setExpectedUserLogin('hugo@test.ad');
 
-        $metaData = array(
-            'email'     => 'hugo@test.ad',
-            'firstName' => 'Hugo',
-            'lastName'  => 'Testuser',
-        );
+		$metaData = array(
+			'email' => 'hugo@test.ad',
+			'firstName' => 'Hugo',
+			'lastName' => 'Testuser',
+		);
 
-        $sut->expects($this->once())
-            ->method('findWPUserAttributeValues')
-            ->with('hugo@test.ad')
-            ->willReturn($metaData);
+		$sut->expects($this->once())
+			->method('findWPUserAttributeValues')
+			->with('hugo@test.ad')
+			->willReturn($metaData);
 
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
@@ -452,19 +452,19 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$sut = $this->sut(array('getUserMeta', 'sendMails', 'findWPUserAttributeValues'));
 
 		$wpUser = new WP_User();
-        $wpUser->setExpectedUserLogin('hugo');
-        $wpUser->setExpectedUserLogin('hugo@test.ad');
+		$wpUser->setExpectedUserLogin('hugo');
+		$wpUser->setExpectedUserLogin('hugo@test.ad');
 
-        $metaData = array(
-            'email'     => 'hugo@test.ad',
-            'firstName' => 'Hugo',
-            'lastName'  => 'Testuser',
-        );
+		$metaData = array(
+			'email' => 'hugo@test.ad',
+			'firstName' => 'Hugo',
+			'lastName' => 'Testuser',
+		);
 
-        $sut->expects($this->once())
-            ->method('findWPUserAttributeValues')
-            ->with('hugo@test.ad')
-            ->willReturn($metaData);
+		$sut->expects($this->once())
+			->method('findWPUserAttributeValues')
+			->with('hugo@test.ad')
+			->willReturn($metaData);
 
 		\WP_Mock::wpFunction('get_bloginfo', array(
 			'args' => 'url',
@@ -496,20 +496,20 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getUserMeta', 'sendMails', 'findWPUserAttributeValues'));
 
-        $wpUser = new WP_User();
-        $wpUser->setExpectedUserLogin('hugo');
-        $wpUser->setExpectedUserLogin('hugo@test.ad');
+		$wpUser = new WP_User();
+		$wpUser->setExpectedUserLogin('hugo');
+		$wpUser->setExpectedUserLogin('hugo@test.ad');
 
-        $metaData = array(
-            'email'     => 'hugo@test.ad',
-            'firstName' => 'Hugo',
-            'lastName'  => 'Testuser',
-        );
+		$metaData = array(
+			'email' => 'hugo@test.ad',
+			'firstName' => 'Hugo',
+			'lastName' => 'Testuser',
+		);
 
-        $sut->expects($this->once())
-            ->method('findWPUserAttributeValues')
-            ->with('hugo@test.ad')
-            ->willReturn($metaData);
+		$sut->expects($this->once())
+			->method('findWPUserAttributeValues')
+			->with('hugo@test.ad')
+			->willReturn($metaData);
 
 		\WP_Mock::wpFunction('get_bloginfo', array());
 
@@ -544,22 +544,22 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getUserMeta', 'sendMails', 'findWPUserAttributeValues'));
 
-        $wpUser = new WP_User();
-        $wpUser->setExpectedUserLogin('hugo');
-        $wpUser->setExpectedUserLogin('hugo@test.ad');
+		$wpUser = new WP_User();
+		$wpUser->setExpectedUserLogin('hugo');
+		$wpUser->setExpectedUserLogin('hugo@test.ad');
 
-        $metaData = array(
-            'email'     => 'hugo@test.ad',
-            'firstName' => 'Hugo',
-            'lastName'  => 'Testuser',
-        );
+		$metaData = array(
+			'email' => 'hugo@test.ad',
+			'firstName' => 'Hugo',
+			'lastName' => 'Testuser',
+		);
 
-        $sut->expects($this->once())
-            ->method('findWPUserAttributeValues')
-            ->with('hugo@test.ad')
-            ->willReturn($metaData);
+		$sut->expects($this->once())
+			->method('findWPUserAttributeValues')
+			->with('hugo@test.ad')
+			->willReturn($metaData);
 
-        \WP_Mock::wpFunction('get_bloginfo', array());
+		\WP_Mock::wpFunction('get_bloginfo', array());
 
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
@@ -664,6 +664,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 	 */
 	public function findADUserAttributeValues_getValuesForUser_returnValues()
 	{
+		$username = 'hubertus';
 		$sut = $this->sut(null);
 
 		$adResponse = array(
@@ -674,7 +675,9 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 
 		$this->ldapConnection->expects($this->once())
 			->method('findSanitizedAttributesOfUser')
-			->with('hubertus', array("sn", "givenname", "mail"))
+			->with($this->callback(function (NextADInt_Ldap_UserQuery $userQuery) use ($username) {
+				return $userQuery->getPrincipal() == $username;
+			}), array("sn", "givenname", "mail"))
 			->willReturn($adResponse);
 
 		$expected = array(
