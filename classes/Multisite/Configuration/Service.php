@@ -53,7 +53,6 @@ class NextADInt_Multisite_Configuration_Service
 	/* @var array */
 	private $cache = array();
 
-
 	/**
 	 * @param NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository    $blogConfigurationRepository
 	 * @param NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
@@ -95,49 +94,50 @@ class NextADInt_Multisite_Configuration_Service
 	 * Get the value for the option with name $optionName.
 	 *
 	 * @param string   $optionName
-	 * @param int|null $blogId if null, the current blog is used
+	 * @param int|null $siteId if null, the current blog is used
 	 *
 	 * @return mixed
 	 */
-	public function getOptionValue($optionName, $blogId = null)
+	public function getOptionValue($optionName, $siteId = null)
 	{
-		$option = $this->getOption($optionName, $blogId);
+		$option = $this->getOption($optionName, $siteId);
 
 		return NextADInt_Core_Util_ArrayUtil::get('option_value', $option);
 	}
 
 	/**
 	 * Get the option hashmap with keys 'option_value', 'option_name', 'option_permission' for the option $optionName of blog $blogId.
-	 * If $blogId is null, then the current blog will be used.
 	 *
 	 * @param string   $optionName name of option to lookup
-	 * @param int|null $blogId if null, the current blog is used
+	 * @param int|null $siteId if null, the current blog is used
 	 *
 	 * @return array
 	 */
-	public function getOption($optionName, $blogId = null)
+	public function getOption($optionName, $siteId = null)
 	{
-		if ($blogId === null) {
-			$blogId = get_current_blog_id();
+		if ($siteId === null) {
+			$siteId = get_current_blog_id();
 		}
 
-		if (isset($this->cache[$blogId][$optionName]) && is_array($this->cache[$blogId][$optionName])) {
-			return $this->cache[$blogId][$optionName];
+		if (isset($this->cache[$siteId][$optionName]) && is_array($this->cache[$siteId][$optionName])) {
+			return $this->cache[$siteId][$optionName];
 		}
 
-		$blogOptionValue = $this->blogConfigurationRepository->findSanitizedValue($blogId, $optionName);
-		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
+		$blogOptionValue = $this->blogConfigurationRepository->findSanitizedValue($siteId, $optionName);
+
+		$profileId = $this->blogConfigurationRepository->findProfileId($siteId);
+
 		$profileHasLinkedDomain = false;
 
 		if ($profileId != null) {
-			$profileDomainSid = $this->getProfileOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID, $blogId);
+			$profileDomainSid = $this->getProfileOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID, $siteId);
 
 			if (!empty($profileDomainSid)) {
 				$profileHasLinkedDomain = true;
 			}
 		}
 
-		$profileOptionValue = $this->getProfileOptionValue($optionName, $blogId);
+		$profileOptionValue = $this->getProfileOptionValue($optionName, $siteId);
 		$permission = $this->getPermission($optionName, $profileId);
 
 		// ADI-235: corner-case; if the profile has been already linked to an Active Directory domain the options from
@@ -160,7 +160,7 @@ class NextADInt_Multisite_Configuration_Service
 			'option_permission' => $permission,
 		);
 
-		$this->cache[$blogId][$optionName] = $optionArray;
+		$this->cache[$siteId][$optionName] = $optionArray;
 
 		return $optionArray;
 	}
@@ -170,18 +170,18 @@ class NextADInt_Multisite_Configuration_Service
 	 *
 	 * Do not call this method from the outside.
 	 *
-	 * @param int|null $blogId
+	 * @param int|null $siteId
 	 * @param string   $optionName
 	 *
 	 * @return null|array null if singlesite installation
 	 */
-	public function getProfileOptionValue($optionName, $blogId = null)
+	private function getProfileOptionValue($optionName, $siteId = null)
 	{
 		if (!is_multisite()) {
 			return null;
 		}
 
-		$profileId = $this->blogConfigurationRepository->findProfileId($blogId);
+		$profileId = $this->blogConfigurationRepository->findProfileId($siteId);
 		$profileOption = $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
 
 		return $profileOption;
@@ -196,7 +196,7 @@ class NextADInt_Multisite_Configuration_Service
 	 * @param mixed $profileOptionValue
 	 * @param mixed $blogOptionValue
 	 *
-	 * @return mixed $blogOpotionValue if $permission is EDITABLE, otherwise $profileOptionValue
+	 * @return mixed $blogOptionValue if $permission is EDITABLE, otherwise $profileOptionValue
 	 */
 	protected function getValue($permission, $profileOptionValue, $blogOptionValue)
 	{
@@ -228,18 +228,20 @@ class NextADInt_Multisite_Configuration_Service
 	}
 
 	/**
-	 * Find all options for the current site
+	 * Find all options for the current site.
+	 * It merges the default profile options with its overriden settings fo the current site.
+	 *
 	 * @return array|mixed
 	 */
 	public function getAllOptions()
 	{
-		$allOptionNames = $this->blogConfigurationRepository->getAllOptionNames();
-		$profileId = $this->blogConfigurationRepository->findProfileId(get_current_blog_id());
+		$siteId = get_current_blog_id();
 
-		$options = array();
+		$allOptionNames = $this->blogConfigurationRepository->getAllOptionNames();
+		$profileId = $this->blogConfigurationRepository->findProfileId($siteId);
 
 		foreach ($allOptionNames as $name) {
-			$buffer = $this->getOption($name);
+			$buffer = $this->getOption($name, $siteId);
 
 			if ($name == "additional_user_attributes") { //TODO find better solution
 				$options[$name] = array(
