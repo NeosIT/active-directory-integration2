@@ -12,10 +12,13 @@ if (class_exists('NextADInt_ActiveDirectory_Context')) {
  *
  * @author Christopher Klein <me[at]schakko[dot]de>
  * @access public
+ * @since 2.2.0
  */
 class NextADInt_ActiveDirectory_Context
 {
 	/**
+	 * List of domain SIDs
+	 *
 	 * @var array
 	 */
 	private $domainSids;
