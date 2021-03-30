@@ -104,16 +104,16 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_LocatorTest extends Ut_BasicT
 
 		$profileMatch = array('profile_opts');
 
-		$sut->expects($this->at(0))
+		$sut->expects($this->exactly(2))
 			->method('findBestConfigurationMatchForProfile')
-			->with(NextADInt_Adi_Configuration_Options::KERBEROS_REALM_MAPPINGS, $credentials->getUpnSuffix(), false)
-			->willReturn(null);
-
-
-		$sut->expects($this->at(1))
-			->method('findBestConfigurationMatchForProfile')
-			->with(NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX, '@' . $credentials->getUpnSuffix(), true)
-			->willReturn($profileMatch);
+			->withConsecutive(
+				[NextADInt_Adi_Configuration_Options::KERBEROS_REALM_MAPPINGS, $credentials->getUpnSuffix(), false],
+				[NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX, '@' . $credentials->getUpnSuffix(), true]
+			)
+			->willReturnOnConsecutiveCalls(
+				null,
+				$profileMatch
+			);
 
 		$actual = $sut->locate($credentials);
 

@@ -43,17 +43,17 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 
 	/**
 	 * @param $methods
-	 *
+	 * @param array $customConstructorArgs
 	 * @return NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository|PHPUnit_Framework_MockObject_MockObject
 	 */
-	public function sut($methods)
+	public function sut($methods, $customConstructorArgs = [])
 	{
 		return $this->getMockBuilder('NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository')
 			->setConstructorArgs(
 				array(
 					$this->sanitizer,
 					$this->encryptionHandler,
-					$this->optionProvider,
+					isset($customConstructorArgs['optionProvider']) ? $customConstructorArgs['optionProvider'] : $this->optionProvider,
 					$this->profileConfigurationRepository,
 					$this->defaultProfileRepository,
 				)
@@ -70,9 +70,9 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 		$sut = $this->sut(array('findSanitizedValue'));
 		$this->mockFunction__();
 
-		$sut->expects($this->at(0))
+		// ADI-718: we don't care about the other values
+		$sut->expects($this->atLeastOnce())
 			->method('findSanitizedValue')
-			->with(5, NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY)
 			->willReturn('support_license_key');
 
 		$actual = $sut->findAllSanitized(5);

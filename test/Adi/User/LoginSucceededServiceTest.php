@@ -506,15 +506,16 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 
 		$expectedWpUser = new WP_User();
 
-		$this->configuration->expects($this->at(0))
-		                    ->method('getOptionValue')
-		                    ->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER)
-		                    ->willReturn(true);
-
-		$this->configuration->expects($this->at(1))
-		                    ->method('getOptionValue')
-		                    ->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD)
-		                    ->willReturn(true);
+		$this->configuration->expects($this->exactly(2))
+			->method('getOptionValue')
+			->withConsecutive(
+				[NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER],
+				[NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD]
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				true
+			);
 
 		$this->userManager->expects($this->once())
 		                  ->method('updatePassword')
@@ -551,15 +552,16 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 
 		$expectedWpUser = new WP_User();
 
-		$this->configuration->expects($this->at(0))
-		                    ->method('getOptionValue')
-		                    ->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER)
-		                    ->willReturn(false);
-
-		$this->configuration->expects($this->at(1))
-		                    ->method('getOptionValue')
-		                    ->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD)
-		                    ->willReturn(false);
+		$this->configuration->expects($this->exactly(2))
+			->method('getOptionValue')
+			->withConsecutive(
+				[NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER],
+				[NextADInt_Adi_Configuration_Options::AUTO_UPDATE_PASSWORD]
+			)
+			->willReturnOnConsecutiveCalls(
+				false,
+				false
+			);
 
 		$this->userManager->expects($this->never())
 		                  ->method('updatePassword')

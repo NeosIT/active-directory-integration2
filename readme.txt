@@ -2,7 +2,7 @@
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows, sso
 Requires at least: 5.4
-Tested up to: 5.6.1
+Tested up to: 5.7
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -81,7 +81,7 @@ Please read the [FAQ](https://www.active-directory-wp.com/docs/FAQ.html) of our 
 == Installation ==
 
 = Requirements =
-To install Next Active Directory Integration you need at least WordPress 5.0 and PHP 7.2
+To install Next Active Directory Integration you need at least WordPress 5.4 and PHP 7.2
 
 Although only tested with Apache 2.2 and 2.4 *NADI* should work with all other common web servers like nginx and IIS.
 
@@ -137,6 +137,8 @@ For detailed information you can visit the official [GitHub repository of Next A
 * FIXED: When using a Global Catalog (GC), users with same sAMAccountName but different userPrincipalNames are not assigned correct during authentication (NADIS-133)
 * FIXED-SECURITY: Users with same UPN prefix and password but different UPN suffix would be logged in with the wrong account (ADI-716)
 * CHANGED: WordPress 5.6.1 compatibility has been checked
+* CHANGED: WordPress 5.7 compatibility has been checked
+* CHANGED: PHP 8.0 compatibility has been added (ADI-718, gh-#132)
 
 = 2.1.12 =
 * ADDED: PR gh-#107: allow self signed certificates

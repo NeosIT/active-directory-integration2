@@ -126,10 +126,17 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 		$this->mockFunction__();
 		$this->mockFunctionEsc_html__();
 
-		$this->configuration->expects($this->at(0))
+		$this->configuration->expects($this->exactly(3))
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::SHOW_MENU_TEST_AUTHENTICATION)
-			->willReturn(true);
+			->withConsecutive(
+				[NextADInt_Adi_Configuration_Options::SHOW_MENU_TEST_AUTHENTICATION],
+				[NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_AD],
+				[NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_WORDPRESS]
+			)
+			->willReturn(
+				true,
+				false,
+				false);
 
 		$this->blogConfigurationPage->expects($this->once())
 			->method('getSlug')
@@ -158,10 +165,17 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
 		$this->mockFunctionEsc_html__();
 
-		$this->configuration->expects($this->at(1))
+		$this->configuration->expects($this->exactly(3))
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_AD)
-			->willReturn(true);
+			->withConsecutive(
+				[NextADInt_Adi_Configuration_Options::SHOW_MENU_TEST_AUTHENTICATION],
+				[NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_AD],
+				[NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_WORDPRESS]
+			)
+			->willReturn(
+				false,
+				true,
+				false);
 
 		$this->blogConfigurationPage->expects($this->once())
 			->method('getSlug')
@@ -190,10 +204,17 @@ class Ut_NextADInt_Adi_Ui_MenuTest extends Ut_BasicTest
 		$sut = $this->sut(array('addSubMenu', 'blogOption'));
 		$this->mockFunctionEsc_html__();
 
-		$this->configuration->expects($this->at(2))
+		$this->configuration->expects($this->exactly(3))
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_WORDPRESS)
-			->willReturn(true);
+			->withConsecutive(
+				[NextADInt_Adi_Configuration_Options::SHOW_MENU_TEST_AUTHENTICATION],
+				[NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_AD],
+				[NextADInt_Adi_Configuration_Options::SHOW_MENU_SYNC_TO_WORDPRESS]
+			)
+			->willReturn(
+				false,
+				false,
+				true);
 
 		$this->blogConfigurationPage->expects($this->once())
 			->method('getSlug')
