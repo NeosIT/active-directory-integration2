@@ -485,7 +485,7 @@ class Ut_NextADInt_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 			->with(1, 'previous_version')
 			->willReturn(array(array('option_new' => 'option_new', 'value' => 'value')));
 
-		$this->blogConfigurationRepository->expects($this->at(0))
+		$this->blogConfigurationRepository->expects($this->once())
 			->method('persistSanitizedValue')
 			->with(1, 'option_new', 'value');
 
@@ -676,20 +676,18 @@ class Ut_NextADInt_Adi_Configuration_ImportServiceTest extends Ut_BasicTest
 		$siteId = 6;
 		$previousVersion = 'version';
 
-		$sut->expects($this->at(0))
+		$sut->expects($this->exactly(3))
 			->method('getOption')
-			->with($siteId, 'usermeta_empty_overwrite', $previousVersion)
-			->willReturn('1');
-
-		$sut->expects($this->at(1))
-			->method('getOption')
-			->with($siteId, 'attributes_to_show', $previousVersion)
-			->willReturn('attribute_to_show');
-
-		$sut->expects($this->at(2))
-			->method('getOption')
-			->with($siteId, 'additional_user_attributes', $previousVersion)
-			->willReturn('additional_user_attributes');
+			->withConsecutive(
+				[$siteId, 'usermeta_empty_overwrite', $previousVersion],
+				[$siteId, 'attributes_to_show', $previousVersion],
+				[$siteId, 'additional_user_attributes', $previousVersion]
+			)
+			->willReturnOnConsecutiveCalls(
+				'1',
+				'attribute_to_show',
+				'additional_user_attributes'
+			);
 
 		$sut->expects($this->once())
 			->method('convertAttributeMapping')

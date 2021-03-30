@@ -1,7 +1,7 @@
 # Next Active Directory Integration
 Next Active Directory Integration allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory. Next ADI ist a complete rewrite of its predecessor [Active Directory Integration](https://wordpress.org/plugins/active-directory-integration/). You can easily import users from your Active Directory into your WordPress instance and keep both synchronized through Next Active Directory Integration's features.
 
-If you like this plug-in we'd like to encourage you to purchase a support license from [https://active-directory-wp.com/](https://active-directory-wp.com/shop-overview/) to support the ongoing development of this plug-in.
+If you like this plug-in we'd like to encourage you to purchase a support plan from [https://active-directory-wp.com/](https://active-directory-wp.com/shop-overview/) to support the ongoing development of this plug-in.
 
 ## Important requirement changes
 As of *2020-01-01* NADI did *no* longer support PHP version *< 7.2*. The reason is that security support for PHP 7.1 and below has beeen dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
@@ -20,11 +20,11 @@ After the cloning you have to update the dependencies with help of *Composer* (e
 To install composer follow the instructions on [https://getcomposer.org/download/](https://getcomposer.org/download/).
 	
 ### Testing
-Tests are made with PHPUnit 9. Get PHPUnit 9 with
+Tests are made with PHPUnit 9.3 Get PHPUnit 9.3 with
 
 ```shell
 	# get PHPUnit
-	wget https://phar.phpunit.de/phpunit-9.phar
+	wget https://phar.phpunit.de/phpunit-9.3.phar
 ```
 
 #### Running unit tests

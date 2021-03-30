@@ -421,18 +421,42 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_ProfileRepositoryTest ext
 			'return' => true,
 		));
 
-		$this->profileConfigurationRepository->expects($this->at(0))
-			->method('deleteValue')
-			->with(5, NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
+		$hasValueBeenDeleted = false;
+		$hasPermissionsBeenDeleted = false;
 
-		$this->profileConfigurationRepository->expects($this->at(1))
+		$this->profileConfigurationRepository
+			->method('deleteValue')
+			->with(
+				$this->callback(function($p1) {
+					return $p1 == 5;
+				}),
+				$this->callback(function($p2) use (&$hasValueBeenDeleted) {
+					if ($p2 == NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY) {
+						$hasValueBeenDeleted = true;
+					}
+					return true;
+				}));
+
+		$this->profileConfigurationRepository
 			->method('deletePermission')
-			->with(5, NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY);
+			->with(
+				$this->callback(function($p1) {
+					return $p1 == 5;
+				}),
+				$this->callback(function($p2) use (&$hasPermissionsBeenDeleted) {
+					if ($p2 == NextADInt_Adi_Configuration_Options::SUPPORT_LICENSE_KEY) {
+						$hasPermissionsBeenDeleted = true;
+					}
+					return true;
+				}));
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('deleteProfileAssociations')
 			->with(5);
 
 		$sut->delete(5);
+
+		$this->assertTrue($hasValueBeenDeleted);
+		$this->assertTrue($hasPermissionsBeenDeleted);
 	}
 }

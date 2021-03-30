@@ -138,6 +138,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 * FIXED-SECURITY: Users with same UPN prefix and password but different UPN suffix would be logged in with the wrong account (ADI-716)
 * CHANGED: WordPress 5.6.1 compatibility has been checked
 * CHANGED: WordPress 5.7 compatibility has been checked
+* CHANGED: PHP 8.0 compatibility has been added (ADI-718, gh-#132)
 
 = 2.1.12 =
 * ADDED: PR gh-#107: allow self signed certificates

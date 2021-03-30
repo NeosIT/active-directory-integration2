@@ -64,7 +64,7 @@ class Ut_NextADInt_Adi_Ui_Menu_AbstractTest extends Ut_BasicTest
 			'return' => $screen,
 		));
 
-		$screen->expects($this->at(0))
+		$screen->expects($this->once())
 			->method('add_help_tab')
 			->withConsecutive(
 				array(
