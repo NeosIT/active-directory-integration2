@@ -362,7 +362,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$this->configuration->expects($this->at(0))
+		$this->configuration->expects($this->once())
 			->method('getOptionValue')
 			->with(NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS)
 			->willReturn(';ad-group=wp-role;c=d');

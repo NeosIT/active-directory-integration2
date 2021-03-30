@@ -13,6 +13,7 @@ if (class_exists('NextADInt_Adi_Authentication_SingleSignOn_Profile_Match')) {
  * @author Christopher Klein <me[at]schakko[dot]de>
  *
  * @access
+ * @since 2.2.0
  */
 class NextADInt_Adi_Authentication_SingleSignOn_Profile_Match
 {
@@ -96,6 +97,10 @@ class NextADInt_Adi_Authentication_SingleSignOn_Profile_Match
 		$r = new NextADInt_Adi_Authentication_SingleSignOn_Profile_Match($this->profile);
 
 		return $r->setType($type);
+	}
+
+	public function __toString() {
+		return "Match={type='" . $this->type . "'}";
 	}
 
 	/**

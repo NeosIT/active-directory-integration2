@@ -1199,4 +1199,19 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 		$sut->disableUserWithoutValidGuid($ldapAttributes, $credentials);
 	}
 
+	/**
+	 * GitHub issue #132
+	 * @see https://github.com/NeosIT/active-directory-integration2/issues/132
+	 * @test
+	 */
+	public function GH_132_TypeError_withPHP8_0() {
+		$sut = $this->sut();
+		$this->mockFunction__();
+
+		$attributes = new NextADInt_Ldap_Attributes(array('useraccountcontrol' => ['512']));
+
+		$actual = $sut->userAccountControl($attributes->getRaw());
+		$this->assertIsInt($actual);
+		$this->assertEquals(512, $actual);
+	}
 }

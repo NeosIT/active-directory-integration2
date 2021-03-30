@@ -169,15 +169,16 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
 		$this->behave($sut, 'findBySAMAccountName', false);
 
-		$this->userRepository->expects($this->at(1))
+		$this->userRepository->expects($this->exactly(2))
 			->method('findByUsername')
-			->with("userPrincipalName")
-			->willReturn(false);
-
-		$this->userRepository->expects($this->at(2))
-			->method('findByUsername')
-			->with("sAMAccountName")
-			->willReturn($wpUser);
+			->withConsecutive(
+				['userPrincipalName'],
+				['sAMAccountName']
+			)
+			->willReturnOnConsecutiveCalls(
+				false,
+				$wpUser
+			);
 
 		$actual = $sut->findByActiveDirectoryUsername("sAMAccountName", "userPrincipalName");
 		$this->assertEquals($wpUser, $actual);

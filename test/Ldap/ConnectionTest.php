@@ -353,7 +353,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
-		$this->adLDAP->expects($this->at(0))
+		$this->adLDAP->expects($this->once())
 			->method('set_account_suffix')
 			->with('@a.de');
 
@@ -373,7 +373,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
-		$this->adLDAP->expects($this->at(0))
+		$this->adLDAP->expects($this->once())
 			->method('set_account_suffix')
 			->with('@a.de');
 

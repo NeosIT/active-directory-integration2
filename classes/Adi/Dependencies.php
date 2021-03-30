@@ -1229,7 +1229,7 @@ class NextADInt_Adi_Dependencies
 			// factory callback to create a new context
 			add_filter(NEXT_AD_INT_PREFIX . 'create_dependency_active_directory_context', function ($instance, NextADInt_Multisite_Configuration_Service $configuration) {
 				if (empty($instance)) {
-					$instance = new NextADInt_ActiveDirectory_Context($configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID));
+					$instance = new NextADInt_ActiveDirectory_Context([$configuration->getOptionValue(NextADInt_Adi_Configuration_Options::DOMAIN_SID)]);
 				}
 
 				return $instance;
