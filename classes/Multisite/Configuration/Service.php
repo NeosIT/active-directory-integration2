@@ -175,7 +175,7 @@ class NextADInt_Multisite_Configuration_Service
 	 *
 	 * @return null|array null if singlesite installation
 	 */
-	private function getProfileOptionValue($optionName, $siteId = null)
+	function getProfileOptionValue($optionName, $siteId = null)
 	{
 		if (!is_multisite()) {
 			return null;
