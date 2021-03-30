@@ -298,10 +298,8 @@ class NextADInt_Adi_Role_Manager
 		);
 
         $wpRoles = new WP_Roles();
+        
         foreach ($wpRoles->roles as $id => $object) {
-            if ($id === 'zocker') {
-                continue;
-            }
             $result[$id] = $id;
         }
 
