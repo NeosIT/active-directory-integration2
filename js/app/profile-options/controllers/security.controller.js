@@ -32,7 +32,7 @@
                 user_notification: $valueHelper.findValue("user_notification", data),
                 admin_notification: $valueHelper.findValue("admin_notification", data),
                 admin_email: $valueHelper.findValue("admin_email", data).split(";"),
-                from_email: $valueHelper.findValue("from_email", data).split(";"),
+                from_email: $valueHelper.findValue("from_email", data),
                 allow_xmlrpc_login: $valueHelper.findValue("allow_xmlrpc_login", data)
             };
 
