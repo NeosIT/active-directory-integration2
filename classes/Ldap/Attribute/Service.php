@@ -55,7 +55,7 @@ class NextADInt_Ldap_Attribute_Service
 	 *
 	 * @return array
 	 */
-	function parseLdapResponse($attributeNames = array(), $ldapData)
+	function parseLdapResponse($attributeNames, $ldapData)
 	{
 		NextADInt_Core_Assert::notNull($attributeNames);
 
