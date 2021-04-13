@@ -60,6 +60,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Profile_Locator
 			$profileMatch = $this->locateBySuffix($credentials);
 		}
 
+		$this->logger->debug("Profile match: " . $profileMatch);
 		return $profileMatch;
 	}
 
@@ -142,7 +143,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Profile_Locator
 		}
 
 		if ($doSsoOnlyFallback) {
-			// if no profile given suffix and sso enabled was found, search for profiles with SSO enabled and no suffixes
+			// if no profile given suffix and SSO enabled was found, search for profiles with SSO enabled and no suffixes
 			if (sizeof($profiles) == 0) {
 				$profiles = $this->getProfilesWithoutOptionValue($option, $ssoEnabledProfiles);
 			}
@@ -174,10 +175,17 @@ class NextADInt_Adi_Authentication_SingleSignOn_Profile_Locator
 					$keyMapped = NextADInt_Core_Util_StringUtil::split($useValue, '=');
 
 					if (sizeof($keyMapped) == 2) {
-						$values[] = $keyMapped[0];
-					} else {
-						$values[] = $useValue;
+						$useValue = $keyMapped[0];
 					}
+
+					$useValue = trim($useValue);
+
+					if(strlen($useValue) == 0) {
+						// skip empty lines
+						continue;
+					}
+
+					$values[] = $useValue;
 				}
 			}
 

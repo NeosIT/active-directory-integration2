@@ -1,8 +1,8 @@
 ﻿=== Next Active Directory Integration ===
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows, sso
-Requires at least: 5.0
-Tested up to: 5.6
+Requires at least: 5.4
+Tested up to: 5.7
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -35,6 +35,7 @@ You can purchase commercial support plans at [https://www.active-directory-wp.co
 * Disable user accounts in WordPress if they are disabled in Active Directory.
 * Set users local WordPress password on first and/or on every successful login
 * Option to disable fallback to local (WordPress) authentication.
+* Support for Active Directory forest environments.
 * and much much more
 
 = Premium Extensions =
@@ -47,10 +48,11 @@ As an owner of a valid support plan you have access to the following premium ext
 * Login with Ultimate Member: Let UM users log in by using NADI
 * Login with WooCommerce: Let WooCommerce users log in by using NADI
 * WP-CLI: Execute common NADI tasks (Sync to WordPress, Sync to AD) with help of WP-CLI
+* Active Directory Forest: Be able to use one WordPress instance with your whole Active Directory forest environment
 
 = Requirements =
 
-* WordPress since 5.0
+* WordPress since 5.4
 * PHP >= 7.2
 * LDAP support
 * OpenSSL Support for TLS (recommended)
@@ -79,7 +81,7 @@ Please read the [FAQ](https://www.active-directory-wp.com/docs/FAQ.html) of our 
 == Installation ==
 
 = Requirements =
-To install Next Active Directory Integration you need at least WordPress 5.0 and PHP 7.2
+To install Next Active Directory Integration you need at least WordPress 5.4 and PHP 7.2
 
 Although only tested with Apache 2.2 and 2.4 *NADI* should work with all other common web servers like nginx and IIS.
 
@@ -127,11 +129,20 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
-= 2.1.13 = 
-* FIXED: When using a Global Catalog (GC), users with same sAMAccountName but different userPrincipalNames are not assigned correct during authentication (NADIS-133)
-* CHANGED: WordPress 5.6 compatibility checked
 
-****UNRELEASED****
+= 2.2.0 =
+* ADDED: Kerberos principals are no longer treated as userPrincipalNames (ADI-715)
+* ADDED: When using Kerberos SSO principals, you can map the Kerberos realm to multiple UPN suffixes (requires *Active Directory Forest* premium extension) (ADI-715)
+* ADDED: When using NADI in an AD forest, you can now specify all SIDs of the connected domains (requires *Active Directory Forest* premium extension) (ADI-715)
+* FIXED: When using a Global Catalog (GC), users with same sAMAccountName but different userPrincipalNames are not assigned correct during authentication (NADIS-133)
+* FIXED-SECURITY: Users with same UPN prefix and password but different UPN suffix would be logged in with the wrong account (ADI-716)
+* CHANGED: WordPress 5.6.1 compatibility has been checked
+* CHANGED: WordPress 5.7 compatibility has been checked
+* CHANGED: PHP 8.0 compatibility has been added (ADI-718, gh-#132, gh-#137)
+* FIXED: Deprecation warning when trying to send mail notification for blocked users (ADI-719)
+* FIXED: Option "Blog admin sets the option value." had no effect in Multisite environments (gh-#124)
+* DEPRECATION-WARNING: For the upcoming release 2.3.0 we will remove "Internal password migration" (gh-#136), "Automatic user creation" (gh-#134) and "Email address conflict handling" (gh-#133)
+* DEV: Slightly transition new issues to GitHub instead of internal Jira
 
 = 2.1.12 =
 * ADDED: PR gh-#107: allow self signed certificates

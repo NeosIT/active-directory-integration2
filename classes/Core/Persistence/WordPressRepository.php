@@ -107,10 +107,11 @@ class NextADInt_Core_Persistence_WordPressRepository
 	 * @param string $sql
 	 * @param array $args
 	 * @param       $mode
+	 * @deprecated
 	 *
 	 * @return array|null|object
 	 */
-	public function wpdb_get_results($sql, $args = array(), $mode)
+	public function wpdb_get_results($sql, $args, $mode)
 	{
 		global $wpdb;
 		$sql = $this->wpdb_prepare($sql, $args);

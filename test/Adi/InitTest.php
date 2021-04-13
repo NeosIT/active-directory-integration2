@@ -290,7 +290,14 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	 */ //TODO Revisit
 	public function run_itDoesNotRegisterCore_whenNotActive()
 	{
-		$sut = $this->sut(array('isOnNetworkDashboard', 'initialize', 'isActive', 'registerCore'));
+		$sut = $this->sut(array(
+			'isOnNetworkDashboard',
+			'initialize',
+			'isActive',
+			'registerCore',
+			'registerAdministrationMenu',
+			'finishRegistration'
+		));
 		$this->mockFunction__();
 
 		$this->mockWordpressFunction('get_current_blog_id');
@@ -307,6 +314,12 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 		$sut->expects($this->never())
 			->method('registerCore');
+
+		$sut->expects($this->once())
+			->method('registerAdministrationMenu');
+
+		$sut->expects($this->once())
+			->method('finishRegistration');
 
 		$sut->run();
 	}
@@ -345,7 +358,8 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 			->willReturn(true);
 
 		$sut->expects($this->once())
-			->method('registerAdministrationMenu');
+			->method('registerAdministrationMenu')
+			->willReturn(true);
 
 		$sut->expects($this->once())
             ->method('finishRegistration');

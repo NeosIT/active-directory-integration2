@@ -17,6 +17,9 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	/* @var NextADInt_Core_Util_Internal_Native|\Mockery\MockInterface */
 	private $internalNative;
 
+	/** @var NextADInt_ActiveDirectory_Context|PHPUnit_Framework_MockObject_MockObject */
+	private $activeDirectoryContext;
+
 	public function setUp(): void
 	{
 		if (!class_exists('adLDAP')) {
@@ -25,8 +28,10 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		}
 
 		parent::setUp();
-		$this->configuration = parent::createMock('NextADInt_Multisite_Configuration_Service');
-		$this->adLDAP = parent::createMock('adLDAP');
+
+		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->activeDirectoryContext = $this->createMock('NextADInt_ActiveDirectory_Context');
+		$this->adLDAP = $this->createMock('adLDAP');
 
 		// mock native functions
 		$this->internalNative = $this->createMockedNative();
@@ -47,8 +52,8 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	 */
 	public function sut($methods)
 	{
-		return $connection = $this->getMockBuilder('NextADInt_Ldap_Connection')
-			->setConstructorArgs(array($this->configuration))
+		return $this->getMockBuilder('NextADInt_Ldap_Connection')
+			->setConstructorArgs(array($this->configuration, $this->activeDirectoryContext))
 			->setMethods($methods)
 			->getMock();
 	}
@@ -348,7 +353,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
-		$this->adLDAP->expects($this->at(0))
+		$this->adLDAP->expects($this->once())
 			->method('set_account_suffix')
 			->with('@a.de');
 
@@ -368,7 +373,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
-		$this->adLDAP->expects($this->at(0))
+		$this->adLDAP->expects($this->once())
 			->method('set_account_suffix')
 			->with('@a.de');
 
@@ -758,14 +763,13 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function filterDomainMembers_itConvertsArrayIntoAssociativeArray()
-	{
-		$sut = $this->sut(array('getAdLdap', 'getDomainSid'));
+	public function filterDomainMembers_itConvertsArrayIntoAssociativeArray() {
+		$sut = $this->sut(array('getAdLdap'));
 
 		$userInfoA = array(
 			0 => array(
 				"objectsid" => array(
-					0 => "555"
+					0 => "S-1-5-21-3623811015-3361044348-30300820-555"
 				)
 			)
 		);
@@ -773,7 +777,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		$userInfoB = array(
 			0 => array(
 				"objectsid" => array(
-					0 => "666"
+					0 => "S-1-5-21-3623811015-3361044348-30300820-666"
 				)
 			)
 		);
@@ -781,11 +785,6 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		$sut->expects($this->once())
 			->method('getAdLdap')
 			->willReturn($this->adLDAP);
-
-		$sut->expects($this->once())
-			->method('getDomainSid')
-			->willReturn("555");
-
 
 		$this->adLDAP->expects($this->exactly(2))
 			->method('user_info')
@@ -800,16 +799,20 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 				)
 			);
 
-		$this->adLDAP->expects($this->exactly(2))
-			->method('convertObjectSidBinaryToString')
+		$this->activeDirectoryContext->expects($this->exactly(2))
+			->method('isMember')
 			->withConsecutive(
-				array('555'),
-				array('666')
+				array($this->callback(function($sid) {
+					return $sid->getFormatted() == 'S-1-5-21-3623811015-3361044348-30300820-555';
+				}), false),
+				array($this->callback(function($sid) {
+					return $sid->getFormatted() == 'S-1-5-21-3623811015-3361044348-30300820-666';
+				}), false),
 			)
 			->will(
 				$this->onConsecutiveCalls(
-					'555',
-					'666' /* wrong SID */
+					true,
+					false /* wrong SID */
 				)
 			);
 

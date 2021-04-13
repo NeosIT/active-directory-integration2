@@ -28,7 +28,7 @@ class NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository
 		$name = $this->getProfileOptionName();
 		$profileId = get_site_option($name, false);
 
-		return (false === $profileId) ? -1 : $profileId;
+		return (false === $profileId) ? -1 : (int)$profileId;
 	}
 
 	/**

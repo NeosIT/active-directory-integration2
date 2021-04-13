@@ -4,7 +4,7 @@
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_Multisite_Configuraiton_ServiceTest extends Ut_BasicTest
+class Ut_Multisite_Configuration_ServiceTest extends Ut_BasicTest
 {
 	/* @var NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository| PHPUnit_Framework_MockObject_MockObject */
 	private $blogConfigurationRepository;

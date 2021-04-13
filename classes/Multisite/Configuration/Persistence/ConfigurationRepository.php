@@ -18,12 +18,12 @@ interface NextADInt_Multisite_Configuration_Persistence_ConfigurationRepository
 	/**
 	 * Find the value of the given option
 	 *
-	 * @param int    $siteId
+	 * @param int    $id
 	 * @param string $optionName
 	 *
 	 * @return mixed
 	 */
-	public function findSanitizedValue($siteId, $optionName);
+	public function findSanitizedValue($id, $optionName);
 
 	/**
 	 * Find the raw value of the given option.

@@ -20,6 +20,9 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	/* @var NextADInt_Core_Util_Internal_Native|PHPUnit_Framework_MockObject_MockObject $sessionHandler */
 	private $native;
 
+	/** @var NextADInt_ActiveDirectory_Context|PHPUnit_Framework_MockObject_MockObject */
+	private $activeDirectoryContext;
+
 	public function setUp() : void
 	{
 		if (!class_exists('adLDAP')) {
@@ -30,10 +33,11 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 		parent::setUp();
 
 		$this->configuration = parent::createMock('NextADInt_Multisite_Configuration_Service');
+		$this->activeDirectoryContext = parent::createMock('NextADInt_ActiveDirectory_Context');
 		$this->adLdap = parent::createMock('adLDAP');
 
 		$this->ldapConnection = $this->getMockBuilder('NextADInt_Ldap_Connection')
-			->setConstructorArgs(array($this->configuration))
+			->setConstructorArgs(array($this->configuration, $this->activeDirectoryContext))
 			->getMock();
 
 		$this->ldapConnection->method('getAdLdap')->willReturn($this->adLdap);
@@ -358,7 +362,7 @@ class Ut_Role_ManagerTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$this->configuration->expects($this->at(0))
+		$this->configuration->expects($this->once())
 			->method('getOptionValue')
 			->with(NextADInt_Adi_Configuration_Options::ROLE_EQUIVALENT_GROUPS)
 			->willReturn(';ad-group=wp-role;c=d');

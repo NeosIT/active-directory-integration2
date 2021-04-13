@@ -98,7 +98,7 @@ class NextADInt_Autoloader
 	 */
 	private function isPluginClass($class)
 	{
-		$prefixes = array('Adi', 'Core', 'Ldap', 'Multisite', 'Migration');
+		$prefixes = array('Adi', 'Core', 'Ldap', 'Multisite', 'Migration', 'ActiveDirectory');
 
 		foreach ($prefixes as $prefix) {
 		    $totalPrefix = self::CLASS_PREFIX . $prefix;

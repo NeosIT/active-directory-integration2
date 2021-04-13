@@ -55,7 +55,7 @@ class NextADInt_Ldap_Attribute_Service
 	 *
 	 * @return array
 	 */
-	function parseLdapResponse($attributeNames = array(), $ldapData)
+	function parseLdapResponse($attributeNames, $ldapData)
 	{
 		NextADInt_Core_Assert::notNull($attributeNames);
 
@@ -251,7 +251,7 @@ class NextADInt_Ldap_Attribute_Service
 	 * Find LDAP attribute containing the objectSid. At first it uses the full userPrincipalName and then falls back to the sAMAccountName to prevent non-resolveable AD usernames.
 	 *
 	 * @param NextADInt_Adi_Authentication_Credentials $credentials
-	 * @return NextADInt_Ldap_Attributes|false false if username account could not be found
+	 * @return ActiveDirectory_Sid|false false if username account could not be found
 	 */
 	public function getObjectSid(NextADInt_Adi_Authentication_Credentials $credentials)
 	{
@@ -262,7 +262,7 @@ class NextADInt_Ldap_Attribute_Service
 			return false;
 		}
 
-		return $this->ldapConnection->getAdLdap()->convertObjectSidBinaryToString($objectSid);
+		return NextADInt_ActiveDirectory_Sid::of($objectSid);
 	}
 
 	/**

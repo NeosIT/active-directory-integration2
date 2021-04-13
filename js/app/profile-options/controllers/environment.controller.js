@@ -13,15 +13,25 @@
         });
 
         $scope.new_domain_controllers = '';
+		$scope.new_additional_domain_sids = '';
 
         $scope.remove_domain_controllers = function (index) {
             $scope.option.domain_controllers = ListService.removeListItem(index, $scope.option.domain_controllers);
         };
 
+		$scope.remove_additional_domain_sids = function (index) {
+			$scope.option.additional_domain_sids = ListService.removeListItem(index, $scope.option.additional_domain_sids);
+		};
+
         $scope.add_domain_controllers = function (newItem) {
             $scope.option.domain_controllers = ListService.addListItem(newItem, $scope.option.domain_controllers);
             $scope.new_domain_controllers = "";
         };
+
+		$scope.add_additional_domain_sids = function (newItem) {
+			$scope.option.additional_domain_sids = ListService.addListItem(newItem, $scope.option.additional_domain_sids);
+			$scope.new_additional_domain_sids = "";
+		};
 
         $scope.$on('options', function (event, data) {
             $scope.option = {
@@ -35,8 +45,9 @@
                 verification_password : '',
                 domain_sid: $valueHelper.findValue("domain_sid", data),
                 netbios_name: $valueHelper.findValue("netbios_name", data),
-                verification_status_message: ''
-            };
+                verification_status_message: '',
+				additional_domain_sids: $valueHelper.findValue('additional_domain_sids', data, '').split(";")
+			};
 
             if ($scope.option.domain_sid == '') {
                 $scope.isSaveDisabled = true;
@@ -54,8 +65,9 @@
                 verification_username : $valueHelper.findPermission("verification_username", data),
                 verification_password : $valueHelper.findPermission("verification_password", data),
                 domain_sid: $valueHelper.findPermission("domain_sid", data),
-                netbios_name: $valueHelper.findPermission("netbios_name", data)
-            };
+                netbios_name: $valueHelper.findPermission("netbios_name", data),
+				additional_domain_sids: $valueHelper.findPermission('additional_domain_sids', data)
+			};
             
 
             if ($scope.option.domain_sid != '') {
@@ -74,13 +86,17 @@
                 verification_username : $valueHelper.findMessage("verification_username", data),
                 verification_password : $valueHelper.findMessage("verification_password", data),
                 domain_sid: $valueHelper.findMessage("domain_sid", data),
-                netbios_name: $valueHelper.findValue("netbios_name", data)
+                netbios_name: $valueHelper.findValue("netbios_name", data),
+				additional_domain_sids: $valueHelper.findMessage('additional_domain_sids', data)
             };
         });
 
         $scope.getPreparedOptions = function () {
             var data = DataService.cleanOptions($scope.option);
+
             data['domain_controllers'] = ListService.parseListArrayToString($scope.option.domain_controllers);
+			data['additional_domain_sids'] = ListService.parseListArrayToString($scope.option.additional_domain_sids);
+
             return data;
         };
 
@@ -97,6 +113,12 @@
                 $scope.new_domain_controllers = '';
             }
 
+			if ($scope.new_additional_domain_sids != '') {
+				// add the input field value to the list of objects to be saved
+				ListService.addListItem($scope.new_additional_domain_sids, $scope.option.additional_domain_sids);
+				$scope.new_additional_domain_sids = '';
+			}
+
             var data = {
                 domain_controllers: ListService.parseListArrayToString($scope.option.domain_controllers),
                 port: $scope.option.port,
@@ -106,6 +128,7 @@
                 base_dn: $scope.option.base_dn,
                 verification_username: $scope.option.verification_username,
                 verification_password: $scope.option.verification_password,
+				additional_domain_sids: ListService.parseListArrayToString($scope.option.additional_domain_sids),
                 profile: $scope.activeProfile.profileId
             };
 

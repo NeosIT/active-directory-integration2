@@ -274,11 +274,13 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 		$uac = $attributes[$key][0];
 
-		return $uac;
+		// @see GH-132: https://github.com/NeosIT/active-directory-integration2/issues/132
+		// With PHP 8 we got hit by https://github.com/php/php-src/pull/5331
+		return (int)$uac;
 	}
 
 	/**
-	 * Is the account a normal account ?
+	 * Is the account a normal account?
 	 * Checking for flags that should not be set for a normal user account ( http://www.selfadsi.org/ads-attributes/user-userAccountControl.htm )
 	 *
 	 * @param int $uac
@@ -288,7 +290,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	public function isNormalAccount($uac)
 	{
 
-		// ADI-517 Improved logging for UAC Binary Flag check to make it more transparent for the user and improve debugging.
+		// @see ADI-517: Improved logging for UAC Binary Flag check to make it more transparent for the user and improve debugging.
 		switch ($uac) {
 			case (($uac & self::UF_INTERDOMAIN_TRUST_ACCOUNT) === self::UF_INTERDOMAIN_TRUST_ACCOUNT):
 				$this->logger->warn("INTERDOMAIN_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
@@ -356,20 +358,20 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 * @return int
 	 */
 	public function disableUserWithoutValidGuid($ldapAttributes, $credentials) {
-
-		if (null === $ldapAttributes->getFilteredValue('objectguid')) {
-			// Set domain sid to empty, to prevent non existing user from getting used for sync to wordpress
-			$ldapAttributes->setDomainSid('empty');
-
-			$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
-			$status = $this->createOrUpdateUser($adiUser);
-
-			$this->userManager->disable($adiUser->getId(), 'User no longer exists in Active Directory.');
-
-			$this->logger->warn('Removed domain sid for user ' . $credentials->getLogin());
-
-			return $status;
+		if (!empty($ldapAttributes->getFilteredValue('objectguid'))) {
+			return;
 		}
+
+		// Set domain sid to empty, to prevent non existing user from getting used for sync to wordpress
+		$ldapAttributes->setDomainSid('empty');
+		$this->logger->warn('Removed domain sid for user ' . $credentials->getLogin());
+
+		$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
+		$status = $this->createOrUpdateUser($adiUser);
+
+		$this->userManager->disable($adiUser->getId(), 'User no longer exists in Active Directory.');
+
+		return $status;
 	}
 
 	/**
@@ -399,7 +401,6 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		// ADI-204: in contrast to the login process we use the guid to determine the LDAP attributes
 		$ldapAttributes = $this->attributeService->resolveLdapAttributes(NextADInt_Ldap_UserQuery::forGuid($guid, $credentials));
 
-
 		// NADIS-1: Checking if the GUID of a user is valid when user does not exist in the active directory anymore. Therefore, disable user and remove domain sid
 		$this->disableUserWithoutValidGuid($ldapAttributes, $credentials);
 
@@ -414,7 +415,8 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		}
 
 		// ADI-235: add domain SID
-		$ldapAttributes->setDomainSid($this->connection->getDomainSid());
+		$userSid = $ldapAttributes->getFilteredValue('objectsid');
+		$ldapAttributes->setDomainSid(NextADInt_ActiveDirectory_Sid::of($userSid)->getDomainPartAsSid()->getFormatted());
 
 		$elapsedTimeLdap = time() - $startTimerLdap;
 		$this->ldapRequestTimeCounter = $this->ldapRequestTimeCounter + $elapsedTimeLdap;

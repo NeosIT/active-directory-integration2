@@ -76,7 +76,7 @@ class NextADInt_Adi_Mail_Notification
      * @param WP_User $wpUser
      * @return bool
      */
-	public function sendNotification(NextADInt_Adi_Mail_Message $mail, $useLocalWordPressUser = false, WP_User $wpUser)
+	public function sendNotification(NextADInt_Adi_Mail_Message $mail, $useLocalWordPressUser, WP_User $wpUser)
 	{
 		$url = get_bloginfo('url');
 

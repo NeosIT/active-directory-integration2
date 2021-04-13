@@ -40,19 +40,22 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	/** @var NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository */
 	private $defaultProfileRepository;
 
+	private $siteToProfileCache = array();
+
 	/**
-	 * @param NextADInt_Multisite_Option_Sanitizer                                         $sanitizer
-	 * @param NextADInt_Core_Encryption                                                    $encryptionHandler
-	 * @param NextADInt_Multisite_Option_Provider                                          $optionProvider
+	 * @param NextADInt_Multisite_Option_Sanitizer $sanitizer
+	 * @param NextADInt_Core_Encryption $encryptionHandler
+	 * @param NextADInt_Multisite_Option_Provider $optionProvider
 	 * @param NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository
-	 * @param NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository       $defaultProfileRepository
+	 * @param NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository
 	 */
 	public function __construct(NextADInt_Multisite_Option_Sanitizer $sanitizer,
 								NextADInt_Core_Encryption $encryptionHandler,
 								NextADInt_Multisite_Option_Provider $optionProvider,
 								NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationRepository $profileConfigurationRepository,
 								NextADInt_Multisite_Configuration_Persistence_DefaultProfileRepository $defaultProfileRepository
-	) {
+	)
+	{
 		$this->sanitizer = $sanitizer;
 		$this->encryptionHandler = $encryptionHandler;
 		$this->optionProvider = $optionProvider;
@@ -106,29 +109,34 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 * Get the value for the option $optionName and for the blog $blogId.
 	 * Moreover this method sanitize, decrypt etc. the value.
 	 *
-	 * @param int    $siteSiteId
+	 * @param int $siteId
 	 * @param string $optionName
 	 *
 	 * @return null|string
 	 */
-	public function findSanitizedValue($siteSiteId, $optionName)
+	public function findSanitizedValue($siteId, $optionName)
 	{
-		//prevent change of associated profile
+		// prevent change of associated profile
 		if (self::PROFILE_ID === $optionName) {
 			return null;
 		}
 
-		if ($this->isOptionHandledByProfile($siteSiteId, $optionName)) {
-			$profileId = $this->findProfileId($siteSiteId);
+		$optionValue = $this->findRawValue($siteId, $optionName);
+		$noOptionValueInSite = $optionValue == null;
+		$profileId = $this->findProfileId($siteId);
 
-			return $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
+		// #124: when a profile is connected and no value has been yet inside the blog, we have to return the profile's value
+		if ($profileId) {
+			// and either no value for this option has been defined or it's handled by the profile
+			if ($noOptionValueInSite || $this->isOptionHandledByProfile($siteId, $optionName)) {
+				return $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
+			}
 		}
 
-		$optionValue = $this->findRawValue($siteSiteId, $optionName);
 		$optionMetadata = $this->optionProvider->get($optionName);
 
-		if (false === $optionValue) {
-			$optionValue = $this->getDefaultValue($siteSiteId, $optionName, $optionMetadata);
+		if (null === $optionValue) {
+			$optionValue = $this->getDefaultValue($siteId, $optionName, $optionMetadata);
 		}
 
 		$type = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Multisite_Option_Attribute::TYPE, $optionMetadata);
@@ -148,7 +156,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	/**
 	 * Check if the current option is handled by a profile.
 	 *
-	 * @param int    $siteId
+	 * @param int $siteId
 	 * @param string $optionName
 	 *
 	 * @return bool
@@ -156,9 +164,9 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	protected function isOptionHandledByProfile($siteId, $optionName)
 	{
 		$profileId = $this->findProfileId($siteId);
-		$permission = $this->profileConfigurationRepository->findSanitizedPermission($profileId, $optionName);
+		$forcePermission = $this->profileConfigurationRepository->findSanitizedPermission($profileId, $optionName);
 
-		if (NextADInt_Multisite_Configuration_Service::EDITABLE > $permission) {
+		if (NextADInt_Multisite_Configuration_Service::EDITABLE > $forcePermission) {
 			return true;
 		}
 
@@ -169,13 +177,13 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 * Get the default value for $optionName. If the optionMetadata flag DEFAULT_SANITIZER_VALUE exists, then
 	 * the sanitizer will create a new value from the default value. This value will be persist, requested and returned.
 	 *
-	 * @param int    $siteId
+	 * @param int $siteId
 	 * @param string $optionName
 	 * @param array $option
 	 *
 	 * @return bool|mixed|null|string
 	 */
-	public function getDefaultValue($siteId, $optionName, $option)
+	function getDefaultValue($siteId, $optionName, $option)
 	{
 		// gh-#127: PHP 7.4 compatibility; warning if $option is not an array but null
 		if (!is_array($option)) {
@@ -198,9 +206,9 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 
 	/**
 	 * This method should not be called by the outside (expect for the migration of the encrypted passwords).
-	 * Read the value for option $optionName and site/blog $blogId.
+	 * Read the value for option $optionName and site $siteId.
 	 *
-	 * @param int    $siteId
+	 * @param int $siteId
 	 * @param string $optionName
 	 *
 	 * @return string|null
@@ -210,23 +218,24 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 		$name = $this->getOptionName($optionName);
 
 		if (is_multisite()) {
-			return get_blog_option($siteId, $name, false);
+			$r =  get_blog_option($siteId, $name, null);
+			return $r;
 		}
 
-		return get_option($name, false);
+		return get_option($name, null);
 	}
 
 	/**
 	 * Save an option for the blog $blogid.
 	 * Moreover this method sanitize, encrypt etc. the value.
 	 *
-	 * @param int    $siteSiteId
+	 * @param int $siteId
 	 * @param string $optionName
 	 * @param string $optionValue
 	 *
 	 * @return string $optionValue return the sanitized value
 	 */
-	public function persistSanitizedValue($siteSiteId, $optionName, $optionValue)
+	public function persistSanitizedValue($siteId, $optionName, $optionValue)
 	{
 		if (self::PROFILE_ID === $optionName) {
 			return null;
@@ -245,14 +254,14 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 			$optionValue = $this->encryptionHandler->encrypt($optionValue);
 		}
 
-		return $this->persist($siteSiteId, $optionName, $optionValue);
+		return $this->persist($siteId, $optionName, $optionValue);
 	}
 
 	/**
 	 * This method should not be called by the outside.
 	 * Write the value $optionValue for option $optionName and blog/site $blogId.
 	 *
-	 * @param int    $siteId
+	 * @param int $siteId
 	 * @param string $optionName
 	 * @param mixed $optionValue
 	 *
@@ -274,7 +283,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 				$success = $this->createOption($optionName, $optionValue, $siteId);
 			}
 
-		// Singlesite
+			// Singlesite
 		} else {
 			$optionExists = $this->doesOptionExist($optionName);
 
@@ -303,13 +312,13 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 * @param integer $siteId
 	 * @return bool
 	 */
-	protected function createOption($optionName, $optionValue, $siteId = null) {
+	protected function createOption($optionName, $optionValue, $siteId = null)
+	{
 
 		// Create Multi Site option
 		if ($siteId) {
 			$success = add_blog_option($siteId, $optionName, $optionValue);
-		}
-		// Create Single Site option
+		} // Create Single Site option
 		else {
 			$success = add_option($optionName, $optionValue, false);
 		}
@@ -332,13 +341,13 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 * @param integer $siteId
 	 * @return bool
 	 */
-	protected function updateOption($optionName, $optionValue, $siteId = null) {
+	protected function updateOption($optionName, $optionValue, $siteId = null)
+	{
 
 		// Update Multi Site option
 		if ($siteId) {
 			$success = update_blog_option($siteId, $optionName, $optionValue);
-		}
-		// Update Single Site option
+		} // Update Single Site option
 		else {
 			$success = update_option($optionName, $optionValue, false);
 		}
@@ -360,7 +369,8 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 * @param integer $siteId
 	 * @return bool
 	 */
-	protected function doesOptionExist($optionName, $siteId = null) {
+	protected function doesOptionExist($optionName, $siteId = null)
+	{
 
 		if ($siteId) {
 			$optionExists = get_blog_option($siteId, $optionName);
@@ -391,7 +401,8 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	}
 
 	/**
-	 * Get id of the associated profile of this blog $blogId.
+	 * Get id of the associated profile of this site's $siteId.
+	 * To make it more performant, the linked profile is cached.
 	 *
 	 * @param int $siteId
 	 *
@@ -399,19 +410,26 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 */
 	public function findProfileId($siteId)
 	{
-		$profileId = $this->findRawValue($siteId, self::PROFILE_ID);
+		$key = "K-" . $siteId;
 
-		if (false === $profileId) {
-			$profileId = $this->defaultProfileRepository->findProfileId();
+		if (!isset($this->siteToProfileCache[$key])) {
+			$profileId = $this->findRawValue($siteId, self::PROFILE_ID);
+
+			// no profile for this site has been specified, so find the default profile
+			if (!is_numeric($profileId)) {
+				$profileId = $this->defaultProfileRepository->findProfileId();
+			}
+
+			$this->siteToProfileCache[$key] = (int)$profileId;
 		}
 
-		return $profileId;
+		return $this->siteToProfileCache[$key];
 	}
 
 	/**
 	 * Set id of the associated profile of this blog $blogId.
 	 *
-	 * @param int    $siteId
+	 * @param int $siteId
 	 * @param string $profileId
 	 *
 	 * @return string return stored profile id
@@ -424,7 +442,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	/**
 	 * Delete the associated of the profile with a blog $siteId.
 	 *
-	 * @param int    $siteId
+	 * @param int $siteId
 	 * @param string $profileId
 	 *
 	 * @return string return stored profile id
@@ -438,7 +456,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	/**
 	 * Delete an option value.
 	 *
-	 * @param int	$siteId
+	 * @param int $siteId
 	 * @param string $optionName
 	 *
 	 * @return bool
@@ -518,7 +536,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	/**
 	 * Get the option permission for the profile and the option.
 	 *
-	 * @param int    $profileId
+	 * @param int $profileId
 	 * @param string $optionName
 	 *
 	 * @return array|bool|null|object|void
@@ -529,9 +547,9 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	}
 
 	/**
-	 * @param int    $profileId
+	 * @param int $profileId
 	 * @param string $optionName
-	 * @param int    $optionPermission between [0,3]
+	 * @param int $optionPermission between [0,3]
 	 *
 	 * @return bool
 	 */

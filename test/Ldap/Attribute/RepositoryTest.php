@@ -377,10 +377,12 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 				array(null, 'userprincipalname'),
 				array(null, 'useraccountcontrol'),
 				array(null, 'objectguid'),
-				array(null, 'domainsid')
+				array(null, 'domainsid'),
+				array(null, 'objectsid'),
 			)
 			->will(
 				$this->onConsecutiveCalls(
+					new NextADInt_Ldap_Attribute(),
 					new NextADInt_Ldap_Attribute(),
 					new NextADInt_Ldap_Attribute(),
 					new NextADInt_Ldap_Attribute(),
@@ -406,7 +408,8 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			'userprincipalname'  => new NextADInt_Ldap_Attribute(),
 			'useraccountcontrol' => new NextADInt_Ldap_Attribute(),
 			'objectguid'         => new NextADInt_Ldap_Attribute(),
-			'domainsid'          => new NextADInt_Ldap_Attribute()
+			'domainsid'          => new NextADInt_Ldap_Attribute(),
+			'objectsid'          => new NextADInt_Ldap_Attribute()
 		);
 
 		$actual = $sut->createDefaultAttributes();
@@ -435,10 +438,12 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 				array(null, 'userprincipalname'),
 				array(null, 'useraccountcontrol'),
 				array(null, 'objectguid'),
-				array(null, 'domainsid')
+				array(null, 'domainsid'),
+				array(null, 'objectsid')
 			)
 			->will(
 				$this->onConsecutiveCalls(
+					new NextADInt_Ldap_Attribute(),
 					new NextADInt_Ldap_Attribute(),
 					new NextADInt_Ldap_Attribute(),
 					new NextADInt_Ldap_Attribute(),
@@ -469,7 +474,8 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			'userprincipalname'  => new NextADInt_Ldap_Attribute(),
 			'useraccountcontrol' => new NextADInt_Ldap_Attribute(),
 			'objectguid'         => new NextADInt_Ldap_Attribute(),
-			'domainsid'          => new NextADInt_Ldap_Attribute()
+			'domainsid'          => new NextADInt_Ldap_Attribute(),
+			'objectsid'          => new NextADInt_Ldap_Attribute()
 		);
 
 		$actual = $sut->createDefaultAttributes($param);
@@ -717,7 +723,8 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			'next_ad_int_userprincipalname',
 			'next_ad_int_useraccountcontrol',
 			'next_ad_int_objectguid',
-			'next_ad_int_domainsid'
+			'next_ad_int_domainsid',
+			'next_ad_int_objectsid'
 		);
 
 		$actual = NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys();
