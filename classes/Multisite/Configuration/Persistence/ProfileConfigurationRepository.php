@@ -66,18 +66,18 @@ class NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationReposito
 	/**
 	 * Get the option $optionName for the profile $profileId.
 	 *
-	 * @param int    $profileSiteId
+	 * @param int    $profileId
 	 * @param string $optionName
 	 *
 	 * @return object
 	 */
-	public function findSanitizedValue($profileSiteId, $optionName)
+	public function findSanitizedValue($profileId, $optionName)
 	{
-		$value = $this->findRawValue($profileSiteId, $optionName);
+		$value = $this->findRawValue($profileId, $optionName);
 		$optionMetadata = $this->optionProvider->get($optionName);
 
 		if (false === $value) {
-			$optionValue = $this->getDefaultValue($profileSiteId, $optionName, $optionMetadata);
+			$optionValue = $this->getDefaultValue($profileId, $optionName, $optionMetadata);
 		}
 
 		$type = NextADInt_Core_Util_ArrayUtil::get(NextADInt_Multisite_Option_Attribute::TYPE, $optionMetadata);

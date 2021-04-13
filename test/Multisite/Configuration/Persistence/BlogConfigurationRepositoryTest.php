@@ -94,8 +94,12 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function findSanitized_withProfileHandledOption_returnValue()
 	{
-		$sut = $this->sut(array('isOptionHandledByProfile', 'findProfileId'));
+		$sut = $this->sut(array('isOptionHandledByProfile', 'findProfileId', 'findRawValue'));
 
+		$sut->expects($this->once())
+			->method('findRawValue')
+			->with(5, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)#
+			->willReturn('option-in-site');
 
 		$sut->expects($this->once())
 			->method('isOptionHandledByProfile')
@@ -121,13 +125,13 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function findSanitized_optionIsPassword_returnValue()
 	{
-		$sut = $this->sut(array('findRawValue', 'isOptionHandledByProfile'));
+		$sut = $this->sut(array('findRawValue', 'findProfileId', 'isOptionHandledByProfile'));
 		$this->mockFunction__();
 
 		$sut->expects($this->once())
-			->method('isOptionHandledByProfile')
-			->with(5, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
-			->willReturn(false);
+			->method('findProfileId')
+			->with(5)
+			->willReturn(null);
 
 		$sut->expects($this->once())
 			->method('findRawValue')
@@ -153,13 +157,13 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function findSanitized_optionMustBeSanitized_returnValue()
 	{
-		$sut = $this->sut(array('findRawValue', 'isOptionHandledByProfile'));
+		$sut = $this->sut(array('findRawValue', 'findProfileId', 'isOptionHandledByProfile'));
 		$this->mockFunction__();
 
 		$sut->expects($this->once())
-			->method('isOptionHandledByProfile')
-			->with(5, NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS)
-			->willReturn(false);
+			->method('findProfileId')
+			->with(5)
+			->willReturn(null);
 
 		$sut->expects($this->once())
 			->method('findRawValue')
@@ -182,14 +186,14 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	 */
 	public function findSanitized_passwordMustBeSanitized_returnValue()
 	{
-		$sut = $this->sut(array('findRawValue', 'isOptionHandledByProfile'));
+		$sut = $this->sut(array('findRawValue', 'isOptionHandledByProfile', 'findProfileId'));
 
 		$meta = $this->optionProvider->get(NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD);
 
 		$sut->expects($this->once())
-			->method('isOptionHandledByProfile')
-			->with(5, NextADInt_Adi_Configuration_Options::SYNC_TO_AD_GLOBAL_PASSWORD)
-			->willReturn(false);
+			->method('findProfileId')
+			->with(5)
+			->willReturn(null);
 
 		$sut->expects($this->once())
 			->method('findRawValue')
