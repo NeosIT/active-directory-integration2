@@ -106,7 +106,7 @@ class NextADInt_Multisite_Configuration_Service
 	}
 
 	/**
-	 * Get the option hashmap with keys 'option_value', 'option_name', 'option_permission' for the option $optionName of blog $blogId.
+	 * Get the option hashmap with keys 'option_value', 'option_name', 'option_permission' for the option $optionName of site $siteId.
 	 *
 	 * @param string   $optionName name of option to lookup
 	 * @param int|null $siteId if null, the current blog is used
@@ -236,6 +236,7 @@ class NextADInt_Multisite_Configuration_Service
 	public function getAllOptions()
 	{
 		$siteId = get_current_blog_id();
+
 
 		$allOptionNames = $this->blogConfigurationRepository->getAllOptionNames();
 		$profileId = $this->blogConfigurationRepository->findProfileId($siteId);

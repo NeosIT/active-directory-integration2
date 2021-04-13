@@ -121,12 +121,17 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 			return null;
 		}
 
-		if ($this->isOptionHandledByProfile($siteId, $optionName)) {
-			$profileId = $this->findProfileId($siteId);
-			return $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
-		}
-
 		$optionValue = $this->findRawValue($siteId, $optionName);
+		$noOptionValueInSite = $optionValue == null;
+		$profileId = $this->findProfileId($siteId);
+
+		// #124: when a profile is connected and no value has been yet inside the blog, we have to return the profile's value
+		if ($profileId) {
+			// and either no value for this option has been defined or it's handled by the profile
+			if ($noOptionValueInSite || $this->isOptionHandledByProfile($siteId, $optionName)) {
+				return $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
+			}
+		}
 
 		$optionMetadata = $this->optionProvider->get($optionName);
 
@@ -178,7 +183,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 *
 	 * @return bool|mixed|null|string
 	 */
-	public function getDefaultValue($siteId, $optionName, $option)
+	function getDefaultValue($siteId, $optionName, $option)
 	{
 		// gh-#127: PHP 7.4 compatibility; warning if $option is not an array but null
 		if (!is_array($option)) {
@@ -224,13 +229,13 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 * Save an option for the blog $blogid.
 	 * Moreover this method sanitize, encrypt etc. the value.
 	 *
-	 * @param int $siteSiteId
+	 * @param int $siteId
 	 * @param string $optionName
 	 * @param string $optionValue
 	 *
 	 * @return string $optionValue return the sanitized value
 	 */
-	public function persistSanitizedValue($siteSiteId, $optionName, $optionValue)
+	public function persistSanitizedValue($siteId, $optionName, $optionValue)
 	{
 		if (self::PROFILE_ID === $optionName) {
 			return null;
@@ -249,7 +254,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 			$optionValue = $this->encryptionHandler->encrypt($optionValue);
 		}
 
-		return $this->persist($siteSiteId, $optionName, $optionValue);
+		return $this->persist($siteId, $optionName, $optionValue);
 	}
 
 	/**
@@ -397,6 +402,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 
 	/**
 	 * Get id of the associated profile of this site's $siteId.
+	 * To make it more performant, the linked profile is cached.
 	 *
 	 * @param int $siteId
 	 *

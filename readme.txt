@@ -140,6 +140,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 * CHANGED: WordPress 5.7 compatibility has been checked
 * CHANGED: PHP 8.0 compatibility has been added (ADI-718, gh-#132, gh-#137)
 * FIXED: Deprecation warning when trying to send mail notification for blocked users (ADI-719)
+* FIXED: Option "Blog admin sets the option value." had no effect in Multisite environments (gh-#124)
 
 = 2.1.12 =
 * ADDED: PR gh-#107: allow self signed certificates
