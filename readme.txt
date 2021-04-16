@@ -130,6 +130,9 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 
+= 2.2.1 (UNRELEASED) =
+* FIXED: Missing meta_key "domainkey" results in TypeError or NextADInt_ActiveDirectory_Context::isMember (gh-#133)
+
 = 2.2.0 =
 * ADDED: Kerberos principals are no longer treated as userPrincipalNames (ADI-715)
 * ADDED: When using Kerberos SSO principals, you can map the Kerberos realm to multiple UPN suffixes (requires *Active Directory Forest* premium extension) (ADI-715)

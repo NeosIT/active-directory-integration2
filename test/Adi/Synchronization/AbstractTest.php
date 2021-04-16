@@ -325,4 +325,77 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 		$this->assertFalse($actual);
 	}
 
+	/**
+	 * @see #138
+	 * @test
+	 */
+	public function findActiveDirectoryUsers_breaksWhenDomainSidIsEmtpy_gh138()
+	{
+		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
+		$context = new NextADInt_ActiveDirectory_Context([$domainSid]);
+
+		$sut = $this->sut(array('isVerifiedDomainMember'));
+
+		$users = array(
+			0 => new WP_User(),
+			1 => new WP_User()
+		);
+
+		$users[0]->ID = 1;
+		$users[0]->user_login = 'administrator';
+		$users[1]->ID = 2;
+		$users[1]->user_login = 'NotDomainMemberAdministrator';
+
+		$args = array(
+			'blog_id'    => '1',
+			'meta_key'   => NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+			'meta_query' => array(
+				'relation' => 'AND',
+				array(
+					'key'     => NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+					'value'   => '',
+					'compare' => '!=',
+				),
+			),
+			'exclude'    => array(1)
+		);
+
+		$expected = array(
+			0 => new WP_User()
+		);
+
+		$expected[0]->ID = 1;
+		$expected[0]->user_login = 'administrator';
+
+		WP_Mock::wpFunction('get_current_blog_id', array(
+			'times'  => '1',
+			'return' => '1',
+		));
+
+		WP_Mock::wpFunction('get_users', array(
+				'args'   => array($args),
+				'times'  => '1',
+				'return' => $users)
+		);
+
+		WP_Mock::wpFunction('get_user_meta', array(
+				'args'   => array('1', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
+				'times'  => '1',
+				'return' => "S-1-5-21-3623811015-3361044348-30300820-1013")
+		);
+
+		WP_Mock::wpFunction('get_user_meta', array(
+				'args'   => array('2', NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_DOMAINSID, true),
+				'times'  => '1',
+				'return' => null)
+		);
+
+		$this->ldapConnection
+			->method('getActiveDirectoryContext')
+			->willReturn($context);
+
+		$actual = $sut->findActiveDirectoryUsers();
+
+		$this->assertEquals($expected, $actual);
+	}
 }

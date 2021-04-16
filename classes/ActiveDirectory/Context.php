@@ -58,12 +58,16 @@ class NextADInt_ActiveDirectory_Context
 	/**
 	 * Return true if the given SID is part of one the SIDs defined for the context
 	 *
-	 * @param NextADInt_ActiveDirectory_Sid $objectSid
+	 * @param ?NextADInt_ActiveDirectory_Sid $objectSid
 	 * @param false $primaryDomainOnly
 	 * @return bool
 	 */
-	public function isMember(NextADInt_ActiveDirectory_Sid $objectSid, $primaryDomainOnly = false)
+	public function isMember(?NextADInt_ActiveDirectory_Sid $objectSid, $primaryDomainOnly = false)
 	{
+		if (!$objectSid) {
+			return false;
+		}
+
 		$useSid = $objectSid->getDomainPartAsSid();
 
 		if (!$useSid) {
