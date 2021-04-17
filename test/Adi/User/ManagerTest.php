@@ -968,11 +968,6 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 			'telephonenumber' => '0123456',
 		);
 
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::USERMETA_EMPTY_OVERWRITE)
-			->willReturn(true);
-
 		$this->behave($this->attributeRepository, 'getWhitelistedAttributes', $attributes);
 
 		$sut->expects($this->once())

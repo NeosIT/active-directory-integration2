@@ -130,8 +130,8 @@ class NextADInt_Multisite_Configuration_Persistence_ProfileConfigurationReposito
 	public function findRawValue($profileId, $optionName)
 	{
 		$metadata = $this->optionProvider->get($optionName);
-		$default = $metadata[NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE];
 
+		$default = $metadata[NextADInt_Multisite_Option_Attribute::DEFAULT_VALUE];
 		$name = $this->createUniqueOptionName(true, $profileId, $optionName);
 
 		return get_site_option($name, $default);

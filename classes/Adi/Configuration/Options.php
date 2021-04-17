@@ -81,7 +81,6 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 
 	// User Meta - User Meta
 	const ADDITIONAL_USER_ATTRIBUTES = 'additional_user_attributes';
-	const USERMETA_EMPTY_OVERWRITE = 'usermeta_empty_overwrite';
 	const SHOW_ATTRIBUTES = 'show_attributes';
 	const ATTRIBUTES_TO_SHOW = 'attributes_to_show';
 

@@ -448,10 +448,6 @@ class NextADInt_Adi_User_Manager
 		NextADInt_Core_Assert::validId($userId, 'userId must be a valid id');
 		NextADInt_Core_Assert::notNull($ldapAttributes, "ldapAttributes must not be null");
 
-		// should empty user metas be override
-		$userMetaEmptyOverwrite = $this->configuration->getOptionValue(
-			NextADInt_Adi_Configuration_Options::USERMETA_EMPTY_OVERWRITE
-		);
 		$attributeWhiteList = $this->attributeRepository->getWhitelistedAttributes();
 
 		$filteredAttributes = $this->filterDisallowedAttributes($ldapAttributes, $attributeWhiteList);
@@ -474,7 +470,6 @@ class NextADInt_Adi_User_Manager
 			// conversion/formatting
 			$value = NextADInt_Ldap_Attribute_Converter::formatAttributeValue($attribute->getType(), $value);
 
-			// set value if $value is not empty or $userMetaEmptyOverwrite is true
 			$message = "Set AD attribute '$name' (ADI " . $attribute . ") to " . NextADInt_Core_Util_StringUtil::firstChars($value);
 			$this->logger->debug($message);
 

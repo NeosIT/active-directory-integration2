@@ -131,7 +131,8 @@ For detailed information you can visit the official [GitHub repository of Next A
 
 
 = 2.2.1 (UNRELEASED) =
-* FIXED: Missing meta_key "domainkey" results in TypeError or NextADInt_ActiveDirectory_Context::isMember (gh-#133)
+* FIXED: Missing meta_key "domainsid" results in TypeError or NextADInt_ActiveDirectory_Context::isMember (gh-#133)
+* FIXED: Warning: Trying to access array offset on value of type null (gh-#139)
 
 = 2.2.0 =
 * ADDED: Kerberos principals are no longer treated as userPrincipalNames (ADI-715)
