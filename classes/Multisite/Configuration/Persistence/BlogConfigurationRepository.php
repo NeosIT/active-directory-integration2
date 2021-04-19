@@ -122,14 +122,18 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 		}
 
 		$optionValue = $this->findRawValue($siteId, $optionName);
-		$noOptionValueInSite = $optionValue == null;
+		// #140: findRawValue returns NULL if the option is missing but "" (empty string) if the option is just unset.
+		// checking for $optionValue == null results in TRUE if $optionValue is "" (an empty string).
+		$noOptionValueInSite = $optionValue === null;
 		$profileId = $this->findProfileId($siteId);
 
 		// #124: when a profile is connected and no value has been yet inside the blog, we have to return the profile's value
-		if ($profileId) {
+		// #140: missing profiles have the value -1 and *not* NULL or 0
+		if ($profileId >= 1) {
 			// and either no value for this option has been defined or it's handled by the profile
 			if ($noOptionValueInSite || $this->isOptionHandledByProfile($siteId, $optionName)) {
-				return $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
+				$r = $this->profileConfigurationRepository->findSanitizedValue($profileId, $optionName);
+				return $r;
 			}
 		}
 

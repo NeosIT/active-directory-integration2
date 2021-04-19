@@ -215,6 +215,65 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	}
 
 	/**
+	 * In this case, a site without a profile returns the profile id "-1" and *not* NULL or null
+	 * @test
+	 * @see #140
+	 */
+	public function findSanitizedValue_anOptionForANonProfileMustNotBeDefaultedToAProfileConfiguration_gh140()
+	{
+		$sut = $this->sut(array('findRawValue', 'isOptionHandledByProfile', 'findProfileId'));
+
+		$key = 'is_active';
+		$meta = $this->optionProvider->get($key);
+
+		$sut->expects($this->once())
+			->method('findRawValue')
+			->with(5, $key)
+			->willReturn('');
+
+		$sut->expects($this->once())
+			->method('findProfileId')
+			->with(5)
+			// findProfileId will return -1 and not (!) null
+			->willReturn(-1);
+
+		$this->profileConfigurationRepository->expects($this->never())
+			->method('findSanitizedValue')
+			->with(-1, $key);
+
+		$actual = $sut->findSanitizedValue(5, $key);
+	}
+
+	/**
+	 * If an option has not been set, findRawValue returns NULL. Our check for a missing option does not use the === operator but ==.
+	 * @test
+	 * @see #140
+	 */
+	public function findSanitizedValue_anEmptyButSetOptionMustNotBeHandledByProfile_gh140()
+	{
+		$sut = $this->sut(array('findRawValue', 'isOptionHandledByProfile', 'findProfileId'));
+
+		$key = 'is_active';
+		$meta = $this->optionProvider->get($key);
+
+		$sut->expects($this->once())
+			->method('findRawValue')
+			->with(5, $key)
+			->willReturn('');
+
+		$sut->expects($this->once())
+			->method('findProfileId')
+			->with(5)
+			->willReturn(5);
+
+		$this->profileConfigurationRepository->expects($this->never())
+			->method('findSanitizedValue')
+			->with(-1, $key);
+
+		$actual = $sut->findSanitizedValue(5, $key);
+	}
+
+	/**
 	 * @test
 	 */
 	public function isOptionHandledByProfile_withEditableOption_returnsFalse()

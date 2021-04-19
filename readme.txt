@@ -129,6 +129,8 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.2.2 =
+* FIXED: Boolean options can't be persisted correctly with 2.2.1 (gh-#140)
 
 = 2.2.1 =
 * FIXED: Missing meta_key "domainsid" results in TypeError or NextADInt_ActiveDirectory_Context::isMember (gh-#133)
