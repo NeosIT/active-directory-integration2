@@ -55,8 +55,8 @@ jobs:
         generate-zip: true
         dry-run: false
       env:
-        SVN_USERNAME: ${{ secrets.WORDPRESS_ORG_SVN_PASSWORD }}
-        SVN_PASSWORD: ${{ secrets.WORDPRESS_ORG_SVN_USERNAME }}
+        SVN_USERNAME: ${{ secrets.WORDPRESS_ORG_SVN_USERNAME }}
+        SVN_PASSWORD: ${{ secrets.WORDPRESS_ORG_SVN_PASSWORD }}
         SLUG: next-active-directory-integration
     
     - name: Upload Release
