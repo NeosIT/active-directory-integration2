@@ -130,7 +130,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 
-= 2.2.1 (UNRELEASED) =
+= 2.2.1 =
 * FIXED: Missing meta_key "domainsid" results in TypeError or NextADInt_ActiveDirectory_Context::isMember (gh-#133)
 * FIXED: Warning: Trying to access array offset on value of type null (gh-#139)
 
