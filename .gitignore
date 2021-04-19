@@ -1,4 +1,6 @@
 .idea
+.**.cache
+.**-cache
 cache.properties
 build/**
 composer.lock

@@ -1,0 +1,66 @@
+name: Release NADI on WordPress when tag push
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    name: Run unit tests
+    strategy:
+      matrix:
+        php: ["7.3", "7.4", "8.0"]
+        phpunit: ["9.5.4"]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: php-actions/composer@v5
+
+    - uses: michaelw90/PHP-Lint@master
+
+    - name: PHPUnit test
+      uses: php-actions/phpunit@v2
+      with:
+        php_version: ${{ matrix.php }}
+        version: ${{ matrix.phpunit }}
+        php_extensions: ldap mbstring
+        configuration: phpunit.xml
+        args: --coverage-text --verbose
+
+  release:
+    runs-on: ubuntu-latest
+    needs: testing
+    name: Release NADI
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: php-actions/composer@v5
+      with:
+        dev: no
+    
+    - name: Set env
+      run: echo "CURRENT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+    - name: Find and Replace
+      uses: jacobtomlinson/gha-find-replace@master
+      with:
+        find: "REPLACE_BY_JENKINS_SCRIPT"
+        replace: ${{ env.CURRENT_TAG }}
+
+    - name: WordPress Plugin Deploy
+      uses: schakko/action-wordpress-plugin-deploy@develop
+      with:
+        generate-zip: true
+        dry-run: true
+      env:
+        SVN_USERNAME: ${{ secrets.WORDPRESS_ORG_SVN_PASSWORD }}
+        SVN_PASSWORD: ${{ secrets.WORDPRESS_ORG_SVN_USERNAME }}
+        SLUG: next-active-directory-integration
+    
+    - name: Upload Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "next-active-directory-integration.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
