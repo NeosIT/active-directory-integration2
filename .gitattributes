@@ -29,4 +29,7 @@
 /vendor/paragonie/random_compat/dist export-ignore
 /vendor/paragonie/random_compat/other export-ignore
 /vendor/paragonie/random_compat/build-phar.sh export-ignore
-*.* text eol=lf
+
+* text eol=lf
+*.png binary
+*.jpg binary
