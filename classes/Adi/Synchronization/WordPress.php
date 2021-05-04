@@ -416,7 +416,11 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 		// ADI-235: add domain SID
 		$userSid = $ldapAttributes->getFilteredValue('objectsid');
-		$ldapAttributes->setDomainSid(NextADInt_ActiveDirectory_Sid::of($userSid)->getDomainPartAsSid()->getFormatted());
+
+		// #141: user SID can be empty if user is not present in Active Directory
+		if (!empty($userSid)) {
+			$ldapAttributes->setDomainSid(NextADInt_ActiveDirectory_Sid::of($userSid)->getDomainPartAsSid()->getFormatted());
+		}
 
 		$elapsedTimeLdap = time() - $startTimerLdap;
 		$this->ldapRequestTimeCounter = $this->ldapRequestTimeCounter + $elapsedTimeLdap;

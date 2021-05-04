@@ -989,6 +989,29 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	}
 
 	/**
+	 * @see #141
+	 * @test
+	 */
+	public function synchronizeUser_itSetsDomainSidOnlyIfUserIsPresent_gh141()
+	{
+		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
+			'resolveLdapAttributes'));
+
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials("username");
+		$this->attributeService->expects($this->once())
+			->method('resolveLdapAttributes')
+			->willReturn(new NextADInt_Ldap_Attributes(array(),
+				array(
+					'userprincipalname' => '',
+					'objectsid' => ''
+				)));
+
+		$this->behave($this->userManager, "createAdiUser", $this->createMock('NextADInt_Adi_User'));
+
+		$sut->synchronizeUser($credentials, 'guid');
+		$this->assertEquals("username", $credentials->getUserPrincipalName());
+	}
+	/**
 	 * @test
 	 */
 	public function synchronizeAccountStatus_ifAccountIsDisabled_theUserIsDisabled()

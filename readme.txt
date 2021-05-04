@@ -129,6 +129,9 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.2.3 =
+* FIXED: Sync to WordPress fails if user is no longer present in Active Directory (gh-#141)
+
 = 2.2.2 =
 * FIXED: Boolean options can't be persisted correctly with 2.2.1 (gh-#140)
 
