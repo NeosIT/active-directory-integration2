@@ -130,6 +130,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = 2.3.0 =
+* FIXED: when user can not be found by email address, findByProxyAddress returns false (gh-#146). Configured *Sync to WordPress* credentials are still required for logging in withe email addresses.
 * CHANGED: WordPress 5.8.1 compatibility has been checked
 
 = 2.2.3 =
