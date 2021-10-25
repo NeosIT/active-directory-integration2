@@ -210,7 +210,7 @@ class NextADInt_Adi_Authentication_LoginService
 	public function lookupFromProxyAddresses($proxyAddress)
 	{
 
-		// Use the Sync to WordpPress username and password since anonymous bind can't search.
+		// Use the Sync to WordPress username and password since anonymous bind can't search.
 		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
 		$connectionDetails->setUsername($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_USER));
 		$connectionDetails->setPassword($this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_PASSWORD));

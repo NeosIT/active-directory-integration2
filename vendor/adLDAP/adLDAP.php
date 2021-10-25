@@ -2935,7 +2935,7 @@ class adLDAP {
 	 *
 	 * @param String $proxyAddress The proxy address to use in the look up.
 	 *
-	 * @return The associated sAMAccountName or false if not found or uniquely found.
+	 * @return boolean|string The associated sAMAccountName or *false* if not found or uniquely found.
      *
      * @author Erik Nedwidek
 	 */
@@ -2943,12 +2943,18 @@ class adLDAP {
 	{
 		$filter="(&(objectCategory=user)(proxyAddresses~=smtp:" . $proxyAddress . "))";
 		$fields = array("samaccountname");
-		$sr=ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
+		$sr = ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
+		
+		// @see #146: if search failed, $sr will be false and we have to return
+		if ($sr === FALSE) {
+			return FALSE;
+		}
+		
 		$entries = ldap_get_entries($this->_conn, $sr);
 
 		// Return false if we didn't find exactly one entry.
 		if($entries['count'] == 0 || $entries['count'] > 1) {
-			return false;
+			return FALSE;
 		}
 
 		return $entries[0]['samaccountname'][0];
@@ -2996,5 +3002,3 @@ class adLDAPException extends Exception {
 		return $this->_ldapErrno;
 	}
 }
-
-?>
