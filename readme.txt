@@ -2,7 +2,7 @@
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows, sso
 Requires at least: 5.4
-Tested up to: 5.7
+Tested up to: 5.8.1
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -128,6 +128,9 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 == Changelog ==
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
+
+= 2.3.0 =
+* CHANGED: WordPress 5.8.1 compatibility has been checked
 
 = 2.2.3 =
 * FIXED: Sync to WordPress fails if user is no longer present in Active Directory (gh-#141)
