@@ -1,13 +1,12 @@
 ﻿=== Next Active Directory Integration ===
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows, sso
-Requires at least: 5.4
-Tested up to: 5.8.1
+Requires at least: 5.6
+Tested up to: 5.8.2
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
 Next Active Directory Integration allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory.
-
 
 == Description ==
 
@@ -52,8 +51,8 @@ As an owner of a valid support plan you have access to the following premium ext
 
 = Requirements =
 
-* WordPress since 5.4
-* PHP >= 7.2
+* WordPress since 5.6
+* PHP >= 7.4
 * LDAP support
 * OpenSSL Support for TLS (recommended)
 
@@ -81,7 +80,7 @@ Please read the [FAQ](https://www.active-directory-wp.com/docs/FAQ.html) of our 
 == Installation ==
 
 = Requirements =
-To install Next Active Directory Integration you need at least WordPress 5.4 and PHP 7.2
+To install Next Active Directory Integration you need at least WordPress 5.6 and PHP 7.4
 
 Although only tested with Apache 2.2 and 2.4 *NADI* should work with all other common web servers like nginx and IIS.
 
@@ -93,8 +92,8 @@ Next Active Directory Integration requires a few PHP modules to be enabled. Plea
 
 = Important =
 
-As of *2020-07-01* NADI did *no* longer support PHP version *< 7.2*. The reason is that security support for PHP 7.1 and below has beeen dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
-For security reasons and in order to use NADI in 2020 we hereby politely encourage you to migrate your environments to at least PHP 7.2 until then.
+As of *2021-12-09* NADI did *no* longer support PHP version *< 7.4*. The reason is that security support for PHP 7.3 and below has beeen dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
+For security reasons and in order to use NADI in 2022 we hereby politely encourage you to migrate your environments to at least PHP 7.4 until then.
 
 Thank you all for your support and understanding.
 
@@ -130,8 +129,9 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = 2.3.0 =
-* FIXED: when user can not be found by email address, findByProxyAddress returns false (gh-#146). Configured *Sync to WordPress* credentials are still required for logging in withe email addresses.
+* FIXED: when a user can not be found by email address, findByProxyAddress returns false (gh-#146). Configured *Sync to WordPress* credentials are still required for logging in with email addresses.
 * CHANGED: WordPress 5.8.1 compatibility has been checked
+* CHANGED: WordPress 5.8.2 compatibility has been checked
 
 = 2.2.3 =
 * FIXED: Sync to WordPress fails if user is no longer present in Active Directory (gh-#141)
