@@ -45,7 +45,6 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	const ACCOUNT_SUFFIX = 'account_suffix';
 	const ALLOW_PROXYADDRESS_LOGIN = 'allow_proxyaddress_login';
 	const USE_SAMACCOUNTNAME_FOR_NEW_USERS = 'use_samaccountname_for_new_users';
-	const AUTO_CREATE_USER = 'auto_create_user';
 	const AUTO_UPDATE_USER = 'auto_update_user';
 	const AUTO_UPDATE_DESCRIPTION = 'auto_update_description';
 	const DEFAULT_EMAIL_DOMAIN = 'default_email_domain';
@@ -628,27 +627,6 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$detail => __(
 					'Instead of using the user principal name for newly created users, the <em>sAMAccountName</em> will be used.',
 					'next-active-directory-integration'
-				),
-				$angularAttributes => '',
-				$default => false,
-				$sanitizer => array('boolean'),
-				$showPermission => true,
-				$transient => false,
-			),
-			// Should a new user be created automatically if not already in the WordPress database?
-			self::AUTO_CREATE_USER => array(
-				$title => __('Automatic user creation', 'next-active-directory-integration'),
-				$type => NextADInt_Multisite_Option_Type::CHECKBOX,
-				$description => __(
-					'If enabled, users will be created in your WordPress instance after they have been successfully authenticated.',
-					'next-active-directory-integration'
-				),
-				$detail => array(
-					__(
-						'Created users will obtain the subscriber role by default.',
-						'next-active-directory-integration'
-					),
-					__('The default role can be altered, by using the Role equivalent groups option inside the Permission Tab.', 'next-active-directory-integration'),
 				),
 				$angularAttributes => '',
 				$default => false,

@@ -142,7 +142,6 @@ class NextADInt_Adi_Configuration_Ui_Layout
 						NextADInt_Adi_Configuration_Options::ACCOUNT_SUFFIX,
 						NextADInt_Adi_Configuration_Options::ALLOW_PROXYADDRESS_LOGIN,
 						NextADInt_Adi_Configuration_Options::USE_SAMACCOUNTNAME_FOR_NEW_USERS,
-						NextADInt_Adi_Configuration_Options::AUTO_CREATE_USER,
 						NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER,
 						NextADInt_Adi_Configuration_Options::AUTO_UPDATE_DESCRIPTION,
 						NextADInt_Adi_Configuration_Options::DEFAULT_EMAIL_DOMAIN,

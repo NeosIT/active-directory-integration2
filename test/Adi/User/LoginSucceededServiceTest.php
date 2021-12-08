@@ -423,36 +423,10 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function createUser_withValidAdiUser_autocreateDisabled_returnsExpectedWpError()
-	{
-		/** @var NextADInt_Adi_User|PHPUnit_Framework_MockObject_MockObject $adiUser */
-		$adiUser = $this->createMock(NextADInt_Adi_User::class);
-
-		$this->configuration->expects($this->once())
-		                    ->method('getOptionValue')
-		                    ->with(NextADInt_Adi_Configuration_Options::AUTO_CREATE_USER)
-		                    ->willReturn(false);
-
-		$sut = $this->sut();
-
-		$actual = $sut->createUser($adiUser);
-
-		$this->assertTrue($actual instanceof WP_Error);
-		$this->assertEquals('invalid_username', $actual->get_error_message());
-	}
-
-	/**
-	 * @test
-	 */
 	public function createUser_withValidAdiUser_withSimulatedLogin_returnsFalse()
 	{
 		/** @var NextADInt_Adi_User|PHPUnit_Framework_MockObject_MockObject $adiUser */
 		$adiUser = $this->createMockWithMethods(NextADInt_Adi_User::class, array('getUsername'));
-
-		$this->configuration->expects($this->once())
-		                    ->method('getOptionValue')
-		                    ->with(NextADInt_Adi_Configuration_Options::AUTO_CREATE_USER)
-		                    ->willReturn(true);
 
 		$adiUser->expects($this->once())
 		        ->method('getUsername')
@@ -472,11 +446,6 @@ class NextADInt_Adi_User_LoginSucceededServiceTest extends Ut_BasicTest
 	{
 		/** @var NextADInt_Adi_User|PHPUnit_Framework_MockObject_MockObject $adiUser */
 		$adiUser = $this->createMockWithMethods(NextADInt_Adi_User::class, array('getUsername'));
-
-		$this->configuration->expects($this->once())
-		                    ->method('getOptionValue')
-		                    ->with(NextADInt_Adi_Configuration_Options::AUTO_CREATE_USER)
-		                    ->willReturn(true);
 
 		$this->userManager->expects($this->once())
 		                  ->method('create')

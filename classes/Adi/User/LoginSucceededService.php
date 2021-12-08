@@ -169,8 +169,7 @@ class NextADInt_Adi_User_LoginSucceededService
 	}
 
 	/**
-	 * If "Auto Create User" is enabled, the user is created. If "Auto Create User" is disabled, it returns a WP_Error
-	 *
+	 * Delegates to UserManager::crate
 	 *
 	 * @param NextADInt_Adi_User $user
 	 *
@@ -178,24 +177,6 @@ class NextADInt_Adi_User_LoginSucceededService
 	 */
 	public function createUser(NextADInt_Adi_User $user)
 	{
-		$this->logger->debug("Checking preconditions for creating new user " . $user);
-		$autoCreateUser = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::AUTO_CREATE_USER);
-
-		// ADI-117: The behavior changed with 2.0.x and has been agreed with CST on 2016-03-02.
-		// In 1.0.x users were created even if auoCreateUser was false but they had a role equivalent group.
-		// With 2.0.x the user is only created if the option "Auto Create User" is enabled.
-		if (!$autoCreateUser) {
-			$error = 'This user exists in Active Directory, but not in the local WordPress instance. The option "Auto Create User" is __not__ enabled but should be.';
-			$this->logger->error($error);
-
-			return new WP_Error(
-				'invalid_username', __(
-					$error,
-					'next-active-directory-integration'
-				)
-			);
-		}
-
 		// if $this->userManager is null, then do not create the user
 		if (!$this->userManager) {
 			$this->logger->warn(

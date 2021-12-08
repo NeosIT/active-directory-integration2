@@ -132,6 +132,8 @@ For detailed information you can visit the official [GitHub repository of Next A
 * FIXED: when a user can not be found by email address, findByProxyAddress returns false (gh-#146). Configured *Sync to WordPress* credentials are still required for logging in with email addresses.
 * CHANGED: WordPress 5.8.1 compatibility has been checked
 * CHANGED: WordPress 5.8.2 compatibility has been checked
+* REMOVED: Parameter $useLocalWordPressUser in NextADInt_Adi_Mail_Notification (gh-#135)
+* REMOVED: Option 'Automatic user creation'. This option has been implictly enabled for all installations and is no longer required (gh-#134)
 
 = 2.2.3 =
 * FIXED: Sync to WordPress fails if user is no longer present in Active Directory (gh-#141)
