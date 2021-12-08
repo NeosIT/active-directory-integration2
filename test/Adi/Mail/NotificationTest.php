@@ -132,7 +132,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$mail = new NextADInt_Adi_Mail_Message();
 		$mail->setUsername('hugo');
 
-		$actual = $sut->sendNotification($mail, false, $wpUser);
+		$actual = $sut->sendNotification($mail, $wpUser);
 		$this->assertEquals(false, $actual);
 	}
 
@@ -172,7 +172,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 		$mail = new NextADInt_Adi_Mail_Message();
 		$mail->setUsername('hugo');
 
-		$actual = $sut->sendNotification($mail, false, $wpUser);
+		$actual = $sut->sendNotification($mail, $wpUser);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -209,7 +209,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), false, $wpUser);
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), $wpUser);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -246,7 +246,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), false, $wpUser);
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), $wpUser);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -283,7 +283,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), false, $wpUser);
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), $wpUser);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -328,7 +328,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), false, $wpUser);
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), $wpUser);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -384,7 +384,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), false, $wpUser);
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), $wpUser);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -440,7 +440,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), false, $wpUser);
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), $wpUser);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -485,7 +485,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), false, $wpUser);
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), $wpUser);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -533,7 +533,7 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), false, $wpUser);
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), $wpUser);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -572,124 +572,10 @@ class Ut_Mail_NotificationTest extends Ut_BasicTest
 				return true;
 			}));
 
-		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), false, $wpUser);
+		$actual = $sut->sendNotification(new NextADInt_Adi_Mail_Message(), $wpUser);
 		$this->assertEquals(true, $actual);
 	}
-
-	/**
-	 * @test
-	 */
-	public function getUserMeta_getValuesFromAd_returnAdResponse()
-	{
-		$sut = $this->sut(array('findADUserAttributeValues',));
-
-		$userMeta = array(
-			'firstName' => 'Heinz'
-		);
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER)
-			->willReturn(true);
-
-		$this->ldapConnection->expects($this->once())
-			->method('isConnected')
-			->willReturn(true);
-
-		$sut->expects($this->once())
-			->method('findADUserAttributeValues')
-			->with('hugo')
-			->willReturn($userMeta);
-
-		$actual = $sut->getUserMeta('hugo');
-		$this->assertEquals($userMeta, $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getUserMeta_getValuesFromWordPress_returnWpResponse()
-	{
-		$userMeta = array(
-			'email' => 'test@company.it',
-		);
-
-		$sut = $this->sut(array('findWPUserAttributeValues'));
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER)
-			->willReturn(false);
-
-		$this->ldapConnection->expects($this->never())
-			->method('isConnected')
-			->willReturn(true);
-
-		$sut->expects($this->once())
-			->method('findWPUserAttributeValues')
-			->with('herbert')
-			->willReturn($userMeta);
-
-		$actual = $sut->getUserMeta('herbert');
-		$this->assertEquals($userMeta, $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getUserMeta_invalidResponse_returnFalse()
-	{
-		$sut = $this->sut(array('findWPUserAttributeValues'));
-
-		$this->configuration->expects($this->once())
-			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::AUTO_UPDATE_USER)
-			->willReturn(true);
-
-		$this->ldapConnection->expects($this->once())
-			->method('isConnected')
-			->willReturn(false);
-
-		$sut->expects($this->once())
-			->method('findWPUserAttributeValues')
-			->with('herbert')
-			->willReturn(array());
-
-		$actual = $sut->getUserMeta('herbert');
-		$this->assertEquals(false, $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function findADUserAttributeValues_getValuesForUser_returnValues()
-	{
-		$username = 'hubertus';
-		$sut = $this->sut(null);
-
-		$adResponse = array(
-			'mail' => 'test@company.it',
-			'givenname' => 'testGivenName',
-			'sn' => 'testSnName',
-		);
-
-		$this->ldapConnection->expects($this->once())
-			->method('findSanitizedAttributesOfUser')
-			->with($this->callback(function (NextADInt_Ldap_UserQuery $userQuery) use ($username) {
-				return $userQuery->getPrincipal() == $username;
-			}), array("sn", "givenname", "mail"))
-			->willReturn($adResponse);
-
-		$expected = array(
-			'email' => 'test@company.it',
-			'firstName' => 'testGivenName',
-			'lastName' => 'testSnName',
-		);
-
-		$actual = $sut->findADUserAttributeValues('hubertus');
-		$this->assertEquals($expected, $actual);
-	}
-
+	
 	/**
 	 * @test
 	 */
