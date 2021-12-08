@@ -52,15 +52,15 @@ class NextADInt_Multisite_Ui_BlogConfigurationPage extends NextADInt_Multisite_V
 
 	/**
 	 * @param NextADInt_Multisite_View_TwigContainer $twigContainer
-	 * @param NextADInt_Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
+	 * @param NextADInt_Multisite_Ui_BlogConfigurationController $blogConfigurationController
 	 */
 	public function __construct(NextADInt_Multisite_View_TwigContainer $twigContainer,
-								NextADInt_Multisite_Ui_BlogConfigurationController $blogConfigurationConfigurationControllerController
+								NextADInt_Multisite_Ui_BlogConfigurationController $blogConfigurationController
 	)
 	{
 		parent::__construct($twigContainer);
 
-		$this->blogConfigurationController = $blogConfigurationConfigurationControllerController;
+		$this->blogConfigurationController = $blogConfigurationController;
 	}
 
 	/**
