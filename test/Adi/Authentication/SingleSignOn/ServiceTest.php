@@ -359,6 +359,8 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 
 		WP_Mock::expectActionAdded('wp_logout', array($sut, 'logout'));
 		WP_Mock::expectActionAdded('init', array($sut, 'authenticate'));
+		// @see #142
+		WP_Mock::expectFilterAdded('next_ad_int_auth_sso_login_requires_ad_authentication', array($sut, 'requiresActiveDirectoryAuthentication'), 10, 1);
 
 		$sut->register();
 	}
@@ -443,6 +445,10 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		$sut->expects($this->once())
 		    ->method('findUsername')
 		    ->willReturn($expectedUsername);
+
+		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_sso_login_requires_ad_authentication')
+			->with($expectedUsername)
+			->reply(true);
 
 		$sut->expects($this->once())
 		    ->method('getSessionHandler')
@@ -697,5 +703,37 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		);
 
 		$this->invokeMethod($sut, 'loginUser', array($user, false));
+	}
+
+	/**
+	 * @test
+	 * @issue #142
+	 */
+	public function GH_142_authenticate_skips_if_auth_form_login_requires_ad_authentication_returns_false() {
+		$sut              = $this->sut(array('findUsername', 'getSessionHandler', 'clearAuthenticationState', 'delegateAuth', 'parentAuthenticate'));
+		$expectedUsername = 'john.doe@test.ad';
+		$credentials = NextADInt_Adi_Authentication_PrincipalResolver::createCredentials($expectedUsername);
+
+		WP_Mock::wpFunction(
+			'is_user_logged_in', array(
+				'times'  => 1,
+				'return' => false
+			)
+		);
+
+		$sut->expects($this->once())
+			->method('findUsername')
+			->willReturn($expectedUsername);
+
+		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_sso_login_requires_ad_authentication')
+			->with($expectedUsername)
+			->reply(false);
+
+		$sut->expects($this->never())
+			->method('getSessionHandler')
+			->willReturn($this->sessionHandler);
+
+		$actual = $sut->authenticate(null, $expectedUsername, '');
+		$this->assertFalse($actual);
 	}
 }

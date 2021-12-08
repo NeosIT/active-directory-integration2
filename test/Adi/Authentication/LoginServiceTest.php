@@ -83,7 +83,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(
 			array(
-				'requiresActiveDirectoryAuthentication',
 				'detectAuthenticatableSuffixes'
 			)
 		);
@@ -91,10 +90,9 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$login = "testuser";
 		$password = "1234";
 
-		$sut->expects($this->once())
-			->method('requiresActiveDirectoryAuthentication')
+		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_form_login_requires_ad_authentication')
 			->with($login)
-			->willReturn(false);
+			->reply(false);
 
 		$sut->expects($this->never())
 			->method('detectAuthenticatableSuffixes');
@@ -111,7 +109,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(
 			array(
-				'requiresActiveDirectoryAuthentication',
 				'detectAuthenticatableSuffixes',
 				'tryAuthenticatableSuffixes'
 			)
@@ -121,10 +118,9 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		$password = "1234";
 		$suffixes = array('test.ad');
 
-		$sut->expects($this->once())
-			->method('requiresActiveDirectoryAuthentication')
+		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_form_login_requires_ad_authentication')
 			->with($login)
-			->willReturn(true);
+			->reply(true);
 
 		$sut->expects($this->once())
 			->method('detectAuthenticatableSuffixes')
@@ -720,7 +716,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(
 			array(
-				'requiresActiveDirectoryAuthentication',
 				'checkXmlRpcAccess'
 			)
 		);
@@ -730,11 +725,6 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 		$sut->expects($this->once())
 			->method('checkXmlRpcAccess');
-
-		$sut->expects($this->once())
-			->method('requiresActiveDirectoryAuthentication')
-			->with($login)
-			->willReturn(false);
 
 		$actual = $sut->authenticate(null, $login, $password);
 
@@ -877,6 +867,17 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 		WP_Mock::expectFilterAdded('authenticate', array($sut, 'authenticate'), 10, 3);
 		WP_Mock::expectFilterAdded('allow_password_reset', '__return_false');
 
+		$sut->register();
+	}
+
+	/**
+	 * @test
+	 * @issue #142
+	 */
+	public function register_adds_filter_next_ad_int_auth_form_login_requires_ad_authentication() {
+		$sut = $this->sut();
+
+		WP_Mock::expectFilterAdded('next_ad_int_auth_form_login_requires_ad_authentication', array($sut, 'requiresActiveDirectoryAuthentication'), 10, 1);
 		$sut->register();
 	}
 

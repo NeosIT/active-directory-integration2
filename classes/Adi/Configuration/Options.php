@@ -553,7 +553,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$title => __('Exclude usernames from authentication', 'next-active-directory-integration'),
 				$type => NextADInt_Multisite_Option_Type::EDITABLE_LIST,
 				$description => __(
-					'The entered usernames above will always be excluded from NADI login authentication. Usernames are case-insensitive.',
+					'The entered usernames above will always be excluded from NADI login authentication. The exclusions are applying to form- and SSO-based logins. Usernames are case-insensitive.',
 					'next-active-directory-integration'
 				),
 				$detail => array(

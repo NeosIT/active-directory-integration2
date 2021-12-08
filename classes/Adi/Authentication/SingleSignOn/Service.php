@@ -74,6 +74,8 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this->loginSucceededService, 'checkUserEnabled'), 15, 1);
 		// after login has succeeded, we want the current identified user to be automatically logged in
 		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this, 'loginUser'), 19, 1);
+		// @see #142: register an additional filter for checking if the username is excluded; please note that this differs from the parent's basic_login_requires_ad_authentication filter
+		add_filter(NEXT_AD_INT_PREFIX . 'auth_sso_login_requires_ad_authentication', array($this, 'requiresActiveDirectoryAuthentication'), 10, 1);
 	}
 
 	/**
@@ -104,6 +106,11 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 			return false;
 		}
 
+		// check, if NADI is not responsible for this username, e.g. in case of logging in an admin account
+		if (!apply_filters(NEXT_AD_INT_PREFIX . 'auth_sso_login_requires_ad_authentication', $username)) {
+			return false;
+		}
+
 		$credentials = $this->buildCredentials($username, '');
 		$sessionHandler = $this->getSessionHandler();
 
@@ -124,7 +131,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 			// encapsulate the authentication process
 			$credentials = $this->delegateAuth($credentials, $validation);
 
-			// authenticate the given user and run the default procedure form the LoginService
+			// authenticate the given user and run the default procedure from the LoginService
 			$authenticatedCredentials = $this->parentAuthenticate($credentials);
 
 			if (!$authenticatedCredentials) {
