@@ -2,7 +2,7 @@
     "require-dev": {
         "10up/wp_mock": "0.4.2",
         "mockery/mockery": "1.0",
-        "phpunit/phpunit": "9.5.4",
+        "phpunit/phpunit": "9.5.10",
         "overtrue/phplint": "^2.3"
     },
     "require": {
