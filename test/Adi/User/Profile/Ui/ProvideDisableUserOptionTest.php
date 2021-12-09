@@ -9,7 +9,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 	/* @var NextADInt_Multisite_View_TwigContainer| PHPUnit_Framework_MockObject_MockObject */
 	private $twigContainer;
 
-	/* @var Twig_Environment|PHPUnit_Framework_MockObject_MockObject */
+	/* @var Twig\Environment|PHPUnit_Framework_MockObject_MockObject */
 	private $twig;
 
 	/* @var NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOption| PHPUnit_Framework_MockObject_MockObject */
@@ -21,7 +21,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_ProvideDisableUserOptionTest extends Ut_B
 
 		$this->twigContainer = parent::createMock('NextADInt_Multisite_View_TwigContainer');
 		$this->userManager = parent::createMock('NextADInt_Adi_User_Manager');
-		$this->twig = parent::createMock('Twig_Environment');
+		$this->twig = parent::createMock('Twig\Environment');
 	}
 
 	public function tearDown() : void

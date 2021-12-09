@@ -12,7 +12,7 @@ class Ut_NextADInt_Adi_Authentication_Ui_ShowBlockedMessageTest extends Ut_Basic
 	/* @var NextADInt_Multisite_View_TwigContainer| PHPUnit_Framework_MockObject_MockObject */
 	private $twigContainer;
 
-	/* @var Twig_Environment| PHPUnit_Framework_MockObject_MockObject */
+	/* @var Twig\Environment | PHPUnit_Framework_MockObject_MockObject */
 	private $twigEnvironment;
 
 	public function setUp() : void
@@ -21,7 +21,7 @@ class Ut_NextADInt_Adi_Authentication_Ui_ShowBlockedMessageTest extends Ut_Basic
 
 		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
 		$this->twigContainer = $this->createMock('NextADInt_Multisite_View_TwigContainer');
-		$this->twigEnvironment = $this->createMock('Twig_Environment');
+		$this->twigEnvironment = $this->createMock('Twig\Environment');
 	}
 
 	public function tearDown() : void

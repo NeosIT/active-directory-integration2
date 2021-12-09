@@ -1,29 +1,31 @@
 {# macro for generating tab headers #}
 {% macro create(prefix) %}
 
-    {% set grouping = getOptionsGrouping() %}
+	{% set grouping = getOptionsGrouping() %}
 
-    <h2 class="nav-tab-wrapper">
+	<h2 class="nav-tab-wrapper">
 
-        {% for tabName, optionGroups in grouping if isOptionGroupVisible(optionGroups) %}
+		{% for tabName, optionGroups in grouping %}
+			{% if isOptionGroupVisible(optionGroups) %}
 
-            {% if loop.first %}
-                {% set class = 'tab-header nav-tab nav-tab-active' %}
-            {% else %}
-                {% set class = 'tab-header nav-tab' %}
-            {% endif %}
+				{% if loop.first %}
+					{% set class = 'tab-header nav-tab nav-tab-active' %}
+				{% else %}
+					{% set class = 'tab-header nav-tab' %}
+				{% endif %}
 
-            {% set target = 'tab_body_' ~ prefix ~ '__' ~ loop.index0 %}
+				{% set target = 'tab_body_' ~ prefix ~ '__' ~ loop.index0 %}
 
-            <a class="{{ class }}" target="{{ target }}" tab_number="{{ loop.index0 }}" profile_number="{{ prefix }}"
-               style="cursor: pointer"
-               ng-controller="{{ optionGroups.angular_controller|raw }}"
-               ng-class="{ error: containsErrors() }">
-                {{ tabName }}
-            </a>
+				<a class="{{ class }}" target="{{ target }}" tab_number="{{ loop.index0 }}"
+				   profile_number="{{ prefix }}"
+				   style="cursor: pointer"
+				   ng-controller="{{ optionGroups.angular_controller|raw }}"
+				   ng-class="{ error: containsErrors() }">
+					{{ tabName }}
+				</a>
+			{% endif %}
+		{% endfor %}
 
-        {% endfor %}
-
-    </h2>
+	</h2>
 
 {% endmacro %}

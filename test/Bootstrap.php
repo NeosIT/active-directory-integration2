@@ -1,4 +1,7 @@
 <?php
+// enable all error reporting information to catch deprecation warnings etc.
+error_reporting(E_ALL);
+
 // check modules
 if (!extension_loaded('mbstring')) {
 	die("PHP extension mbstring is missing");
@@ -185,9 +188,9 @@ $autoLoader->register();
 require_once "$path/functions.php";
 
 require_once "$path/vendor/autoload.php";
-require_once "$path/vendor/twig/twig/lib/Twig/Autoloader.php";
+require_once "$path/vendor/twig/twig/src/Loader/FilesystemLoader.php";
 require_once "$path/vendor/adLDAP/adLDAP.php";
-Twig_Autoloader::register();
+$loader = new \Twig\Loader\FilesystemLoader($path .'/views');
 
 require_once "$path/test/BasicTest.php";
 require_once "$path/test/ItBasicTest.php";

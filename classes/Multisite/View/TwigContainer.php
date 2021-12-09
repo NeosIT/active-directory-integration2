@@ -17,7 +17,7 @@ if (class_exists('NextADInt_Multisite_View_TwigContainer')) {
  */
 class NextADInt_Multisite_View_TwigContainer
 {
-	/** @var \Twig_Environment $twig */
+	/** @var Twig\Environment $twig */
 	private $twig;
 
 	/** @var NextADInt_Multisite_Configuration_Service $configuration */
@@ -117,15 +117,13 @@ class NextADInt_Multisite_View_TwigContainer
 	 */
 	public function register()
 	{
-		Twig_Autoloader::register();
-
-		$loader = new Twig_Loader_Filesystem(NEXT_AD_INT_PATH . '/views');
+		$loader = new \Twig\Loader\FilesystemLoader(NEXT_AD_INT_PATH . '/views');
 
 		$twigOptions = $this->getTwigOptions(NextADInt_Core_Util_Internal_Environment::isProductive());
 
         // $twigOptions['cache'] = NEXT_AD_INT_PATH . '/cache';
 
-		$this->twig = new Twig_Environment($loader, $twigOptions);
+		$this->twig = new \Twig\Environment($loader, $twigOptions);
 
 		$this->addSimpleTwigFilter('var_dump', 'var_dump');
 		$this->addSimpleTwigFunction('isOptionGroupVisible', array($this, 'isOptionGroupVisible'));
@@ -176,25 +174,25 @@ class NextADInt_Multisite_View_TwigContainer
 	}
 
 	/**
-	 * Create a new Twig_SimpleFilter using the given data and add it to twig.
+	 * Create a new \Twig\TwigFilter using the given data and add it to twig.
 	 *
 	 * @param $name
 	 * @param $callback
 	 */
 	private function addSimpleTwigFilter($name, $callback)
 	{
-		$this->twig->addFilter(new Twig_SimpleFilter($name, $callback));
+		$this->twig->addFilter(new \Twig\TwigFilter($name, $callback));
 	}
 
 	/**
-	 * Create a new Twig_SimpleFunction using the given data and add it to twig.
+	 * Create a new \Twig\TwigFunction using the given data and add it to twig.
 	 *
 	 * @param $name
 	 * @param $callback
 	 */
 	private function addSimpleTwigFunction($name, $callback)
 	{
-		$this->twig->addFunction(new Twig_SimpleFunction($name, $callback));
+		$this->twig->addFunction(new \Twig\TwigFunction($name, $callback));
 	}
 
 	/**

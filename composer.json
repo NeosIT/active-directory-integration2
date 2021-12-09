@@ -6,7 +6,7 @@
         "overtrue/phplint": "^2.3"
     },
     "require": {
-        "twig/twig": "1.41.0",
+        "twig/twig": "3.3.*",
         "defuse/php-encryption": "2.0.3",
         "monolog/monolog": "^1.0"
     }
