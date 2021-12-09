@@ -223,6 +223,10 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		$envVariable = $this->getConfiguration()->getOptionValue(NextADInt_Adi_Configuration_Options::SSO_ENVIRONMENT_VARIABLE);
 		$username = NextADInt_Core_Util_ArrayUtil::get($envVariable, $_SERVER);
 
+		if (empty($username)) {
+			$username = "";
+		}
+
 		// ADI-357 unescape already escaped username
 		$unescape = stripslashes($username);
 
@@ -321,7 +325,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 			return $user;
 		}
 
-		$redirectTo = (isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : null;
+		$redirectTo = (isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : "";
 
 		/*
  		 * ADI-644

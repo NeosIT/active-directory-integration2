@@ -136,6 +136,10 @@ class NextADInt_Core_Util_StringUtil
      */
     public static function trimmedExplode($trim, $string)
     {
+    	if (empty($string)) {
+    		$string = "";
+		}
+
         $parts = explode($trim, $string);
         $r = array();
 
@@ -249,6 +253,10 @@ class NextADInt_Core_Util_StringUtil
      */
     public static function startsWith($needle, $haystack)
     {
+    	if (empty($haystack)) {
+    		$haystack = "";
+		}
+
         // search backwards starting from haystack length characters from the end
         return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
     }
@@ -283,6 +291,10 @@ class NextADInt_Core_Util_StringUtil
      */
     public static function toLowerCase($string)
     {
+    	if (empty($string)) {
+    		$string = "";
+		}
+
         return mb_strtolower($string);
     }
 

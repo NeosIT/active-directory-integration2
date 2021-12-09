@@ -2809,7 +2809,7 @@ class adLDAP {
     * @return string
     */
     protected function random_controller(){
-        mt_srand(doubleval(microtime()) * 100000000); // For older PHP versions
+        mt_srand((int)(doubleval(microtime()) * 100000000)); // For older PHP versions
         return ($this->_domain_controllers[array_rand($this->_domain_controllers)]);
     }
     

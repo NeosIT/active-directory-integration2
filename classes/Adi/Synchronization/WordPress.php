@@ -59,12 +59,12 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	private $customPath;
 
 	/**
-	 * @param NextADInt_Adi_User_Manager                $userManager
-	 * @param NextADInt_Adi_User_Helper                 $userHelper
+	 * @param NextADInt_Adi_User_Manager $userManager
+	 * @param NextADInt_Adi_User_Helper $userHelper
 	 * @param NextADInt_Multisite_Configuration_Service $configuration
-	 * @param NextADInt_Ldap_Connection                 $connection
-	 * @param NextADInt_Ldap_Attribute_Service          $attributeService
-	 * @param NextADInt_Adi_Role_Manager                $roleManager
+	 * @param NextADInt_Ldap_Connection $connection
+	 * @param NextADInt_Ldap_Attribute_Service $attributeService
+	 * @param NextADInt_Adi_Role_Manager $roleManager
 	 */
 	public function __construct(NextADInt_Adi_User_Manager $userManager,
 								NextADInt_Adi_User_Helper $userHelper,
@@ -72,7 +72,8 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 								NextADInt_Ldap_Connection $connection,
 								NextADInt_Ldap_Attribute_Service $attributeService,
 								NextADInt_Adi_Role_Manager $roleManager
-	) {
+	)
+	{
 		parent::__construct($configuration, $connection, $attributeService);
 
 		$this->userManager = $userManager;
@@ -203,9 +204,13 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 */
 	protected function findSynchronizableUsers()
 	{
-		$groups = trim(
-			$this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS)
-		);
+		$optionValue = $this->configuration->getOptionValue(NextADInt_Adi_Configuration_Options::SYNC_TO_WORDPRESS_SECURITY_GROUPS);
+
+		if (empty($optionValue)) {
+			$optionValue = "";
+		}
+
+		$groups = trim($optionValue);
 
 		// find security group membership
 		$activeDirectoryUsers = $this->connection->findAllMembersOfGroups($groups);
@@ -357,7 +362,8 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 * @param $credentials NextADInt_Adi_Authentication_Credentials
 	 * @return int
 	 */
-	public function disableUserWithoutValidGuid($ldapAttributes, $credentials) {
+	public function disableUserWithoutValidGuid($ldapAttributes, $credentials)
+	{
 		if (!empty($ldapAttributes->getFilteredValue('objectguid'))) {
 			return;
 		}
@@ -410,7 +416,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 		// ADI-223: If user is disabled and option 'synchronizeDisabledAccounts' is false, skip the user.
 		if ($isUserDisabled && !$synchronizeDisabledAccounts) {
-			$this->logger->info('Skipping the import of ' . $credentials->getSAMAccountName() . ' with GUID: "'. $guid . '" , because the user is deactivated in Active Directory and "Import disabled users" is not enabled.');
+			$this->logger->info('Skipping the import of ' . $credentials->getSAMAccountName() . ' with GUID: "' . $guid . '" , because the user is deactivated in Active Directory and "Import disabled users" is not enabled.');
 			return -1;
 		}
 
@@ -568,7 +574,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 * If the AD account has the status "Locked/Disabled" this status will be only synchronized with "Sync to WordPress > Automatich deactivate users".
 	 *
 	 * @param NextADInt_Adi_User $adiUser
-	 * @param bool     $synchronizeDisabledAccounts
+	 * @param bool $synchronizeDisabledAccounts
 	 *
 	 * @return bool
 	 */
@@ -599,9 +605,9 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	/**
 	 * Finish synchronization with some log messages.
 	 *
-	 * @param int $addedUsers   amount of added users
+	 * @param int $addedUsers amount of added users
 	 * @param int $updatedUsers amount of updated users
-	 * @param int $failedSync   amount of failed syncs
+	 * @param int $failedSync amount of failed syncs
 	 */
 	protected function finishSynchronization($addedUsers, $updatedUsers, $failedSync)
 	{

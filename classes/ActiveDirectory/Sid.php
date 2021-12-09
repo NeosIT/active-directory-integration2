@@ -93,6 +93,10 @@ class NextADInt_ActiveDirectory_Sid {
 		$formatted = null;
 		$hex = null;
 
+		if (empty($objectSid)) {
+			$objectSid = "";
+		}
+
 		// if the object SID does not start with an S- prefix, it is probably binary encoded
 		if (NextADInt_Core_Util_StringUtil::startsWith('S-', $objectSid)) {
 			$hex = adLDAP::sidStringToHex($objectSid);

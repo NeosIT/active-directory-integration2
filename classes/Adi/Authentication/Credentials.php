@@ -131,6 +131,10 @@ class NextADInt_Adi_Authentication_Credentials
 	 */
 	public function setUpnSuffix($upnSuffix)
 	{
+		if (empty($upnSuffix)) {
+			$upnSuffix = "";
+		}
+
 		if (0 === strpos($upnSuffix, '@')) {
 			$upnSuffix = substr($upnSuffix, 1);
 		}
