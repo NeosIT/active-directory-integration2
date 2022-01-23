@@ -2,7 +2,7 @@
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, authorization, security, windows, sso
 Requires at least: 5.6
-Tested up to: 5.8.2
+Tested up to: 5.9
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 
@@ -128,6 +128,10 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
+= 2.3.1 =
+* CHANGED: WordPress 5.9 compatibility has been checked
+* REMOVED: CI testing support for PHP 7.3 as mentioned in README.md
+ 
 = 2.3.0 =
 * FIXED: when a user can not be found by email address, findByProxyAddress returns false (gh-#146). Configured *Sync to WordPress* credentials are still required for logging in with email addresses.
 * FIXED: when using SSO-based logins, the "Exclude usernames from authentication" option still applies (gh-#142)

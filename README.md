@@ -19,37 +19,37 @@ After the cloning you have to update the dependencies with help of *Composer* (e
 To install composer follow the instructions on [https://getcomposer.org/download/](https://getcomposer.org/download/).
 	
 ### Testing
-Tests are made with PHPUnit 9.3 Get PHPUnit 9.3 with
+Tests are made with PHPUnit 9.5 Get PHPUnit 9.5 with
 
 ```shell
-	# get PHPUnit
-	wget https://phar.phpunit.de/phpunit-9.3.phar
+# get PHPUnit
+wget https://phar.phpunit.de/phpunit-9.5.phar
 ```
 
 #### Running unit tests
 
 ```shell
- 	cd active-directory-integration2
-	# run unit tests with default PHPUnit configuration
-	php ./vendor/bin/phpunit --testsuite "unit" --configuration phpunit.xml
+cd active-directory-integration2
+# run unit tests with default PHPUnit configuration
+php ./vendor/bin/phpunit --testsuite "unit" --configuration phpunit.xml
 ``` 
 
 #### Running integration tests 
 
 ```shell
-	cd active-directory-integration2
-	# running integration test against a local install Active Directory instance
-	# executing the ITs with PHP binary is required for of passing environment variables to the test
-	php -d AD_ENDPOINT=127.0.0.1 -d AD_PORT=389 -d AD_USERNAME=username@domain.com -d AD_PASSWORD=Password -d AD_USE_TLS='' -d AD_SUFFIX=@domain.com -d AD_BASE_DN='DC=domain,DC=com' path/to/phpunit.phar --testsuite "integration" --no-coverage
+cd active-directory-integration2
+# running integration test against a local install Active Directory instance
+# executing the ITs with PHP binary is required for of passing environment variables to the test
+php -d AD_ENDPOINT=127.0.0.1 -d AD_PORT=389 -d AD_USERNAME=username@domain.com -d AD_PASSWORD=Password -d AD_USE_TLS='' -d AD_SUFFIX=@domain.com -d AD_BASE_DN='DC=domain,DC=com' path/to/phpunit.phar --testsuite "integration" --no-coverage
 ```
 
 #### Running all tests
 
 ```shell
-	cd active-directory-integration2
-	# running integration test against a local install Active Directory instance
-	# executing the ITs with PHP binary is required for of passing environment variables to the test
-	php -d AD_ENDPOINT=127.0.0.1 -d AD_PORT=389 -d AD_USERNAME=username@domain.com -d AD_PASSWORD=Password -d AD_USE_TLS='' -d AD_SUFFIX=@domain.com -d AD_BASE_DN='DC=domain,DC=com' path/to/phpunit.phar --no-coverage
+cd active-directory-integration2
+# running integration test against a local install Active Directory instance
+# executing the ITs with PHP binary is required for of passing environment variables to the test
+php -d AD_ENDPOINT=127.0.0.1 -d AD_PORT=389 -d AD_USERNAME=username@domain.com -d AD_PASSWORD=Password -d AD_USE_TLS='' -d AD_SUFFIX=@domain.com -d AD_BASE_DN='DC=domain,DC=com' path/to/phpunit.phar --no-coverage
 ```
 
 #### Running all tests in PhpStorm
@@ -61,35 +61,26 @@ Run > Edit Configurations > Defaults > PHPUnit
 
 #### Update translation
 
-After changing the next_ad_int-de_DE.po you have to build the next_ad_int-de_DE.mo and next_ad_int-de_DE_formal.mo file.
+After changing the next_ad_int-de_DE.po you have to build the `next_ad_int-de_DE.mo` and `next_ad_int-de_DE_formal.mo` file.
 ```shell
-	# Execute this command inside the plugin root folder (with the index.php)
-	ant compile-all-languages
-	# or execute this:
-	ant -Dmsgfmt=/path/to/gettext/msgfmt compile-all-languages
+# Execute this command inside the plugin root folder (with the index.php)
+ant compile-all-languages
+# or execute this:
+ant -Dmsgfmt=/path/to/gettext/msgfmt compile-all-languages
 ```
-Make sure that you have GNU gettext with msgfmt installed.
+Make sure that you have GNU gettext with *msgfmt* installed.
 
-It is also possible to generate the next_ad_int-de_DE.mo with Poedit (or some other .po tool). You can create a copy from the next_ad_int-de_DE.mo file and name it next_ad_int-de_DE_formal.mo.
+It is also possible to generate the `next_ad_int-de_DE.mo` with Poedit (or some other .po tool). You can create a copy from the `next_ad_int-de_DE.mo` file and name it `next_ad_int-de_DE_formal.mo`.
 
 ### Continuous Integration
-Next ADI utilizes Ant for an easier CI process. The *build.xml* supports different targets. The main targets are
+We are using GitHub Action for the CI/CD process. You can find everything related to CI/CD inside `.github/workflows`.
 
- - `full-build`: execute static analysis, PHPUnit tests, documentation
- - `quick-build`: linting, PHPUnit tests
- - `static-analysis`: linting, loc, pdepend, phpcs, phpcpd
+The branches
 
-More specialized tasks are
+- *master*/*main*
+- and *develop*
 
- - `phploc-ci`: Lines of Code
- - `pdepend`: Calculating software metrics with PHP_Depend
- - `phpcs-ci`: Find coding violations using PHP_CodeSniffer
- - `phpcpd-ci`: Find duplicate code using PHPCPD
- - `phpunit`: Run unit tests
- - `phpdox`: Create documentation
+will be automatically tested.
 
-You can provide the variable *php* (*-Dphp=path-to-php-binary*) and *pdepend*, *phpcpd*, *phpcs*, *phpdox*, *phploc*, *phpunit* to configure the tool paths:
-
-```shell
-	ant -Dphp=/usr/bin/php-7.3.3 -Dpdepend=/opt/php-env/ci/pdepend.phar -Dphpcpd=/opt/php-env/ci/phpcpd.phar
-```
+### Release process
+Every pushed tag will be automatically tested. After a succesful test, it gets uploaded to wordpress.org.
