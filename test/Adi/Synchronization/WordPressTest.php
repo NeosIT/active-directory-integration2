@@ -557,7 +557,8 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	{
 		$sut = $this->sut();
 		$this->expectError();
-		$this->expectErrorMessage('must be of type int, string given');
+		// regex is required because error messages changed from PHP 7.4 ("must be of THE type int") to PHP >=8.0 ("must be of type int")
+		$this->expectErrorMessageMatches('/must be of( the)? type int, string given/');
 		$this->assertFalse($sut->isAccountDisabled(""));
 	}
 
