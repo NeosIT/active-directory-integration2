@@ -168,9 +168,14 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		// let our locator find a matching profile, based upon the given credentials
 		$profileMatch = $this->ssoProfileLocator->locate($credentials);
 
+		// @see gh-#152, NADISUP-7: Critical WordPress error if a matching profile for SSO authentication can not be found
+		if (!$profileMatch) {
+			throw new NextADInt_Adi_Authentication_Exception("Unable to locate a matching profile for '" . $credentials->getLogin() . "'");
+		}
+
 		// a valid profile is required for login
 		$validation->validateProfile($profileMatch->getProfile());
-
+		
 		$this->logger->debug("Valid SSO profile for type '" . $profileMatch->getType() . "' found");
 		// fire a hook to inform that one of the SSO profiles has been matched
 		do_action(NEXT_AD_INT_PREFIX . 'sso_profile_located', $credentials, $profileMatch);

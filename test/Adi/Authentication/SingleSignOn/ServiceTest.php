@@ -535,6 +535,39 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
     }
 
 	/**
+	 * @since 2.3.2
+	 * @issue #152
+	 * @test
+	 */
+	public function GH_152_delegateAuthThrowsException_ifProfileCannotBeFound()
+	{
+		$sut = $this->sut(array('openLdapConnection', 'updateCredentials'));
+		$credentials = new NextADInt_Adi_Authentication_Credentials("username");
+
+		$noProfileMatch = NextADInt_Adi_Authentication_SingleSignOn_Profile_Match::noMatch();
+		$ldapAttributes = new NextADInt_Ldap_Attributes(array('attr'));
+
+		$this->ssoProfileLocator->expects($this->once())
+			->method('locate')
+			->with($credentials)
+			->willReturn($noProfileMatch);
+
+		$this->attributeService->expects($this->never())
+			->method('resolveLdapAttributes')
+			->with($credentials->toUserQuery())
+			->willReturn($ldapAttributes);
+
+		$sut->expects($this->never())
+			->method('updateCredentials')
+			->with($credentials, $ldapAttributes);
+
+		$this->expectException(NextADInt_Adi_Authentication_Exception::class);
+		$this->expectExceptionMessageMatches('/Unable to locate a matching profile/');
+
+		$sut->delegateAuth($credentials, $this->ssoValidation);
+	}
+
+	/**
 	 * @test
 	 */
 	public function authenticate_withExceptionDuringLogout_itReturnFalse()

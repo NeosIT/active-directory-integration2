@@ -128,6 +128,9 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
+= UNRELEASED =
+* FIXED: Critical WordPress error if a matching profile for SSO authentication can not be found (gh-#152, NADISUP-7)
+
 = 2.3.1 =
 * CHANGED: WordPress 5.9 compatibility has been checked
 * REMOVED: CI testing support for PHP 7.3 as mentioned in README.md
