@@ -1400,6 +1400,12 @@ class adLDAP {
 		foreach ($distinguishedNameCandidates as $distinguishedName) {
 			// try to find the configuration below e.g. CN=Partitions,CN=Configuration,DC=sub,DC=test,DC=ad
 			$sr = $this->_ldap_search($distinguishedName, self::NETBIOS_MATCHER, array());
+
+			// handle error code 32, "No such object" when configuration partition can not be found by given DN
+			if (!$sr) {
+				continue;
+			}
+
 			$entries = $this->_ldap_get_entries($sr);
 
 			// if no entries are available, this is probably the wrong search tree. We move a level up (now: CN=Partitions,CN=Configuration,DC=sub,DC=test,DC=ad; next: CN=Partitions,CN=Configuration,DC=sub,DC=test,DC=ad)

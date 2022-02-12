@@ -45,17 +45,13 @@ class AdLdapTest extends TestCase
 				TRUE
 			);
 
-		$sut->expects($this->atLeast(2))
+		$sut->expects($this->once())
 			->method('_ldap_get_entries')
 			->withConsecutive(
-				// first call is on deepest level
-				[FALSE],
-				// find something on top level
+				// with the first call, we don't do any further search as we simulate error code 32
 				[TRUE]
 			)
 			->willReturnOnConsecutiveCalls(
-				// on deepest level, we don't find anything
-				FALSE,
 				// on DC=test,DC=ad we'll find the partition
 				[
 					'count' => 2,
