@@ -108,6 +108,7 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 
 	// Custom Login Page
 	const CUSTOM_LOGIN_PAGE_ENABLED = 'custom_login_page_enabled';
+	const CUSTOM_LOGIN_PAGE_URI = 'custom_login_page_uri';
 
 	// additional attribute mapping
 	const ATTRIBUTES_COLUMN_TYPE = "type";
@@ -1164,6 +1165,18 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 				$detail => __('Enables authentication against the Active Directory on a custom login page.', 'next-active-directory-integration'),
 				$default => false,
 				$sanitizer => array('boolean'),
+				$showPermission => true,
+				$transient => false,
+			),
+			self::CUSTOM_LOGIN_PAGE_URI => array(
+				$title => __('Custom login page URI', 'next-active-directory-integration'),
+				$type => NextADInt_Multisite_Option_Type::TEXT,
+				$description => __('URI of the login page where authentication against the Active Directory will be enabled. It should start with slash, eg. "/login".',
+					'next-active-directory-integration'),
+				$detail => __('If you use custom login page URI like "/login" please enter it to enable Active Directory authentication check on this page.', 'next-active-directory-integration'),
+				$angularAttributes => 'ng-disabled="(!option.custom_login_page_enabled',
+				$default => '/login',
+				$sanitizer => array('string'),
 				$showPermission => true,
 				$transient => false,
 			),
