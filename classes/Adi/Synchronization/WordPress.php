@@ -292,7 +292,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 *
 	 * @return bool
 	 */
-	public function isNormalAccount($uac)
+	public function isNormalAccount(int $uac)
 	{
 
 		// @see ADI-517: Improved logging for UAC Binary Flag check to make it more transparent for the user and improve debugging.
@@ -328,7 +328,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 *
 	 * @return bool
 	 */
-	public function isSmartCardRequired($uac)
+	public function isSmartCardRequired(int $uac)
 	{
 		if (($uac & self::UF_SMARTCARD_REQUIRED) === 0) {
 			return false;
@@ -345,7 +345,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	 *
 	 * @return bool
 	 */
-	public function isAccountDisabled($uac)
+	public function isAccountDisabled(int $uac)
 	{
 		if (($uac & self::UF_ACCOUNT_DISABLE) === self::UF_ACCOUNT_DISABLE) {
 			return true;
@@ -411,7 +411,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 		$this->disableUserWithoutValidGuid($ldapAttributes, $credentials);
 
 		// ADI-223: Check if user is disabled in Active Directory
-		$uac = $ldapAttributes->getFilteredValue('useraccountcontrol');
+		$uac = $this->userAccountControl($ldapAttributes->getRaw());
 		$isUserDisabled = $this->isAccountDisabled($uac);
 
 		// ADI-223: If user is disabled and option 'synchronizeDisabledAccounts' is false, skip the user.

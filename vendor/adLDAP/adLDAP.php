@@ -1364,29 +1364,131 @@ class adLDAP {
 
             return $entries;
         }
+
         return false;
     }
 
+    const PARTITIONS_PREFIX = "CN=Partitions,CN=Configuration,";
+    const NETBIOS_MATCHER = "(&(netbiosname=*))";
+    const NCNAME_ATTRIBUTE = 'ncname';
+
     /**
-     * Get a configuration entry form the CN=Partitions,CN=Configuration object
-     *
+     * Get a configuration entry form the CN=Partitions,CN=Configuration object.
+	 * Due to the nature of Active Directory forests, this method is not so simple.
+	 *
+	 * @see #gh-153
      * @param $filter
      * @return bool
      */
-    public function get_configuration($filter)
-    {
-        $tmp = "CN=Partitions,CN=Configuration," . $this->_base_dn;
-        $sr = ldap_search($this->_conn,$tmp,"(&(netbiosname=*))", array());
-        $entries = ldap_get_entries($this->_conn, $sr);
+	public function get_configuration($filter)
+	{
+		// in a single Active Directory domain environment, we'll probably find the partition CN below CN=Partitions,CN=Configuration,${BASE_DN}.
+		// in a Active Directory domain forest, this can be a little bit more complex. The base DN could be DC=sub,DC=test,DC=ad but the CN for the partition can be CN=Partitions,CN=Configuration,DC=test,DC=ad (note the missing DC=sub).
+		$distinguishedNameCandidates = array();
+		$leafs = explode(",", $this->_base_dn);
 
-        if ($entries[0]['count'] >= 1) {
-            $result = $entries[0][$filter][0];
+		// we create a list of DN search candidates in which the configuration is probably stored, beginning with the most concrete DN (DC=sub,DC=test,DC=ad) and ending with the most top-level DN (DC=ad)
+		for ($i = 0, $m = sizeof($leafs); $i < $m; $i++) {
+			$distinguishedNameCandidates[] = self::PARTITIONS_PREFIX . implode(",", array_slice($leafs, $i));
+		}
 
-            return $result;
-        }
+		$sanitizedBaseDn = $this->sanitizeDistinguishedName($this->_base_dn);
+		$r = FALSE;
+		$hasBestMatch = FALSE;
 
-        return false;
-    }
+		// iterate over each of the available parts
+		foreach ($distinguishedNameCandidates as $distinguishedName) {
+			// try to find the configuration below e.g. CN=Partitions,CN=Configuration,DC=sub,DC=test,DC=ad
+			$sr = $this->_ldap_search($distinguishedName, self::NETBIOS_MATCHER, array());
+
+			// handle error code 32, "No such object" when configuration partition can not be found by given DN
+			if (!$sr) {
+				continue;
+			}
+
+			$entries = $this->_ldap_get_entries($sr);
+
+			// if no entries are available, this is probably the wrong search tree. We move a level up (now: CN=Partitions,CN=Configuration,DC=sub,DC=test,DC=ad; next: CN=Partitions,CN=Configuration,DC=sub,DC=test,DC=ad)
+			if (!$entries) {
+				continue;
+			}
+
+			$count = (int)$entries['count'];
+
+			if ($count >= 1) {
+				// after having found our configuration partition DN (e.g. CN=Partitions,CN=Configuration,DC=test,DC=ad), we need to check each of the CNs in there with the netbiosname attribute if they match the specified base DN:
+				// in a AD forest, we would have the following entries below CN=Partitions,CN=Configuration,DC=test,DC=ad:
+				// - CN=SUB,CN=Partitions,CN=Configuration,DC=test,DC=ad
+				// - CN=FOREST-1,CN=Partitions,CN=Configuration,DC=test,DC=ad
+				// - CN=FOREST-2,CN=Partitions,CN=Configuration,DC=test,DC=ad
+				for ($idx = 0, $m = $count; $idx < $m; $idx++) {
+					// the first entry is our best match if we don't find a better match
+					if (!$r) {
+						$r = $entries[$idx][$filter][0];
+					}
+
+					// the attribute nCName contains the base DN for a partition. If this matches the specified base DN, we are good to go.
+					// possible caveat: the base DN good be too unspecific so that the wrong partition is used; this could only happy in a AD forest - in a single forest, there is only one entry available.
+					$sanitizedNCname = $this->sanitizeDistinguishedName($entries[$idx][self::NCNAME_ATTRIBUTE][0]);
+
+					if ($sanitizedNCname == $sanitizedBaseDn) {
+						$r = $entries[$idx][$filter][0];
+
+						// end outer loop
+						$hasBestMatch = TRUE;
+						// end this loop
+						break;
+					}
+				}
+			}
+
+			if ($hasBestMatch) {
+				break;
+			}
+
+		}
+
+		return $r;
+	}
+
+	/**
+	 * Removes any whitespaces in front and at the end and lowers the string
+	 * @param $dn
+	 * @return string
+	 */
+	public function sanitizeDistinguishedName($dn)
+	{
+		return trim(strtolower($dn));
+	}
+
+	/**
+	 * Forward method to <em>php_ldap</em>'s ldap_get_entries to make adLDAP testable.
+	 *
+	 * @param $result
+	 * @return array
+	 */
+	protected function _ldap_get_entries($result)
+	{
+		return ldap_get_entries($this->_conn, $result);
+	}
+
+	/**
+	 * Forward method to <em>php_ldap</em>'s ldap_search to make adLDAP testable.
+	 *
+	 * @param $base
+	 * @param $filter
+	 * @param array $attributes
+	 * @param int $attributes_only
+	 * @param int $sizelimit
+	 * @param int $timelimit
+	 * @param int $deref
+	 * @param null $controls
+	 * @return array
+	 */
+	protected function _ldap_search($base, $filter, $attributes = [], int $attributes_only = 0, int $sizelimit = -1, int $timelimit = -1, int $deref = LDAP_DEREF_NEVER, $controls = null)
+	{
+		return ldap_search($this->_conn, $base, $filter, $attributes, $attributes_only, $sizelimit, $timelimit, $deref, $controls);
+	}
     
     /**
     * Determine if a user is in a specific group

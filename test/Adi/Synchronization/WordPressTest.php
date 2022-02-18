@@ -553,6 +553,18 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
+	public function GH_151_isAccountDisabled_throwsTypeError_withPHP81()
+	{
+		$sut = $this->sut();
+		$this->expectError();
+		// regex is required because error messages changed from PHP 7.4 ("must be of THE type int") to PHP >=8.0 ("must be of type int")
+		$this->expectErrorMessageMatches('/must be of( the)? type int, string given/');
+		$this->assertFalse($sut->isAccountDisabled(""));
+	}
+
+	/**
+	 * @test
+	 */
 	public function logNumberOfUsers_getElapsedTime_logMessages()
 	{
 		$sut = $this->sut(array('getElapsedTime'));
