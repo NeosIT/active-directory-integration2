@@ -217,7 +217,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	/**
 	 * In this case, a site without a profile returns the profile id "-1" and *not* NULL or null
 	 * @test
-	 * @see #140
+	 * @issue #140
 	 */
 	public function findSanitizedValue_anOptionForANonProfileMustNotBeDefaultedToAProfileConfiguration_gh140()
 	{
@@ -247,7 +247,7 @@ class Ut_NextADInt_Multisite_Configuration_Persistence_BlogConfigurationReposito
 	/**
 	 * If an option has not been set, findRawValue returns NULL. Our check for a missing option does not use the === operator but ==.
 	 * @test
-	 * @see #140
+	 * @issue #140
 	 */
 	public function findSanitizedValue_anEmptyButSetOptionMustNotBeHandledByProfile_gh140()
 	{

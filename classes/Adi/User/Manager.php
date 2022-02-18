@@ -578,7 +578,7 @@ class NextADInt_Adi_User_Manager
      * <li>If email belongs to another user and <em>Duplicate Email prevention</em> is PREVENT, this method will throw an exception</li>
      * </ul>
      *
-     * @see ADI-691
+     * @issue ADI-691
      * @param WP_User $wpUser |null
      * @param $preferredEmail
      * @return string email address to use
@@ -657,7 +657,7 @@ class NextADInt_Adi_User_Manager
      * In any other case the preferred email is returned
      *
      * @since 2.1.9
-     * @see ADI-691
+     * @issue ADI-691
      * @param WP_User|null $wpUserToChange null, if user has not been created yet
      * @param $preferredEmail
      * @return string

@@ -1,6 +1,6 @@
 ﻿=== Next Active Directory Integration ===
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
-Tags: authentication, active directory, ldap, authorization, security, windows, sso
+Tags: authentication, active directory, ldap, ldaps, authorization, security, windows, sso, login, domain, controller
 Requires at least: 5.6
 Tested up to: 5.9
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
@@ -129,34 +129,34 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
-* FIXED: Critical WordPress error if a matching profile for SSO authentication can not be found (gh-#152, NADISUP-7)
-* FIXED: Uncaught TypeError when checking userAccountControl attribute (gh-#151)
-* FIXED: For specific Active Directory forest structures, the NETBIOS name can not be resolved during verification of the credentials (gh-#153, NADISUP-8)
-* ADDED: Option for specifying a custom login page URI; special thanks to GitHub user *czoIg* for contributing this functionality (gh-#154)
+* FIXED: Critical WordPress error if a matching profile for SSO authentication can not be found (#152, NADISUP-7)
+* FIXED: Uncaught TypeError when checking userAccountControl attribute (#151)
+* FIXED: For specific Active Directory forest structures, the NETBIOS name can not be resolved during verification of the credentials (#153, NADISUP-8)
+* ADDED: Option for specifying a custom login page URI; special thanks to GitHub user *czoIg* for contributing this functionality (#154)
 
 = 2.3.1 =
 * CHANGED: WordPress 5.9 compatibility has been checked
 * REMOVED: CI testing support for PHP 7.3 as mentioned in README.md
  
 = 2.3.0 =
-* FIXED: when a user can not be found by email address, findByProxyAddress returns false (gh-#146). Configured *Sync to WordPress* credentials are still required for logging in with email addresses.
-* FIXED: when using SSO-based logins, the "Exclude usernames from authentication" option still applies (gh-#142)
-* ADDED: hooks for checking if NADI's authentication applies for a given username (gh-#142)
+* FIXED: when a user can not be found by email address, findByProxyAddress returns false. Configured *Sync to WordPress* credentials are still required for logging in with email addresses. (#146)
+* FIXED: when using SSO-based logins, the "Exclude usernames from authentication" option still applies (#142)
+* ADDED: hooks for checking if NADI's authentication applies for a given username (#142)
 * CHANGED: WordPress 5.8.1 compatibility has been checked
 * CHANGED: WordPress 5.8.2 compatibility has been checked
-* REMOVED: Parameter $useLocalWordPressUser in NextADInt_Adi_Mail_Notification (gh-#135)
-* REMOVED: Option 'Automatic user creation'. This option has been implicitly enabled for all installations and is no longer required (gh-#134)
-* CHANGED: PHP 8.1 compatibility has been checked; Twig has to be updated with the next release (gh-#148)
+* REMOVED: Parameter $useLocalWordPressUser in NextADInt_Adi_Mail_Notification (#135)
+* REMOVED: Option 'Automatic user creation'. This option has been implicitly enabled for all installations and is no longer required (#134)
+* CHANGED: PHP 8.1 compatibility has been checked; Twig has to be updated with the next release (#148)
 
 = 2.2.3 =
-* FIXED: Sync to WordPress fails if user is no longer present in Active Directory (gh-#141)
+* FIXED: Sync to WordPress fails if user is no longer present in Active Directory (#141)
 
 = 2.2.2 =
-* FIXED: Boolean options can't be persisted correctly with 2.2.1 (gh-#140)
+* FIXED: Boolean options can't be persisted correctly with 2.2.1 (#140)
 
 = 2.2.1 =
-* FIXED: Missing meta_key "domainsid" results in TypeError or NextADInt_ActiveDirectory_Context::isMember (gh-#133)
-* FIXED: Warning: Trying to access array offset on value of type null (gh-#139)
+* FIXED: Missing meta_key "domainsid" results in TypeError or NextADInt_ActiveDirectory_Context::isMember (#133)
+* FIXED: Warning: Trying to access array offset on value of type null (#139)
 
 = 2.2.0 =
 * ADDED: Kerberos principals are no longer treated as userPrincipalNames (ADI-715)
@@ -166,17 +166,17 @@ For detailed information you can visit the official [GitHub repository of Next A
 * FIXED-SECURITY: Users with same UPN prefix and password but different UPN suffix would be logged in with the wrong account (ADI-716)
 * CHANGED: WordPress 5.6.1 compatibility has been checked
 * CHANGED: WordPress 5.7 compatibility has been checked
-* CHANGED: PHP 8.0 compatibility has been added (ADI-718, gh-#132, gh-#137)
+* CHANGED: PHP 8.0 compatibility has been added (ADI-718, #132, #137)
 * FIXED: Deprecation warning when trying to send mail notification for blocked users (ADI-719)
-* FIXED: Option "Blog admin sets the option value." had no effect in Multisite environments (gh-#124)
-* DEPRECATION-WARNING: For the upcoming release 2.3.0 we will remove "Internal password migration" (gh-#136), "Automatic user creation" (gh-#134) and "Email address conflict handling" (gh-#133)
+* FIXED: Option "Blog admin sets the option value." had no effect in Multisite environments (#124)
+* DEPRECATION-WARNING: For the upcoming release 2.3.0 we will remove "Internal password migration" (#136), "Automatic user creation" (#134) and "Email address conflict handling" (#133)
 * DEV: Slightly transition new issues to GitHub instead of internal Jira
 
 = 2.1.12 =
-* ADDED: PR gh-#107: allow self signed certificates
+* ADDED: allow self signed certificates (#107)
 * CHANGED: notices for minimum PHP version 7.2 due to EOL of PHP 7.1
 * FIXED: Test compatibility with latest stable PHPUnit version
-* FIXED: gh-#127: PHP 7.4 compatibility and deprecation of some ldap_* functions
+* FIXED: PHP 7.4 compatibility and deprecation of some ldap_* functions (#127)
 * FIXED: various typos and formatting errors in the administration user interface
 * ADDED: hook for triggering Sync To WordPress and Sync To AD (ADI-526)
 
@@ -188,12 +188,12 @@ For detailed information you can visit the official [GitHub repository of Next A
 * CHANGED: minimum PHP version to PHP 7.2 due to EOL of PHP 7.1
 * CHANGED: Twig version updated to 1.41.0 (ADI-707)
 * FIXED: When a non-existing user inside in WordPress authenticates in a multisite environment the first time, a warning is triggered (ADI-705)
-* FIXED: A deleted user from Active Directory is mapped to the wrong user in WordPress; thanks to T. Kowalchuk (ADI-702)
+* FIXED: A deleted user from Active Directory is mapped to the wrong user in WordPress; thanks to *T. Kowalchuk* (ADI-702)
 * FIXED: PHP warning if user is deleted from Active Directory (ADI-701)
 * FIXED: PHP error if touching of log file failed
 * FIXED: "-DISABLED" suffix is added everytime a user is synchronized (ADI-697, NADIS-110)
 * ADDED: hook next_ad_int_user_before_disable (ADI-699)
-* FIXED: curly brace access (GitHub #119)
+* FIXED: curly brace access (#119)
 
 = 2.1.9 =
 * ADDED: Premium extension [WP-CLI](https://active-directory-wp.com/premium-extension/) to execute "Sync to WordPress/AD" with wp-cli to circumvent webserver/proxy timeouts (NADIS-98)
@@ -208,23 +208,23 @@ For detailed information you can visit the official [GitHub repository of Next A
 
 = 2.1.8 =
 * FIXED: compatibility issues when using the Woffice theme (ADI-659)
-* FIXED: missing email parameter when creating users (GitHub #74 Thanks to nefarius, ADI-615)
-* FIXED: an issue with the 'Prevent email change' option (https://wordpress.org/support/topic/new-user-creation-error/ Thanks to mlipenk, ADI-670)
-* ADDED: new hook to hide the 'Log in using SSO' option (https://wordpress.org/support/topic/remove-link-log-in-using-sso-on-login-page/ Thanks to vyatcheslav, ADI-672)
+* FIXED: missing email parameter when creating users;  thanks to *nefarius* (#74, ADI-615)
+* FIXED: an issue with the 'Prevent email change' option, https://wordpress.org/support/topic/new-user-creation-error/; thanks to *mlipenk* (ADI-670)
+* ADDED: new hook to hide the 'Log in using SSO' option, https://wordpress.org/support/topic/remove-link-log-in-using-sso-on-login-page/; thanks to *vyatcheslav* (ADI-672)
 * FIXED: refactored post authentication logic into separate services (ADI-671, ADI-673)
 
 = 2.1.7 =
 * FIXED: the hooks auth_before_create_or_update_user and auth_after_create_or_update_user were not registered so the SSO authentication always failed silently (ADI-668)
 
 = 2.1.6 =
-* FIXED: custom authentication filters were not registered properly (ADI-665) this will fix SSO related issues
+* FIXED: custom authentication filters were not registered properly and this fixes SSO related issues (ADI-665)
 * FIXED: test authentication will now properly check for authorization groups again
 
 = 2.1.5 =
 * FIXED: replaced all references to the deprecated each-function with foreach (ADI-628)
-* FIXED: authorization groups will now properly prevent users from logging in (ADI-664, https://wordpress.org/support/topic/authorization-groups-not-working/ Thanks to shmew22, GitHub #92 Thanks to pokertour)
-* FIXED: the menu-visibility options were missing inside the profile-tab (ADI-663, https://wordpress.org/support/topic/menu-items-missing-3/ Thanks to 5tu)
-* ADDED: 2 new filters to allow for custom validation during the authentication process (ADI-657, GitHub #89 Thanks to Destabilizator)
+* FIXED: authorization groups will now properly prevent users from logging in, https://wordpress.org/support/topic/authorization-groups-not-working/; thanks to *shmew22*, *pokertour* (ADI-664, #92)
+* FIXED: the menu-visibility options were missing inside the profile-tab, https://wordpress.org/support/topic/menu-items-missing-3/; thanks to *5tu* (ADI-663);
+* ADDED: 2 new filters to allow for custom validation during the authentication process; thanks to *Destabilizator* (ADI-657, #89)
 
 = 2.1.4 =
 * FIXED: isUserAuthorized() prevented login for users successfully authenticated via SSO at Active Directory due username was passed instead of guid
@@ -233,11 +233,11 @@ For detailed information you can visit the official [GitHub repository of Next A
 * ADDED: SSO Username variable helper tab content now contains a table including all supported variables and their current $_SERVER values
 
 = 2.1.3 =
-* ADD: added message on the profile configuration page to inform customers about end of PHP version <7.1 support
-* ADD: json response for "Sync to WordPress" triggered via powershell
-* ADD: improved logging in within the Connection.php class
-* ADD: missing German translations
-* ADD: PHP_AUTH_USER to SSO username variables
+* ADDED: added message on the profile configuration page to inform customers about end of PHP version <7.1 support
+* ADDED: json response for "Sync to WordPress" triggered via powershell
+* ADDED: improved logging in within the Connection.php class
+* ADDED: missing German translations
+* ADDED: PHP_AUTH_USER to SSO username variables
 * FIXED: app.config and password.controller.config being flagged by customer firewalls / security plugins which resulted in them not being loaded properly (renamed them)
 * FIXED: redirect to target site not working properly after being authenticated via NADI SSO
 * FIXED: isUserAuthorized() not working properly with UPNs
@@ -249,137 +249,137 @@ For detailed information you can visit the official [GitHub repository of Next A
 * REMOVED: NADI support license nag message on WordPress plug-in page
 
 = 2.1.1 =
-* ADD: Github#59 proxy address login (Special thanks to Github user *nedwidek* for contributing this functionality)
-* ADD: profile picture ad attributes to the ad attributes dropdown at the ad attributes configuration page
-* ADD: Github#44 claims based authentication (Special thanks to Github user *rgottsch* for contributing this functionality)
-* ADD: new option to decide if you want to grant smart card users access to the WordPress environment
-* ADD: links to the specific documentation pages for each configuration page
-* ADD: Github#64 powershell script to trigger "Sync to WordPress" and "Sync to AD" (Special thanks to Github user *nemchik* for contributing this)
-* FIX: Github#49 its now possible to enter an empty base dn
-* FIX: adjusted base DN description
-* FIX: Github#59 typo in LoginService.php
+* ADDED: proxy address login; special thanks to *nedwidek* for contributing this functionality (#59)
+* ADDED: profile picture ad attributes to the ad attributes dropdown at the ad attributes configuration page
+* ADDED: claims based authentication; special thanks to *rgottsch* for contributing this functionality (#44)
+* ADDED: new option to decide if you want to grant smart card users access to the WordPress environment
+* ADDED: links to the specific documentation pages for each configuration page
+* ADDED: powershell script to trigger "Sync to WordPress" and "Sync to AD"; special thanks to *nemchik* for contributing this (#64)
+* FIXED: it is now possible to enter an empty base dn (#49)
+* FIXED: adjusted base DN description
+* FIXED: typo in LoginService.php (#59)
 * REMOVED: whitespaces inside the rendered curl and wget tags
 * REMOVED: old code that caused an warning with PHP 7.2.0 changes to count() and sizeOf()
 
 = 2.1.0 =
-* ADD: NADI is now using Monolog for everything related to logs
-* ADD: added a button to manually persist "Logging" configurations
-* FIX: user attributes are now correctly logged
-* FIX: fixed a problem where the port configuration for LDAPS was not used
-* FIX: updated twig to the latest 1.x version. (2.x requires >= PHP 7.0.0)
-* ADD: debug logs messages will be not displayed in the frontend log anymore in order to prevent an overflow
-* ADD: dummy logger in order to prevent outdated premium extensions from crashing
+* ADDED: NADI is now using Monolog for everything related to logs
+* ADDED: added a button to manually persist "Logging" configurations
+* FIXED: user attributes are now correctly logged
+* FIXED: fixed a problem where the port configuration for LDAPS was not used
+* FIXED: updated twig to the latest 1.x version. (2.x requires >= PHP 7.0.0)
+* ADDED: debug logs messages will be not displayed in the frontend log anymore in order to prevent an overflow
+* ADDED: dummy logger in order to prevent outdated premium extensions from crashing
 * REMOVED: removed log4php from NADI
 
 = 2.0.14 =
-* ADD: added frontend information banners for NADI premium extensions
-* ADD: added frontend information about why "Sync to WordPress" can not be started
-* FIX: members of not mapped security groups will now receive the default role "Subscriber"
-* FIX: "Clean existing Roles" is now default set to false
-* ADD: added new style for configuration page
-* FIX: fixed some style issues
-* ADD: added logic to determine if a NADI option already exists in the DB to prevent the problem saving options with default value true
-* ADD: added detailed log on which UAC flag is responsible for users not beeing imported
-* FIX: fixed logs destroying the user profile while trying to update a user profile / also catched exception
-* FIX: fixed template conditions causing problems in Microsoft Edge
+* ADDED: added frontend information banners for NADI premium extensions
+* ADDED: added frontend information about why "Sync to WordPress" can not be started
+* FIXED: members of not mapped security groups will now receive the default role "Subscriber"
+* FIXED: "Clean existing Roles" is now default set to false
+* ADDED: added new style for configuration page
+* FIXED: fixed some style issues
+* ADDED: added logic to determine if a NADI option already exists in the DB to prevent the problem saving options with default value true
+* ADDED: added detailed log on which UAC flag is responsible for users not being imported
+* FIXED: fixed logs destroying the user profile while trying to update a user profile / also caught exception
+* FIXED: fixed template conditions causing problems in Microsoft Edge
 
 
 = 2.0.13 =
-* FIX: switched from mcrypt to defuse/php-encryption
-* FIX: decoupled password update from user update to allow for automatic password updates without 'auto update user' set to true
-* FIX: marked brute force protection deprecated
-* FIX: minor bugs when using ldap over ssl
-* ADD: sync to ad now uses the GUID for syncronization
-* FIX: verify domain controller connectivity before incrementing brute force protection counter
-* FIX: custom attributes inside the user profile will prioritize the custom description (thanks to mzemann)
-* FIX: changed the look of Sync to AD, Sync to WordPress and Test authentication
-* ADD: added row to users list for premium extension (custom user role management)
-* FIX: added the complete dirname when using require_once inside index.php (GitHub #47)
+* FIXED: switched from mcrypt to defuse/php-encryption
+* FIXED: decoupled password update from user update to allow for automatic password updates without 'auto update user' set to true
+* FIXED: marked brute force protection deprecated
+* FIXED: minor bugs when using ldap over ssl
+* ADDED: sync to ad now uses the GUID for synchronization
+* FIXED: verify domain controller connectivity before incrementing brute force protection counter
+* FIXED: custom attributes inside the user profile will prioritize the custom description; thanks to *mzemann*
+* FIXED: changed the look of Sync to AD, Sync to WordPress and Test authentication
+* ADDED: added row to users list for premium extension (custom user role management)
+* FIXED: added the complete dirname when using require_once inside index.php (#47)
 
 = 2.0.12 =
-* ADD: internationalization for all plugin strings (ADI-432 ADI-436 see https://translate.wordpress.org/projects/wp-plugins/next-active-directory-integration)
-* FIX: roles are now mapped using the GUID instead of sAMAccountName (ADI-428)
-* ADD: option for preventing disabled users to be synchronized to WordPress (ADI-223)
-* ADD: validation for Base DN
-* FIX: problem when sending brute force protection notifications via email (ADI-464)
-* FIX: non NADI users being blocked by the brute force protection
-* FIX: brute force protection now checks for the whole username (ADI-424)
-* FIX: updating user profiles without bind user (ADI-439)
-* FIX: countdown for brute force protection (ADI-456)
+* ADDED: internationalization for all plugin strings, see https://translate.wordpress.org/projects/wp-plugins/next-active-directory-integration (ADI-432, ADI-436)
+* FIXED: roles are now mapped using the GUID instead of sAMAccountName (ADI-428)
+* ADDED: option for preventing disabled users to be synchronized to WordPress (ADI-223)
+* ADDED: validation for Base DN
+* FIXED: problem when sending brute force protection notifications via email (ADI-464)
+* FIXED: non NADI users being blocked by the brute force protection
+* FIXED: brute force protection now checks for the whole username (ADI-424)
+* FIXED: updating user profiles without bind user (ADI-439)
+* FIXED: countdown for brute force protection (ADI-456)
 
 = 2.0.11 =
-* ADD: NTLM support for SSO (sponsored by Vogels - www.vogels.com)
-* ADD: implementation of hooks to provide an API (ADI-145)
-* ADD: premium extensions available for support license subscribers
-* ADD: log reason for not being able to increase max_execution_time (ADI-396)
-* ADD: log message that AD security group could not be found (ADI-397)
-* ADD: improve logging number of users to import from AD to WordPress (ADI-414)
-* FIX: synchronization does not work b/c getDomainSid returns "S-0" (ADI-412)
-* FIX: "Test authentication" does not allow characters like a backward slash (ADI-421)
-* FIX: permanent redirects after successful authentication (ADI-422)
-* FIX: error "the current user is being initialized without using $wp->init()" when using BuddyPress (ADI-416)
-* FIX: blocking of users with long user names (ADI-330)
-* FIX: get_blog_details replaced with get_site to maintain compatibility with WordPress 4.7+ (ADI-419)
-* FIX: restrict output of debug LDAP user information to only an amount of characters (ADI-420)
-* FIX: Sync to WordPress: default WordPress role "Subscriber" is not assigned (ADI-401)
-* FIX: Users with admin role granted by WordPress lose their role when logging into the site for the first time (ADI-380)
+* ADDED: NTLM support for SSO (sponsored by Vogels - www.vogels.com)
+* ADDED: implementation of hooks to provide an API (ADI-145)
+* ADDED: premium extensions available for support license subscribers
+* ADDED: log reason for not being able to increase max_execution_time (ADI-396)
+* ADDED: log message that AD security group could not be found (ADI-397)
+* ADDED: improve logging number of users to import from AD to WordPress (ADI-414)
+* FIXED: synchronization does not work b/c getDomainSid returns "S-0" (ADI-412)
+* FIXED: "Test authentication" does not allow characters like a backward slash (ADI-421)
+* FIXED: permanent redirects after successful authentication (ADI-422)
+* FIXED: error "the current user is being initialized without using $wp->init()" when using BuddyPress (ADI-416)
+* FIXED: blocking of users with long user names (ADI-330)
+* FIXED: get_blog_details replaced with get_site to maintain compatibility with WordPress 4.7+ (ADI-419)
+* FIXED: restrict output of debug LDAP user information to only an amount of characters (ADI-420)
+* FIXED: Sync to WordPress: default WordPress role "Subscriber" is not assigned (ADI-401)
+* FIXED: Users with admin role granted by WordPress lose their role when logging into the site for the first time (ADI-380)
 
 = 2.0.10 =
-* ADD: option to enable/disable authentication using XML-RPC
-* FIX: reworked user interface
-* FIX: sync ends after deleted account is no longer present in Active Directory
-* FIX: integration tests
-* FIX: emails will not be sent to administrators (GitHub #27 Thanks to kyleflan)
-* FIX: users can now be disabled from WordPress
-* ADD: HTTP_X_REMOTE_USER is now an option in the SSO configuration (GitHub #29 Thanks to laughtonsm)
+* ADDED: option to enable/disable authentication using XML-RPC
+* FIXED: reworked user interface
+* FIXED: sync ends after deleted account is no longer present in Active Directory
+* FIXED: integration tests
+* FIXED: emails will not be sent to administrators; thanks to *kyleflan* (#27)
+* FIXED: users can now be disabled from WordPress
+* ADDED: HTTP_X_REMOTE_USER is now an option in the SSO configuration; thanks to *laughtonsm* (#29)
 
 = 2.0.9 =
-* FIX: add missing default value for method parameter
+* FIXED: add missing default value for method parameter
 
 = 2.0.8 =
-* FIX: remove PHP 5.6 code (GitHub #22 Thanks to requincreative)
+* FIXED: remove PHP 5.6 code; thanks to *requincreative* (#22)
 
 = 2.0.7 =
-* ADD: custom user roles can be used in "Role equivalent groups"
-* ADD: the logger is disabled by default (and can be enabled inside the configuration)
-* ADD: log file path can be configured (default is wp-content/plugins/next-active-directory-integration/logs/debug.log)
+* ADDED: custom user roles can be used in "Role equivalent groups"
+* ADDED: the logger is disabled by default (and can be enabled inside the configuration)
+* ADDED: log file path can be configured (default is wp-content/plugins/next-active-directory-integration/logs/debug.log)
 
 = 2.0.6 =
-* FIX: show activation notice only after activating this plugin (https://wordpress.org/support/topic/activate-plugin-notification-bug/ Thanks to bobchou9)
-* FIX: SSO/verify-password errors by un-quoting values in $_GET/$_POST/$_SERVER. WordPress quotes all entries in $_GET/$_POST/$_SERVER automatically (GitHub #20 Thanks to plantjes)
+* FIXED: show activation notice only after activating this plugin (https://wordpress.org/support/topic/activate-plugin-notification-bug/); thanks to bobchou9
+* FIXED: SSO/verify-password errors by un-quoting values in $_GET/$_POST/$_SERVER. WordPress quotes all entries in $_GET/$_POST/$_SERVER automatically; thanks to plantjes (#20)
 
 = 2.0.5 =
-* FIX: check if AD result is not empty before accessing distinguished name (GitHub #16 Thanks to petterannerwall)
-* ADD: optional support for Down-Level User Name (like TEST\klammer) (GitHub #18)
+* FIXED: check if AD result is not empty before accessing distinguished name; thanks to petterannerwall (#16)
+* ADDED: optional support for Down-Level User Name (like TEST\klammer) (#18)
 
 = 2.0.4 =
-* ADD: make log pattern configurable (https://wordpress.org/support/topic/please-add-timestamps-to-the-debug-log-file/ Thanks to tmuikku)
+* ADDED: make log pattern configurable (https://wordpress.org/support/topic/please-add-timestamps-to-the-debug-log-file/); Thanks to tmuikku
 
 = 2.0.3 =
-* FIX: brute force protection is now be disabled (GitHub #14 Thanks to Munnday (David Munn))
-* FIX: the max count of login tries and the block time are now editable
+* FIXED: brute force protection is now be disabled; thanks to Munnday (David Munn) (#14)
+* FIXED: the max count of login tries and the block time are now editable
 
 = 2.0.2 =
-* FIX: SSO caused a PHP error during login (GitHub #13 Thanks to Jason Taylor and Munnday (David Munn))
+* FIXED: SSO caused a PHP error during login; thanks to Jason Taylor and Munnday (David Munn) (#13)
 
 = 2.0.1 =
-* FIX: missing german translation
+* FIXED: missing german translation
 
 = 2.0.0 =
-* ADD: support for WordPress Multisite through profiles
-* ADD: Profiles can be customized, including the permission of every option
-* ADD: support for PHP7
-* ADD: detailed documentation at https://www.active-directory-wp.com/docs/Getting_Started.html
-* ADD: experimental support for multiple Active Directory domains; see FAQ
-* ADD: easier handling and description of encryption methods for LDAP
-* ADD: additional columns in Multisite overview for networks and users
-* ADD: user names can be explicitly excluded from authentication
-* ADD: menu entries of *Next ADI* can be hidden
-* ADD: *Next ADI* can be disabled per Multisite site environment
-* CHANGE: large user interface improvements
-* CHANGE: complete rewrite of the PHP backend
-* CHANGE: userPrincipalName is leading attribute for user identification instead of sAMAccountName
-* FIX: Role Equivalent Groups can be mapped to multiple WordPress roles instead of only one
+* ADDED: support for WordPress Multisite through profiles
+* ADDED: Profiles can be customized, including the permission of every option
+* ADDED: support for PHP7
+* ADDED: detailed documentation at https://www.active-directory-wp.com/docs/Getting_Started.html
+* ADDED: experimental support for multiple Active Directory domains; see FAQ
+* ADDED: easier handling and description of encryption methods for LDAP
+* ADDED: additional columns in Multisite overview for networks and users
+* ADDED: user names can be explicitly excluded from authentication
+* ADDED: menu entries of *Next ADI* can be hidden
+* ADDED: *Next ADI* can be disabled per Multisite site environment
+* CHANGED: large user interface improvements
+* CHANGED: complete rewrite of the PHP backend
+* CHANGED: userPrincipalName is leading attribute for user identification instead of sAMAccountName
+* FIXED: Role Equivalent Groups can be mapped to multiple WordPress roles instead of only one
 * and much much more we can not list here. Please take the time and read the official documentation :-)
 
 = 1.x (Active Directory Integration) =

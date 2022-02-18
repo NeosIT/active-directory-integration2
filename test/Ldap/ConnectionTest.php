@@ -141,8 +141,8 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	}
 
 	/**
-	 * @see ADI-713
 	 * @since 2.1.13
+	 * @issue ADI-713
 	 * @test
 	 */
 	public function ADI_713_register_userInfo_hookIsRegistered()
@@ -426,7 +426,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	}
 
 	/**
-	 * @see ADI-713
+	 * @issue ADI-713
 	 * @since 2.1.13
 	 * @test
 	 */
@@ -442,7 +442,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	}
 
 	/**
-	 * @see ADI-713
+	 * @issue ADI-713
 	 * @since 2.1.13
 	 * @test
 	 */

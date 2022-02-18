@@ -174,7 +174,7 @@ class NextADInt_Ldap_Attribute_Service
 	 *
 	 * @param NextADInt_Ldap_UserQuery $userQuery
 	 * @return NextADInt_Ldap_Attributes
-	 * @see ADI-713
+	 * @issue ADI-713
 	 */
 	public function resolveLdapAttributes(NextADInt_Ldap_UserQuery $userQuery)
 	{

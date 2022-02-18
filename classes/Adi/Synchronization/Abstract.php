@@ -168,7 +168,7 @@ abstract class NextADInt_Adi_Synchronization_Abstract
 
 			$sid = NextADInt_ActiveDirectory_Sid::of($userDomainSid);
 
-			// @see #138: the SID can be null if this user has been imported in a previous version
+			// #138: the SID can be null if this user has been imported in a previous version
 			if (!$this->connection->getActiveDirectoryContext()->isMember($sid)) {
 				$this->logger->warning('User with name ' . $user->user_login . 'is not a member of one of the configured domains.');
 				continue;

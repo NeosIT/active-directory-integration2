@@ -823,7 +823,7 @@ class adLDAP {
     	$filter="(&(objectCategory=user)(primarygroupid=".$pgid."))";
     	
     	// Let's use paging if available
-        // gh-#127: PHP 7.4 compatibility; ldap_control_paged* is deprecated
+        // #127: PHP 7.4 compatibility; ldap_control_paged* is deprecated
     	if (function_exists('ldap_control_paged_result')) {
     		
     		$pageSize = 500;
@@ -1014,7 +1014,7 @@ class adLDAP {
         if ($fields===NULL){ $fields=array("member","memberof","cn","description","distinguishedname","objectcategory","samaccountname"); }
         
         // Let's use paging if available
-        // gh-#127: PHP 7.4 compatibility; ldap_control_paged* is deprecated
+        // #127: PHP 7.4 compatibility; ldap_control_paged* is deprecated
 		if (function_exists('ldap_control_paged_result')) {
         
         	$pageSize = 500;
@@ -1376,7 +1376,7 @@ class adLDAP {
      * Get a configuration entry form the CN=Partitions,CN=Configuration object.
 	 * Due to the nature of Active Directory forests, this method is not so simple.
 	 *
-	 * @see #gh-153
+	 * @since #153 this method has been extended to support Active Directory forests
      * @param $filter
      * @return bool
      */
@@ -3047,7 +3047,7 @@ class adLDAP {
 		$fields = array("samaccountname");
 		$sr = ldap_search($this->_conn,$this->_base_dn,$filter,$fields);
 		
-		// @see #146: if search failed, $sr will be false and we have to return
+		// #146: if search failed, $sr will be false and we have to return
 		if ($sr === FALSE) {
 			return FALSE;
 		}

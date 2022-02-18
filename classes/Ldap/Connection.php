@@ -431,7 +431,7 @@ class NextADInt_Ldap_Connection
 	 * @param NextADInt_Ldap_UserQuery $userQuery
 	 * @param array $attributeNames
 	 * @return array|boolean the $bestMatch exactly one match or false
-	 * @see ADI-713
+	 * @issue ADI-713
 	 * @since 2.1.13
 	 */
 	public function mapUserInfo($bestMatch, $matchesFromLdap, $totalMatches, NextADInt_Ldap_UserQuery $userQuery, $attributeNames)

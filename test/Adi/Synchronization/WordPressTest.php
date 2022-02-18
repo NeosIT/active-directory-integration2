@@ -1001,7 +1001,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	}
 
 	/**
-	 * @see #141
+	 * @issue #141
 	 * @test
 	 */
 	public function synchronizeUser_itSetsDomainSidOnlyIfUserIsPresent_gh141()
@@ -1235,8 +1235,7 @@ class Ut_Synchronization_WordPressTest extends Ut_BasicTest
 	}
 
 	/**
-	 * GitHub issue #132
-	 * @see https://github.com/NeosIT/active-directory-integration2/issues/132
+	 * @issue #132
 	 * @test
 	 */
 	public function GH_132_TypeError_withPHP8_0() {

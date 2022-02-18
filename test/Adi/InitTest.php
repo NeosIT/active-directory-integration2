@@ -755,7 +755,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 	/**
 	 * @test
-	 * @issue #gh-154
+	 * @issue #154
 	 */
 	public function GH_154_isNotOnCustomLoginPage_whenDefinedInUIButUriDoesNotMatch() {
 		$sut = $this->sut(array('dc', 'isOnXmlRpcPage'));
@@ -793,7 +793,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 
 	/**
 	 * @test
-	 * @issue #gh-154
+	 * @issue #154
 	 */
 	public function GH_154_isOnCustomLoginPage_whenDefinedInUI() {
 		$sut = $this->sut(array('dc', 'isOnXmlRpcPage'));
@@ -971,7 +971,7 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
         $this->assertTrue($actual);
     }
     /**
-     * @see NADIS-92, ADI-679
+     * @issue NADIS-92, ADI-679
      * @since 2.1.9
      * @test
      */

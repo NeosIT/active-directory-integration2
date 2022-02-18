@@ -112,7 +112,7 @@ class NextADInt_Adi_Authentication_LoginService
 		// for normal login we have to check for disabled users by hooking into wp_authenticate_user
 		add_filter('wp_authenticate_user', array($this->loginSucceededService, 'checkUserEnabled'), 10, 2);
 
-		// @see #142: register an additional filter for checking if the username is excluded
+		// #142: register an additional filter for checking if the username is excluded
 		add_filter(NEXT_AD_INT_PREFIX . 'auth_form_login_requires_ad_authentication', array($this, 'requiresActiveDirectoryAuthentication'), 10, 1);
 	}
 

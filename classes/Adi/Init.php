@@ -232,7 +232,7 @@ class NextADInt_Adi_Init
     /**
      * Signal that NADI registration has been finished. It simply calls the WordPress action 'nadi_loaded'
      * @since 2.1.8
-     * @see ADI-672
+     * @issue ADI-672
      */
 	public function finishRegistration() {
 	    do_action('next_ad_int_loaded');

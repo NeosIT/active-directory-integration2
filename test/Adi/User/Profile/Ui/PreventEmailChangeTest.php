@@ -183,7 +183,7 @@ class Ut_NextADInt_Adi_User_Profile_Ui_PreventEmailChangeTest extends Ut_BasicTe
 
     /**
      * @test
-     * @see ADI-670
+     * @issue ADI-670
      */
     public function ADI_670_disablePreventEmailChange_ifUserParameterIsMissing() {
         $errors = (object)array();

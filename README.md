@@ -9,15 +9,40 @@ For security reasons and in order to use NADI in 2022 we hereby politely encoura
 
 Thank you all for your support and understanding.
 
-## Running
+## Getting Started
 You can download the ready-to-use version from the [WordPress.org Plugin Directory](https://wordpress.org/plugins/next-active-directory-integration) or from the [SVN repository](https://plugins.svn.wordpress.org/next-active-directory-integration) hosted by WordPress.org.
 
-## Running (for developers)
-Clone this Git repository inside the *wp-content/plugins* directory of your WordPress environment.
+If you are developer, you can also clone this Git repository inside the *wp-content/plugins* directory of your WordPress environment.
 
 After the cloning you have to update the dependencies with help of *Composer* (execute `composer install` inside the cloned repository folder).
 To install composer follow the instructions on [https://getcomposer.org/download/](https://getcomposer.org/download/).
-	
+
+## Development
+### Contributing
+- Pull request and changes must be made against the `develop` or a dedicated `feature` or `bugfix` branch. Name the branches either `bugfix/${GITHUB_ISSUE_NUMBER}` or `feature/${GITHUB_ISSUE_NUMBER}`.
+- Any changes must be added in the `UNRELEASED` section of the `readme.txt` for documentation purposes.
+
+### Release process
+When releasing a new version, the changes from `develop` must be merged to `master`. `master` is automatically pushed to wordpress.org.
+The `master` version must be tagged accordingly (`${MAJOR}.${MINOR}.${BUGFIX}`) and then pushed. A new tag is automatically tested, gets then pushed to wordpress.org and will be released.
+
+To create a new release, do the following:
+
+```bash
+git tag -a ${VERSION} -m "release of ${VERSION}"
+git push origin ${VERSION}
+```
+
+### Referencing issues
+Due to the development history of NADI, we have a combination of old Jira issues and newer GitHub issues. References to the old Jira issues stay as they are. For newer GitHub issues we are using the following format:
+
+#### Documentation
+For documentation purposes (e.g. references in `readme.txt`, `@issue` annotation in unit tests or a badge inside the official documentation), we use `#${GITHUB_ISSUE_NUMBER}`, e.g. `#555`.
+
+#### Tests
+Test methods are prefixed with `GH_{GITHUB_ISSUE_NUMBER}_`, e.g. `GH_555_` for easier filtering.
+Each test method must have (as described before) the annotation `@issue #${GITHUB_ISSUE_NUMBER}` assigned.
+
 ### Testing
 Tests are made with PHPUnit 9.5 Get PHPUnit 9.5 with
 
@@ -82,12 +107,3 @@ The branches
 
 will be automatically tested.
 
-### Release process
-Every pushed tag will be automatically tested. After a succesful test, it gets uploaded to wordpress.org.
-
-To create a new release:
-
-```bash
-git tag -a ${VERSION} -m "release of ${VERSION}"
-git push origin ${VERSION}
-```

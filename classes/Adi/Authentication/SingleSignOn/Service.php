@@ -74,7 +74,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this->loginSucceededService, 'checkUserEnabled'), 15, 1);
 		// after login has succeeded, we want the current identified user to be automatically logged in
 		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this, 'loginUser'), 19, 1);
-		// @see #142: register an additional filter for checking if the username is excluded; please note that this differs from the parent's basic_login_requires_ad_authentication filter
+		// #142: register an additional filter for checking if the username is excluded; please note that this differs from the parent's basic_login_requires_ad_authentication filter
 		add_filter(NEXT_AD_INT_PREFIX . 'auth_sso_login_requires_ad_authentication', array($this, 'requiresActiveDirectoryAuthentication'), 10, 1);
 	}
 
@@ -168,7 +168,7 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		// let our locator find a matching profile, based upon the given credentials
 		$profileMatch = $this->ssoProfileLocator->locate($credentials);
 
-		// @see gh-#152, NADISUP-7: Critical WordPress error if a matching profile for SSO authentication can not be found
+		// #152, NADISUP-7: Critical WordPress error if a matching profile for SSO authentication can not be found
 		if (!$profileMatch) {
 			throw new NextADInt_Adi_Authentication_Exception("Unable to locate a matching profile for '" . $credentials->getLogin() . "'");
 		}

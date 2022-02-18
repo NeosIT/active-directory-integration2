@@ -359,7 +359,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 
 		WP_Mock::expectActionAdded('wp_logout', array($sut, 'logout'));
 		WP_Mock::expectActionAdded('init', array($sut, 'authenticate'));
-		// @see #142
+		// @issue #142
 		WP_Mock::expectFilterAdded('next_ad_int_auth_sso_login_requires_ad_authentication', array($sut, 'requiresActiveDirectoryAuthentication'), 10, 1);
 
 		$sut->register();

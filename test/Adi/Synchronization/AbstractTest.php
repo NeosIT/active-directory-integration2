@@ -326,7 +326,7 @@ class Ut_Synchronization_AbstractTest extends Ut_BasicTest
 	}
 
 	/**
-	 * @see #138
+	 * @issue #138
 	 * @test
 	 */
 	public function findActiveDirectoryUsers_breaksWhenDomainSidIsEmtpy_gh138()

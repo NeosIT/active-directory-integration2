@@ -368,7 +368,7 @@ class Ut_NextADInt_Adi_Authentication_LoginServiceTest extends Ut_BasicTest
 
 	/**
 	 * @test
-	 * @see ADI-716
+	 * @issue ADI-716
 	 */
 	public function ADI_716()
 	{

@@ -19,6 +19,7 @@ class AdLdapTest extends TestCase
 
 	/**
 	 * @test
+	 * @issue #153
 	 */
 	public function GH_153_inADForestTheUpperDNsAreSearched_whenResolvingTheConfiguration()
 	{
@@ -72,7 +73,7 @@ class AdLdapTest extends TestCase
 
 	/**
 	 * @test
-	 * @see #gh-153
+	 * @issue #153
 	 */
 	public function GH_153_inSingleDomain_theNetbiosConfigurationIsReturned()
 	{
@@ -112,7 +113,7 @@ class AdLdapTest extends TestCase
 
 	/**
 	 * @test
-	 * @see #gh-153
+	 * @issue #153
 	 */
 	public function sanitizeDistinguishedName() {
 		$sut = $this->sut();

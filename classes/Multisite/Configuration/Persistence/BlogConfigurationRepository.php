@@ -189,7 +189,7 @@ class NextADInt_Multisite_Configuration_Persistence_BlogConfigurationRepository 
 	 */
 	function getDefaultValue($siteId, $optionName, $option)
 	{
-		// gh-#127: PHP 7.4 compatibility; warning if $option is not an array but null
+		// #127: PHP 7.4 compatibility; warning if $option is not an array but null
 		if (!is_array($option)) {
 			$this->logger->warn("Option '" . $optionName . "' in site with ID '" . $siteId . "' has no option configuration");
 			return null;

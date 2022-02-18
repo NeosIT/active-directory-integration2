@@ -267,7 +267,7 @@ class Ut_NextADInt_Adi_User_ManagerTest extends Ut_BasicTest
 
     /**
      * @test
-     * @see NADIS-98, ADI-688
+     * @issue NADIS-98, ADI-688
      * @since 2.1.9
      */
     public function createAdiUser_itFindsUserByObjectGuid() {

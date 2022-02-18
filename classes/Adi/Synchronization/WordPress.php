@@ -279,7 +279,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 
 		$uac = $attributes[$key][0];
 
-		// @see GH-132: https://github.com/NeosIT/active-directory-integration2/issues/132
+		// #132: https://github.com/NeosIT/active-directory-integration2/issues/132
 		// With PHP 8 we got hit by https://github.com/php/php-src/pull/5331
 		return (int)$uac;
 	}
@@ -295,7 +295,7 @@ class NextADInt_Adi_Synchronization_WordPress extends NextADInt_Adi_Synchronizat
 	public function isNormalAccount(int $uac)
 	{
 
-		// @see ADI-517: Improved logging for UAC Binary Flag check to make it more transparent for the user and improve debugging.
+		// ADI-517: Improved logging for UAC Binary Flag check to make it more transparent for the user and improve debugging.
 		switch ($uac) {
 			case (($uac & self::UF_INTERDOMAIN_TRUST_ACCOUNT) === self::UF_INTERDOMAIN_TRUST_ACCOUNT):
 				$this->logger->warn("INTERDOMAIN_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
