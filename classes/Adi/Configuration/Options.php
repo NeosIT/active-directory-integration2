@@ -190,8 +190,8 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 	}
 
 	/**
-	 * This method generates all the meta information for a option elements.
-	 * The keys (like self::DOMAIN_CONTROLLERS, self::PORT) and it is values are option elements.
+	 * This method generates all the meta information for an option elements.
+	 * The keys (like self::DOMAIN_CONTROLLERS, self::PORT) and their values are option elements.
 	 * The key is the internal name for the option and the value is the option meta data.
 	 *
 	 * The option meta data contains information like:
@@ -1171,9 +1171,9 @@ class NextADInt_Adi_Configuration_Options implements NextADInt_Multisite_Option_
 			self::CUSTOM_LOGIN_PAGE_URI => array(
 				$title => __('Custom login page URI', 'next-active-directory-integration'),
 				$type => NextADInt_Multisite_Option_Type::TEXT,
-				$description => __('URI of the login page where authentication against the Active Directory will be enabled. It should start with slash, eg. "/login".',
+				$description => __('URI of a custom login page where authentication against the Active Directory will be enabled. By default, the custom login page\'s URI is <em>/login</em>.',
 					'next-active-directory-integration'),
-				$detail => __('If you use custom login page URI like "/login" please enter it to enable Active Directory authentication check on this page.', 'next-active-directory-integration'),
+				$detail => __('If you use a custom login page URI like <em>/login</em>, please enter it to enable Active Directory authentication check on this page.', 'next-active-directory-integration'),
 				$angularAttributes => 'ng-disabled="(!option.custom_login_page_enabled',
 				$default => '/login',
 				$sanitizer => array('string'),

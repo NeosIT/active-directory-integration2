@@ -132,6 +132,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 * FIXED: Critical WordPress error if a matching profile for SSO authentication can not be found (gh-#152, NADISUP-7)
 * FIXED: Uncaught TypeError when checking userAccountControl attribute (gh-#151)
 * FIXED: For specific Active Directory forest structures, the NETBIOS name can not be resolved during verification of the credentials (gh-#153, NADISUP-8)
+* ADDED: Option for specifying a custom login page URI; special thanks to GitHub user *czoIg* for contributing this functionality (gh-#154)
 
 = 2.3.1 =
 * CHANGED: WordPress 5.9 compatibility has been checked

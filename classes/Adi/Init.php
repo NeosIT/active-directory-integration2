@@ -486,6 +486,7 @@ class NextADInt_Adi_Init
 
 		if ($customLoginPageEnabled) {
 			$loginUri = $this->dc()->getConfiguration()->getOptionValue(NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_URI);
+
 			if (isset($_SERVER["REQUEST_URI"]) && strpos($_SERVER["REQUEST_URI"], $loginUri) !== false) {
 				$r = true;
 			}
