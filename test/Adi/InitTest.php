@@ -754,6 +754,82 @@ class Ut_NextADInt_Adi_InitTest extends Ut_BasicTest
 	}
 
 	/**
+	 * @test
+	 * @issue #gh-154
+	 */
+	public function GH_154_isNotOnCustomLoginPage_whenDefinedInUIButUriDoesNotMatch() {
+		$sut = $this->sut(array('dc', 'isOnXmlRpcPage'));
+		$dc = $this->mockDependencyContainer($sut);
+		$authService = $this->createAnonymousMock(array('register'));
+		$ssoService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
+		$loginSucceededService = $this->createAnonymousMock(array('register'));
+		$configurationService  = $this->createAnonymousMock(array('getOptionValue'));
+
+		$sut->expects($this->once())->method('isOnXmlRpcPage')->willReturn(false);
+
+		// mock dependency container calls and return individual mocked services
+		$dc->expects($this->atLeast(2))->method('getConfiguration')->willReturn($configurationService);
+
+		$definedCustomLoginPage = '/my-custom-login-page';
+
+		$configurationService->method('getOptionValue')
+			->withConsecutive(
+				[NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_ENABLED],
+				[NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_URI])
+			->willReturnOnConsecutiveCalls(
+				// enable custom login page
+				true,
+				// overwrite default value for this setting
+				$definedCustomLoginPage
+			);
+
+		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_enable_login_check')
+			->with(false)
+			->reply(false);
+
+		$_SERVER["REQUEST_URI"] = 'https://localhost/unknown-login-page';
+		$this->assertFalse($sut->isOnLoginPage());
+	}
+
+	/**
+	 * @test
+	 * @issue #gh-154
+	 */
+	public function GH_154_isOnCustomLoginPage_whenDefinedInUI() {
+		$sut = $this->sut(array('dc', 'isOnXmlRpcPage'));
+		$dc = $this->mockDependencyContainer($sut);
+		$authService = $this->createAnonymousMock(array('register'));
+		$ssoService = $this->createAnonymousMock(array('register', 'registerAuthenticationHooks'));
+		$loginSucceededService = $this->createAnonymousMock(array('register'));
+		$configurationService  = $this->createAnonymousMock(array('getOptionValue'));
+
+		$sut->expects($this->once())->method('isOnXmlRpcPage')->willReturn(false);
+
+		// mock dependency container calls and return individual mocked services
+		$dc->expects($this->atLeast(2))->method('getConfiguration')->willReturn($configurationService);
+
+		$definedCustomLoginPage = '/my-custom-login-page';
+
+		$configurationService->method('getOptionValue')
+			->withConsecutive(
+				[NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_ENABLED],
+				[NextADInt_Adi_Configuration_Options::CUSTOM_LOGIN_PAGE_URI])
+			->willReturnOnConsecutiveCalls(
+			// enable custom login page
+				true,
+				// overwrite default value for this setting
+				$definedCustomLoginPage
+			);
+
+		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_enable_login_check')
+			->with(true)
+			->reply(true);
+
+		$_SERVER["REQUEST_URI"] = 'https://localhost' . $definedCustomLoginPage;
+		$this->assertTrue($sut->isOnLoginPage());
+	}
+
+	/**
 	 * @param null $methods
 	 *
 	 * @return NextADInt_Adi_Init|PHPUnit_Framework_MockObject_MockObject

@@ -25,6 +25,7 @@
             $scope.option = {
                 enable_smartcard_user_login: $valueHelper.findValue("enable_smartcard_user_login", data),
                 custom_login_page_enabled: $valueHelper.findValue("custom_login_page_enabled", data),
+                custom_login_page_uri: $valueHelper.findValue("custom_login_page_uri", data),
                 max_login_attempts: $valueHelper.findValue("max_login_attempts", data),
                 block_time: $valueHelper.findValue("block_time", data),
                 user_notification: $valueHelper.findValue("user_notification", data),
@@ -41,6 +42,7 @@
             $scope.permission = {
                 enable_smartcard_user_login: $valueHelper.findPermission("enable_smartcard_user_login", data),
                 custom_login_page_enabled: $valueHelper.findPermission("custom_login_page_enabled", data),
+                custom_login_page_uri: $valueHelper.findPermission("custom_login_page_uri", data),
                 max_login_attempts: $valueHelper.findPermission("max_login_attempts", data),
                 block_time: $valueHelper.findPermission("block_time", data),
                 user_notification: $valueHelper.findPermission("user_notification", data),
@@ -55,6 +57,7 @@
             $scope.messages = {
                 enable_smartcard_user_login: $valueHelper.findMessage("enable_smartcard_user_login", data),
                 custom_login_page_enabled: $valueHelper.findMessage("custom_login_page_enabled", data),
+                custom_login_page_uri: $valueHelper.findMessage("custom_login_page_uri", data),
                 max_login_attempts: $valueHelper.findMessage("max_login_attempts", data),
                 block_time: $valueHelper.findMessage("block_time", data),
                 user_notification: $valueHelper.findMessage("user_notification", data),

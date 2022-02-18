@@ -84,3 +84,10 @@ will be automatically tested.
 
 ### Release process
 Every pushed tag will be automatically tested. After a succesful test, it gets uploaded to wordpress.org.
+
+To create a new release:
+
+```bash
+git tag -a ${VERSION} -m "release of ${VERSION}"
+git push origin ${VERSION}
+```
