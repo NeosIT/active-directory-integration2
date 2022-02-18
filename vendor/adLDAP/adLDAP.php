@@ -1456,25 +1456,37 @@ class adLDAP {
 	 * @param $dn
 	 * @return string
 	 */
-	public function sanitizeDistinguishedName($dn) {
+	public function sanitizeDistinguishedName($dn)
+	{
 		return trim(strtolower($dn));
 	}
 
 	/**
-	 * Forward method to php_ldap's ldap_get_entries for testing purposes
+	 * Forward method to <em>php_ldap</em>'s ldap_get_entries to make adLDAP testable.
+	 *
 	 * @param $result
 	 * @return array
 	 */
-    public function _ldap_get_entries($result) {
-    	return ldap_get_entries($this->_conn, $result);
+	protected function _ldap_get_entries($result)
+	{
+		return ldap_get_entries($this->_conn, $result);
 	}
 
 	/**
-	 * Forward method to php_ldap's ldap_search for testing purposes
-	 * @param $result
+	 * Forward method to <em>php_ldap</em>'s ldap_search to make adLDAP testable.
+	 *
+	 * @param $base
+	 * @param $filter
+	 * @param array $attributes
+	 * @param int $attributes_only
+	 * @param int $sizelimit
+	 * @param int $timelimit
+	 * @param int $deref
+	 * @param null $controls
 	 * @return array
 	 */
-    public function _ldap_search($base, $filter, $attributes = [], int $attributes_only = 0, int $sizelimit = -1, int $timelimit = -1, int $deref = LDAP_DEREF_NEVER, $controls = null) {
+	protected function _ldap_search($base, $filter, $attributes = [], int $attributes_only = 0, int $sizelimit = -1, int $timelimit = -1, int $deref = LDAP_DEREF_NEVER, $controls = null)
+	{
 		return ldap_search($this->_conn, $base, $filter, $attributes, $attributes_only, $sizelimit, $timelimit, $deref, $controls);
 	}
     
