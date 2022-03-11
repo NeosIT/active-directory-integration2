@@ -5,6 +5,7 @@ Requires at least: 5.6
 Tested up to: 5.9
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
+Donate link: https://active-directory-wp.com
 
 Next Active Directory Integration allows WordPress to authenticate, authorize, create and update users against Microsoft Active Directory.
 
@@ -128,7 +129,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
-= UNRELEASED =
+= 2.3.2 =
 * FIXED: Critical WordPress error if a matching profile for SSO authentication can not be found (#152, NADISUP-7)
 * FIXED: Uncaught TypeError when checking userAccountControl attribute (#151)
 * FIXED: For specific Active Directory forest structures, the NETBIOS name can not be resolved during verification of the credentials (#153, NADISUP-8)
