@@ -69,6 +69,8 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		// ADI-659 enable earlier execution than default 10 to enable wOffice compatibility
 		add_action('wp_logout', array($this, 'logout'), $increaseLogoutExecutionPriority ? 1 : 10);
 		add_action('init', array($this, 'authenticate'));
+		// #160: do a redirect after the login has succeeded
+		add_action(NEXT_AD_INT_PREFIX .'login_succeeded_do_redirect', array($this, 'doRedirect'));
 
 		// for SSO we have to re-register the user-disabled hook
 		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this->loginSucceededService, 'checkUserEnabled'), 15, 1);
@@ -76,6 +78,8 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this, 'loginUser'), 19, 1);
 		// #142: register an additional filter for checking if the username is excluded; please note that this differs from the parent's basic_login_requires_ad_authentication filter
 		add_filter(NEXT_AD_INT_PREFIX . 'auth_sso_login_requires_ad_authentication', array($this, 'requiresActiveDirectoryAuthentication'), 10, 1);
+		// #160: register filter to create target redirect URI after login
+		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded_create_redirect_uri', array($this, 'createRedirectUri'), 10, 1);
 	}
 
 	/**
@@ -240,7 +244,6 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		return $unescape;
 	}
 
-
 	/**
 	 * Open the LDAP connection using the configuration from the profile.
 	 *
@@ -330,6 +333,23 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 			return $user;
 		}
 
+		$secure_cookie = is_ssl();
+		wp_set_current_user($user->ID, $user->user_login);
+		wp_set_auth_cookie($user->ID, true, $secure_cookie);
+
+		do_action('wp_login', $user->user_login, $user);
+		do_action(NEXT_AD_INT_PREFIX . 'login_succeeded_do_redirect', $user, $exit);
+
+		return $user;
+	}
+
+	/**
+	 * Create a URI for redirection after a successful login.
+	 *
+	 * @issue #160
+	 * @return mixed|string
+	 */
+	public function createRedirectUri($redirectTo = '') {
 		$redirectTo = (isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : "";
 
 		/*
@@ -351,18 +371,29 @@ class NextADInt_Adi_Authentication_SingleSignOn_Service extends NextADInt_Adi_Au
 		// if not set, fall back to the home url
 		$redirectTo = empty($redirectTo) ? home_url('/') : $redirectTo;
 
-		$secure_cookie = is_ssl();
-		wp_set_current_user($user->ID, $user->user_login);
-		wp_set_auth_cookie($user->ID, true, $secure_cookie);
+		return $redirectTo;
+	}
 
-		do_action('wp_login', $user->user_login, $user);
-		wp_safe_redirect($redirectTo);
+	/**
+	 * Execute the redirection after a successful login.
+	 *
+	 * @issue #160
+	 * @param $user
+	 * @param $exit
+	 * @return void
+	 */
+	public function doRedirect($user, $exit = true)
+	{
+		$redirectTo = apply_filters(NEXT_AD_INT_PREFIX . 'login_succeeded_create_redirect_uri', '');
+		$exitAfterRedirect = apply_filters(NEXT_AD_INT_PREFIX . 'login_succeeded_exit_after_redirect', $exit);
 
-		if ($exit) {
-			exit;
+		if (!empty($redirectTo)) {
+			wp_safe_redirect($redirectTo);
 		}
 
-		return $user;
+		if ($exitAfterRedirect) {
+			exit;
+		}
 	}
 
 	/**

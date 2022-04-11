@@ -131,6 +131,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 
 = UNRELEASED =
 * CHANGED: "master" branch has been replaced with "main" branch.
+* ADDED: lifecycle hooks after the authentication has succeeded, so Wordfence can be used (#160)
 
 = 2.3.2 =
 * FIXED: Critical WordPress error if a matching profile for SSO authentication can not be found (#152, NADISUP-7)

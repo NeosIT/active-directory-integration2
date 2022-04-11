@@ -361,6 +361,9 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 		WP_Mock::expectActionAdded('init', array($sut, 'authenticate'));
 		// @issue #142
 		WP_Mock::expectFilterAdded('next_ad_int_auth_sso_login_requires_ad_authentication', array($sut, 'requiresActiveDirectoryAuthentication'), 10, 1);
+		// @issue #160
+		WP_Mock::expectActionAdded('next_ad_int_login_succeeded_do_redirect', array($sut, 'doRedirect'));
+		WP_Mock::expectFilterAdded('next_ad_int_login_succeeded_create_redirect_uri', array($sut, 'createRedirectUri'), 10, 1);
 
 		$sut->register();
 	}
@@ -372,14 +375,6 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	{
 		$user = $this->createWpUserMock();
 		$sut = $this->sut();
-
-		WP_Mock::wpFunction(
-			'home_url', array(
-				'times' => 1,
-				'args' => '/',
-				'return' => '/',
-			)
-		);
 
 		WP_Mock::expectAction('wp_login', $user->user_login, $user);
 
@@ -404,6 +399,35 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 			)
 		);
 
+		$this->invokeMethod($sut, 'loginUser', array($user, false));
+	}
+
+	/**
+	 * @test
+	 * @issue #160
+	 */
+	public function GH_160_loginUser_callsAction_loginSucceededDoRedirect()
+	{
+		$user = $this->createWpUserMock();
+		$sut = $this->sut();
+
+		WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'login_succeeded_do_redirect', $user, false);
+
+		$this->invokeMethod($sut, 'loginUser', array($user, false));
+	}
+
+	/**
+	 * @issue #160
+	 * @test
+	 */
+	public function doRedirect_sendsSafeRedirect() {
+		$user = $this->createWpUserMock();
+		$sut = $this->sut();
+
+		\WP_Mock::onFilter( NEXT_AD_INT_PREFIX . 'login_succeeded_create_redirect_uri' )
+			->with('')
+			->reply('/');
+
 		WP_Mock::wpFunction(
 			'wp_safe_redirect', array(
 				'times' => 1,
@@ -411,7 +435,7 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 			)
 		);
 
-		$this->invokeMethod($sut, 'loginUser', array($user, false));
+		$this->invokeMethod($sut, 'doRedirect', array($user, false));
 	}
 
 	/**
@@ -649,93 +673,32 @@ class Ut_NextADInt_Adi_Authentication_SingleSignOn_ServiceTest extends Ut_BasicT
 	 * @test
 	 * @issue ADI-418
 	 */
-	public function ADI_418_loginUser_itUsesEnvironmentVar_REDIRECT_URL_asDefault()
+	public function ADI_418_createRedirectUri_itUsesEnvironmentVar_REDIRECT_URL_asDefault()
 	{
-		$user = $this->createWpUserMock();
 		$sut = $this->sut();
 
 		$_SERVER['REQUEST_URI'] = '/my-redirect-url';
-		$user = $this->createWpUserMock();
 		$sut = $this->sut();
 
-		WP_Mock::expectAction('wp_login', $user->user_login, $user);
-
-		WP_Mock::wpFunction(
-			'wp_set_current_user', array(
-				'times' => 1,
-				'args'  => array($user->ID, $user->user_login)
-			)
-		);
-
-		WP_Mock::wpFunction(
-			'is_ssl', array(
-				'times' => 1,
-				'return' => true
-			)
-		);
-
-		WP_Mock::wpFunction(
-			'wp_set_auth_cookie', array(
-				'times' => 1,
-				'args'  => array($user->ID, true, true)
-			)
-		);
-
-		WP_Mock::wpFunction(
-			'wp_safe_redirect', array(
-				'times' => 1,
-				'args'  => $_SERVER['REQUEST_URI'],
-			)
-		);
-
-		$this->invokeMethod($sut, 'loginUser', array($user, false));
+		$r = $this->invokeMethod($sut, 'createRedirectUri', array());
+		$this->assertEquals($r, $_SERVER['REQUEST_URI']);
 	}
 
 	/**
 	 * @test
 	 * @issue ADI-418
 	 */
-	public function ADI_418_loginUser_itUsesWordPressVar_redirect_to_over_REDIRECT_URL()
+	public function ADI_418_createRedirectUri_itUsesWordPressVar_redirect_to_over_REDIRECT_URL()
 	{
 		$user = $this->createWpUserMock();
 		$sut = $this->sut();
 
 		$_SERVER['REDIRECT_URL'] = '/wrong-url';
 		$_REQUEST['redirect_to'] = '/expected-url';
-		$user = $this->createWpUserMock();
 		$sut = $this->sut();
 
-		WP_Mock::expectAction('wp_login', $user->user_login, $user);
-
-		WP_Mock::wpFunction(
-			'wp_set_current_user', array(
-				'times' => 1,
-				'args'  => array($user->ID, $user->user_login)
-			)
-		);
-
-		WP_Mock::wpFunction(
-			'is_ssl', array(
-				'times' => 1,
-				'return' => true
-			)
-		);
-
-		WP_Mock::wpFunction(
-			'wp_set_auth_cookie', array(
-				'times' => 1,
-				'args'  => array($user->ID, true, true)
-			)
-		);
-
-		WP_Mock::wpFunction(
-			'wp_safe_redirect', array(
-				'times' => 1,
-				'args' =>  $_REQUEST['redirect_to'],
-			)
-		);
-
-		$this->invokeMethod($sut, 'loginUser', array($user, false));
+		$r = $this->invokeMethod($sut, 'createRedirectUri', array());
+		$this->assertEquals($_REQUEST['redirect_to'], $r);
 	}
 
 	/**
