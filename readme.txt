@@ -2,7 +2,7 @@
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, ldaps, authorization, security, windows, sso, login, domain, controller
 Requires at least: 5.6
-Tested up to: 5.9
+Tested up to: 6.0
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 Donate link: https://active-directory-wp.com
@@ -132,6 +132,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 = UNRELEASED =
 * CHANGED: "master" branch has been replaced with "main" branch.
 * ADDED: lifecycle hooks after the authentication has succeeded, so Wordfence can be used (#160)
+* CHANGED: WordPress 6.0 compatibility has been checked
 
 = 2.3.2 =
 * FIXED: Critical WordPress error if a matching profile for SSO authentication can not be found (#152, NADISUP-7)
