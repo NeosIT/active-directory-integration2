@@ -23,20 +23,21 @@ To install composer follow the instructions on [https://getcomposer.org/download
 - Any changes must be added in the `UNRELEASED` section of the `readme.txt` for documentation purposes.
 
 ### Release process
-When releasing a new version, the changes from `develop` must be merged to `main`. `main` is automatically pushed to wordpress.org.
-The `main` version must be tagged accordingly (`${MAJOR}.${MINOR}.${BUGFIX}`) and then pushed. A new tag is automatically tested, gets then pushed to wordpress.org and will be released.
+When releasing a new version, the changes from `develop` must be merged to `main`. 
+The `main` version must be tagged accordingly (`${MAJOR}.${MINOR}.${BUGFIX}`) and then pushed. A new tag is automatically tested, gets then pushed to wordpress.org and will be automatically released.
 
 To create a new release, do the following:
 
-1. Switch the `= UNRELEASED =` header in `readme.txt`'s changelog section to `${VERSION}`.
-2. Create and push the new tag
+1. `git checkout main && git merge develop`
+2. Switch the `= UNRELEASED =` header in `readme.txt`'s changelog section to `${VERSION}`.
+3. Create and push the new tag
 ```bash
 git tag -a ${VERSION} -m "release of ${VERSION}"
 git push origin ${VERSION}
 ```
 
-3. Checkout `develop` and prepend the `= UNRELEASED =` header in the `readme.txt` changelog section
-4. Push the changes in the `develop` branch
+4. `git checkut develop` and prepend the `= UNRELEASED =` header in the `readme.txt` changelog section
+5. Push the changes in the `develop` branch
 
 ### Referencing issues
 Due to the development history of NADI, we have a combination of old Jira issues and newer GitHub issues. References to the old Jira issues stay as they are. For newer GitHub issues we are using the following format:
