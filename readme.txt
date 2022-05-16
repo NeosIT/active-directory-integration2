@@ -130,6 +130,8 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+
+= 2.3.3 =
 * CHANGED: "master" branch has been replaced with "main" branch.
 * ADDED: lifecycle hooks after the authentication has succeeded, so Wordfence can be used (#160)
 * CHANGED: WordPress 6.0 compatibility has been checked
