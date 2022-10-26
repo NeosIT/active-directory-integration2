@@ -43,7 +43,7 @@ To create a new release, do the following:
 2. Switch the `= UNRELEASED =` header in `readme.txt`'s changelog section to `${VERSION}`.
 3. Create and push the new tag
 ```bash
-git tag -s -a ${VERSION} -m "(release): ${VERSION}"
+git tag -s -a ${VERSION} -m "release: ${VERSION}"
 git push origin ${VERSION}
 ```
 
