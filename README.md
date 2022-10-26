@@ -36,7 +36,7 @@ git tag -a ${VERSION} -m "release of ${VERSION}"
 git push origin ${VERSION}
 ```
 
-4. `git checkut develop` and prepend the `= UNRELEASED =` header in the `readme.txt` changelog section
+4. `git checkout develop` and prepend the `= UNRELEASED =` header in the `readme.txt` changelog section
 5. Push the changes in the `develop` branch
 
 ### Referencing issues

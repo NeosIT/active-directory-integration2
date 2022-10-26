@@ -89,15 +89,15 @@ msgstr "Support-Lizenzschlüssel"
 #: classes/Adi/Configuration/Options.php:243
 #: classes/Adi/Configuration/Options.php:247
 msgid ""
-"Please enter your support license key here, if you have a paid <a "
+"Please enter your support plan key here, if you have a paid <a "
 "href='https://active-directory-wp.com/shop-overview/'>NADI license</a>. It "
-"is required to receive support from <a href='https://neos-it.de'>NeosIT "
+"is required to receive support from <a href='https://dreitier.com'>dreitier "
 "GmbH</a>."
 msgstr ""
 "Bitte geben Sie hier Ihren Lizenzschlüssel ein, wenn Sie eine <a href='https:"
 "//active-directory-wp.com/shop-overview/'>NADI Lizenz</a> gekauft haben. "
-"Dieser wird benötigt, um Unterstützung durch die <a href='https://neos-it."
-"de'>NeosIT GmbH</a> zu erhalten."
+"Dieser wird benötigt, um Unterstützung durch die <a href='https://dreitier."
+"com'>dreitier GmbH</a> zu erhalten."
 
 #: classes/Adi/Configuration/Options.php:258
 msgid "Enable NADI"
@@ -2880,9 +2880,9 @@ msgid "https://www.active-directory-wp.com"
 msgstr "https://www.active-directory-wp.com"
 
 #. Author of the plugin
-msgid "NeosIT GmbH"
-msgstr "NeosIT GmbH"
+msgid "dreitier GmbH"
+msgstr "dreitier GmbH"
 
 #. Author URI of the plugin
-msgid "http://www.neos-it.de/"
-msgstr "http://www.neos-it.de/"
+msgid "https://dreitier.com"
+msgstr "https://dreitier.com"
