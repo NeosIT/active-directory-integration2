@@ -4,8 +4,8 @@ Next Active Directory Integration allows WordPress to authenticate, authorize, c
 If you like this plug-in we'd like to encourage you to purchase a support plan from [https://active-directory-wp.com/](https://active-directory-wp.com/shop-overview/) to support the ongoing development of this plug-in.
 
 ## Important requirement changes
-As of *2021-12-09* NADI did *no* longer support PHP version *< 7.4*. The reason is that security support for PHP 7.3 and below has beeen dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
-For security reasons and in order to use NADI in 2022 we hereby politely encourage you to migrate your environments to at least PHP 7.4 until then.
+As of *2022-11-28* NADI does *no* longer support PHP versions in *7.x* branch. The reason is that security support for PHP version prior 8.x have been dropped by the maintainers as you can see in the official [PHP documentation](http://php.net/supported-versions.php).
+For security reasons and in order to use NADI in 2023 we hereby politely encourage you to migrate your environments to at least PHP 8.0 until then.
 
 Thank you all for your support and understanding.
 
@@ -19,8 +19,19 @@ To install composer follow the instructions on [https://getcomposer.org/download
 
 ## Development
 ### Contributing
-- Pull request and changes must be made against the `develop` or a dedicated `feature` or `bugfix` branch. Name the branches either `bugfix/${GITHUB_ISSUE_NUMBER}` or `feature/${GITHUB_ISSUE_NUMBER}`.
+- Pull requests and changes must be made against the `develop` or a dedicated `feature` or `bugfix` branch. Name the branches either `bugfix/${GITHUB_ISSUE_NUMBER}` or `feature/${GITHUB_ISSUE_NUMBER}`.
 - Any changes must be added in the `UNRELEASED` section of the `readme.txt` for documentation purposes.
+
+### Commit messages
+1. We are using [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) since mid 2022.
+2. Git commits should be signed-off (`git commit -s -m "..."`).
+
+Use the following commit message format:
+
+```bash
+fix: some fix for an existing GitHub issue (#123)
+chore: some dependency update
+``` 
 
 ### Release process
 When releasing a new version, the changes from `develop` must be merged to `main`. 
@@ -32,7 +43,7 @@ To create a new release, do the following:
 2. Switch the `= UNRELEASED =` header in `readme.txt`'s changelog section to `${VERSION}`.
 3. Create and push the new tag
 ```bash
-git tag -a ${VERSION} -m "release of ${VERSION}"
+git tag -s -a ${VERSION} -m "release: ${VERSION}"
 git push origin ${VERSION}
 ```
 

@@ -81,7 +81,7 @@ Please read the [FAQ](https://www.active-directory-wp.com/docs/FAQ.html) of our 
 == Installation ==
 
 = Requirements =
-To install Next Active Directory Integration you need at least WordPress 5.6 and PHP 7.4
+To install Next Active Directory Integration you need at least WordPress 5.6 and PHP 7.4.
 
 Although only tested with Apache 2.2 and 2.4 *NADI* should work with all other common web servers like nginx and IIS.
 
@@ -93,8 +93,8 @@ Next Active Directory Integration requires a few PHP modules to be enabled. Plea
 
 = Important =
 
-As of *2021-12-09* NADI did *no* longer support PHP version *< 7.4*. The reason is that security support for PHP 7.3 and below has beeen dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
-For security reasons and in order to use NADI in 2022 we hereby politely encourage you to migrate your environments to at least PHP 7.4 until then.
+As of *2022-11-28* NADI does *no* longer support PHP versions in the *7.x* branch. The reason is that security support for PHP version prior 8.x have been dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
+For security reasons and in order to use NADI in 2023 we hereby politely encourage you to migrate your environments to at least PHP 8.0 until then.
 
 Thank you all for your support and understanding.
 
@@ -127,7 +127,11 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+
+= 2.3.4 =
+* CHANGED: twig/twig dependency updated to 3.4.3 (#162)
 * CHANGED: WordPress 6.1 compatibility has been checked
+* ADDED: deprecation warning for the PHP 7.x branch 
 
 = 2.3.3 =
 * CHANGED: "master" branch has been replaced with "main" branch.
