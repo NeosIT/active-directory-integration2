@@ -2,7 +2,7 @@
 Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, ldaps, authorization, security, windows, sso, login, domain, controller
 Requires at least: 5.6
-Tested up to: 6.0
+Tested up to: 6.1
 Stable tag: REPLACE_BY_JENKINS_SCRIPT
 License: GPLv3
 Donate link: https://active-directory-wp.com
@@ -101,9 +101,6 @@ Thank you all for your support and understanding.
 Best regards,
 your NADI team.
 
-= Migration from ADI 1.x to NADI =
-Please read [our migration guide](https://www.active-directory-wp.com/docs/Migration/index.html) carefully!
-
 = Installation =
 
 **NADI** can be easily installed from the [WordPress Plugin Directory](https://codex.wordpress.org/Managing_Plugins#Installing_Plugins).
@@ -130,6 +127,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* CHANGED: WordPress 6.1 compatibility has been checked
 
 = 2.3.3 =
 * CHANGED: "master" branch has been replaced with "main" branch.
