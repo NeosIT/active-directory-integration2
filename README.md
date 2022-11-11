@@ -48,7 +48,16 @@ git push origin ${VERSION}
 ```
 
 4. `git checkout develop` and prepend the `= UNRELEASED =` header in the `readme.txt` changelog section
+```bash
+git add readme.txt
+git commit -m "release: preparation for next release"
+git push origin develop
+```
+
 5. Push the changes in the `develop` branch
+```bash
+git push origin develop
+```
 
 ### Referencing issues
 Due to the development history of NADI, we have a combination of old Jira issues and newer GitHub issues. References to the old Jira issues stay as they are. For newer GitHub issues we are using the following format:
