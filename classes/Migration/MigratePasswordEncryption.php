@@ -103,7 +103,7 @@ class NextADInt_Migration_MigratePasswordEncryption extends NextADInt_Core_Migra
 		$encrypted = base64_decode($parts[1]);
 
 		// get key
-		$key = hash('md5', AUTH_SALT . 'Active Directory Integration');
+		$key = hash('md5', NextADInt_Core_Encryption::getSalt() . 'Active Directory Integration');
 		// decrypt $data
 		$data = @mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $encrypted, MCRYPT_MODE_CBC, $iv);
 

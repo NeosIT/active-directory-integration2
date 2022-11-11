@@ -21,7 +21,6 @@ if (!defined('ABSPATH')) {
     define('NEXT_AD_INT_FILE_CONVERSION_PATTERN', "[%-5level] %class::%method [line %line] %msg %ex\r\n");
     define('NEXT_AD_INT_ECHO_CONVERSION_PATTERN', '[%-5level] %msg %ex<br />');
 	define('NEXT_AD_INT_TABLE_CONVERSION_PATTERN', '[%-5level] | %msg | %ex');
-	define('AUTH_SALT', '</q|_f-py65|-Cy*E)9$]}jI/x1KqLMIF_rc1g]`=vsa`9RjA,r1ufr(lM2L*YBp');
 	define('OBJECT', 987);
 	define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH', dirname(dirname( __FILE__ )));
 

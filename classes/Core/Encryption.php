@@ -23,13 +23,26 @@ class NextADInt_Core_Encryption
 	/** @var Monolog\Logger */
 	private $logger;
 
-
-
 	public function __construct()
 	{
 		$this->logger = NextADInt_Core_Logger::getLogger();
 	}
 
+	/**
+	 * Return `AUTH_SALT` constant or an empty string if not defined.
+	 * This has been added to make NADI compatible with newer PHP versions and WordPress installation in which `AUTH_SALT` is not defined.
+	 *
+	 * @issue #164
+	 * @see https://github.com/NeosIT/active-directory-integration2/issues/164
+	 */
+	public static function getSalt() {
+		if (defined('AUTH_SALT')) {
+			return AUTH_SALT;
+		}
+		
+		return '';
+	}
+	
 	/**
 	 * This method will encrypt the $plainText and return the encrypted text.
 	 *
@@ -39,7 +52,7 @@ class NextADInt_Core_Encryption
 	 */
 	public function encrypt( $plainText )
 	{
-		$password = 'Next Active Directory Integration' . AUTH_SALT;
+		$password = 'Next Active Directory Integration' . self::getSalt();
 
 		try
 		{
@@ -64,7 +77,7 @@ class NextADInt_Core_Encryption
 	 */
 	public function decrypt( $encryptedText )
 	{
-		$password = 'Next Active Directory Integration' . AUTH_SALT;
+		$password = 'Next Active Directory Integration' . self::getSalt();
 
 		// do not decrypt empty texts
         if (!$encryptedText) {
