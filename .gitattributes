@@ -10,12 +10,8 @@
 /build export-ignore
 /docker_tag export-ignore
 /output.log export-ignore
-/Jenkinsfile export-ignore
-/phpdox.xml export-ignore
-/phpmd.xml export-ignore
 /phpunit.xml export-ignore
 /README.md export-ignore
-/build.xml export-ignore
 /logs/.gitignore export-ignore
 /logs/debug.log export-ignore
 /test-ui export-ignore
