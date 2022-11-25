@@ -9,6 +9,8 @@ if ( class_exists( 'NextADInt_Core_Encryption' ) )
 	return;
 }
 
+use Dreitier\Nadi\Vendor\Defuse\Crypto\Crypto;
+
 /**
  * NextADInt_Core_Encryption provides methods to encrypt and decrypt
  * credentials e.g for the synchronization between WordPress and Active Directory users.
@@ -56,7 +58,7 @@ class NextADInt_Core_Encryption
 
 		try
 		{
-			$encryptedText = Defuse\Crypto\Crypto::encryptWithPassword( $plainText, $password );
+			$encryptedText = Crypto::encryptWithPassword( $plainText, $password );
 		} catch ( Exception $e )
 		{
 			// prevent the PHP stack trace display by catching all exception because the stack trace can contain the $password.
@@ -86,7 +88,7 @@ class NextADInt_Core_Encryption
 
 		try
 		{
-			$plainText = Defuse\Crypto\Crypto::decryptWithPassword( $encryptedText, $password );
+			$plainText = Crypto::decryptWithPassword( $encryptedText, $password );
 		} catch ( Exception $e )
 		{
 			// prevent the PHP stack trace display by catching all exception because the stack trace can contain the $password.

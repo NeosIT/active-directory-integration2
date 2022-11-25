@@ -21,10 +21,10 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH', plugin_dir_path( __FILE__ ));
-require_once(dirname(__FILE__)."/constants.php");
-require_once(dirname(__FILE__)."/Autoloader.php");
-require_once(dirname(__FILE__)."/functions.php");
+define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH', plugin_dir_path(__FILE__));
+require_once(dirname(__FILE__) . "/constants.php");
+require_once(dirname(__FILE__) . "/Autoloader.php");
+require_once(dirname(__FILE__) . "/functions.php");
 
 // init dummy logger in order to prevent fatal errors for outdated premium extensions
 require_once(dirname(__FILE__) . "/classes/Core/DummyLogger/DummyLogger.php");
@@ -33,16 +33,16 @@ $autoLoader = new NextADInt_Autoloader();
 $autoLoader->register();
 
 // load plugin dependencies with composer autoloader
-require_once(dirname(__FILE__)."/vendor/autoload.php");
+require_once(dirname(__FILE__) . "/vendor-repackaged/autoload.php");
 
 // NADI-692: We have to skip the requirements check if wp-cli is used.
 // Otherwise the requirements will/might fail if any of the required PHP modules is not enabled for php-cli and NADI will disable it on its own.
 if (!defined('WP_CLI')) {
-    $requirements = new NextADInt_Adi_Requirements();
+	$requirements = new NextADInt_Adi_Requirements();
 
-    if (!$requirements->check()) {
-        return;
-    }
+	if (!$requirements->check()) {
+		return;
+	}
 }
 
 // start plugin
@@ -74,6 +74,13 @@ add_action('set_current_user', array($adiPlugin, 'runMultisite'));
  *
  * @return NextADInt_Adi_Dependencies
  */
-function next_ad_int() {
-    return NextADInt_Adi_Dependencies::getInstance();
+function next_ad_int()
+{
+	return NextADInt_Adi_Dependencies::getInstance();
 }
+
+function next_ad_int_logger()
+{
+	return NextADInt_Core_Logger::getInstance();
+}
+

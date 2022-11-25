@@ -7,6 +7,11 @@ if (class_exists('NextADInt_Multisite_View_TwigContainer')) {
 	return;
 }
 
+use Dreitier\Nadi\Vendor\Twig\Loader\FilesystemLoader;
+use Dreitier\Nadi\Vendor\Twig\Environment;
+use Dreitier\Nadi\Vendor\Twig\TwigFilter;
+use Dreitier\Nadi\Vendor\Twig\TwigFunction;
+
 /**
  * NextADInt_Multisite_View_TwigContainer provides the basic configuration for twig and registers all necessary function and filter.
  *
@@ -17,7 +22,7 @@ if (class_exists('NextADInt_Multisite_View_TwigContainer')) {
  */
 class NextADInt_Multisite_View_TwigContainer
 {
-	/** @var Twig\Environment $twig */
+	/** @var Dreitier\Nadi\Twig\Environment $twig */
 	private $twig;
 
 	/** @var NextADInt_Multisite_Configuration_Service $configuration */
@@ -101,7 +106,7 @@ class NextADInt_Multisite_View_TwigContainer
 	/**
 	 * Return the twig renderer.
 	 *
-	 * @return Twig_Environment
+	 * @return Dreitier\Nadi\Twig\Environment
 	 */
 	public function getTwig()
 	{
@@ -117,13 +122,13 @@ class NextADInt_Multisite_View_TwigContainer
 	 */
 	public function register()
 	{
-		$loader = new \Twig\Loader\FilesystemLoader(NEXT_AD_INT_PATH . '/views');
+		$loader = new FilesystemLoader(NEXT_AD_INT_PATH . '/views');
 
 		$twigOptions = $this->getTwigOptions(NextADInt_Core_Util_Internal_Environment::isProductive());
 
         // $twigOptions['cache'] = NEXT_AD_INT_PATH . '/cache';
 
-		$this->twig = new \Twig\Environment($loader, $twigOptions);
+		$this->twig = new Environment($loader, $twigOptions);
 
 		$this->addSimpleTwigFilter('var_dump', 'var_dump');
 		$this->addSimpleTwigFunction('isOptionGroupVisible', array($this, 'isOptionGroupVisible'));
@@ -178,10 +183,11 @@ class NextADInt_Multisite_View_TwigContainer
 	 *
 	 * @param $name
 	 * @param $callback
+	 * @return TwigFilter
 	 */
 	private function addSimpleTwigFilter($name, $callback)
 	{
-		$this->twig->addFilter(new \Twig\TwigFilter($name, $callback));
+		$this->twig->addFilter(new TwigFilter($name, $callback));
 	}
 
 	/**
@@ -189,10 +195,11 @@ class NextADInt_Multisite_View_TwigContainer
 	 *
 	 * @param $name
 	 * @param $callback
+	 * @return TwigFunction
 	 */
 	private function addSimpleTwigFunction($name, $callback)
 	{
-		$this->twig->addFunction(new \Twig\TwigFunction($name, $callback));
+		$this->twig->addFunction(new TwigFunction($name, $callback));
 	}
 
 	/**

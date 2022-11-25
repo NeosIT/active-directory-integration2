@@ -1,8 +1,7 @@
-name: Official v2.* release on wordpress.org
+name: Create pre-release for GitHub-only
 on:
   push:
-    tags:
-      # only when an official tag is defined for v2
+    tags-ignore:
       - '2.[0-9]+.[0-9]+'
 
 jobs:
@@ -30,17 +29,17 @@ jobs:
         configuration: phpunit.xml
         args: --coverage-text --verbose
 
-  release:
+  prerelease:
     runs-on: ubuntu-latest
     needs: testing
-    name: Release NADI
+    name: Create pre-release
     steps:
     - uses: actions/checkout@v2
 
     - uses: php-actions/composer@v5
       with:
         dev: no
-
+    
     - name: Set environment variable
       run: echo "CURRENT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
@@ -50,18 +49,11 @@ jobs:
         find: "REPLACE_BY_JENKINS_SCRIPT"
         replace: ${{ env.CURRENT_TAG }}
 
-    - name: WordPress Plugin Deploy
-      uses: schakko/action-wordpress-plugin-deploy@develop
-      with:
-        generate-zip: true
-        dry-run: false
-      env:
-        SVN_USERNAME: ${{ secrets.WORDPRESS_ORG_SVN_USERNAME }}
-        SVN_PASSWORD: ${{ secrets.WORDPRESS_ORG_SVN_PASSWORD }}
-        SLUG: next-active-directory-integration
-    
-    - name: Upload Release
+    - name: Zip all files
+      run: zip -r release.zip . -x ".git/*" ".github/*" -x "vendor/*"
+
+    - name: Upload pre-release to GitHub
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "next-active-directory-integration.zip"
+        artifacts: "release.zip"
         token: ${{ secrets.GITHUB_TOKEN }}

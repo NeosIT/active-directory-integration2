@@ -1,11 +1,14 @@
 <?php
 
+use Dreitier\Nadi\Vendor\Monolog\Logger;
+use Dreitier\Nadi\Vendor\Monolog\Handler\AbstractProcessingHandler;
+
 /**
  * This runtime handler temporally stores log messages and provides access to them at runtime
  *
  * @author Danny Meißner  <dme@neos-it.de>
  */
-class NextADInt_Core_Logger_Handlers_FrontendLogHandler extends Monolog\Handler\AbstractProcessingHandler
+class NextADInt_Core_Logger_Handlers_FrontendLogHandler extends AbstractProcessingHandler
 {
 
 	private $log;
@@ -16,7 +19,7 @@ class NextADInt_Core_Logger_Handlers_FrontendLogHandler extends Monolog\Handler\
 	 * @param integer $level  The minimum logging level at which this handler will be triggered
 	 * @param Boolean $bubble Whether the messages that are handled can bubble up the stack or not
 	 */
-	public function __construct($level = Monolog\Logger::DEBUG, $bubble = true)
+	public function __construct($level = Logger::DEBUG, $bubble = true)
 	{
 		parent::__construct($level, $bubble);
 	}

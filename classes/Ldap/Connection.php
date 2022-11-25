@@ -40,7 +40,7 @@ class NextADInt_Ldap_Connection
 	{
 		if (!class_exists('adLDAP')) {
 			// get adLdap
-			require_once NEXT_AD_INT_PATH . '/vendor/adLDAP/adLDAP.php';
+			require_once NEXT_AD_INT_PATH . '/vendor-legacy/adLDAP/adLDAP.php';
 		}
 
 		$this->configuration = $configuration;

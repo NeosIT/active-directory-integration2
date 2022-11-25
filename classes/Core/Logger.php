@@ -9,6 +9,13 @@ if (class_exists('NextADInt_Core_Logger')) {
 	return;
 }
 
+use Dreitier\Nadi\Vendor\Monolog\Logger;
+use Dreitier\Nadi\Vendor\Monolog\Registry;
+use Dreitier\Nadi\Vendor\Monolog\Handler\NullHandler;
+use Dreitier\Nadi\Vendor\Monolog\Processor\IntrospectionProcessor;
+use Dreitier\Nadi\Vendor\Monolog\Handler\StreamHandler;
+use Dreitier\Nadi\Vendor\Monolog\Formatter\LineFormatter;
+
 /**
  * NextADInt_Core_Logger Simple logging fascade
  *
@@ -27,10 +34,17 @@ class NextADInt_Core_Logger
 	 */
 	private static $defaultPath = NEXT_AD_INT_PATH . '/logs/';
 
+	public const MAIN_LOGGER = 'nadiMainLogger';
+
 	/**
 	 * @var bool
 	 */
 	public static $isTestmode = false;
+
+	public static function getInstance()
+	{
+		return Registry::getInstance(self::MAIN_LOGGER);
+	}
 
 	/**
 	 * Create a logger instance with a null appender
@@ -44,18 +58,18 @@ class NextADInt_Core_Logger
 		}
 
 		// We are pushing a NullHandler in order to catch messages thrown before the streamHandler is initialized
-		$nullHandler = new \Monolog\Handler\NullHandler(Monolog\Logger::DEBUG);
+		$nullHandler = new NullHandler(Logger::DEBUG);
 
 		if (null != NextADInt_Core_Logger::$logger) {
 			return;
 		}
 
-		NextADInt_Core_Logger::$logger = new Monolog\Logger('nadiMainLogger');
+		NextADInt_Core_Logger::$logger = new Logger(self::MAIN_LOGGER);
 
 		NextADInt_Core_Logger::$logger->pushHandler($nullHandler);
 
 		// Adding Logger to registry so we are able to check globally if logger exists
-		\Monolog\Registry::addLogger(NextADInt_Core_Logger::$logger);
+		Registry::addLogger(NextADInt_Core_Logger::$logger);
 	}
 
 	/**
@@ -94,7 +108,7 @@ class NextADInt_Core_Logger
 		$frontendLogHandler = NextADInt_Core_Logger::createFrontendHandler();
 
 		// Create Processor to collect information like className, methodName, line... etc
-		$processor = new Monolog\Processor\IntrospectionProcessor(Monolog\Logger::DEBUG);
+		$processor = new IntrospectionProcessor(Logger::DEBUG);
 
 		// Push Handlers
 		NextADInt_Core_Logger::$logger->pushHandler($streamHandler);
@@ -104,13 +118,12 @@ class NextADInt_Core_Logger
 		NextADInt_Core_Logger::$logger->pushProcessor($processor);
 	}
 
-
 	/**
 	 * Disabled the NullHandler in our Logger which was added on Logger create to catch all messages before the streamHandler was configured and added.
 	 */
 	private static function disableNullHandler()
 	{
-		if (!\Monolog\Registry::hasLogger('nadiTestLogger')) {
+		if (!Registry::hasLogger('nadiTestLogger')) {
 			return;
 		}
 
@@ -129,19 +142,19 @@ class NextADInt_Core_Logger
 
     /**
      * @param $loggingPath
-     * @return \Monolog\Handler\StreamHandler
+     * @return \Dreitier\Nadi\Monolog\Handler\StreamHandler
      * @throws Exception
      */
 	public static function createStreamHandler($loggingPath)
 	{
 		// Create Handlers
-		$streamHandler = new \Monolog\Handler\StreamHandler($loggingPath . 'nadi-debug.log', Monolog\Logger::DEBUG);
+		$streamHandler = new StreamHandler($loggingPath . 'nadi-debug.log', Logger::DEBUG);
 
 		// Formats
 		$outputFile = "%datetime% [%level_name%] %extra.class%::%extra.function% [line %extra.line%] %message%\n";
 
 		// Create Formatter
-		$formatterFile = new \Monolog\Formatter\LineFormatter($outputFile);
+		$formatterFile = new LineFormatter($outputFile);
 
 		//Set Formatter
 		$streamHandler->setFormatter($formatterFile);
@@ -155,13 +168,13 @@ class NextADInt_Core_Logger
 	public static function createFrontendHandler()
 	{
 		// Create Handlers
-		$frontendHandler = new NextADInt_Core_Logger_Handlers_FrontendLogHandler(\Monolog\Logger::DEBUG);
+		$frontendHandler = new NextADInt_Core_Logger_Handlers_FrontendLogHandler(Logger::DEBUG);
 
 		// Formats
 		$outputFrontend = "%datetime% [%level_name%] %extra.class%::%extra.function% [line %extra.line%] %message%";
 
 		// Create Formatter
-		$formatterFrontend = new \Monolog\Formatter\LineFormatter($outputFrontend);
+		$formatterFrontend = new LineFormatter($outputFrontend);
 
 		//Set Formatter
 		$frontendHandler->setFormatter($formatterFrontend);
@@ -222,7 +235,7 @@ class NextADInt_Core_Logger
 	private static function getStreamHandler($handlers)
 	{
 		foreach ($handlers as $handler) {
-			if (is_a($handler, \Monolog\Handler\StreamHandler::class)) {
+			if (is_a($handler, Dreitier\Nadi\Monolog\Handler\StreamHandler::class)) {
 				return $handler;
 			}
 		}
@@ -237,7 +250,7 @@ class NextADInt_Core_Logger
 	private static function getNullHandler($handlers)
 	{
 		foreach ($handlers as $handler) {
-			if (is_a($handler, \Monolog\Handler\NullHandler::class)) {
+			if (is_a($handler, Dreitier\Nadi\Monolog\Handler\NullHandler::class)) {
 				return $handler;
 			}
 		}
@@ -312,21 +325,21 @@ class NextADInt_Core_Logger
 	public static function setUpTestLogger()
 	{
 		// Check if test logger already exists before setting up a new one.
-		if (\Monolog\Registry::hasLogger('nadiTestLogger')) {
+		if (Registry::hasLogger('nadiTestLogger')) {
 			return;
 		}
 
 		// Create TestLogger
-		NextADInt_Core_Logger::$logger = new Monolog\Logger('nadiTestLogger');
+		NextADInt_Core_Logger::$logger = new Logger('nadiTestLogger');
 
 		// Create Handlers
-		$nullHandler = new \Monolog\Handler\NullHandler();
+		$nullHandler = new NullHandler();
 
 		// Push Handlers
 		NextADInt_Core_Logger::$logger->pushHandler($nullHandler);
 
 		// Adding Logger to registry so we are able to check globally if logger exists
-		\Monolog\Registry::addLogger(NextADInt_Core_Logger::$logger);
+		Registry::addLogger(NextADInt_Core_Logger::$logger);
 	}
 
 	/**
@@ -335,18 +348,18 @@ class NextADInt_Core_Logger
 	private static function createFrontendOnlyLogger()
 	{
 		// Remove old Logger because we do not want to log unnecessary information to the php-error log
-		if (\Monolog\Registry::hasLogger('nadiMainLogger')) {
-			\Monolog\Registry::removeLogger('nadiMainLogger');
+		if (Registry::hasLogger(self::MAIN_LOGGER)) {
+			Registry::removeLogger(self::MAIN_LOGGER);
 		}
 
 		// Creating new Frontend Only Logger and set it as main logger
-		NextADInt_Core_Logger::$logger = new Monolog\Logger('nadiMainLogger');
+		NextADInt_Core_Logger::$logger = new Logger(self::MAIN_LOGGER);
 
 		// Create Handlers
 		$frontendLogHandler = NextADInt_Core_Logger::createFrontendHandler();
 
 		// Create Processor to collect information like className, methodName, line... etc
-		$processor = new Monolog\Processor\IntrospectionProcessor(Monolog\Logger::DEBUG);
+		$processor = new IntrospectionProcessor(Logger::DEBUG);
 
 		// Push Handlers
 		NextADInt_Core_Logger::$logger->pushHandler($frontendLogHandler);
@@ -355,6 +368,6 @@ class NextADInt_Core_Logger
 		NextADInt_Core_Logger::$logger->pushProcessor($processor);
 
 		// Adding Logger to registry so we are able to check globally if logger exists
-		\Monolog\Registry::addLogger(NextADInt_Core_Logger::$logger);
+		Registry::addLogger(NextADInt_Core_Logger::$logger);
 	}
 }

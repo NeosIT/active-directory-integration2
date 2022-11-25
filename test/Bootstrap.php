@@ -186,10 +186,9 @@ $autoLoader->register();
 
 require_once "$path/functions.php";
 
-require_once "$path/vendor/autoload.php";
-require_once "$path/vendor/twig/twig/src/Loader/FilesystemLoader.php";
-require_once "$path/vendor/adLDAP/adLDAP.php";
-$loader = new \Twig\Loader\FilesystemLoader($path .'/views');
+require_once "$path/vendor-repackaged/autoload.php";
+require_once "$path/vendor-legacy/adLDAP/adLDAP.php";
+$loader = new \Dreitier\Nadi\Vendor\Twig\Loader\FilesystemLoader($path .'/views');
 
 require_once "$path/test/BasicTest.php";
 require_once "$path/test/ItBasicTest.php";
