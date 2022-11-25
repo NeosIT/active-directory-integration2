@@ -22,7 +22,7 @@ jobs:
 
     - uses: michaelw90/PHP-Lint@master
     - run: ls -al
-    - run: ls -al vendor-vendor/*
+    - run: ls -al vendor/*
     - run: ls -al vendor-repackaged/*
 
     - name: PHPUnit test
