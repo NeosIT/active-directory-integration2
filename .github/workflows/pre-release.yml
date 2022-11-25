@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: php-actions/composer@v5
+    - uses: php-actions/composer@v6
 
     - uses: michaelw90/PHP-Lint@master
 
@@ -36,7 +36,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: php-actions/composer@v5
+    - uses: php-actions/composer@v6
       with:
         dev: no
     
