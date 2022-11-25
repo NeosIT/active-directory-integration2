@@ -21,9 +21,6 @@ jobs:
     - uses: php-actions/composer@v6
 
     - uses: michaelw90/PHP-Lint@master
-    - run: ls -al
-    - run: ls -al vendor/*
-    - run: ls -al vendor-repackaged/*
 
     - name: PHPUnit test
       uses: php-actions/phpunit@v2
