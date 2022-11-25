@@ -186,6 +186,9 @@ $autoLoader->register();
 
 require_once "$path/functions.php";
 
+// include any packages required during testing like WP_Mock
+require_once "$path/vendor/autoload.php";
+// include vendored packages
 require_once "$path/vendor-repackaged/autoload.php";
 require_once "$path/vendor-legacy/adLDAP/adLDAP.php";
 $loader = new \Dreitier\Nadi\Vendor\Twig\Loader\FilesystemLoader($path .'/views');
