@@ -173,7 +173,7 @@ class ActiveDirectorySynchronizationService extends \Dreitier\Nadi\Synchronizati
 		if ($this->hasActiveDirectoryAttributeEditPermission($isOwnProfile)) {
 			try {
 				return $this->assertSynchronizationAvailable($userId, $isOwnProfile);
-			} catch (Exception $e) {
+			} catch (\Exception $e) {
 				// discard
 			}
 		}
@@ -223,9 +223,9 @@ class ActiveDirectorySynchronizationService extends \Dreitier\Nadi\Synchronizati
 	 * @param int $userId
 	 * @param bool $isOwnProfile true, if the user wants to edit his own profile
 	 * @return bool true if synchronization is available. In every other case an Exception is thrown
-	 * @throws Exception If Sync To AD has not been enabled
-	 * @throws Exception If the $userId has no corresponding Active Directory account
-	 * @throws Exception If the current user tries to edit another user and no service account is used
+	 * @throws \Exception If Sync To AD has not been enabled
+	 * @throws \Exception If the $userId has no corresponding Active Directory account
+	 * @throws \Exception If the current user tries to edit another user and no service account is used
 	 */
 	public function assertSynchronizationAvailable($userId, $isOwnProfile)
 	{
@@ -269,7 +269,7 @@ class ActiveDirectorySynchronizationService extends \Dreitier\Nadi\Synchronizati
 	/**
 	 * Get all user meta values and sync them with the corresponding user in the active directory
 	 *
-	 * @param WP_User $wpUser
+	 * @param \WP_User $wpUser
 	 * @param array $allowedAttributes
 	 * @return bool
 	 */
