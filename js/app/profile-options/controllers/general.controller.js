@@ -5,7 +5,7 @@
 
     /**
      * Controller for the "General" tab of the profile configuration
-     * @author Christopher Klein <ckl@neos-it.de>
+     * @author Christopher Klein <ckl[at]dreitier[dot]com>
      */
     function GeneralController($scope, DataService) {
         var vm = this;

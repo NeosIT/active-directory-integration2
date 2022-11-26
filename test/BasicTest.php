@@ -1,6 +1,14 @@
 <?php
 
+namespace Dreitier\Test;
+
+use Dreitier\Nadi\Log\NadiLog;
+use Dreitier\Util\Internal\Native;
+use Dreitier\WordPress\Multisite\Ui\Actions;
+use Dreitier\WordPress\WordPressSiteRepository;
+use Mockery;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Basic class for unit tests
@@ -8,20 +16,20 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
+abstract class BasicTest extends TestCase
 {
-	public static function setUpBeforeClass() : void
+	public static function setUpBeforeClass(): void
 	{
-		NextADInt_Core_Logger::$isTestmode = true;
-		NextADInt_Core_Logger::createLogger();
+		NadiLog::$isTestmode = true;
+		NadiLog::createLogger();
 	}
 
-	public function setUp() : void
+	public function setUp(): void
 	{
 		\WP_Mock::setUp();
 	}
 
-	public function tearDown() :void
+	public function tearDown(): void
 	{
 		\WP_Mock::tearDown();
 		Mockery::close();
@@ -33,7 +41,7 @@ abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 	 *
 	 * @param $className
 	 *
-	 * @return PHPUnit_Framework_MockObject_MockObject
+	 * @return MockObject
 	 */
 	public function createMock($className): MockObject
 	{
@@ -47,27 +55,27 @@ abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 			->getMock();
 	}
 
-    /**
-     * Create a mocked object using the phpunit MockBuilder.
-     * This method ignores the constructor and will not delegate call to real methods.
-     * Furthermore you can add mocked method to this object with the param methods.
-     *
-     * @param $className
-     *
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    public function createMockWithMethods($className, $methods)
-    {
-        if (!class_exists($className) && !interface_exists($className)) {
-            echo "You create a new class/interface '$className'. Be careful.";
-        }
+	/**
+	 * Create a mocked object using the phpunit MockBuilder.
+	 * This method ignores the constructor and will not delegate call to real methods.
+	 * Furthermore you can add mocked method to this object with the param methods.
+	 *
+	 * @param $className
+	 *
+	 * @return MockObject
+	 */
+	public function createMockWithMethods($className, $methods)
+	{
+		if (!class_exists($className) && !interface_exists($className)) {
+			echo "You create a new class/interface '$className'. Be careful.";
+		}
 
-        return $this->getMockBuilder($className)
-            ->disableOriginalConstructor()
-            ->disableProxyingToOriginalMethods()
-            ->setMethods($methods)
-            ->getMock();
-    }
+		return $this->getMockBuilder($className)
+			->disableOriginalConstructor()
+			->disableProxyingToOriginalMethods()
+			->setMethods($methods)
+			->getMock();
+	}
 
 	/**
 	 * Simple expected exception behaviour.
@@ -85,7 +93,7 @@ abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 	 *
 	 * @param object $sut
 	 * @param string $method method should be executed
-	 * @param null   $willReturn if not null the value is returned
+	 * @param null $willReturn if not null the value is returned
 	 */
 	public function behave($sut, $method, $willReturn = null)
 	{
@@ -98,7 +106,7 @@ abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * @param $class PHPUnit_Framework_MockObject_MockObject
+	 * @param $class MockObject
 	 * @param $time
 	 * @param $method
 	 * @param $with
@@ -117,7 +125,7 @@ abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 	 *
 	 * @param array|null $methods
 	 *
-	 * @return PHPUnit_Framework_MockObject_MockObject
+	 * @return MockObject
 	 */
 	public function createAnonymousMock($methods)
 	{
@@ -133,7 +141,7 @@ abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 	 * @param $constructor
 	 * @param $methods
 	 *
-	 * @return PHPUnit_Framework_MockObject_MockObject
+	 * @return MockObject
 	 */
 	public function createMockedObject($class, $constructor, $methods)
 	{
@@ -179,29 +187,9 @@ abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 	 */
 	protected function createMockedNative()
 	{
-		return $this->getMockBuilder('NextADInt_Core_Util_Internal_Native')
+		return $this->getMockBuilder(Native::class)
 			->disableOriginalConstructor()
 			->getMock();
-	}
-
-	/**
-	 * Create a mocked version of Adi_Util_Wordpress_Action.
-	 *
-	 * @return \Mockery\MockInterface
-	 */
-	protected function createMockedWordPressActionHelper()
-	{
-		return $this->createUtilClassMock('Adi_Util_Wordpress_Action');
-	}
-
-	/**
-	 * Create a mocked version of Adi_Util_Wordpress_Site.
-	 *
-	 * @return \Mockery\MockInterface
-	 */
-	protected function createMockedWordPressSiteHelper()
-	{
-		return $this->createUtilClassMock('Adi_Util_Wordpress_Site');
 	}
 
 	/**
@@ -220,7 +208,7 @@ abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Create a mock for a {@link WP_User}.
 	 *
-	 * @return WP_User
+	 * @return \WP_User
 	 */
 	protected function createWpUserMock()
 	{
@@ -251,10 +239,11 @@ abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Create a simple mock for the WordPress translation function __.
 	 */
-	protected  function mockFunction__() {
-		WP_Mock::wpFunction('__', array(
-			'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-			'times'      => '0+',
+	protected function mockFunction__()
+	{
+		\WP_Mock::wpFunction('__', array(
+			'args' => array(\WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+			'times' => '0+',
 			'return_arg' => 0
 		));
 	}
@@ -262,10 +251,11 @@ abstract class Ut_BasicTest extends PHPUnit\Framework\TestCase
 	/**
 	 * Create a simple mock for the WordPress translation function esc_html__.
 	 */
-	protected  function mockFunctionEsc_html__() {
-		WP_Mock::wpFunction('esc_html__', array(
-			'args'       => array(WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
-			'times'      => '0+',
+	protected function mockFunctionEsc_html__()
+	{
+		\WP_Mock::wpFunction('esc_html__', array(
+			'args' => array(\WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
+			'times' => '0+',
 			'return_arg' => 0
 		));
 	}

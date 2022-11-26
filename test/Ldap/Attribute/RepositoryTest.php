@@ -1,34 +1,39 @@
 <?php
 
+namespace Dreitier\Ldap\Attribute;
+
+use Dreitier\Nadi\Configuration\Options;
+use Dreitier\Test\BasicTest;
+use PHPUnit\Framework\MockObject\MockObject;
+use Dreitier\WordPress\Multisite\Configuration\Service;
+
 /**
- * Ut_NextADInt_Ldap_Attribute_RepositoryTest
- *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
+class RepositoryTest extends BasicTest
 {
-	/* @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $configuration */
+	/* @var Service|MockObject $configuration */
 	private $configuration;
 
-	public function setUp() : void
+	public function setUp(): void
 	{
 		parent::setUp();
 
-		$this->configuration = $this->getMockBuilder('NextADInt_Multisite_Configuration_Service')
+		$this->configuration = $this->getMockBuilder(Service::class)
 			->disableOriginalConstructor()
 			->setMethods(array('getOptionValue'))
 			->getMock();
 	}
 
-	public function tearDown() : void
+	public function tearDown(): void
 	{
 		\WP_Mock::tearDown();
 	}
 
 	public function sut($methods = null)
 	{
-		return $this->getMockBuilder('NextADInt_Ldap_Attribute_Repository')
+		return $this->getMockBuilder(Repository::class)
 			->setConstructorArgs(array($this->configuration))
 			->setMethods($methods)
 			->getMock();
@@ -45,25 +50,25 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			. 'attributeName2:string:next_ad_int_lastName:description:true:true:true';
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES)
+			->with(Options::ADDITIONAL_USER_ATTRIBUTES)
 			->willReturn($string);
 
 		$expected = array(
 			'attributeName1' => array(
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE                 => 'string',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE  => 'next_ad_int_lastName',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_OVERWRITE_EMPTY      => 'true',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_DESCRIPTION          => 'description',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_SYNC_TO_AD           => 'true',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => 'true',
+				Options::ATTRIBUTES_COLUMN_TYPE => 'string',
+				Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE => 'next_ad_int_lastName',
+				Options::ATTRIBUTES_COLUMN_OVERWRITE_EMPTY => 'true',
+				Options::ATTRIBUTES_COLUMN_DESCRIPTION => 'description',
+				Options::ATTRIBUTES_COLUMN_SYNC_TO_AD => 'true',
+				Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => 'true',
 			),
 			'attributeName2' => array(
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE                 => 'string',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE  => 'next_ad_int_lastName',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_OVERWRITE_EMPTY      => 'true',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_DESCRIPTION          => 'description',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_SYNC_TO_AD           => 'true',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => 'true',
+				Options::ATTRIBUTES_COLUMN_TYPE => 'string',
+				Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE => 'next_ad_int_lastName',
+				Options::ATTRIBUTES_COLUMN_OVERWRITE_EMPTY => 'true',
+				Options::ATTRIBUTES_COLUMN_DESCRIPTION => 'description',
+				Options::ATTRIBUTES_COLUMN_SYNC_TO_AD => 'true',
+				Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => 'true',
 			),
 		);
 
@@ -81,7 +86,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 		$string = '';
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES)
+			->with(Options::ADDITIONAL_USER_ATTRIBUTES)
 			->willReturn($string);
 
 		$actual = $sut->getCustomAttributeDefinitions();
@@ -98,17 +103,17 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 		$string = 'attributeName1:string:next_ad_int_lastName:description:true:true:true';
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::ADDITIONAL_USER_ATTRIBUTES)
+			->with(Options::ADDITIONAL_USER_ATTRIBUTES)
 			->willReturn($string);
 
 		$expected = array(
 			'attributeName1' => array(
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE                 => 'string',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE  => 'next_ad_int_lastName',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_OVERWRITE_EMPTY      => 'true',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_DESCRIPTION          => 'description',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_SYNC_TO_AD           => 'true',
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => 'true',
+				Options::ATTRIBUTES_COLUMN_TYPE => 'string',
+				Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE => 'next_ad_int_lastName',
+				Options::ATTRIBUTES_COLUMN_OVERWRITE_EMPTY => 'true',
+				Options::ATTRIBUTES_COLUMN_DESCRIPTION => 'description',
+				Options::ATTRIBUTES_COLUMN_SYNC_TO_AD => 'true',
+				Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => 'true',
 			),
 		);
 
@@ -125,7 +130,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 		$sut = $this->sut(array('getWhitelistedAttributes'));
 
 		$additionalAttribute = array(
-			'attribute1' => new NextADInt_Ldap_Attribute(),
+			'attribute1' => new Attribute(),
 		);
 
 		$sut->expects($this->once())
@@ -148,12 +153,12 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 		$sut = $this->sut(array('createDefaultAttributes', 'createCustomAttributes'));
 
 		$default = array(
-			'cn' => new NextADInt_Ldap_Attribute(),
+			'cn' => new Attribute(),
 		);
 
 		$all = array(
-			'cn'      => $default['cn'],
-			'ipphone' => new NextADInt_Ldap_Attribute(),
+			'cn' => $default['cn'],
+			'ipphone' => new Attribute(),
 		);
 
 		$sut->expects($this->once())
@@ -178,12 +183,12 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 		$sut = $this->sut(array('createDefaultAttributes', 'createCustomAttributes'));
 
 		$default = array(
-			'cn' => new NextADInt_Ldap_Attribute(),
+			'cn' => new Attribute(),
 		);
 
 		$all = array(
-			'cn'      => $default['cn'],
-			'ipphone' => new NextADInt_Ldap_Attribute(),
+			'cn' => $default['cn'],
+			'ipphone' => new Attribute(),
 		);
 
 		$sut->expects($this->once())
@@ -209,8 +214,8 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 		$sut = $this->sut(array('getWhitelistedAttributes'));
 
 		$metaObjects = array(
-			'cn'      => new NextADInt_Ldap_Attribute(),
-			'ipphone' => new NextADInt_Ldap_Attribute(),
+			'cn' => new Attribute(),
+			'ipphone' => new Attribute(),
 		);
 		$metaObjects['cn']->setViewable(false);
 		$metaObjects['ipphone']->setViewable(true);
@@ -220,7 +225,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			->willReturn($metaObjects);
 
 		$expects = array(
-			'cn'      => $metaObjects['cn'],
+			'cn' => $metaObjects['cn'],
 			'ipphone' => $metaObjects['ipphone'],
 		);
 
@@ -236,8 +241,8 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 		$sut = $this->sut(array('getWhitelistedAttributes'));
 
 		$metaObjects = array(
-			'cn'      => new NextADInt_Ldap_Attribute(),
-			'ipphone' => new NextADInt_Ldap_Attribute(),
+			'cn' => new Attribute(),
+			'ipphone' => new Attribute(),
 		);
 		$metaObjects['cn']->setViewable(false);
 		$metaObjects['ipphone']->setViewable(true);
@@ -262,8 +267,8 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 		$sut = $this->sut(array('getWhitelistedAttributes'));
 
 		$metaObjects = array(
-			'cn'      => new NextADInt_Ldap_Attribute(),
-			'ipphone' => new NextADInt_Ldap_Attribute(),
+			'cn' => new Attribute(),
+			'ipphone' => new Attribute(),
 		);
 		$metaObjects['cn']->setViewable(false);
 		$metaObjects['ipphone']->setViewable(true);
@@ -299,7 +304,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			->method('getCustomAttributeDefinitions')
 			->willReturn($additionalAttributes);
 
-		$cn = new NextADInt_Ldap_Attribute();
+		$cn = new Attribute();
 
 		$sut->expects($this->once())
 			->method('createAttribute')
@@ -333,7 +338,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			->method('getCustomAttributeDefinitions')
 			->willReturn($additionalAttributes);
 
-		$cn = new NextADInt_Ldap_Attribute();
+		$cn = new Attribute();
 
 		$sut->expects($this->once())
 			->method('createAttribute')
@@ -341,12 +346,12 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			->willReturn($cn);
 
 		$param = array(
-			'ipphone' => new NextADInt_Ldap_Attribute(),
+			'ipphone' => new Attribute(),
 		);
 
 		$expected = array(
 			'ipphone' => $param['ipphone'],
-			'cn'      => $cn,
+			'cn' => $cn,
 		);
 
 		$actual = $sut->createCustomAttributes($param);
@@ -362,7 +367,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 
 		$sut->createDefaultAttributes();
 
-		$cn = new NextADInt_Ldap_Attribute();
+		$cn = new Attribute();
 
 		$sut->expects($this->any())
 			->method('createAttribute')
@@ -382,34 +387,34 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			)
 			->will(
 				$this->onConsecutiveCalls(
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute()
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute()
 				)
 			);
 
 		$expected = array(
-			'cn'                 => new NextADInt_Ldap_Attribute(),
-			'givenname'          => new NextADInt_Ldap_Attribute(),
-			'sn'                 => new NextADInt_Ldap_Attribute(),
-			'displayname'        => new NextADInt_Ldap_Attribute(),
-			'description'        => new NextADInt_Ldap_Attribute(),
-			'mail'               => new NextADInt_Ldap_Attribute(),
-			'samaccountname'     => new NextADInt_Ldap_Attribute(),
-			'userprincipalname'  => new NextADInt_Ldap_Attribute(),
-			'useraccountcontrol' => new NextADInt_Ldap_Attribute(),
-			'objectguid'         => new NextADInt_Ldap_Attribute(),
-			'domainsid'          => new NextADInt_Ldap_Attribute(),
-			'objectsid'          => new NextADInt_Ldap_Attribute()
+			'cn' => new Attribute(),
+			'givenname' => new Attribute(),
+			'sn' => new Attribute(),
+			'displayname' => new Attribute(),
+			'description' => new Attribute(),
+			'mail' => new Attribute(),
+			'samaccountname' => new Attribute(),
+			'userprincipalname' => new Attribute(),
+			'useraccountcontrol' => new Attribute(),
+			'objectguid' => new Attribute(),
+			'domainsid' => new Attribute(),
+			'objectsid' => new Attribute()
 		);
 
 		$actual = $sut->createDefaultAttributes();
@@ -423,7 +428,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getCustomAttributeDefinitions', 'createAttribute'));
 
-		$cn = new NextADInt_Ldap_Attribute();
+		$cn = new Attribute();
 
 		$sut->expects($this->any())
 			->method('createAttribute')
@@ -443,39 +448,39 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			)
 			->will(
 				$this->onConsecutiveCalls(
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute(),
-					new NextADInt_Ldap_Attribute()
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute(),
+					new Attribute()
 				)
 			);
 
 		$param = array(
-			'ipphone' => new NextADInt_Ldap_Attribute(),
+			'ipphone' => new Attribute(),
 		);
 
 		$expected = array(
-			'ipphone'            => $param['ipphone'],
-			'cn'                 => new NextADInt_Ldap_Attribute(),
-			'givenname'          => new NextADInt_Ldap_Attribute(),
-			'sn'                 => new NextADInt_Ldap_Attribute(),
-			'displayname'        => new NextADInt_Ldap_Attribute(),
-			'description'        => new NextADInt_Ldap_Attribute(),
-			'mail'               => new NextADInt_Ldap_Attribute(),
-			'samaccountname'     => new NextADInt_Ldap_Attribute(),
-			'userprincipalname'  => new NextADInt_Ldap_Attribute(),
-			'useraccountcontrol' => new NextADInt_Ldap_Attribute(),
-			'objectguid'         => new NextADInt_Ldap_Attribute(),
-			'domainsid'          => new NextADInt_Ldap_Attribute(),
-			'objectsid'          => new NextADInt_Ldap_Attribute()
+			'ipphone' => $param['ipphone'],
+			'cn' => new Attribute(),
+			'givenname' => new Attribute(),
+			'sn' => new Attribute(),
+			'displayname' => new Attribute(),
+			'description' => new Attribute(),
+			'mail' => new Attribute(),
+			'samaccountname' => new Attribute(),
+			'userprincipalname' => new Attribute(),
+			'useraccountcontrol' => new Attribute(),
+			'objectguid' => new Attribute(),
+			'domainsid' => new Attribute(),
+			'objectsid' => new Attribute()
 		);
 
 		$actual = $sut->createDefaultAttributes($param);
@@ -491,11 +496,11 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 		$this->mockFunction__();
 
 		$attribute = array(
-			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE                 => 'string',
-			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE  => 'next_ad_int_lastName',
-			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_SYNC_TO_AD           => 'true',
-			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => 'true',
-			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_DESCRIPTION         => 'customDescription',
+			Options::ATTRIBUTES_COLUMN_TYPE => 'string',
+			Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE => 'next_ad_int_lastName',
+			Options::ATTRIBUTES_COLUMN_SYNC_TO_AD => 'true',
+			Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => 'true',
+			Options::ATTRIBUTES_COLUMN_DESCRIPTION => 'customDescription',
 		);
 
 
@@ -526,12 +531,12 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	public function resolveType_trimString_returnTrimmedString()
 	{
 		$array = array(
-			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE => '  bool  ',
+			Options::ATTRIBUTES_COLUMN_TYPE => '  bool  ',
 			'  bool  ',
 			null,
 		);
 
-		$actual = NextADInt_Ldap_Attribute_Repository::resolveType($array);
+		$actual = Repository::resolveType($array);
 		$this->assertEquals('bool', $actual);
 	}
 
@@ -541,12 +546,12 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	public function resolveType_sanitizeKnownType_returnKnownType()
 	{
 		$array = array(
-			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE => "integer",
+			Options::ATTRIBUTES_COLUMN_TYPE => "integer",
 			'integer',
 			null,
 		);
 
-		$actual = NextADInt_Ldap_Attribute_Repository::resolveType($array);
+		$actual = Repository::resolveType($array);
 		$this->assertEquals('integer', $actual);
 	}
 
@@ -556,12 +561,12 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	public function resolveType_sanitizeUnknownType_returnString()
 	{
 		$array = array(
-			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE => "NewAttributeType",
+			Options::ATTRIBUTES_COLUMN_TYPE => "NewAttributeType",
 			'stuff',
 			null,
 		);
 
-		$actual = NextADInt_Ldap_Attribute_Repository::resolveType($array);
+		$actual = Repository::resolveType($array);
 		$this->assertEquals('string', $actual);
 	}
 
@@ -571,12 +576,12 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	public function resolveWordPressAttribute_returnWordPressAttribute()
 	{
 		$array = array(
-			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE => "testWordPressAttribute",
+			Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE => "testWordPressAttribute",
 			null,
 			'',
 		);
 
-		$actual = NextADInt_Ldap_Attribute_Repository::resolveWordPressAttribute($array);
+		$actual = Repository::resolveWordPressAttribute($array);
 		$this->assertEquals("testWordPressAttribute", $actual);
 	}
 
@@ -586,12 +591,12 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	public function resolveSyncToAd_returnTrue()
 	{
 		$array = array(
-			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_SYNC_TO_AD => "true",
+			Options::ATTRIBUTES_COLUMN_SYNC_TO_AD => "true",
 			null,
 			'',
 		);
 
-		$actual = NextADInt_Ldap_Attribute_Repository::resolveSyncToAd($array);
+		$actual = Repository::resolveSyncToAd($array);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -601,12 +606,12 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	public function resolveViewInUserProfile_returnTrue()
 	{
 		$array = array(
-			NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => "true",
+			Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => "true",
 			null,
 			'',
 		);
 
-		$actual = NextADInt_Ldap_Attribute_Repository::resolveViewInUserProfile($array);
+		$actual = Repository::resolveViewInUserProfile($array);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -621,37 +626,37 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 
 		$expected = array(
 			"testAdAttribute" => array(
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_TYPE                 => "string",
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE  => "testWordPressMetakey",
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_DESCRIPTION          => "description",
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => "true",
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_SYNC_TO_AD           => "true",
-				NextADInt_Adi_Configuration_Options::ATTRIBUTES_COLUMN_OVERWRITE_EMPTY      => "true",
+				Options::ATTRIBUTES_COLUMN_TYPE => "string",
+				Options::ATTRIBUTES_COLUMN_WORDPRESS_ATTRIBUTE => "testWordPressMetakey",
+				Options::ATTRIBUTES_COLUMN_DESCRIPTION => "description",
+				Options::ATTRIBUTES_COLUMN_VIEW_IN_USER_PROFILE => "true",
+				Options::ATTRIBUTES_COLUMN_SYNC_TO_AD => "true",
+				Options::ATTRIBUTES_COLUMN_OVERWRITE_EMPTY => "true",
 			),
 		);
 
-		$actual = NextADInt_Ldap_Attribute_Repository::convertAttributeMapping($attributeString);
+		$actual = Repository::convertAttributeMapping($attributeString);
 		$this->assertEquals($expected, $actual);
 	}
 
 	/**
 	 * @test
 	 */
-	public function checkAttributeNamesForConflict_withConflict_returnTrue() 
-	{		
+	public function checkAttributeNamesForConflict_withConflict_returnTrue()
+	{
 		$attributeString = "testAdAttribute:string:testWordPressMetakey:description:true:true:true;testAdAttribute:string:testWordPressMetakey:description:true:true:true";
-		$actual = NextADInt_Ldap_Attribute_Repository::checkAttributeNamesForConflict($attributeString);
+		$actual = Repository::checkAttributeNamesForConflict($attributeString);
 		$this->assertTrue($actual);
 	}
 
 	/**
 	 * @test
 	 */
-	public function checkAttributeNamesForConflict_withoutConflict_returnfalse() 
-	{		
+	public function checkAttributeNamesForConflict_withoutConflict_returnfalse()
+	{
 		$attributeString = "testAdAttribute:string:testWordPressMetakey:description:true:true:true;testAdAttribute2:string:testWordPressMetakey:description:true:true:true;";
-		$actual = NextADInt_Ldap_Attribute_Repository::checkAttributeNamesForConflict($attributeString);
-		$this->assertFalse($actual);		
+		$actual = Repository::checkAttributeNamesForConflict($attributeString);
+		$this->assertFalse($actual);
 	}
 
 
@@ -666,7 +671,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			null,
 		);
 
-		$actual = NextADInt_Ldap_Attribute_Repository::lookupDescription($array, 'metaKey');
+		$actual = Repository::lookupDescription($array, 'metaKey');
 		$this->assertEquals('description', $actual);
 	}
 
@@ -683,7 +688,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			null,
 		);
 
-		$actual = NextADInt_Ldap_Attribute_Repository::lookupDescription($array, 'metaKey');
+		$actual = Repository::lookupDescription($array, 'metaKey');
 		$this->assertEquals('metaKey', $actual);
 	}
 
@@ -694,8 +699,8 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getWhitelistedAttributes'));
 
-		$attributeCn = new NextADInt_Ldap_Attribute();
-		$attributeMail = new NextADInt_Ldap_Attribute();
+		$attributeCn = new Attribute();
+		$attributeMail = new Attribute();
 		$attributeMail->setSyncable(true);
 
 		$sut->expects($this->once())
@@ -727,7 +732,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 			'next_ad_int_objectsid'
 		);
 
-		$actual = NextADInt_Ldap_Attribute_Repository::getDefaultAttributeMetaKeys();
+		$actual = Repository::getDefaultAttributeMetaKeys();
 
 		$this->assertEquals($expected, $actual);
 	}
@@ -738,7 +743,7 @@ class Ut_NextADInt_Ldap_Attribute_RepositoryTest extends Ut_BasicTest
 	public function findAllBinaryAttributes_returnsExpectedResult()
 	{
 		$expected = array('objectguid');
-		$actual = NextADInt_Ldap_Attribute_Repository::findAllBinaryAttributes();
+		$actual = Repository::findAllBinaryAttributes();
 
 		$this->assertEquals($expected, $actual);
 	}

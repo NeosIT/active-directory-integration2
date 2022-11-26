@@ -23,11 +23,17 @@
 	  "@strauss"
 	]
   },
+  "autoload": {
+	"psr-4": {
+	  "Dreitier\\": "src/shared",
+	  "Dreitier\\Nadi\\": "src/plug-in"
+	}
+  },
   "extra": {
 	"strauss": {
 	  "target_directory": "vendor-repackaged",
 	  "namespace_prefix": "Dreitier\\Nadi\\Vendor",
-	  "classmap_prefix": "Dreitier_NADI_Vendor",
+	  "classmap_prefix": "Dreitier_Nadi_Vendor_",
 	  "constant_prefix": "DREITIER_NADI_VENDOR_"
 	}
   }

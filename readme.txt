@@ -3,7 +3,7 @@ Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
 Tags: authentication, active directory, ldap, ldaps, authorization, security, windows, sso, login, domain, controller
 Requires at least: 5.6
 Tested up to: 6.1
-Stable tag: REPLACE_BY_JENKINS_SCRIPT
+Stable tag: REPLACE_VERSION_BY_CI
 License: GPLv3
 Donate link: https://active-directory-wp.com
 

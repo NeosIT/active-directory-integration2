@@ -15,14 +15,14 @@ if (!extension_loaded('ldap')) {
 if (!defined('ABSPATH')) {
 	// TODO move this and the definition in index.php to its own file so it can be included once
 	define('ABSPATH', '');
-    define('NEXT_AD_INT_PLUGIN_VERSION', '2.0');
-    define('NEXT_AD_INT_PREFIX', 'next_ad_int_');
-    define('NEXT_AD_INT_URL', '');
-    define('NEXT_AD_INT_FILE_CONVERSION_PATTERN', "[%-5level] %class::%method [line %line] %msg %ex\r\n");
-    define('NEXT_AD_INT_ECHO_CONVERSION_PATTERN', '[%-5level] %msg %ex<br />');
+	define('NEXT_AD_INT_PLUGIN_VERSION', '2.0');
+	define('NEXT_AD_INT_PREFIX', 'next_ad_int_');
+	define('NEXT_AD_INT_URL', '');
+	define('NEXT_AD_INT_FILE_CONVERSION_PATTERN', "[%-5level] %class::%method [line %line] %msg %ex\r\n");
+	define('NEXT_AD_INT_ECHO_CONVERSION_PATTERN', '[%-5level] %msg %ex<br />');
 	define('NEXT_AD_INT_TABLE_CONVERSION_PATTERN', '[%-5level] | %msg | %ex');
 	define('OBJECT', 987);
-	define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH', dirname(dirname( __FILE__ )));
+	define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH', dirname(dirname(__FILE__)));
 
 	// TODO in eigene Klassen auslagern
 	class WP_Error
@@ -46,7 +46,8 @@ if (!defined('ABSPATH')) {
 			$this->errors[$key] = $value;
 		}
 
-		public function getErrorKey() {
+		public function getErrorKey()
+		{
 			if (sizeof($this->value) > 0) {
 				return $this->value[0];
 			}
@@ -73,20 +74,20 @@ if (!defined('ABSPATH')) {
 		{
 			$this->roles = array(
 				'administrator' => array(
-				    'name' => 'Administrator',
-                ),
-				'editor'        => array(
-				    'name' => 'Editor',
-                ),
-				'author'        => array(
-                    'name' => 'Author',
-                ),
-				'contributor'   => array(
-                    'name' => 'Contributor',
-                ),
-				'subscriber'    => array(
-                    'name' => 'Subscriber',
-                ),
+					'name' => 'Administrator',
+				),
+				'editor' => array(
+					'name' => 'Editor',
+				),
+				'author' => array(
+					'name' => 'Author',
+				),
+				'contributor' => array(
+					'name' => 'Contributor',
+				),
+				'subscriber' => array(
+					'name' => 'Subscriber',
+				),
 			);
 		}
 
@@ -96,102 +97,94 @@ if (!defined('ABSPATH')) {
 		}
 	}
 
-	class WP_User {
-	    public $data;
+	class WP_User
+	{
+		public $data;
 
-        public function __construct()
-        {
-            $this->data = (object) array(
-                'user_login' => 'hugo',
-                'user_email' => 'hugo@test.ad',
+		public function __construct()
+		{
+			$this->data = (object)array(
+				'user_login' => 'hugo',
+				'user_email' => 'hugo@test.ad',
 				'ID' => '666'
-            );
-        }
+			);
+		}
 
-        public function __get($name) {
-            return $this->data->$name;
-        }
+		public function __get($name)
+		{
+			return $this->data->$name;
+		}
 
-        public function setExpectedUserLogin($expected) {
-            $this->data->user_login = $expected;
-        }
+		public function setExpectedUserLogin($expected)
+		{
+			$this->data->user_login = $expected;
+		}
 
-        public function setExpectedUserEmail($expected) {
-            $this->data->user_email = $expected;
-        }
+		public function setExpectedUserEmail($expected)
+		{
+			$this->data->user_email = $expected;
+		}
 
-		public function setID($expected) {
+		public function setID($expected)
+		{
 			$this->data->ID = $expected;
 		}
 	}
 
-    class WP_MS_Sites_List_Table {
+	class WP_MS_Sites_List_Table
+	{
 
-    }
+	}
 
-    // now we can mock this empty class instead of creating a mock from an non existing class
-    // this is a workaround for a bug https://github.com/sebastianbergmann/phpunit-mock-objects/issues/321
-    class BlueprintClass {
+	// now we can mock this empty class instead of creating a mock from an non existing class
+	// this is a workaround for a bug https://github.com/sebastianbergmann/phpunit-mock-objects/issues/321
+	class BlueprintClass
+	{
 
-    }
+	}
 }
 
 // these three functions are copied from wp-includes/formatting.php
-function stripslashes_deep( $value ) {
-    return map_deep( $value, 'stripslashes_from_strings_only' );
+function stripslashes_deep($value)
+{
+	return map_deep($value, 'stripslashes_from_strings_only');
 }
-function stripslashes_from_strings_only( $value ) {
-    return is_string($value) ? stripslashes($value) : $value;
+
+function stripslashes_from_strings_only($value)
+{
+	return is_string($value) ? stripslashes($value) : $value;
 }
-function map_deep( $value, $callback ) {
-    if ( is_array( $value ) ) {
-        foreach ( $value as $index => $item ) {
-            $value[ $index ] = map_deep( $item, $callback );
-        }
-    } elseif ( is_object( $value ) ) {
-        $object_vars = get_object_vars( $value );
-        foreach ( $object_vars as $property_name => $property_value ) {
-            $value->$property_name = map_deep( $property_value, $callback );
-        }
-    } else {
-        $value = call_user_func( $callback, $value );
-    }
-    return $value;
+
+function map_deep($value, $callback)
+{
+	if (is_array($value)) {
+		foreach ($value as $index => $item) {
+			$value[$index] = map_deep($item, $callback);
+		}
+	} elseif (is_object($value)) {
+		$object_vars = get_object_vars($value);
+		foreach ($object_vars as $property_name => $property_value) {
+			$value->$property_name = map_deep($property_value, $callback);
+		}
+	} else {
+		$value = call_user_func($callback, $value);
+	}
+	return $value;
 }
 
 // Jenkins does continuously fail with "allowed memory size of 134217728 bytes exhausted at..." during testing
 ini_set("memory_limit", "2G");
 
-// search for the plugin root folder with the classes subfolder
-$path = dirname(__FILE__);
-for ($i = 0; $i < 9; $i++) {
-	$path = dirname($path);
-	if (file_exists($path . '/classes')) {
-		break;
-	}
-}
+define('NEXT_AD_INT_PATH', __DIR__ . '/..');
 
-define('NEXT_AD_INT_PATH', $path);
+define('NEXT_AD_INT_PLUGIN_FILE', NEXT_AD_INT_PATH . "/index.php");
 
-// get plugin folder name from path
-$pluginName = explode('/', $path);
-$pluginName = $pluginName[sizeof($pluginName) - 1];
-$pluginName = explode('\\', $pluginName);
-$pluginName = $pluginName[sizeof($pluginName) - 1];
-define('NEXT_AD_INT_PLUGIN_FILE', "$pluginName/index.php");
-
-require_once "$path/Autoloader.php";
-$autoLoader = new NextADInt_Autoloader();
-$autoLoader->register();
-
-require_once "$path/functions.php";
+require_once NEXT_AD_INT_PATH . "/functions.php";
 
 // include any packages required during testing like WP_Mock
-require_once "$path/vendor/autoload.php";
+require_once NEXT_AD_INT_PATH . "/vendor/autoload.php";
 // include vendored packages
-require_once "$path/vendor-repackaged/autoload.php";
-require_once "$path/vendor-legacy/adLDAP/adLDAP.php";
-$loader = new \Dreitier\Nadi\Vendor\Twig\Loader\FilesystemLoader($path .'/views');
+require_once NEXT_AD_INT_PATH ."/vendor-repackaged/autoload.php";
 
-require_once "$path/test/BasicTest.php";
-require_once "$path/test/ItBasicTest.php";
+require_once NEXT_AD_INT_PATH . "/test/BasicTest.php";
+require_once NEXT_AD_INT_PATH . "/test/BasicIntegrationTest.php";

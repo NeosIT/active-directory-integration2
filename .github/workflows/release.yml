@@ -47,7 +47,7 @@ jobs:
     - name: Replace NADI version string
       uses: jacobtomlinson/gha-find-replace@master
       with:
-        find: "REPLACE_BY_JENKINS_SCRIPT"
+        find: "REPLACE_VERSION_BY_CI"
         replace: ${{ env.CURRENT_TAG }}
 
     - name: WordPress Plugin Deploy

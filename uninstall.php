@@ -8,9 +8,11 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 }
 
 require_once 'constants.php';
-require_once NEXT_AD_INT_PATH . '/Autoloader.php';
-$autoLoader = new NextADInt_Autoloader();
-$autoLoader->register();
 
-$uninstaller = new NextADInt_Core_Uninstaller();
+// include any packages required during testing like WP_Mock
+require_once NEXT_AD_INT_PATH . "/vendor/autoload.php";
+// include vendored packages
+require_once NEXT_AD_INT_PATH . "/vendor-repackaged/autoload.php";
+
+$uninstaller = new \Dreitier\Util\Uninstaller();
 $uninstaller->removePluginSettings();

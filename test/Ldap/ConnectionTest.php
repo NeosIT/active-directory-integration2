@@ -1,58 +1,64 @@
 <?php
 
+namespace Dreitier\Ldap;
+
+use Dreitier\ActiveDirectory\Context;
+use Dreitier\Nadi\Configuration\Options;
+use Dreitier\Nadi\User\Persistence\Repository;
+use Dreitier\Test\BasicTest;
+use Dreitier\Util\Internal\Native;
+use Dreitier\Util\Util;
+use Dreitier\WordPress\Multisite\Configuration\Service;
+use Dreitier\WordPress\Multisite\Option\Encryption;
+use Dreitier\AdLdap\AdLdap;
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
- * Ut_NextADInt_Ldap_ConnectionTest
- *
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
+class ConnectionTest extends BasicTest
 {
-	/* @var NextADInt_Multisite_Configuration_Service|PHPUnit_Framework_MockObject_MockObject $attributes */
+	/* @var Service|MockObject $attributes */
 	private $configuration;
 
-	/* @var adLDAP|PHPUnit_Framework_MockObject_MockObject $attributes */
+	/* @var adLDAP|MockObject $attributes */
 	private $adLDAP;
 
-	/* @var NextADInt_Core_Util_Internal_Native|\Mockery\MockInterface */
+	/* @var Native|\Mockery\MockInterface */
 	private $internalNative;
 
-	/** @var NextADInt_ActiveDirectory_Context|PHPUnit_Framework_MockObject_MockObject */
+	/** @var Context|MockObject */
 	private $activeDirectoryContext;
 
 	public function setUp(): void
 	{
-		if (!class_exists('adLDAP')) {
-			//get adLdap
-			require_once NEXT_AD_INT_PATH . '/vendor/adLDAP/adLDAP.php';
-		}
-
 		parent::setUp();
 
-		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
-		$this->activeDirectoryContext = $this->createMock('NextADInt_ActiveDirectory_Context');
-		$this->adLDAP = $this->createMock('adLDAP');
+		$this->configuration = $this->createMock(Service::class);
+		$this->activeDirectoryContext = $this->createMock(Context::class);
+		$this->adLDAP = $this->createMock(AdLdap::class);
 
 		// mock native functions
 		$this->internalNative = $this->createMockedNative();
-		NextADInt_Core_Util::native($this->internalNative);
+		Util::native($this->internalNative);
 	}
 
 	public function tearDown(): void
 	{
 		parent::tearDown();
 		// release mocked native functions
-		NextADInt_Core_Util::native(null);
+		Util::native(null);
 	}
 
 	/**
 	 * @param $methods
 	 *
-	 * @return NextADInt_Ldap_Connection|PHPUnit_Framework_MockObject_MockObject
+	 * @return Connection|MockObject
 	 */
 	public function sut($methods)
 	{
-		return $this->getMockBuilder('NextADInt_Ldap_Connection')
+		return $this->getMockBuilder(Connection::class)
 			->setConstructorArgs(array($this->configuration, $this->activeDirectoryContext))
 			->setMethods($methods)
 			->getMock();
@@ -65,7 +71,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('createConfiguration', 'createAdLdap', 'getAdLdap'));
 
-		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails = new ConnectionDetails();
 
 		$config = array(
 			'account_suffix' => '',
@@ -123,7 +129,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 			'allow_self_signed' => true
 		);
 
-		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails = new ConnectionDetails();
 		$connectionDetails->setUsername('tobi');
 		$connectionDetails->setPassword('Streng Geheim');
 
@@ -148,7 +154,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	public function ADI_713_register_userInfo_hookIsRegistered()
 	{
 		$sut = $this->sut(null);
-		WP_Mock::expectFilterAdded(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', array($sut, 'mapUserInfo'), 10, 5);
+		\WP_Mock::expectFilterAdded(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', array($sut, 'mapUserInfo'), 10, 5);
 
 		$sut->register();
 	}
@@ -160,7 +166,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails = new ConnectionDetails();
 		$connectionDetails->setBaseDn('custom');
 
 		$actual = $sut->getBaseDn($connectionDetails);
@@ -174,11 +180,11 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails = new ConnectionDetails();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::BASE_DN)
+			->with(Options::BASE_DN)
 			->willReturn('default');
 
 		$actual = $sut->getBaseDn($connectionDetails);
@@ -192,7 +198,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails = new ConnectionDetails();
 		$connectionDetails->setDomainControllers('custom;custom2');
 
 		$actual = $sut->getDomainControllers($connectionDetails);
@@ -206,11 +212,11 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getDomainControllersWithEncryption'));
 
-		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails = new ConnectionDetails();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS)
+			->with(Options::DOMAIN_CONTROLLERS)
 			->willReturn('default');
 
 		$actual = $sut->getDomainControllers($connectionDetails);
@@ -224,7 +230,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails = new ConnectionDetails();
 		$connectionDetails->setPort('custom');
 
 		$actual = $sut->getAdPort($connectionDetails);
@@ -238,11 +244,11 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails = new ConnectionDetails();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::PORT)
+			->with(Options::PORT)
 			->willReturn('default');
 
 		$actual = $sut->getAdPort($connectionDetails);
@@ -256,8 +262,8 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
-		$connectionDetails->setEncryption(NextADInt_Multisite_Option_Encryption::LDAPS);
+		$connectionDetails = new ConnectionDetails();
+		$connectionDetails->setEncryption(Encryption::LDAPS);
 
 		$actual = $sut->getUseTls($connectionDetails);
 		$this->assertFalse($actual);
@@ -270,9 +276,9 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getEncryption'));
 
-		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails = new ConnectionDetails();
 
-		$this->expects($sut, $this->once(), 'getEncryption', $connectionDetails, NextADInt_Multisite_Option_Encryption::STARTTLS);
+		$this->expects($sut, $this->once(), 'getEncryption', $connectionDetails, Encryption::STARTTLS);
 
 		$actual = $sut->getUseTls($connectionDetails);
 		$this->assertTrue($actual);
@@ -285,7 +291,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails = new ConnectionDetails();
 		$connectionDetails->setNetworkTimeout(5);
 
 		$actual = $sut->getNetworkTimeout($connectionDetails);
@@ -299,11 +305,11 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$connectionDetails = new NextADInt_Ldap_ConnectionDetails();
+		$connectionDetails = new ConnectionDetails();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::NETWORK_TIMEOUT)
+			->with(Options::NETWORK_TIMEOUT)
 			->willReturn('default');
 
 		$actual = $sut->getNetworkTimeout($connectionDetails);
@@ -393,7 +399,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
-		$userQuery = NextADInt_Ldap_UserQuery::forPrincipal("hugo");
+		$userQuery = UserQuery::forPrincipal("hugo");
 		$attributeNames = array("sn", "givenname", "mail");
 
 		$adResult = array(
@@ -432,7 +438,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	 */
 	public function ADI_713_mapUserInfo_returnsFirstMatch_ifOneIsFound()
 	{
-		$userQuery = NextADInt_Ldap_UserQuery::forPrincipal("username");
+		$userQuery = UserQuery::forPrincipal("username");
 		$matchesFromLdap = array(array('FIRST'));
 
 		$sut = $this->sut(null);
@@ -448,7 +454,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	 */
 	public function ADI_713_mapUserInfo_returnsFalse_ifMultipleAreFound()
 	{
-		$userQuery = NextADInt_Ldap_UserQuery::forPrincipal("username");
+		$userQuery = UserQuery::forPrincipal("username");
 		$matchesFromLdap = array(array('FIRST'), array('SECOND'));
 
 		$sut = $this->sut(null);
@@ -464,12 +470,12 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$wpUser = new WP_User();
+		$wpUser = new \WP_User();
 		$wpUser->user_login = 'testUsername';
 		$wpUser->ID = 1;
 
-		WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+		\WP_Mock::wpFunction('get_user_meta', array(
+				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => 1,
 				'return' => array())
 		);
@@ -486,12 +492,12 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
-		$wpUser = new WP_User();
+		$wpUser = new \WP_User();
 		$wpUser->user_login = 'testUsername';
 		$wpUser->ID = 1;
 
-		WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+		\WP_Mock::wpFunction('get_user_meta', array(
+				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => 1,
 				'return' => 'xxxx-xxxx-xxxx-xxxx')
 		);
@@ -503,7 +509,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		$this->adLDAP->expects($this->once())
 			->method("user_modify_without_schema")
 			->with('xxxx-xxxx-xxxx-xxxx', array("sn", "givename", "mail"))
-			->willThrowException(new Exception());
+			->willThrowException(new \Exception());
 
 		$actual = $sut->modifyUserWithoutSchema($wpUser, array("sn", "givename", "mail"));
 		$this->assertEquals(false, $actual);
@@ -516,12 +522,12 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
-		$wpUser = new WP_User();
+		$wpUser = new \WP_User();
 		$wpUser->user_login = 'testUsername';
 		$wpUser->ID = 1;
 
-		WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+		\WP_Mock::wpFunction('get_user_meta', array(
+				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => 1,
 				'return' => 'xxxx-xxxx-xxxx-xxxx')
 		);
@@ -546,12 +552,12 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	{
 		$sut = $this->sut(array('getAdLdap'));
 
-		$wpUser = new WP_User();
+		$wpUser = new \WP_User();
 		$wpUser->user_login = 'testUsername';
 		$wpUser->ID = 1;
 
-		WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
+		\WP_Mock::wpFunction('get_user_meta', array(
+				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => 1,
 				'return' => 'xxxx-xxxx-xxxx-xxxx')
 		);
@@ -600,8 +606,8 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
 			->withConsecutive(
-				array(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS),
-				array(NextADInt_Adi_Configuration_Options::PORT)
+				array(Options::DOMAIN_CONTROLLERS),
+				array(Options::PORT)
 			)
 			->will(
 				$this->onConsecutiveCalls(
@@ -763,7 +769,8 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 	/**
 	 * @test
 	 */
-	public function filterDomainMembers_itConvertsArrayIntoAssociativeArray() {
+	public function filterDomainMembers_itConvertsArrayIntoAssociativeArray()
+	{
 		$sut = $this->sut(array('getAdLdap'));
 
 		$userInfoA = array(
@@ -802,10 +809,10 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		$this->activeDirectoryContext->expects($this->exactly(2))
 			->method('isMember')
 			->withConsecutive(
-				array($this->callback(function($sid) {
+				array($this->callback(function ($sid) {
 					return $sid->getFormatted() == 'S-1-5-21-3623811015-3361044348-30300820-555';
 				}), false),
-				array($this->callback(function($sid) {
+				array($this->callback(function ($sid) {
 					return $sid->getFormatted() == 'S-1-5-21-3623811015-3361044348-30300820-666';
 				}), false),
 			)
@@ -889,7 +896,7 @@ class Ut_NextADInt_Ldap_ConnectionTest extends Ut_BasicTest
 		$this->adLDAP->expects($this->once())
 			->method('group_members')
 			->with('groupA', null)
-			->willThrowException(new Exception());
+			->willThrowException(new \Exception());
 
 		$this->adLDAP->expects($this->once())
 			->method('group_info')

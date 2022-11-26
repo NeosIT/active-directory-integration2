@@ -3,7 +3,7 @@
 Plugin Name: Next Active Directory Integration
 Plugin URI: https://www.active-directory-wp.com
 Description: Enterprise-ready solution to authenticate, authorize and synchronize your Active Directory users to WordPress. Next Active Directory Authentication supports NTLM and Kerberos for Single Sign On.
-Version: REPLACE_BY_JENKINS_SCRIPT
+Version: REPLACE_VERSION_BY_CI
 Author: active-directory-wp.com
 Author URI: https://active-directory-wp.com
 Text Domain: next-active-directory-integration
@@ -22,23 +22,20 @@ if (!defined('ABSPATH')) {
 }
 
 define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH', plugin_dir_path(__FILE__));
+
 require_once(dirname(__FILE__) . "/constants.php");
-require_once(dirname(__FILE__) . "/Autoloader.php");
+
+// include any packages required during testing like WP_Mock
+require_once NEXT_AD_INT_PATH . "/vendor/autoload.php";
+// include vendored packages
+require_once NEXT_AD_INT_PATH . "/vendor-repackaged/autoload.php";
+
 require_once(dirname(__FILE__) . "/functions.php");
-
-// init dummy logger in order to prevent fatal errors for outdated premium extensions
-require_once(dirname(__FILE__) . "/classes/Core/DummyLogger/DummyLogger.php");
-
-$autoLoader = new NextADInt_Autoloader();
-$autoLoader->register();
-
-// load plugin dependencies with composer autoloader
-require_once(dirname(__FILE__) . "/vendor-repackaged/autoload.php");
 
 // NADI-692: We have to skip the requirements check if wp-cli is used.
 // Otherwise the requirements will/might fail if any of the required PHP modules is not enabled for php-cli and NADI will disable it on its own.
 if (!defined('WP_CLI')) {
-	$requirements = new NextADInt_Adi_Requirements();
+	$requirements = new \Dreitier\Nadi\Requirements();
 
 	if (!$requirements->check()) {
 		return;
@@ -46,11 +43,11 @@ if (!defined('WP_CLI')) {
 }
 
 // start plugin
-$adiPlugin = new NextADInt_Adi_Init();
+$adiPlugin = new \Dreitier\Nadi\Init();
 
 // register basic hooks
 register_activation_hook(__FILE__, array($adiPlugin, 'activation'));
-register_uninstall_hook(__FILE__, array('NextADInt_Adi_Init' /* static */, 'uninstall'));
+register_uninstall_hook(__FILE__, array(\Dreitier\Nadi\Init::class /* static */, 'uninstall'));
 
 add_action('plugins_loaded', 'next_ad_int_angular_ajax_params_to_post');
 
@@ -72,15 +69,15 @@ add_action('set_current_user', array($adiPlugin, 'runMultisite'));
  * Global accessor for Next ADI dependencies.
  * You can call this function in your own extensions to gain access to the internals of NADI.
  *
- * @return NextADInt_Adi_Dependencies
+ * @return \Dreitier\Nadi\Dependencies
  */
 function next_ad_int()
 {
-	return NextADInt_Adi_Dependencies::getInstance();
+	return \Dreitier\Nadi\Dependencies::getInstance();
 }
 
 function next_ad_int_logger()
 {
-	return NextADInt_Core_Logger::getInstance();
+	return \Dreitier\Nadi\Log\NadiLog::getInstance();
 }
 

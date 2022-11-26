@@ -1,19 +1,22 @@
 <?php
+namespace Dreitier\Ldap\Attribute;
+
+use Dreitier\Test\BasicTest;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class Ut_NextADInt_Ldap_Attribute_ConverterTest extends Ut_BasicTest
+class ConverterTest extends BasicTest
 {
 	public function setUp() : void
 	{
-		WP_Mock::setUp();
+		\WP_Mock::setUp();
 	}
 
 	public function tearDown() : void
 	{
-		WP_Mock::tearDown();
+		\WP_Mock::tearDown();
 	}
 
 	/**
@@ -21,7 +24,7 @@ class Ut_NextADInt_Ldap_Attribute_ConverterTest extends Ut_BasicTest
 	 */
 	public function formatAttributeValue_string()
 	{
-		$stringTestReturn = NextADInt_Ldap_Attribute_Converter::formatAttributeValue('string', 555);
+		$stringTestReturn = Converter::formatAttributeValue('string', 555);
 		$this->assertTrue("555" === $stringTestReturn);
 		$this->assertTrue(is_string($stringTestReturn));
 	}
@@ -31,7 +34,7 @@ class Ut_NextADInt_Ldap_Attribute_ConverterTest extends Ut_BasicTest
 	 */
 	public function formatAttributeValue_integer()
 	{
-		$integerTestReturn = NextADInt_Ldap_Attribute_Converter::formatAttributeValue('integer', 55.5);
+		$integerTestReturn = Converter::formatAttributeValue('integer', 55.5);
 		$this->assertEquals(55, $integerTestReturn);
 		$this->assertTrue(is_integer($integerTestReturn));
 	}
@@ -41,7 +44,7 @@ class Ut_NextADInt_Ldap_Attribute_ConverterTest extends Ut_BasicTest
 	 */
 	public function formatAttributeValue_boolean()
 	{
-		$boolTestReturn = NextADInt_Ldap_Attribute_Converter::formatAttributeValue('bool', '0');
+		$boolTestReturn = Converter::formatAttributeValue('bool', '0');
 		$this->assertEquals(false, $boolTestReturn);
 		$this->assertTrue(is_bool($boolTestReturn));
 	}
@@ -78,7 +81,7 @@ class Ut_NextADInt_Ldap_Attribute_ConverterTest extends Ut_BasicTest
 		);
 
 		$expected = "January 31, 2016 / 11:35 am";
-		$this->assertEquals($expected, NextADInt_Ldap_Attribute_Converter::formatAttributeValue('time', $value));
+		$this->assertEquals($expected, Converter::formatAttributeValue('time', $value));
 	}
 
 	/**
@@ -121,7 +124,7 @@ class Ut_NextADInt_Ldap_Attribute_ConverterTest extends Ut_BasicTest
 		);
 
 		$expected = "January 31, 2016 / 12:35 pm";
-		$this->assertEquals($expected, NextADInt_Ldap_Attribute_Converter::formatAttributeValue('time', $value));
+		$this->assertEquals($expected, Converter::formatAttributeValue('time', $value));
 	}
 
 	/**
@@ -166,7 +169,7 @@ class Ut_NextADInt_Ldap_Attribute_ConverterTest extends Ut_BasicTest
 		);
 
 		$expected = 'February 1, 2016 / 11:32 am';
-		$actual = NextADInt_Ldap_Attribute_Converter::formatAttributeValue('timestamp', $fileTime);
+		$actual = Converter::formatAttributeValue('timestamp', $fileTime);
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -178,7 +181,7 @@ class Ut_NextADInt_Ldap_Attribute_ConverterTest extends Ut_BasicTest
 		$octetTest = "This is a test String";
 		$expected = "VGhpcyBpcyBhIHRlc3QgU3RyaW5n";
 
-		$octetTestReturn = NextADInt_Ldap_Attribute_Converter::formatAttributeValue("octet", $octetTest);
+		$octetTestReturn = Converter::formatAttributeValue("octet", $octetTest);
 		$this->assertEquals($expected, $octetTestReturn);
 		$this->assertTrue(is_string($octetTestReturn));
 	}
@@ -190,7 +193,7 @@ class Ut_NextADInt_Ldap_Attribute_ConverterTest extends Ut_BasicTest
 	{
 		$cnTest = "CN=Ellen\,Bogen, OU=EDV, OU=Benutzer, DC=faq-o-matic, DC=net";
 
-		$cnTestReturn = NextADInt_Ldap_Attribute_Converter::formatAttributeValue("cn", $cnTest);
+		$cnTestReturn = Converter::formatAttributeValue("cn", $cnTest);
 		$this->assertEquals("Ellen,Bogen", $cnTestReturn);
 		$this->assertTrue(is_string($cnTestReturn));
 	}
@@ -202,7 +205,7 @@ class Ut_NextADInt_Ldap_Attribute_ConverterTest extends Ut_BasicTest
 	{
 		$cnTest = "CN=Ellen Bogen, OU=EDV, OU=Benutzer, DC=faq-o-matic, DC=net";
 
-		$cnTestReturn = NextADInt_Ldap_Attribute_Converter::formatAttributeValue("cn", $cnTest);
+		$cnTestReturn = Converter::formatAttributeValue("cn", $cnTest);
 		$this->assertEquals("Ellen Bogen", $cnTestReturn);
 		$this->assertTrue(is_string($cnTestReturn));
 	}
@@ -214,7 +217,7 @@ class Ut_NextADInt_Ldap_Attribute_ConverterTest extends Ut_BasicTest
 	{
 		$cnTest = "invalid";
 
-		$cnTestReturn = NextADInt_Ldap_Attribute_Converter::formatAttributeValue("cn", $cnTest);
+		$cnTestReturn = Converter::formatAttributeValue("cn", $cnTest);
 		$this->assertEquals('', $cnTestReturn);
 		$this->assertTrue(is_string($cnTestReturn));
 	}

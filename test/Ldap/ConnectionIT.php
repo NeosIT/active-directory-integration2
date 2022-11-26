@@ -1,35 +1,41 @@
 <?php
 
+namespace Dreitier\Ldap;
+
+use Dreitier\Nadi\Configuration\Options;
+use Dreitier\Nadi\User\Persistence\Repository;
+use Dreitier\Util\StringUtil;
+use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
- * It_NextADInt_Ldap_Connection
- *
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
+class ConnectionIT extends \Dreitier\Test\BasicIntegrationTest
 {
-	/* @var NextADInt_Multisite_Configuration_Service | PHPUnit_Framework_MockObject_MockObject */
+	/* @var Service | MockObject */
 	private $configuration;
 
-	/* @var NextADInt_Ldap_Connection */
+	/* @var Connection */
 	private $ldapConnection;
 
-	/* @var NextADInt_Ldap_ConnectionDetails */
+	/* @var ConnectionDetails */
 	protected $connectionDetails;
 
-	public function setUp() : void
+	public function setUp(): void
 	{
 		\WP_Mock::setUp();
 
-		$this->configuration = $this->createMock('NextADInt_Multisite_Configuration_Service');
+		$this->configuration = $this->createMock(Service::class);
 
-		$this->ldapConnection = new NextADInt_Ldap_Connection($this->configuration);
+		$this->ldapConnection = new Connection($this->configuration);
 		$this->connectionDetails = $this->createAdConnectionDetails();
 		$this->ldapConnection->connect($this->connectionDetails);
 		$this->prepareActiveDirectory($this->ldapConnection->getAdLdap());
 	}
 
-	public function tearDown() : void
+	public function tearDown(): void
 	{
 		$this->rollbackAdAfterConnectionIt($this->ldapConnection->getAdLdap());
 		\WP_Mock::tearDown();
@@ -54,7 +60,7 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 		$connectionDetails->setPassword('wrongPa$$w0rd');
 
 		// Create a new Ldap Connection
-		$connection = new NextADInt_Ldap_Connection($this->configuration);
+		$connection = new Connection($this->configuration);
 		$connection->connect($connectionDetails);
 
 		$this->assertEquals(null, $connection->getAdLdap());
@@ -68,8 +74,8 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 		$this->ldapConnection->connect($this->connectionDetails);
 		$expectedArray = array(
 			'samaccountname' => 'Jurg',
-			'cn'             => 'Jurg Smith',
-			'memberof'       => 'CN=AdiItGroup,OU=AdiItOu,DC=test,DC=ad'
+			'cn' => 'Jurg Smith',
+			'memberof' => 'CN=AdiItGroup,OU=AdiItOu,DC=test,DC=ad'
 		);
 
 		$returnedValue = $this->ldapConnection->findSanitizedAttributesOfUser(
@@ -88,6 +94,7 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 
 		$this->assertTrue($returnedValue);
 	}
+
 	/**
 	 * @test
 	 */
@@ -116,25 +123,24 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 	public function modifyUserWithoutSchema_withAttributesToSync_RollbackAfterwards_returnTrue()
 	{
 
-		$wpUser = new WP_User();
+		$wpUser = new \WP_User();
 		$wpUser->ID = 666;
 		$wpUser->user_login = $this->username1;
 
 		$this->ldapConnection->connect($this->connectionDetails);
 		$ldapAttribute = $this->ldapConnection->findSanitizedAttributesOfUser($this->username1, array('objectguid'));
-		$userGuid = NextADInt_Core_Util_StringUtil::binaryToGuid($ldapAttribute['objectguid']);
+		$userGuid = StringUtil::binaryToGuid($ldapAttribute['objectguid']);
 
-		WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . NextADInt_Adi_User_Persistence_Repository::META_KEY_OBJECT_GUID, true),
-				'times'  => 2,
-				'return' => $userGuid
+		\WP_Mock::wpFunction('get_user_meta', array(
+			'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
+			'times' => 2,
+			'return' => $userGuid
 		));
 
 		$attributesToSync = array(
 			"countryCode" => 1,
 			"description" => "Description modified by integration Test!",
 		);
-
 
 
 		$returnedValue = $this->ldapConnection->modifyUserWithoutSchema($wpUser, $attributesToSync);
@@ -174,7 +180,7 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 		//Workaround to bypass domainSid check in IT
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(NextADInt_Adi_Configuration_Options::DOMAIN_SID)
+			->with(Options::DOMAIN_SID)
 			->willReturn('S-1-5');
 
 		$this->ldapConnection->connect($this->connectionDetails);
@@ -236,7 +242,7 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 			'domain_controllers' => array($this->connectionDetails->getDomainControllers()),
 			'ad_port' => $this->connectionDetails->getPort(),
 			'use_tls' => false,
-            'use_ssl' => false,
+			'use_ssl' => false,
 			'network_timeout' => $this->connectionDetails->getNetworkTimeout(),
 			'ad_username' => $this->connectionDetails->getUsername(),
 			'ad_password' => $this->connectionDetails->getPassword()
@@ -293,8 +299,8 @@ class It_NextADInt_Ldap_ConnectionIT extends It_BasicTest
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
 			->withConsecutive(
-				array(NextADInt_Adi_Configuration_Options::DOMAIN_CONTROLLERS),
-				array(NextADInt_Adi_Configuration_Options::PORT)
+				array(Options::DOMAIN_CONTROLLERS),
+				array(Options::PORT)
 			)
 			->will(
 				$this->onConsecutiveCalls(

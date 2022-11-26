@@ -1,21 +1,23 @@
 <?php
 
+namespace Dreitier\Ldap\Attribute;
+
+use Dreitier\Test\BasicTest;
+
 /**
- * Ut_NextADInt_Ldap_Attribute_DescriptionTest
- *
  * @author Tobias Hellmann <the@neos-it.de>
  * @author Sebastian Weinert <swe@neos-it.de>
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class Ut_NextADInt_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
+class DescriptionTest extends BasicTest
 {
-	public function setUp() : void
+	public function setUp(): void
 	{
 		parent::setUp();
 	}
 
-	public function tearDown() : void
+	public function tearDown(): void
 	{
 		parent::tearDown();
 	}
@@ -25,7 +27,7 @@ class Ut_NextADInt_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 	 */
 	public function findAll_callMethodForTheFirstTime_returnExpectedDescriptions()
 	{
-		$descriptions = NextADInt_Ldap_Attribute_Description::findAll();
+		$descriptions = Description::findAll();
 
 		$this->assertTrue(is_array($descriptions));
 		$this->assertEquals(38, sizeof($descriptions));
@@ -36,8 +38,8 @@ class Ut_NextADInt_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 	 */
 	public function findAll_callMethodForTheSecondTime_returnExpectedDescriptions()
 	{
-		NextADInt_Ldap_Attribute_Description::findAll();
-		$descriptions = NextADInt_Ldap_Attribute_Description::findAll();
+		Description::findAll();
+		$descriptions = Description::findAll();
 
 		$this->assertTrue(is_array($descriptions));
 		$this->assertEquals(38, sizeof($descriptions));
@@ -48,7 +50,7 @@ class Ut_NextADInt_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 	 */
 	public function find_withExistingAttribute_returnExpectedDescription()
 	{
-		$description = NextADInt_Ldap_Attribute_Description::find('cn', '');
+		$description = Description::find('cn', '');
 		$this->assertEquals('Common Name', $description);
 	}
 
@@ -57,7 +59,7 @@ class Ut_NextADInt_Ldap_Attribute_DescriptionTest extends Ut_BasicTest
 	 */
 	public function find_withNoDefaultAdAttribute_withCustomDescription_returnCustomDescription()
 	{
-		$attribute = NextADInt_Ldap_Attribute_Description::find('nadi_customAttribute', 'customAttributeDescription');
+		$attribute = Description::find('nadi_customAttribute', 'customAttributeDescription');
 		$this->assertEquals('customAttributeDescription', $attribute);
 	}
 }
