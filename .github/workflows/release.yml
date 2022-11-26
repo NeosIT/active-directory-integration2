@@ -39,7 +39,9 @@ jobs:
 
     - uses: php-actions/composer@v6
       with:
-        dev: no
+        # even with a (pre-)release, we need all dev-dependencies so that strauss can repackage the namespaces.
+        # we exclude the then-unnecessary vendor/ directory in the "Zip all files" step.
+        dev: yes
 
     - name: Set environment variable
       run: echo "CURRENT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
