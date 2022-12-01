@@ -21,16 +21,11 @@ if (!defined('ABSPATH')) {
 	die('Access denied.');
 }
 
-define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH', plugin_dir_path(__FILE__));
+// include vendor'ed packages and our own namespace
+require_once __DIR__ . "/autoload.php";
+require_once __DIR__ . "/constants.php";
 
-require_once(dirname(__FILE__) . "/constants.php");
-
-// include any packages required during testing like WP_Mock
-require_once NEXT_AD_INT_PATH . "/vendor/autoload.php";
-// include vendored packages
-require_once NEXT_AD_INT_PATH . "/vendor-repackaged/autoload.php";
-
-require_once(dirname(__FILE__) . "/functions.php");
+define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL', plugins_url('', __FILE__));
 
 // NADI-692: We have to skip the requirements check if wp-cli is used.
 // Otherwise the requirements will/might fail if any of the required PHP modules is not enabled for php-cli and NADI will disable it on its own.

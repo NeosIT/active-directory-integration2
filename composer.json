@@ -23,12 +23,6 @@
 	  "@strauss"
 	]
   },
-  "autoload": {
-	"psr-4": {
-	  "Dreitier\\": "src/shared",
-	  "Dreitier\\Nadi\\": "src/plug-in"
-	}
-  },
   "extra": {
 	"strauss": {
 	  "target_directory": "vendor-repackaged",
