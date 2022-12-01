@@ -10,8 +10,8 @@ jobs:
     name: Run unit tests
     strategy:
       matrix:
-        php: ["7.4", "8.0", "8.1"]
-        phpunit: ["9.5.10"]
+        php: [ "8.0", "8.1" ]
+        phpunit: [ "9.5.10" ]
 
     steps:
     - uses: actions/checkout@v2
@@ -41,7 +41,7 @@ jobs:
         # even with a (pre-)release, we need all dev-dependencies so that strauss can repackage the namespaces.
         # we exclude the then-unnecessary vendor/ directory in the "Zip all files" step.
         dev: yes
-    
+
     - name: Set environment variable
       run: echo "CURRENT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 

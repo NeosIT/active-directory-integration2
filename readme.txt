@@ -53,7 +53,7 @@ As an owner of a valid support plan you have access to the following premium ext
 = Requirements =
 
 * WordPress since 5.6
-* PHP >= 7.4
+* PHP >= 8.0
 * LDAP support
 * OpenSSL Support for TLS (recommended)
 
@@ -93,7 +93,7 @@ Next Active Directory Integration requires a few PHP modules to be enabled. Plea
 
 = Important =
 
-As of *2022-11-28* NADI does *no* longer support PHP versions in the *7.x* branch. The reason is that security support for PHP version prior 8.x have been dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php. 
+NADI requires PHP 8.0 or later. The reason is that security support for PHP version prior 8.x have been dropped by the maintainers as you can see in the official PHP documentation http://php.net/supported-versions.php.
 For security reasons and in order to use NADI in 2023 we hereby politely encourage you to migrate your environments to at least PHP 8.0 until then.
 
 Thank you all for your support and understanding.
@@ -129,6 +129,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 = UNRELEASED_V3 =
 * FIXED: Usage of custom auto-loader and strauss to prevent conflicting namespaces (#165)
 * CHANGED: Upgraded monolog/monolog to 2.8.0 to make NADI working with WP-Rocket (#169)
+* CHANGED: PHP 8.0 runtime is now required (#170)
 
 = UNRELEASED =
 * FIXED: Deprecation warning when Test Authentication is triggered with PHP 8.1 (#168) 
