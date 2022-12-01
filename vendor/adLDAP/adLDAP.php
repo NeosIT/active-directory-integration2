@@ -167,7 +167,6 @@ class adLDAP
 	 * @var unknown_type
 	 */
 	const VERSION = '3.3.3 EXTENDED (20221201)';
-	const VERSION = '3.3.3 EXTENDED (20221201)';
 
 	/**
 	 * ADI-545 Debug information about LDAP Connection (DME)
