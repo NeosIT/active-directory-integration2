@@ -133,7 +133,7 @@ class Connection
 		$username = (isset($output['ad_username']) && !empty($output['ad_username'])) ? $output['ad_username'] : '';
 
 		if (strpos($username, '@') === false) {
-			$this->logger->warn('Username for the sync user does not contain a correct suffix. If the connection to the ad fails, this could be the cause. Please make sure you have added all UPN suffixes to the configuration tab User -> Account suffix.');
+			$this->logger->warning('Username for the sync user does not contain a correct suffix. If the connection to the ad fails, this could be the cause. Please make sure you have added all UPN suffixes to the configuration tab User -> Account suffix.');
 		}
 
 		return $config;
@@ -412,7 +412,7 @@ class Connection
 		$matchesFromLdap = $adLdap->user_info($userQuery->getPrincipal(), $attributeNames, $userQuery->isGuid());
 
 		if ($matchesFromLdap === false) {
-			$this->logger->warn("Query '$userQuery' did not return any values. Does the sAMAccountName or userPrincipalName exist? Is the provided base DN valid? Is the Kerberos realm mapped");
+			$this->logger->warning("Query '$userQuery' did not return any values. Does the sAMAccountName or userPrincipalName exist? Is the provided base DN valid? Is the Kerberos realm mapped");
 
 			return false;
 		}
@@ -470,7 +470,7 @@ class Connection
 		$netbios = $adLdap->get_configuration($filter);
 
 		if ($netbios === false) {
-			$this->logger->warn("No NetBIOS name found. Maybe base DN is wrong or partition scheme is misconfigured.");
+			$this->logger->warning("No NetBIOS name found. Maybe base DN is wrong or partition scheme is misconfigured.");
 
 			return false;
 		}
@@ -571,7 +571,7 @@ class Connection
 		$userGuid = get_user_meta($wpUser->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true);
 
 		if (empty($attributes)) {
-			$this->logger->warn("Modifying user '$username' skipped. Found no attributes to synchronize to Active Directory.");
+			$this->logger->warning("Modifying user '$username' skipped. Found no attributes to synchronize to Active Directory.");
 
 			return false;
 		}
@@ -589,8 +589,8 @@ class Connection
 		}
 
 		if (!$modified) {
-			$this->logger->warn("Modifying user '$username' failed.");
-			$this->logger->warn('adLDAP last error: ' . print_r($adLdap->get_last_error(), true));
+			$this->logger->warning("Modifying user '$username' failed.");
+			$this->logger->warning('adLDAP last error: ' . print_r($adLdap->get_last_error(), true));
 
 			return false;
 		}

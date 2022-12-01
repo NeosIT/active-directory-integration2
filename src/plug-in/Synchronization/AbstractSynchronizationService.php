@@ -77,7 +77,7 @@ abstract class AbstractSynchronizationService
 			return;
 		}
 
-		$this->logger->warn(
+		$this->logger->warning(
 			'Can not increase PHP configuration option \'max_execution_time\' to '
 			. self::REQUIRED_EXECUTION_TIME_IN_SECONDS . ' seconds. This can happen when running PHP in safe mode. The only workaround is to turn off safe mode or change the time limit in the php.ini'
 		);
@@ -236,7 +236,7 @@ abstract class AbstractSynchronizationService
 			$this->ldapConnection->getActiveDirectoryContext()->checkMembership($objectSid);
 			return true;
 		} catch (\Exception $e) {
-			$this->logger->warn('User ' . $username . ' is not a domain member: ' . $e->getMessage());
+			$this->logger->warning('User ' . $username . ' is not a domain member: ' . $e->getMessage());
 		}
 
 		return false;

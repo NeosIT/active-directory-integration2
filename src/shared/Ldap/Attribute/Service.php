@@ -243,7 +243,7 @@ class Service
 		$value = $this->findLdapCustomAttributeOfUser($userQuery->withPrincipal($userQuery->getCredentials()->getUserPrincipalName()), $attribute);
 
 		if (false === $value) {
-			$this->logger->warn("Could not locate custom attribute '" . $attribute . "' for query '" . $userQuery->getCredentials()->getUserPrincipalName() . "'. Fall back to sAMAccountName...'");
+			$this->logger->warning("Could not locate custom attribute '" . $attribute . "' for query '" . $userQuery->getCredentials()->getUserPrincipalName() . "'. Fall back to sAMAccountName...'");
 
 			$value = $this->findLdapCustomAttributeOfUser($userQuery->withPrincipal($userQuery->getCredentials()->getSAMAccountName()), $attribute);
 		}

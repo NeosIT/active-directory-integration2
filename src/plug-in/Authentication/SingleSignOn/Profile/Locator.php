@@ -142,7 +142,7 @@ class Locator
 
 		// if multiple profiles were found, log a warning and return the first result
 		if (sizeof($profiles) > 1) {
-			$this->logger->warn('Multiple profiles with the same option "' . $option . '" and enabled SSO were found.');
+			$this->logger->warning('Multiple profiles with the same option "' . $option . '" and enabled SSO were found.');
 		}
 
 		if ($doSsoOnlyFallback) {

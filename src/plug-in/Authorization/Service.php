@@ -135,7 +135,7 @@ class Service
 		$hasBeenAuthenticatedAtActiveDirectory = $this->loginState->isAuthenticated();
 
 		if (!$userGuid || !$hasBeenAuthenticatedAtActiveDirectory) {
-			$this->logger->warn("User has no GUID or has not been previously authenticated at the Active Directory; can't check role membership");
+			$this->logger->warning("User has no GUID or has not been previously authenticated at the Active Directory; can't check role membership");
 			// without having GUID and being authenticated we must assume that the user is a local user.
 			// As a local user we can't check for AD group membership and so he is authorized.
 			return $authenticatedCredentials;

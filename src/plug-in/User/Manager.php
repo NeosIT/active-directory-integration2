@@ -133,7 +133,7 @@ class Manager
 		}
 
 		if (!$wpUser) {
-			$this->logger->warn(
+			$this->logger->warning(
 				"Local WordPress user with wp_user_meta.samaccountname='" . $sAMAccountName . "', user_login='"
 				. $userPrincipalName . "'"
 				. " or user_login='" . $sAMAccountName . "'"
@@ -773,7 +773,7 @@ class Manager
 		$suffix = '-DISABLED';
 		$cleanMail = str_replace($suffix, '', $wpUser->user_email);
 		$this->userRepository->updateEmail($userId, $cleanMail . $suffix);
-		$this->logger->warn('Disabled user with user id ' . $userId . ' with reason: ' . $reason);
+		$this->logger->warning('Disabled user with user id ' . $userId . ' with reason: ' . $reason);
 
 		// ADI-145: provide API
 		do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_after_disable', $wpUser);

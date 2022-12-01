@@ -84,7 +84,7 @@ class Encryption
 			$plainText = Crypto::decryptWithPassword($encryptedText, $password);
 		} catch (\Exception $e) {
 			// prevent the PHP stack trace display by catching all exception because the stack trace can contain the $password.
-			$this->logger->warn('Encrypted text "' . $encryptedText . '" can not be decrypted. ' . $e->getMessage());
+			$this->logger->warning('Encrypted text "' . $encryptedText . '" can not be decrypted. ' . $e->getMessage());
 
 			return false;
 		}

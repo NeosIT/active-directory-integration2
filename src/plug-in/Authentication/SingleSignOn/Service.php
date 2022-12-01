@@ -113,7 +113,7 @@ class Service extends LoginService
 
 		// if no username was given, return false
 		if (empty($username)) {
-			$this->logger->warn('Cannot find username for SSO.');
+			$this->logger->warning('Cannot find username for SSO.');
 
 			return false;
 		}

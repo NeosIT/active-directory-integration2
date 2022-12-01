@@ -307,19 +307,19 @@ class WordPressSynchronizationService extends AbstractSynchronizationService
 		// ADI-517: Improved logging for UAC Binary Flag check to make it more transparent for the user and improve debugging.
 		switch ($uac) {
 			case (($uac & self::UF_INTERDOMAIN_TRUST_ACCOUNT) === self::UF_INTERDOMAIN_TRUST_ACCOUNT):
-				$this->logger->warn("INTERDOMAIN_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				$this->logger->warning("INTERDOMAIN_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
 				return false;
 			case (($uac & self::UF_WORKSTATION_TRUST_ACCOUNT) === self::UF_WORKSTATION_TRUST_ACCOUNT):
-				$this->logger->warn("WORKSTATION_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				$this->logger->warning("WORKSTATION_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
 				return false;
 			case (($uac & self::UF_SERVER_TRUST_ACCOUNT) === self::UF_SERVER_TRUST_ACCOUNT):
-				$this->logger->warn("SERVER_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				$this->logger->warning("SERVER_TRUST_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
 				return false;
 			case (($uac & self::UF_MNS_LOGON_ACCOUNT) === self::UF_MNS_LOGON_ACCOUNT):
-				$this->logger->warn("MSN_LOGON_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				$this->logger->warning("MSN_LOGON_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
 				return false;
 			case (($uac & self::UF_PARTIAL_SECRETS_ACCOUNT) === self::UF_PARTIAL_SECRETS_ACCOUNT):
-				$this->logger->warn("PARTIAL_SECRETS_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
+				$this->logger->warning("PARTIAL_SECRETS_ACCOUNT flag detected in userAccountControl ( $uac ). Account will not be synchronized.");
 				return false;
 		}
 
@@ -343,7 +343,7 @@ class WordPressSynchronizationService extends AbstractSynchronizationService
 			return false;
 		}
 
-		$this->logger->warn("SMARTCARD_REQUIRED flag detected in userAccountControl ( $uac ).");
+		$this->logger->warning("SMARTCARD_REQUIRED flag detected in userAccountControl ( $uac ).");
 		return true;
 	}
 
@@ -379,7 +379,7 @@ class WordPressSynchronizationService extends AbstractSynchronizationService
 
 		// Set domain sid to empty, to prevent non existing user from getting used for sync to wordpress
 		$ldapAttributes->setDomainSid('empty');
-		$this->logger->warn('Removed domain sid for user ' . $credentials->getLogin());
+		$this->logger->warning('Removed domain sid for user ' . $credentials->getLogin());
 
 		$adiUser = $this->userManager->createAdiUser($credentials, $ldapAttributes);
 		$status = $this->createOrUpdateUser($adiUser);
@@ -444,7 +444,7 @@ class WordPressSynchronizationService extends AbstractSynchronizationService
 
 		// NADIS-1: added check to prevent fatal error if userPrincipalName is empty
 		if (empty($userPrincipalName)) {
-			$this->logger->warn('UserPrincipalName for ' . $credentials->getLogin() . ' could not be found.');
+			$this->logger->warning('UserPrincipalName for ' . $credentials->getLogin() . ' could not be found.');
 		} else {
 			$credentials->setUserPrincipalName($userPrincipalName);
 		}
@@ -567,7 +567,7 @@ class WordPressSynchronizationService extends AbstractSynchronizationService
 				return false;
 			}
 		} catch (\Exception $e) {
-			$this->logger->warn("Disable user '{$username}': " . $e->getMessage());
+			$this->logger->warning("Disable user '{$username}': " . $e->getMessage());
 			$this->userManager->disable($adiUser->getId(), $e->getMessage());
 
 			return false;
@@ -603,7 +603,7 @@ class WordPressSynchronizationService extends AbstractSynchronizationService
 			return false;
 		}
 
-		$this->logger->warn("Disabling user '{$adiUser->getUserLogin()}'.");
+		$this->logger->warning("Disabling user '{$adiUser->getUserLogin()}'.");
 		$message = sprintf(__('User "%s" is disabled in Active Directory.', 'next-active-directory-integration'), $adiUser->getUserLogin());
 		$this->userManager->disable($adiUser->getId(), $message);
 

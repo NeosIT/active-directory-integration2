@@ -136,7 +136,7 @@ class Manager
 				$cleanExistingRoles = true;
 			} // ADI-141: On user creation if *no* Role Equivalent Groups exist the default role 'subscriber' is used
 			if (!$isMemberOfRoleEquivalentGroup) {
-				$this->logger->warn("No Role Equivalent Groups defined. User gets default WordPress role 'subscriber' assigned");
+				$this->logger->warning("No Role Equivalent Groups defined. User gets default WordPress role 'subscriber' assigned");
 				$wordPressRoles = array('subscriber');
 				$cleanExistingRoles = false;
 			}
@@ -180,9 +180,9 @@ class Manager
 
 		if ($cleanExistingRoles) {
 			$wpUser->set_role("");
-			$this->logger->warn("Cleaning existing roles true for user '" . $wpUser->user_login . "' existing roles will be deleted.");
+			$this->logger->warning("Cleaning existing roles true for user '" . $wpUser->user_login . "' existing roles will be deleted.");
 		} else {
-			$this->logger->warn("Cleaning existing roles false for user '" . $wpUser->user_login . "' existing roles will stay untouched.");
+			$this->logger->warning("Cleaning existing roles false for user '" . $wpUser->user_login . "' existing roles will stay untouched.");
 		}
 
 		// which roles are available?
@@ -197,7 +197,7 @@ class Manager
 			if ($availableRoles->is_role($role)) {
 				$wpUser->add_role($role);
 			} else {
-				$this->logger->warn("Can not add role '$role' to '" . $wpUser->user_login . "' because the role does NOT exist.");
+				$this->logger->warning("Can not add role '$role' to '" . $wpUser->user_login . "' because the role does NOT exist.");
 			}
 		}
 

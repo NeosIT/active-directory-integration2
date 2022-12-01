@@ -18,7 +18,7 @@ class FrontendLogHandler extends AbstractProcessingHandler
 	private $enabled = false;
 
 	/**
-	 * @param integer $level  The minimum logging level at which this handler will be triggered
+	 * @param integer $level The minimum logging level at which this handler will be triggered
 	 * @param Boolean $bubble Whether the messages that are handled can bubble up the stack or not
 	 */
 	public function __construct($level = Logger::DEBUG, $bubble = true)
@@ -26,15 +26,17 @@ class FrontendLogHandler extends AbstractProcessingHandler
 		parent::__construct($level, $bubble);
 	}
 
-	public function enable() {
+	public function enable()
+	{
 		$this->enabled = true;
 	}
 
-	public function disable() {
+	public function disable()
+	{
 		$this->enabled = false;
 	}
 
-	protected function write(array $record)
+	protected function write(array $record): void
 	{
 		if (!$this->enabled) {
 			return;
@@ -43,7 +45,8 @@ class FrontendLogHandler extends AbstractProcessingHandler
 		$this->log[] = $record;
 	}
 
-	public function getBufferedLog() {
+	public function getBufferedLog()
+	{
 		$log = $this->log;
 
 		// Clean Log
@@ -51,5 +54,4 @@ class FrontendLogHandler extends AbstractProcessingHandler
 
 		return $log;
 	}
-
 }

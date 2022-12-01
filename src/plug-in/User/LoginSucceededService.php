@@ -182,7 +182,7 @@ class LoginSucceededService
 	{
 		// if $this->userManager is null, then do not create the user
 		if (!$this->userManager) {
-			$this->logger->warn(
+			$this->logger->warning(
 				"User '{$user->getUsername()}' will not be created because the user login is only simulated."
 			);
 

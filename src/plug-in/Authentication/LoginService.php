@@ -185,11 +185,11 @@ class LoginService
 
 		if (strpos($page, 'xmlrpc.php') !== false) {
 			if ($xmlRpcEnabled) {
-				$this->logger->warn("XML-RPC login detected! XML-RPC authentication is enabled. Continuing...");
+				$this->logger->warning("XML-RPC login detected! XML-RPC authentication is enabled. Continuing...");
 				return;
 			}
 
-			$this->logger->warn("XML-RPC Login detected ! Preventing further authentication.");
+			$this->logger->warning("XML-RPC Login detected ! Preventing further authentication.");
 			wp_die(__("Next ADI prevents XML RPC authentication!", 'next-active-directory-integration'));
 		}
 	}
@@ -264,7 +264,7 @@ class LoginService
 			}
 		}
 
-		$this->logger->warn('Login for ' . $credentials . ' failed: none of the suffixes succeeded');
+		$this->logger->warning('Login for ' . $credentials . ' failed: none of the suffixes succeeded');
 
 		return false;
 	}
@@ -302,7 +302,7 @@ class LoginService
 	{
 		// stop if username is empty
 		if (empty($login)) {
-			$this->logger->warn('Username is empty. Authentication failed.');
+			$this->logger->warning('Username is empty. Authentication failed.');
 
 			return false;
 		}

@@ -258,7 +258,7 @@ class ActiveDirectorySynchronizationService extends \Dreitier\Nadi\Synchronizati
 		$users = $this->findActiveDirectoryUsers($userId);
 
 		if (!$users) {
-			$this->logger->warn('No possible users for synchronization back to Active Directory found.');
+			$this->logger->warning('No possible users for synchronization back to Active Directory found.');
 
 			return array();
 		}

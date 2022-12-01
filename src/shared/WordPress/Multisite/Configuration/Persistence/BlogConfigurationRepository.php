@@ -196,7 +196,7 @@ class BlogConfigurationRepository implements ConfigurationRepository
 	{
 		// #127: PHP 7.4 compatibility; warning if $option is not an array but null
 		if (!is_array($option)) {
-			$this->logger->warn("Option '" . $optionName . "' in site with ID '" . $siteId . "' has no option configuration");
+			$this->logger->warning("Option '" . $optionName . "' in site with ID '" . $siteId . "' has no option configuration");
 			return null;
 		}
 
@@ -333,7 +333,7 @@ class BlogConfigurationRepository implements ConfigurationRepository
 		}
 
 		if (false === $success) {
-			$this->logger->warn("Failed creating blog option: ($siteId,$optionName,$optionValue)");
+			$this->logger->warning("Failed creating blog option: ($siteId,$optionName,$optionValue)");
 			return false;
 		}
 

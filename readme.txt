@@ -128,6 +128,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 
 = UNRELEASED_V3 =
 * FIXED: Usage of custom auto-loader and strauss to prevent conflicting namespaces (#165)
+* CHANGED: Upgraded monolog/monolog to 2.8.0 to make NADI working with WP-Rocket (#169)
 
 = UNRELEASED =
 * FIXED: Deprecation warning when Test Authentication is triggered with PHP 8.1 (#168) 

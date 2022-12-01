@@ -80,7 +80,7 @@ class PreventEmailChange
 	{
         // ADI-670: Compatibility fix with other plug-ins
         if (!is_object($user) || !property_exists($user, 'ID')) {
-            $this->logger->warn("Some malicious plug-ins have changed the expected \$user parameter so we can't prevent email changes for user");
+            $this->logger->warning("Some malicious plug-ins have changed the expected \$user parameter so we can't prevent email changes for user");
             return;
         }
 
