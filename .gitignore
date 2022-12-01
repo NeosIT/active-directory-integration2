@@ -12,3 +12,4 @@ ant-*.bat
 vendor
 vendor-repackaged
 !vendor/adLDAP
+vendor-repackaged

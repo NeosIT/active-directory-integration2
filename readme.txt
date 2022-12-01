@@ -128,6 +128,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 
 = UNRELEASED =
 * FIXED: With PHP 8.1, ldap_get_entries expects an LDAP\Result instance as second parameter (#166)
+* FIXED: Deprecation warning when Test Authentication is triggered with PHP 8.1 (#168) 
 
 = 2.3.5 =
 * FIXED: Blank configuration page with PHP >= 8.0 and missing AUTH_SALT constant (#164)

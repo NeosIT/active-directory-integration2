@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - develop
+      - v3
 
 jobs:
   testing:
@@ -11,13 +12,13 @@ jobs:
     name: Run unit tests
     strategy:
       matrix:
-        php: ["7.4", "8.0", "8.1"]
-        phpunit: ["9.5.10"]
+        php: [ "7.4", "8.0", "8.1" ]
+        phpunit: [ "9.5.10" ]
 
     steps:
     - uses: actions/checkout@v2
 
-    - uses: php-actions/composer@v5
+    - uses: php-actions/composer@v6
 
     - uses: michaelw90/PHP-Lint@master
 
