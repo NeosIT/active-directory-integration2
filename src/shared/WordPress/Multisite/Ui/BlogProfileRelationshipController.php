@@ -165,7 +165,7 @@ class BlogProfileRelationshipController
 	public function buildSiteTable()
 	{
 		$wpListTable = new ProfileAssignment(array(
-			'screen' => NEXT_AD_INT_PREFIX . 'blog_profile_relationship',
+			'screen' =>NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_profile_relationship',
 		));
 
 		$wpListTable->register();

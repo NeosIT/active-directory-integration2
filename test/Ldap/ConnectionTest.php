@@ -154,7 +154,7 @@ class ConnectionTest extends BasicTest
 	public function ADI_713_register_userInfo_hookIsRegistered()
 	{
 		$sut = $this->sut(null);
-		\WP_Mock::expectFilterAdded(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', array($sut, 'mapUserInfo'), 10, 5);
+		\WP_Mock::expectFilterAdded(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'ldap_map_userinfo', array($sut, 'mapUserInfo'), 10, 5);
 
 		$sut->register();
 	}
@@ -423,7 +423,7 @@ class ConnectionTest extends BasicTest
 			->with('hugo', array("sn", "givenname", "mail"))
 			->willReturn($adResult);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'ldap_map_userinfo')
 			->with(false, $adResult, $adResult['count'], $userQuery, $attributeNames)
 			->reply($adResult[0]);
 
@@ -475,7 +475,7 @@ class ConnectionTest extends BasicTest
 		$wpUser->ID = 1;
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
+				'args' => array($wpUser->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => 1,
 				'return' => array())
 		);
@@ -497,7 +497,7 @@ class ConnectionTest extends BasicTest
 		$wpUser->ID = 1;
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
+				'args' => array($wpUser->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => 1,
 				'return' => 'xxxx-xxxx-xxxx-xxxx')
 		);
@@ -527,7 +527,7 @@ class ConnectionTest extends BasicTest
 		$wpUser->ID = 1;
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
+				'args' => array($wpUser->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => 1,
 				'return' => 'xxxx-xxxx-xxxx-xxxx')
 		);
@@ -557,7 +557,7 @@ class ConnectionTest extends BasicTest
 		$wpUser->ID = 1;
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
+				'args' => array($wpUser->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => 1,
 				'return' => 'xxxx-xxxx-xxxx-xxxx')
 		);

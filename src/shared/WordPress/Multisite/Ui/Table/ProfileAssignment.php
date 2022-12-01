@@ -13,7 +13,7 @@ use WP_MS_Sites_List_Table;
  */
 class ProfileAssignment extends WP_MS_Sites_List_Table
 {
-	const NEXT_AD_INT_SITE_NAME_COLUMN = 'next-ad-int-site-name';
+	const NEXT_ACTIVE_DIRECTORY_INTEGRATION_SITE_NAME_COLUMN = 'next-ad-int-site-name';
 
 	/**
 	 * Multisite_Ui_Table_BlogTable constructor.
@@ -44,7 +44,7 @@ class ProfileAssignment extends WP_MS_Sites_List_Table
 	 */
 	public function addContent($columnName, $blogId)
 	{
-		if ($columnName == self::NEXT_AD_INT_SITE_NAME_COLUMN) {
+		if ($columnName == self::NEXT_ACTIVE_DIRECTORY_INTEGRATION_SITE_NAME_COLUMN) {
 			$details = WordPressSiteRepository::getSite($blogId);
 
 			if ($details && !empty($details->blogname)) {
@@ -64,7 +64,7 @@ class ProfileAssignment extends WP_MS_Sites_List_Table
 	{
 		$sites_columns = array(
 			'cb'                        => '<input type="checkbox" />',
-			self::NEXT_AD_INT_SITE_NAME_COLUMN 	=> __('Site Name', 'next-active-directory-integration'),
+			self::NEXT_ACTIVE_DIRECTORY_INTEGRATION_SITE_NAME_COLUMN 	=> __('Site Name', 'next-active-directory-integration'),
 			'blogname'                  => __('URL', 'next-active-directory-integration'),
 		);
 

@@ -106,7 +106,7 @@ class LoginService
 		add_filter('wp_authenticate_user', array($this->loginSucceededService, 'checkUserEnabled'), 10, 2);
 
 		// #142: register an additional filter for checking if the username is excluded
-		add_filter(NEXT_AD_INT_PREFIX . 'auth_form_login_requires_ad_authentication', array($this, 'requiresActiveDirectoryAuthentication'), 10, 1);
+		add_filter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_form_login_requires_ad_authentication', array($this, 'requiresActiveDirectoryAuthentication'), 10, 1);
 	}
 
 	/**
@@ -156,7 +156,7 @@ class LoginService
 		}
 
 		// check, if NADI is not responsible for this username, e.g. in case of logging in an admin account
-		if (!apply_filters(NEXT_AD_INT_PREFIX . 'auth_form_login_requires_ad_authentication', $login)) {
+		if (!apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_form_login_requires_ad_authentication', $login)) {
 			return false;
 		}
 
@@ -285,7 +285,7 @@ class LoginService
 		/**
 		 * @var Credentials
 		 */
-		$r = apply_filters(NEXT_AD_INT_PREFIX . 'auth_configure_credentials', $r);
+		$r = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_configure_credentials', $r);
 
 		return $r;
 	}

@@ -156,7 +156,7 @@ class Service
 		$raw = array();
 
 		// ADI-145: provide API
-		$attributeNames = apply_filters(NEXT_AD_INT_PREFIX . 'ldap_filter_synchronizable_attributes', $attributeNames, $userQuery);
+		$attributeNames = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'ldap_filter_synchronizable_attributes', $attributeNames, $userQuery);
 
 		if (!empty($userQuery->getPrincipal())) {
 			// make sure that only non-empty usernames are resolved

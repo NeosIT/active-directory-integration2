@@ -145,12 +145,12 @@ class SessionHandlerTest extends BasicTest
 	public function clearValue_withKey_unsetKey()
 	{
 		$key = 'testKey';
-		$_SESSION[NEXT_AD_INT_PREFIX . $key] = 'value';
+		$_SESSION[NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . $key] = 'value';
 
 		$sut = $this->sut(null);
 
 		$sut->clearValue($key);
 
-		$this->assertTrue(!isset($_SESSION[NEXT_AD_INT_PREFIX . $key]));
+		$this->assertTrue(!isset($_SESSION[NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . $key]));
 	}
 }

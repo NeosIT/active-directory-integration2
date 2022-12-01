@@ -72,7 +72,7 @@ class Context
 
 		$r = in_array($sidAsString, $checkSids);
 
-		return apply_filters(NEXT_AD_INT_PREFIX . 'object_has_ad_context_membership', $r, $objectSid, $primaryDomainOnly, $this);
+		return apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'object_has_ad_context_membership', $r, $objectSid, $primaryDomainOnly, $this);
 	}
 
 	/**

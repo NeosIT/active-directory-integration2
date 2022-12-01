@@ -233,7 +233,7 @@ class ConnectivityTestPage extends PageAdapter
 		return array(
 			array('PHP', json_encode(phpversion())),
 			array('WordPress', json_encode($wp_version)),
-			array('Active Directory Integration', json_encode(NEXT_AD_INT_PLUGIN_VERSION)),
+			array('Active Directory Integration', json_encode(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_VERSION)),
 			array('Operating System', json_encode(php_uname())),
 			array('Web Server', json_encode(php_sapi_name())),
 			array('adLDAP', json_encode(AdLdap::VERSION)),
@@ -310,10 +310,10 @@ class ConnectivityTestPage extends PageAdapter
 			return;
 		}
 
-		wp_enqueue_style('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS);
+		wp_enqueue_style('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS);
 
-		wp_enqueue_style('next_ad_int_bootstrap_min_css', NEXT_AD_INT_URL . '/css/bootstrap.min.css', array(), Ui::VERSION_CSS);
-		wp_enqueue_script('next_ad_int_bootstrap_min_js', NEXT_AD_INT_URL . '/js/libraries/bootstrap.min.js', array(), Ui::VERSION_PAGE_JS);
+		wp_enqueue_style('next_ad_int_bootstrap_min_css',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/bootstrap.min.css', array(), Ui::VERSION_CSS);
+		wp_enqueue_script('next_ad_int_bootstrap_min_js',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/bootstrap.min.js', array(), Ui::VERSION_PAGE_JS);
 
 	}
 
@@ -324,7 +324,7 @@ class ConnectivityTestPage extends PageAdapter
 	 */
 	public function getSlug()
 	{
-		return NEXT_AD_INT_PREFIX . 'test_connection';
+		return NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'test_connection';
 	}
 
 	/**

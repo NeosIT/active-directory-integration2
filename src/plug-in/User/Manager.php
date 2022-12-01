@@ -81,7 +81,7 @@ class Manager
 	public function register()
 	{
 		// ADI-691: Register callback to handle creation of new email addresses
-		add_filter(NEXT_AD_INT_PREFIX . 'user_create_email', array($this, 'createNewEmailForExistingAddress'), 10, 2);
+		add_filter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_create_email', array($this, 'createNewEmailForExistingAddress'), 10, 2);
 	}
 
 	/**
@@ -251,7 +251,7 @@ class Manager
 			$user->setId($userId);
 
 			// ADI-145: provide API
-			do_action(NEXT_AD_INT_PREFIX . 'user_after_create', $user, $syncToWordPress, $writeUserMeta);
+			do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_after_create', $user, $syncToWordPress, $writeUserMeta);
 
 			// call updateUser to sync attributes but don't update the user's email address as it has been already updated before
 			return $this->update($user, $syncToWordPress, $writeUserMeta, false);
@@ -290,7 +290,7 @@ class Manager
 
 		try {
 			// ADI-145: provide API
-			do_action(NEXT_AD_INT_PREFIX . 'user_before_update', $user, $syncToWordPress, $writeUserMeta);
+			do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_before_update', $user, $syncToWordPress, $writeUserMeta);
 
 			$credentials = $user->getCredentials();
 
@@ -309,7 +309,7 @@ class Manager
 			}
 
 			// update the user account suffix
-			$this->metaRepository->update($user->getId(), NEXT_AD_INT_PREFIX . 'account_suffix',
+			$this->metaRepository->update($user->getId(),NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'account_suffix',
 				'@' . $credentials->getUpnSuffix());
 
 			// update users email; this should be only skipped if a user has been previously created.
@@ -324,7 +324,7 @@ class Manager
 			$wpUser = $this->findById($user->getId());
 
 			// ADI-145: provide API
-			do_action(NEXT_AD_INT_PREFIX . 'user_after_update', $user, $wpUser, $syncToWordPress, $writeUserMeta);
+			do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_after_update', $user, $wpUser, $syncToWordPress, $writeUserMeta);
 
 			return $wpUser;
 		} catch (WordPressErrorException $e) {
@@ -648,7 +648,7 @@ class Manager
 		// With CREATE, we wil initiate the creation of a new email address
 		if (DuplicateEmailPrevention::CREATE == $duplicateEmailPrevention) {
 			// ADI-691: Add hook for creating new emails
-			return apply_filters(NEXT_AD_INT_PREFIX . 'user_create_email', $wpUser, $preferredEmail);
+			return apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_create_email', $wpUser, $preferredEmail);
 		}
 
 		WordPressErrorException::processWordPressError(new \WP_Error('invalidDuplicateEmailPreventionState', "Unkonwn state how to handle email address '$preferredEmail'"));
@@ -712,7 +712,7 @@ class Manager
 			return false;
 		}
 
-		$result = $this->metaRepository->find($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true);
+		$result = $this->metaRepository->find($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true);
 
 		return (!empty($result));
 	}
@@ -729,7 +729,7 @@ class Manager
 
 		// It is very likely that the email is already restored (e.g. by the user update/creation in SyncToWordpress).
 		// But if the AD has no email for the user then the old email will be restored.
-		$email = $this->metaRepository->find($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true);
+		$email = $this->metaRepository->find($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_email', true);
 		$wpUser = $this->userRepository->findById($userId);
 
 		$this->metaRepository->enableUser($wpUser);
@@ -745,7 +745,7 @@ class Manager
 		}
 
 		// ADI-145: provide API
-		do_action(NEXT_AD_INT_PREFIX . 'user_after_enable', $wpUser, $isRestored);
+		do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_after_enable', $wpUser, $isRestored);
 	}
 
 	/**
@@ -760,7 +760,7 @@ class Manager
 		$wpUser = $this->userRepository->findById($userId);
 
 		// ADI-699: Add hook user_before_disable
-		do_action(NEXT_AD_INT_PREFIX . 'user_before_disable', $wpUser, $isUserAlreadyDisabled);
+		do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_before_disable', $wpUser, $isUserAlreadyDisabled);
 
 		if ($isUserAlreadyDisabled) {
 			$this->logger->debug("User with id '{$userId}' has been already disabled");
@@ -776,7 +776,7 @@ class Manager
 		$this->logger->warn('Disabled user with user id ' . $userId . ' with reason: ' . $reason);
 
 		// ADI-145: provide API
-		do_action(NEXT_AD_INT_PREFIX . 'user_after_disable', $wpUser);
+		do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_after_disable', $wpUser);
 	}
 
 	/**
@@ -788,7 +788,7 @@ class Manager
 	public function migratePreviousVersion()
 	{
 		$oldSamAccountNameProperty = 'adi_samaccountname';
-		$newSamAccountNameProperty = NEXT_AD_INT_PREFIX . \Dreitier\Nadi\User\Persistence\Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME;
+		$newSamAccountNameProperty =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . \Dreitier\Nadi\User\Persistence\Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME;
 		$wpUsers = $this->userRepository->findByMetaKey($oldSamAccountNameProperty);
 
 		$migrated = 0;
@@ -820,8 +820,8 @@ class Manager
 	function isNadiUser($wpUser)
 	{
 		$userID = $wpUser->ID;
-		$samAccountName = get_user_meta($userID, NEXT_AD_INT_PREFIX . 'samaccountname', true);
-		$userPrincipalName = get_user_meta($userID, NEXT_AD_INT_PREFIX . 'userprincipalname', true);
+		$samAccountName = get_user_meta($userID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true);
+		$userPrincipalName = get_user_meta($userID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'userprincipalname', true);
 
 		if ($samAccountName || $userPrincipalName) {
 			return true;

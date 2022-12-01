@@ -79,7 +79,7 @@ class BlogConfigurationRepository implements ConfigurationRepository
 	 */
 	protected function getOptionName($optionName)
 	{
-		return NEXT_AD_INT_PREFIX . self::PREFIX . $optionName;
+		return NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . self::PREFIX . $optionName;
 	}
 
 	/**

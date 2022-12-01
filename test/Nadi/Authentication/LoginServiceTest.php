@@ -90,7 +90,7 @@ class LoginServiceTest extends BasicTest
 		$login = "testuser";
 		$password = "1234";
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_form_login_requires_ad_authentication')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_form_login_requires_ad_authentication')
 			->with($login)
 			->reply(false);
 
@@ -118,7 +118,7 @@ class LoginServiceTest extends BasicTest
 		$password = "1234";
 		$suffixes = array('test.ad');
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_form_login_requires_ad_authentication')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_form_login_requires_ad_authentication')
 			->with($login)
 			->reply(true);
 

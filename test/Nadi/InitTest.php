@@ -34,13 +34,13 @@ class InitTest extends BasicTest
 		$sut = $this->sut(array('dc'));
 		$dc = $this->mockDependencyContainer($sut);
 		$fakeService = $this->createInitializeEnvironment($dc);
-		$pluginFolderName = basename(NEXT_AD_INT_PATH);
+		$pluginFolderName = basename(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH);
 
 		$fakeService->expects($this->exactly(2))
 			->method('getOptionValue');
 
 		\WP_Mock::wpFunction('plugin_basename', array(
-			'args' => array(NEXT_AD_INT_PATH),
+			'args' => array(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH),
 			'times' => 1,
 			'return' => $pluginFolderName
 		));
@@ -106,7 +106,7 @@ class InitTest extends BasicTest
 
 		\WP_Mock::wpFunction('set_transient', array(
 			'times' => 1,
-			'args' => array(Init::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED, true, 10)
+			'args' => array(Init::NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_HAS_BEEN_ENABLED, true, 10)
 		));
 
 		$sut->activation();
@@ -215,7 +215,7 @@ class InitTest extends BasicTest
 		$_REQUEST['activate'] = 'true';
 
 		\WP_Mock::wpFunction('is_plugin_active', array(
-			'args' => NEXT_AD_INT_PLUGIN_FILE,
+			'args' => NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_FILE,
 			'times' => 1,
 			'return' => true));
 
@@ -334,7 +334,7 @@ class InitTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::expectActionAdded(NEXT_AD_INT_PREFIX . 'register_form_login_services', array($sut, 'registerFormLoginServices'), 10, 0);
+		\WP_Mock::expectActionAdded(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'register_form_login_services', array($sut, 'registerFormLoginServices'), 10, 0);
 
 		$sut->registerHooks();
 		\WP_Mock::assertHooksAdded();
@@ -708,7 +708,7 @@ class InitTest extends BasicTest
 
 		$_SERVER['PHP_SELF'] = 'https://localhost/wp-admin.php';
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_enable_login_check')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_enable_login_check')
 			->with(false)
 			->reply(true);
 
@@ -746,7 +746,7 @@ class InitTest extends BasicTest
 				$definedCustomLoginPage
 			);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_enable_login_check')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_enable_login_check')
 			->with(false)
 			->reply(false);
 
@@ -785,7 +785,7 @@ class InitTest extends BasicTest
 				$definedCustomLoginPage
 			);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_enable_login_check')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_enable_login_check')
 			->with(true)
 			->reply(true);
 
@@ -894,7 +894,7 @@ class InitTest extends BasicTest
 		$dc->expects($this->once())->method('getLoginSucceededService')->willReturn($loginSucceededService);
 		$dc->expects($this->never())->method('getSsoService');
 
-		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'register_form_login_services');
+		\WP_Mock::expectAction(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'register_form_login_services');
 
 		// check method calls on mocked services
 		$authService->expects($this->once())->method('register');

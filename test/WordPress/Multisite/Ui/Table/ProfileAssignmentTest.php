@@ -57,7 +57,7 @@ class ProfileAssignmentTest extends BasicTest
 
 		$expected = array(
 			'cb' => '<input type="checkbox" />',
-			ProfileAssignment::NEXT_AD_INT_SITE_NAME_COLUMN => 'Site Name',
+			ProfileAssignment::NEXT_ACTIVE_DIRECTORY_INTEGRATION_SITE_NAME_COLUMN => 'Site Name',
 			'blogname' => 'URL',
 		);
 
@@ -135,7 +135,7 @@ class ProfileAssignmentTest extends BasicTest
 
 		$this->expectOutputString('BLOG');
 
-		$sut->addContent(ProfileAssignment::NEXT_AD_INT_SITE_NAME_COLUMN, 666);
+		$sut->addContent(ProfileAssignment::NEXT_ACTIVE_DIRECTORY_INTEGRATION_SITE_NAME_COLUMN, 666);
 	}
 
 	/**
@@ -159,6 +159,6 @@ class ProfileAssignmentTest extends BasicTest
 
 		$this->expectOutputString('BLOG');
 
-		$sut->addContent(ProfileAssignment::NEXT_AD_INT_SITE_NAME_COLUMN, 666);
+		$sut->addContent(ProfileAssignment::NEXT_ACTIVE_DIRECTORY_INTEGRATION_SITE_NAME_COLUMN, 666);
 	}
 }

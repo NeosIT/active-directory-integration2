@@ -29,7 +29,7 @@ class Uninstaller
 
     public function deleteAllEntriesFromTable($table, $keyName) {
         global $wpdb;
-        $prefix = NEXT_AD_INT_PREFIX;
+        $prefix =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX;
 
         $sql = "DELETE FROM $table WHERE $keyName LIKE '$prefix%';";
         $wpdb->query($sql);

@@ -78,16 +78,16 @@ class Service extends LoginService
 		add_action('wp_logout', array($this, 'logout'), $increaseLogoutExecutionPriority ? 1 : 10);
 		add_action('init', array($this, 'authenticate'));
 		// #160: do a redirect after the login has succeeded
-		add_action(NEXT_AD_INT_PREFIX . 'login_succeeded_do_redirect', array($this, 'doRedirect'));
+		add_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded_do_redirect', array($this, 'doRedirect'));
 
 		// for SSO we have to re-register the user-disabled hook
-		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this->loginSucceededService, 'checkUserEnabled'), 15, 1);
+		add_filter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded', array($this->loginSucceededService, 'checkUserEnabled'), 15, 1);
 		// after login has succeeded, we want the current identified user to be automatically logged in
-		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this, 'loginUser'), 19, 1);
+		add_filter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded', array($this, 'loginUser'), 19, 1);
 		// #142: register an additional filter for checking if the username is excluded; please note that this differs from the parent's basic_login_requires_ad_authentication filter
-		add_filter(NEXT_AD_INT_PREFIX . 'auth_sso_login_requires_ad_authentication', array($this, 'requiresActiveDirectoryAuthentication'), 10, 1);
+		add_filter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_sso_login_requires_ad_authentication', array($this, 'requiresActiveDirectoryAuthentication'), 10, 1);
 		// #160: register filter to create target redirect URI after login
-		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded_create_redirect_uri', array($this, 'createRedirectUri'), 10, 1);
+		add_filter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded_create_redirect_uri', array($this, 'createRedirectUri'), 10, 1);
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Service extends LoginService
 		}
 
 		// check, if NADI is not responsible for this username, e.g. in case of logging in an admin account
-		if (!apply_filters(NEXT_AD_INT_PREFIX . 'auth_sso_login_requires_ad_authentication', $username)) {
+		if (!apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_sso_login_requires_ad_authentication', $username)) {
 			return false;
 		}
 
@@ -152,7 +152,7 @@ class Service extends LoginService
 
 			// as SSO runs during the "init" phase, we need to call the 'authorize' filter on our own
 			apply_filters('authorize', $authenticatedCredentials);
-			apply_filters(NEXT_AD_INT_PREFIX . 'login_succeeded', $authenticatedCredentials);
+			apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded', $authenticatedCredentials);
 
 			// if our user is authenticated and we have a WordPress user, we
 			$sessionHandler->clearValue(self::FAILED_SSO_PRINCIPAL);
@@ -190,7 +190,7 @@ class Service extends LoginService
 
 		$this->logger->debug("Valid SSO profile for type '" . $profileMatch->getType() . "' found");
 		// fire a hook to inform that one of the SSO profiles has been matched
-		do_action(NEXT_AD_INT_PREFIX . 'sso_profile_located', $credentials, $profileMatch);
+		do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sso_profile_located', $credentials, $profileMatch);
 
 		$this->openLdapConnection($profileMatch->getProfile());
 
@@ -346,7 +346,7 @@ class Service extends LoginService
 		wp_set_auth_cookie($user->ID, true, $secure_cookie);
 
 		do_action('wp_login', $user->user_login, $user);
-		do_action(NEXT_AD_INT_PREFIX . 'login_succeeded_do_redirect', $user, $exit);
+		do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded_do_redirect', $user, $exit);
 
 		return $user;
 	}
@@ -393,8 +393,8 @@ class Service extends LoginService
 	 */
 	public function doRedirect($user, $exit = true)
 	{
-		$redirectTo = apply_filters(NEXT_AD_INT_PREFIX . 'login_succeeded_create_redirect_uri', '');
-		$exitAfterRedirect = apply_filters(NEXT_AD_INT_PREFIX . 'login_succeeded_exit_after_redirect', $exit);
+		$redirectTo = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded_create_redirect_uri', '');
+		$exitAfterRedirect = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded_exit_after_redirect', $exit);
 
 		if (!empty($redirectTo)) {
 			wp_safe_redirect($redirectTo);

@@ -173,7 +173,7 @@ class TriggerActiveDirectorySynchronization
 
 		// Get User Data
 		$userInfo = get_userdata($userId);
-		$passwordKey = NEXT_AD_INT_PREFIX . self::FORM_PASSWORD;
+		$passwordKey =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . self::FORM_PASSWORD;
 		$password = isset($data[$passwordKey]) ? $data[$passwordKey] : null;
 
 
@@ -232,7 +232,7 @@ class TriggerActiveDirectorySynchronization
 				return null;
 			}
 
-			$username = get_user_meta($userInfo->ID, NEXT_AD_INT_PREFIX . 'userprincipalname', true);
+			$username = get_user_meta($userInfo->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'userprincipalname', true);
 			$password = stripslashes($customPassword);
 		}
 

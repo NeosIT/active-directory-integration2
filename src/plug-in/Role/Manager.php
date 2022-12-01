@@ -142,8 +142,8 @@ class Manager
 			}
 		}
 
-		$cleanExistingRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_clean_existing_roles', $cleanExistingRoles, $wordPressRoles, $wpUser, $roleMapping);
-		$wordPressRoles = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_roles', $wordPressRoles, $cleanExistingRoles, $wpUser, $roleMapping);
+		$cleanExistingRoles = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_ad2wp_clean_existing_roles', $cleanExistingRoles, $wordPressRoles, $wpUser, $roleMapping);
+		$wordPressRoles = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_ad2wp_filter_roles', $wordPressRoles, $cleanExistingRoles, $wpUser, $roleMapping);
 
 		$this->logger->info("Security groups " . json_encode($roleMapping->getSecurityGroups())
 			. " are mapped to WordPress roles: " . json_encode($wordPressRoles));

@@ -410,7 +410,7 @@ class ServiceTest extends BasicTest
 		$user = $this->createWpUserMock();
 		$sut = $this->sut();
 
-		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'login_succeeded_do_redirect', $user, false);
+		\WP_Mock::expectAction(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded_do_redirect', $user, false);
 
 		$this->invokeMethod($sut, 'loginUser', array($user, false));
 	}
@@ -424,7 +424,7 @@ class ServiceTest extends BasicTest
 		$user = $this->createWpUserMock();
 		$sut = $this->sut();
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'login_succeeded_create_redirect_uri')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded_create_redirect_uri')
 			->with('')
 			->reply('/');
 
@@ -470,7 +470,7 @@ class ServiceTest extends BasicTest
 			->method('findUsername')
 			->willReturn($expectedUsername);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_sso_login_requires_ad_authentication')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_sso_login_requires_ad_authentication')
 			->with($expectedUsername)
 			->reply(true);
 
@@ -553,7 +553,7 @@ class ServiceTest extends BasicTest
 			->method('updateCredentials')
 			->with($credentials, $ldapAttributes);
 
-		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'sso_profile_located',
+		\WP_Mock::expectAction(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sso_profile_located',
 			$credentials, $profileMatch);
 
 		$sut->delegateAuth($credentials, $this->ssoValidation);
@@ -723,7 +723,7 @@ class ServiceTest extends BasicTest
 			->method('findUsername')
 			->willReturn($expectedUsername);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_sso_login_requires_ad_authentication')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_sso_login_requires_ad_authentication')
 			->with($expectedUsername)
 			->reply(false);
 

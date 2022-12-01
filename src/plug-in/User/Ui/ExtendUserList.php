@@ -54,7 +54,7 @@ class ExtendUserList
 	 */
 	public function __columnUserDisabled()
 	{
-		return NEXT_AD_INT_PREFIX . 'user_disabled';
+		return NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled';
 	}
 
 	/**
@@ -64,7 +64,7 @@ class ExtendUserList
 	 */
 	public function __columnIsAdiUser()
 	{
-		return NEXT_AD_INT_PREFIX . 'user';
+		return NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user';
 	}
 
 	/**
@@ -75,7 +75,7 @@ class ExtendUserList
 	public function __columnManagedByCrmPe()
 	{
 		$blogId = get_current_blog_id();
-		return NEXT_AD_INT_PREFIX . 'pe_crm_is_managed_by_pe_' . $blogId;
+		return NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'pe_crm_is_managed_by_pe_' . $blogId;
 	}
 
 	/**
@@ -132,7 +132,7 @@ class ExtendUserList
 	 */
 	function renderIsAdiUserColumn($userId)
 	{
-		$samAccountName = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true);
+		$samAccountName = get_user_meta($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true);
 
 		if ($samAccountName) {
 			// add a place holder?
@@ -153,7 +153,7 @@ class ExtendUserList
 	function renderDisabledColumn($userId)
 	{
 		$isUserDisabled = get_user_meta($userId, $this->__columnUserDisabled(), true);
-		$reason = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true);
+		$reason = get_user_meta($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', true);
 
 		// fallback message
 		if (!$reason || !is_string($reason) || strlen($reason) === 0) {

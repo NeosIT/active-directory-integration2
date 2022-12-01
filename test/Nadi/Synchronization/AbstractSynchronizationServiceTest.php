@@ -176,7 +176,7 @@ class AbstractSynchronizationServiceTest extends BasicTest
 		);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array('1', NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
+				'args' => array('1',NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => '1',
 				'return' => "1234")
 		);
@@ -212,11 +212,11 @@ class AbstractSynchronizationServiceTest extends BasicTest
 
 		$args = array(
 			'blog_id' => '1',
-			'meta_key' => NEXT_AD_INT_PREFIX . Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+			'meta_key' =>NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
-					'key' => NEXT_AD_INT_PREFIX . Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+					'key' =>NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 					'value' => '',
 					'compare' => '!=',
 				),
@@ -243,13 +243,13 @@ class AbstractSynchronizationServiceTest extends BasicTest
 		);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array('1', NEXT_AD_INT_PREFIX . Repository::META_KEY_DOMAINSID, true),
+				'args' => array('1',NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_DOMAINSID, true),
 				'times' => '1',
 				'return' => "S-1-5-21-3623811015-3361044348-30300820-1013")
 		);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array('2', NEXT_AD_INT_PREFIX . Repository::META_KEY_DOMAINSID, true),
+				'args' => array('2',NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_DOMAINSID, true),
 				'times' => '1',
 				'return' => "S-1-5-21-3623811015-3361044348-66666666-1013")
 		);
@@ -358,11 +358,11 @@ class AbstractSynchronizationServiceTest extends BasicTest
 
 		$args = array(
 			'blog_id' => '1',
-			'meta_key' => NEXT_AD_INT_PREFIX . Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+			'meta_key' =>NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
-					'key' => NEXT_AD_INT_PREFIX . Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+					'key' =>NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 					'value' => '',
 					'compare' => '!=',
 				),
@@ -389,13 +389,13 @@ class AbstractSynchronizationServiceTest extends BasicTest
 		);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array('1', NEXT_AD_INT_PREFIX . Repository::META_KEY_DOMAINSID, true),
+				'args' => array('1',NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_DOMAINSID, true),
 				'times' => '1',
 				'return' => "S-1-5-21-3623811015-3361044348-30300820-1013")
 		);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array('2', NEXT_AD_INT_PREFIX . Repository::META_KEY_DOMAINSID, true),
+				'args' => array('2',NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_DOMAINSID, true),
 				'times' => '1',
 				'return' => null)
 		);

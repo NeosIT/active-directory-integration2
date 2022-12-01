@@ -105,7 +105,7 @@ class ConnectivityTestPageTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = NEXT_AD_INT_PREFIX . 'test_connection';
+		$expectedReturn =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'test_connection';
 		$returnedValue = $sut->getSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -167,25 +167,25 @@ class ConnectivityTestPageTest extends BasicTest
 	public function loadJavaScriptAdmin()
 	{
 		$sut = $this->sut(null);
-		$hook = NEXT_AD_INT_PREFIX . 'test_connection';
+		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'test_connection';
 
 		\WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args' => array('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
+				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
 		\WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args' => array('next_ad_int_bootstrap_min_css', NEXT_AD_INT_URL . '/css/bootstrap.min.css', array(), Ui::VERSION_CSS),
+				'args' => array('next_ad_int_bootstrap_min_css',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/bootstrap.min.css', array(), Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
 		\WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
-				'args' => array('next_ad_int_bootstrap_min_js', NEXT_AD_INT_URL . '/js/libraries/bootstrap.min.js', array(), Ui::VERSION_PAGE_JS),
+				'args' => array('next_ad_int_bootstrap_min_js',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/bootstrap.min.js', array(), Ui::VERSION_PAGE_JS),
 				'times' => 1,
 			)
 		);

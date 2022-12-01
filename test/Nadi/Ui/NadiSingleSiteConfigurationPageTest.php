@@ -94,7 +94,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_options';
+		$expectedReturn =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_options';
 		$returnedValue = $sut->getSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -107,7 +107,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_options';
+		$expectedReturn =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_options';
 		$returnedValue = $sut->wpAjaxSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -169,7 +169,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	public function loadAdminScriptsAndStyle()
 	{
 		$sut = $this->sut(null);
-		$hook = NEXT_AD_INT_PREFIX . 'blog_options';
+		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_options';
 
 		\WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
@@ -183,7 +183,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 		\WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
-					'next_ad_int_page', NEXT_AD_INT_URL . '/js/page.js',
+					'next_ad_int_page',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/page.js',
 					array('jquery'),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -195,7 +195,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'angular.min',
-					NEXT_AD_INT_URL . '/js/libraries/angular.min.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/angular.min.js',
 					array(),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -207,7 +207,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-alertify',
-					NEXT_AD_INT_URL . '/js/libraries/ng-alertify.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/ng-alertify.js',
 					array('angular.min'),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -219,7 +219,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-notify',
-					NEXT_AD_INT_URL . '/js/libraries/ng-notify.min.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/ng-notify.min.js',
 					array('angular.min'),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -231,7 +231,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-busy',
-					NEXT_AD_INT_URL . '/js/libraries/angular-busy.min.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/angular-busy.min.js',
 					array('angular.min'),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -243,7 +243,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_util_array',
-					NEXT_AD_INT_URL . '/js/app/shared/utils/array.util.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/utils/array.util.js',
 					array(),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -254,7 +254,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_util_value',
-					NEXT_AD_INT_URL . '/js/app/shared/utils/value.util.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/utils/value.util.js',
 					array(),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -266,7 +266,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_module',
-					NEXT_AD_INT_URL . '/js/app/app.module.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/app.module.js',
 					array(),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -277,7 +277,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_config',
-					NEXT_AD_INT_URL . '/js/app/app.nadi.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/app.nadi.js',
 					array(),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -289,7 +289,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_browser',
-					NEXT_AD_INT_URL . '/js/app/shared/services/browser.service.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/browser.service.js',
 					array(),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -301,7 +301,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_template',
-					NEXT_AD_INT_URL . '/js/app/shared/services/template.service.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/template.service.js',
 					array(),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -313,7 +313,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_notification',
-					NEXT_AD_INT_URL . '/js/app/shared/services/notification.service.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/notification.service.js',
 					array(),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -324,7 +324,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_service_persistence',
-					NEXT_AD_INT_URL . '/js/app/blog-options/services/persistence.service.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/services/persistence.service.js',
 					array(),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -335,7 +335,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_list',
-					NEXT_AD_INT_URL . '/js/app/shared/services/list.service.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/list.service.js',
 					array(),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -346,7 +346,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_service_data',
-					NEXT_AD_INT_URL . '/js/app/blog-options/services/data.service.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/services/data.service.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -359,7 +359,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_blog',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/blog.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/blog.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -370,7 +370,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_ajax',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/ajax.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/ajax.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -381,7 +381,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_general',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/general.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/general.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -392,7 +392,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_environment',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/environment.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/environment.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -403,7 +403,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_user',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/user.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/user.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -414,7 +414,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_password',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/credential.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/credential.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -425,7 +425,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_permission',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/permission.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/permission.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -436,7 +436,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_security',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/security.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/security.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -447,7 +447,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_sso',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/sso.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/sso.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -458,7 +458,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_attributes',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/attributes.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/attributes.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -469,7 +469,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_sync_to_ad',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/sync-to-ad.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/sync-to-ad.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -480,7 +480,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_sync_to_wordpress',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/sync-to-wordpress.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/sync-to-wordpress.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -492,7 +492,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_logging',
-					NEXT_AD_INT_URL . '/js/app/blog-options/controllers/logging.controller.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/logging.controller.js',
 					array(),
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
@@ -504,7 +504,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'selectizejs',
-					NEXT_AD_INT_URL . '/js/libraries/selectize.min.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/selectize.min.js',
 					array('jquery'),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -517,7 +517,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'selectizeFix',
-					NEXT_AD_INT_URL . '/js/libraries/fixed-angular-selectize-3.0.1.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/fixed-angular-selectize-3.0.1.js',
 					array('selectizejs', 'angular.min'),
 					Ui::VERSION_PAGE_JS,
 				),
@@ -527,7 +527,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 
 		\WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args' => array('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
+				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
@@ -536,7 +536,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_style', array(
 				'args' => array(
 					'ng-notify',
-					NEXT_AD_INT_URL . '/css/ng-notify.min.css',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/ng-notify.min.css',
 					array(),
 					Ui::VERSION_CSS,
 				),
@@ -548,7 +548,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_style', array(
 				'args' => array(
 					'selectizecss',
-					NEXT_AD_INT_URL . '/css/selectize.css',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/selectize.css',
 					array(),
 					Ui::VERSION_CSS,
 				),
@@ -560,7 +560,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_style', array(
 				'args' => array(
 					'alertify.min',
-					NEXT_AD_INT_URL . '/css/alertify.min.css',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/alertify.min.css',
 					array(),
 					Ui::VERSION_CSS,
 				),
@@ -572,7 +572,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_bootstrap_min_js',
-					NEXT_AD_INT_URL . '/js/libraries/bootstrap.min.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/bootstrap.min.js',
 					array(),
 					Ui::VERSION_CSS,
 				),
@@ -584,7 +584,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'wp_enqueue_style', array(
 				'args' => array(
 					'next_ad_int_bootstrap_min_css',
-					NEXT_AD_INT_URL . '/css/bootstrap.min.css',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/bootstrap.min.css',
 					array(),
 					Ui::VERSION_CSS,
 				),

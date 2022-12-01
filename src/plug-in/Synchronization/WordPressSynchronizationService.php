@@ -101,7 +101,7 @@ class WordPressSynchronizationService extends AbstractSynchronizationService
 	 */
 	public function register()
 	{
-		add_action(NEXT_AD_INT_PREFIX . 'ad2wp_execute_synchronization', array($this, 'synchronize'));
+		add_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'ad2wp_execute_synchronization', array($this, 'synchronize'));
 	}
 
 
@@ -126,7 +126,7 @@ class WordPressSynchronizationService extends AbstractSynchronizationService
 		$this->logger->debug('END: findSynchronizableUsers(): Duration:  ' . $totalTimeNeeded . ' seconds');
 
 		// ADI-145: provide API
-		$users = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_synchronizable_users', $users);
+		$users = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_ad2wp_filter_synchronizable_users', $users);
 
 		if (is_array($users) && !empty($users)) {
 			$this->logNumberOfUsers($users);
@@ -461,12 +461,12 @@ class WordPressSynchronizationService extends AbstractSynchronizationService
 		$startTimerWordPress = time();
 
 		// ADI-145: provide API
-		$adiUser = apply_filters(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_user_before_synchronize', $adiUser, $credentials, $ldapAttributes);
+		$adiUser = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_ad2wp_filter_user_before_synchronize', $adiUser, $credentials, $ldapAttributes);
 
 		$syncStatus = $this->createOrUpdateUser($adiUser);
 
 		// ADI-145: provide API
-		do_action(NEXT_AD_INT_PREFIX . 'ad2wp_after_user_synchronize', $syncStatus, $adiUser, $credentials, $ldapAttributes);
+		do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'ad2wp_after_user_synchronize', $syncStatus, $adiUser, $credentials, $ldapAttributes);
 
 		$elapsedTimeWordPress = time() - $startTimerWordPress;
 		$this->wordpressDbTimeCounter = $this->wordpressDbTimeCounter + $elapsedTimeWordPress;

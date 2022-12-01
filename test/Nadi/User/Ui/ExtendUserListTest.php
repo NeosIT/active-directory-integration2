@@ -178,7 +178,7 @@ class ExtendUserListTest extends BasicTest
 
 		\WP_Mock::wpFunction(
 			'get_user_meta', array(
-				'args' => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
+				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => '1',
 				'return' => 'testUser'
 			)
@@ -200,7 +200,7 @@ class ExtendUserListTest extends BasicTest
 
 		\WP_Mock::wpFunction(
 			'get_user_meta', array(
-				'args' => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
+				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => '1',
 				'return' => ''
 			)
@@ -231,7 +231,7 @@ class ExtendUserListTest extends BasicTest
 
 		\WP_Mock::wpFunction(
 			'get_user_meta', array(
-				'args' => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
+				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', true),
 				'times' => '1',
 				'return' => 'Spam'
 			)
@@ -290,7 +290,7 @@ class ExtendUserListTest extends BasicTest
 
 		\WP_Mock::wpFunction(
 			'get_user_meta', array(
-				'args' => array($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
+				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', true),
 				'times' => '1',
 				'return' => 'Spam'
 			)

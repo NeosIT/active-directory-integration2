@@ -141,7 +141,7 @@ class Repository
 	 */
 	public function findBySAMAccountName($sAMAccountName)
 	{
-		$result = $this->findByMetaKey(NEXT_AD_INT_PREFIX . self::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME, $sAMAccountName);
+		$result = $this->findByMetaKey(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . self::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME, $sAMAccountName);
 
 		return ArrayUtil::findFirstOrDefault($result, false);
 	}
@@ -154,7 +154,7 @@ class Repository
 	 */
 	public function updateSAMAccountName($userId, $sAMAccountName)
 	{
-		$this->updateMetaKey($userId, NEXT_AD_INT_PREFIX . self::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME, $sAMAccountName);
+		$this->updateMetaKey($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . self::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME, $sAMAccountName);
 	}
 
 	/**
@@ -172,7 +172,7 @@ class Repository
 			return false;
 		}
 
-		$result = $this->findByMetaKey(NEXT_AD_INT_PREFIX . self::META_KEY_OBJECT_GUID, $guid);
+		$result = $this->findByMetaKey(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . self::META_KEY_OBJECT_GUID, $guid);
 
 		return ArrayUtil::findFirstOrDefault($result, false);
 	}

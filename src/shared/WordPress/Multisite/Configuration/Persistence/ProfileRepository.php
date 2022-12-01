@@ -75,7 +75,7 @@ class ProfileRepository
 	 */
 	protected function getProfileOption($profileId, $optionPrefix)
 	{
-		return NEXT_AD_INT_PREFIX . self::PREFIX . $optionPrefix . $profileId;
+		return NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . self::PREFIX . $optionPrefix . $profileId;
 	}
 
 	/**
@@ -94,7 +94,7 @@ class ProfileRepository
 
 		$prefix = $this->propertyMapping[$name];
 
-		return NEXT_AD_INT_PREFIX . self::PREFIX . $prefix . $profileId;
+		return NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . self::PREFIX . $prefix . $profileId;
 	}
 
 	/**

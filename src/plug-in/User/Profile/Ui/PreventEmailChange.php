@@ -55,7 +55,7 @@ class PreventEmailChange
 	 */
 	public function disableEmailField($user)
 	{
-		$samAccountName = get_user_meta($user->ID, NEXT_AD_INT_PREFIX . 'samaccountname', true);
+		$samAccountName = get_user_meta($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true);
 		$admin = current_user_can('manage_options');
 
 		// disable email field if needed (dirty hack)
@@ -88,7 +88,7 @@ class PreventEmailChange
 		add_filter('send_password_change_email', '__return_false');
 		add_filter('send_email_change_email', '__return_false');
 
-		$samAccountName = get_user_meta($user->ID, NEXT_AD_INT_PREFIX . 'samaccountname', true);
+		$samAccountName = get_user_meta($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true);
 		$admin = current_user_can('manage_options');
 
 		if ($samAccountName && !$admin) {
@@ -96,7 +96,7 @@ class PreventEmailChange
 			$oldEmail = get_user_by('id', $user->ID)->user_email;
 
 			// if email address was changed, then throw an error and prevent the insert of option values
-			if (isset($_POST[NEXT_AD_INT_PREFIX . 'email_change'])) {
+			if (isset($_POST[NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'email_change'])) {
 				$this->logger->debug( "Prevent email change on profile update for user '$user->user_login' ($user->ID).");
 				$errors = new \WP_Error(
 					'prevent email change', __(
@@ -122,7 +122,7 @@ class PreventEmailChange
 	public function addMissingEmailAddressToPOST($userId)
 	{
 		// only add the value if user has a samaccountname and not an admin
-		$samAccountName = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true);
+		$samAccountName = get_user_meta($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true);
 		$admin = current_user_can('manage_options');
 
 		// leave if user of this profile has no samAccountName or the current user is an admin
@@ -131,7 +131,7 @@ class PreventEmailChange
 		}
 
 		if (isset($_POST['email'])) {
-			$_POST[NEXT_AD_INT_PREFIX . 'email_change'] = true;
+			$_POST[NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'email_change'] = true;
 		}
 
 		// set old email values

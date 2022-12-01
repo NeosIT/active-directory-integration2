@@ -59,7 +59,7 @@ class Connection
 	public function register()
 	{
 		// ADI-713: Map user information when search for GUID, userPrincipalName or sAMAccountName
-		add_filter(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', array($this, 'mapUserInfo'), 10, 5);
+		add_filter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'ldap_map_userinfo', array($this, 'mapUserInfo'), 10, 5);
 	}
 
 	/**
@@ -418,7 +418,7 @@ class Connection
 		}
 
 		// ADI-713: try to extract the user's information from a list of arrays
-		$userInfo = apply_filters(NEXT_AD_INT_PREFIX . 'ldap_map_userinfo', false, $matchesFromLdap, $matchesFromLdap['count'], $userQuery, $attributeNames);
+		$userInfo = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'ldap_map_userinfo', false, $matchesFromLdap, $matchesFromLdap['count'], $userQuery, $attributeNames);
 
 		if ($userInfo) {
 			$this->logger->debug("UserInfo for user '" . $userQuery . "': " . $this->__debug($userInfo));
@@ -568,7 +568,7 @@ class Connection
 	public function modifyUserWithoutSchema($wpUser, $attributes)
 	{
 		$username = $wpUser->user_login;
-		$userGuid = get_user_meta($wpUser->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true);
+		$userGuid = get_user_meta($wpUser->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true);
 
 		if (empty($attributes)) {
 			$this->logger->warn("Modifying user '$username' skipped. Found no attributes to synchronize to Active Directory.");

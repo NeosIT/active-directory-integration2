@@ -108,7 +108,7 @@ class RequirementsTest extends BasicTest
 
 		\WP_Mock::wpFunction('deactivate_plugins', array(
 			'times' => 1,
-			'return' => NEXT_AD_INT_PLUGIN_FILE,
+			'return' => NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_FILE,
 		));
 
 		// mock away static methods

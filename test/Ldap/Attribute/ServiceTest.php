@@ -360,7 +360,7 @@ class ServiceTest extends BasicTest
 			->method('findAttributesOfUser')
 			->with($userQuery, $modifiedAttributeNames);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'ldap_filter_synchronizable_attributes')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'ldap_filter_synchronizable_attributes')
 			->with($attributeNames, $userQuery)
 			->reply($modifiedAttributeNames);
 

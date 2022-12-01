@@ -128,7 +128,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 			->with($modifiedUsers[0])
 			->willReturn(true);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'sync_wp2ad_filter_synchronizable_users')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_wp2ad_filter_synchronizable_users')
 			->with($users)
 			->reply($modifiedUsers);
 
@@ -369,7 +369,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 			->with($user, $modifiedAttributesToSync)
 			->willReturn(true);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'sync_wp2ad_filter_synchronizable_attributes')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_wp2ad_filter_synchronizable_attributes')
 			->with($attributesToSync, $user, $allowedAttributes)
 			->reply($modifiedAttributesToSync);
 
@@ -402,7 +402,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 			->with($user, $attributesToSync)
 			->willReturn(666);
 
-		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'sync_wp2ad_after_user_synchronize', 666, $user, $attributesToSync, $allowedAttributes);
+		\WP_Mock::expectAction(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_wp2ad_after_user_synchronize', 666, $user, $attributesToSync, $allowedAttributes);
 
 		$actual = $this->invokeMethod($sut, 'synchronizeUser', array($user, $allowedAttributes));
 		$this->assertEquals(true, $actual);

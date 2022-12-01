@@ -77,7 +77,7 @@ class ProvideDisableUserOption
 		echo $this->twigContainer->getTwig()->render(
 			self::TEMPLATE_NAME, array(
 				'userDisabled' => $this->userManager->isDisabled($user->ID),
-				'disabledReason' => get_user_meta($user->ID, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
+				'disabledReason' => get_user_meta($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', true),
 				'i18n' => $i18n
 			)
 		);
@@ -93,7 +93,7 @@ class ProvideDisableUserOption
 		// $value 0 => user should be unblocked
 		// $value 1 => user should be blocked
 		// dont unescape $_POST because only numbers will be accessed
-		$value = $_POST[NEXT_AD_INT_PREFIX . 'user_disabled'];
+		$value = $_POST[NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled'];
 		$disabled = $this->userManager->isDisabled($userId);
 
 		// user is not blocked and he should be blocked

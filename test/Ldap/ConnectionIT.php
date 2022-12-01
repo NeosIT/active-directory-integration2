@@ -132,7 +132,7 @@ class ConnectionIT extends \Dreitier\Test\BasicIntegrationTest
 		$userGuid = StringUtil::binaryToGuid($ldapAttribute['objectguid']);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-			'args' => array($wpUser->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
+			'args' => array($wpUser->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 			'times' => 2,
 			'return' => $userGuid
 		));

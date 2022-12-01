@@ -63,7 +63,7 @@ class Requirements
 			Util::native()->includeOnce(ABSPATH . 'wp-admin/includes/plugin.php');
 
 			// ensure that the plug-in has not been enabled
-			deactivate_plugins(NEXT_AD_INT_PLUGIN_FILE);
+			deactivate_plugins(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_FILE);
 
 			return false;
 		}

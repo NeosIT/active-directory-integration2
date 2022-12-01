@@ -79,7 +79,7 @@ class BlogProfileRelationshipPage extends PageAdapter
 	 */
 	public static function buildSlug()
 	{
-		return NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
+		return NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_profile_relationship';
 	}
 
 	/**
@@ -118,11 +118,11 @@ class BlogProfileRelationshipPage extends PageAdapter
 		}
 
 		wp_enqueue_script(
-			'next_ad_int_blog_profile_association', NEXT_AD_INT_URL . '/js/blog-profile-relationship.js', array('jquery'),
+			'next_ad_int_blog_profile_association',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/blog-profile-relationship.js', array('jquery'),
 			self::VERSION_BLOG_PROFILE_RELATIONSHIP_JS
 		);
 
-		wp_enqueue_style('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS);
+		wp_enqueue_style('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS);
 	}
 
 	/**

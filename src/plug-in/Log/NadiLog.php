@@ -28,7 +28,7 @@ class NadiLog
 	/**
 	 * @var string
 	 */
-	private static $defaultPath = NEXT_AD_INT_PATH . '/logs/';
+	private static $defaultPath = NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . '/logs/';
 
 	public const MAIN_LOGGER = 'nadiMainLogger';
 

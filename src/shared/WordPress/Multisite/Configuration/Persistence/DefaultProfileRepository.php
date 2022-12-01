@@ -44,6 +44,6 @@ class DefaultProfileRepository
 	 */
 	protected function getProfileOptionName()
 	{
-		return NEXT_AD_INT_PREFIX . ProfileRepository::PREFIX . self::SUFFIX_DEFAULT;
+		return NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . ProfileRepository::PREFIX . self::SUFFIX_DEFAULT;
 	}
 }

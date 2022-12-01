@@ -87,13 +87,13 @@ class Repository
 	{
 		$userId = $userData->ID;
 
-		$this->update($userId, NEXT_AD_INT_PREFIX . 'user_disabled', true);
-		$this->update($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', $reason);
+		$this->update($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled', true);
+		$this->update($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', $reason);
 
 		$this->logger->info("Delete e-mail of disabled user '$userData->user_login' ($userId).");
 
 		// store e-mail in meta
-		$this->update($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', $userData->user_email);
+		$this->update($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_email', $userData->user_email);
 	}
 
 	/**
@@ -105,9 +105,9 @@ class Repository
 	{
 		$userId = $userData->ID;
 
-		$this->update($userId, NEXT_AD_INT_PREFIX . 'user_disabled', false);
-		$this->update($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', '');
-		$this->delete($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email');
+		$this->update($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled', false);
+		$this->update($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', '');
+		$this->delete($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_email');
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Repository
 	 */
 	public function isUserDisabled($userId)
 	{
-		$disabled = $this->find($userId, NEXT_AD_INT_PREFIX . 'user_disabled', true);
+		$disabled = $this->find($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled', true);
 
 		return (bool)$disabled;
 	}

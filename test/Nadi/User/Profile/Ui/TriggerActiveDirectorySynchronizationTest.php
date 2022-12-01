@@ -324,7 +324,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 		$user->ID = 1;
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-			'args' => array($user->ID, NEXT_AD_INT_PREFIX . 'userprincipalname', true),
+			'args' => array($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'userprincipalname', true),
 			'times' => 1,
 			'return' => 'user@test.ad',
 		));
@@ -368,7 +368,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 			->with($wpUserdata, 'password')
 			->willReturn(null);
 
-		$actual = $sut->triggerSyncToActiveDirectory(1, array(NEXT_AD_INT_PREFIX . TriggerActiveDirectorySynchronization::FORM_PASSWORD => 'password'));
+		$actual = $sut->triggerSyncToActiveDirectory(1, array(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . TriggerActiveDirectorySynchronization::FORM_PASSWORD => 'password'));
 		$this->assertEquals(false, $actual);
 	}
 

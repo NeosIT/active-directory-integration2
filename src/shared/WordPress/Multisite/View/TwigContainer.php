@@ -132,11 +132,11 @@ class TwigContainer
 	 */
 	public function register()
 	{
-		$loader = new FilesystemLoader(NEXT_AD_INT_PATH . '/views');
+		$loader = new FilesystemLoader(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . '/views');
 
 		$twigOptions = $this->getTwigOptions();
 
-		// $twigOptions['cache'] = NEXT_AD_INT_PATH . '/cache';
+		// $twigOptions['cache'] = NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . '/cache';
 
 		$this->twig = new Environment($loader, $twigOptions);
 
@@ -177,7 +177,7 @@ class TwigContainer
 		$result = array(
 			// ADI-272 / #7: errors occur if Twig cache directory is not writable in filesystem.
 			// You can enable the cache by uncomment the following line:
-			//'cache'            => NEXT_AD_INT_PATH . '/twig/cache',
+			//'cache'            => NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . '/twig/cache',
 			'strict_variables' => true,
 		);
 

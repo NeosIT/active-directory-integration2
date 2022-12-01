@@ -15,14 +15,7 @@ if (!extension_loaded('ldap')) {
 if (!defined('ABSPATH')) {
 	// TODO move this and the definition in index.php to its own file so it can be included once
 	define('ABSPATH', '');
-	define('NEXT_AD_INT_PLUGIN_VERSION', '2.0');
-	define('NEXT_AD_INT_PREFIX', 'next_ad_int_');
-	define('NEXT_AD_INT_URL', '');
-	define('NEXT_AD_INT_FILE_CONVERSION_PATTERN', "[%-5level] %class::%method [line %line] %msg %ex\r\n");
-	define('NEXT_AD_INT_ECHO_CONVERSION_PATTERN', '[%-5level] %msg %ex<br />');
-	define('NEXT_AD_INT_TABLE_CONVERSION_PATTERN', '[%-5level] | %msg | %ex');
-	define('OBJECT', 987);
-	define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH', dirname(dirname(__FILE__)));
+	define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL', '');
 
 	// TODO in eigene Klassen auslagern
 	class WP_Error
@@ -175,16 +168,8 @@ function map_deep($value, $callback)
 // Jenkins does continuously fail with "allowed memory size of 134217728 bytes exhausted at..." during testing
 ini_set("memory_limit", "2G");
 
-define('NEXT_AD_INT_PATH', __DIR__ . '/..');
+require_once __DIR__ . '/../autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-define('NEXT_AD_INT_PLUGIN_FILE', NEXT_AD_INT_PATH . "/index.php");
-
-require_once NEXT_AD_INT_PATH . "/functions.php";
-
-// include any packages required during testing like WP_Mock
-require_once NEXT_AD_INT_PATH . "/vendor/autoload.php";
-// include vendored packages
-require_once NEXT_AD_INT_PATH ."/vendor-repackaged/autoload.php";
-
-require_once NEXT_AD_INT_PATH . "/test/BasicTest.php";
-require_once NEXT_AD_INT_PATH . "/test/BasicIntegrationTest.php";
+require_once NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . "/test/BasicTest.php";
+require_once NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . "/test/BasicIntegrationTest.php";

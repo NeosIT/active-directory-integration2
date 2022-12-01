@@ -367,7 +367,7 @@ class Repository
 	 */
 	public static function resolveDefaultAttributeMetaKey($attributeName)
 	{
-		return NEXT_AD_INT_PREFIX . StringUtil::toLowerCase($attributeName);
+		return NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . StringUtil::toLowerCase($attributeName);
 	}
 
 	/**

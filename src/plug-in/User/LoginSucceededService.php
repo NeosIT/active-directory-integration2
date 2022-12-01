@@ -71,18 +71,18 @@ class LoginSucceededService
 		// login_succeeded is the callback to signal the current user is authenticated and authorized
 		// TODO: Dokumentation (API und Workflow anpassen!)
 		// this filter returns a WP_User or WP_Error object
-		add_filter(NEXT_AD_INT_PREFIX . 'login_succeeded', array($this, 'updateOrCreateUser'), 10, 1);
+		add_filter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded', array($this, 'updateOrCreateUser'), 10, 1);
 
 		// custom filters
-		add_filter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user', array($this, 'beforeCreateOrUpdateUser'),
+		add_filter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_before_create_or_update_user', array($this, 'beforeCreateOrUpdateUser'),
 			10, 2);
-		add_filter(NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user', array($this, 'afterCreateOrUpdateUser'), 10,
+		add_filter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_after_create_or_update_user', array($this, 'afterCreateOrUpdateUser'), 10,
 			3);
 	}
 
 	public function updateOrCreateAfterSuccessfulLogin($authenticatedCredentials, $username, $password = null)
 	{
-		return apply_filters(NEXT_AD_INT_PREFIX . 'login_succeeded', $authenticatedCredentials);
+		return apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded', $authenticatedCredentials);
 	}
 
 	/**
@@ -131,7 +131,7 @@ class LoginSucceededService
 		 * By default this filter returns true | boolean
 		 *
 		 */
-		$preCreateStatus = apply_filters(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user',
+		$preCreateStatus = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_before_create_or_update_user',
 			$authenticatedCredentials, $ldapAttributes);
 
 		if (!$preCreateStatus) {
@@ -167,7 +167,7 @@ class LoginSucceededService
 		 *
 		 * By default the $wpUser | WP_USER is returned.
 		 */
-		return apply_filters(NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user', $authenticatedCredentials,
+		return apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_after_create_or_update_user', $authenticatedCredentials,
 			$ldapAttributes, $wpUser);
 	}
 
@@ -249,7 +249,7 @@ class LoginSucceededService
 
 		if ($userId) {
 			if ($this->userManager->isDisabled($userId)) {
-				$reason = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true);
+				$reason = get_user_meta($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', true);
 				$this->logger->debug("User is disabled. Reason: $reason");
 
 				remove_filter('authenticate', 'wp_authenticate_username_password', 20, 3);

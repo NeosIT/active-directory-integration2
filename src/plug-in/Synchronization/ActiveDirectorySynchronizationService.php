@@ -41,7 +41,7 @@ class ActiveDirectorySynchronizationService extends \Dreitier\Nadi\Synchronizati
 	 */
 	public function register()
 	{
-		add_action(NEXT_AD_INT_PREFIX . 'wp2ad_execute_synchronization', array($this, 'synchronize'));
+		add_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'wp2ad_execute_synchronization', array($this, 'synchronize'));
 	}
 
 
@@ -70,7 +70,7 @@ class ActiveDirectorySynchronizationService extends \Dreitier\Nadi\Synchronizati
 		}
 
 		// ADI-145: provide API
-		$users = apply_filters(NEXT_AD_INT_PREFIX . 'sync_wp2ad_filter_synchronizable_users', $users);
+		$users = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_wp2ad_filter_synchronizable_users', $users);
 
 		$updatedUsers = 0;
 
@@ -285,12 +285,12 @@ class ActiveDirectorySynchronizationService extends \Dreitier\Nadi\Synchronizati
 		}
 
 		// ADI-145: provide API
-		$attributesToSync = apply_filters(NEXT_AD_INT_PREFIX . 'sync_wp2ad_filter_synchronizable_attributes', $attributesToSync, $wpUser, $allowedAttributes);
+		$attributesToSync = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_wp2ad_filter_synchronizable_attributes', $attributesToSync, $wpUser, $allowedAttributes);
 
 		$status = $this->ldapConnection->modifyUserWithoutSchema($wpUser, $attributesToSync);
 
 		// ADI-145: provide API
-		do_action(NEXT_AD_INT_PREFIX . 'sync_wp2ad_after_user_synchronize', $status, $wpUser, $attributesToSync, $allowedAttributes);
+		do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_wp2ad_after_user_synchronize', $status, $wpUser, $attributesToSync, $allowedAttributes);
 
 		return $status;
 	}

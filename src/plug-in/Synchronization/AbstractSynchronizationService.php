@@ -131,7 +131,7 @@ abstract class AbstractSynchronizationService
 		$r = array();
 
 		foreach ($users as $user) {
-			$guid = get_user_meta($user->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_OBJECT_GUID, true);
+			$guid = get_user_meta($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true);
 			$wpUsername = $user->user_login;
 			$r[StringUtil::toLowerCase($guid)] = $wpUsername;
 		}
@@ -152,11 +152,11 @@ abstract class AbstractSynchronizationService
 	{
 		$args = array(
 			'blog_id' => get_current_blog_id(),
-			'meta_key' => NEXT_AD_INT_PREFIX . Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+			'meta_key' =>NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
-					'key' => NEXT_AD_INT_PREFIX . Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
+					'key' =>NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME,
 					'value' => '',
 					'compare' => '!=',
 				),
@@ -175,7 +175,7 @@ abstract class AbstractSynchronizationService
 
 		foreach ($users as $user) {
 			$userDomainSid = get_user_meta(
-				$user->ID, NEXT_AD_INT_PREFIX . Repository::META_KEY_DOMAINSID, true
+				$user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_DOMAINSID, true
 			);
 
 			$sid = Sid::of($userDomainSid);

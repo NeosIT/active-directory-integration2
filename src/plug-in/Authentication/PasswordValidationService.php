@@ -91,7 +91,7 @@ class PasswordValidationService
 		}
 
 		// only check for local password if this is not an AD user and if fallback to local password is active
-		$isActiveDirectoryUser = get_user_meta($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true);
+		$isActiveDirectoryUser = get_user_meta($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true);
 
 		if (!$isActiveDirectoryUser) {
 			// use local password check in all other cases

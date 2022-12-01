@@ -106,11 +106,11 @@ class SessionHandler
 	 */
 	protected function normalizeKey($key)
 	{
-		if (StringUtil::startsWith(NEXT_AD_INT_PREFIX, $key)) {
+		if (StringUtil::startsWith(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX, $key)) {
 			return $key;
 		}
 
-		return NEXT_AD_INT_PREFIX . $key;
+		return NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . $key;
 	}
 
 	/**

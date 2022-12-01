@@ -77,13 +77,13 @@ class LoginSucceededServiceTest extends BasicTest
 
 		\WP_Mock::expectFilterAdded('authenticate', array($sut, 'updateOrCreateAfterSuccessfulLogin'), 19, 3);
 
-		\WP_Mock::expectFilterAdded(NEXT_AD_INT_PREFIX . 'login_succeeded', array($sut, 'updateOrCreateUser'), 10, 1);
+		\WP_Mock::expectFilterAdded(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded', array($sut, 'updateOrCreateUser'), 10, 1);
 
-		\WP_Mock::expectFilterAdded(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user',
+		\WP_Mock::expectFilterAdded(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_before_create_or_update_user',
 			array($sut, 'beforeCreateOrUpdateUser'),
 			10, 2);
 
-		\WP_Mock::expectFilterAdded(NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user',
+		\WP_Mock::expectFilterAdded(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_after_create_or_update_user',
 			array($sut, 'afterCreateOrUpdateUser'), 10,
 			3);
 
@@ -98,7 +98,7 @@ class LoginSucceededServiceTest extends BasicTest
 		$sut = $this->sut();
 		$credentials = new Credentials('john.doe@test.ad');
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'login_succeeded')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded')
 			->with($credentials)
 			->reply(true); // used to verify the filter call with the expected params
 
@@ -222,7 +222,7 @@ class LoginSucceededServiceTest extends BasicTest
 			}))
 			->willReturn($expectedLdapAttrs);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_before_create_or_update_user')
 			->with($credentials, $expectedLdapAttrs)
 			->reply(false);
 
@@ -269,7 +269,7 @@ class LoginSucceededServiceTest extends BasicTest
 			}))
 			->willReturn($expectedLdapAttrs);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_before_create_or_update_user')
 			->with($credentials, $expectedLdapAttrs)
 			->reply(true);
 
@@ -333,7 +333,7 @@ class LoginSucceededServiceTest extends BasicTest
 			}))
 			->willReturn($expectedLdapAttrs);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_before_create_or_update_user')
 			->with($credentials, $expectedLdapAttrs)
 			->reply(true);
 
@@ -395,7 +395,7 @@ class LoginSucceededServiceTest extends BasicTest
 			}))
 			->willReturn($expectedLdapAttrs);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_before_create_or_update_user')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_before_create_or_update_user')
 			->with($credentials, $expectedLdapAttrs)
 			->reply(true);
 
@@ -415,7 +415,7 @@ class LoginSucceededServiceTest extends BasicTest
 			'return' => false,
 		));
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'auth_after_create_or_update_user')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_after_create_or_update_user')
 			->with($credentials, $expectedLdapAttrs, $expectedWpUser)
 			->reply($expectedWpUser);
 
@@ -600,7 +600,7 @@ class LoginSucceededServiceTest extends BasicTest
 
 		\WP_Mock::wpFunction('get_user_meta', array(
 			'times' => 1,
-			'args' => array($wpUserId, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
+			'args' => array($wpUserId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', true),
 			'return' => $expectedReason
 		));
 

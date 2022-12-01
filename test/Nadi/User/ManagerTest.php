@@ -528,7 +528,7 @@ class ManagerTest extends BasicTest
 			->with(100)
 			->once();
 
-		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_create', $adiUser, false, true);
+		\WP_Mock::expectAction(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_after_create', $adiUser, false, true);
 
 		$sut->create($adiUser, false, true);
 	}
@@ -682,7 +682,7 @@ class ManagerTest extends BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('update')
-			->with(666, NEXT_AD_INT_PREFIX . 'account_suffix', '@test.ad');
+			->with(666,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'account_suffix', '@test.ad');
 
 		$sut->update($adiUser);
 	}
@@ -804,7 +804,7 @@ class ManagerTest extends BasicTest
 		$this->behave($adiUser, 'getCredentials', $credentials);
 		$this->behave($adiUser, 'getLdapAttributes', new Attributes());
 
-		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_before_update', $adiUser, false, true);
+		\WP_Mock::expectAction(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_before_update', $adiUser, false, true);
 
 		$sut->update($adiUser);
 	}
@@ -837,7 +837,7 @@ class ManagerTest extends BasicTest
 			->with(666)
 			->willReturn($wpUser);
 
-		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_update', $adiUser, $wpUser, false, true);
+		\WP_Mock::expectAction(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_after_update', $adiUser, $wpUser, false, true);
 
 		$sut->update($adiUser);
 	}
@@ -1324,7 +1324,7 @@ class ManagerTest extends BasicTest
 
 		$expectedResult = 'unique@test.com';
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'user_create_email')->with($this->wpUser, $preferredEmail)->reply($expectedResult);
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_create_email')->with($this->wpUser, $preferredEmail)->reply($expectedResult);
 
 		$actual = $this->invokeMethod($sut, 'handleEmailAddressOfUser', array($this->wpUser, 'test@test.com'));
 		$this->assertEquals($expectedResult, $actual);
@@ -1446,7 +1446,7 @@ class ManagerTest extends BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with(666, NEXT_AD_INT_PREFIX . 'samaccountname', true)
+			->with(666,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true)
 			->willReturn('usr');
 
 		$this->assertTrue($sut->hasActiveDirectoryAccount('username'));
@@ -1469,7 +1469,7 @@ class ManagerTest extends BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with(666, NEXT_AD_INT_PREFIX . 'samaccountname', true)
+			->with(666,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true)
 			->willReturn('usr');
 
 		$this->assertTrue($sut->hasActiveDirectoryAccount($this->wpUser));
@@ -1491,7 +1491,7 @@ class ManagerTest extends BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with(666, NEXT_AD_INT_PREFIX . 'samaccountname', true)
+			->with(666,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true)
 			->willReturn('usr');
 
 		// co-check empty
@@ -1512,7 +1512,7 @@ class ManagerTest extends BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true)
+			->with($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_email', true)
 			->willReturn('test@test.com');
 
 		$this->userRepository->expects($this->once())
@@ -1545,7 +1545,7 @@ class ManagerTest extends BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true)
+			->with($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_email', true)
 			->willReturn('test@test.com');
 
 		$this->userRepository->expects($this->once())
@@ -1579,7 +1579,7 @@ class ManagerTest extends BasicTest
 
 		$this->metaRepository->expects($this->once())
 			->method('find')
-			->with($userId, NEXT_AD_INT_PREFIX . 'user_disabled_email', true)
+			->with($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_email', true)
 			->willReturn('test@test.com');
 
 		$this->userRepository->expects($this->once())
@@ -1596,7 +1596,7 @@ class ManagerTest extends BasicTest
 			->with($userId, 'test@test.com');
 
 
-		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_enable', $this->wpUser, true);
+		\WP_Mock::expectAction(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_after_enable', $this->wpUser, true);
 
 		$sut->enable($userId);
 	}
@@ -1645,7 +1645,7 @@ class ManagerTest extends BasicTest
 			->with($userId)
 			->willReturn($this->wpUser);
 
-		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'user_after_disable', $this->wpUser);
+		\WP_Mock::expectAction(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_after_disable', $this->wpUser);
 
 		$sut->disable($userId, $reason);
 	}

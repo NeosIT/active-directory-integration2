@@ -213,7 +213,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 			->method('findSynchronizableUsers')
 			->willReturn($users);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_synchronizable_users')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_ad2wp_filter_synchronizable_users')
 			->with($users)
 			->reply($modifiedUsers);
 
@@ -934,7 +934,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 			->with($modifiedAdiUser)
 			->willReturn(666);
 
-		\WP_Mock::onFilter(NEXT_AD_INT_PREFIX . 'sync_ad2wp_filter_user_before_synchronize')
+		\WP_Mock::onFilter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_ad2wp_filter_user_before_synchronize')
 			->with($adiUser, $credentials, $ldapAttributes)
 			->reply($modifiedAdiUser);
 
@@ -969,7 +969,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 			->with($adiUser)
 			->willReturn(666);
 
-		\WP_Mock::expectAction(NEXT_AD_INT_PREFIX . 'ad2wp_after_user_synchronize', 666, $adiUser, $credentials, $ldapAttributes);
+		\WP_Mock::expectAction(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'ad2wp_after_user_synchronize', 666, $adiUser, $credentials, $ldapAttributes);
 
 		$actual = $sut->synchronizeUser($credentials, 'guid');
 		$this->assertEquals(666, $actual);

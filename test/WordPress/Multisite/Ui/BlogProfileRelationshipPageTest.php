@@ -71,7 +71,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
+		$expectedReturn =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_profile_relationship';
 		$returnedValue = $sut->getSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -84,7 +84,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		$expectedReturn = NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
+		$expectedReturn =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_profile_relationship';
 		$returnedValue = $sut->wpAjaxSlug();
 
 		$this->assertEquals($expectedReturn, $returnedValue);
@@ -134,13 +134,13 @@ class BlogProfileRelationshipPageTest extends BasicTest
 	public function loadJavaScriptAdmin()
 	{
 		$sut = $this->sut(null);
-		$hook = NEXT_AD_INT_PREFIX . 'blog_profile_relationship';
+		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_profile_relationship';
 
 		\WP_Mock::wpFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_profile_association',
-					NEXT_AD_INT_URL . '/js/blog-profile-relationship.js',
+					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/blog-profile-relationship.js',
 					array('jquery'),
 					BlogProfileRelationshipPage::VERSION_BLOG_PROFILE_RELATIONSHIP_JS,
 				),
@@ -150,7 +150,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 
 		\WP_Mock::wpFunction(
 			'wp_enqueue_style', array(
-				'args' => array('next_ad_int', NEXT_AD_INT_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
+				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);

@@ -19,7 +19,7 @@ use Dreitier\WordPress\Multisite\Util;
  */
 class Init
 {
-	const NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED = "next_ad_int_plugin_has_been_enabled";
+	const NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_HAS_BEEN_ENABLED = "next_ad_int_plugin_has_been_enabled";
 
 	/**
 	 * @var Dependencies
@@ -43,7 +43,7 @@ class Init
 	public function activation()
 	{
 		// add flag to WordPress cache for displaying the "plugin enabled" message
-		set_transient(self::NEXT_AD_INT_PLUGIN_HAS_BEEN_ENABLED, true, 10);
+		set_transient(self::NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_HAS_BEEN_ENABLED, true, 10);
 
 		$requirements = $this->dc()->getRequirements();
 
@@ -82,7 +82,7 @@ class Init
 		// do as few checks as possible
 		if (($pagenow == 'plugins.php') && isset($_REQUEST['activate']) && ($_REQUEST['activate'] == 'true')) {
 			// user views the 'plug-ins' page
-			if (is_plugin_active(NEXT_AD_INT_PLUGIN_FILE)) {
+			if (is_plugin_active(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_FILE)) {
 				//
 			}
 		}
@@ -95,7 +95,7 @@ class Init
 	 */
 	public static function uninstall()
 	{
-		require_once NEXT_AD_INT_PATH . '/uninstall.php';
+		require_once NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . '/uninstall.php';
 	}
 
 	// ---
@@ -114,7 +114,7 @@ class Init
 
 		// load internationalization (i18n)
 		load_plugin_textdomain('next-active-directory-integration', false,
-			plugin_basename(NEXT_AD_INT_PATH) . '/languages');
+			plugin_basename(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH) . '/languages');
 
 		// ADI-354 (dme)
 		$configurationService = $this->dc()->getMultisiteConfigurationService();
@@ -122,8 +122,8 @@ class Init
 		$enableLogging = $configurationService->getOptionValue(Options::LOGGER_ENABLE_LOGGING);
 		$customPath = $configurationService->getOptionValue((Options::LOGGER_CUSTOM_PATH));
 
-		$enableLogging = apply_filters(NEXT_AD_INT_PREFIX . 'logging_enable', $enableLogging);
-		$customPath = apply_filters(NEXT_AD_INT_PREFIX . 'logging_custom_path', $customPath);
+		$enableLogging = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'logging_enable', $enableLogging);
+		$customPath = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'logging_custom_path', $customPath);
 
 		NadiLog::initializeLogger($enableLogging, $customPath);
 
@@ -170,7 +170,7 @@ class Init
 	 */
 	public function registerHooks()
 	{
-		add_action(NEXT_AD_INT_PREFIX . 'register_form_login_services', array($this, 'registerFormLoginServices'), 10, 0);
+		add_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'register_form_login_services', array($this, 'registerFormLoginServices'), 10, 0);
 	}
 
 	// ---
@@ -306,7 +306,7 @@ class Init
 		}
 
 		if ($isOnLoginPage) {
-			do_action(NEXT_AD_INT_PREFIX . 'register_form_login_services');
+			do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'register_form_login_services');
 
 			// further hooks must not be executed
 			return false;
@@ -476,7 +476,7 @@ class Init
 			}
 		}
 
-		$r = apply_filters(NEXT_AD_INT_PREFIX . 'auth_enable_login_check', $r);
+		$r = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'auth_enable_login_check', $r);
 
 		return $r;
 	}

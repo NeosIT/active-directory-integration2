@@ -134,7 +134,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 		);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array(2, NEXT_AD_INT_PREFIX . 'user_disabled_reason', true),
+				'args' => array(2,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', true),
 				'times' => 1,
 				'return' => $userMeta,)
 		);
@@ -178,7 +178,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 
 		$userId = 2;
 
-		$_POST[NEXT_AD_INT_PREFIX . 'user_disabled'] = '1';
+		$_POST[NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled'] = '1';
 		$_POST['email'] = "";
 
 		$this->userManager->expects($this->once())
@@ -232,7 +232,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 		$sut = $this->sut(null);
 
 		$userId = 2;
-		$_POST[NEXT_AD_INT_PREFIX . 'user_disabled'] = '0';
+		$_POST[NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled'] = '0';
 		$_POST['email'] = "";
 
 		$userObject = (object)array(

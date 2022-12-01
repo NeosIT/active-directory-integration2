@@ -65,7 +65,7 @@ class ProfileConfigurationRepository implements ConfigurationRepository
 	{
 		$prefix = $optionValue ? self::PREFIX_VALUE : self::PREFIX_PERMISSION;
 
-		return NEXT_AD_INT_PREFIX . self::PREFIX . $prefix . $profileId . '_' . $optionName;
+		return NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . self::PREFIX . $prefix . $profileId . '_' . $optionName;
 	}
 
 	/**

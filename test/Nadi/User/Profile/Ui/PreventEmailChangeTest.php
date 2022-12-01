@@ -91,7 +91,7 @@ class PreventEmailChangeTest extends BasicTest
 		$samaccountname = "testName";
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($user->ID, NEXT_AD_INT_PREFIX . 'samaccountname', true),
+				'args' => array($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => 1,
 				'return' => $samaccountname)
 		);
@@ -121,7 +121,7 @@ class PreventEmailChangeTest extends BasicTest
 		$samaccountname = "testName";
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($user->ID, NEXT_AD_INT_PREFIX . 'samaccountname', true),
+				'args' => array($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => 1,
 				'return' => $samaccountname)
 		);
@@ -150,13 +150,13 @@ class PreventEmailChangeTest extends BasicTest
 		);
 		$samaccountname = "testName";
 
-		$_POST[NEXT_AD_INT_PREFIX . 'email_change'] = "someValue";
+		$_POST[NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'email_change'] = "someValue";
 
 		\WP_Mock::expectFilterAdded('send_password_change_email', '__return_false');
 		\WP_Mock::expectFilterAdded('send_email_change_email', '__return_false');
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($user->ID, NEXT_AD_INT_PREFIX . 'samaccountname', true),
+				'args' => array($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => 1,
 				'return' => $samaccountname)
 		);
@@ -218,7 +218,7 @@ class PreventEmailChangeTest extends BasicTest
 		);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
+				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => 1,
 				'return' => $samaccountname)
 		);
@@ -242,7 +242,7 @@ class PreventEmailChangeTest extends BasicTest
 		$userId = 1;
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($userId, NEXT_AD_INT_PREFIX . 'samaccountname', true),
+				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => 1,
 				'return' => '')
 		);
@@ -272,7 +272,7 @@ class PreventEmailChangeTest extends BasicTest
 		);
 
 		\WP_Mock::wpFunction('get_user_meta', array(
-				'args' => array($user->ID, NEXT_AD_INT_PREFIX . 'samaccountname', true),
+				'args' => array($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => 1,
 				'return' => 'TestUser')
 		);

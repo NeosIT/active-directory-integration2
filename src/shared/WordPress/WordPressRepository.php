@@ -13,7 +13,7 @@ class WordPressRepository
 {
 
 	/**
-	 * Add WordPress base_prefix and NEXT_AD_INT_PREFIX to the table name and returns it.
+	 * Add WordPress base_prefix andNEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX to the table name and returns it.
 	 *
 	 * @param string $name
 	 *
@@ -24,7 +24,7 @@ class WordPressRepository
 		global $wpdb;
 		$basePrefix = $wpdb->base_prefix;
 
-		return $basePrefix . NEXT_AD_INT_PREFIX . $name;
+		return $basePrefix .NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . $name;
 	}
 
 	/**

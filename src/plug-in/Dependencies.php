@@ -1117,7 +1117,7 @@ class Dependencies
 	{
 		if ($this->activeDirectoryContext == null) {
 			// factory callback to create a new context
-			add_filter(NEXT_AD_INT_PREFIX . 'create_dependency_active_directory_context', function ($instance, MultisiteConfigurationService $configuration) {
+			add_filter(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'create_dependency_active_directory_context', function ($instance, MultisiteConfigurationService $configuration) {
 				if (empty($instance)) {
 					$instance = new Context([$configuration->getOptionValue(Configuration\Options::DOMAIN_SID)]);
 				}
@@ -1125,7 +1125,7 @@ class Dependencies
 				return $instance;
 			}, 10, 2);
 
-			$this->activeDirectoryContext = apply_filters(NEXT_AD_INT_PREFIX . 'create_dependency_active_directory_context', null, $this->getMultisiteConfigurationService());
+			$this->activeDirectoryContext = apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'create_dependency_active_directory_context', null, $this->getMultisiteConfigurationService());
 		}
 
 		return $this->activeDirectoryContext;
