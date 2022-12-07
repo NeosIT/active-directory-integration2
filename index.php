@@ -110,3 +110,8 @@ function next_ad_int()
 {
 	return NextADInt_Adi_Dependencies::getInstance();
 }
+
+function next_ad_int_logger()
+{
+	return NextADInt_Core_Logger::getLogger();
+}
