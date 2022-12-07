@@ -167,7 +167,7 @@ class NadiLog
 	 * @param int|string $level
 	 * @return NullHandler
 	 */
-	public static function createNullHandler(int|string $level = Logger::DEBUG)
+	public static function createNullHandler($level = Logger::DEBUG)
 	{
 		return new NullHandler($level);
 	}
