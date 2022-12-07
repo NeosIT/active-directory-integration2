@@ -167,7 +167,7 @@ class AdLdap
 	/**
 	 * Version info
 	 */
-	const VERSION = '3.3.2 EXTENDED (20200626)';
+	const VERSION = '3.3.3 EXTENDED (20221201)';
 
 	/**
 	 * ADI-545 Debug information about LDAP Connection (DME)
@@ -851,6 +851,17 @@ class AdLdap
 	}
 
 	/**
+	 * Check, if an LDAP operation failed with a null|false result
+	 * @see #166
+	 * @param object|bool|null $result
+	 * @return bool
+	 */
+	public static function operation_failed($result)
+	{
+		return $result === null || $result === false;
+	}
+
+	/**
 	 * Return a list of groups in a group
 	 *
 	 * @param string $group The group to query
@@ -878,23 +889,31 @@ class AdLdap
 		for ($i = 0; $i < $groups["count"]; $i++) {
 			$filter = "(&(objectCategory=group)(distinguishedName=" . $this->ldap_slashes($groups[$i]) . "))";
 			$fields = array("samaccountname", "distinguishedname", "objectClass");
-			$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-			$entries = ldap_get_entries($this->_conn, $sr);
+
+			if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+				continue;
+			}
 
 			// not a person, look for a group
 			if ($entries['count'] == 0 && $recursive == true) {
 				$filter = "(&(objectCategory=group)(distinguishedName=" . $this->ldap_slashes($groups[$i]) . "))";
 				$fields = array("distinguishedname");
-				$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-				$entries = ldap_get_entries($this->_conn, $sr);
+
+				if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+					continue;
+				}
+
 				if (!isset($entries[0]['distinguishedname'][0])) {
 					continue;
 				}
+
 				$sub_groups = $this->groups_in_group($entries[0]['distinguishedname'][0], $recursive);
+
 				if (is_array($sub_groups)) {
 					$group_array = array_merge($group_array, $sub_groups);
 					$group_array = array_unique($group_array);
 				}
+
 				continue;
 			}
 
@@ -933,15 +952,22 @@ class AdLdap
 			do {
 				@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
 
-				$sr = ldap_search($this->_conn, $this->_base_dn, $filter, array('dn'));
-				$users_page = ldap_get_entries($this->_conn, $sr);
+				$sr = $this->_ldap_search($this->_base_dn, $filter, array('dn'));
 
-				if (!is_array($users_page)) {
+				if (self::operation_failed($sr)) {
+					// if ldap_search failed, we don't have a valid search result for ldap_control_paged_result_response
+					break;
+				}
+
+				$users_page = $this->_ldap_get_entries($sr);
+
+				if (self::operation_failed($users_page)) {
 					return false;
 				}
 
 				$users = array_merge($users, $users_page);
 				@ldap_control_paged_result_response($this->_conn, $sr, $cookie);
+
 
 			} while ($cookie !== null && $cookie != '');
 
@@ -952,11 +978,17 @@ class AdLdap
 		} else {
 
 			// Non-Paged version
-			$sr = ldap_search($this->_conn, $this->_base_dn, $filter, array('dn'));
-			$users = ldap_get_entries($this->_conn, $sr);
+			$sr = $this->_ldap_search($this->_base_dn, $filter, array('dn'));
+
+			// @see #166
+			if (self::operation_failed($sr)) {
+				return (false);
+			}
+
+			$users = $this->_ldap_get_entries($sr);
 		}
 
-		if (!is_array($users)) {
+		if (self::operation_failed($users)) {
 			return (false);
 		}
 
@@ -966,20 +998,22 @@ class AdLdap
 			$filter = "(&(objectCategory=person)(distinguishedName=" . $this->ldap_slashes($users[$i]['dn']) . "))";
 
 			$fields = array("samaccountname", "distinguishedname", "objectClass");
-			$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-			$entries = ldap_get_entries($this->_conn, $sr);
+
+			if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+				return false;
+			}
 
 			// not a person, look for a group
 			if ($entries['count'] == 0 && $recursive == true) {
 				$filter = "(&(objectCategory=group)(distinguishedName=" . $this->ldap_slashes($users[$i]['dn']) . "))";
 				$fields = array("samaccountname");
-				$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-				$entries = ldap_get_entries($this->_conn, $sr);
-				if (!isset($entries[0]['samaccountname'][0])) {
+
+				if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
 					continue;
 				}
 
 				$sub_users = $this->group_members($entries[0]['samaccountname'][0], $recursive);
+
 				if (is_array($sub_users)) {
 					$user_array = array_merge($user_array, $sub_users);
 					$user_array = array_unique($user_array);
@@ -1064,23 +1098,31 @@ class AdLdap
 		for ($i = 0; $i < $users["count"]; $i++) {
 			$filter = "(&(objectCategory=person)(distinguishedName=" . $this->ldap_slashes($users[$i]) . "))";
 			$fields = array("samaccountname", "distinguishedname", "objectClass");
-			$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-			$entries = ldap_get_entries($this->_conn, $sr);
+
+			if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+				continue;
+			}
 
 			// not a person, look for a group
 			if ($entries['count'] == 0 && $recursive == true) {
 				$filter = "(&(objectCategory=group)(distinguishedName=" . $this->ldap_slashes($users[$i]) . "))";
 				$fields = array("samaccountname");
-				$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-				$entries = ldap_get_entries($this->_conn, $sr);
+
+				if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+					continue;
+				}
+
 				if (!isset($entries[0]['samaccountname'][0])) {
 					continue;
 				}
+
 				$sub_users = $this->group_members($entries[0]['samaccountname'][0], $recursive);
+
 				if (is_array($sub_users)) {
 					$user_array = array_merge($user_array, $sub_users);
 					$user_array = array_unique($user_array);
 				}
+
 				continue;
 			}
 
@@ -1133,10 +1175,15 @@ class AdLdap
 			do {
 				@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
 
-				$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-				$entries_page = ldap_get_entries($this->_conn, $sr);
+				$sr = $this->_ldap_search($this->_base_dn, $filter, $fields);
 
-				if (!is_array($entries_page)) {
+				if (self::operation_failed($sr)) {
+					break;
+				}
+
+				$entries_page = $this->_ldap_get_entries($sr);
+
+				if (self::operation_failed($entries_page)) {
 					return (false);
 				}
 
@@ -1150,13 +1197,9 @@ class AdLdap
 			@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
 
 		} else {
-
-			// Non-Paged version
-			$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-			$entries = ldap_get_entries($this->_conn, $sr);
+			$entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields);
 		}
 
-		//print_r($entries);
 		return ($entries);
 	}
 
@@ -1250,10 +1293,13 @@ class AdLdap
 		$filter .= '(cn=' . $search . '))';
 		// Perform the search and grab all their details
 		$fields = array("samaccountname", "description");
-		$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-		$entries = ldap_get_entries($this->_conn, $sr);
+
+		if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+			return array();
+		}
 
 		$groups_array = array();
+
 		for ($i = 0; $i < $entries["count"]; $i++) {
 			if ($include_desc && strlen($entries[$i]["description"][0]) > 0) {
 				$groups_array[$entries[$i]["samaccountname"][0]] = $entries[$i]["description"][0];
@@ -1263,9 +1309,11 @@ class AdLdap
 				array_push($groups_array, $entries[$i]["samaccountname"][0]);
 			}
 		}
+
 		if ($sorted) {
 			asort($groups_array);
 		}
+
 		return ($groups_array);
 	}
 
@@ -1415,7 +1463,7 @@ class AdLdap
 	 *
 	 * @param string $username The username to delete (please be careful here!)
 	 * @param bool $isGUID Is the username a GUID or a samAccountName
-	 * @return array
+	 * @return array|boolean
 	 */
 	public function user_delete($username, $isGUID = false)
 	{
@@ -1434,7 +1482,7 @@ class AdLdap
 	 * @param string $username The username to query
 	 * @param bool $recursive Recursive list of groups
 	 * @param bool $isGUID Is the username passed a GUID or a samAccountName
-	 * @return array
+	 * @return array|boolean
 	 */
 	public function user_groups($username, $recursive = NULL, $isGUID = false)
 	{
@@ -1497,9 +1545,10 @@ class AdLdap
 		if (!in_array("objectsid", $fields)) {
 			$fields[] = "objectsid";
 		}
-		$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
 
-		$entries = ldap_get_entries($this->_conn, $sr);
+		if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+			return false;
+		}
 
 		if (isset($entries[0])) {
 			if ($entries[0]['count'] >= 1) {
@@ -1552,17 +1601,9 @@ class AdLdap
 		// iterate over each of the available parts
 		foreach ($distinguishedNameCandidates as $distinguishedName) {
 			// try to find the configuration below e.g. CN=Partitions,CN=Configuration,DC=sub,DC=test,DC=ad
-			$sr = $this->_ldap_search($distinguishedName, self::NETBIOS_MATCHER, array());
-
-			// handle error code 32, "No such object" when configuration partition can not be found by given DN
-			if (!$sr) {
-				continue;
-			}
-
-			$entries = $this->_ldap_get_entries($sr);
-
-			// if no entries are available, this is probably the wrong search tree. We move a level up (now: CN=Partitions,CN=Configuration,DC=sub,DC=test,DC=ad; next: CN=Partitions,CN=Configuration,DC=sub,DC=test,DC=ad)
-			if (!$entries) {
+			if (!($entries = $this->_ldap_search_and_retrieve($distinguishedName, self::NETBIOS_MATCHER, array()))) {
+				// case 1.: handle error code 32, "No such object" when configuration partition can not be found by given DN
+				// case 2.: if no entries are available, this is probably the wrong search tree. We move a level up (now: CN=Partitions,CN=Configuration,DC=sub,DC=test,DC=ad; next: CN=Partitions,CN=Configuration,DC=sub,DC=test,DC=ad)
 				continue;
 			}
 
@@ -1636,7 +1677,7 @@ class AdLdap
 	 * @param int $timelimit
 	 * @param int $deref
 	 * @param null $controls
-	 * @return array
+	 * @return LDAP\Result|array|false
 	 */
 	protected function _ldap_search($base, $filter, $attributes = [], int $attributes_only = 0, int $sizelimit = -1, int $timelimit = -1, int $deref = LDAP_DEREF_NEVER, $controls = null)
 	{
@@ -1644,13 +1685,44 @@ class AdLdap
 	}
 
 	/**
+	 * Delegates to <em>_ldap_search</em> and -if successful- <em>_ldap_get_entries</em>.
+	 *
+	 * @see #166
+	 * @param $base
+	 * @param $filter
+	 * @param array $attributes
+	 * @param int $attributes_only
+	 * @param int $sizelimit
+	 * @param int $timelimit
+	 * @param int $deref
+	 * @param null $controls
+	 * @return array|false
+	 */
+	protected function _ldap_search_and_retrieve($base, $filter, $attributes = [], int $attributes_only = 0, int $sizelimit = -1, int $timelimit = -1, int $deref = LDAP_DEREF_NEVER, $controls = null)
+	{
+		$result = $this->_ldap_search($base, $filter, $attributes, $attributes_only, $sizelimit, $timelimit, $deref, $controls);
+
+		if (self::operation_failed($result)) {
+			return false;
+		}
+
+		$entries = $this->_ldap_get_entries($result);
+
+		if (self::operation_failed($result)) {
+			return false;
+		}
+
+		return $entries;
+	}
+
+	/**
 	 * Determine if a user is in a specific group
 	 *
 	 * @param string $username The username to query
 	 * @param string $group The name of the group to check against
-	 * @param bool $recursive Check groups recursively
-	 * @param bool $isGUID Is the username passed a GUID or a samAccountName
-	 * @return bool
+	 * @param boolean $recursive Check groups recursively
+	 * @param boolean $isGUID Is the username passed a GUID or a samAccountName
+	 * @return boolean
 	 */
 	public function user_ingroup($username, $group, $recursive = NULL, $isGUID = false)
 	{
@@ -1956,8 +2028,10 @@ class AdLdap
 		// Perform the search and grab all their details
 		$filter = "(&(objectClass=user)(samaccounttype=" . ADLDAP_NORMAL_ACCOUNT . ")(objectCategory=person)(cn=" . $search . "))";
 		$fields = array("samaccountname", "displayname");
-		$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-		$entries = ldap_get_entries($this->_conn, $sr);
+
+		if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+			return array();
+		}
 
 		$users_array = array();
 		for ($i = 0; $i < $entries["count"]; $i++) {
@@ -1992,7 +2066,12 @@ class AdLdap
 
 		$filter = "samaccountname=" . $username;
 		$fields = array("objectGUID");
-		$sr = @ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
+		$sr = $this->_ldap_search($this->_base_dn, $filter, $fields);
+
+		if (self::operation_failed($sr)) {
+			return false;
+		}
+
 		if (ldap_count_entries($this->_conn, $sr) > 0) {
 			$entry = @ldap_first_entry($this->_conn, $sr);
 			$guid = @ldap_get_values_len($this->_conn, $entry, 'objectGUID');
@@ -2144,8 +2223,10 @@ class AdLdap
 		if ($fields === NULL) {
 			$fields = array("distinguishedname", "mail", "memberof", "department", "displayname", "telephonenumber", "primarygroupid", "objectsid");
 		}
-		$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-		$entries = ldap_get_entries($this->_conn, $sr);
+
+		if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+			return array();
+		}
 
 		if ($entries[0]['count'] >= 1) {
 			// AD does not return the primary group in the ldap query, we may need to fudge it
@@ -2257,8 +2338,10 @@ class AdLdap
 		// Perform the search and grab all their details
 		$filter = "(&(objectClass=contact)(cn=" . $search . "))";
 		$fields = array("displayname", "distinguishedname");
-		$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-		$entries = ldap_get_entries($this->_conn, $sr);
+
+		if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+			return array();
+		}
 
 		$users_array = array();
 		for ($i = 0; $i < $entries["count"]; $i++) {
@@ -2340,13 +2423,16 @@ class AdLdap
 		}
 
 		if ($recursive === true) {
-			$sr = ldap_search($this->_conn, $searchou, $filter, array('objectclass', 'distinguishedname', 'samaccountname'));
-			$entries = @ldap_get_entries($this->_conn, $sr);
-			if (is_array($entries)) {
+			if ($entries = $this->_ldap_search_and_retrieve($searchou, $filter, array('objectclass', 'distinguishedname', 'samaccountname'))) {
 				return $entries;
 			}
 		} else {
 			$sr = ldap_list($this->_conn, $searchou, $filter, array('objectclass', 'distinguishedname', 'samaccountname'));
+
+			if (!$sr) {
+				return false;
+			}
+
 			$entries = @ldap_get_entries($this->_conn, $sr);
 			if (is_array($entries)) {
 				return $entries;
@@ -2379,10 +2465,8 @@ class AdLdap
 		if ($fields === NULL) {
 			$fields = array("memberof", "cn", "displayname", "dnshostname", "distinguishedname", "objectcategory", "operatingsystem", "operatingsystemservicepack", "operatingsystemversion");
 		}
-		$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-		$entries = ldap_get_entries($this->_conn, $sr);
 
-		return ($entries);
+		return $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields);
 	}
 
 	/**
@@ -2833,9 +2917,8 @@ class AdLdap
 		}
 
 		$configurationNamingContext = $this->get_root_dse(array('configurationnamingcontext'));
-		$sr = @ldap_search($this->_conn, $configurationNamingContext[0]['configurationnamingcontext'][0], '(&(objectCategory=msExchExchangeServer))', $attributes);
-		$entries = @ldap_get_entries($this->_conn, $sr);
-		return $entries;
+
+		return $this->_ldap_search_and_retrieve($configurationNamingContext[0]['configurationnamingcontext'][0], '(&(objectCategory=msExchExchangeServer))', $attributes);
 	}
 
 	/**
@@ -2859,8 +2942,10 @@ class AdLdap
 		}
 
 		$filter = '(&(objectCategory=msExchStorageGroup))';
-		$sr = @ldap_search($this->_conn, $exchangeServer, $filter, $attributes);
-		$entries = @ldap_get_entries($this->_conn, $sr);
+
+		if (!($entries = $this->_ldap_search_and_retrieve($exchangeServer, $filter, $attributes))) {
+			return false;
+		}
 
 		if ($recursive === true) {
 			for ($i = 0; $i < $entries['count']; $i++) {
@@ -2888,9 +2973,8 @@ class AdLdap
 		}
 
 		$filter = '(&(objectCategory=msExchPrivateMDB))';
-		$sr = @ldap_search($this->_conn, $storageGroup, $filter, $attributes);
-		$entries = @ldap_get_entries($this->_conn, $sr);
-		return $entries;
+
+		return $this->_ldap_search_and_retrieve($storageGroup, $filter, $attributes);
 	}
 
 	//************************************************************************************************************
@@ -3141,8 +3225,10 @@ class AdLdap
 
 		$filter = "(&(objectCategory=group)(samaccounttype=" . ADLDAP_SECURITY_GLOBAL_GROUP . "))";
 		$fields = array("primarygrouptoken", "samaccountname", "distinguishedname");
-		$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-		$entries = ldap_get_entries($this->_conn, $sr);
+
+		if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+			return false;
+		}
 
 		for ($i = 0; $i < $entries["count"]; $i++) {
 			if ($entries[$i]["primarygrouptoken"][0] == $gid) {
@@ -3175,8 +3261,10 @@ class AdLdap
 		$gsid = substr_replace($usersid, pack('V', $gid), strlen($usersid) - 4, 4);
 		$filter = '(objectsid=' . self::convertBinarySidToString($gsid) . ')';
 		$fields = array("samaccountname", "distinguishedname");
-		$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
-		$entries = ldap_get_entries($this->_conn, $sr);
+
+		if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+			return false;
+		}
 
 		// https://github.com/NeosIT/active-directory-integration2/issues/16
 		if ($entries['count'] >= 1) {
@@ -3594,14 +3682,10 @@ class AdLdap
 	{
 		$filter = "(&(objectCategory=user)(proxyAddresses~=smtp:" . $proxyAddress . "))";
 		$fields = array("samaccountname");
-		$sr = ldap_search($this->_conn, $this->_base_dn, $filter, $fields);
 
-		// #146: if search failed, $sr will be false and we have to return
-		if ($sr === FALSE) {
-			return FALSE;
+		if (!($entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields))) {
+			return false;
 		}
-
-		$entries = ldap_get_entries($this->_conn, $sr);
 
 		// Return false if we didn't find exactly one entry.
 		if ($entries['count'] == 0 || $entries['count'] > 1) {
