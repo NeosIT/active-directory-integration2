@@ -10,5 +10,6 @@ test-*.bat
 ant-*.bat
 /.project
 vendor
+vendor-repackaged
 !vendor/adLDAP
 vendor-repackaged
