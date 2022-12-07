@@ -6,6 +6,9 @@ if (!defined('ABSPATH')) {
 
 define('NEXT_AD_INT_PLUGIN_VERSION', '2.0');
 define('NEXT_AD_INT_PREFIX', 'next_ad_int_');
+// make premium extensions compat
+define('NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX', NEXT_AD_INT_PREFIX);
+
 define('NEXT_AD_INT_PATH', dirname(__FILE__));
 define('NEXT_AD_INT_URL', plugins_url('', __FILE__));
 define('NEXT_AD_INT_PLUGIN_FILE', plugin_basename(NEXT_AD_INT_PATH . '/index.php'));

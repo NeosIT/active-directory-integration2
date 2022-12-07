@@ -68,37 +68,7 @@ add_action('set_current_user', array($adiPlugin, 'run'));
 // the loading of the menu happens to early
 add_action('set_current_user', array($adiPlugin, 'runMultisite'));
 
-function prefix_plugin_update_message($plugin_data, $response)
-{
-	/*
-	if (version_compare('3.0.0', $plugin_data['new_version'], '>') || version_compare('3.0.0', $plugin_data['Version'], '<=')) {
-		return;
-	}*/
-
-	$update_notice = '</p><div class="wc_plugin_upgrade_notice">';
-
-	$summary = 'https://active-directory-wp.com/2022/12/02/important-breaking-changes-with-nadi-3-0-0/';
-	$milestone = 'https://github.com/NeosIT/active-directory-integration2/milestone/11';
-
-	$update_notice .= sprintf(__('<strong>Warning!</strong> Upcoming version 3.0.0 of Next Active Directory Integration requires PHP 8.0 to work. <br />Please read the <a href="%s">major version\'s summary</a> and the full <a href="%s">milestone description</a> carefully.'), $summary, $milestone);
-	$affectedPremiumExtensions = array();
-
-	foreach (get_plugins() as $path => $plugin) {
-		if (strpos($path, 'nadiext') !== FALSE || (isset($plugin['Name']) && (strpos($plugin['Name'], 'Next Active Directory Integration:') !== FALSE))) {
-			$affectedPremiumExtensions[] = $plugin['Name'];
-		}
-	}
-
-	if (sizeof($affectedPremiumExtensions) > 0) {
-		$update_notice .= sprintf(__('<br /><br />Furthermore, the following NADI Premium Extensions require a mandatory upgrade to be usable with NADI 3.0.0 and later: <ul><li>%s</li></ul> '), implode("</li><li>", $affectedPremiumExtensions));
-	}
-
-	$update_notice .= '</div>';
-
-	echo wp_kses_post($update_notice);
-}
-
-add_action('in_plugin_update_message-next-active-directory-integration/index.php', 'prefix_plugin_update_message', 10, 2);
+require_once(__DIR__ . '/v3-upgrade-preparation.php');
 
 /**
  * Global accessor for Next ADI dependencies.
