@@ -5,7 +5,7 @@ function nadi_v3_upgrade_message()
 	$summary = 'https://active-directory-wp.com/2022/12/02/important-breaking-changes-with-nadi-3-0-0/';
 	$milestone = 'https://github.com/NeosIT/active-directory-integration2/milestone/11';
 
-	$r = sprintf(__('<strong>Warning!</strong> The next version 3.0.0 of Next Active Directory Integration requires PHP 8.0 to work. Version 3.0.0 will be released around March 1st, 2023.<br />Please read the <a href="%s">next major version\'s summary</a> and the full <a href="%s">milestone description</a> carefully.'), $summary, $milestone);
+	$r = sprintf(__('<strong>Warning!</strong> The upcoming major version 3.0.0 of Next Active Directory Integration requires PHP 8.0 to work. Version 3.0.0 will be released around March 1st, 2023.<br />Please read the <a href="%s">next major version\'s summary</a> and the full <a href="%s">milestone description</a> carefully.'), $summary, $milestone);
 	$affectedPremiumExtensions = array();
 
 	foreach (get_plugins() as $path => $plugin) {
@@ -28,11 +28,17 @@ function nadi_v3_must_prepare($plugin_data)
 		return true;
 	}
 
-	if (version_compare('3.0.0', $plugin_data['new_version'], '>') || version_compare('3.0.0', $plugin_data['Version'], '<=')) {
-		return false;
+	$newVersion = $plugin_data['new_version'];
+	$newVersionIsMajorUpgrade = version_compare('3.0.0', $newVersion, '>=');
+
+	$installedVersion = $plugin_data['Version'];
+	$installedVersionIsBeforeMajorUpgrade = version_compare($installedVersion, '3.0.0',  '<');
+
+	if ($newVersionIsMajorUpgrade && $installedVersionIsBeforeMajorUpgrade) {
+		return true;
 	}
 
-	return true;
+	return false;
 }
 
 function nadi_v3_single_site_notification($plugin_data, $response)
