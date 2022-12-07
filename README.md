@@ -52,12 +52,7 @@ git push origin ${VERSION}
 4. `git checkout develop` and prepend the `= UNRELEASED =` header in the `readme.txt` changelog section
 ```bash
 git add readme.txt
-git commit -m "release: preparation for next release"
-git push origin develop
-```
-
-5. Push the changes in the `develop` branch
-```bash
+git commit -s -m "release: preparation for next release"
 git push origin develop
 ```
 
