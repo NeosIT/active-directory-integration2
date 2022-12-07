@@ -398,3 +398,9 @@ For detailed information you can visit the official [GitHub repository of Next A
 
 = 1.x (Active Directory Integration) =
 * deprecated and no further development
+
+== Upgrade Notice ==
+
+= 3.0.0 =
+
+= 2.3.6 =
