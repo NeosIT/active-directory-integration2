@@ -52,4 +52,7 @@ foreach ($mapNamespacesToSourceDirectories as $namespace => $sourceDirectory) {
 	});
 }
 
+// fallback to grant compatability for premium extensions
+require_once __DIR__ . '/src/compat-v2/stubs.php';
+
 define("NADI_PACKAGES_LOADED", true);

@@ -2,9 +2,6 @@
 
 namespace Dreitier\Nadi\Log;
 
-
-use Dreitier\Nadi\Vendor\Monolog\Logger;
-use Dreitier\Nadi\Vendor\Monolog\Logger as MonologLogger;
 use Dreitier\Nadi\Vendor\Monolog\Registry;
 use Dreitier\Nadi\Vendor\Monolog\Handler\NullHandler;
 use Dreitier\Nadi\Vendor\Monolog\Processor\IntrospectionProcessor;
@@ -22,7 +19,7 @@ use Dreitier\Util\Logger\Handlers\FrontendLogHandler;
  */
 class NadiLog
 {
-	/* @var \Monolog\Logger */
+	/* @var Logger */
 	private static $logger;
 
 	/**
@@ -60,7 +57,7 @@ class NadiLog
 		}
 
 		// We are pushing a NullHandler in order to catch messages thrown before the streamHandler is initialized
-		$nullHandler = new NullHandler(MonologLogger::DEBUG);
+		$nullHandler = new NullHandler(Logger::DEBUG);
 
 		if (null != self::$logger) {
 			return;
@@ -110,7 +107,7 @@ class NadiLog
 		$frontendLogHandler = self::createFrontendHandler();
 
 		// Create Processor to collect information like className, methodName, line... etc
-		$processor = new IntrospectionProcessor(MonologLogger::DEBUG);
+		$processor = new IntrospectionProcessor(Logger::DEBUG);
 
 		// Push Handlers
 		self::$logger->pushHandler($streamHandler);
@@ -150,7 +147,7 @@ class NadiLog
 	public static function createStreamHandler($loggingPath)
 	{
 		// Create Handlers
-		$streamHandler = new StreamHandler($loggingPath . 'nadi-debug.log', MonologLogger::DEBUG);
+		$streamHandler = new StreamHandler($loggingPath . 'nadi-debug.log', Logger::DEBUG);
 
 		// Formats
 		$outputFile = "%datetime% [%level_name%] %extra.class%::%extra.function% [line %extra.line%] %message%\n";
@@ -165,12 +162,23 @@ class NadiLog
 	}
 
 	/**
+	 * Create a new null handler
+	 *
+	 * @param int|string $level
+	 * @return NullHandler
+	 */
+	public static function createNullHandler(int|string $level = Logger::DEBUG)
+	{
+		return new NullHandler($level);
+	}
+
+	/**
 	 * @return FrontendLogHandler
 	 */
 	public static function createFrontendHandler()
 	{
 		// Create Handlers
-		$frontendHandler = new FrontendLogHandler(MonologLogger::DEBUG);
+		$frontendHandler = new FrontendLogHandler(Logger::DEBUG);
 
 		// Formats
 		$outputFrontend = "%datetime% [%level_name%] %extra.class%::%extra.function% [line %extra.line%] %message%";
@@ -355,13 +363,13 @@ class NadiLog
 		}
 
 		// Creating new Frontend Only Logger and set it as main logger
-		self::$logger = new MonologLogger(self::MAIN_LOGGER);
+		self::$logger = new Logger(self::MAIN_LOGGER);
 
 		// Create Handlers
 		$frontendLogHandler = self::createFrontendHandler();
 
 		// Create Processor to collect information like className, methodName, line... etc
-		$processor = new IntrospectionProcessor(MonologLogger::DEBUG);
+		$processor = new IntrospectionProcessor(Logger::DEBUG);
 
 		// Push Handlers
 		self::$logger->pushHandler($frontendLogHandler);

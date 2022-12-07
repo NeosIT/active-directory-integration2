@@ -275,6 +275,15 @@ class Dependencies
 	}
 
 	/**
+	 * This is required for compatibility reasons with old Premium Extensions (e.g. nadiext-buddypress-simpleattributes).
+	 *
+	 * @return LdapAttributeRepository
+	 */
+	public function getAttributeRepository() {
+		return $this->getLdapAttributeRepository();
+	}
+
+	/**
 	 * @var LdapAttributeService
 	 */
 	private $ldapAttributeService = null;
