@@ -1682,6 +1682,11 @@ class adLDAP
 	 */
 	protected function _ldap_search($base, $filter, $attributes = [], int $attributes_only = 0, int $sizelimit = -1, int $timelimit = -1, int $deref = LDAP_DEREF_NEVER, $controls = null)
 	{
+		// #171: $controls can only be null with PHP >= 8.0. PHP 7.4 expects a parameter. No need to cherry-pick this in NADI 3.x
+		if (!$controls) {
+			$controls = array();
+		}
+
 		return ldap_search($this->_conn, $base, $filter, $attributes, $attributes_only, $sizelimit, $timelimit, $deref, $controls);
 	}
 
