@@ -126,6 +126,8 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
+= UNRELEASED =
+
 = 2.3.7 =
 * FIXED: ldap_search fails on PHP 7.4 (#171)
 
