@@ -7,8 +7,9 @@
 /.wordpress-org
 /.generatedJUnitFiles
 /.phplint.yml
+/DOCKER_ENV
 /build
-/docker_tag export-ignore
+/docker_tag
 /output.log
 /Jenkinsfile
 /phpdox.xml
