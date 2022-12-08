@@ -8,6 +8,7 @@
 /.generatedJUnitFiles export-ignore
 /.phplint.yml export-ignore
 /build export-ignore
+/DOCKER_ENV export-ignore
 /docker_tag export-ignore
 /output.log export-ignore
 /phpunit.xml export-ignore
