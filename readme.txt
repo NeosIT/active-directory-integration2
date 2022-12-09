@@ -1,5 +1,5 @@
 ﻿=== Next Active Directory Integration ===
-Contributors: neosit,tobi823,fatsquirrel,schakko,medan123
+Contributors: dreitier,dreitierci,schakko,neosit
 Tags: authentication, active directory, ldap, ldaps, authorization, security, windows, sso, login, domain, controller
 Requires at least: 5.6
 Tested up to: 6.1
