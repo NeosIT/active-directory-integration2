@@ -128,6 +128,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 
 = UNRELEASED_V3 =
 * FIXED: Usage of custom auto-loader and strauss to prevent conflicting namespaces (#165)
+* FIXED: Detect and use constant NEXT_ACTIVE_DIRECTORY_INTEGRATION_ENCRYPTION_KEY to be able to change WordPress' AUTH_SALT (#173)
 * CHANGED: Upgraded monolog/monolog to 2.8.0 to make NADI working with WP-Rocket (#169)
 * CHANGED: PHP 8.0 runtime is now required (#170)
 

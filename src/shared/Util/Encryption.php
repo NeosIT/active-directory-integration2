@@ -9,7 +9,7 @@ use Dreitier\Nadi\Vendor\Monolog\Logger;
 /**
  * Provides methods to encrypt and decrypt
  * credentials e.g for the synchronization between WordPress and Active Directory users.
- * This class uses the defuse/php-encryption library and is PHP 7.1 compatible.
+ * This class uses the defuse/php-encryption library and is compatible with PHP 8.1.
  * Link to the library https://github.com/defuse/php-encryption
  *
  * @author Tobias Hellmann <the@neos-it.de>
@@ -29,11 +29,18 @@ class Encryption
 	 * Return `AUTH_SALT` constant or an empty string if not defined.
 	 * This has been added to make NADI compatible with newer PHP versions and WordPress installation in which `AUTH_SALT` is not defined.
 	 *
+	 * To be able to change the `AUTH_SALT`, one can define a key `NEXT_ACTIVE_DIRECTORY_INTEGRATION_ENCRYPTION_KEY` with the old `AUTH_SALT`.
+	 *
 	 * @issue #164
+	 * @issue #173
 	 * @see https://github.com/NeosIT/active-directory-integration2/issues/164
 	 */
 	public static function getSalt()
 	{
+		if (defined('NEXT_ACTIVE_DIRECTORY_INTEGRATION_ENCRYPTION_KEY')) {
+			return NEXT_ACTIVE_DIRECTORY_INTEGRATION_ENCRYPTION_KEY;
+		}
+
 		if (defined('AUTH_SALT')) {
 			return AUTH_SALT;
 		}
