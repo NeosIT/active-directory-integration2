@@ -71,10 +71,14 @@ class Ut_NextADInt_Core_EncryptionTest extends Ut_BasicTest
 
 		$this->assertEquals($expected, $plainText);
 	}
-	
+
 	/**
+	 * This test runs in a separate process to not interfere with already defined constants in previous tests (GH_173...)
+	 *
 	 * @test
 	 * @issue #164
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function GH_164_when_AUTH_SALT_isPresent_itIsUsedToDecrypt()
 	{
@@ -89,7 +93,30 @@ class Ut_NextADInt_Core_EncryptionTest extends Ut_BasicTest
 		$this->assertNotEquals(self::ENCRYPTED_STRING_WITHOUT_AUTH_SALT, $plainText);
 		$this->assertEquals($expected, $plainText);
 	}
-	
+
+	/**
+	 * This test runs in a separate process to not interfere with already defined constants in previous tests (GH_164...)
+	 *
+	 * @test
+	 * @issue #173
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function GH_173_when_NEXT_ACTIVE_DIRECTORY_INTEGRATION_ENCRYPTION_KEY_isPresent_itHasPrecedenceOver_AUTH_SALT()
+	{
+		// assume, that AUTH_SALT has been defined
+		define("AUTH_SALT", "new_auth_salt");
+		// instead of using AUTH_SALT, we use our constant
+		define("NEXT_ACTIVE_DIRECTORY_INTEGRATION_ENCRYPTION_KEY", "qwerty");
+
+		$expected = self::UNENCRYPTED_STRING;
+		// $encryptedString = $this->encryptionHandler->encrypt($expected);
+		$encryptedString = 'def50200978836f1b920fe1ea637796dc2fb43d867a3f023a3d5d5772d254371a9188a77b94f7031b0467aef74ba68dd774ef069718753b0e0dce39749caf64fd0275d38292646a4aaf04f85424dbc57a8bc5b7a51cfb3f5814d750ff96c2e';
+
+		$plainText = $this->encryptionHandler->decrypt($encryptedString);
+		$this->assertEquals($expected, $plainText);
+	}
+
 	/**
 	 * @test
 	 */

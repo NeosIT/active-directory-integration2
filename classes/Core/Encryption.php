@@ -1,11 +1,9 @@
 <?php
-if ( ! defined( 'ABSPATH' ) )
-{
-	die( 'Access denied.' );
+if (!defined('ABSPATH')) {
+	die('Access denied.');
 }
 
-if ( class_exists( 'NextADInt_Core_Encryption' ) )
-{
+if (class_exists('NextADInt_Core_Encryption')) {
 	return;
 }
 
@@ -32,17 +30,25 @@ class NextADInt_Core_Encryption
 	 * Return `AUTH_SALT` constant or an empty string if not defined.
 	 * This has been added to make NADI compatible with newer PHP versions and WordPress installation in which `AUTH_SALT` is not defined.
 	 *
+	 * To be able to change the `AUTH_SALT`, one can define a key `NEXT_ACTIVE_DIRECTORY_INTEGRATION_ENCRYPTION_KEY` with the old `AUTH_SALT`.
+	 *
 	 * @issue #164
+	 * @issue #173
 	 * @see https://github.com/NeosIT/active-directory-integration2/issues/164
 	 */
-	public static function getSalt() {
+	public static function getSalt()
+	{
+		if (defined('NEXT_ACTIVE_DIRECTORY_INTEGRATION_ENCRYPTION_KEY')) {
+			return NEXT_ACTIVE_DIRECTORY_INTEGRATION_ENCRYPTION_KEY;
+		}
+
 		if (defined('AUTH_SALT')) {
 			return AUTH_SALT;
 		}
-		
+
 		return '';
 	}
-	
+
 	/**
 	 * This method will encrypt the $plainText and return the encrypted text.
 	 *
@@ -50,17 +56,15 @@ class NextADInt_Core_Encryption
 	 *
 	 * @return string
 	 */
-	public function encrypt( $plainText )
+	public function encrypt($plainText)
 	{
 		$password = 'Next Active Directory Integration' . self::getSalt();
 
-		try
-		{
-			$encryptedText = Defuse\Crypto\Crypto::encryptWithPassword( $plainText, $password );
-		} catch ( Exception $e )
-		{
+		try {
+			$encryptedText = Defuse\Crypto\Crypto::encryptWithPassword($plainText, $password);
+		} catch (Exception $e) {
 			// prevent the PHP stack trace display by catching all exception because the stack trace can contain the $password.
-			$this->logger->warning( 'Plain text can not be encrypted. ' . $e->getMessage());
+			$this->logger->warning('Plain text can not be encrypted. ' . $e->getMessage());
 
 			return false;
 		}
@@ -75,22 +79,20 @@ class NextADInt_Core_Encryption
 	 *
 	 * @return string
 	 */
-	public function decrypt( $encryptedText )
+	public function decrypt($encryptedText)
 	{
 		$password = 'Next Active Directory Integration' . self::getSalt();
 
 		// do not decrypt empty texts
-        if (!$encryptedText) {
-            return false;
-        }
+		if (!$encryptedText) {
+			return false;
+		}
 
-		try
-		{
-			$plainText = Defuse\Crypto\Crypto::decryptWithPassword( $encryptedText, $password );
-		} catch ( Exception $e )
-		{
+		try {
+			$plainText = Defuse\Crypto\Crypto::decryptWithPassword($encryptedText, $password);
+		} catch (Exception $e) {
 			// prevent the PHP stack trace display by catching all exception because the stack trace can contain the $password.
-			$this->logger->warn( 'Encrypted text "' . $encryptedText . '" can not be decrypted. ' . $e->getMessage());
+			$this->logger->warn('Encrypted text "' . $encryptedText . '" can not be decrypted. ' . $e->getMessage());
 
 			return false;
 		}
