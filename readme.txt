@@ -127,6 +127,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* FIXED: Include PHP 8.2 into test suite (#175)
 
 = 3.0.0 =
 * FIXED: Usage of custom auto-loader and strauss to prevent conflicting namespaces (#165)
