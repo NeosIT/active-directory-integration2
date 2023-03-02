@@ -44,14 +44,18 @@ To create a new release, do the following:
 2. Switch the `= UNRELEASED =` header in `readme.txt`'s changelog section to `${VERSION}`.
 3. Create and push the new tag
 ```bash
+git add readme.txt
+git commit -s -m "release: 3.${MINOR}.${BUGFIX}"
 git tag -s -a 3.${MINOR}.${BUGFIX} -m "release: 3.${MINOR}.${BUGFIX}"
 git push origin 3.${MINOR}.${BUGFIX}
 ```
 
-4. `git checkout develop` and prepend the `= UNRELEASED =` header in the `readme.txt` changelog section
+4. `git checkout develop && git merge main`
+5. Prepend the `= UNRELEASED =` header in the `readme.txt` changelog section
+6. Push development branch
 ```bash
 git add readme.txt
-git commit -m "release: preparation for next release"
+git commit -s -m "release: preparation for next release"
 git push origin develop
 ```
 
