@@ -2,7 +2,7 @@ name: Official v3.* release on wordpress.org
 on:
   push:
     tags:
-      # only when an official tag is defined for v2
+      # only when an official tag is defined for v3
       - '3.[0-9]+.[0-9]+'
 
 jobs:
