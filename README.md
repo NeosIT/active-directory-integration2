@@ -35,8 +35,8 @@ chore: some dependency update
 
 ### Release process
 When releasing a new version, the changes from `develop` must be merged to `main`. 
-The `main` version must be tagged accordingly (`${MAJOR}.${MINOR}.${BUGFIX}`) where `${MAJOR}` is __2__. After tagging, the tag has to be pushed. 
-A new 2.x-tag is automatically tested, gets then pushed to wordpress.org and will be automatically released.
+The `main` version must be tagged accordingly (`${MAJOR}.${MINOR}.${BUGFIX}`) where `${MAJOR}` is __3__. After tagging, the tag has to be pushed. 
+A new 3.x-tag is automatically tested, gets then pushed to wordpress.org and will be automatically released.
 
 To create a new release, do the following:
 
@@ -44,8 +44,8 @@ To create a new release, do the following:
 2. Switch the `= UNRELEASED =` header in `readme.txt`'s changelog section to `${VERSION}`.
 3. Create and push the new tag
 ```bash
-git tag -s -a 2.${MINOR}.${BUGFIX} -m "release: 2.${MINOR}.${BUGFIX}"
-git push origin 2.${MINOR}.${BUGFIX}
+git tag -s -a 3.${MINOR}.${BUGFIX} -m "release: 3.${MINOR}.${BUGFIX}"
+git push origin 3.${MINOR}.${BUGFIX}
 ```
 
 4. `git checkout develop` and prepend the `= UNRELEASED =` header in the `readme.txt` changelog section
@@ -56,11 +56,11 @@ git push origin develop
 ```
 
 ### Pre-release
-For pre-releases, a new tag must be created which is __not__ `2.[\d+].[\d+]`:
+For pre-releases, a new tag must be created which is __not__ `[2-3].[\d+].[\d+]`:
 
 ```
-git tag -s -a v3-rc1 -m "pre-release: v3-rc1"
-git push origin v3-rc1
+git tag -s -a v4-rc1 -m "pre-release: v3-rc1"
+git push origin v4-rc1
 ```
 
 ### Referencing issues
