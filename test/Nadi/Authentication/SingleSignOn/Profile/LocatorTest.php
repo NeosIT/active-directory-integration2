@@ -5,6 +5,7 @@ namespace Dreitier\Nadi\Authentication\SingleSignOn\Profile;
 use Dreitier\Nadi\Authentication\Credentials;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTest;
+use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Util;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -13,6 +14,9 @@ class LocatorTest extends BasicTest
 {
 	/* @var Service|MockObject $configuration */
 	private $configuration;
+
+	/** @var \Mockery\MockInterface|Native  */
+	private $native;
 
 	public function setUp(): void
 	{

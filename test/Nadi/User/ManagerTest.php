@@ -55,7 +55,7 @@ class ManagerTest extends BasicTest
 	{
 		parent::setUp();
 
-		$this->wpUser = $this->createMock(\WP_User::class);
+		$this->wpUser = new \WP_User();
 
 		$this->configuration = $this->createMock(Service::class);
 		$this->attributeService = $this->createMock(\Dreitier\Ldap\Attribute\Service::class);
@@ -313,7 +313,7 @@ class ManagerTest extends BasicTest
 	{
 		$sut = $this->sut(array('findByActiveDirectoryUsername'));
 
-		$wpUser = $this->createMock(\WP_User::class);
+		$wpUser = new \WP_User();
 		$wpUser->ID = 1;
 		$wpUser->user_login = 'username';
 

@@ -96,7 +96,7 @@ class RepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(array('update'));
 
-		$wpUser = $this->createMock(\WP_User::class);
+		$wpUser = new \WP_User();
 		$wpUser->user_login = 'user_login';
 		$wpUser->user_email = 'user_email';
 		$wpUser->ID = 1;
@@ -119,7 +119,7 @@ class RepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(array('update', 'delete'));
 
-		$wpUser = $this->createMock(\WP_User::class);
+		$wpUser = new \WP_User();
 		$wpUser->ID = 1;
 
 		$sut->expects($this->exactly(2))

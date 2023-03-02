@@ -92,35 +92,39 @@ if (!defined('ABSPATH')) {
 
 	class WP_User
 	{
-		public $data;
+		private array $data = [];
 
 		public function __construct()
 		{
-			$this->data = (object)array(
+			$this->data = [
 				'user_login' => 'hugo',
 				'user_email' => 'hugo@test.ad',
 				'ID' => '666'
-			);
+			];
 		}
 
 		public function __get($name)
 		{
-			return $this->data->$name;
+			return $this->data[$name] ?? null;
+		}
+
+		public function __set(string $property, mixed $value) {
+			$this->data[$property] = $value;
 		}
 
 		public function setExpectedUserLogin($expected)
 		{
-			$this->data->user_login = $expected;
+			$this->data['user_login'] = $expected;
 		}
 
 		public function setExpectedUserEmail($expected)
 		{
-			$this->data->user_email = $expected;
+			$this->data['user_email'] = $expected;
 		}
 
 		public function setID($expected)
 		{
-			$this->data->ID = $expected;
+			$this->data['ID'] = $expected;
 		}
 	}
 

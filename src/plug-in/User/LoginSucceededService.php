@@ -37,7 +37,7 @@ class LoginSucceededService
 	private $ldapConnection;
 
 	/** @var \Dreitier\WordPress\Multisite\Configuration\Service $multisiteConfigurationService */
-	private $multisiteConfigurationService;
+	private $configuration;
 
 	/**
 	 * @param LoginState $loginState
