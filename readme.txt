@@ -126,6 +126,8 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
+= UNRELEASED =
+
 = 3.0.1 =
 * FIXED: Include PHP 8.2 into test suite (#175)
 * FIXED: class ShowSingleSignOnLink not found (#176)
