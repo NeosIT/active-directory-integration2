@@ -135,6 +135,9 @@ For detailed information you can visit the official [GitHub repository of Next A
 = 2.3.8 =
 * FIXED: Detect and use constant NEXT_ACTIVE_DIRECTORY_INTEGRATION_ENCRYPTION_KEY to be able to change WordPress' AUTH_SALT (#173)
 
+= 2.3.7 =
+* FIXED: ldap_search fails on PHP 7.4 (#171)
+
 = 2.3.6 =
 * FIXED: With PHP 8.1, ldap_get_entries expects an LDAP\Result instance as second parameter (#166)
 * FIXED: Deprecation warning when Test Authentication is triggered with PHP 8.1 (#168)
