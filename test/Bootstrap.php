@@ -92,7 +92,7 @@ if (!defined('ABSPATH')) {
 
 	class WP_User
 	{
-		private array $data = [];
+		private $data = [];
 
 		public function __construct()
 		{
