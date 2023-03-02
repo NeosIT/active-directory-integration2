@@ -132,8 +132,14 @@ For detailed information you can visit the official [GitHub repository of Next A
 * CHANGED: Upgraded monolog/monolog to 2.8.0 to make NADI working with WP-Rocket (#169)
 * CHANGED: PHP 8.0 runtime is now required (#170)
 
-= UNRELEASED =
-* FIXED: Deprecation warning when Test Authentication is triggered with PHP 8.1 (#168) 
+= 2.3.8 =
+* FIXED: Detect and use constant NEXT_ACTIVE_DIRECTORY_INTEGRATION_ENCRYPTION_KEY to be able to change WordPress' AUTH_SALT (#173)
+
+= 2.3.6 =
+* FIXED: With PHP 8.1, ldap_get_entries expects an LDAP\Result instance as second parameter (#166)
+* FIXED: Deprecation warning when Test Authentication is triggered with PHP 8.1 (#168)
+* ADDED: Notification in WordPress' plug-in page for upcoming v3
+* ADDED: Compatibility with new Premium Extensions which are already using v3's  code
 
 = 2.3.5 =
 * FIXED: Blank configuration page with PHP >= 8.0 and missing AUTH_SALT constant (#164)
