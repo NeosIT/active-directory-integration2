@@ -11,6 +11,10 @@ if (!class_exists('NextADInt_Core_Logger')) {
 	}
 }
 
+if (!class_exists('Logger')) {
+	require_once __DIR__ . '/logger.php';
+}
+
 if (!class_exists('\Monolog\Registry')) {
 	require_once __DIR__ . '/monolog_registry.php';
 }

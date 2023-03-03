@@ -128,6 +128,9 @@ For detailed information you can visit the official [GitHub repository of Next A
 
 = UNRELEASED =
 
+= 3.0.2 =
+* FIXED: Provide stub for Logger class (#177)
+
 = 3.0.1 =
 * FIXED: Include PHP 8.2 into test suite (#175)
 * FIXED: class ShowSingleSignOnLink not found (#176)
