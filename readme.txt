@@ -126,8 +126,6 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
-= UNRELEASED =
-
 = 3.0.2 =
 * FIXED: Provide stub for Logger class (#177)
 
