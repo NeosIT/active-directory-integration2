@@ -18,7 +18,7 @@ class WordPressErrorException extends Exception
 
 	public function __construct(\WP_Error $wordPressError)
 	{
-		parent::__construct(null, null, null);
+		parent::__construct('', 0, null);
 
 		$this->wordPressError = $wordPressError;
 	}
