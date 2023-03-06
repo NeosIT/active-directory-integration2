@@ -651,7 +651,7 @@ class Manager
 			return apply_filters(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_create_email', $wpUser, $preferredEmail);
 		}
 
-		WordPressErrorException::processWordPressError(new \WP_Error('invalidDuplicateEmailPreventionState', "Unkonwn state how to handle email address '$preferredEmail'"));
+		WordPressErrorException::processWordPressError(new \WP_Error('invalidDuplicateEmailPreventionState', "Unknown state how to handle email address '$preferredEmail'"));
 
 		// return only required for unit tests
 		return false;

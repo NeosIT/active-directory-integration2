@@ -193,7 +193,7 @@ abstract class BasicTest extends TestCase
 	}
 
 	/**
-	 * Create a mock for the given class using a alias prefix.
+	 * Create a mock for the given class using an alias prefix.
 	 * This allows us to mock static methods.
 	 *
 	 * @param $clazzName
