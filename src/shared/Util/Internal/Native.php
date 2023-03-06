@@ -164,4 +164,12 @@ class Native
 	{
 		return class_exists($classname);
 	}
+
+	/**
+	 * Delegate to <code>phpversion</code>
+	 * @return false|string
+	 */
+	public function phpversion() {
+		return phpversion();
+	}
 }

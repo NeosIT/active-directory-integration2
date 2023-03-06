@@ -19,6 +19,7 @@ class Requirements
 	private $logger;
 
 	const WORDPRESS_VERSION = '4.0';
+	const PHP_VERSION_REQUIRED = '8.0';
 	const MODULE_LDAP = 'ldap';
 	const MODULE_MBSTRING = 'mbstring';
 	const MODULE_OPENSSL = 'openssl';
@@ -41,6 +42,7 @@ class Requirements
 	public function check($showErrors = true, $includeActivationCheck = false)
 	{
 		try {
+			$this->requirePhpVersion($showErrors);
 			$this->requireWordPressVersion($showErrors);
 			$this->requireLdap($showErrors);
 			$this->requireMbstring($showErrors);
@@ -106,6 +108,41 @@ class Requirements
         <div class=\"error\">
 			<p>The 'Next Active Directory Integration' plugin requires WordPress $necessary to work properly.</p>
 			<p>You are currently using WordPress $wp_version. Please upgrade your WordPress installation.<p>
+        </p></div>";
+	}
+
+	/**
+	 * PHP 8.x is required
+	 *
+	 * @param bool $showErrors
+	 *
+	 * @throws RequirementException
+	 */
+	public function requirePhpVersion($showErrors = true)
+	{
+		if (Util::native()->compare(Util::native()->phpversion(), self::PHP_VERSION_REQUIRED, '<')) {
+			if ($showErrors) {
+				add_action(Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+					$this, 'wrongPhpVersion',
+				));
+			}
+
+			throw new RequirementException();
+		}
+	}
+
+	/**
+	 * Display the error message for a wrong PHP version
+	 */
+	public function wrongPhpVersion()
+	{
+		$current = Util::native()->phpversion();
+		$necessary = self::PHP_VERSION_REQUIRED;
+
+		echo "
+        <div class=\"error\">
+			<p>The 'Next Active Directory Integration' plugin requires at least PHP $necessary to work properly.</p>
+			<p>You are currently using PHP $current. Please upgrade your PHP installation.<p>
         </p></div>";
 	}
 

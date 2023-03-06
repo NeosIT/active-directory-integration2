@@ -40,7 +40,16 @@ class RequirementsTest extends BasicTest
 	 */
 	public function check_itSucceeds()
 	{
-		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireOpenSSL', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
+		$sut = $this->sut(array(
+			'requireWordPressVersion',
+			'requirePhpVersion',
+			'requireLdap',
+			'requireMbstring',
+			'requireOpenSSL',
+			'preventTooManySites',
+			'preventSiteActivation',
+			'deactivateDeprecatedVersion'
+		));
 		$showErrors = true;
 
 		\WP_Mock::wpFunction('is_multisite', array(
@@ -50,6 +59,10 @@ class RequirementsTest extends BasicTest
 
 		$sut->expects($this->once())
 			->method('requireWordPressVersion')
+			->with($showErrors);
+
+		$sut->expects($this->once())
+			->method('requirePhpVersion')
 			->with($showErrors);
 
 		$sut->expects($this->once())
@@ -387,6 +400,34 @@ class RequirementsTest extends BasicTest
 
 		$actual = $sut->deactivateDeprecatedVersion();
 		$this->assertTrue($actual);
+	}
+
+
+	/**
+	 * @test
+	 * @issue #179
+	 */
+	public function GH_179_ifPhpVersionIsNotAvailable_pluginIsDeactivated()
+	{
+		$sut = $this->sut();
+		$this->expectException(RequirementException::class);
+		$newestUnusableVersion = '7.4';
+
+		// mock away static methods
+		$this->internalNative->expects($this->once())
+			->method('phpversion')
+			->willReturn($newestUnusableVersion);
+
+		$this->internalNative->expects($this->once())
+			->method('compare')
+			->with($newestUnusableVersion, Requirements::PHP_VERSION_REQUIRED, '<')
+			->willReturn(true);
+
+		\WP_Mock::expectActionAdded(Actions::ADI_REQUIREMENTS_ALL_ADMIN_NOTICES, array(
+			$sut, 'wrongPhpVersion',
+		));
+
+		$sut->requirePhpVersion(true);
 	}
 
 	/**
