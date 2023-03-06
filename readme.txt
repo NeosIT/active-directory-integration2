@@ -127,6 +127,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* FIXED: Class Dreitier\Util\Logger\LogFacade not found (#178)
 * FIXED: Deprecation notice with PHP 8.x for null constructor parameters of WordPressErrorException
 
 = 3.0.2 =

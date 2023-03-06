@@ -57,6 +57,11 @@ if (!defined('ABSPATH')) {
 		{
 			return $this->value[0];
 		}
+
+		public function get_error_messages()
+		{
+			return $this->errors;
+		}
 	}
 
 	class WP_Roles
@@ -108,7 +113,8 @@ if (!defined('ABSPATH')) {
 			return $this->data[$name] ?? null;
 		}
 
-		public function __set(string $property, mixed $value) {
+		public function __set(string $property, mixed $value)
+		{
 			$this->data[$property] = $value;
 		}
 
