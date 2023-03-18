@@ -127,6 +127,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* CHANGED: WordPress 6.2 compatibility has been checked
 
 = 3.0.3 =
 * FIXED: Postpone stub creation in favor of other autoloaders (#181)
