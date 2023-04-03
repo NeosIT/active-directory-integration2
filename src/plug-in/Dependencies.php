@@ -966,6 +966,10 @@ class Dependencies
 	public function getExtendSiteList()
 	{
 		if ($this->extendSiteList == null) {
+			// #183: we need to manually load the classes we are depending upon.
+			require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
+			require_once( ABSPATH . 'wp-admin/includes/class-wp-ms-sites-list-table.php');
+				
 			$this->extendSiteList = new ExtendSiteList(
 				$this->getBlogConfigurationRepository(),
 				$this->getProfileRepository()

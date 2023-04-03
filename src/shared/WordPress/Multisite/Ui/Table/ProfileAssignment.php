@@ -2,7 +2,7 @@
 namespace Dreitier\WordPress\Multisite\Ui\Table;
 
 use Dreitier\WordPress\WordPressSiteRepository;
-use WP_MS_Sites_List_Table;
+use \WP_MS_Sites_List_Table;
 
 /**
  * Displays the table with all blogs and their assigned ADI profile.
@@ -11,7 +11,7 @@ use WP_MS_Sites_List_Table;
  *
  * @access
  */
-class ProfileAssignment extends WP_MS_Sites_List_Table
+class ProfileAssignment extends \WP_MS_Sites_List_Table
 {
 	const NEXT_ACTIVE_DIRECTORY_INTEGRATION_SITE_NAME_COLUMN = 'next-ad-int-site-name';
 
@@ -202,7 +202,7 @@ class ProfileAssignment extends WP_MS_Sites_List_Table
         if ( version_compare( $wp_version, '4.6-alpha-37736', '>=')) {
             foreach ($this->items as $key => $value) {
                 // ADI-336
-                $this->items[$key] = WP_Site::get_instance($value['blog_id']);
+                $this->items[$key] = \WP_Site::get_instance($value['blog_id']);
             }
         }
 
