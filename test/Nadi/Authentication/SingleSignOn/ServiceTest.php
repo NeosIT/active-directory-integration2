@@ -367,16 +367,8 @@ class ServiceTest extends BasicTest
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
-	public function loginUser_doesTriggerWordPressFunctions()
+	private function setupMocksFor_loginUser($user)
 	{
-		$user = $this->createWpUserMock();
-		$sut = $this->sut();
-
-		\WP_Mock::expectAction('wp_login', $user->user_login, $user);
-
 		\WP_Mock::wpFunction(
 			'is_ssl', array(
 				'times' => 1,
@@ -397,6 +389,18 @@ class ServiceTest extends BasicTest
 				'args' => array($user->ID, true, true /* SSL */),
 			)
 		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function loginUser_doesTriggerWordPressFunctions()
+	{
+		$user = $this->createWpUserMock();
+		$this->setupMocksFor_loginUser($user);
+		$sut = $this->sut();
+
+		\WP_Mock::expectAction('wp_login', $user->user_login, $user);
 
 		$this->invokeMethod($sut, 'loginUser', array($user, false));
 	}
@@ -408,8 +412,9 @@ class ServiceTest extends BasicTest
 	public function GH_160_loginUser_callsAction_loginSucceededDoRedirect()
 	{
 		$user = $this->createWpUserMock();
+		$this->setupMocksFor_loginUser($user);
 		$sut = $this->sut();
-
+		
 		\WP_Mock::expectAction(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'login_succeeded_do_redirect', $user, false);
 
 		$this->invokeMethod($sut, 'loginUser', array($user, false));
