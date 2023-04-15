@@ -85,6 +85,9 @@ class Converter
 	 * @return string
 	 */
 	public static function formatTimestamp($value) {
+		// #184: explicit integer conversion
+		$value = (int)$value;
+
 		$gmtOffset = get_option('gmt_offset', 0);
 		$dateFormat = get_option('date_format', 'Y-m-d');
 		$timeFormat = get_option('time_format', 'H:i:s');

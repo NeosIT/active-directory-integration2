@@ -127,6 +127,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* FIXED: Conversion of empty or string-based LDAP timestamp attributes (#184)
 
 = 3.0.5 =
 * FIXED: WP_MS_Sites_List_Table not found when running in Multisite (#183)

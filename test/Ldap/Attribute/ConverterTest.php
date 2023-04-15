@@ -221,4 +221,60 @@ class ConverterTest extends BasicTest
 		$this->assertEquals('', $cnTestReturn);
 		$this->assertTrue(is_string($cnTestReturn));
 	}
+
+	private function setupMocksFor_regressPHP8_formatTimestamp() {
+		// this is negative b/c of invalid date
+		$unixTime =  -11644470000;
+		$offset = 1;
+
+		\WP_Mock::wpFunction(
+			'get_option', array(
+				'args'   => array('gmt_offset', 0),
+				'times'  => 1,
+				'return' => $offset
+			)
+		);
+
+		\WP_Mock::wpFunction(
+			'get_option', array(
+				'args'   => array('date_format', 'Y-m-d'),
+				'times'  => 1,
+				'return' => 'F j, Y'
+			)
+		);
+
+		\WP_Mock::wpFunction(
+			'get_option', array(
+				'args'   => array('time_format', 'H:i:s'),
+				'times'  => 1,
+				'return' => 'g:i a'
+			)
+		);
+
+		\WP_Mock::wpFunction(
+			'date_i18n', array(
+				'args'   => array('F j, Y / g:i a',  $unixTime, true),
+				'times'  => 1,
+				'return' => 'February 1, 2016 / 11:32 am'
+			)
+		);
+	}
+
+	/**
+	 * @issue #184
+	 * @test
+	 */
+	public function GH_184_regressPHP8_formatTimestampCanConvertAnEmptyString() {
+		$this->setupMocksFor_regressPHP8_formatTimestamp();
+		$sut = Converter::formatAttributeValue('timestamp', '');
+	}
+
+	/**
+	 * @issue #184
+	 * @test
+	 */
+	public function GH_184_regressPHP8_formatTimestampCanConvertANonEmptyString() {
+		$this->setupMocksFor_regressPHP8_formatTimestamp();
+		$sut = Converter::formatAttributeValue('timestamp', 'some string');
+	}
 }
