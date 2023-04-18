@@ -16,11 +16,16 @@
 	"strauss": [
 	  "vendor/bin/strauss"
 	],
+	"twig-patcher": [
+	  "php twig-patcher.php"
+	],
 	"post-install-cmd": [
-	  "@strauss"
+	  "@strauss",
+	  "@twig-patcher"
 	],
 	"post-update-cmd": [
-	  "@strauss"
+	  "@strauss",
+	  "@twig-patcher"
 	]
   },
   "extra": {

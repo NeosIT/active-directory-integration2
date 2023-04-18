@@ -31,3 +31,4 @@
 /vendor-repackaged/paragonie/random_compat/dist
 /vendor-repackaged/paragonie/random_compat/other
 /vendor-repackaged/paragonie/random_compat/build-phar.sh
+/twig-patcher.php
