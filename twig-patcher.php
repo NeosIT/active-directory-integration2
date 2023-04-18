@@ -1,50 +1,59 @@
 <?php
 /**
- * This class modifies Twig's global functions so that they don't get added to defined namespace if they are already present there.
+ * This class renames Twig's global "twig_*" functions so that they have their own "dreitier_nadi_" prefix
  * @issue #185
  */
 define("VENDOR_REPACKAGED_DIR", dirname(__FILE__) . "/vendor-repackaged");
-$fileToPatch = VENDOR_REPACKAGED_DIR . '/twig/twig/src/Extension/CoreExtension.php';
+define("TWIG_DIR", "twig/twig/src");
+define("PREFIX", "dreitier_nadi_");
 
-$content = file_get_contents($fileToPatch);
+$patchedFiles = [];
 
-$lineBreak  = "\n";
-$lines = explode($lineBreak, $content);
-$inGlobalNamespace = false;
-$inFunction = false;
-$out = [];
+$iterator = new RecursiveDirectoryIterator(VENDOR_REPACKAGED_DIR . '/' . TWIG_DIR);
 
-foreach ($lines as $line) {
-	if (preg_match("/^namespace\s\{/", $line, $r)) {
-		$inGlobalNamespace = true;
+foreach(new RecursiveIteratorIterator($iterator) as $file) {
+	// only pick PHP files which are not PHPUnit test cases
+	if (
+		$file->isFile() 
+		&& !$file->isDir() 
+		&& $file->getExtension() == 'php'
+	) {
+		$path = $file->getRealpath();
+		
+		$content = file_get_contents($path);
+		
+		// find each twig_* function
+		if (preg_match_all("/(?<preambel>.*)(?<function>twig\_([\w|\_]*))+/", $content, $r)) {
+			$alreadyRemapped = [];
+			foreach ($r['function'] as $idx => $functionName) {
+				$preambel = $r['preambel'][$idx];
+				#echo $preambel . PHP_EOL;
+				#echo $functionName . PHP_EOL;
+
+				// do not map already mapped files
+				if (str_ends_with($preambel, PREFIX) || isset($alreadyRemapped[$functionName])) {
+					#echo "-> Already mapped" . PHP_EOL;
+					continue;
+				}
+				
+				$remappedFunction = PREFIX . $functionName; 
+				#echo $remappedFunction . PHP_EOL;
+				$content = str_replace($functionName, $remappedFunction, $content);
+				$alreadyRemapped[$functionName] = true;
+			}
+			
+			file_put_contents($path, $content);
+			
+			if (!str_ends_with($file->getFilename(), "TestCase.php")) {
+				$patchedFiles[] = $path;
+			}
+		}
 	}
-	
-	if (!$inGlobalNamespace) {
-		$out[] = $line;
-		continue;
-	}
-	
-	if (preg_match("/^function ([\w|\_]*)\(.*/", $line, $r)) {
-		$function = $r[1];
-		$out[] = "if (!function_exists(__NAMESPACE__ . '\\$function')) {";
-		$out[] = "\t$line";
-		$inFunction = true;
-		continue;
-	}
-	
-	if ($inFunction && preg_match('/^\}\s*/', $line)) {
-		$inFunction = false;
-		$out[] = "\t} // function";
-		$out[] = "} // if function_exists";
-		continue;
-	}
-	
-	$out[] = $line;
 }
 
-// write patched file
-file_put_contents($fileToPatch, implode($lineBreak, $out));
 include_once(VENDOR_REPACKAGED_DIR . "/autoload.php");
 
 // ensure that we don't have any syntax errors - otherwise composer will fail
-include $fileToPatch;
+foreach ($patchedFiles as $patchedFile) {
+	include $patchedFile;
+}
