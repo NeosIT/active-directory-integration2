@@ -21,7 +21,7 @@ use Dreitier\WordPress\Multisite\Option\Encryption;
  * Connection establishes a connection to the defined Active Directories, authenticates users and contains help functions for
  * checking group membership etc.
  *
- * @author Tobias Hellmann <the@neos-it.de>
+ * @author Christopher Klein <ckl[at]dreitier[dot]com>
  * @access public
  */
 class Connection
@@ -734,7 +734,8 @@ class Connection
 			$objectSid = Sid::of($userInfo[0]["objectsid"][0]);
 
 			if (!$this->activeDirectoryContext->isMember($objectSid)) {
-				$this->logger->debug("Object '" . $objectSid->getFormatted() . "' does not belong to one of the configured domains of " . $this->activeDirectoryContext);
+				$formatted = $objectSid ? $objectSid->getFormatted() : 'unknown_sid';
+				$this->logger->debug("Object '" . $formatted . "' does not belong to one of the configured domains of " . $this->activeDirectoryContext);
 				continue;
 			}
 

@@ -830,6 +830,55 @@ class ConnectionTest extends BasicTest
 
 	/**
 	 * @test
+	 * @issue #186
+	 */
+	public function GH_186_filterDomainMembers_canDealWithNullSids()
+	{
+		$sut = $this->sut(array('getAdLdap'));
+
+		$userInfoA = array(
+			0 => array(
+				"objectsid" => array(
+					0 => null
+				)
+			)
+		);
+
+		$sut->expects($this->once())
+			->method('getAdLdap')
+			->willReturn($this->adLDAP);
+
+		$this->adLDAP->expects($this->exactly(1))
+			->method('user_info')
+			->withConsecutive(
+				array('a'),
+			)
+			->will(
+				$this->onConsecutiveCalls(
+					$userInfoA
+				)
+			);
+
+		$this->activeDirectoryContext->expects($this->exactly(1))
+			->method('isMember')
+			->withConsecutive(
+				array($this->callback(function ($sid) {
+					return $sid == null;
+				}), false)
+			)
+			->will(
+				$this->onConsecutiveCalls(
+					true
+				)
+			);
+
+		$actual = $sut->filterDomainMembers(array('a'));
+
+		$this->assertEquals(array('a' => 'a'), $actual);
+	}
+
+	/**
+	 * @test
 	 */
 	public function findAllMembersOfGroup_getMembersOfPrimaryGroupId_returnMembers()
 	{
