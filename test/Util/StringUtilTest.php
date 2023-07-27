@@ -33,7 +33,7 @@ class StringUtilTest extends BasicTest
 	 * @issue ADI-248
 	 * @test
 	 */
-	public function ADI248_splitText_onlyReturnsNonEmptyLines()
+	public function ADI248_splitNonEmpty_onlyReturnsNonEmptyLines()
 	{
 		$string = "  ; ; test ";
 
@@ -41,6 +41,17 @@ class StringUtilTest extends BasicTest
 
 		$actual = StringUtil::splitNonEmpty($string, ";");
 		$this->assertEquals($expected, $actual);
+	}
+
+	/**
+	 * This has been added as a possible regression test.
+	 * @test
+	 */
+	public function splitNonEmpty_whenHavingNoSeparator_itReturnsOneElement()
+	{
+		$string = "KRB.REALM=upn-suffix1.ad";
+		$actual = StringUtil::splitNonEmpty($string, ";");
+		$this->assertEquals([$string], $actual);
 	}
 
 	/**
