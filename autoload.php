@@ -6,7 +6,7 @@
  *
  * At the moment, strauss does not allow mixing own packages and vendor packages without hacking, hence this autoloader exists.
  *
- * PHPUnit uses the dev-autoloader, so that Mockery and other packages can be loaded. This is not of interest for us.
+ * PHPUnit uses the dev-autoloader, so that Mockery and other packages can be loaded. This is not in our interest.
  */
 if (defined("NADI_PACKAGES_LOADED")) {
 	return;
