@@ -2,7 +2,7 @@
 Contributors: dreitier,dreitierci,schakko,neosit
 Tags: authentication, active directory, ldap, ldaps, authorization, security, windows, sso, login, domain, controller
 Requires at least: 5.6
-Tested up to: 6.2
+Tested up to: 6.3
 Stable tag: REPLACE_VERSION_BY_CI
 License: GPLv3
 Donate link: https://active-directory-wp.com
@@ -130,6 +130,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 * FIXED: Dreitier\Ldap\Connection::filterDomainMembers throws fatal error when invalid SID is returned (#186)
 * FIXED: Twig functions in default namespace conflict with other WordPress plug-ins (#185)
 * FIXED: Conversion of empty or string-based LDAP timestamp attributes (#184)
+* CHANGED: WordPress 6.3 compatibility has been checked
 
 = 3.0.5 =
 * FIXED: WP_MS_Sites_List_Table not found when running in Multisite (#183)
