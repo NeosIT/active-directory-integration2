@@ -180,13 +180,7 @@ class Manager
 		// NADIS-98/ADI-688: Use objectGuid as primary attribute to identify the user
 		$wpUser = $this->userRepository->findByObjectGuid($userGuid);
 
-		// if user could not be found (= not synchronized yet to WordPress), fall back to sAMAccountName
-		if (!$wpUser) {
-			// NADIS-1: Changed findUserByGuid to findUserBySamAccountName to be able to detect the right user if no guid is available
-			$wpUser = $this->userRepository->findBySAMAccountName($credentials->getSAMAccountName());
-		}
-
-		// if sAMAccountName is also not registered, fall back to UPN
+		// User could not be found by GUID, search for sAMAccountName and/or userPrincipalName
 		if (!$wpUser) {
 			$wpUser = $this->findByActiveDirectoryUsername($credentials->getSAMAccountName(),
 				$credentials->getUserPrincipalName());

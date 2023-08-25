@@ -320,12 +320,7 @@ class ManagerTest extends BasicTest
 		$ldapAttributes = new Attributes(array(), array('samAccountName' => 'username'));
 		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
 
-		$this->userRepository->expects($this->once())
-			->method('findBySAMAccountName')
-			->with('username')
-			->willReturn($wpUser);
-
-		$sut->expects($this->never())
+		$sut->expects($this->once())
 			->method('findByActiveDirectoryUsername')
 			->with('username', 'username@test.ad');
 
@@ -337,7 +332,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function createAdiUser_withoutUserFoundBySamAccountName_itFindsUserByActiveDirectoryUsernameAsFallback()
 	{
-		$sut = $this->sut(array('findByActiveDirectoryUsername'));
+		$sut = $this->sut(array('findByObjectGuid', 'findByActiveDirectoryUsername'));
 
 		$wpUser = $this->createMock(\WP_User::class);
 		$wpUser->ID = 1;
@@ -347,8 +342,8 @@ class ManagerTest extends BasicTest
 		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
 
 		$this->userRepository->expects($this->once())
-			->method('findBySAMAccountName')
-			->with('username')
+			->method('findByObjectGuid')
+			->with(null)
 			->willReturn(false);
 
 		$sut->expects($this->once())

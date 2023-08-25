@@ -127,6 +127,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* FIXED: Duplicate search for user by sAMAccountName during login (#187)
 
 = 3.0.6 =
 * FIXED: Dreitier\Ldap\Connection::filterDomainMembers throws fatal error when invalid SID is returned (#186)
