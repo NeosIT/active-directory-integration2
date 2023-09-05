@@ -553,6 +553,10 @@ class LoginSucceededServiceTest extends BasicTest
 			->with(123, 'jdo');
 
 		$this->userManager->expects($this->once())
+			->method('maybeUpdateObjectGuidIfMissing')
+			->with(123, $attributes);
+
+		$this->userManager->expects($this->once())
 			->method('updateUserRoles')
 			->with(123, $roleMapping);
 

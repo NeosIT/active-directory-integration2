@@ -171,7 +171,7 @@ class Service
 	/**
 	 * Based upon the query, different markers are tried to find the user:
 	 * <ul>
-	 * <li>if the query is specified as GUID; this if searched first</li>
+	 * <li>if the query is specified as GUID; this is searched first</li>
 	 * <li>userPrincipalName is tried as second</li>
 	 * <li>sAMAccountNAme is tried last in line. This can deliver multiple results in an AD forest. You have to use the Active Directory Forest premium extension</li>
 	 * </ul>

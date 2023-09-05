@@ -220,6 +220,10 @@ class LoginSucceededService
 			return $this->userManager->update($user);
 		}
 
+		// #188: it may be that a local user is already present but has not been mapped by NADI yet (e.g. the user has been created manually before in WordPress).
+		// as we use the objectGuid as primary source for identifying users, we have to update the usermeta.next_ad_int_objectguid if it is not present yet.
+		$this->userManager->maybeUpdateObjectGuidIfMissing($user->getId(), $user->getLdapAttributes());
+
 		// in any case the sAMAccountName has to be updated
 		$this->userManager->updateSAMAccountName($user->getId(), $user->getCredentials()->getSAMAccountName());
 
@@ -229,7 +233,6 @@ class LoginSucceededService
 		// get WP_User from User
 		return $this->userManager->findById($user->getId());
 	}
-
 
 	/**
 	 * Previously authenticated and authorized users are checked for an explicitly disabled account

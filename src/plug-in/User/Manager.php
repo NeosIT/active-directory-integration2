@@ -100,50 +100,6 @@ class Manager
 	}
 
 	/**
-	 * Lookup the given usernames (sAMAccountName and userPrincipalName) in the WordPress database.
-	 * They are looked up in the following order
-	 * <ul>
-	 * <li>ADI meta attribute sAMAccountName = $sAMAccountName</li>
-	 * <li>WordPress user_login = $userPrincipalName</li>
-	 * <li>WordPress user_login = $sAMAccountName</li>
-	 * </ul>
-	 *
-	 * @param string $sAMAccountName not empty
-	 * @param string|null $userPrincipalName not empty
-	 *
-	 * @return \WP_User|false
-	 * @throws \Exception
-	 */
-	public function findByActiveDirectoryUsername($sAMAccountName, $userPrincipalName)
-	{
-		Assert::notEmpty($sAMAccountName, "sAMAccountName must not be empty");
-		Assert::notEmpty($userPrincipalName, "userPrincipalName must not be empty");
-
-		// the wp_user_meta.samaccountname has the highest priority: user has been already added by ADI
-		$wpUser = $this->userRepository->findBySAMAccountName($sAMAccountName);
-
-		if (!$wpUser) {
-			// do a full lookup by userPrincipalName to satisfy "append suffix to new users" setting
-			$wpUser = $this->userRepository->findByUsername($userPrincipalName);
-
-			if (!$wpUser) {
-				// append suffix to new users has been (probably) set to false
-				$wpUser = $this->userRepository->findByUsername($sAMAccountName);
-			}
-		}
-
-		if (!$wpUser) {
-			$this->logger->warning(
-				"Local WordPress user with wp_user_meta.samaccountname='" . $sAMAccountName . "', user_login='"
-				. $userPrincipalName . "'"
-				. " or user_login='" . $sAMAccountName . "'"
-				. ' could not be found');
-		}
-
-		return $wpUser;
-	}
-
-	/**
 	 * Check if user $userId is disabled
 	 *
 	 * @param integer $userId
@@ -180,10 +136,26 @@ class Manager
 		// NADIS-98/ADI-688: Use objectGuid as primary attribute to identify the user
 		$wpUser = $this->userRepository->findByObjectGuid($userGuid);
 
-		// User could not be found by GUID, search for sAMAccountName and/or userPrincipalName
+		// User could not be found by GUID, this can be the case if
+		// a) the user has been deleted from AD
+		// b) or the user is not yet in WordPress located. We have to map the user by other attributes
 		if (!$wpUser) {
-			$wpUser = $this->findByActiveDirectoryUsername($credentials->getSAMAccountName(),
-				$credentials->getUserPrincipalName());
+			$localUserResolver = $this->createDefaultLocalUserResolver($credentials, $ldapAttributes);
+
+			// try to resolve the user by userprincipalname(s) or samaccountname(s)
+			$wpUser = $localUserResolver->resolve();
+
+			// #188: Do not map local WordPress users if their meta value next_ad_int.objectGuid does not match with AD's objectGuid
+			// discard the retrieved user, if his objectGuid does not match LDAP's user objectGuid
+			if ($wpUser) {
+				$wpUsersObjectGuid = $this->userRepository->findObjectGuidOfUser($wpUser);
+
+				// $wpUsersObjectGuid can be empty if the user has not been migrated to NADI yet
+				if (!empty($wpUsersObjectGuid) && ($wpUsersObjectGuid != $userGuid)) {
+					$this->logger->debug("In local database, the user's sAMAccountName or userPrincipalName is already mapped to a different objectGuid '" . $wpUsersObjectGuid . "'. Ignoring that user.");
+					$wpUser = null;
+				}
+			}
 		}
 
 		$r = new User($credentials, $ldapAttributes);
@@ -197,6 +169,35 @@ class Manager
 		}
 
 		$this->logger->debug("Created new instance of " . $r);
+
+		return $r;
+	}
+
+	/**
+	 * Create a new local user resolver so that an authenticated user with possible LDAP attributes can be mapped to a local user.
+	 *
+	 * @param Credentials $credentials
+	 * @param Attributes $attributes
+	 * @return LocalUserResolver
+	 */
+	public function createDefaultLocalUserResolver(Credentials $credentials, Attributes $attributes): LocalUserResolver {
+		$defaultSearchMethod = fn($principal) => $this->userRepository->findByUsername($principal);
+		$userPrincipalNameInLdap = trim($attributes->getFilteredValue('userprincipalname') ?? '');
+
+		$r = new LocalUserResolver($this->logger);
+
+		// safe/unique: highest priority has the userprincipalname from the LDAP. It may be, that this is empty if the has been already deleted in AD
+		if (!empty($userPrincipalNameInLdap)) {
+			$r->add(ResolveLocalUser::by($userPrincipalNameInLdap, $defaultSearchMethod, 'users.user_login==ldap_userprincipalname'));
+		}
+
+		// safe/unique: find user by userprincipalname from credentials. This *should* be the full UPN but can also be the Kerberos realm.
+		// In the case of a Kerberos realm, it has been previously by nadiext-active-directory-forest
+		$r->add(ResolveLocalUser::by($credentials->getUserPrincipalName(), $defaultSearchMethod, 'users.user_login==cred_userprincipalname'));
+		// unsafe: find user by its samaccountname based upon WordPress' user_login field
+		$r->add(ResolveLocalUser::by($credentials->getSAMAccountName(), $defaultSearchMethod, 'users.user_login==cred_samaccountname'));
+		// unsafe: fallback to next_ad_int_samaccountname; this is strictly required for downwards compatability
+		$r->add(ResolveLocalUser::by($credentials->getSAMAccountName(), fn($principal) => $this->userRepository->findBySAMAccountName($principal), 'fallback:usermeta.next_ad_int_samaccountname==cred_samaccountname'));
 
 		return $r;
 	}
@@ -418,7 +419,6 @@ class Manager
 
 		$this->userRepository->updateSAMAccountName($userId, $sAMAccountName);
 	}
-
 
 	/**
 	 * Update the roles for the given $userId.
@@ -830,5 +830,25 @@ class Manager
 	public function getLogger()
 	{
 		return $this->logger;
+	}
+
+	/**
+	 * For a given user id, the usermeta.next_ad_int_objectguid field.
+	 * It only updates the field if -and only if- there is no next_ad_int_objectguid present at the moment.
+	 *
+	 * @param $userId
+	 * @param Attributes|null $attributes
+	 * @return void
+	 * @throws \Exception
+	 */
+	public function maybeUpdateObjectGuidIfMissing($userId, ?Attributes $attributes) {
+		Assert::validId($userId, "userId must be valid id");
+
+		$localObjectGuid = $this->userRepository->findObjectGuidOfUser($userId);
+
+		if (empty($localObjectGuid) && $attributes && !empty($ldapObjectGuid = $attributes->getFilteredValue('objectguid'))) {
+			$this->logger->debug("User $userId has not objectGuiod set, updating to '$ldapObjectGuid'");
+			$this->userRepository->updateObjectGuid($userId, $ldapObjectGuid);
+		}
 	}
 }

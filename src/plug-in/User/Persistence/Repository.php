@@ -55,7 +55,7 @@ class Repository
 	 *
 	 * @param string $username
 	 *
-	 * @return false|\WP_Mock
+	 * @return false|\WP_User
 	 */
 	public function findByUsername($username)
 	{
@@ -67,7 +67,7 @@ class Repository
 	 *
 	 * @param string $email
 	 *
-	 * @return false|\WP_Mock
+	 * @return false|\WP_User
 	 */
 	public function findByEmail($email)
 	{
@@ -80,7 +80,7 @@ class Repository
 	 * @param string $key
 	 * @param mixed $value
 	 *
-	 * @return false|\WP_Mock
+	 * @return false|\WP_User
 	 */
 	protected function findByKey($key, $value)
 	{
@@ -133,6 +133,19 @@ class Repository
 	}
 
 	/**
+	 * Find the object GUID of provided WP_User or WP_User->ID
+	 * @param \WP_User|int $wpUserOrUserId
+	 * @return string|null
+	 */
+	public function findObjectGuidOfUser(\WP_User|int $wpUserOrUserId): ?string
+	{
+		$userId = is_int($wpUserOrUserId) ? $wpUserOrUserId : $wpUserOrUserId->ID;
+		$objectGuidOrNull = get_user_meta($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . self::META_KEY_OBJECT_GUID, true);
+
+		return $objectGuidOrNull;
+	}
+
+	/**
 	 * Return a WP_User with the given sAMAccountName
 	 *
 	 * @param string $sAMAccountName
@@ -155,6 +168,18 @@ class Repository
 	public function updateSAMAccountName($userId, $sAMAccountName)
 	{
 		$this->updateMetaKey($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . self::META_KEY_ACTIVE_DIRECTORY_SAMACCOUNTNAME, $sAMAccountName);
+	}
+
+	/**
+	 * Update the objectGuid meta key
+	 *
+	 * @param int $userId
+	 * @param $objectGuid
+	 * @return void
+	 */
+	public function updateObjectGuid(int $userId, $objectGuid)
+	{
+		$this->updateMetaKey($userId, NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . self::META_KEY_OBJECT_GUID, $objectGuid);
 	}
 
 	/**

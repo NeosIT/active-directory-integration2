@@ -118,85 +118,6 @@ class ManagerTest extends BasicTest
 	/**
 	 * @test
 	 */
-	public function findByUsername_itPrefersSuffix()
-	{
-		$sut = $this->sut();
-		$wpUser = (object)(array('ID' => 1));
-
-		$this->userRepository->expects($this->once())
-			->method('findByUsername')
-			->with("username@test.ad")
-			->willReturn($wpUser);
-
-		$actual = $sut->findByActiveDirectoryUsername("username", "username@test.ad");
-		$this->assertEquals($wpUser, $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function findByActiveDirectoryUsername_itPriroitizesSAMAccountName()
-	{
-		$sut = $this->sut();
-		$wpUser = (object)(array('ID' => 1));
-
-		$this->userRepository->expects($this->once())
-			->method('findBySAMAccountName')
-			->with("sAMAccountName")
-			->willReturn($wpUser);
-
-		$actual = $sut->findByActiveDirectoryUsername("sAMAccountName", "userPrincipalName");
-		$this->assertEquals($wpUser, $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function findByActiveDirectoryUsername_itFallsbackToUserPrincipalName()
-	{
-		$sut = $this->sut(array('findBySAMAccountName'));
-		$wpUser = (object)(array('ID' => 1));
-
-		$this->behave($sut, 'findBySAMAccountName', false);
-
-		$this->userRepository->expects($this->once())
-			->method('findByUsername')
-			->with("userPrincipalName")
-			->willReturn($wpUser);
-
-		$actual = $sut->findByActiveDirectoryUsername("sAMAccountName", "userPrincipalName");
-		$this->assertEquals($wpUser, $actual);
-	}
-
-	/**
-	 * @test
-	 */
-	public function findByActiveDirectoryUsername_itUsesSAMAccountNameForUserLogin_whenEverythingFails()
-	{
-		$sut = $this->sut(array('findBySAMAccountName'));
-		$wpUser = (object)(array('ID' => 1));
-
-		$this->behave($sut, 'findBySAMAccountName', false);
-
-		$this->userRepository->expects($this->exactly(2))
-			->method('findByUsername')
-			->withConsecutive(
-				['userPrincipalName'],
-				['sAMAccountName']
-			)
-			->willReturnOnConsecutiveCalls(
-				false,
-				$wpUser
-			);
-
-		$actual = $sut->findByActiveDirectoryUsername("sAMAccountName", "userPrincipalName");
-		$this->assertEquals($wpUser, $actual);
-	}
-
-
-	/**
-	 * @test
-	 */
 	public function isDisabled_itDelegatesToRepository()
 	{
 		$sut = $this->sut();
@@ -232,22 +153,91 @@ class ManagerTest extends BasicTest
 
 	/**
 	 * @test
+	 * @issue NADIS-98, ADI-688
+	 * @since 2.1.9
 	 */
-	public function createAdiUser_itFindsTheWordPressUser()
+	public function createAdiUser_itFindsUserByObjectGuid()
 	{
+		$sut = $this->sut(['createDefaultLocalUserResolver']);
+
+		$wpUser = $this->createMock(\WP_User::class);
+		$wpUser->ID = 1;
+		$wpUser->user_login = 'username';
+
+		$ldapAttributes = new Attributes(array(), array('samAccountName' => 'username', 'objectguid' => '666-666'));
 		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
-		$sut = $this->sut(array('findByActiveDirectoryUsername'));
 
-		$wpUser = (object)array('ID' => 1, 'user_login' => 'username');
-
-		$sut->expects($this->once())
-			->method('findByActiveDirectoryUsername')
-			->with('username', 'username@test.ad')
+		$this->userRepository->expects($this->once())
+			->method('findByObjectGuid')
+			->with('666-666')
 			->willReturn($wpUser);
 
-		$actual = $sut->createAdiUser($credentials, new Attributes());
-		$this->assertEquals(1, $actual->getId());
-		$this->assertEquals('username', $actual->getUserLogin());
+		$sut->expects($this->never())
+			->method('createDefaultLocalUserResolver')
+			->with($credentials, $ldapAttributes);
+
+		$sut->createAdiUser($credentials, $ldapAttributes);
+	}
+
+	/**
+	 * @issue #188
+	 * @test
+	 */
+	public function GH_188_createAdiUser_itFallsbackToLocalUserResolver()
+	{
+		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
+		$ldapAttributes = new Attributes(array(), array('samAccountName' => 'username', 'objectguid' => '666-666'));
+
+		$sut = $this->sut(array('createDefaultLocalUserResolver'));
+		$localUserResolver = $this->createMock(LocalUserResolver::class);
+
+		$sut->expects($this->once())
+			->method('createDefaultLocalUserResolver')
+			->with($credentials, $ldapAttributes)
+			->willReturn($localUserResolver);
+
+		$localUserResolver->expects($this->once())
+			->method('resolve')
+			->willReturn(null);
+
+		$actual = $sut->createAdiUser($credentials, $ldapAttributes);
+		$this->assertEquals(null, $actual->getId());
+	}
+
+	/**
+	 * @issue #188
+	 * @test
+	 */
+	public function GH_188_createAdiUser_itDiscardsUserWithNonMatchingGuids()
+	{
+		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
+		$ldapAttributes =  new Attributes([], ['objectguid' => '555bc']);
+
+		$sut = $this->sut(array('createDefaultLocalUserResolver'));
+		$localUserResolver = $this->createMock(LocalUserResolver::class);
+
+		$objectGuid = '666af';
+
+		$wpUser = new \WP_User();
+		$wpUser->ID = 1;
+		$wpUser->user_login = 'username';
+
+		$sut->expects($this->once())
+			->method('createDefaultLocalUserResolver')
+			->with($credentials, $ldapAttributes)
+			->willReturn($localUserResolver);
+
+		$localUserResolver->expects($this->once())
+			->method('resolve')
+			->willReturn($wpUser);
+
+		$this->userRepository->expects($this->once())
+			->method('findObjectGuidOfUser')
+			->with($wpUser)
+			->willReturn($objectGuid);
+
+		$actual = $sut->createAdiUser($credentials, $ldapAttributes);
+		$this->assertEquals(null, $actual->getId());
 	}
 
 	/**
@@ -275,83 +265,33 @@ class ManagerTest extends BasicTest
 	}
 
 	/**
+	 * @issue #188
 	 * @test
-	 * @issue NADIS-98, ADI-688
-	 * @since 2.1.9
 	 */
-	public function createAdiUser_itFindsUserByObjectGuid()
+	public function GH_188_createDefaultLocalUserResolver_withoutLdapAttribute_noLdapResolverIsPresent()
 	{
-		$sut = $this->sut(array('findByActiveDirectoryUsername'));
-
-		$wpUser = $this->createMock(\WP_User::class);
-		$wpUser->ID = 1;
-		$wpUser->user_login = 'username';
-
-		$ldapAttributes = new Attributes(array(), array('samAccountName' => 'username', 'objectguid' => '666-666'));
+		$sut = $this->sut();
+		$ldapAttributes = new Attributes([], ['samAccountName' => 'username']);
 		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
 
-		$this->userRepository->expects($this->once())
-			->method('findByObjectGuid')
-			->with('666-666')
-			->willReturn($wpUser);
+		$r = $sut->createDefaultLocalUserResolver($credentials, $ldapAttributes);
 
-		$this->userRepository->expects($this->never())
-			->method('findBySAMAccountName')
-			->with('username');
-
-		$sut->expects($this->never())
-			->method('findByActiveDirectoryUsername')
-			->with('username', 'username@test.ad');
-
-		$sut->createAdiUser($credentials, $ldapAttributes);
+		$this->assertEquals(3, sizeof($r->getResolvers()));
 	}
 
 	/**
+	 * @issue #188
 	 * @test
 	 */
-	public function createAdiUser_itFindsUserBySamAccountName()
+	public function GH_188_createDefaultLocalUserResolver_itHasLdapResolverIfLdapAttributesArePresent()
 	{
-		$sut = $this->sut(array('findByActiveDirectoryUsername'));
-
-		$wpUser = new \WP_User();
-		$wpUser->ID = 1;
-		$wpUser->user_login = 'username';
-
-		$ldapAttributes = new Attributes(array(), array('samAccountName' => 'username'));
+		$sut = $this->sut();
+		$ldapAttributes = new Attributes([], ['userprincipalname' => 'username@test.ad']);
 		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
 
-		$sut->expects($this->once())
-			->method('findByActiveDirectoryUsername')
-			->with('username', 'username@test.ad');
+		$r = $sut->createDefaultLocalUserResolver($credentials, $ldapAttributes);
 
-		$sut->createAdiUser($credentials, $ldapAttributes);
-	}
-
-	/**
-	 * @test
-	 */
-	public function createAdiUser_withoutUserFoundBySamAccountName_itFindsUserByActiveDirectoryUsernameAsFallback()
-	{
-		$sut = $this->sut(array('findByObjectGuid', 'findByActiveDirectoryUsername'));
-
-		$wpUser = $this->createMock(\WP_User::class);
-		$wpUser->ID = 1;
-		$wpUser->user_login = 'username';
-
-		$ldapAttributes = new Attributes(array(), array('samAccountName' => 'username'));
-		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
-
-		$this->userRepository->expects($this->once())
-			->method('findByObjectGuid')
-			->with(null)
-			->willReturn(false);
-
-		$sut->expects($this->once())
-			->method('findByActiveDirectoryUsername')
-			->with('username', 'username@test.ad')
-			->willReturn($wpUser);
-
-		$sut->createAdiUser($credentials, $ldapAttributes);
+		$this->assertEquals(4, sizeof($r->getResolvers()));
 	}
 
 	/**
@@ -1797,5 +1737,64 @@ class ManagerTest extends BasicTest
 
 		$actual = $sut->isNadiUser($wpUser);
 		$this->assertEquals(true, $actual);
+	}
+
+	/**
+	 * @test
+	 * @issue #188
+	 */
+	public function GH_188_maybeUpdateObjectGuidIfMissing_whenLocalGuidIsPresent_noUpdateOccurs()
+	{
+		$userId = 555;
+		$sut = $this->sut();
+		$this->userRepository->expects($this->once())
+			->method('findObjectGuidOfUser')
+			->with($userId)
+			->willReturn('some-guid');
+
+		$this->userRepository->expects($this->never())
+			->method('updateObjectGuid');
+
+		$sut->maybeUpdateObjectGuidIfMissing($userId, new Attributes());
+	}
+
+	/**
+	 * @test
+	 * @issue #188
+	 */
+	public function GH_188_maybeUpdateObjectGuidIfMissing_whenLdapGuidIsNotPresent_noUpdateOccurs()
+	{
+		$userId = 555;
+		$sut = $this->sut();
+		$this->userRepository->expects($this->once())
+			->method('findObjectGuidOfUser')
+			->with($userId)
+			->willReturn(null);
+
+		$this->userRepository->expects($this->never())
+			->method('updateObjectGuid');
+
+		$sut->maybeUpdateObjectGuidIfMissing($userId, new Attributes([], []));
+	}
+
+	/**
+	 * @test
+	 * @issue #188
+	 */
+	public function GH_188_maybeUpdateObjectGuidIfMissing_whenLocalGuidIsMissingAndLdapGuidIsPresent_itUpdatesLocalObjectGuid()
+	{
+		$userId = 555;
+		$newGuid = 'new-object-guid';
+		$sut = $this->sut();
+		$this->userRepository->expects($this->once())
+			->method('findObjectGuidOfUser')
+			->with($userId)
+			->willReturn(null);
+
+		$this->userRepository->expects($this->once())
+			->method('updateObjectGuid')
+			->with($userId, $newGuid);
+
+		$sut->maybeUpdateObjectGuidIfMissing($userId, new Attributes([], ['objectguid' => $newGuid]));
 	}
 }

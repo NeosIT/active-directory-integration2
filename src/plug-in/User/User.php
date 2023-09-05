@@ -37,7 +37,6 @@ class User
 	 */
 	private $newUser = true;
 
-
 	/**
 	 * @param Credentials $credentials
 	 * @param Attributes $ldapAttributes
