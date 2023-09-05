@@ -18,7 +18,17 @@ jobs:
 
     - uses: php-actions/composer@v6
 
-    - uses: StephaneBour/actions-php-lint@${{ matrix.php }}
+    - name: Setup PHP runtime
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: "${{ matrix.php }}"
+        coverage: "none"
+
+    - name: Lint PHP files
+      run: |
+        curl -Ls https://github.com/overtrue/phplint/releases/latest/download/phplint.phar -o /usr/local/bin/phplint
+        chmod +x /usr/local/bin/phplint
+        /usr/local/bin/phplint -vvv --no-cache
 
     - name: PHPUnit test
       uses: php-actions/phpunit@v2
