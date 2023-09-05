@@ -19,7 +19,7 @@ jobs:
 
     - uses: php-actions/composer@v6
 
-    - uses: michaelw90/PHP-Lint@master
+    - uses: StephaneBour/actions-php-lint@${{ matrix.php }}
 
     - name: PHPUnit test
       uses: php-actions/phpunit@v2
