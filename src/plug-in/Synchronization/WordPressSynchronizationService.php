@@ -377,7 +377,7 @@ class WordPressSynchronizationService extends AbstractSynchronizationService
 			return;
 		}
 
-		// Set domain sid to empty, to prevent non existing user from getting used for sync to wordpress
+		// Set domain sid to empty, to prevent non-existing users from getting used for Sync to WordPress
 		$ldapAttributes->setDomainSid('empty');
 		$this->logger->warning('Removed domain sid for user ' . $credentials->getLogin());
 

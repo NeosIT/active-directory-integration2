@@ -753,6 +753,11 @@ class Manager
 		$isUserAlreadyDisabled = $this->metaRepository->isUserDisabled($userId);
 		$wpUser = $this->userRepository->findById($userId);
 
+		if (!$wpUser) {
+			$this->logger->debug("Unable to disable user with id '{$userId}': user not found in WordPress");
+			return;
+		}
+
 		// ADI-699: Add hook user_before_disable
 		do_action(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_before_disable', $wpUser, $isUserAlreadyDisabled);
 
