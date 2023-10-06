@@ -126,7 +126,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
-= UNRELEASED =
+= 3.1.1 =
 * FIXED: Issue when Sync to WordPress disables non-existing WP user (#191)
 
 = 3.1.0 =
