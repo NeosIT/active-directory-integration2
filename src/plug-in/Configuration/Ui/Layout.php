@@ -61,10 +61,6 @@ class Layout
 					),
 					self::DESCRIPTION => array(
 						__(
-							'<span class="adi-important-message"><b>IMPORTANT NOTICE: END OF SUPPORT FOR PHP < 8.x </b></span><br><span>We hereby inform you that as of <b>2022-11-28</b> NADI will no longer support PHP versions in the <b>7.x</b> branch. The reason is that security support for PHP versions prior 8.x have been dropped by the maintainers as you can see in the <a href="http://php.net/supported-versions.php" target="_blank">official PHP documentation</a>. For security reasons and in order to use NADI in 2023 we hereby politely encourage you to migrate your environments to at least <b>PHP 8.0</b> until then.</span><br>',
-							'next-active-directory-integration'
-						),
-						__(
 							'On this page you can configure whether NADI should be enabled for a specific profile or not.',
 							'next-active-directory-integration'
 						),

@@ -2,7 +2,7 @@
 Contributors: dreitier,dreitierci,schakko,neosit
 Tags: authentication, active directory, ldap, ldaps, authorization, security, windows, sso, login, domain, controller
 Requires at least: 5.6
-Tested up to: 6.3
+Tested up to: 6.4
 Stable tag: REPLACE_VERSION_BY_CI
 License: GPLv3
 Donate link: https://active-directory-wp.com
@@ -127,6 +127,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* CHANGED: WordPress 6.4 compatibility has been checked
 
 = 3.1.1 =
 * FIXED: Issue when Sync to WordPress disables non-existing WP user (#191)
