@@ -59,7 +59,7 @@ As an owner of a valid support plan you have access to the following premium ext
 
 == Frequently Asked Questions ==
 
-Please read the [FAQ](https://www.active-directory-wp.com/docs/FAQ.html) of our [official documentation](https://www.active-directory-wp.com/docs/Getting_Started.html).
+Please read the [FAQ](https://docs.active-directory-wp.com/FAQ/index.html) of our [official documentation](https://docs.active-directory-wp.com/Getting_Started.html).
 
 == Screenshots ==
 
