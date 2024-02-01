@@ -4,8 +4,8 @@ Next Active Directory Integration allows WordPress to authenticate, authorize, c
 If you like this plug-in we'd like to encourage you to purchase a support plan from [https://active-directory-wp.com/](https://active-directory-wp.com/shop-overview/) to support the ongoing development of this plug-in.
 
 ## Important requirement changes
-NADI requires PHP 8.0 or later. The reason is that security support for PHP version prior 8.x have been dropped by the maintainers as you can see in the official [PHP documentation](http://php.net/supported-versions.php).
-For security reasons and in order to use NADI in 2023 we hereby politely encourage you to migrate your environments to at least PHP 8.0.
+NADI requires PHP 8.1 or later. The reason is that security support for PHP version prior 8.1 have been dropped by the maintainers as you can see in the official [PHP documentation](http://php.net/supported-versions.php).
+For security reasons and in order to use NADI in 2024 we hereby politely encourage you to migrate your environments to at least PHP 8.1.
 
 Thank you all for your support and understanding.
 

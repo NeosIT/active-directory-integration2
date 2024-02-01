@@ -10,7 +10,7 @@ jobs:
     name: Run unit tests
     strategy:
       matrix:
-        php: [ "8.0", "8.1", "8.2" ]
+        php: [ "8.1", "8.2", "8.3" ]
         phpunit: [ "9.5.10" ]
 
     steps:
@@ -18,17 +18,17 @@ jobs:
 
     - uses: php-actions/composer@v6
 
-#    - name: Setup PHP runtime
-#      uses: shivammathur/setup-php@v2
-#      with:
-#        php-version: "${{ matrix.php }}"
-#        coverage: "none"
+    - name: Setup PHP runtime
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: "${{ matrix.php }}"
+        coverage: "none"
 
-#    - name: Lint PHP files
-#      run: |
-#        curl -Ls https://github.com/overtrue/phplint/releases/latest/download/phplint.phar -o /usr/local/bin/phplint
-#        chmod +x /usr/local/bin/phplint
-#        /usr/local/bin/phplint -vvv --no-cache
+    - name: Lint PHP files
+      run: |
+        curl -Ls https://github.com/overtrue/phplint/releases/latest/download/phplint.phar -o /usr/local/bin/phplint
+        chmod +x /usr/local/bin/phplint
+        /usr/local/bin/phplint -vvv --no-cache
 
     - name: PHPUnit test
       uses: php-actions/phpunit@v2
