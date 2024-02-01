@@ -127,6 +127,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* CHANGED: Re-enable linter support (#189)
 * CHANGED: Drop PHP 8.0 support from CI (#189)
 
 = 3.1.2 =
