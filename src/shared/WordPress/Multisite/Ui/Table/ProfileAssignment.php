@@ -160,10 +160,13 @@ class ProfileAssignment extends \WP_MS_Sites_List_Table
 		if (!empty($id)) {
 			$ids = explode(',', $id);
 			$cleanIds = array_map(function($id) {
-				return wp_unslash(trim($id));
+				return wp_unslash((int)trim($id));
 			}, $ids);
 
-			$query .= $wpdb->prepare(" AND {$wpdb->blogs}.blog_id IN (" . implode(', ', $cleanIds) . ")", null);
+			// @see #196: Properly quote arguments
+			$whereInArgs = implode(', ', array_fill(0, sizeof($cleanIds), '%s'));
+
+			$query .= $wpdb->prepare(" AND {$wpdb->blogs}.blog_id IN ({$whereInArgs})", $cleanIds);
 		}
 
 		$order_by = isset($_REQUEST['orderby']) ? $_REQUEST['orderby'] : '';
