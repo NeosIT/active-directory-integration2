@@ -3,7 +3,8 @@
 	"10up/wp_mock": "1.0.1",
 	"phpunit/phpunit": "9.6.20",
 	"overtrue/phplint": "^2.3",
-	"brianhenryie/strauss": "^0.11.1"
+	"brianhenryie/strauss": "^0.11.1",
+    "php-mock/php-mock-phpunit": "^2.10"
   },
   "require": {
 	"twig/twig": "3.4.3",

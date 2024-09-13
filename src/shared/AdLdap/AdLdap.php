@@ -167,7 +167,7 @@ class AdLdap
 	/**
 	 * Version info
 	 */
-	const VERSION = '3.3.3 EXTENDED (20221201)';
+	const VERSION = '2024.09.13';
 
 	/**
 	 * ADI-545 Debug information about LDAP Connection (DME)
@@ -415,55 +415,72 @@ class AdLdap
 	 *
 	 * @param array $options Array of options to pass to the constructor
 	 * @return bool
-	 * @throws Exception - if unable to bind to Domain Controller
+	 * @throws \Exception - if unable to bind to Domain Controller
 	 */
 	function __construct($options = array())
 	{
-		// You can specifically overide any of the default configuration options setup above
-		if (count($options) > 0) {
-			if (array_key_exists("account_suffix", $options)) {
-				$this->_account_suffix = $options["account_suffix"];
-			}
-			if (array_key_exists("base_dn", $options)) {
-				$this->_base_dn = $options["base_dn"];
-			}
-			if (array_key_exists("domain_controllers", $options)) {
-				$this->_domain_controllers = $options["domain_controllers"];
-			}
-			if (array_key_exists("ad_username", $options)) {
-				$this->_ad_username = $options["ad_username"];
-			}
-			if (array_key_exists("ad_password", $options)) {
-				$this->_ad_password = $options["ad_password"];
-			}
-			if (array_key_exists("real_primarygroup", $options)) {
-				$this->_real_primarygroup = $options["real_primarygroup"];
-			}
-			if (array_key_exists("use_ssl", $options)) {
-				$this->_use_ssl = $options["use_ssl"];
-			}
-			if (array_key_exists("use_tls", $options)) {
-				$this->_use_tls = $options["use_tls"];
-			}
-			if (array_key_exists("recursive_groups", $options)) {
-				$this->_recursive_groups = $options["recursive_groups"];
-			}
-			if (array_key_exists("ad_port", $options)) {
-				$this->_ad_port = $options["ad_port"];
-			}
-			if (array_key_exists("allow_self_signed", $options)) {
-				$this->_allow_self_signed = $options["allow_self_signed"];
-			}
-			if (array_key_exists("network_timeout", $options)) {
-				$this->_network_timeout = $options["network_timeout"];
-			}
-		}
+		$this->configureOptions($options);
 
 		if ($this->ldap_supported() === false) {
 			throw new AdLdapException('No LDAP support for PHP.  See: http://www.php.net/ldap');
 		}
 
 		return $this->connect();
+	}
+
+	/**
+	 * Configure options for LDAP connection
+	 * @param array $options
+	 * @return void
+	 */
+	public function configureOptions(array $options = []) {
+		if (array_key_exists("account_suffix", $options)) {
+			$this->_account_suffix = $options["account_suffix"];
+		}
+
+		if (array_key_exists("base_dn", $options)) {
+			$this->_base_dn = $options["base_dn"];
+		}
+
+		if (array_key_exists("domain_controllers", $options)) {
+			$this->_domain_controllers = $options["domain_controllers"];
+		}
+
+		if (array_key_exists("ad_username", $options)) {
+			$this->_ad_username = $options["ad_username"];
+		}
+
+		if (array_key_exists("ad_password", $options)) {
+			$this->_ad_password = $options["ad_password"];
+		}
+
+		if (array_key_exists("real_primarygroup", $options)) {
+			$this->_real_primarygroup = $options["real_primarygroup"];
+		}
+
+		if (array_key_exists("use_ssl", $options)) {
+			$this->_use_ssl = $options["use_ssl"];
+		}
+
+		if (array_key_exists("use_tls", $options)) {
+			$this->_use_tls = $options["use_tls"];
+		}
+
+		if (array_key_exists("recursive_groups", $options)) {
+			$this->_recursive_groups = $options["recursive_groups"];
+		}
+
+		if (array_key_exists("ad_port", $options)) {
+			$this->_ad_port = $options["ad_port"];
+		}
+
+		if (array_key_exists("allow_self_signed", $options)) {
+			$this->_allow_self_signed = $options["allow_self_signed"];
+		}
+
+		if (array_key_exists("network_timeout", $options)) {
+			$this->_network_timeout = $options["network_timeout"];
+		}
 	}
 
 	/**
@@ -479,9 +496,37 @@ class AdLdap
 	}
 
 	/**
+	 * Based upon the internal state, it creates a new LDAP connection URL.
+	 *
+	 * @param $hostname
+	 * @return string
+	 */
+	public function buildConnectionUrl($hostname): string {
+		$useProtocol = "ldap";
+		$usePort = $this->_ad_port;
+
+		// set default port
+		if (!$usePort) {
+			$usePort = 389;
+		}
+
+		if ($this->_use_ssl) {
+			$useProtocol = "ldaps";
+
+			if (!$usePort || $usePort == 389) {
+				// fallback to default SSL port
+				$usePort = 636;
+			}
+		}
+
+		return $useProtocol . "://" . $hostname . ":" . $usePort;
+	}
+
+	/**
 	 * Connects and Binds to the Domain Controller
 	 *
 	 * @return bool
+	 * @throws AdLdapException
 	 */
 	public function connect()
 	{
@@ -499,26 +544,11 @@ class AdLdap
 		// Connect to the AD/LDAP server as the username/password
 		$this->_last_used_dc = $this->random_controller();
 
-		// Set default connection url
-		$url = $this->_last_used_dc;
-		$usePort = $this->_ad_port;
+		// create new connection URL
+		$url = $this->buildConnectionUrl($this->_last_used_dc);
 
-		if ($this->_use_ssl) {
-
-			$url = "ldaps://" . $this->_last_used_dc;
-
-			// ADI-545 LDAPS port setting is not used properly (DME)
-			if (!$usePort || $usePort == 389) {
-				// fallback to default SSL port
-				$usePort = 636;
-			}
-
-			// NADIS-94: With some PHP/LDAP compilations, the ldap_connect(..., $usePort) parameter is ignored when SSL is used.
-			// when SSL is being used, we assign the selected port to the URI
-			$url .= ":" . $usePort;
-		}
-
-		$this->_conn = ldap_connect($url, $usePort);
+		// @see #198: With PHP 8.3, format ($host, $port) is deprecated
+		$this->_conn = ldap_connect($url);
 
 		// Set some ldap options for talking to AD
 		ldap_set_option($this->_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
@@ -567,7 +597,9 @@ class AdLdap
 	 */
 	public function close()
 	{
-		ldap_close($this->_conn);
+		if ($this->_conn) {
+			ldap_close($this->_conn);
+		}
 	}
 
 	/**

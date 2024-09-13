@@ -3,14 +3,28 @@ namespace Dreitier\AdLdap;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Custom test adapter so that we do not call `connect()` right on object creation
+ */
+class AdLdapTestAdapter extends AdLdap {
+	public function __construct(array $options = []) {
+	}
+}
+
 class AdLdapTest extends TestCase
 {
-	private function sut($methods = null, $adLdapOptions = array())
+	use \phpmock\phpunit\PHPMock;
+	private function sut($methods = null, $options = array())
 	{
-		return $this->getMockBuilder(AdLdap::class)
-			->setConstructorArgs(array($adLdapOptions))
+		$r = $this->getMockBuilder(AdLdapTestAdapter::class)
 			->setMethods($methods)
 			->getMock();
+
+		if (!empty($options)) {
+			$r->configureOptions($options);
+		}
+
+		return $r;
 	}
 
 	public function setUp(): void
@@ -119,5 +133,60 @@ class AdLdapTest extends TestCase
 	public function sanitizeDistinguishedName() {
 		$sut = $this->sut();
 		$this->assertEquals("dc=test,dc=ad", $sut->sanitizeDistinguishedName("DC=test,DC=ad "));
+	}
+
+	/**
+	 * @test
+	 * @issue #198
+	 */
+	public function buildConnectionUrl_returnsDefault389_whenNoPortIsSet() {
+		$sut = $this->sut();
+
+		$this->assertEquals("ldap://host:389", $sut->buildConnectionUrl('host'));
+	}
+
+	/**
+	 * @test
+	 * @issue #198
+	 */
+	public function buildConnectionUrl_returnsPort555_ifSpecified() {
+		$sut = $this->sut(options: ['ad_port' => 555]);
+
+		$this->assertEquals("ldap://host:555", $sut->buildConnectionUrl('host'));
+	}
+
+	/**
+	 * @test
+	 * @issue #198
+	 */
+	public function buildConnectionUrl_returnsLapsWithDefault636_ifSpecified() {
+		$sut = $this->sut(options: ['use_ssl' => true]);
+
+		$this->assertEquals("ldaps://host:636", $sut->buildConnectionUrl('host'));
+	}
+
+	/**
+	 * @test
+	 * @issue #198
+	 */
+	public function buildConnectionUrl_returnsLapsWithCustomPort_ifSpecified() {
+		$sut = $this->sut(options: ['use_ssl' => true, 'ad_port' => 555]);
+
+		$this->assertEquals("ldaps://host:555", $sut->buildConnectionUrl('host'));
+	}
+
+	/**
+	 * @test
+	 * @issue #198
+	 */
+	public function GH_198_deprecated_ldap_connect_method_signature_isNoLongerUsed() {
+		$sut = new AdLdapTestAdapter();
+		$sut->set_domain_controllers(['host']);
+
+		$_ldap_connect = $this->getFunctionMock(__NAMESPACE__, "ldap_connect");
+
+		$_ldap_connect->expects($this->once())->with("ldap://host:389")->willReturn(null);
+
+		$sut->connect();
 	}
 }
