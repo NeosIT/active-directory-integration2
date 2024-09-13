@@ -1109,9 +1109,9 @@ class Dependencies
 			$this->loginSucceededService = new LoginSucceededService(
 				$this->getLoginState(),
 				$this->getLdapAttributeService(),
-				$this->getUserManager(),
 				$this->getLdapConnection(),
-				$this->getMultisiteConfigurationService()
+				$this->getMultisiteConfigurationService(),
+				$this->getUserManager(),
 			);
 		}
 

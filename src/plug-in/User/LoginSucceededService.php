@@ -42,16 +42,16 @@ class LoginSucceededService
 	/**
 	 * @param LoginState $loginState
 	 * @param Service $attributeService
-	 * @param Manager $userManager
 	 * @param Connection $ldapConnection
 	 * @param \Dreitier\WordPress\Multisite\Configuration\Service $multisiteConfigurationService
+	 * @param ?Manager $userManager
 	 */
 	public function __construct(
 		LoginState                                          $loginState,
 		Service                                             $attributeService,
-		Manager                                             $userManager = null,
 		Connection                                          $ldapConnection,
-		\Dreitier\WordPress\Multisite\Configuration\Service $multisiteConfigurationService
+		\Dreitier\WordPress\Multisite\Configuration\Service $multisiteConfigurationService,
+		?Manager                                             $userManager = null,
 	)
 	{
 		$this->loginState = $loginState;

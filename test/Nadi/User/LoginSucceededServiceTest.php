@@ -59,9 +59,9 @@ class LoginSucceededServiceTest extends BasicTest
 				array(
 					$this->loginState,
 					$this->attributeService,
-					$simulated ? null : $this->userManager,
 					$this->ldapConnection,
-					$this->configuration
+					$this->configuration,
+					$simulated ? null : $this->userManager,
 				)
 			)->setMethods($methods)
 			->getMock();

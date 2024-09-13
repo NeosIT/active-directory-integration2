@@ -28,7 +28,7 @@ class UserQuery
 	 */
 	private $credentials = null;
 
-	private function __construct(Credentials $credentials = null, $principal = null)
+	private function __construct(?Credentials $credentials = null, ?string $principal = null)
 	{
 		$this->principal = $principal;
 		$this->credentials = $credentials;
@@ -92,7 +92,7 @@ class UserQuery
 	 * @param Credentials|null $credentials
 	 * @return UserQuery
 	 */
-	public static function forPrincipal($principal, Credentials $credentials = null)
+	public static function forPrincipal($principal, ?Credentials $credentials = null)
 	{
 		return new UserQuery($credentials, $principal);
 	}
@@ -113,7 +113,7 @@ class UserQuery
 	 * @param Credentials|null $credentials
 	 * @return mixed
 	 */
-	public static function forGuid($guid, Credentials $credentials = null)
+	public static function forGuid($guid, ?Credentials $credentials = null)
 	{
 		$r = new UserQuery($credentials, $guid);
 		return $r->setGuid();

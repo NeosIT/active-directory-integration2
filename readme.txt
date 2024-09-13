@@ -127,10 +127,10 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* CHANGED: Compatibility with upcoming version PHP 8.4 has been checked (#199)
 * FIXED: Fix deprecated ldap_connect signature (#198)
 * CHANGED: Update PHPUnit to 9.6.20 (#197)
 * FIXED: SQL injection in Multisite WordPress when being already authenticated as network admin (#196)
-
 
 = 3.1.5 =
 * CHANGED: WordPress 6.6 compatibility has been checked
