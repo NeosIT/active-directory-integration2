@@ -570,11 +570,20 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function GH_151_isAccountDisabled_throwsTypeError_withPHP81()
 	{
+		set_error_handler(
+			static function ( $errno, $errstr ) {
+				throw new \Exception( $errstr, $errno );
+			},
+			E_ALL
+		);
+
 		$sut = $this->sut();
-		$this->expectError();
+		$this->expectException(\TypeError::class);
 		// regex is required because error messages changed from PHP 7.4 ("must be of THE type int") to PHP >=8.0 ("must be of type int")
-		$this->expectErrorMessageMatches('/must be of( the)? type int, string given/');
+		$this->expectExceptionMessageMatches('/must be of( the)? type int, string given/');
 		$this->assertFalse($sut->isAccountDisabled(""));
+
+		restore_error_handler();
 	}
 
 	/**
@@ -1123,7 +1132,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 			->with($adiUser, true)
 			->willReturn($adiUser);
 
-		\WP_Mock::wpFunction('is_wp_error', array(
+		\WP_Mock::userFunction('is_wp_error', array(
 			'args' => array($adiUser),
 			'times' => 1,
 			'return' => false,
@@ -1148,7 +1157,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 			->with($adiUser, true)
 			->willReturn($adiUser);
 
-		\WP_Mock::wpFunction('is_wp_error', array(
+		\WP_Mock::userFunction('is_wp_error', array(
 			'args' => array($adiUser),
 			'times' => 1,
 			'return' => false,
@@ -1173,7 +1182,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 			->with($adiUser, true)
 			->willReturn(array('error' => true));
 
-		\WP_Mock::wpFunction('is_wp_error', array(
+		\WP_Mock::userFunction('is_wp_error', array(
 			'times' => 1,
 			'return' => true,
 		));

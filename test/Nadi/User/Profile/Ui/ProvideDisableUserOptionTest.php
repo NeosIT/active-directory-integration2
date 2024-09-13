@@ -75,7 +75,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'current_user_can', array(
 				'args' => 'manage_options',
 				'times' => 1,
@@ -97,7 +97,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 			'ID' => 1,
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'current_user_can', array(
 				'args' => 'manage_options',
 				'times' => 1,
@@ -127,13 +127,13 @@ class ProvideDisableUserOptionTest extends BasicTest
 			'lastName' => 'testLastName',
 		);
 
-		\WP_Mock::wpFunction('current_user_can', array(
+		\WP_Mock::userFunction('current_user_can', array(
 				'args' => 'manage_options',
 				'times' => 1,
 				'return' => true,)
 		);
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array(2,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', true),
 				'times' => 1,
 				'return' => $userMeta,)
@@ -198,19 +198,19 @@ class ProvideDisableUserOptionTest extends BasicTest
 		);
 
 
-		\WP_Mock::wpFunction('get_userdata', array(
+		\WP_Mock::userFunction('get_userdata', array(
 				'args' => $userId,
 				'times' => 1,
 				'return' => $userObject,)
 		);
 
-		\WP_Mock::wpFunction('get_user_by', array(
+		\WP_Mock::userFunction('get_user_by', array(
 				'args' => array('id', $userId),
 				'times' => 1,
 				'return' => $userObject,)
 		);
 
-		\WP_Mock::wpFunction('wp_get_current_user', array(
+		\WP_Mock::userFunction('wp_get_current_user', array(
 				'times' => 1,
 				'return' => $userObject2,)
 		);
@@ -249,7 +249,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 			->method('enable')
 			->with($userId);
 
-		\WP_Mock::wpFunction('get_user_by', array(
+		\WP_Mock::userFunction('get_user_by', array(
 				'args' => array('id', $userId),
 				'times' => 1,
 				'return' => $userObject,)

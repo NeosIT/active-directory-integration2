@@ -124,7 +124,7 @@ class SyncToWordPressPageTest extends BasicTest
 			->method('processData')
 			->willReturn(array());
 
-		\WP_Mock::wpFunction('wp_create_nonce', array(
+		\WP_Mock::userFunction('wp_create_nonce', array(
 				'args' => SyncToWordPressPage::NONCE,
 				'times' => 1,
 				'return' => SyncToWordPressPage::NONCE)
@@ -143,12 +143,12 @@ class SyncToWordPressPageTest extends BasicTest
 			->willReturnOnConsecutiveCalls($authCode, $domainSid, $syncEnabled, $syncUser, $syncPass);
 
 
-		\WP_Mock::wpFunction('get_current_blog_id', array(
+		\WP_Mock::userFunction('get_current_blog_id', array(
 				'times' => 1,
 				'return' => 1,)
 		);
 
-		\WP_Mock::wpFunction('get_site_url', array(
+		\WP_Mock::userFunction('get_site_url', array(
 				'args' => 1,
 				'times' => 1,
 				'return' => 'www.testsite.it',)
@@ -169,28 +169,28 @@ class SyncToWordPressPageTest extends BasicTest
 		$sut = $this->sut(null);
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . SyncToWordPressPage::SLUG;
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array('next_ad_int_bootstrap_min_css',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/bootstrap.min.css', array(), Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array('next_ad_int_bootstrap_min_js',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/bootstrap.min.js', array(), Ui::VERSION_PAGE_JS),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'jquery'
@@ -199,7 +199,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_page',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/page.js',
@@ -210,7 +210,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'angular.min',
@@ -222,7 +222,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-alertify',
@@ -234,7 +234,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-notify',
@@ -246,7 +246,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-busy',
@@ -258,7 +258,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_util_array',
@@ -269,7 +269,7 @@ class SyncToWordPressPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_util_value',
@@ -281,7 +281,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_module',
@@ -293,7 +293,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_config',
@@ -305,7 +305,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_browser',
@@ -317,7 +317,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_template',
@@ -329,7 +329,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_notification',
@@ -341,7 +341,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_list',
@@ -353,7 +353,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'selectizejs',
@@ -366,7 +366,7 @@ class SyncToWordPressPageTest extends BasicTest
 		);
 
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'selectizeFix',
@@ -378,7 +378,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array(
 					'ng-notify',
@@ -390,7 +390,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array(
 					'selectizecss',
@@ -402,7 +402,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array(
 					'alertify.min',
@@ -414,7 +414,7 @@ class SyncToWordPressPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_sync_action',
@@ -437,7 +437,7 @@ class SyncToWordPressPageTest extends BasicTest
 		$sut = $this->sut(null);
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'some_stuff';
 
-		\WP_Mock::wpFunction('wp_enqueue_style', array(
+		\WP_Mock::userFunction('wp_enqueue_style', array(
 				'times' => 0)
 		);
 
@@ -469,13 +469,13 @@ class SyncToWordPressPageTest extends BasicTest
 			'security' => 'invalid'
 		);
 
-		\WP_Mock::wpFunction('wp_verify_nonce', array(
+		\WP_Mock::userFunction('wp_verify_nonce', array(
 				'args' => array($post['security'], SyncToWordPressPage::NONCE),
 				'times' => 1,
 				'return' => false)
 		);
 
-		\WP_Mock::wpFunction('wp_die', array(
+		\WP_Mock::userFunction('wp_die', array(
 				'times' => 1)
 		);
 
@@ -494,13 +494,13 @@ class SyncToWordPressPageTest extends BasicTest
 			'security' => 'valid'
 		);
 
-		\WP_Mock::wpFunction('wp_verify_nonce', array(
+		\WP_Mock::userFunction('wp_verify_nonce', array(
 				'args' => array($post['security'], SyncToWordPressPage::NONCE),
 				'times' => 1,
 				'return' => true)
 		);
 
-		\WP_Mock::wpFunction('wp_die', array(
+		\WP_Mock::userFunction('wp_die', array(
 				'times' => 0,)
 		);
 

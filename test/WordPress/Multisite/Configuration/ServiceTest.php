@@ -153,7 +153,7 @@ class ServiceTest extends BasicTest
 	{
 		$sut = $this->sut(array('getProfileOptionValue', 'getValue', 'getPermission'));
 
-		\WP_Mock::wpFunction('get_current_blog_id', array(
+		\WP_Mock::userFunction('get_current_blog_id', array(
 			'times' => 1,
 			'return' => 33,
 		));
@@ -276,7 +276,7 @@ class ServiceTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
 			'return' => false,
 		));
@@ -292,7 +292,7 @@ class ServiceTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
 			'return' => true,
 		));
@@ -346,7 +346,7 @@ class ServiceTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
 			'return' => true,
 		));
@@ -367,7 +367,7 @@ class ServiceTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
 			'return' => false,
 		));

@@ -131,7 +131,7 @@ class SanitizerTest extends BasicTest
 			Attribute::DEFAULT_VALUE => 'aa@bb.com'
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'sanitize_email', array(
 				'args' => '   a@b.de! ',
 				'times' => 1,
@@ -139,7 +139,7 @@ class SanitizerTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_email', array(
 				'args' => 'a@b.de',
 				'times' => 1,
@@ -164,7 +164,7 @@ class SanitizerTest extends BasicTest
 			Attribute::DEFAULT_VALUE => 'aa@bb.com'
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'sanitize_email', array(
 				'args' => '   ab.de! ',
 				'times' => 1,
@@ -172,7 +172,7 @@ class SanitizerTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_email', array(
 				'args' => 'ab.de',
 				'times' => 1,
@@ -195,7 +195,7 @@ class SanitizerTest extends BasicTest
 		);
 		$metadata = array();
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'sanitize_email', array(
 				'args' => '   ab.de! ',
 				'times' => 1,
@@ -203,7 +203,7 @@ class SanitizerTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_email', array(
 				'args' => 'ab.de',
 				'times' => 1,
@@ -442,7 +442,7 @@ class SanitizerTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_generate_password', array(
 				'return' => 'xahFwxtHSx5kMjCfTzTL'
 			)
@@ -458,7 +458,7 @@ class SanitizerTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_generate_password', array(
 				'return' => 'xahFwxtHSx5kMjCfTzTL'
 			)
@@ -474,7 +474,7 @@ class SanitizerTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_generate_password', array(
 				'return' => 'xahFwxtHSx5kMjCfTzTL'
 			)
@@ -490,7 +490,7 @@ class SanitizerTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_generate_password', array(
 				'return' => 'xahFwxtHSx5kMjCfTzTL'
 			)
@@ -678,7 +678,7 @@ class SanitizerTest extends BasicTest
 		$value = "noEmail";
 		$optionData = array('defaultValue' => 'test@company.it');
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'sanitize_email', array(
 				'args' => $value,
 				'times' => '1',
@@ -686,7 +686,7 @@ class SanitizerTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_email', array(
 				'args' => $value,
 				'times' => '1',
@@ -707,7 +707,7 @@ class SanitizerTest extends BasicTest
 		$value = "test@company.it";
 		$optionData = array('defaultValue' => 'testdefault@company.it');
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'sanitize_email', array(
 				'args' => $value,
 				'times' => '1',
@@ -715,7 +715,7 @@ class SanitizerTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_email', array(
 				'args' => $value,
 				'times' => '1',

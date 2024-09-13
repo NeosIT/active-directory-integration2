@@ -270,7 +270,7 @@ class HelperTest extends BasicTest
 	{
 		$sut = $this->sut(array('checkIfEmailExists'));
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'email_exists', array(
 				'args' => 'test@company.de',
 				'times' => 1,
@@ -293,7 +293,7 @@ class HelperTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'email_exists', array(
 				'args' => 'test@company.de',
 				'times' => 1,
@@ -301,7 +301,7 @@ class HelperTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'email_exists', array(
 				'args' => 'test0@company.de',
 				'times' => 1,

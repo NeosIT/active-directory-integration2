@@ -137,18 +137,18 @@ class ConnectivityTestPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction('current_user_can', array(
+		\WP_Mock::userFunction('current_user_can', array(
 				'args' => 'manage_options',
 				'times' => 1,
 				'return' => false)
 		);
 
-		\WP_Mock::wpFunction('wp_die', array(
+		\WP_Mock::userFunction('wp_die', array(
 				'args' => array('You do not have sufficient permissions to access this page.'),
 				'times' => 1)
 		);
 
-		\WP_Mock::wpFunction('wp_create_nonce', array(
+		\WP_Mock::userFunction('wp_create_nonce', array(
 				'args' => 'Active Directory Integration Test Authentication Nonce',
 				'times' => 1,
 				'return' => 'Active Directory Integration Test Authentication Nonce',)
@@ -169,21 +169,21 @@ class ConnectivityTestPageTest extends BasicTest
 		$sut = $this->sut(null);
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'test_connection';
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array('next_ad_int_bootstrap_min_css',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/bootstrap.min.css', array(), Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array('next_ad_int_bootstrap_min_js',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/bootstrap.min.js', array(), Ui::VERSION_PAGE_JS),
 				'times' => 1,
@@ -208,7 +208,7 @@ class ConnectivityTestPageTest extends BasicTest
 		$expectedUsername = 'test\User';
 		$expectedPassword = "secret's";
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_verify_nonce', array(
 				'args' => array($_POST['security'], 'Active Directory Integration Test Authentication Nonce'),
 				'times' => 1,
@@ -240,7 +240,7 @@ class ConnectivityTestPageTest extends BasicTest
 		$_POST['password'] = 'secret';
 		$_POST['security'] = 'someValue';
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_verify_nonce', array(
 				'args' => array($_POST['security'], 'Active Directory Integration Test Authentication Nonce'),
 				'times' => 1,
@@ -271,7 +271,7 @@ class ConnectivityTestPageTest extends BasicTest
 		$_POST['password'] = 'secret';
 		$_POST['security'] = 'someIncorrectValue';
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_verify_nonce', array(
 				'args' => array($_POST['security'], 'Active Directory Integration Test Authentication Nonce'),
 				'times' => 1,
@@ -279,7 +279,7 @@ class ConnectivityTestPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_die', array(
 				'args' => 'You do not have sufficient permissions.',
 				'times' => 1
@@ -367,17 +367,17 @@ class ConnectivityTestPageTest extends BasicTest
 			->with(Options::SUPPORT_LICENSE_KEY, 1)
 			->willReturn('123');
 
-		\WP_Mock::wpFunction('get_current_blog_id', array(
+		\WP_Mock::userFunction('get_current_blog_id', array(
 			'times' => 1,
 			'return' => 1
 		));
 
-		\WP_Mock::wpFunction('get_site_url', array(
+		\WP_Mock::userFunction('get_site_url', array(
 			'times' => 1,
 			'return' => 'http://example.com'
 		));
 
-		\WP_Mock::wpFunction('get_bloginfo', array(
+		\WP_Mock::userFunction('get_bloginfo', array(
 			'args' => 'name',
 			'times' => 1,
 			'return' => 'ExampleBlogName'
@@ -407,17 +407,17 @@ class ConnectivityTestPageTest extends BasicTest
 			->with(Options::SUPPORT_LICENSE_KEY, 1)
 			->willReturn('');
 
-		\WP_Mock::wpFunction('get_current_blog_id', array(
+		\WP_Mock::userFunction('get_current_blog_id', array(
 			'times' => 1,
 			'return' => 1
 		));
 
-		\WP_Mock::wpFunction('get_site_url', array(
+		\WP_Mock::userFunction('get_site_url', array(
 			'times' => 1,
 			'return' => 'http://example.com'
 		));
 
-		\WP_Mock::wpFunction('get_bloginfo', array(
+		\WP_Mock::userFunction('get_bloginfo', array(
 			'args' => 'name',
 			'times' => 1,
 			'return' => 'ExampleBlogName'

@@ -241,7 +241,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 			'meta_cn' => 'abcd1234'
 		);
 
-		\WP_Mock::wpFunction('update_user_meta', array(
+		\WP_Mock::userFunction('update_user_meta', array(
 				'args' => array($userId, 'meta_cn', 'abcd1234'),
 				'times' => 1)
 		);
@@ -323,7 +323,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 		$user = new \WP_User();
 		$user->ID = 1;
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => array($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'userprincipalname', true),
 			'times' => 1,
 			'return' => 'user@test.ad',
@@ -357,7 +357,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 		$username = 'testUser';
 		$wpUserdata = (object)array('user_login' => 'username');
 
-		\WP_Mock::wpFunction('get_userdata', array(
+		\WP_Mock::userFunction('get_userdata', array(
 			'args' => 1,
 			'times' => 1,
 			'return' => $wpUserdata
@@ -383,7 +383,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 		$wpUserdata = (object)array('ID' => 666, 'user_login' => 'username');
 		$ldapConnectionDetails = (object)array('username' => 'serviceUsername', 'password' => 'servicePassword');
 
-		\WP_Mock::wpFunction('get_userdata', array(
+		\WP_Mock::userFunction('get_userdata', array(
 			'args' => 666,
 			'times' => 1,
 			'return' => $wpUserdata
@@ -430,7 +430,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 				)
 			);
 
-		\WP_Mock::wpFunction('get_userdata', array(
+		\WP_Mock::userFunction('get_userdata', array(
 			'args' => 666,
 			'times' => 0,
 			'return' => $wpUserdata

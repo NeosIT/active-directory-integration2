@@ -89,7 +89,7 @@ class PasswordValidationServiceTest extends BasicTest
 		$userId = '2';
 		$check = true;
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => '1',
 				'return' => true)
@@ -113,7 +113,7 @@ class PasswordValidationServiceTest extends BasicTest
 		$sut = $this->sut(null);
 		$userId = '2';
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => '1',
 				'return' => true)
@@ -137,7 +137,7 @@ class PasswordValidationServiceTest extends BasicTest
 		$userId = '2';
 		$check = true;
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => '1',
 				'return' => false)

@@ -1,8 +1,7 @@
 {
   "require-dev": {
-	"10up/wp_mock": "0.4.2",
-	"mockery/mockery": "1.0",
-	"phpunit/phpunit": "9.5.10",
+	"10up/wp_mock": "1.0.1",
+	"phpunit/phpunit": "9.6.20",
 	"overtrue/phplint": "^2.3",
 	"brianhenryie/strauss": "^0.11.1"
   },

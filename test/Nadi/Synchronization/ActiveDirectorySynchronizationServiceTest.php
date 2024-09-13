@@ -419,7 +419,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 		$meta->setMetakey('next_ad_int_mail');
 		$attributes = array('mail' => $meta);
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => 879,
 			'times' => 1,
 			'return' => array('cn' => '666', 'next_ad_int_mail' => 'mail@test.ad')
@@ -474,7 +474,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('current_user_can', array(
+		\WP_Mock::userFunction('current_user_can', array(
 			'args' => 'edit_users',
 			'times' => 1,
 			'return' => true

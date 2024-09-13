@@ -175,7 +175,7 @@ class AbstractSynchronizationServiceTest extends BasicTest
 			'1234' => 'administrator'
 		);
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array('1',NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => '1',
 				'return' => "1234")
@@ -231,24 +231,24 @@ class AbstractSynchronizationServiceTest extends BasicTest
 		$expected[0]->ID = 1;
 		$expected[0]->user_login = 'administrator';
 
-		\WP_Mock::wpFunction('get_current_blog_id', array(
+		\WP_Mock::userFunction('get_current_blog_id', array(
 			'times' => '1',
 			'return' => '1',
 		));
 
-		\WP_Mock::wpFunction('get_users', array(
+		\WP_Mock::userFunction('get_users', array(
 				'args' => array($args),
 				'times' => '1',
 				'return' => $users)
 		);
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array('1',NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_DOMAINSID, true),
 				'times' => '1',
 				'return' => "S-1-5-21-3623811015-3361044348-30300820-1013")
 		);
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array('2',NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_DOMAINSID, true),
 				'times' => '1',
 				'return' => "S-1-5-21-3623811015-3361044348-66666666-1013")
@@ -377,24 +377,24 @@ class AbstractSynchronizationServiceTest extends BasicTest
 		$expected[0]->ID = 1;
 		$expected[0]->user_login = 'administrator';
 
-		\WP_Mock::wpFunction('get_current_blog_id', array(
+		\WP_Mock::userFunction('get_current_blog_id', array(
 			'times' => '1',
 			'return' => '1',
 		));
 
-		\WP_Mock::wpFunction('get_users', array(
+		\WP_Mock::userFunction('get_users', array(
 				'args' => array($args),
 				'times' => '1',
 				'return' => $users)
 		);
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array('1',NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_DOMAINSID, true),
 				'times' => '1',
 				'return' => "S-1-5-21-3623811015-3361044348-30300820-1013")
 		);
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array('2',NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_DOMAINSID, true),
 				'times' => '1',
 				'return' => null)

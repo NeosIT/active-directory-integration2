@@ -28,7 +28,7 @@ class RepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => array(1, 'metaKey', false),
 			'times' => 1,
 			'return' => 'meta_value',
@@ -45,7 +45,7 @@ class RepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('add_user_meta', array(
+		\WP_Mock::userFunction('add_user_meta', array(
 			'args' => array(1, 'metaKey', 'metaValue'),
 			'times' => 1,
 			'return' => 1,
@@ -62,7 +62,7 @@ class RepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('update_user_meta', array(
+		\WP_Mock::userFunction('update_user_meta', array(
 			'args' => array(1, 'metaKey', 'metaValue'),
 			'times' => 1,
 			'return' => true,
@@ -79,7 +79,7 @@ class RepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('delete_user_meta', array(
+		\WP_Mock::userFunction('delete_user_meta', array(
 			'args' => array(1, 'metaKey'),
 			'times' => 1,
 			'return' => true,

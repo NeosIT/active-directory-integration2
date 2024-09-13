@@ -438,7 +438,7 @@ class ManagerTest extends BasicTest
 		$sut->expects($this->once())
 			->method('loadMultisiteFunctions');
 
-		\WP_Mock::wpFunction('grant_super_admin', array(
+		\WP_Mock::userFunction('grant_super_admin', array(
 			'times' => 1,
 			'with' => $wpUser->ID,
 		));
@@ -493,7 +493,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function getRoles_inSingleSite_removesSuperAdminFromRoles()
 	{
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
 			'return' => false,
 		));
@@ -515,7 +515,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function getRoles_inMultiSite_containsAllRoles()
 	{
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
 			'return' => true,
 		));

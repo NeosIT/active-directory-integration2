@@ -90,13 +90,13 @@ class PreventEmailChangeTest extends BasicTest
 		);
 		$samaccountname = "testName";
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => 1,
 				'return' => $samaccountname)
 		);
 
-		\WP_Mock::wpFunction('current_user_can', array(
+		\WP_Mock::userFunction('current_user_can', array(
 				'args' => 'manage_options',
 				'times' => 1,
 				'return' => false)
@@ -120,13 +120,13 @@ class PreventEmailChangeTest extends BasicTest
 		);
 		$samaccountname = "testName";
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => 1,
 				'return' => $samaccountname)
 		);
 
-		\WP_Mock::wpFunction('current_user_can', array(
+		\WP_Mock::userFunction('current_user_can', array(
 				'args' => 'manage_options',
 				'times' => 1,
 				'return' => true)
@@ -155,25 +155,25 @@ class PreventEmailChangeTest extends BasicTest
 		\WP_Mock::expectFilterAdded('send_password_change_email', '__return_false');
 		\WP_Mock::expectFilterAdded('send_email_change_email', '__return_false');
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => 1,
 				'return' => $samaccountname)
 		);
 
-		\WP_Mock::wpFunction('current_user_can', array(
+		\WP_Mock::userFunction('current_user_can', array(
 				'args' => 'manage_options',
 				'times' => 1,
 				'return' => false)
 		);
 
-		\WP_Mock::wpFunction('get_user_by', array(
+		\WP_Mock::userFunction('get_user_by', array(
 				'args' => array('id', $user->ID,),
 				'times' => 1,
 				'return' => $user)
 		);
 
-		\WP_Mock::wpFunction('delete_option', array(
+		\WP_Mock::userFunction('delete_option', array(
 				'args' => array($user->ID . '_new_email'),
 				'times' => 1,)
 		);
@@ -217,13 +217,13 @@ class PreventEmailChangeTest extends BasicTest
 			'user_login' => 'testUsername'
 		);
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => 1,
 				'return' => $samaccountname)
 		);
 
-		\WP_Mock::wpFunction('current_user_can', array(
+		\WP_Mock::userFunction('current_user_can', array(
 				'args' => 'manage_options',
 				'times' => 1,
 				'return' => true)
@@ -241,13 +241,13 @@ class PreventEmailChangeTest extends BasicTest
 
 		$userId = 1;
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => 1,
 				'return' => '')
 		);
 
-		\WP_Mock::wpFunction('current_user_can', array(
+		\WP_Mock::userFunction('current_user_can', array(
 				'args' => 'manage_options',
 				'times' => 1,
 				'return' => false)
@@ -271,19 +271,19 @@ class PreventEmailChangeTest extends BasicTest
 			'user_login' => 'testUsername'
 		);
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => 1,
 				'return' => 'TestUser')
 		);
 
-		\WP_Mock::wpFunction('current_user_can', array(
+		\WP_Mock::userFunction('current_user_can', array(
 				'args' => 'manage_options',
 				'times' => 1,
 				'return' => false)
 		);
 
-		\WP_Mock::wpFunction('get_user_by', array(
+		\WP_Mock::userFunction('get_user_by', array(
 				'args' => array('id', $user->ID),
 				'times' => 1,
 				'return' => $user)

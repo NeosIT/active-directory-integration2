@@ -474,7 +474,7 @@ class ConnectionTest extends BasicTest
 		$wpUser->user_login = 'testUsername';
 		$wpUser->ID = 1;
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($wpUser->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => 1,
 				'return' => array())
@@ -496,7 +496,7 @@ class ConnectionTest extends BasicTest
 		$wpUser->user_login = 'testUsername';
 		$wpUser->ID = 1;
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($wpUser->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => 1,
 				'return' => 'xxxx-xxxx-xxxx-xxxx')
@@ -526,7 +526,7 @@ class ConnectionTest extends BasicTest
 		$wpUser->user_login = 'testUsername';
 		$wpUser->ID = 1;
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($wpUser->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => 1,
 				'return' => 'xxxx-xxxx-xxxx-xxxx')
@@ -556,7 +556,7 @@ class ConnectionTest extends BasicTest
 		$wpUser->user_login = 'testUsername';
 		$wpUser->ID = 1;
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 				'args' => array($wpUser->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . Repository::META_KEY_OBJECT_GUID, true),
 				'times' => 1,
 				'return' => 'xxxx-xxxx-xxxx-xxxx')

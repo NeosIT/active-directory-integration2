@@ -177,7 +177,7 @@ abstract class BasicTest extends TestCase
 	 */
 	protected function mockWordpressFunction($name, $parameters = array())
 	{
-		\WP_Mock::wpFunction($name, $parameters);
+		\WP_Mock::userFunction($name, $parameters);
 	}
 
 	/**
@@ -241,7 +241,7 @@ abstract class BasicTest extends TestCase
 	 */
 	protected function mockFunction__()
 	{
-		\WP_Mock::wpFunction('__', array(
+		\WP_Mock::userFunction('__', array(
 			'args' => array(\WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
 			'times' => '0+',
 			'return_arg' => 0
@@ -253,7 +253,7 @@ abstract class BasicTest extends TestCase
 	 */
 	protected function mockFunctionEsc_html__()
 	{
-		\WP_Mock::wpFunction('esc_html__', array(
+		\WP_Mock::userFunction('esc_html__', array(
 			'args' => array(\WP_Mock\Functions::type('string'), 'next-active-directory-integration'),
 			'times' => '0+',
 			'return_arg' => 0

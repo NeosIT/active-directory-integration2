@@ -259,7 +259,7 @@ class TwigContainerTest extends BasicTest
 		$blogId = 4444;
 		$profileId = 3333;
 
-		\WP_Mock::wpFunction('get_current_blog_id', array(
+		\WP_Mock::userFunction('get_current_blog_id', array(
 			'times' => 1,
 			'return' => $blogId,
 		));
@@ -287,7 +287,7 @@ class TwigContainerTest extends BasicTest
 
 		$blogId = 4444;
 
-		\WP_Mock::wpFunction('get_current_blog_id', array(
+		\WP_Mock::userFunction('get_current_blog_id', array(
 			'times' => 1,
 			'return' => $blogId,
 		));
@@ -362,7 +362,7 @@ class TwigContainerTest extends BasicTest
 		$profileId = 3333;
 		$optionName = 'port';
 
-		\WP_Mock::wpFunction('get_current_blog_id', array(
+		\WP_Mock::userFunction('get_current_blog_id', array(
 			'times' => 1,
 			'return' => $blogId,
 		));
@@ -392,7 +392,7 @@ class TwigContainerTest extends BasicTest
 		$profileId = 5;
 		$optionName = 'port';
 
-		\WP_Mock::wpFunction('get_current_blog_id', array(
+		\WP_Mock::userFunction('get_current_blog_id', array(
 			'times' => 1,
 			'return' => $blogId,
 		));
@@ -437,7 +437,7 @@ class TwigContainerTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 				'args' => 'blogname',
 				'times' => '1',
@@ -455,13 +455,13 @@ class TwigContainerTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_multisite', array(
 				'times' => 1,
 				'return' => false)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 				'args' => 'blogname',
 				'times' => '1',
@@ -480,14 +480,14 @@ class TwigContainerTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_blog_option', array(
 				'args' => array(1, 'blogname'),
 				'times' => '1',
 				'return' => 'testBlogName',)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_multisite', array(
 				'times' => 1,
 				'return' => true)
@@ -531,7 +531,7 @@ class TwigContainerTest extends BasicTest
 			'offset' => 1,
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_multisite', array(
 				'times' => '1',
 				'return' => true,)
@@ -541,7 +541,7 @@ class TwigContainerTest extends BasicTest
 		global $wp_version;
 		$wp_version = '4.5';
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_get_sites', array(
 				'args' => array(array('limit' => 9999)),
 				'times' => '1',
@@ -572,7 +572,7 @@ class TwigContainerTest extends BasicTest
 			'offset' => 0,
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_multisite', array(
 				'times' => '1',
 				'return' => false,)

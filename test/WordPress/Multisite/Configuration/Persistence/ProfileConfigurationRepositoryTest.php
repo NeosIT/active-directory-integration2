@@ -1,15 +1,13 @@
 <?php
 
-namespace Dreitier\WordPress\Multisite\Configuration;
+namespace Dreitier\WordPress\Multisite\Configuration\Persistence;
 
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTest;
-use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileConfigurationRepository;
 use Dreitier\WordPress\Multisite\Option\Attribute;
 use Dreitier\WordPress\Multisite\Option\Encryption;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use Dreitier\WordPress\Multisite\Option\Sanitizer;
-use Mockery\Mock;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ProfileConfigurationRepositoryTest extends BasicTest
@@ -143,7 +141,7 @@ class ProfileConfigurationRepositoryTest extends BasicTest
 			->with(true, 66, 'port')
 			->willReturn('next_ad_int_po_v_port');
 
-		\WP_Mock::wpFunction('get_site_option', array(
+		\WP_Mock::userFunction('get_site_option', array(
 			// the default value for option 'port' is always 389
 			'args' => array('next_ad_int_po_v_port', '389'),
 			'times' => 1,
@@ -243,7 +241,7 @@ class ProfileConfigurationRepositoryTest extends BasicTest
 			->with(true, 66, 'port')
 			->willReturn('next_ad_int_po_v_port');
 
-		\WP_Mock::wpFunction('update_site_option', array(
+		\WP_Mock::userFunction('update_site_option', array(
 			'args' => array('next_ad_int_po_v_port', '389'),
 			'times' => 1,
 			'return' => true
@@ -265,7 +263,7 @@ class ProfileConfigurationRepositoryTest extends BasicTest
 			->with(true, 66, 'port')
 			->willReturn('next_ad_int_po_v_port');
 
-		\WP_Mock::wpFunction('delete_site_option', array(
+		\WP_Mock::userFunction('delete_site_option', array(
 			'args' => array('next_ad_int_po_v_port'),
 			'times' => 1,
 			'return' => '389'
@@ -319,7 +317,7 @@ class ProfileConfigurationRepositoryTest extends BasicTest
 			->with(false, 66, 'port')
 			->willReturn('next_ad_int_po_p_port');
 
-		\WP_Mock::wpFunction('get_site_option', array(
+		\WP_Mock::userFunction('get_site_option', array(
 			'args' => array('next_ad_int_po_p_port', 3),
 			'times' => 1,
 			'return' => '389'
@@ -371,7 +369,7 @@ class ProfileConfigurationRepositoryTest extends BasicTest
 			->with(false, 66, 'port')
 			->willReturn('next_ad_int_po_p_port');
 
-		\WP_Mock::wpFunction('update_site_option', array(
+		\WP_Mock::userFunction('update_site_option', array(
 			'args' => array('next_ad_int_po_p_port', 2),
 			'times' => 1,
 			'return' => true
@@ -393,7 +391,7 @@ class ProfileConfigurationRepositoryTest extends BasicTest
 			->with(false, 66, 'port')
 			->willReturn('next_ad_int_po_p_port');
 
-		\WP_Mock::wpFunction('delete_site_option', array(
+		\WP_Mock::userFunction('delete_site_option', array(
 			'args' => array('next_ad_int_po_p_port'),
 			'times' => 1,
 			'return' => true

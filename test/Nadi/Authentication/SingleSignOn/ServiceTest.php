@@ -115,7 +115,7 @@ class ServiceTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		\WP_Mock::wpFunction('is_user_logged_in', array(
+		\WP_Mock::userFunction('is_user_logged_in', array(
 			'times' => 1,
 			'return' => false,
 		));
@@ -132,7 +132,7 @@ class ServiceTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		\WP_Mock::wpFunction('is_user_logged_in', array(
+		\WP_Mock::userFunction('is_user_logged_in', array(
 			'times' => 1,
 			'return' => true,
 		));
@@ -369,21 +369,21 @@ class ServiceTest extends BasicTest
 
 	private function setupMocksFor_loginUser($user)
 	{
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_ssl', array(
 				'times' => 1,
 				'return' => true
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_set_current_user', array(
 				'times' => 1,
 				'args' => array($user->ID, $user->user_login),
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_set_auth_cookie', array(
 				'times' => 1,
 				'args' => array($user->ID, true, true /* SSL */),
@@ -433,7 +433,7 @@ class ServiceTest extends BasicTest
 			->with('')
 			->reply('/');
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_safe_redirect', array(
 				'times' => 1,
 				'args' => '/',
@@ -464,7 +464,7 @@ class ServiceTest extends BasicTest
 		$expectedUsername = 'john.doe@test.ad';
 		$credentials = PrincipalResolver::createCredentials($expectedUsername);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_user_logged_in', array(
 				'times' => 1,
 				'return' => false
@@ -604,7 +604,7 @@ class ServiceTest extends BasicTest
 	{
 		$username = 'username@company.local';
 
-		\WP_Mock::wpFunction('is_user_logged_in', array(
+		\WP_Mock::userFunction('is_user_logged_in', array(
 			'times' => 1,
 			'return' => false,
 		));
@@ -643,7 +643,7 @@ class ServiceTest extends BasicTest
 	{
 		$username = 'username@company.local';
 
-		\WP_Mock::wpFunction('is_user_logged_in', array(
+		\WP_Mock::userFunction('is_user_logged_in', array(
 			'times' => 1,
 			'return' => false,
 		));
@@ -717,7 +717,7 @@ class ServiceTest extends BasicTest
 		$expectedUsername = 'john.doe@test.ad';
 		$credentials = PrincipalResolver::createCredentials($expectedUsername);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_user_logged_in', array(
 				'times' => 1,
 				'return' => false

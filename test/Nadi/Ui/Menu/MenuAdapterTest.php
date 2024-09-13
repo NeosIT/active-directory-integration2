@@ -70,7 +70,7 @@ class MenuAdapterTest extends BasicTest
 
 		$screen = $this->createMockWithMethods('BlueprintClass', array('add_help_tab'));
 
-		\WP_Mock::wpFunction('get_current_screen', array(
+		\WP_Mock::userFunction('get_current_screen', array(
 			'return' => $screen,
 		));
 
@@ -129,7 +129,7 @@ class MenuAdapterTest extends BasicTest
 			->method('getSlug')
 			->willReturn($slug);
 
-		\WP_Mock::wpFunction('add_submenu_page', array(
+		\WP_Mock::userFunction('add_submenu_page', array(
 			'args' => array($menuSlug, $title, $title, $permission, $slug, array($page, $callbackMethodName)),
 			'times' => 1,
 		));

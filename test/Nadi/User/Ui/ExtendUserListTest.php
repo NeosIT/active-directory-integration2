@@ -176,7 +176,7 @@ class ExtendUserListTest extends BasicTest
 
 		$userId = 1;
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_user_meta', array(
 				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => '1',
@@ -198,7 +198,7 @@ class ExtendUserListTest extends BasicTest
 
 		$userId = 1;
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_user_meta', array(
 				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'samaccountname', true),
 				'times' => '1',
@@ -221,7 +221,7 @@ class ExtendUserListTest extends BasicTest
 
 		$userId = 1;
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_user_meta', array(
 				'args' => array($userId, $sut->__columnUserDisabled(), true),
 				'times' => '1',
@@ -229,7 +229,7 @@ class ExtendUserListTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_user_meta', array(
 				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', true),
 				'times' => '1',
@@ -257,7 +257,7 @@ class ExtendUserListTest extends BasicTest
 			->method('__columnManagedByCrmPe')
 			->willReturn($crmMetakey);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_user_meta', array(
 				'args' => array($userId, $crmMetakey, true),
 				'times' => '1',
@@ -280,7 +280,7 @@ class ExtendUserListTest extends BasicTest
 
 		$userId = 1;
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_user_meta', array(
 				'args' => array($userId, $sut->__columnUserDisabled(), true),
 				'times' => '1',
@@ -288,7 +288,7 @@ class ExtendUserListTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_user_meta', array(
 				'args' => array($userId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', true),
 				'times' => '1',

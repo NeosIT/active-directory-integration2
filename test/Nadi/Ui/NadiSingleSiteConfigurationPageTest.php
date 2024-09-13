@@ -150,7 +150,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			'savingSuccessful' => 'The configuration has been saved successfully.'
 		);
 
-		\WP_Mock::wpFunction('wp_create_nonce', array(
+		\WP_Mock::userFunction('wp_create_nonce', array(
 				'args' => NadiSingleSiteConfigurationPage::NONCE,
 				'times' => 1,
 				'return' => $nonce,)
@@ -171,7 +171,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 		$sut = $this->sut(null);
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_options';
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'jquery'
@@ -180,7 +180,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_page',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/page.js',
@@ -191,7 +191,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'angular.min',
@@ -203,7 +203,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-alertify',
@@ -215,7 +215,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-notify',
@@ -227,7 +227,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-busy',
@@ -239,7 +239,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_util_array',
@@ -250,7 +250,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_util_value',
@@ -262,7 +262,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_module',
@@ -273,7 +273,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_config',
@@ -285,7 +285,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_browser',
@@ -297,7 +297,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_template',
@@ -309,7 +309,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_notification',
@@ -320,7 +320,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_service_persistence',
@@ -331,7 +331,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_list',
@@ -342,7 +342,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_service_data',
@@ -355,7 +355,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 		);
 
 		// add the controller js files
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_blog',
@@ -366,7 +366,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_ajax',
@@ -377,7 +377,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_general',
@@ -388,7 +388,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_environment',
@@ -399,7 +399,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_user',
@@ -410,7 +410,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_password',
@@ -421,7 +421,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_permission',
@@ -432,7 +432,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_security',
@@ -443,7 +443,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_sso',
@@ -454,7 +454,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_attributes',
@@ -465,7 +465,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_sync_to_ad',
@@ -476,7 +476,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_sync_to_wordpress',
@@ -488,7 +488,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_logging',
@@ -500,7 +500,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'selectizejs',
@@ -513,7 +513,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 		);
 
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'selectizeFix',
@@ -525,14 +525,14 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array(
 					'ng-notify',
@@ -544,7 +544,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array(
 					'selectizecss',
@@ -556,7 +556,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array(
 					'alertify.min',
@@ -568,7 +568,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_bootstrap_min_js',
@@ -580,7 +580,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array(
 					'next_ad_int_bootstrap_min_css',
@@ -621,7 +621,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			->method('currentUserHasCapability')
 			->willReturn(true);
 
-		\WP_Mock::wpFunction('check_ajax_referer', array(
+		\WP_Mock::userFunction('check_ajax_referer', array(
 			'args' => array('Active Directory Integration Configuration Nonce', 'security', true),
 			'times' => 1,
 		));
@@ -662,7 +662,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 			->method('currentUserHasCapability')
 			->willReturn(true);
 
-		\WP_Mock::wpFunction('check_ajax_referer', array(
+		\WP_Mock::userFunction('check_ajax_referer', array(
 			'args' => array('Active Directory Integration Configuration Nonce', 'security', true),
 			'times' => 1,
 		));
@@ -688,7 +688,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 
 		$this->mockWordpressFunction('current_user_can');
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'check_ajax_referer', array(
 				'args' => array('Active Directory Integration Configuration Nonce', 'security', true),
 				'times' => 1,
@@ -706,14 +706,14 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 		$sut = $this->sut(null);
 		$_POST['data'] = 'something';
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'check_ajax_referer', array(
 				'args' => array('Active Directory Integration Configuration Nonce', 'security', true),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'current_user_can', array(
 				'args' => 'manage_options',
 				'times' => 1,

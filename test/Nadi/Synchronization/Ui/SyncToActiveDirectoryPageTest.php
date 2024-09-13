@@ -125,7 +125,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			->method('currentUserHasCapability')
 			->willReturn(true);
 
-		\WP_Mock::wpFunction('wp_create_nonce', array(
+		\WP_Mock::userFunction('wp_create_nonce', array(
 				'args' => SyncToActiveDirectoryPage::NONCE,
 				'times' => 1,
 				'return' => $nonce)
@@ -143,13 +143,13 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			->willReturnOnConsecutiveCalls($authCode, $domainSid, $syncEnabled, $syncUser, $syncPass);
 
 
-		\WP_Mock::wpFunction('get_site_url', array(
+		\WP_Mock::userFunction('get_site_url', array(
 				'args' => 1,
 				'times' => 1,
 				'return' => $blogUrl)
 		);
 
-		\WP_Mock::wpFunction('get_current_blog_id', array(
+		\WP_Mock::userFunction('get_current_blog_id', array(
 				'times' => 1,
 				'return' => 1)
 		);
@@ -190,28 +190,28 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_to_ad';
 
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array('next_ad_int_bootstrap_min_css',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/bootstrap.min.css', array(), Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array('next_ad_int_bootstrap_min_js',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/bootstrap.min.js', array(), Ui::VERSION_PAGE_JS),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'jquery'
@@ -220,7 +220,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_page',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/page.js',
@@ -231,7 +231,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'angular.min',
@@ -243,7 +243,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-alertify',
@@ -255,7 +255,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-notify',
@@ -267,7 +267,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'ng-busy',
@@ -279,7 +279,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_util_array',
@@ -290,7 +290,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'times' => 1,
 			)
 		);
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_util_value',
@@ -302,7 +302,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_module',
@@ -314,7 +314,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_app_config',
@@ -326,7 +326,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_browser',
@@ -338,7 +338,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_template',
@@ -350,7 +350,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_notification',
@@ -362,7 +362,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_shared_service_list',
@@ -374,7 +374,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'selectizejs',
@@ -387,7 +387,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 		);
 
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'selectizeFix',
@@ -399,7 +399,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array(
 					'ng-notify',
@@ -411,7 +411,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array(
 					'selectizecss',
@@ -423,7 +423,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array(
 					'alertify.min',
@@ -435,7 +435,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_options_controller_sync_action',
@@ -458,7 +458,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 		$sut = $this->sut(null);
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'some_other_stuff';
 
-		\WP_Mock::wpFunction('wp_enqueue_style', array(
+		\WP_Mock::userFunction('wp_enqueue_style', array(
 				'times' => 0)
 		);
 
@@ -491,13 +491,13 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 		$this->mockFunction__();
 
 
-		\WP_Mock::wpFunction('wp_verify_nonce', array(
+		\WP_Mock::userFunction('wp_verify_nonce', array(
 				'args' => array('invalid', SyncToActiveDirectoryPage::NONCE),
 				'times' => '1',
 				'return' => false)
 		);
 
-		\WP_Mock::wpFunction('wp_die', array(
+		\WP_Mock::userFunction('wp_die', array(
 				'times' => '1')
 		);
 
@@ -517,7 +517,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 			'userid' => ""
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_verify_nonce', array(
 				'args' => array($post['security'], 'Active Directory Integration Sync to AD Nonce'),
 				'times' => '1',

@@ -191,7 +191,7 @@ class BlogConfigurationControllerTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('get_current_blog_id', array(
+		\WP_Mock::userFunction('get_current_blog_id', array(
 				'return' => 1)
 		);
 

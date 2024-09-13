@@ -93,7 +93,7 @@ class MultisiteMenuTest extends BasicTest
 		$permission = 'manage_network';
 		$networkMenu = 'Active Directory Integration';
 
-		\WP_Mock::wpFunction('add_menu_page', array(
+		\WP_Mock::userFunction('add_menu_page', array(
 			'args' => array($networkMenu, $networkMenu, $permission, 'next_ad_int_slug'),
 			'times' => '1',
 		));

@@ -1,13 +1,11 @@
 <?php
 
-namespace Dreitier\WordPress\Multisite\Configuration;
+namespace Dreitier\WordPress\Multisite\Configuration\Persistence;
 
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTest;
 use Dreitier\Util\Encryption;
-use Dreitier\WordPress\Multisite\Configuration\Persistence\BlogConfigurationRepository;
-use Dreitier\WordPress\Multisite\Configuration\Persistence\DefaultProfileRepository;
-use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileConfigurationRepository;
+use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Option\Attribute;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use Dreitier\WordPress\Multisite\Option\Sanitizer;
@@ -339,7 +337,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(array('getOptionName'));
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_multisite', array(
 				'times' => 1,
 				'return' => false,
@@ -351,7 +349,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 			->with('port')
 			->willReturn('next_ad_int_bov_port');
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 				'args' => array('next_ad_int_bov_port', false),
 				'times' => 1,
@@ -370,7 +368,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(array('getOptionName'));
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_multisite', array(
 				'times' => 1,
 				'return' => true,
@@ -382,7 +380,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 			->with('port')
 			->willReturn('next_ad_int_bov_port');
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_blog_option', array(
 				'args' => array(6, 'next_ad_int_bov_port', false),
 				'times' => 1,
@@ -489,7 +487,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(array('getOptionName'));
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_multisite', array(
 				'times' => 1,
 				'return' => false,
@@ -501,7 +499,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 			->with('port')
 			->willReturn('next_ad_int_bov_port');
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'update_option', array(
 				'args' => array('next_ad_int_bov_port', 'value', false),
 				'times' => 1,
@@ -520,7 +518,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(array('getOptionName'));
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_multisite', array(
 				'times' => 1,
 				'return' => true,
@@ -532,7 +530,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 			->with('port')
 			->willReturn('next_ad_int_bov_port');
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'update_blog_option', array(
 				'args' => array(6, 'next_ad_int_bov_port', 'value'),
 				'times' => 1,
@@ -690,7 +688,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(array('getOptionName'));
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_multisite', array(
 				'times' => 1,
 				'return' => false,
@@ -702,7 +700,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 			->with('port')
 			->willReturn('next_ad_int_bov_port');
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'delete_option', array(
 				'args' => array('next_ad_int_bov_port'),
 				'times' => 1,
@@ -721,7 +719,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(array('getOptionName'));
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'is_multisite', array(
 				'times' => 1,
 				'return' => true,
@@ -733,7 +731,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 			->with('port')
 			->willReturn('next_ad_int_bov_port');
 
-		\WP_Mock::wpFunction('delete_blog_option', array(
+		\WP_Mock::userFunction('delete_blog_option', array(
 				'args' => array(6, 'next_ad_int_bov_port'),
 				'times' => 1,
 				'return' => true)
@@ -794,7 +792,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 			),
 		);
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 				'times' => 1,
 				'return' => true)
 		);
@@ -802,7 +800,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 		// ::getSites() will call wp_get_sites when wp_version == 4.5
 		global $wp_version;
 		$wp_version = '4.5';
-		\WP_Mock::wpFunction('wp_get_sites', array(
+		\WP_Mock::userFunction('wp_get_sites', array(
 				'times' => 1,
 				'return' => $sites)
 		);
@@ -823,7 +821,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 			),
 		);
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 				'times' => 1,
 				'return' => false)
 		);
@@ -861,7 +859,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 			->with($databaseOptionName, $optionValue, $siteId)
 			->willReturn(true);
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 				'times' => 1,
 				'return' => true)
 		);
@@ -901,7 +899,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 			->with($databaseOptionName, $optionValue, $siteId)
 			->willReturn(true);
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 				'times' => 1,
 				'return' => true)
 		);

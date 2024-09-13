@@ -283,7 +283,7 @@ class LoginSucceededServiceTest extends BasicTest
 			->with($expectedAdiUser)
 			->willReturn($expectedError);
 
-		\WP_Mock::wpFunction('is_wp_error', array(
+		\WP_Mock::userFunction('is_wp_error', array(
 			'args' => array($expectedError),
 			'times' => 1,
 			'return' => true,
@@ -347,7 +347,7 @@ class LoginSucceededServiceTest extends BasicTest
 			->with($expectedAdiUser)
 			->willReturn($expectedError);
 
-		\WP_Mock::wpFunction('is_wp_error', array(
+		\WP_Mock::userFunction('is_wp_error', array(
 			'args' => array($expectedError),
 			'times' => 1,
 			'return' => true,
@@ -409,7 +409,7 @@ class LoginSucceededServiceTest extends BasicTest
 			->with($expectedAdiUser)
 			->willReturn($expectedWpUser);
 
-		\WP_Mock::wpFunction('is_wp_error', array(
+		\WP_Mock::userFunction('is_wp_error', array(
 			'args' => array($expectedWpUser),
 			'times' => 1,
 			'return' => false,
@@ -602,13 +602,13 @@ class LoginSucceededServiceTest extends BasicTest
 			->with($wpUserId)
 			->willReturn(true);
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'times' => 1,
 			'args' => array($wpUserId,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled_reason', true),
 			'return' => $expectedReason
 		));
 
-		\WP_Mock::wpFunction('remove_filter', array(
+		\WP_Mock::userFunction('remove_filter', array(
 			'times' => 2
 		));
 

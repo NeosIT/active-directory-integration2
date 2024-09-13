@@ -52,7 +52,7 @@ class RequirementsTest extends BasicTest
 		));
 		$showErrors = true;
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
 			'return' => true,
 		));
@@ -99,7 +99,7 @@ class RequirementsTest extends BasicTest
 		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireOpenSSL', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
 		$showErrors = true;
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
 			'return' => true,
 		));
@@ -119,7 +119,7 @@ class RequirementsTest extends BasicTest
 		$sut = $this->sut(array('requireWordPressVersion'));
 		$showErrors = true;
 
-		\WP_Mock::wpFunction('deactivate_plugins', array(
+		\WP_Mock::userFunction('deactivate_plugins', array(
 			'times' => 1,
 			'return' => NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_FILE,
 		));
@@ -292,7 +292,7 @@ class RequirementsTest extends BasicTest
 		$sut = $this->sut();
 		$this->expectException(RequirementException::class);
 
-		\WP_Mock::wpFunction('wp_is_large_network', array(
+		\WP_Mock::userFunction('wp_is_large_network', array(
 			'times' => 1,
 			'return' => true,
 		));
@@ -311,7 +311,7 @@ class RequirementsTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		\WP_Mock::wpFunction('wp_is_large_network', array(
+		\WP_Mock::userFunction('wp_is_large_network', array(
 			'times' => 1,
 			'return' => false,
 		));
@@ -327,7 +327,7 @@ class RequirementsTest extends BasicTest
 		$sut = $this->sut();
 		$this->expectException(RequirementException::class);
 
-		\WP_Mock::wpFunction('is_network_admin', array(
+		\WP_Mock::userFunction('is_network_admin', array(
 			'times' => 1,
 			'return' => false,
 		));
@@ -347,7 +347,7 @@ class RequirementsTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		\WP_Mock::wpFunction('is_network_admin', array(
+		\WP_Mock::userFunction('is_network_admin', array(
 			'times' => 1,
 			'return' => true,
 		));
@@ -386,13 +386,13 @@ class RequirementsTest extends BasicTest
 		$this->internalNative->expects($this->once())
 			->method('includeOnce');
 
-		\WP_Mock::wpfunction('is_plugin_active', array(
+		\WP_Mock::userFunction('is_plugin_active', array(
 			'times' => 1,
 			'args' => Requirements::DEPRECATED_ADI_PLUGIN_NAME,
 			'return' => true,
 		));
 
-		\WP_Mock::wpfunction('deactivate_plugins', array(
+		\WP_Mock::userFunction('deactivate_plugins', array(
 			'times' => 1,
 			'args' => Requirements::DEPRECATED_ADI_PLUGIN_NAME,
 			'return' => true,

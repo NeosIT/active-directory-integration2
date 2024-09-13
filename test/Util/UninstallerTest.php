@@ -43,7 +43,7 @@ class UninstallerTest extends BasicTest
 
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 				'times' => 1,
 				'return' => false)
 		);
@@ -64,7 +64,7 @@ class UninstallerTest extends BasicTest
 
 		$sut = $this->sut();
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 				'times' => 1,
 				'return' => true)
 		);
@@ -72,7 +72,7 @@ class UninstallerTest extends BasicTest
 		// ::getSites() will call wp_get_sites when wp_version == 4.5
 		global $wp_version;
 		$wp_version = '4.5';
-		\WP_Mock::wpFunction('wp_get_sites', array(
+		\WP_Mock::userFunction('wp_get_sites', array(
 				'times' => 1,
 				'return' => array('obj1', 'obj2', 'obj3', 'obj4'))
 		);
@@ -114,7 +114,7 @@ class UninstallerTest extends BasicTest
 			->method('getAllOptionTables')
 			->willReturn(array('wp_options'));
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 				'times' => 1,
 				'return' => false)
 		);
@@ -145,7 +145,7 @@ class UninstallerTest extends BasicTest
 			->method('getAllOptionTables')
 			->willReturn(array('wp_options', 'wp_2_options'));
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 				'times' => 1,
 				'return' => true)
 		);

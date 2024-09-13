@@ -39,13 +39,13 @@ class InitTest extends BasicTest
 		$fakeService->expects($this->exactly(2))
 			->method('getOptionValue');
 
-		\WP_Mock::wpFunction('plugin_basename', array(
+		\WP_Mock::userFunction('plugin_basename', array(
 			'args' => array(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH),
 			'times' => 1,
 			'return' => $pluginFolderName
 		));
 
-		\WP_Mock::wpFunction('load_plugin_textdomain', array(
+		\WP_Mock::userFunction('load_plugin_textdomain', array(
 			'args' => array(
 				'next-active-directory-integration',
 				false,
@@ -104,7 +104,7 @@ class InitTest extends BasicTest
 		$fakeService->expects($this->never())
 			->method('register');
 
-		\WP_Mock::wpFunction('set_transient', array(
+		\WP_Mock::userFunction('set_transient', array(
 			'times' => 1,
 			'args' => array(Init::NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_HAS_BEEN_ENABLED, true, 10)
 		));
@@ -158,11 +158,11 @@ class InitTest extends BasicTest
 		$dc = $this->mockDependencyContainer($sut);
 		$fakeService = $this->createActivationEnvironment($dc);
 
-		\WP_Mock::wpFunction('wp_get_current_user', array(
+		\WP_Mock::userFunction('wp_get_current_user', array(
 			'times' => 1,
 			'return' => (object)array('user_login' => 'username')));
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
 			'return' => true));
 
@@ -186,11 +186,11 @@ class InitTest extends BasicTest
 		$dc = $this->mockDependencyContainer($sut);
 		$fakeService = $this->createActivationEnvironment($dc);
 
-		\WP_Mock::wpFunction('wp_get_current_user', array(
+		\WP_Mock::userFunction('wp_get_current_user', array(
 			'times' => 1,
 			'return' => (object)array('user_login' => 'username')));
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
 			'return' => false));
 
@@ -214,7 +214,7 @@ class InitTest extends BasicTest
 		$pagenow = 'plugins.php';
 		$_REQUEST['activate'] = 'true';
 
-		\WP_Mock::wpFunction('is_plugin_active', array(
+		\WP_Mock::userFunction('is_plugin_active', array(
 			'args' => NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_FILE,
 			'times' => 1,
 			'return' => true));
@@ -527,15 +527,15 @@ class InitTest extends BasicTest
 	 */
 	private function multisite($isMultisite, $isSuperAdmin, $isOnNetworkDashboard = false)
 	{
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'return' => $isMultisite,
 			'times' => 1));
 
-		\WP_Mock::wpFunction('is_super_admin', array(
+		\WP_Mock::userFunction('is_super_admin', array(
 			'return' => $isSuperAdmin,
 			'times' => $isMultisite ? 1 : 0));
 
-		\WP_Mock::wpFunction('is_network_admin', array(
+		\WP_Mock::userFunction('is_network_admin', array(
 			'return' => $isOnNetworkDashboard,
 			'times' => $isSuperAdmin && $isMultisite ? 1 : 0));
 	}
@@ -554,7 +554,7 @@ class InitTest extends BasicTest
 		$dc = $this->mockDependencyContainer($sut);
 
 		if ($userId) {
-			\WP_Mock::wpFunction('wp_get_current_user', array(
+			\WP_Mock::userFunction('wp_get_current_user', array(
 				'times' => 1,
 				'return' => (object)array('ID' => $userId)));
 
@@ -1081,7 +1081,7 @@ class InitTest extends BasicTest
 
 		$sut->expects($this->once())->method('registerAuthentication')->willReturn(true);
 
-		\WP_Mock::wpFunction('wp_get_current_user', array(
+		\WP_Mock::userFunction('wp_get_current_user', array(
 			'times' => 1,
 			'return' => (object)array('ID' => 555)));
 
@@ -1105,7 +1105,7 @@ class InitTest extends BasicTest
 
 		$sut->expects($this->once())->method('registerAuthentication')->willReturn(true);
 
-		\WP_Mock::wpFunction('wp_get_current_user', array(
+		\WP_Mock::userFunction('wp_get_current_user', array(
 			'times' => 1,
 			'return' => (object)array('ID' => 0)));  // Attribute ID will show 0 if there is no user.
 

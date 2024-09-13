@@ -90,13 +90,13 @@ class ProfileAssignmentTest extends BasicTest
 		$sut = $this->sut();
 		$this->mockFunction__();
 
-		\WP_Mock::wpFunction('untrailingslashit', array(
+		\WP_Mock::userFunction('untrailingslashit', array(
 			'args' => 'domain.com/path',
 			'times' => 1,
 			'return' => 'domain.com/path',
 		));
 
-		\WP_Mock::wpFunction('esc_attr', array(
+		\WP_Mock::userFunction('esc_attr', array(
 			'args' => 1,
 			'times' => 1,
 			'return' => 1,
@@ -126,7 +126,7 @@ class ProfileAssignmentTest extends BasicTest
 
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('get_blog_details', array(
+		\WP_Mock::userFunction('get_blog_details', array(
 			'args' => 666,
 			'times' => 1,
 			'return' => (object)array('blogname' => 'BLOG'),
@@ -151,7 +151,7 @@ class ProfileAssignmentTest extends BasicTest
 
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('get_site', array(
+		\WP_Mock::userFunction('get_site', array(
 			'args' => 666,
 			'times' => 1,
 			'return' => (object)array('blogname' => 'BLOG'),

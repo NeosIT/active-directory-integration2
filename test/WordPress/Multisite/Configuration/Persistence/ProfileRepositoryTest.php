@@ -6,8 +6,6 @@ use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTest;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use Dreitier\WordPress\WordPressRepository;
-use Mockery\Mock;
-use Mpdf\Tag\Option;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -127,7 +125,7 @@ class ProfileRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
 			'return' => false,
 		));
@@ -143,7 +141,7 @@ class ProfileRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('is_multisite', array(
+		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
 			'return' => true,
 		));
@@ -174,7 +172,7 @@ class ProfileRepositoryTest extends BasicTest
 			->with(1, ProfileRepository::PREFIX_NAME)
 			->willReturn('name');
 
-		\WP_Mock::wpFunction('get_site_option', array(
+		\WP_Mock::userFunction('get_site_option', array(
 				'args' => array('name', 'New Profile'),
 				'times' => 1,
 				'return' => 'name')
@@ -197,7 +195,7 @@ class ProfileRepositoryTest extends BasicTest
 			->with(1, ProfileRepository::PREFIX_DESCRIPTION)
 			->willReturn('desc');
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_site_option', array(
 				'args' => array('desc', ''),
 				'times' => 1,
@@ -217,24 +215,24 @@ class ProfileRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('get_site_option', array(
+		\WP_Mock::userFunction('get_site_option', array(
 			'args' => array('next_ad_int_p_n_1', false),
 			'times' => 1,
 			'return' => 'some value',
 		));
 
-		\WP_Mock::wpFunction('get_site_option', array(
+		\WP_Mock::userFunction('get_site_option', array(
 			'args' => array('next_ad_int_p_n_2', false),
 			'times' => 1,
 			'return' => false,
 		));
 
-		\WP_Mock::wpFunction('update_site_option', array(
+		\WP_Mock::userFunction('update_site_option', array(
 			'args' => array('next_ad_int_p_n_2', 'p-name'),
 			'times' => 1,
 		));
 
-		\WP_Mock::wpFunction('update_site_option', array(
+		\WP_Mock::userFunction('update_site_option', array(
 			'args' => array('next_ad_int_p_d_2', 'p-description'),
 			'times' => 1,
 		));
@@ -259,7 +257,7 @@ class ProfileRepositoryTest extends BasicTest
 			->with(1, ProfileRepository::PREFIX_NAME)
 			->willReturn('name');
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_site_option', array(
 				'args' => array('name', false),
 				'times' => 1,
@@ -278,14 +276,14 @@ class ProfileRepositoryTest extends BasicTest
 				false
 			);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'update_site_option', array(
 				'args' => array('name', 'test'),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'update_site_option', array(
 				'args' => array('show', 'show'),
 				'times' => 0,
@@ -320,14 +318,14 @@ class ProfileRepositoryTest extends BasicTest
 				false
 			);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'update_site_option', array(
 				'args' => array('name', 'test'),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'update_site_option', array(
 				'args' => array('show', 'show'),
 				'times' => 0,
@@ -345,7 +343,7 @@ class ProfileRepositoryTest extends BasicTest
 		$sut = $this->sut(array('findAll', 'insert'));
 		$this->mockFunction__();
 
-		\WP_Mock::wpFunction('get_site_option', array(
+		\WP_Mock::userFunction('get_site_option', array(
 			'args' => array('next_ad_int_p_n_1', false),
 			'times' => 1,
 			'return' => false,
@@ -368,7 +366,7 @@ class ProfileRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(array('findAll'));
 
-		\WP_Mock::wpFunction('get_site_option', array(
+		\WP_Mock::userFunction('get_site_option', array(
 			'args' => array('next_ad_int_p_n_1', false),
 			'times' => 1,
 			'return' => 'some value',
@@ -385,7 +383,7 @@ class ProfileRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('update_site_option', array(
+		\WP_Mock::userFunction('update_site_option', array(
 			'args' => array('next_ad_int_p_n_5', 'new name'),
 			'times' => 1,
 			'return' => true,
@@ -402,7 +400,7 @@ class ProfileRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('update_site_option', array(
+		\WP_Mock::userFunction('update_site_option', array(
 			'args' => array('next_ad_int_p_d_5', 'new description'),
 			'times' => 1,
 			'return' => true,
@@ -419,13 +417,13 @@ class ProfileRepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(null);
 
-		\WP_Mock::wpFunction('delete_site_option', array(
+		\WP_Mock::userFunction('delete_site_option', array(
 			'args' => array('next_ad_int_p_n_5'),
 			'times' => 1,
 			'return' => true,
 		));
 
-		\WP_Mock::wpFunction('delete_site_option', array(
+		\WP_Mock::userFunction('delete_site_option', array(
 			'args' => array('next_ad_int_p_d_5'),
 			'times' => 1,
 			'return' => true,

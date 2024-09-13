@@ -472,7 +472,7 @@ class LoginServiceTest extends BasicTest
 
 		$_SERVER['PHP_SELF'] = 'xmlrpc.php';
 
-		\WP_Mock::wpFunction('wp_die',
+		\WP_Mock::userFunction('wp_die',
 			array(
 				'args' => array("Next ADI prevents XML RPC authentication!"),
 				'times' => 1,
@@ -497,7 +497,7 @@ class LoginServiceTest extends BasicTest
 
 		$_SERVER['PHP_SELF'] = 'xmlrpc.php';
 
-		\WP_Mock::wpFunction('wp_die',
+		\WP_Mock::userFunction('wp_die',
 			array(
 				'args' => array("Next ADI prevents XML RPC authentication!"),
 				'times' => 0,
@@ -540,7 +540,7 @@ class LoginServiceTest extends BasicTest
 		$sut = $this->sut();
 		$expectedWpUserId = 422;
 
-		\WP_Mock::wpFunction('username_exists',
+		\WP_Mock::userFunction('username_exists',
 			array(
 				'args' => array($login),
 				'times' => 1,
@@ -562,7 +562,7 @@ class LoginServiceTest extends BasicTest
 		$login = 'john.doe';
 		$sut = $this->sut();
 
-		\WP_Mock::wpFunction('username_exists',
+		\WP_Mock::userFunction('username_exists',
 			array(
 				'args' => array($login),
 				'times' => 1,

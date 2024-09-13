@@ -111,7 +111,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 			'useDefaultProfile' => '--- Use default profile'
 		);
 
-		\WP_Mock::wpFunction('wp_create_nonce', array(
+		\WP_Mock::userFunction('wp_create_nonce', array(
 			'args' => BlogProfileRelationshipPage::NONCE,
 			'times' => 1,
 			'return' => $nonce,
@@ -136,7 +136,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 		$sut = $this->sut(null);
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_profile_relationship';
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
 				'args' => array(
 					'next_ad_int_blog_profile_association',
@@ -148,7 +148,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
 				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
 				'times' => 1,
@@ -170,14 +170,14 @@ class BlogProfileRelationshipPageTest extends BasicTest
 			'allblogs' => array(1, 2),
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'check_ajax_referer', array(
 				'args' => array('Active Directory Integration Profile Assignment Nonce', 'security', true),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'current_user_can', array(
 				'args' => 'manage_network',
 				'times' => 1,
@@ -205,7 +205,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 
 		$_POST['data'] = '';
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'check_ajax_referer', array(
 				'args' => array('Active Directory Integration Profile Assignment Nonce', 'security', true),
 				'times' => 1,
@@ -224,14 +224,14 @@ class BlogProfileRelationshipPageTest extends BasicTest
 
 		$_POST['data'] = 'someData';
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'check_ajax_referer', array(
 				'args' => array('Active Directory Integration Profile Assignment Nonce', 'security', true),
 				'times' => 1,
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'current_user_can', array(
 				'args' => 'manage_network',
 				'times' => 1,

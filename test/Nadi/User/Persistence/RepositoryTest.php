@@ -95,7 +95,7 @@ class RepositoryTest extends BasicTest
 
 		$expected = $this->createMock(\WP_User::class);
 
-		\WP_Mock::wpFunction('get_user_by', array(
+		\WP_Mock::userFunction('get_user_by', array(
 			'args' => array('login', 'test'),
 			'times' => 1,
 			'return' => $expected,
@@ -115,7 +115,7 @@ class RepositoryTest extends BasicTest
 
 		$expected = array($expected = $this->createMock(\WP_User::class));
 
-		\WP_Mock::wpFunction('get_users', array(
+		\WP_Mock::userFunction('get_users', array(
 			'args' => array(array('meta_key' => 'key', 'meta_value' => 'value', 'fields' => 'all')),
 			'times' => 1,
 			'return' => $expected,
@@ -134,7 +134,7 @@ class RepositoryTest extends BasicTest
 
 		$expected = array($expected = $this->createMock(\WP_User::class));
 
-		\WP_Mock::wpFunction('get_users', array(
+		\WP_Mock::userFunction('get_users', array(
 			'args' => array(array('meta_key' => 'key', 'fields' => 'all')),
 			'times' => 1,
 			'return' => $expected,
@@ -153,7 +153,7 @@ class RepositoryTest extends BasicTest
 
 		$expected = array('first_name' => array('My first name'));
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => array(666),
 			'times' => 1,
 			'return' => $expected,
@@ -170,7 +170,7 @@ class RepositoryTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		\WP_Mock::wpFunction('update_user_meta', array(
+		\WP_Mock::userFunction('update_user_meta', array(
 			'args' => array(1, 'key', 'value'),
 		));
 
@@ -354,7 +354,7 @@ class RepositoryTest extends BasicTest
 	{
 		$sut = $this->sut(array('findById'));
 
-		\WP_Mock::wpFunction('wp_update_user', array(
+		\WP_Mock::userFunction('wp_update_user', array(
 			'args' => array(
 				array('ID' => 1, 'user_email' => 'test@test.com'),
 			),
@@ -362,7 +362,7 @@ class RepositoryTest extends BasicTest
 			'return' => 1,
 		));
 
-		\WP_Mock::wpFunction('is_wp_error', array(
+		\WP_Mock::userFunction('is_wp_error', array(
 			'args' => 1,
 			'times' => 1,
 			'return' => false,
@@ -390,7 +390,7 @@ class RepositoryTest extends BasicTest
 			->method('get_error_messages')
 			->willReturn(array());
 
-		\WP_Mock::wpFunction('wp_update_user', array(
+		\WP_Mock::userFunction('wp_update_user', array(
 			'args' => array(
 				array('ID' => 1, 'user_email' => 'test@test.com'),
 			),
@@ -398,7 +398,7 @@ class RepositoryTest extends BasicTest
 			'return' => $wpErrorMock,
 		));
 
-		\WP_Mock::wpFunction('is_wp_error', array(
+		\WP_Mock::userFunction('is_wp_error', array(
 			'args' => array($wpErrorMock),
 			'times' => 1,
 			'return' => true,
@@ -428,13 +428,13 @@ class RepositoryTest extends BasicTest
 		$this->behave($adiUser, 'getUserLogin', 'username');
 		$this->behave($adiUser, 'getCredentials', PrincipalResolver::createCredentials('username', 'password'));
 
-		\WP_Mock::wpFunction('is_wp_error', array(
+		\WP_Mock::userFunction('is_wp_error', array(
 			'args' => array($wpError),
 			'times' => 1,
 			'return' => true,
 		));
 
-		\WP_Mock::wpFunction('wp_create_user', array(
+		\WP_Mock::userFunction('wp_create_user', array(
 			'args' => array('username', 'password', $email),
 			'times' => 1,
 			'return' => $wpError,
@@ -460,13 +460,13 @@ class RepositoryTest extends BasicTest
 		$this->behave($adiUser, 'getUserLogin', 'username');
 		$this->behave($adiUser, 'getCredentials', PrincipalResolver::createCredentials('username', 'password'));
 
-		\WP_Mock::wpFunction('wp_create_user', array(
+		\WP_Mock::userFunction('wp_create_user', array(
 			'args' => array('username', 'password', $email),
 			'times' => 1,
 			'return' => 1,
 		));
 
-		\WP_Mock::wpFunction('is_wp_error', array(
+		\WP_Mock::userFunction('is_wp_error', array(
 			'args' => 1,
 			'times' => 1,
 			'return' => false,
@@ -501,13 +501,13 @@ class RepositoryTest extends BasicTest
 			->method('getId')
 			->willReturn(1);
 
-		\WP_Mock::wpFunction('is_wp_error', array(
+		\WP_Mock::userFunction('is_wp_error', array(
 			'args' => array($wpError),
 			'times' => 1,
 			'return' => true,
 		));
 
-		\WP_Mock::wpFunction('wp_update_user', array(
+		\WP_Mock::userFunction('wp_update_user', array(
 			'args' => array(array()),
 			'times' => 1,
 			'return' => $wpError,

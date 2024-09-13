@@ -22,7 +22,7 @@ class WordPressErrorExceptionTest extends BasicTest
 	public function GH_178_processWordPressError_doesNotResultInClassNotFoundException()
 	{
 		$error = new \WP_Error("fail", "fail");
-		\WP_Mock::wpFunction('is_wp_error', array(
+		\WP_Mock::userFunction('is_wp_error', array(
 			'args' => array($error),
 			'times' => 1,
 			'return' => true,

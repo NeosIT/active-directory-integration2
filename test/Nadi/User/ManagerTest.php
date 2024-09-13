@@ -1018,7 +1018,7 @@ class ManagerTest extends BasicTest
 
 		$adiUser = $this->createMock(User::class);
 
-		\WP_Mock::wpFunction('is_email', array(
+		\WP_Mock::userFunction('is_email', array(
 			'args' => array('test@test.com'),
 			'times' => 1,
 			'return' => false,
@@ -1048,7 +1048,7 @@ class ManagerTest extends BasicTest
 			->method('getId')
 			->willReturn(1);
 
-		\WP_Mock::wpFunction('is_email', array(
+		\WP_Mock::userFunction('is_email', array(
 			'args' => array($email),
 			'times' => 1,
 			'return' => true,
@@ -1090,7 +1090,7 @@ class ManagerTest extends BasicTest
 			->method('getId')
 			->willReturn(1);
 
-		\WP_Mock::wpFunction('is_email', array(
+		\WP_Mock::userFunction('is_email', array(
 			'args' => array($email),
 			'times' => 1,
 			'return' => true,
@@ -1648,13 +1648,13 @@ class ManagerTest extends BasicTest
 
 		$wpUser = (object)(array('ID' => 6));
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => array(6, 'next_ad_int_samaccountname', true),
 			'times' => 1,
 			'return' => true
 		));
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => array(6, 'next_ad_int_userprincipalname', true),
 			'times' => 1,
 			'return' => true
@@ -1673,13 +1673,13 @@ class ManagerTest extends BasicTest
 
 		$wpUser = (object)(array('ID' => 6));
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => array(6, 'next_ad_int_samaccountname', true),
 			'times' => 1,
 			'return' => false
 		));
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => array(6, 'next_ad_int_userprincipalname', true),
 			'times' => 1,
 			'return' => false
@@ -1698,13 +1698,13 @@ class ManagerTest extends BasicTest
 
 		$wpUser = (object)(array('ID' => 6));
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => array(6, 'next_ad_int_samaccountname', true),
 			'times' => 1,
 			'return' => true
 		));
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => array(6, 'next_ad_int_userprincipalname', true),
 			'times' => 1,
 			'return' => false
@@ -1723,13 +1723,13 @@ class ManagerTest extends BasicTest
 
 		$wpUser = (object)(array('ID' => 6));
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => array(6, 'next_ad_int_samaccountname', true),
 			'times' => 1,
 			'return' => false
 		));
 
-		\WP_Mock::wpFunction('get_user_meta', array(
+		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => array(6, 'next_ad_int_userprincipalname', true),
 			'times' => 1,
 			'return' => true

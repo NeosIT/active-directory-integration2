@@ -1,10 +1,8 @@
 <?php
 
-namespace Dreitier\WordPress\Multisite\Configuration;
-
+namespace Dreitier\WordPress\Multisite\Configuration\Persistence;
 
 use Dreitier\Test\BasicTest;
-use Dreitier\WordPress\Multisite\Configuration\Persistence\DefaultProfileRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -47,7 +45,7 @@ class DefaultProfileRepositoryTest extends BasicTest
 			->method('getProfileOptionName')
 			->willReturn('next_ad_int_p_default');
 
-		\WP_Mock::wpFunction('get_site_option', array(
+		\WP_Mock::userFunction('get_site_option', array(
 			'args' => array('next_ad_int_p_default', false),
 			'times' => 1,
 			'return' => false,
@@ -68,7 +66,7 @@ class DefaultProfileRepositoryTest extends BasicTest
 			->method('getProfileOptionName')
 			->willReturn('next_ad_int_p_default');
 
-		\WP_Mock::wpFunction('get_site_option', array(
+		\WP_Mock::userFunction('get_site_option', array(
 			'args' => array('next_ad_int_p_default', false),
 			'times' => 1,
 			'return' => 5,
@@ -89,7 +87,7 @@ class DefaultProfileRepositoryTest extends BasicTest
 			->method('getProfileOptionName')
 			->willReturn('next_ad_int_p_default');
 
-		\WP_Mock::wpFunction('update_site_option', array(
+		\WP_Mock::userFunction('update_site_option', array(
 			'args' => array('next_ad_int_p_default', 5),
 			'times' => 1,
 		));

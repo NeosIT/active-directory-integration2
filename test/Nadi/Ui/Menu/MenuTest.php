@@ -114,7 +114,7 @@ class MenuTest extends BasicTest
 			->method('getSlug')
 			->willReturn('next_ad_int_slug');
 
-		\WP_Mock::wpFunction('add_menu_page', array(
+		\WP_Mock::userFunction('add_menu_page', array(
 			'args' => array('Active Directory Integration', 'Active Directory Integration', 'manage_options', 'next_ad_int_slug'),
 			'times' => 1
 		));
@@ -156,7 +156,7 @@ class MenuTest extends BasicTest
 			->method('getSlug')
 			->willReturn('next_ad_int_slug');
 
-		\WP_Mock::wpFunction('add_menu_page', array(
+		\WP_Mock::userFunction('add_menu_page', array(
 			'args' => array('Active Directory Integration', 'Active Directory Integration', 'manage_options', 'next_ad_int_slug'),
 			'times' => 1
 		));
@@ -196,7 +196,7 @@ class MenuTest extends BasicTest
 			->method('getSlug')
 			->willReturn('next_ad_int_slug');
 
-		\WP_Mock::wpFunction('add_menu_page', array(
+		\WP_Mock::userFunction('add_menu_page', array(
 			'args' => array('Active Directory Integration', 'Active Directory Integration', 'manage_options', 'next_ad_int_slug'),
 			'times' => 1
 		));
@@ -236,7 +236,7 @@ class MenuTest extends BasicTest
 			->method('getSlug')
 			->willReturn('next_ad_int_slug');
 
-		\WP_Mock::wpFunction('add_menu_page', array(
+		\WP_Mock::userFunction('add_menu_page', array(
 			'args' => array('Active Directory Integration', 'Active Directory Integration', 'manage_options', 'next_ad_int_slug'),
 			'times' => 1
 		));

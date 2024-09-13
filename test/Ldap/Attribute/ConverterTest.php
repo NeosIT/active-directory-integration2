@@ -56,7 +56,7 @@ class ConverterTest extends BasicTest
 	{
 		$value = "20160131113515"; // 31.01.2016 11:35:15
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 			'args'   => array('date_format', 'Y-m-d'),
 			'times'  => 1,
@@ -64,7 +64,7 @@ class ConverterTest extends BasicTest
 		)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 			'args'   => array('time_format', 'H:i:s'),
 			'times'  => 1,
@@ -72,7 +72,7 @@ class ConverterTest extends BasicTest
 		)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'date_i18n', array(
 			'args'   => array('F j, Y / g:i a', 1454240115, true),
 			'times'  => 1,
@@ -91,7 +91,7 @@ class ConverterTest extends BasicTest
 	{
 		$value = "20160131113515Z"; // 31.01.2016 11:35:15
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 			'args'   => array('gmt_offset', 0),
 			'times'  => 1,
@@ -99,7 +99,7 @@ class ConverterTest extends BasicTest
 		)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 			'args'   => array('date_format', 'Y-m-d'),
 			'times'  => 1,
@@ -107,7 +107,7 @@ class ConverterTest extends BasicTest
 		)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 			'args'   => array('time_format', 'H:i:s'),
 			'times'  => 1,
@@ -115,7 +115,7 @@ class ConverterTest extends BasicTest
 		)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'date_i18n', array(
 			'args'   => array('F j, Y / g:i a', 1454243715, true),
 			'times'  => 1,
@@ -136,7 +136,7 @@ class ConverterTest extends BasicTest
 		$unixTime = 1454326347;
 		$offset = 1;
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 			'args'   => array('gmt_offset', 0),
 			'times'  => 1,
@@ -144,7 +144,7 @@ class ConverterTest extends BasicTest
 		)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 			'args'   => array('date_format', 'Y-m-d'),
 			'times'  => 1,
@@ -152,7 +152,7 @@ class ConverterTest extends BasicTest
 		)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 			'args'   => array('time_format', 'H:i:s'),
 			'times'  => 1,
@@ -160,7 +160,7 @@ class ConverterTest extends BasicTest
 		)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'date_i18n', array(
 			'args'   => array('F j, Y / g:i a', $unixTime + 3600, true),
 			'times'  => 1,
@@ -227,7 +227,7 @@ class ConverterTest extends BasicTest
 		$unixTime =  -11644470000;
 		$offset = 1;
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 				'args'   => array('gmt_offset', 0),
 				'times'  => 1,
@@ -235,7 +235,7 @@ class ConverterTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 				'args'   => array('date_format', 'Y-m-d'),
 				'times'  => 1,
@@ -243,7 +243,7 @@ class ConverterTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_option', array(
 				'args'   => array('time_format', 'H:i:s'),
 				'times'  => 1,
@@ -251,7 +251,7 @@ class ConverterTest extends BasicTest
 			)
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'date_i18n', array(
 				'args'   => array('F j, Y / g:i a',  $unixTime, true),
 				'times'  => 1,

@@ -319,7 +319,7 @@ class ShowLdapAttributesTest extends BasicTest
 			'ID' => 123
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_user_meta', array(
 				'args' => array($user->ID, $metaObject->getMetakey(), true),
 				'times' => 1,
@@ -347,7 +347,7 @@ class ShowLdapAttributesTest extends BasicTest
 			'ID' => 123
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_user_meta', array(
 				'times' => 0,
 			)
@@ -374,7 +374,7 @@ class ShowLdapAttributesTest extends BasicTest
 			'ID' => 123
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_user_meta', array(
 				'args' => array($user->ID, $metaObject->getMetakey(), true),
 				'times' => 1,
@@ -400,7 +400,7 @@ class ShowLdapAttributesTest extends BasicTest
 			'ID' => 123
 		);
 
-		\WP_Mock::wpFunction(
+		\WP_Mock::userFunction(
 			'get_user_meta', array(
 				'args' => array($user->ID, $metaObject->getMetakey(), true),
 				'times' => 1,
