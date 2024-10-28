@@ -30,6 +30,7 @@ jobs:
     - name: Lint PHP files
       run: |
         phplint -vvv --no-cache
+
 #        curl -Ls https://github.com/overtrue/phplint/releases/latest/download/phplint.phar -o /usr/local/bin/phplint
 #        chmod +x /usr/local/bin/phplint
 #        /usr/local/bin/phplint -vvv --no-cache
