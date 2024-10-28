@@ -126,8 +126,9 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
-= UNRELEASED =
+= 3.1.7 =
 * CHANGED: WordPress 6.7 compatibility has been checked
+* FIXED: build process for PHP 8.1 with box-project/box environment
 
 = 3.1.6 =
 * CHANGED: Update to twig/twig:3.14.0 to fix security issue with Twig <= 3.11.1 (#200)
