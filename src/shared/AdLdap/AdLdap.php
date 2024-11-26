@@ -550,6 +550,11 @@ class AdLdap
 		// @see #198: With PHP 8.3, format ($host, $port) is deprecated
 		$this->_conn = ldap_connect($url);
 
+		// @see #203: Check for false value if hostname or port contains invalid value and ldap_connect fails.
+		if ($this->_conn === false) {
+			$this->throwConnectionError('Invalid LDAP URL "' . $url . '", check hostname or port');
+		}
+
 		// Set some ldap options for talking to AD
 		ldap_set_option($this->_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
 		ldap_set_option($this->_conn, LDAP_OPT_REFERRALS, 0);

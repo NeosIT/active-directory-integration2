@@ -127,6 +127,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* FIXED: Check for false value if hostname or port contains invalid value and ldap_connect fails.
 
 = 3.1.7 =
 * CHANGED: WordPress 6.7 compatibility has been checked
