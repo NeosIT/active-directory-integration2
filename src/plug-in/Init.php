@@ -112,10 +112,6 @@ class Init
 			return;
 		}
 
-		// load internationalization (i18n)
-		load_plugin_textdomain('next-active-directory-integration', false,
-			plugin_basename(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH) . '/languages');
-
 		// ADI-354 (dme)
 		$configurationService = $this->dc()->getMultisiteConfigurationService();
 
@@ -128,6 +124,17 @@ class Init
 		NadiLog::initializeLogger($enableLogging, $customPath);
 
 		$this->initialized = true;
+	}
+
+	/**
+	 * Hook into WordPress' `load` action to load correct textdomain
+	 * @issue #204
+	 * @return void
+	 */
+	public function _init() {
+		// load internationalization (i18n)
+		load_plugin_textdomain('next-active-directory-integration', false,
+			plugin_basename(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH) . '/languages');
 	}
 
 	/**

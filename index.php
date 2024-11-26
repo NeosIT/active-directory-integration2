@@ -46,6 +46,9 @@ register_uninstall_hook(__FILE__, array(\Dreitier\Nadi\Init::class /* static */,
 
 add_action('plugins_loaded', 'next_ad_int_angular_ajax_params_to_post');
 
+// #204: register `init` hook to make loading the textdomain possible
+add_action('init', array($adiPlugin, '_init'));
+
 // register any hooks after the plug-in has been activated e.g. to display notices for a migration of options
 add_action('admin_init', array($adiPlugin, 'postActivation'));
 

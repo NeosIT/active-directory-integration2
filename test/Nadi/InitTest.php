@@ -28,6 +28,7 @@ class InitTest extends BasicTest
 
 	/**
 	 * @test
+	 * @issue #204
 	 */
 	public function initialize_loadsLanguageFile()
 	{
@@ -35,9 +36,6 @@ class InitTest extends BasicTest
 		$dc = $this->mockDependencyContainer($sut);
 		$fakeService = $this->createInitializeEnvironment($dc);
 		$pluginFolderName = basename(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH);
-
-		$fakeService->expects($this->exactly(2))
-			->method('getOptionValue');
 
 		\WP_Mock::userFunction('plugin_basename', array(
 			'args' => array(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH),
@@ -53,7 +51,7 @@ class InitTest extends BasicTest
 			),
 			'times' => 1));
 
-		$sut->initialize();
+		$sut->_init();
 	}
 
 	private function createActivationEnvironment($dc)
