@@ -1,6 +1,6 @@
 ﻿=== Next Active Directory Integration ===
 Contributors: dreitier,dreitierci,schakko,neosit
-Tags: authentication, active directory, ldap, ldaps, authorization, security, windows, sso, login, domain, controller
+Tags: authentication, active directory, ldap, windows, sso
 Requires at least: 5.6
 Tested up to: 6.7
 Stable tag: REPLACE_VERSION_BY_CI
@@ -127,6 +127,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* CHANGED: WordPress 6.7.1 compatibility has been checked
 * FIXED: Moved loading of textdomain to init callback (#204)
 * FIXED: Check for false value if hostname or port contains invalid value and ldap_connect fails (#203)
 
