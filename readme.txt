@@ -128,6 +128,8 @@ For detailed information you can visit the official [GitHub repository of Next A
 
 = UNRELEASED =
 * CHANGED: WordPress 6.7.1 compatibility has been checked
+* FIXED: Dependencies updated like PHPUnit (#201)
+* FIXED: E_WARNING "Undefined array key 'HTTP_REFERER'" (#206)
 * FIXED: Moved loading of textdomain to init callback (#204)
 * FIXED: Check for false value if hostname or port contains invalid value and ldap_connect fails (#203)
 
