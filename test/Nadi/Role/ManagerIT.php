@@ -5,7 +5,7 @@ namespace Dreitier\Nadi\Role;
 use Dreitier\ActiveDirectory\Context;
 use Dreitier\Ldap\Connection;
 use Dreitier\Ldap\ConnectionDetails;
-use Dreitier\Test\BasicIntegrationTest;
+use Dreitier\Test\BasicIntegrationTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Mockery;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -14,7 +14,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
  * @access public
  */
-class ManagerIT extends BasicIntegrationTest
+class ManagerIT extends BasicIntegrationTestCase
 {
 	/* @var Service | MockObject */
 	private $configuration;

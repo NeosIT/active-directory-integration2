@@ -2,7 +2,7 @@
 
 namespace Dreitier\WordPress\Multisite\Ui\Table;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -10,7 +10,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @access private
  */
-class ProfileAssignmentTest extends BasicTest
+class ProfileAssignmentTest extends BasicTestCase
 {
 	public function setUp(): void
 	{
@@ -27,11 +27,11 @@ class ProfileAssignmentTest extends BasicTest
 	 *
 	 * @return ProfileAssignment|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(ProfileAssignment::class)
 			->disableOriginalConstructor()
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -40,7 +40,7 @@ class ProfileAssignmentTest extends BasicTest
 	 */
 	public function register_itAddsFilter()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::expectActionAdded('manage_sites_custom_column', array($sut, 'addContent'), 1, 2);
 
@@ -124,7 +124,7 @@ class ProfileAssignmentTest extends BasicTest
 
 		$wp_version = '4.6';
 
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('get_blog_details', array(
 			'args' => 666,
@@ -149,7 +149,7 @@ class ProfileAssignmentTest extends BasicTest
 
 		$wp_version = '4.7';
 
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('get_site', array(
 			'args' => 666,

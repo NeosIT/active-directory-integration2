@@ -2,7 +2,7 @@
 
 namespace Dreitier\WordPress\Multisite\Ui;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\BlogConfigurationRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\DefaultProfileRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileRepository;
@@ -13,7 +13,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class ProfileControllerTest extends BasicTest
+class ProfileControllerTest extends BasicTestCase
 {
 	/** @var ProfileRepository| MockObject */
 	private $profileRepository;
@@ -41,7 +41,7 @@ class ProfileControllerTest extends BasicTest
 	 *
 	 * @return ProfileController|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(ProfileController::class)
 			->setConstructorArgs(array(
@@ -49,7 +49,7 @@ class ProfileControllerTest extends BasicTest
 				$this->blogConfigurationRepository,
 				$this->defaultProfileRepository,
 			))
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -100,7 +100,7 @@ class ProfileControllerTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$result = $sut->validateType(array());
+		$result = $sut->validateType([]);
 
 		$this->assertFalse($result);
 	}
@@ -127,7 +127,7 @@ class ProfileControllerTest extends BasicTest
 		$sut->expects($this->never())
 			->method('saveProfileInternal');
 
-		$result = $sut->saveProfile(array(), 1);
+		$result = $sut->saveProfile([], 1);
 
 		$this->assertFalse($result);
 	}
@@ -205,7 +205,7 @@ class ProfileControllerTest extends BasicTest
 	 */
 	public function addProfile()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$data = array(
 			'type' => 'add',
@@ -225,7 +225,7 @@ class ProfileControllerTest extends BasicTest
 	 */
 	public function deleteProfile()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->profileRepository->expects($this->once())
 			->method('delete')
@@ -239,7 +239,7 @@ class ProfileControllerTest extends BasicTest
 	 */
 	public function deleteProfile_withEmptyId_returnsFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->profileRepository->expects($this->never())
 			->method('delete')
@@ -255,7 +255,7 @@ class ProfileControllerTest extends BasicTest
 	 */
 	public function deleteProfile_withErrorOnDelete_returnsErrorMessage()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunction__();
 
 		$this->profileRepository->expects($this->once())
@@ -267,7 +267,7 @@ class ProfileControllerTest extends BasicTest
 			'message' => 'An error occurred while deleting the profile.',
 			'type' => 'error',
 			'isMessage' => true,
-			'additionalInformation' => array(),
+			'additionalInformation' => [],
 		);
 
 		$result = $sut->deleteProfile(1);
@@ -280,7 +280,7 @@ class ProfileControllerTest extends BasicTest
 	 */
 	public function deleteProfile_withSuccessOnDelete_returnsSuccessMessage()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunction__();
 
 		$this->profileRepository->expects($this->once())
@@ -291,7 +291,7 @@ class ProfileControllerTest extends BasicTest
 			'message' => 'The profile was deleted successfully.',
 			'type' => 'success',
 			'isMessage' => true,
-			'additionalInformation' => array(),
+			'additionalInformation' => [],
 		);
 
 		$result = $sut->deleteProfile(1);
@@ -346,7 +346,7 @@ class ProfileControllerTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$result = $sut->validateName(array());
+		$result = $sut->validateName([]);
 
 		$this->assertFalse($result);
 	}
@@ -370,7 +370,7 @@ class ProfileControllerTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$result = $sut->validateDescription(array());
+		$result = $sut->validateDescription([]);
 
 		$this->assertFalse($result);
 	}
@@ -394,7 +394,7 @@ class ProfileControllerTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$result = $sut->validateId(array());
+		$result = $sut->validateId([]);
 
 		$this->assertFalse($result);
 	}

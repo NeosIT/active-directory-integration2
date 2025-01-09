@@ -2,13 +2,13 @@
 
 namespace Dreitier\Util;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class EscapeUtilTest extends BasicTest
+class EscapeUtilTest extends BasicTestCase
 {
 	/**
 	 * @test
@@ -54,7 +54,7 @@ class EscapeUtilTest extends BasicTest
 	/**
 	 * @test
 	 */
-	public function escapeHarmfulHtml_withArray_escapeStringsInArray()
+	public function escapeHarmfulHtml_withArray_escapeStringsInArrray()
 	{
 		$raw = array(
 			'<strong>hi</strong>',

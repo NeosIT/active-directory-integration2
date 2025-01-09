@@ -2,13 +2,13 @@
 
 namespace Dreitier\Util;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class EncryptionTest extends BasicTest
+class EncryptionTest extends BasicTestCase
 {
 	/* @var Encryption $enryptionHandler */
 	private $encryptionHandler;

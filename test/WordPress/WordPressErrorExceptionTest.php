@@ -2,13 +2,13 @@
 
 namespace Dreitier\WordPress;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 
 /**
  * @author Christopher Klein <ckl@dreitier.com>
  * @access private
  */
-class WordPressErrorExceptionTest extends BasicTest
+class WordPressErrorExceptionTest extends BasicTestCase
 {
 	/**
 	 * This test has to be run in a separate process:

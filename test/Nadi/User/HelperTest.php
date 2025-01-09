@@ -5,7 +5,7 @@ namespace Dreitier\Nadi\User;
 use Dreitier\Ldap\Attributes;
 use Dreitier\Nadi\Authentication\PrincipalResolver;
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -13,7 +13,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class HelperTest extends BasicTest
+class HelperTest extends BasicTestCase
 {
 	/* @var Service| MockObject */
 	private $configuration;
@@ -22,7 +22,7 @@ class HelperTest extends BasicTest
 	{
 		$this->configuration = $this->getMockBuilder(Service::class)
 			->disableOriginalConstructor()
-			->setMethods(array('getOptionValue'))
+			->onlyMethods(array('getOptionValue'))
 			->getMock();
 
 		\WP_Mock::setUp();
@@ -46,7 +46,7 @@ class HelperTest extends BasicTest
 		);
 
 		$adiUser = $this->createMock(User::class);
-		$this->behave($adiUser, 'getLdapAttributes', new Attributes(array(), $ldapAttributes));
+		$this->behave($adiUser, 'getLdapAttributes', new Attributes([], $ldapAttributes));
 		$this->behave($adiUser, 'getId', 1);
 		$this->behave($adiUser, 'getCredentials', PrincipalResolver::createCredentials('username'));
 
@@ -77,7 +77,7 @@ class HelperTest extends BasicTest
 	 */
 	public function getAccountSuffix_returnSuffix()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$userAttributeValues = array('userprincipalname' => 'test@company.it');
 		$expectedReturn = "@company.it";
@@ -91,7 +91,7 @@ class HelperTest extends BasicTest
 	 */
 	public function getUserAccountSuffix_returnEmptyString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$userAttributeValues = array('userprincipalname' => 'testcompany.it');
 		$expectedReturn = "";
@@ -126,7 +126,7 @@ class HelperTest extends BasicTest
 	 */
 	public function isRandomGeneratePassword_withSyncToWordPressFalseAndNoRandomPasswordFalse_returnsExpectedResult()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -142,7 +142,7 @@ class HelperTest extends BasicTest
 	 */
 	public function isRandomGeneratePassword_withSyncToWordPressFalseAndNoRandomPasswordTrue_returnsExpectedResult()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -158,7 +158,7 @@ class HelperTest extends BasicTest
 	 */
 	public function isRandomGeneratePassword_withSyncToWordPressTrueAndNoRandomPasswordFalse_returnsExpectedResult()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -174,7 +174,7 @@ class HelperTest extends BasicTest
 	 */
 	public function isRandomGeneratePassword_withSyncToWordPressTrueAndNoRandomPasswordTrue_returnsExpectedResult()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -190,7 +190,7 @@ class HelperTest extends BasicTest
 	 */
 	public function getPassword_withGenerateRandomPasswordFalse_returnsDefaultPassword()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$expected = 'password';
 		$actual = $this->invokeMethod($sut, 'getRandomPassword', array(false, $expected));
@@ -203,7 +203,7 @@ class HelperTest extends BasicTest
 	 */
 	public function getDisplayNameFromUserAttributeValues_returnUsernameIfEmptyOrSamaAccountName()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -223,7 +223,7 @@ class HelperTest extends BasicTest
 	 */
 	public function getDisplayNameFromUserAttributeValues_generateWantedDisplayName()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -248,7 +248,7 @@ class HelperTest extends BasicTest
 	 */
 	public function getDisplayNameFromUserAttributeValues_returnUsernameIfDisplayNameEmpty()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -268,7 +268,7 @@ class HelperTest extends BasicTest
 	 */
 	public function createUniqueEmailAddress()
 	{
-		$sut = $this->sut(array('checkIfEmailExists'));
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction(
 			'email_exists', array(
@@ -291,7 +291,7 @@ class HelperTest extends BasicTest
 	 */
 	public function createUniqueEmailAddress_withExistingEmail()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction(
 			'email_exists', array(
@@ -320,7 +320,7 @@ class HelperTest extends BasicTest
 	 *
 	 * @return Helper|MockObject
 	 */
-	private function sut($methods)
+	private function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Helper::class)
 			->setConstructorArgs(
@@ -328,7 +328,7 @@ class HelperTest extends BasicTest
 					$this->configuration,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace Dreitier\WordPress\Multisite\Ui;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Ui;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
 use Mockery\Mock;
@@ -12,7 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class BlogProfileRelationshipPageTest extends BasicTest
+class BlogProfileRelationshipPageTest extends BasicTestCase
 {
 	/* @var TwigContainer|MockObject */
 	private $twigContainer;
@@ -38,7 +38,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 	 */
 	public function getTitle()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunctionEsc_html__();
 
 		$expectedTitle = 'Profile assignment';
@@ -51,7 +51,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 	 *
 	 * @return BlogProfileRelationshipPage| MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(BlogProfileRelationshipPage::class)
 			->setConstructorArgs(
@@ -60,7 +60,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 					$this->blogProfileRelationshipController,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -69,7 +69,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 	 */
 	public function getSlug()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$expectedReturn =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_profile_relationship';
 		$returnedValue = $sut->getSlug();
@@ -82,7 +82,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 	 */
 	public function wpAjaxSlug()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$expectedReturn =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_profile_relationship';
 		$returnedValue = $sut->wpAjaxSlug();
@@ -133,7 +133,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 	 */
 	public function loadJavaScriptAdmin()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_profile_relationship';
 
 		\WP_Mock::userFunction(
@@ -150,7 +150,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 
 		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
-				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
+				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', [], Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
@@ -201,7 +201,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 	 */
 	public function wpAjaxListener_noData()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$_POST['data'] = '';
 
@@ -220,7 +220,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 	 */
 	public function wpAjaxListener_noPermission()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$_POST['data'] = 'someData';
 
@@ -249,7 +249,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$data = array();
+		$data = [];
 
 		$this->blogProfileRelationshipController->expects($this->never())
 			->method('saveBlogProfileAssociations');
@@ -283,7 +283,7 @@ class BlogProfileRelationshipPageTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$data = array();
+		$data = [];
 
 		$this->blogProfileRelationshipController->expects($this->never())
 			->method('saveDefaultProfile');

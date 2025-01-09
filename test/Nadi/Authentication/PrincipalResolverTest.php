@@ -2,14 +2,14 @@
 
 namespace Dreitier\Nadi\Authentication;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 
 /**
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
  * @access private
  * @since ADI-620
  */
-class PrincipalResolverTest extends BasicTest
+class PrincipalResolverTest extends BasicTestCase
 {
 
 	public function setUp(): void

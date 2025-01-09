@@ -2,7 +2,7 @@
 
 namespace Dreitier\WordPress\Multisite\Ui;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\BlogConfigurationRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\DefaultProfileRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileRepository;
@@ -14,7 +14,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class BlogProfileRelationshipControllerTest extends BasicTest
+class BlogProfileRelationshipControllerTest extends BasicTestCase
 {
 	/** @var BlogConfigurationRepository|MockObject */
 	private $blogConfigurationRepository;
@@ -48,7 +48,7 @@ class BlogProfileRelationshipControllerTest extends BasicTest
 	 *
 	 * @return BlogProfileRelationshipController|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(BlogProfileRelationshipController::class)
 			->setConstructorArgs(
@@ -58,7 +58,7 @@ class BlogProfileRelationshipControllerTest extends BasicTest
 					$this->defaultProfileRepository,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -155,7 +155,7 @@ class BlogProfileRelationshipControllerTest extends BasicTest
 	 */
 	public function validateBlog_withNotExistingBlogId_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$sites = array(
 			array('blog_id' => '2'),
@@ -174,7 +174,7 @@ class BlogProfileRelationshipControllerTest extends BasicTest
 	 */
 	public function validateProfile_withNotExistingProfileId_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$profiles = array(
 			'3',

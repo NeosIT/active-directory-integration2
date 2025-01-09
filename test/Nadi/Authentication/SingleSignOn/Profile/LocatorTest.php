@@ -4,13 +4,13 @@ namespace Dreitier\Nadi\Authentication\SingleSignOn\Profile;
 
 use Dreitier\Nadi\Authentication\Credentials;
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Util;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class LocatorTest extends BasicTest
+class LocatorTest extends BasicTestCase
 {
 	/* @var Service|MockObject $configuration */
 	private $configuration;
@@ -40,7 +40,7 @@ class LocatorTest extends BasicTest
 	 *
 	 * @return Locator|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Locator::class)
 			->setConstructorArgs(
@@ -48,7 +48,7 @@ class LocatorTest extends BasicTest
 					$this->configuration
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -112,10 +112,10 @@ class LocatorTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('findBestConfigurationMatchForProfile')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				[Options::KERBEROS_REALM_MAPPINGS, $credentials->getUpnSuffix(), false],
 				[Options::ACCOUNT_SUFFIX, '@' . $credentials->getUpnSuffix(), true]
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				null,
 				$profileMatch
@@ -135,7 +135,7 @@ class LocatorTest extends BasicTest
 		$sut = $this->sut(array('findSsoEnabledProfiles'));
 		$suffix = '@test';
 
-		$this->behave($sut, 'findSsoEnabledProfiles', array());
+		$this->behave($sut, 'findSsoEnabledProfiles', []);
 
 		$actual = $sut->findBestConfigurationMatchForProfile(Options::ACCOUNT_SUFFIX, $suffix);
 
@@ -309,7 +309,7 @@ class LocatorTest extends BasicTest
 			),
 		);
 
-		$profiles = array();
+		$profiles = [];
 
 		$this->configuration->expects($this->once())
 			->method('findAllProfiles')

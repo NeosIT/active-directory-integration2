@@ -6,14 +6,14 @@ use Dreitier\Ldap\Attribute\Repository;
 use Dreitier\Ldap\Attribute\Service;
 use Dreitier\Ldap\Connection;
 use Dreitier\Ldap\ConnectionDetails;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Danny Meissner <dme@neos-it.de>
  * @access private
  */
-class VerificationServiceTest extends BasicTest
+class VerificationServiceTest extends BasicTestCase
 {
 	/* @var Connection|MockObject $ldapConnection */
 	private $ldapConnection;
@@ -33,7 +33,7 @@ class VerificationServiceTest extends BasicTest
 		$this->attributeRepository = $this->createMock(Repository::class);
 		$this->attributeService = $this->getMockBuilder(Service::class)
 			->disableOriginalConstructor()
-			->setMethods(array('getObjectSid'))
+			->onlyMethods(array('getObjectSid'))
 			->getMock();
 	}
 
@@ -46,7 +46,7 @@ class VerificationServiceTest extends BasicTest
 	/**
 	 * @return VerificationService|MockObject
 	 */
-	public function sut($methods = null, $simulated = false)
+	public function sut(array $methods = [], bool $simulated = false)
 	{
 		return $this->getMockBuilder(VerificationService::class)
 			->setConstructorArgs(
@@ -55,7 +55,7 @@ class VerificationServiceTest extends BasicTest
 					$this->attributeRepository
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 

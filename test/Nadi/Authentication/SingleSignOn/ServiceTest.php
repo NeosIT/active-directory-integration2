@@ -15,13 +15,13 @@ use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\LoginState;
 use Dreitier\Nadi\User\LoginSucceededService;
 use Dreitier\Nadi\User\Manager;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Session\SessionHandler;
 use Dreitier\Util\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class ServiceTest extends BasicTest
+class ServiceTest extends BasicTestCase
 {
 	/* @var \Dreitier\WordPress\Multisite\Configuration\Service|MockObject $configuration */
 	private $configuration;
@@ -89,7 +89,7 @@ class ServiceTest extends BasicTest
 	 *
 	 * @return Service|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Service::class)
 			->setConstructorArgs(
@@ -104,7 +104,7 @@ class ServiceTest extends BasicTest
 					$this->ssoProfileLocator
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -153,10 +153,10 @@ class ServiceTest extends BasicTest
 
 		$sessionHandler->expects($this->exactly(2))
 			->method('clearValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Service::FAILED_SSO_PRINCIPAL),
 				array(Service::USER_LOGGED_OUT)
-			);
+			));
 
 		$sut->expects($this->exactly(2))
 			->method('getSessionHandler')
@@ -175,10 +175,10 @@ class ServiceTest extends BasicTest
 
 		$sessionHandler->expects($this->never())
 			->method('clearValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Service::FAILED_SSO_PRINCIPAL),
 				array(Service::USER_LOGGED_OUT)
-			);
+			));
 
 		$sut->expects($this->never())
 			->method('getSessionHandler')
@@ -232,7 +232,7 @@ class ServiceTest extends BasicTest
 	 */
 	public function openLdapConnection_withValidConnection_doesNotThrowException()
 	{
-		$profile = array();
+		$profile = [];
 		$connectionDetails = $this->createMock(ConnectionDetails::class);
 		$sut = $this->sut(array('createConnectionDetailsFromProfile'));
 
@@ -250,7 +250,7 @@ class ServiceTest extends BasicTest
 	 */
 	public function openLdapConnection_withoutConnection_throwsException()
 	{
-		$profile = array();
+		$profile = [];
 		$connectionDetails = $this->createMock(ConnectionDetails::class);
 		$sut = $this->sut(array('createConnectionDetailsFromProfile'));
 
@@ -325,7 +325,7 @@ class ServiceTest extends BasicTest
 	{
 		$suffix = 'test.ad';
 
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->detectAuthenticatableSuffixes($suffix);
 
@@ -610,7 +610,7 @@ class ServiceTest extends BasicTest
 		));
 
 		$sut = $this->sut(
-			array('findUsername', 'openLdapConnection', 'getSessionHandler', 'findCorrespondingConfiguration',
+			array('findUsername', 'openLdapConnection', 'getSessionHandler',
 				'loginUser', 'requiresActiveDirectoryAuthentication', 'detectAuthenticatableSuffixes',
 				'tryAuthenticatableSuffixes')
 		);
@@ -649,7 +649,7 @@ class ServiceTest extends BasicTest
 		));
 
 		$sut = $this->sut(
-			array('findUsername', 'openLdapConnection', 'getSessionHandler', 'findCorrespondingConfiguration',
+			array('findUsername', 'openLdapConnection', 'getSessionHandler',
 				'loginUser', 'requiresActiveDirectoryAuthentication', 'detectAuthenticatableSuffixes',
 				'tryAuthenticatableSuffixes')
 		);
@@ -686,7 +686,7 @@ class ServiceTest extends BasicTest
 		$_SERVER['REQUEST_URI'] = '/my-redirect-url';
 		$sut = $this->sut();
 
-		$r = $this->invokeMethod($sut, 'createRedirectUri', array());
+		$r = $this->invokeMethod($sut, 'createRedirectUri', []);
 		$this->assertEquals($r, $_SERVER['REQUEST_URI']);
 	}
 
@@ -703,7 +703,7 @@ class ServiceTest extends BasicTest
 		$_REQUEST['redirect_to'] = '/expected-url';
 		$sut = $this->sut();
 
-		$r = $this->invokeMethod($sut, 'createRedirectUri', array());
+		$r = $this->invokeMethod($sut, 'createRedirectUri', []);
 		$this->assertEquals($_REQUEST['redirect_to'], $r);
 	}
 

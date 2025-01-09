@@ -3,7 +3,7 @@
 namespace Dreitier\WordPress\Multisite\Configuration;
 
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\BlogConfigurationRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileConfigurationRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileRepository;
@@ -13,7 +13,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class ServiceTest extends BasicTest
+class ServiceTest extends BasicTestCase
 {
 	/* @var BlogConfigurationRepository|MockObject */
 	private $blogConfigurationRepository;
@@ -42,7 +42,7 @@ class ServiceTest extends BasicTest
 	 *
 	 * @return Service|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Service::class)
 			->setConstructorArgs(
@@ -52,7 +52,7 @@ class ServiceTest extends BasicTest
 					$this->profileRepository,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -86,11 +86,11 @@ class ServiceTest extends BasicTest
 
 		$sut->expects($this->any())
 			->method('getProfileOptionsValues')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(1, $options),
 				array(2, $options),
 				array(3, $options)
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				$expected[1],
 				$expected[2],
@@ -131,11 +131,11 @@ class ServiceTest extends BasicTest
 
 		$sut->expects($this->any())
 			->method('getProfileOptionsValues')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(1, $options),
 				array(2, $options),
 				array(3, $options)
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				$expected[1],
 				$expected[2],
@@ -188,10 +188,10 @@ class ServiceTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('getProfileOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::DOMAIN_SID, 44),
 				array(Options::PORT, 44)
-			)
+			))
 			->will(
 				$this->onConsecutiveCalls(
 					'',
@@ -237,10 +237,10 @@ class ServiceTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('getProfileOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::DOMAIN_SID, 44),
 				array(Options::PORT, 44)
-			)
+			))
 			->will(
 				$this->onConsecutiveCalls(
 					'',
@@ -274,7 +274,7 @@ class ServiceTest extends BasicTest
 	 */
 	public function getProfileOptionValue_singleSite_returnNull()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
@@ -290,7 +290,7 @@ class ServiceTest extends BasicTest
 	 */
 	public function getProfileOptionValue_multisite_returnProfileOptions()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
@@ -322,7 +322,7 @@ class ServiceTest extends BasicTest
 	 */
 	public function getValue_optionPermissionEqual3_returnBlogOptionValue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $this->invokeMethod($sut, 'getValue', array(3, '999', '389'));
 		$this->assertEquals('389', $actual);
@@ -333,7 +333,7 @@ class ServiceTest extends BasicTest
 	 */
 	public function getValue_optionPermissionEqual1_returnProfileOptionValue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $this->invokeMethod($sut, 'getValue', array(1, '999', '389'));
 		$this->assertEquals('999', $actual);
@@ -344,7 +344,7 @@ class ServiceTest extends BasicTest
 	 */
 	public function getPermission_multiSite_returnPermission()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
@@ -365,7 +365,7 @@ class ServiceTest extends BasicTest
 	 */
 	public function getPermission_singleSite_returnPermission()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
@@ -395,7 +395,7 @@ class ServiceTest extends BasicTest
 			),
 		);
 
-		$result = $this->invokeMethod($sut, 'addProfileInformation', array(1, array()));
+		$result = $this->invokeMethod($sut, 'addProfileInformation', array(1, []));
 
 		$this->assertEquals($expected, $result);
 	}
@@ -405,7 +405,7 @@ class ServiceTest extends BasicTest
 	 */
 	public function isEnvironmentOption_whenCheckingEnvironmentOption_itReturnsTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->isEnvironmentOption(Options::PORT);
 		$this->assertTrue($actual);
@@ -416,7 +416,7 @@ class ServiceTest extends BasicTest
 	 */
 	public function isEnvironmentOption_whenCheckingNonEnvironmentOption_itReturnsFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->isEnvironmentOption(Options::SYNC_TO_WORDPRESS_USER);
 		$this->assertFalse($actual);

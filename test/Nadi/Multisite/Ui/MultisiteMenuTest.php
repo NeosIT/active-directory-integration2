@@ -3,7 +3,7 @@
 namespace Dreitier\Nadi\Multisite\Ui;
 
 use Dreitier\Nadi\Ui\NadiMultisiteConfigurationPage;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use Dreitier\WordPress\Multisite\Ui\BlogProfileRelationshipPage;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -12,7 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
  * @access private
  */
-class MultisiteMenuTest extends BasicTest
+class MultisiteMenuTest extends BasicTestCase
 {
 	/* @var BlogProfileRelationshipPage | MockObject */
 	private $blogProfileRelationshipPage;
@@ -39,7 +39,7 @@ class MultisiteMenuTest extends BasicTest
 	 *
 	 * @return MultisiteMenu|MockObject
 	 */
-	private function sut($methods = null)
+	private function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(MultisiteMenu::class)
 			->setConstructorArgs(
@@ -49,7 +49,7 @@ class MultisiteMenuTest extends BasicTest
 					$this->nadiMultisiteConfigurationPage,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -58,7 +58,7 @@ class MultisiteMenuTest extends BasicTest
 	 */
 	public function register_itAddsTheMenus()
 	{
-		$sut = $this->sut(array('addAjaxListeners'));
+		$sut = $this->sut();
 
 		\WP_Mock::expectActionAdded('network_admin_menu', array($sut, 'registerMenu'));
 
@@ -74,10 +74,10 @@ class MultisiteMenuTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('addAjaxListener')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				[$this->blogProfileRelationshipPage],
 				[$this->nadiMultisiteConfigurationPage]
-			);
+			));
 
 		$sut->register();
 	}
@@ -104,10 +104,10 @@ class MultisiteMenuTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('addSubMenu')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array('next_ad_int_slug', 'manage_network', $this->blogProfileRelationshipPage, 'renderNetwork'),
 				array('next_ad_int_slug', 'manage_network', $this->nadiMultisiteConfigurationPage, 'renderNetwork')
-			)
+			))
 			->willReturn('next_ad_int_page', '', '', '');
 
 		\WP_Mock::expectActionAdded('admin_enqueue_scripts', array($sut, 'loadScriptsAndStyle'));

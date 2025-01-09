@@ -3,7 +3,7 @@
 namespace Dreitier\Nadi\Ui\Validator\Rule;
 
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -14,7 +14,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @access
  */
-class AdAttributeConflictTest extends BasicTest
+class AdAttributeConflictTest extends BasicTestCase
 {
 	const VALIDATION_MESSAGE = 'You cannot use the same Ad Attribute multiple times.';
 
@@ -34,7 +34,7 @@ class AdAttributeConflictTest extends BasicTest
 	 *
 	 * @return AdAttributeConflict|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(AdAttributeConflict::class)
 			->setConstructorArgs(
@@ -42,7 +42,7 @@ class AdAttributeConflictTest extends BasicTest
 					self::VALIDATION_MESSAGE,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -51,7 +51,7 @@ class AdAttributeConflictTest extends BasicTest
 	 */
 	public function validate_withConflict_returnString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validate(
 			"testAdAttribute1:string:testWordpressAttribute1:testDescription:0:0:0;testAdAttribute1:string:testWordpressAttribute1:testDescription:0:0:0",
@@ -66,7 +66,7 @@ class AdAttributeConflictTest extends BasicTest
 	 */
 	public function validate_withoutConflict_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validate(
 			"testAdAttribute1:string:testWordpressAttribute1:testDescription:0:0:0;testAdAttribute2:string:testWordpressAttribute1:testDescription:0:0:0",

@@ -2,7 +2,7 @@
 
 namespace Dreitier\Util\Validator;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -11,7 +11,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class ResultTest extends BasicTest
+class ResultTest extends BasicTestCase
 {
 	public function setUp(): void
 	{
@@ -26,10 +26,10 @@ class ResultTest extends BasicTest
 	/**
 	 * @return Result| MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Result::class)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -38,7 +38,7 @@ class ResultTest extends BasicTest
 	 */
 	public function isValid_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$sut->addValidationResult(
 			'sync_to_ad_global_user', 'Username has to contain a suffix.'
@@ -54,7 +54,7 @@ class ResultTest extends BasicTest
 	 */
 	public function isValid_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->isValid();
 

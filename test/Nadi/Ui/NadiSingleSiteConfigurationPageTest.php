@@ -19,7 +19,7 @@ use Dreitier\Nadi\Ui\Validator\Rule\NoDefaultAttributeName;
 use Dreitier\Nadi\Ui\Validator\Rule\Port;
 use Dreitier\Nadi\Ui\Validator\Rule\SelectValueValid;
 use Dreitier\Nadi\Ui\Validator\Rule\WordPressMetakeyConflict;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
 use Dreitier\Util\Validator\Result;
 use Dreitier\Util\Validator\Rule\Conditional;
@@ -36,7 +36,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class NadiSingleSiteConfigurationPageTest extends BasicTest
+class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 {
 	/* @var TwigContainer|MockObject */
 	private $twigContainer;
@@ -62,7 +62,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	 */
 	public function getTitle()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunctionEsc_html__();
 
 		$expectedTitle = 'Configuration';
@@ -74,7 +74,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	 *
 	 * @return NadiSingleSiteConfigurationPage|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(NadiSingleSiteConfigurationPage::class)
 			->setConstructorArgs(
@@ -83,7 +83,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 					$this->blogConfigurationController,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -92,7 +92,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	 */
 	public function getSlug()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$expectedReturn =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_options';
 		$returnedValue = $sut->getSlug();
@@ -105,7 +105,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	 */
 	public function wpAjaxSlug()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$expectedReturn =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_options';
 		$returnedValue = $sut->wpAjaxSlug();
@@ -168,7 +168,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	 */
 	public function loadAdminScriptsAndStyle()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'blog_options';
 
 		\WP_Mock::userFunction(
@@ -196,7 +196,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'angular.min',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/angular.min.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -244,7 +244,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_util_array',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/utils/array.util.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -255,7 +255,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_util_value',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/utils/value.util.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -267,7 +267,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_app_module',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/app.module.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -278,7 +278,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_app_config',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/app.nadi.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -290,7 +290,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_service_browser',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/browser.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -302,7 +302,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_service_template',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/template.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -314,7 +314,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_service_notification',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/notification.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -325,7 +325,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_service_persistence',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/services/persistence.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -336,7 +336,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_service_list',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/list.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -347,7 +347,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_service_data',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/services/data.service.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -360,7 +360,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_blog',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/blog.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -371,7 +371,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_ajax',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/ajax.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -382,7 +382,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_general',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/general.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -393,7 +393,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_environment',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/environment.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -404,7 +404,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_user',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/user.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -415,7 +415,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_password',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/credential.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -426,7 +426,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_permission',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/permission.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -437,7 +437,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_security',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/security.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -448,7 +448,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_sso',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/sso.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -459,7 +459,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_attributes',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/attributes.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -470,7 +470,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_sync_to_ad',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/sync-to-ad.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -481,7 +481,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_sync_to_wordpress',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/sync-to-wordpress.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -493,7 +493,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_logging',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/logging.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -527,7 +527,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 
 		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
-				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
+				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', [], Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
@@ -537,7 +537,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'ng-notify',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/ng-notify.min.css',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -549,7 +549,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'selectizecss',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/selectize.css',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -561,7 +561,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'alertify.min',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/alertify.min.css',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -573,7 +573,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_bootstrap_min_js',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/bootstrap.min.js',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -585,7 +585,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_bootstrap_min_css',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/bootstrap.min.css',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -683,7 +683,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	 */
 	public function wpAjaxListener_EmptyData()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$_POST['data'] = '';
 
 		$this->mockWordpressFunction('current_user_can');
@@ -703,7 +703,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	 */
 	public function wpAjaxListener_NoPermission()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$_POST['data'] = 'something';
 
 		\WP_Mock::userFunction(
@@ -731,7 +731,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$actual = $this->invokeMethod($sut, 'routeRequest', array('test', array()));
+		$actual = $this->invokeMethod($sut, 'routeRequest', array('test', []));
 
 		$this->assertFalse($actual);
 	}
@@ -745,11 +745,11 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 
 		$sut->expects($this->once())
 			->method(NadiSingleSiteConfigurationPage::SUB_ACTION_GENERATE_AUTHCODE)
-			->with(array());
+			->with([]);
 
 		$subAction = NadiSingleSiteConfigurationPage::SUB_ACTION_GENERATE_AUTHCODE;
 
-		$this->invokeMethod($sut, 'routeRequest', array($subAction, array()));
+		$this->invokeMethod($sut, 'routeRequest', array($subAction, []));
 	}
 
 	/**
@@ -849,7 +849,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 
 		$this->blogConfigurationController->expects($this->once())
 			->method('saveBlogOptions')
-			->with(array())
+			->with([])
 			->willReturn(array("status_success" => true));
 
 		$sut->expects($this->once())
@@ -866,7 +866,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	{
 		$sut = $this->sut(array('getValidator', 'validateWithValidator'));
 
-		$data = array(array('options' => array()));
+		$data = array(array('options' => []));
 
 		$validator = $this->createMock(Validator::class);
 		$sut->expects($this->once())
@@ -918,7 +918,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	public function persistDomainSid_itSavesBlogOptions()
 	{
 		$sut = $this->sut();
-		$data = array();
+		$data = [];
 
 		$this->blogConfigurationController->expects($this->once())
 			->method('saveBlogOptions')
@@ -956,7 +956,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 
 		$validation->expects($this->once())
 			->method('getValidationResult')
-			->willReturn(array());
+			->willReturn([]);
 
 		$actual = $this->invokeMethod($sut, 'verifyAdConnection', array($nestedData));
 		$this->assertEquals($actual, array('status_success' => 1234));
@@ -1006,7 +1006,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 		$expectedNetBiosName = 'TEST';
 		$expectedNetBiosData = array("netbios_name" => $expectedNetBiosName);
 
-		$sut = $this->sut(array('prepareDomainSid', 'persistDomainSid', 'prepareNetBiosName', 'persistNetBiosName', 'findActiveDirectoryNetBiosName'));
+		$sut = $this->sut(array('prepareDomainSid', 'persistDomainSid', 'prepareNetBiosName', 'persistNetBiosName'));
 
 		$this->twigContainer->expects($this->once())
 			->method('findActiveDirectoryDomainSid')
@@ -1194,7 +1194,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	public function persistNetBiosName_calls_saveBlogOptions()
 	{
 		$sut = $this->sut();
-		$data = array();
+		$data = [];
 
 		$this->blogConfigurationController->expects($this->once())
 			->method('saveBlogOptions')
@@ -1213,7 +1213,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 	{
 		$sut = $this->sut(array('getVerificationValidator', 'validateWithValidator'));
 
-		$data = array();
+		$data = [];
 		$validator = new Validator();
 		$result = new Result();
 
@@ -1241,7 +1241,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTest
 
 		$validator = $this->createMock(Validator::class);
 
-		$data = array();
+		$data = [];
 		$result = new Result();
 
 		$validator->expects($this->once())

@@ -3,14 +3,14 @@
 namespace Dreitier\WordPress\Multisite\Configuration\Persistence;
 
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Option\Attribute;
 use Dreitier\WordPress\Multisite\Option\Encryption;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use Dreitier\WordPress\Multisite\Option\Sanitizer;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class ProfileConfigurationRepositoryTest extends BasicTest
+class ProfileConfigurationRepositoryTest extends BasicTestCase
 {
 	/* @var Sanitizer|MockObject $sanitizer */
 	private $sanitizer;
@@ -39,7 +39,7 @@ class ProfileConfigurationRepositoryTest extends BasicTest
 	 *
 	 * @return ProfileConfigurationRepository|MockObject
 	 */
-	public function sut($methods)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(ProfileConfigurationRepository::class)
 			->setConstructorArgs(
@@ -49,7 +49,7 @@ class ProfileConfigurationRepositoryTest extends BasicTest
 					$this->optionProvider
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 

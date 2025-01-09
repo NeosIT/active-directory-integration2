@@ -5,7 +5,7 @@ namespace Dreitier\Nadi\Synchronization\Ui;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\Synchronization\ActiveDirectorySynchronizationService;
 use Dreitier\Nadi\Ui\NadiSingleSiteConfigurationPage;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Ui;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
@@ -17,7 +17,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class SyncToActiveDirectoryPageTest extends BasicTest
+class SyncToActiveDirectoryPageTest extends BasicTestCase
 {
 	/* @var TwigContainer | MockObject */
 	private $twigContainer;
@@ -46,7 +46,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 	 *
 	 * @return SyncToActiveDirectoryPage | MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(SyncToActiveDirectoryPage::class)
 			->setConstructorArgs(
@@ -56,7 +56,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 					$this->configuration
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -65,7 +65,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 	 */
 	public function getTitle_escapeTitle_returnTitle()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunctionEsc_html__();
 
 		$returnedTitle = $sut->getTitle();
@@ -77,7 +77,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 	 */
 	public function getSlug_concat_returnSlug()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$returnedValue = $sut->getSlug();
 		$this->assertEquals(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . SyncToActiveDirectoryPage::SLUG, $returnedValue);
@@ -88,7 +88,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 	 */
 	public function wpAjaxSlug_findSlug_returnNull()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$returnedValue = $sut->wpAjaxSlug();
 		$this->assertEquals(SyncToActiveDirectoryPage::AJAX_SLUG, $returnedValue);
@@ -99,9 +99,9 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 	 */
 	public function getCapability_getValueFromConstant_returnCapability()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
-		$returnedValue = $this->invokeMethod($sut, 'getCapability', array());
+		$returnedValue = $this->invokeMethod($sut, 'getCapability', []);
 		$this->assertEquals(SyncToActiveDirectoryPage::CAPABILITY, $returnedValue);
 	}
 
@@ -133,13 +133,13 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 
 		$this->configuration->expects($this->exactly(5))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				[Options::SYNC_TO_AD_AUTHCODE],
 				[Options::DOMAIN_SID],
 				[Options::SYNC_TO_AD_ENABLED],
 				[Options::SYNC_TO_AD_GLOBAL_USER],
 				[Options::SYNC_TO_AD_GLOBAL_PASSWORD]
-			)
+			))
 			->willReturnOnConsecutiveCalls($authCode, $domainSid, $syncEnabled, $syncUser, $syncPass);
 
 
@@ -186,27 +186,27 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 	 */
 	public function loadJavaScriptAdmin_validHook_enqeueScript()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'sync_to_ad';
 
 
 		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
-				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
+				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', [], Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
 		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
-				'args' => array('next_ad_int_bootstrap_min_css',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/bootstrap.min.css', array(), Ui::VERSION_CSS),
+				'args' => array('next_ad_int_bootstrap_min_css',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/bootstrap.min.css', [], Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
 		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
-				'args' => array('next_ad_int_bootstrap_min_js',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/bootstrap.min.js', array(), Ui::VERSION_PAGE_JS),
+				'args' => array('next_ad_int_bootstrap_min_js',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/bootstrap.min.js', [], Ui::VERSION_PAGE_JS),
 				'times' => 1,
 			)
 		);
@@ -236,7 +236,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'angular.min',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/angular.min.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -284,7 +284,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_util_array',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/utils/array.util.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -295,7 +295,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_util_value',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/utils/value.util.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -307,7 +307,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_app_module',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/app.module.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -319,7 +319,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_app_config',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/app.nadi.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -331,7 +331,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_service_browser',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/browser.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -343,7 +343,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_service_template',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/template.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -355,7 +355,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_service_notification',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/notification.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -367,7 +367,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_service_list',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/list.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -404,7 +404,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'ng-notify',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/ng-notify.min.css',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -416,7 +416,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'selectizecss',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/selectize.css',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -428,7 +428,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'alertify.min',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/alertify.min.css',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -440,7 +440,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_controller_sync_action',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/blog-options/controllers/sync-action.controller.js',
-					array(),
+					[],
 					NadiSingleSiteConfigurationPage::VERSION_BLOG_OPTIONS_JS,
 				),
 				'times' => 1,
@@ -455,7 +455,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 	 */
 	public function loadJavaScriptAdmin_invalidHook_doNothing()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'some_other_stuff';
 
 		\WP_Mock::userFunction('wp_enqueue_style', array(
@@ -470,10 +470,10 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 	 */
 	public function processData_withInvalidPost_returnEmptyArray()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
-		$actual = $sut->processData(array());
-		$this->assertEquals(array(), $actual);
+		$actual = $sut->processData([]);
+		$this->assertEquals([], $actual);
 	}
 
 	/**
@@ -481,7 +481,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 	 */
 	public function processData_invalidNonce_callWpDie()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$post = array(
 			'syncToAd' => '',
@@ -509,7 +509,7 @@ class SyncToActiveDirectoryPageTest extends BasicTest
 	 */
 	public function processData_validNonce_callSyncToAd()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$post = array(
 			'syncToAd' => 'someData',

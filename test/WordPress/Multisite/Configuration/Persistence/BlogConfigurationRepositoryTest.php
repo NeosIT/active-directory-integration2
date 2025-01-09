@@ -3,7 +3,7 @@
 namespace Dreitier\WordPress\Multisite\Configuration\Persistence;
 
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Encryption;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Option\Attribute;
@@ -15,7 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class BlogConfigurationRepositoryTest extends BasicTest
+class BlogConfigurationRepositoryTest extends BasicTestCase
 {
 	/* @var Sanitizer|MockObject $attributes */
 	private $sanitizer;
@@ -55,7 +55,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 	 * @param array $customConstructorArgs
 	 * @return BlogConfigurationRepository|MockObject
 	 */
-	public function sut($methods, $customConstructorArgs = [])
+	public function sut(array $methods = [], $customConstructorArgs = [])
 	{
 		return $this->getMockBuilder(BlogConfigurationRepository::class)
 			->setConstructorArgs(
@@ -67,7 +67,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 					$this->defaultProfileRepository,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -93,7 +93,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 	 */
 	public function findAllSanitized_invalidOptionName_returnNull()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$actual = $sut->findSanitizedValue(5, BlogConfigurationRepository::PROFILE_ID);
 		$this->assertEquals(null, $actual);
 	}
@@ -397,7 +397,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 	 */
 	public function persistSanitized_invalidOptionName_returnNull()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$value = $sut->persistSanitizedValue(5, BlogConfigurationRepository::PROFILE_ID,
 			'');
 		$this->assertEquals(null, $value);
@@ -763,10 +763,10 @@ class BlogConfigurationRepositoryTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('findRawValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(1, BlogConfigurationRepository::PROFILE_ID),
 				array(3, BlogConfigurationRepository::PROFILE_ID)
-			)
+			))
 			->will($this->onConsecutiveCalls(7, 9));
 
 		$sut->expects($this->once())
@@ -781,7 +781,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 	 */
 	public function getSites_multiSite_returnDummy()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$sites = array(
 			array(
@@ -813,7 +813,7 @@ class BlogConfigurationRepositoryTest extends BasicTest
 	 */
 	public function getSites_singleSite_returnSites()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$sites = array(
 			array(

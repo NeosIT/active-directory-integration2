@@ -6,7 +6,7 @@ use Dreitier\Ldap\Attribute\Attribute;
 use Dreitier\Ldap\Attribute\Repository;
 use Dreitier\Ldap\Connection;
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -16,7 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class ActiveDirectorySynchronizationServiceTest extends BasicTest
+class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 {
 	/* @var Service | MockObject */
 	private $configuration;
@@ -49,7 +49,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 	 *
 	 * @return ActiveDirectorySynchronizationService|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(ActiveDirectorySynchronizationService::class)
 			->setConstructorArgs(
@@ -59,7 +59,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 					$this->ldapConnection
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -68,7 +68,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 	 */
 	public function synchronize_succeeds()
 	{
-		$sut = $this->sut(array('prepareForSync', 'getSyncableAttributes', 'getUsers', 'synchronizeUser', 'finishSynchronization'));
+		$sut = $this->sut(array('prepareForSync', 'getUsers', 'synchronizeUser', 'finishSynchronization'));
 
 		$attributes = array('cn' => new Attribute());
 		$users = array((object)array('ID' => 1));
@@ -104,7 +104,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 	 */
 	public function ADI_145_synchronize_itCallsFilter_next_ad_int_sync_wp2ad_filter_synchronizable_users()
 	{
-		$sut = $this->sut(array('prepareForSync', 'getSyncableAttributes', 'getUsers', 'synchronizeUser', 'finishSynchronization'));
+		$sut = $this->sut(array('prepareForSync', 'getUsers', 'synchronizeUser', 'finishSynchronization'));
 
 		$attributes = array('cn' => new Attribute());
 		$users = array((object)array('ID' => 1));
@@ -148,7 +148,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 			->willReturn(false);
 
 
-		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
+		$actual = $this->invokeMethod($sut, 'prepareForSync', []);
 		$this->assertEquals(false, $actual);
 	}
 
@@ -181,7 +181,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 			->with("username")
 			->willReturn(false);
 
-		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
+		$actual = $this->invokeMethod($sut, 'prepareForSync', []);
 		$this->assertEquals(false, $actual);
 
 	}
@@ -243,7 +243,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 			->method('isUsernameInDomain')
 			->willReturn(true);
 
-		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
+		$actual = $this->invokeMethod($sut, 'prepareForSync', []);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -257,7 +257,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 		$sut->expects($this->once())
 			->method('findActiveDirectoryUsers')
 			->with(66)
-			->willReturn(array());
+			->willReturn([]);
 
 		$actual = $this->invokeMethod($sut, 'getUsers', array(66));
 		$this->assertEquals(0, sizeof($actual));
@@ -325,7 +325,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 			'user_login' => 'User',
 			'ID' => 97
 		);
-		$expectedAttributesToSync = array('metakey_mail' => array());
+		$expectedAttributesToSync = array('metakey_mail' => []);
 
 
 		$sut->expects($this->once())
@@ -413,7 +413,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 	 */
 	public function findAttributesOfUser_onlyReturnsAttributesAvailableInWordPress()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$meta = new Attribute();
 		$meta->setMetakey('next_ad_int_mail');
@@ -462,7 +462,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 	 */
 	public function hasActiveDirectoryAttributeEditPermission_itReturnTrue_ifOwnProfileShouldBeEdited()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->assertTrue($sut->hasActiveDirectoryAttributeEditPermission(true));
 	}
@@ -472,7 +472,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 	 */
 	public function hasActiveDirectoryAttributeEditPermission_itReturnTrue_ifAnotherProfileShouldBeEdited_andUserIsAdmin()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('current_user_can', array(
 			'args' => 'edit_users',
@@ -488,7 +488,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 	 */
 	public function isEnabled_delegatesToConfiguration()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -503,7 +503,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 	 */
 	public function getServiceAccountUsername_delegatesToConfiguration()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -518,7 +518,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTest
 	 */
 	public function getServiceAccountPassword_delegatesToConfiguration()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')

@@ -2,7 +2,7 @@
 
 namespace Dreitier\Ldap\Attribute;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
@@ -10,7 +10,7 @@ use Dreitier\Test\BasicTest;
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class DescriptionTest extends BasicTest
+class DescriptionTest extends BasicTestCase
 {
 	public function setUp(): void
 	{

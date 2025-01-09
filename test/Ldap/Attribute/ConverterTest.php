@@ -1,13 +1,13 @@
 <?php
 namespace Dreitier\Ldap\Attribute;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class ConverterTest extends BasicTest
+class ConverterTest extends BasicTestCase
 {
 	public function setUp() : void
 	{

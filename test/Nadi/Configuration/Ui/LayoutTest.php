@@ -3,13 +3,13 @@
 namespace Dreitier\Nadi\Configuration\Ui;
 
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class LayoutTest extends BasicTest
+class LayoutTest extends BasicTestCase
 {
 
 	public function setUp(): void

@@ -7,14 +7,14 @@ use Dreitier\Nadi\Cron\UrlTrigger;
 use Dreitier\Nadi\Multisite\Site\Ui\ExtendSiteList;
 use Dreitier\Nadi\Multisite\Ui\MultisiteMenu;
 use Dreitier\Nadi\User\Manager;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
  * @access private
  */
-class InitTest extends BasicTest
+class InitTest extends BasicTestCase
 {
 	public function setUp(): void
 	{
@@ -330,7 +330,7 @@ class InitTest extends BasicTest
 	 */
 	public function registerHooks_addsAllActions()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::expectActionAdded(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'register_form_login_services', array($sut, 'registerFormLoginServices'), 10, 0);
 
@@ -432,7 +432,7 @@ class InitTest extends BasicTest
 	public function runMultisite_itRegistersTheSharedAdministrationHooks_whenInMultisiteEnvironment()
 	{
 		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
-			'registerMigrationHook', 'finishRegistration'));
+			'finishRegistration'));
 		$dc = $this->mockDependencyContainer($sut);
 
 		$this->loginUser($sut, null, null);
@@ -466,7 +466,7 @@ class InitTest extends BasicTest
 	public function runMultisite_itRegistersTheMultisiteAdministrationHooks_whenInMultisiteEnvironment()
 	{
 		$sut = $this->sut(array('dc', 'isOnNetworkDashboard', 'initialize', 'registerSharedAdministrationHooks',
-			'registerMigrationHook', 'finishRegistration'));
+			'finishRegistration'));
 		$dc = $this->mockDependencyContainer($sut);
 
 		$this->loginUser($sut, null, null);
@@ -734,9 +734,10 @@ class InitTest extends BasicTest
 		$definedCustomLoginPage = '/my-custom-login-page';
 
 		$configurationService->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				[Options::CUSTOM_LOGIN_PAGE_ENABLED],
 				[Options::CUSTOM_LOGIN_PAGE_URI])
+			)
 			->willReturnOnConsecutiveCalls(
 			// enable custom login page
 				true,
@@ -773,9 +774,10 @@ class InitTest extends BasicTest
 		$definedCustomLoginPage = '/my-custom-login-page';
 
 		$configurationService->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				[Options::CUSTOM_LOGIN_PAGE_ENABLED],
 				[Options::CUSTOM_LOGIN_PAGE_URI])
+			)
 			->willReturnOnConsecutiveCalls(
 			// enable custom login page
 				true,
@@ -796,13 +798,13 @@ class InitTest extends BasicTest
 	 *
 	 * @return Init|MockObject
 	 */
-	private function sut($methods = null)
+	private function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Init::class)
 			->setConstructorArgs(
-				array()
+				[]
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 

@@ -4,7 +4,7 @@ namespace Dreitier\WordPress\Multisite\View;
 
 use Dreitier\Nadi\Authentication\VerificationService;
 use Dreitier\Nadi\Configuration\Ui\Layout;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\BlogConfigurationRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\DefaultProfileRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileConfigurationRepository;
@@ -19,7 +19,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author  Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class TwigContainerTest extends BasicTest
+class TwigContainerTest extends BasicTestCase
 {
 	/** @var BlogConfigurationRepository |MockObject */
 	private $blogConfigurationRepository;
@@ -67,7 +67,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function register_registersNecessaryTwigFilters()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$sut->register();
 
 		$twig = $sut->getTwig();
@@ -80,7 +80,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function register_registersNecessaryTwigFiltersWithCorrectCallback()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$sut->register();
 
 		$twig = $sut->getTwig();
@@ -93,7 +93,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function register_registersNecessaryTwigFunctions()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$sut->register();
 
 		$twig = $sut->getTwig();
@@ -121,7 +121,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function register_registersNecessaryTwigFunctionsWithCorrectCallback()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$sut->register();
 
 		$twig = $sut->getTwig();
@@ -238,7 +238,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function getOptionValue_withProfileId_returnProfileValue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->profileConfigurationRepository->expects($this->once())
 			->method('findSanitizedValue')
@@ -254,7 +254,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function getOptionValue_withNoPermission_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$blogId = 4444;
 		$profileId = 3333;
@@ -311,7 +311,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function isOptionDisabled_withProfileId_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->isOptionDisabled('port', 5);
 		$this->assertEquals(false, $actual);
@@ -356,7 +356,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function getPermissionForOptionAndBlog_getBlogId_returnPermission()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$blogId = 4444;
 		$profileId = 3333;
@@ -386,7 +386,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function getOptionPermission_withoutProfileId_getProfileOption()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$blogId = 4444;
 		$profileId = 5;
@@ -416,7 +416,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function getOptionPermission_withProfileId_getProfileOption()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$profileId = 5;
 		$optionName = 'port';
@@ -435,7 +435,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function getBlogName_withoutBlogId_delegateToGetOption()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction(
 			'get_option', array(
@@ -453,7 +453,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function getBlogName_notMultisite_delegateToGetOption()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction(
 			'is_multisite', array(
@@ -478,7 +478,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function getBlogName_withBlogId_delegateToGetBlogOption()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction(
 			'get_blog_option', array(
@@ -502,7 +502,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function getProfileIdOfBlog()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('findProfileId')
@@ -518,7 +518,7 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function getSites_isMultisite_returnSites()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$sites[0] = array(
 			'network_id' => 1,
@@ -558,9 +558,9 @@ class TwigContainerTest extends BasicTest
 	 */
 	public function getSites_noMultisite_returnDefaultArray()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
-		$sites = array();
+		$sites = [];
 		$sites[0] = array(
 			'network_id' => 0,
 			'public' => null,
@@ -602,7 +602,7 @@ class TwigContainerTest extends BasicTest
 	 *
 	 * @return TwigContainer| MockObject
 	 */
-	private function sut($methods = null)
+	private function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(TwigContainer::class)
 			->setConstructorArgs(
@@ -616,7 +616,7 @@ class TwigContainerTest extends BasicTest
 					$this->verificationService
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 }

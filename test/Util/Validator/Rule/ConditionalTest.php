@@ -2,10 +2,10 @@
 
 namespace Dreitier\Util\Validator\Rule;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class ConditionalTest extends BasicTest
+class ConditionalTest extends BasicTestCase
 {
 	public function setUp(): void
 	{
@@ -23,7 +23,7 @@ class ConditionalTest extends BasicTest
 	 *
 	 * @return Conditional|MockObject
 	 */
-	public function sut($methods = null, $rules = array())
+	public function sut(array $methods = [], array $rules = [])
 	{
 		return $this->getMockBuilder(Conditional::class)
 			->setConstructorArgs(array(
@@ -31,7 +31,7 @@ class ConditionalTest extends BasicTest
 					'sync_to_wordpress_enabled' => true,
 				),
 			))
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -41,7 +41,7 @@ class ConditionalTest extends BasicTest
 	public function validate_withConditionsTrue_executesAllRules()
 	{
 		$value = '';
-		$data = array();
+		$data = [];
 
 		$ruleOne = $this->createMock(RuleAdapter::class);
 		$ruleTwo = $this->createMock(RuleAdapter::class);
@@ -70,7 +70,7 @@ class ConditionalTest extends BasicTest
 	public function validate_withFirstRuleInvalid_doesNotExecuteOtherRules()
 	{
 		$value = '';
-		$data = array();
+		$data = [];
 
 		$ruleOne = $this->createMock(RuleAdapter::class);
 		$ruleTwo = $this->createMock(RuleAdapter::class);
@@ -102,7 +102,7 @@ class ConditionalTest extends BasicTest
 
 		$this->behave($sut, 'areConditionsTrue', false);
 
-		$result = $sut->validate('', array());
+		$result = $sut->validate('', []);
 
 		$this->assertTrue($result);
 	}

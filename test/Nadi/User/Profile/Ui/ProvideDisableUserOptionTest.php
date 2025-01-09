@@ -4,7 +4,7 @@ namespace Dreitier\Nadi\User\Profile\Ui;
 
 use Dreitier\Nadi\User\Manager;
 use Dreitier\Nadi\Vendor\Twig\Environment;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -12,7 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class ProvideDisableUserOptionTest extends BasicTest
+class ProvideDisableUserOptionTest extends BasicTestCase
 {
 	/* @var TwigContainer| MockObject */
 	private $twigContainer;
@@ -41,7 +41,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 	 *
 	 * @return ProvideDisableUserOption| MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(ProvideDisableUserOption::class)
 			->setConstructorArgs(
@@ -50,7 +50,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 					$this->userManager,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -59,7 +59,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 	 */
 	public function register()
 	{
-		$sut = $this->sut(array('addOption', 'persistSanitized'));
+		$sut = $this->sut(array('addOption'));
 
 		\WP_Mock::expectActionAdded('edit_user_profile', array($sut, 'addOption'));
 		\WP_Mock::expectActionAdded('edit_user_profile_update', array($sut, 'saveOption'), 100, 1);
@@ -73,7 +73,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 	 */
 	public function addOption_userHasNotPermission()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction(
 			'current_user_can', array(
@@ -91,7 +91,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 	 */
 	public function addOption_returnBecauseAdmin()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$user = (object)array(
 			'ID' => 1,
@@ -114,7 +114,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 	 */
 	public function addOption_disableUserShowMessage()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunction__();
 
 		$user = (object)array(
@@ -171,7 +171,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 	 */
 	public function saveOption_blockUser()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunction__();
 
 		$userMessage = "User \"TestUser\" with ID \"2\" manually disabled by \"Admin\" with the ID \"1\".";
@@ -229,7 +229,7 @@ class ProvideDisableUserOptionTest extends BasicTest
 	 */
 	public function saveOption_unblockUser()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$userId = 2;
 		$_POST[NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'user_disabled'] = '0';

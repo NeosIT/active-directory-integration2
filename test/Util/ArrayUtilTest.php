@@ -2,13 +2,13 @@
 
 namespace Dreitier\Util;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class ArrayUtilTest extends BasicTest
+class ArrayUtilTest extends BasicTestCase
 {
 	/**
 	 * @test
@@ -111,7 +111,7 @@ class ArrayUtilTest extends BasicTest
 	 */
 	public function findFirstOrDefault_withoutElementsAndWithoutDefault_returnsNull()
 	{
-		$actual = ArrayUtil::findFirstOrDefault(array());
+		$actual = ArrayUtil::findFirstOrDefault([]);
 
 		$this->assertNull($actual);
 	}
@@ -121,7 +121,7 @@ class ArrayUtilTest extends BasicTest
 	 */
 	public function findFirstOrDefault_withoutElementsAndWithDefault_returnsDefault()
 	{
-		$actual = ArrayUtil::findFirstOrDefault(array(), false);
+		$actual = ArrayUtil::findFirstOrDefault([], false);
 
 		$this->assertFalse($actual);
 	}

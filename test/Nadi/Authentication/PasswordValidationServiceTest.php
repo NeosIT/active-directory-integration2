@@ -4,7 +4,7 @@ namespace Dreitier\Nadi\Authentication;
 
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\LoginState;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -12,7 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author  Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class PasswordValidationServiceTest extends BasicTest
+class PasswordValidationServiceTest extends BasicTestCase
 {
 	/* @var Service|MockObject */
 	private $configuration;
@@ -38,7 +38,7 @@ class PasswordValidationServiceTest extends BasicTest
 	 */
 	public function overridePasswordCheck_isAdmin()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$check = 'isAdmin';
 		$password = null;
 		$hash = null;
@@ -53,7 +53,7 @@ class PasswordValidationServiceTest extends BasicTest
 	/**
 	 * @return PasswordValidationService| MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(PasswordValidationService::class)
 			->setConstructorArgs(
@@ -62,7 +62,7 @@ class PasswordValidationServiceTest extends BasicTest
 					$this->configuration
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -71,7 +71,7 @@ class PasswordValidationServiceTest extends BasicTest
 	 */
 	public function overridePasswordCheck_isAuthorized()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$userId = '2';
 		$this->loginState->setAuthenticationSucceeded();
 
@@ -85,7 +85,7 @@ class PasswordValidationServiceTest extends BasicTest
 	 */
 	public function overridePasswordCheck_localPasswordCheckFallbackActivated()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$userId = '2';
 		$check = true;
 
@@ -110,7 +110,7 @@ class PasswordValidationServiceTest extends BasicTest
 	 */
 	public function overridePasswordCheck_localPasswordCheckFallbackDeactivated()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$userId = '2';
 
 		\WP_Mock::userFunction('get_user_meta', array(
@@ -133,7 +133,7 @@ class PasswordValidationServiceTest extends BasicTest
 	 */
 	public function overridePasswordCheck_LocalPasswordCheck()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$userId = '2';
 		$check = true;
 

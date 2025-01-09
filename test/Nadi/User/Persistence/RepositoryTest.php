@@ -4,7 +4,7 @@ namespace Dreitier\Nadi\User\Persistence;
 
 use Dreitier\Nadi\Authentication\PrincipalResolver;
 use Dreitier\Nadi\User\User;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\WordPressErrorException;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -12,7 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @access private
  */
-class RepositoryTest extends BasicTest
+class RepositoryTest extends BasicTestCase
 {
 	/** @var WordPressErrorException|\Mockery\MockInterface */
 	private $exceptionUtil;
@@ -91,7 +91,7 @@ class RepositoryTest extends BasicTest
 	 */
 	public function findByKey_delegatesCallToWordPressFunction()
 	{
-		$sut = $this->sut(array());
+		$sut = $this->sut([]);
 
 		$expected = $this->createMock(\WP_User::class);
 
@@ -385,10 +385,10 @@ class RepositoryTest extends BasicTest
 		$wpUser = $this->createMock(\WP_User::class);
 		$wpUser->display_name = 'display_name';
 
-		$wpErrorMock = $this->createMockedObject(\WP_Error::class, array(), array('get_error_messages'));
+		$wpErrorMock = $this->createMockedObject(\WP_Error::class, [], array('get_error_messages'));
 		$wpErrorMock->expects($this->once())
 			->method('get_error_messages')
-			->willReturn(array());
+			->willReturn([]);
 
 		\WP_Mock::userFunction('wp_update_user', array(
 			'args' => array(
@@ -419,9 +419,9 @@ class RepositoryTest extends BasicTest
 	{
 		$email = 'john.doe@test.ad';
 
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
-		$wpError = $this->createMockedObject(\WP_Error::class, array(), array('get_error_messages'));
+		$wpError = $this->createMockedObject(\WP_Error::class, [], array('get_error_messages'));
 
 		$adiUser = $this->createMock(User::class);
 
@@ -453,7 +453,7 @@ class RepositoryTest extends BasicTest
 	{
 		$email = 'john.doe@test.ad';
 
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$adiUser = $this->createMock(User::class);
 
@@ -484,12 +484,12 @@ class RepositoryTest extends BasicTest
 	 */
 	public function update_itReturnswithErrorOnUpdate_returnsErrorObject()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
-		$wpError = $this->createMockedObject(\WP_Error::class, array(), array('get_error_messages'));
+		$wpError = $this->createMockedObject(\WP_Error::class, [], array('get_error_messages'));
 		$wpError->expects($this->once())
 			->method('get_error_messages')
-			->willReturn(array());
+			->willReturn([]);
 
 		$adiUser = $this->createMock(User::class);
 
@@ -508,12 +508,12 @@ class RepositoryTest extends BasicTest
 		));
 
 		\WP_Mock::userFunction('wp_update_user', array(
-			'args' => array(array()),
+			'args' => array([]),
 			'times' => 1,
 			'return' => $wpError,
 		));
 
-		$actual = $sut->update($adiUser, array());
+		$actual = $sut->update($adiUser, []);
 		$this->assertEquals($wpError, $actual);
 	}
 
@@ -524,11 +524,11 @@ class RepositoryTest extends BasicTest
 	 *
 	 * @return Repository|MockObject
 	 */
-	private function sut($methods = null)
+	private function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Repository::class)
-			->setConstructorArgs(array())
-			->setMethods($methods)
+			->setConstructorArgs([])
+			->onlyMethods($methods)
 			->getMock();
 	}
 }

@@ -2,13 +2,13 @@
 
 namespace Dreitier\ActiveDirectory;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 
 /**
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
  * @access private
  */
-class ContextTest extends BasicTest
+class ContextTest extends BasicTestCase
 {
 	public function setUp(): void
 	{

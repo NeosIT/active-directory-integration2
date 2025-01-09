@@ -3,7 +3,7 @@
 namespace Dreitier\WordPress\Multisite\Ui;
 
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileConfigurationRepository;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -12,7 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class ProfileConfigurationControllerTest extends BasicTest
+class ProfileConfigurationControllerTest extends BasicTestCase
 {
 	/** @var ProfileConfigurationRepository|MockObject */
 	private $profileConfigurationRepository;
@@ -38,14 +38,14 @@ class ProfileConfigurationControllerTest extends BasicTest
 	 *
 	 * @return ProfileConfigurationController|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(ProfileConfigurationController::class)
 			->setConstructorArgs(array(
 				$this->profileConfigurationRepository,
 				$this->optionProvider
 			))
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -65,10 +65,10 @@ class ProfileConfigurationControllerTest extends BasicTest
 			'message' => 'An error occurred while saving the configuration.',
 			'type' => 'error',
 			'isMessage' => true,
-			'additionalInformation' => array(),
+			'additionalInformation' => [],
 		);
 
-		$result = $sut->saveProfileOptions(array(), 1);
+		$result = $sut->saveProfileOptions([], 1);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -88,10 +88,10 @@ class ProfileConfigurationControllerTest extends BasicTest
 			'message' => 'The configuration was saved successfully.',
 			'type' => 'success',
 			'isMessage' => true,
-			'additionalInformation' => array(),
+			'additionalInformation' => [],
 		);
 
-		$result = $sut->saveProfileOptions(array(), 1);
+		$result = $sut->saveProfileOptions([], 1);
 
 		$this->assertEquals($expected, $result);
 	}
@@ -119,7 +119,7 @@ class ProfileConfigurationControllerTest extends BasicTest
 			'message' => 'The configuration was saved successfully.',
 			'type' => 'success',
 			'isMessage' => true,
-			'additionalInformation' => array(),
+			'additionalInformation' => [],
 		);
 
 		$result = $sut->saveProfileOptions($options, 1);
@@ -159,7 +159,7 @@ class ProfileConfigurationControllerTest extends BasicTest
 	 */
 	public function validateOption_metadataEmpty_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$option = array(
 			'option_value' => '389',
@@ -175,7 +175,7 @@ class ProfileConfigurationControllerTest extends BasicTest
 	 */
 	public function validateOption_optionPermissionNotSet()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$option = array(
 			'option_value' => '389',
@@ -190,7 +190,7 @@ class ProfileConfigurationControllerTest extends BasicTest
 	 */
 	public function validateOption_optionValueNotSet()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$option = array(
 			'option_permission' => '1'
@@ -205,7 +205,7 @@ class ProfileConfigurationControllerTest extends BasicTest
 	 */
 	public function validateOption_metadataNotEmpty_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$option = array(
 			'option_value' => '389',

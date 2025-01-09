@@ -2,7 +2,7 @@
 
 namespace Dreitier\WordPress\Multisite\Ui;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\BlogConfigurationRepository;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -11,7 +11,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class BlogConfigurationControllerTest extends BasicTest
+class BlogConfigurationControllerTest extends BasicTestCase
 {
 	/**  @var BlogConfigurationRepository| MockObject */
 	private $blogConfigurationRepository;
@@ -25,7 +25,7 @@ class BlogConfigurationControllerTest extends BasicTest
 
 		$this->blogConfigurationRepository = $this->getMockBuilder(BlogConfigurationRepository::class)
 			->disableOriginalConstructor()
-			->setMethods(array('persistSanitizedValue'))
+			->onlyMethods(['persistSanitizedValue'])
 			->getMock();
 
 		$this->optionProvider = $this->createMock(Provider::class);
@@ -41,13 +41,13 @@ class BlogConfigurationControllerTest extends BasicTest
 	 *
 	 * @return BlogConfigurationController|MockObject
 	 */
-	public function sut($methods)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(BlogConfigurationController::class)
 			->setConstructorArgs(array(
 				$this->blogConfigurationRepository,
 				$this->optionProvider))
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -59,7 +59,7 @@ class BlogConfigurationControllerTest extends BasicTest
 		$sut = $this->sut(array('saveBlogOptionsInternal'));
 		$this->mockFunction__();
 
-		$data = array();
+		$data = [];
 		$expected = array("status_success" => true);
 
 		$sut->expects($this->once())
@@ -79,7 +79,7 @@ class BlogConfigurationControllerTest extends BasicTest
 		$sut = $this->sut(array('saveBlogOptionsInternal'));
 		$this->mockFunction__();
 
-		$data = array();
+		$data = [];
 		$expected = array("status_success" => false);
 
 		$sut->expects($this->once())
@@ -138,11 +138,11 @@ class BlogConfigurationControllerTest extends BasicTest
 
 		$sut->expects($this->exactly(3))
 			->method('validateOption')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array('port', array('option_value' => 'stuff')),
 				array('tls', array('option_value' => 'true')),
 				array('base_dn', array('option_value' => '127.0.0.1'))
-			)->will($this->onConsecutiveCalls(
+			))->will($this->onConsecutiveCalls(
 				true,
 				false,
 				true
@@ -150,10 +150,10 @@ class BlogConfigurationControllerTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('persistOption')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array('port', array('option_value' => 'stuff')),
 				array('base_dn', array('option_value' => '127.0.0.1'))
-			);
+			));
 
 		$this->invokeMethod($sut, 'saveBlogOptionsInternal', array($options));
 	}
@@ -163,7 +163,7 @@ class BlogConfigurationControllerTest extends BasicTest
 	 */
 	public function validateOption_optionIsNull_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validateOption("port", null);
 		$this->assertEquals(false, $actual);
@@ -174,7 +174,7 @@ class BlogConfigurationControllerTest extends BasicTest
 	 */
 	public function validateOption_noMetadata_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->optionProvider->expects($this->never())
 			->method('existOption');
@@ -189,7 +189,7 @@ class BlogConfigurationControllerTest extends BasicTest
 
 	public function persistOption_withMetadata_persist()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('get_current_blog_id', array(
 				'return' => 1)

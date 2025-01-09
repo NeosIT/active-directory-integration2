@@ -3,7 +3,7 @@
 namespace Dreitier\Nadi\User\Ui;
 
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Util;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -12,7 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class ExtendUserListTest extends BasicTest
+class ExtendUserListTest extends BasicTestCase
 {
 	/* @var Service | MockObject */
 	private $configuration;
@@ -26,7 +26,7 @@ class ExtendUserListTest extends BasicTest
 
 		$this->configuration = $this->getMockBuilder(Service::class)
 			->disableOriginalConstructor()
-			->setMethods(array('getOptionValue'))
+			->onlyMethods(array('getOptionValue'))
 			->getMock();
 
 		// mock native functions
@@ -44,7 +44,7 @@ class ExtendUserListTest extends BasicTest
 	 */
 	public function register_showUserStatusFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -59,7 +59,7 @@ class ExtendUserListTest extends BasicTest
 	 *
 	 * @return ExtendUserList|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(ExtendUserList::class)
 			->setConstructorArgs(
@@ -67,7 +67,7 @@ class ExtendUserListTest extends BasicTest
 					$this->configuration
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -76,7 +76,7 @@ class ExtendUserListTest extends BasicTest
 	 */
 	public function register_itAddsFilters()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -94,10 +94,10 @@ class ExtendUserListTest extends BasicTest
 	 */
 	public function addColumns()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunction__();
 
-		$columns = array();
+		$columns = [];
 
 		$filledColumns = array(
 			$sut->__columnIsAdiUser() => 'NADI User',
@@ -125,7 +125,7 @@ class ExtendUserListTest extends BasicTest
 			->method('__columnManagedByCrmPe')
 			->willReturn('pe_crm_is_managed_by_pe_1');
 
-		$columns = array();
+		$columns = [];
 
 		$filledColumns = array(
 			$sut->__columnIsAdiUser() => 'NADI User',
@@ -172,7 +172,7 @@ class ExtendUserListTest extends BasicTest
 	 */
 	public function renderUsernameColumn_itAddsPlaceholder()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$userId = 1;
 
@@ -194,7 +194,7 @@ class ExtendUserListTest extends BasicTest
 	 */
 	public function renderUsernameColumn_itAddsAnEmptyString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$userId = 1;
 
@@ -217,7 +217,7 @@ class ExtendUserListTest extends BasicTest
 	 */
 	public function renderDisabledColumn_itShowsDisablingReason()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$userId = 1;
 
@@ -276,7 +276,7 @@ class ExtendUserListTest extends BasicTest
 	 */
 	public function renderDisabledColumn_itShowEmptyString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$userId = 1;
 
@@ -306,7 +306,7 @@ class ExtendUserListTest extends BasicTest
 	 */
 	public function addContent_noCase_doNotAlterValuesFromOtherColumns()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$userId = 1;
 

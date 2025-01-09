@@ -3,7 +3,7 @@
 namespace Dreitier\Util\Validator\Rule;
 
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -14,7 +14,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @access
  */
-class NumericTest extends BasicTest
+class NumericTest extends BasicTestCase
 {
 	const VALIDATION_MESSAGE = 'Validation failed.';
 
@@ -34,7 +34,7 @@ class NumericTest extends BasicTest
 	 *
 	 * @return Numeric|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Numeric::class)
 			->setConstructorArgs(
@@ -42,7 +42,7 @@ class NumericTest extends BasicTest
 					self::VALIDATION_MESSAGE,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -51,7 +51,7 @@ class NumericTest extends BasicTest
 	 */
 	public function validate_withString_returnString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validate(
 			"test",
@@ -66,7 +66,7 @@ class NumericTest extends BasicTest
 	 */
 	public function validate_withNumeric_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validate(
 			123,
@@ -81,7 +81,7 @@ class NumericTest extends BasicTest
 	 */
 	public function isNegative_withNegativeNumeric_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->isNegative(-123);
 
@@ -93,7 +93,7 @@ class NumericTest extends BasicTest
 	 */
 	public function isNegative_withPositiveNumeric_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->isNegative(123);
 
@@ -106,7 +106,7 @@ class NumericTest extends BasicTest
 	 */
 	public function isPositive_withPositiveNumeric_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->isPositive(123);
 
@@ -118,7 +118,7 @@ class NumericTest extends BasicTest
 	 */
 	public function isPositive_withNegativeNumeric_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->isPositive(-123);
 
@@ -130,7 +130,7 @@ class NumericTest extends BasicTest
 	 */
 	public function isFloat_withFloatNumeric_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->isFloat(123.4);
 
@@ -142,7 +142,7 @@ class NumericTest extends BasicTest
 	 */
 	public function isFloat_withoutFloatNumeric_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->isFloat(123);
 
@@ -154,7 +154,7 @@ class NumericTest extends BasicTest
 	 */
 	public function isZero_withZero_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->isZero(0);
 
@@ -166,7 +166,7 @@ class NumericTest extends BasicTest
 	 */
 	public function isZero_withNumeric_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->isZero(123);
 

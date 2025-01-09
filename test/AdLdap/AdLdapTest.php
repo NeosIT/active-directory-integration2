@@ -1,6 +1,7 @@
 <?php
 namespace Dreitier\AdLdap;
 
+use Dreitier\Test\PHPUnitHelper;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,10 +15,12 @@ class AdLdapTestAdapter extends AdLdap {
 class AdLdapTest extends TestCase
 {
 	use \phpmock\phpunit\PHPMock;
-	private function sut($methods = null, $options = array())
+	use PHPUnitHelper;
+
+	private function sut($methods = [], $options = [])
 	{
 		$r = $this->getMockBuilder(AdLdapTestAdapter::class)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 
 		if (!empty($options)) {
@@ -48,12 +51,12 @@ class AdLdapTest extends TestCase
 
 		$sut->expects($this->atLeast(2))
 			->method('_ldap_search')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				// first call is on deepest level
 				[adLDAP::PARTITIONS_PREFIX . $baseDn, adLDAP::NETBIOS_MATCHER, []],
 				// second call is on top level
 				[adLDAP::PARTITIONS_PREFIX . $topDn, adLDAP::NETBIOS_MATCHER, []]
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				// on deepest level, we don't find anything
 				FALSE,
@@ -63,10 +66,10 @@ class AdLdapTest extends TestCase
 
 		$sut->expects($this->once())
 			->method('_ldap_get_entries')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				// with the first call, we don't do any further search as we simulate error code 32
-				[TRUE]
-			)
+				[true]
+			))
 			->willReturnOnConsecutiveCalls(
 				// on DC=test,DC=ad we'll find the partition
 				[
@@ -97,9 +100,9 @@ class AdLdapTest extends TestCase
 
 		$sut->expects($this->once())
 			->method('_ldap_search')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				[adLDAP::PARTITIONS_PREFIX . $baseDn, adLDAP::NETBIOS_MATCHER, []],
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				// on deepest level, we don't find anything
 				TRUE,
@@ -107,10 +110,10 @@ class AdLdapTest extends TestCase
 
 		$sut->expects($this->once())
 			->method('_ldap_get_entries')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				// find something on top level
 				[TRUE]
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				// on DC=test,DC=ad we'll find the partition
 				[

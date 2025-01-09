@@ -6,7 +6,7 @@ use Dreitier\Ldap\Attribute\Attribute;
 use Dreitier\Ldap\Attribute\Repository;
 use Dreitier\Nadi\Synchronization\ActiveDirectorySynchronizationService;
 use Dreitier\Nadi\Vendor\Twig\Environment;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -15,7 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class ShowLdapAttributesTest extends BasicTest
+class ShowLdapAttributesTest extends BasicTestCase
 {
 	/* @var Service|MockObject */
 	private $configuration;
@@ -44,7 +44,7 @@ class ShowLdapAttributesTest extends BasicTest
 
 		$this->twig = $this->getMockBuilder(Environment::class)
 			->disableOriginalConstructor()
-			->setMethods(array('render'))// do not replace this line with ->disableProxyingToOriginalMethods()
+			->onlyMethods(array('render'))// do not replace this line with ->disableProxyingToOriginalMethods()
 			->getMock();
 
 		\WP_Mock::setUp();
@@ -60,7 +60,7 @@ class ShowLdapAttributesTest extends BasicTest
 	 *
 	 * @return ShowLdapAttributes|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(ShowLdapAttributes::class)
 			->setConstructorArgs(
@@ -71,7 +71,7 @@ class ShowLdapAttributesTest extends BasicTest
 					$this->syncToActiveDirectory
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -81,7 +81,7 @@ class ShowLdapAttributesTest extends BasicTest
 	 */
 	public function register_AddAction()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 
 		\WP_Mock::expectActionAdded('show_user_profile', array($sut, 'extendOwnProfile'));
@@ -196,7 +196,7 @@ class ShowLdapAttributesTest extends BasicTest
 	 */
 	public function createViewModel_createsData()
 	{
-		$attributes = array();
+		$attributes = [];
 		$wpUser = (object)array(
 			'ID' => '123',
 		);
@@ -235,7 +235,7 @@ class ShowLdapAttributesTest extends BasicTest
 	 */
 	public function createViewModel_containsSynchronizationUnavailableErrorMessage()
 	{
-		$attributes = array();
+		$attributes = [];
 		$wpUser = (object)array(
 			'ID' => '123',
 		);
@@ -264,7 +264,7 @@ class ShowLdapAttributesTest extends BasicTest
 	 */
 	public function createViewModel_containsRequirementForEnteringPassword()
 	{
-		$attributes = array();
+		$attributes = [];
 		$wpUser = (object)array(
 			'ID' => '123',
 		);
@@ -310,7 +310,7 @@ class ShowLdapAttributesTest extends BasicTest
 	 */
 	public function createAttributeViewModel_withMetakey()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$metaObject = new Attribute();
 		$metaObject->setMetakey('m_key');
@@ -339,7 +339,7 @@ class ShowLdapAttributesTest extends BasicTest
 	 */
 	public function createAttributeViewModel_withoutMetakey()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$metaObject = new Attribute();
 
@@ -364,7 +364,7 @@ class ShowLdapAttributesTest extends BasicTest
 	 */
 	public function createAttributeViewModel_withDescription()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$metaObject = new Attribute();
 		$metaObject->setMetakey('m_key');
@@ -391,7 +391,7 @@ class ShowLdapAttributesTest extends BasicTest
 	 */
 	public function createAttributeViewModel_withoutDescription()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$metaObject = new Attribute();
 		$metaObject->setMetakey('m_key');
@@ -418,7 +418,7 @@ class ShowLdapAttributesTest extends BasicTest
 	 */
 	public function createAttributeViewModel_withTypeList()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$metaObject = new Attribute();
 		$metaObject->setType('list');
@@ -437,7 +437,7 @@ class ShowLdapAttributesTest extends BasicTest
 	 */
 	public function createAttributeViewModel_withTypeString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$metaObject = new Attribute();
 		$metaObject->setType('string');
@@ -456,7 +456,7 @@ class ShowLdapAttributesTest extends BasicTest
 	 */
 	public function createAttributeViewModel_withoutTypeList()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$metaObject = new Attribute();
 		$metaObject->setType('string');

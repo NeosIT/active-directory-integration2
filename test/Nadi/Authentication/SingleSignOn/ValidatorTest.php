@@ -6,7 +6,7 @@ use Dreitier\Ldap\Connection;
 use Dreitier\Nadi\Authentication\AuthenticationException;
 use Dreitier\Nadi\Authentication\LogoutException;
 use Dreitier\Nadi\Authentication\PrincipalResolver;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Session\SessionHandler;
 use Dreitier\Util\Util;
@@ -19,7 +19,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @access
  */
-class ValidatorTest extends BasicTest
+class ValidatorTest extends BasicTestCase
 {
 	/* @var SessionHandler|MockObject $sessionHandler */
 	private $sessionHandler;
@@ -49,11 +49,11 @@ class ValidatorTest extends BasicTest
 	 *
 	 * @return Validator|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Validator::class)
-			->setConstructorArgs(array())
-			->setMethods($methods)
+			->setConstructorArgs([])
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -116,7 +116,7 @@ class ValidatorTest extends BasicTest
 	public function validateProfile_withProfile_doesNotThrowException()
 	{
 		$sut = $this->sut(array('getSessionHandler'));
-		$profile = array();
+		$profile = [];
 
 		$sut->validateProfile($profile);
 	}

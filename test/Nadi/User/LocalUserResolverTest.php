@@ -10,7 +10,7 @@ use Dreitier\Nadi\Authentication\PrincipalResolver;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\Log\NadiLog;
 use Dreitier\Nadi\Role\Mapping;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\WordPressErrorException;
 use Hoa\Protocol\Bin\Resolve;
@@ -20,7 +20,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
  * @access private
  */
-class LocalUserResolverTest extends BasicTest
+class LocalUserResolverTest extends BasicTestCase
 {
 	public function setUp(): void
 	{

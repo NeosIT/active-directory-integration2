@@ -6,14 +6,14 @@ use Dreitier\Nadi\Authentication\Credentials;
 use Dreitier\Nadi\LoginState;
 use Dreitier\Nadi\Role\Mapping;
 use Dreitier\Nadi\User\Manager;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
  * @access private
  */
-class ServiceTest extends BasicTest
+class ServiceTest extends BasicTestCase
 {
 	/* @var \Dreitier\WordPress\Multisite\Configuration\Service| MockObject */
 	private $multisiteConfigurationService;
@@ -48,7 +48,7 @@ class ServiceTest extends BasicTest
 	 *
 	 * @return Service|MockObject
 	 */
-	public function sut($methods = null, $simulated = false)
+	public function sut(array $methods = [], bool $simulated = false)
 	{
 		return $this->getMockBuilder(Service::class)
 			->setConstructorArgs(
@@ -58,7 +58,7 @@ class ServiceTest extends BasicTest
 					$this->roleManager,
 					$this->loginState
 				)
-			)->setMethods($methods)
+			)->onlyMethods($methods)
 			->getMock();
 
 	}

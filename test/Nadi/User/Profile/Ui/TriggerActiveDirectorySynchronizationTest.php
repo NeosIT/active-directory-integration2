@@ -8,7 +8,7 @@ use Dreitier\Ldap\Attribute\Repository;
 use Dreitier\Ldap\Attributes;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\Synchronization\ActiveDirectorySynchronizationService;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -16,7 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class TriggerActiveDirectorySynchronizationTest extends BasicTest
+class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 {
 	/* @var Service | MockObject */
 	private $configuration;
@@ -45,7 +45,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 	 *
 	 * @return TriggerActiveDirectorySynchronization|MockObject
 	 */
-	public function sut($methods = null, $errors = array())
+	public function sut(array $methods = [], $errors = [])
 	{
 		return $this->getMockBuilder(TriggerActiveDirectorySynchronization::class)
 			->setConstructorArgs(
@@ -56,7 +56,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 					$errors
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -65,7 +65,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 	 */
 	public function register_addsWordPressHooks()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::expectActionAdded('personal_options_update', array($sut, 'updateOwnProfile'));
 		\WP_Mock::expectActionAdded('edit_user_profile_update', array($sut, 'updateForeignProfile'));
@@ -220,7 +220,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 	 */
 	public function updateWordPressProfile_triggers_update_user_meta()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$userId = 1;
 
@@ -324,7 +324,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 		$user->ID = 1;
 
 		\WP_Mock::userFunction('get_user_meta', array(
-			'args' => array($user->ID,NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'userprincipalname', true),
+			'args' => array($user->ID, NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'userprincipalname', true),
 			'times' => 1,
 			'return' => 'user@test.ad',
 		));
@@ -352,7 +352,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 	 */
 	public function triggerSyncToActiveDirectory_usesTheCustomPassword()
 	{
-		$sut = $this->sut(array('createLdapConnectionDetails', 'synchronize'));
+		$sut = $this->sut(array('createLdapConnectionDetails'));
 
 		$username = 'testUser';
 		$wpUserdata = (object)array('user_login' => 'username');
@@ -399,7 +399,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 			->with(666, 'serviceUsername', 'servicePassword')
 			->willReturn(true);
 
-		$actual = $sut->triggerSyncToActiveDirectory(666, array());
+		$actual = $sut->triggerSyncToActiveDirectory(666, []);
 		$this->assertTrue($actual);
 	}
 
@@ -417,11 +417,11 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 
 		$this->configuration->expects($this->exactly(3))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::SYNC_TO_AD_USE_GLOBAL_USER),
 				array(Options::SYNC_TO_AD_GLOBAL_USER),
 				array(Options::SYNC_TO_AD_GLOBAL_PASSWORD)
-			)
+			))
 			->will(
 				$this->onConsecutiveCalls(
 					true,
@@ -446,7 +446,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 			->with(666, 'serviceUsername', 'servicePassword')
 			->willReturn(true);
 
-		$actual = $sut->triggerSyncToActiveDirectory(666, array());
+		$actual = $sut->triggerSyncToActiveDirectory(666, []);
 		$this->assertFalse($actual);
 	}
 
@@ -460,7 +460,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTest
 			array('code2', 'message2', 'data2'),
 		);
 
-		$sut = $this->sut(null, $errors);
+		$sut = $this->sut([], $errors);
 
 		$error = new \WP_Error();
 

@@ -3,11 +3,11 @@
 namespace Dreitier\Nadi\Ui\Validator\Rule;
 
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class AccountSuffixTest extends BasicTest
+class AccountSuffixTest extends BasicTestCase
 {
 	const VALIDATION_MESSAGE = 'Username has to contain a suffix.';
 
@@ -26,7 +26,7 @@ class AccountSuffixTest extends BasicTest
 	 *
 	 * @return AccountSuffix|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(AccountSuffix::class)
 			->setConstructorArgs(
@@ -34,7 +34,7 @@ class AccountSuffixTest extends BasicTest
 					self::VALIDATION_MESSAGE, '@',
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -45,7 +45,7 @@ class AccountSuffixTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$actual = $sut->validate('test@test.ad', array());
+		$actual = $sut->validate('test@test.ad', []);
 
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
@@ -57,7 +57,7 @@ class AccountSuffixTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$actual = $sut->validate('@test.ad', array());
+		$actual = $sut->validate('@test.ad', []);
 
 		$this->assertTrue($actual);
 	}
@@ -69,7 +69,7 @@ class AccountSuffixTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$actual = $sut->validate('@test;test@test.ad', array());
+		$actual = $sut->validate('@test;test@test.ad', []);
 
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
@@ -81,7 +81,7 @@ class AccountSuffixTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$actual = $sut->validate('@test.ad;@test2.ad;@test3.ad', array());
+		$actual = $sut->validate('@test.ad;@test2.ad;@test3.ad', []);
 
 		$this->assertTrue($actual);
 	}

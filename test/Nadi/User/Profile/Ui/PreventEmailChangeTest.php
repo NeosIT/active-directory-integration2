@@ -3,7 +3,7 @@
 namespace Dreitier\Nadi\User\Profile\Ui;
 
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -11,7 +11,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class PreventEmailChangeTest extends BasicTest
+class PreventEmailChangeTest extends BasicTestCase
 {
 	/* @var Service| MockObject */
 	private $configuration;
@@ -32,7 +32,7 @@ class PreventEmailChangeTest extends BasicTest
 	 *
 	 * @return PreventEmailChange| MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(PreventEmailChange::class)
 			->setConstructorArgs(
@@ -40,7 +40,7 @@ class PreventEmailChangeTest extends BasicTest
 					$this->configuration
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -49,7 +49,7 @@ class PreventEmailChangeTest extends BasicTest
 	 */
 	public function register_returnBecauseForbidden()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -64,7 +64,7 @@ class PreventEmailChangeTest extends BasicTest
 	 */
 	public function register_addActions()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -83,7 +83,7 @@ class PreventEmailChangeTest extends BasicTest
 	 */
 	public function disableEmailField_echoExecuted()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$user = (object)array(
 			'ID' => 1
@@ -113,7 +113,7 @@ class PreventEmailChangeTest extends BasicTest
 	 */
 	public function disableEmailField_echoNotExecuted()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$user = (object)array(
 			'ID' => 1
@@ -141,7 +141,7 @@ class PreventEmailChangeTest extends BasicTest
 
 	public function preventEmailChange()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$user = (object)array(
 			'ID' => 1,
@@ -178,7 +178,7 @@ class PreventEmailChangeTest extends BasicTest
 				'times' => 1,)
 		);
 
-		$errors = (object)array();
+		$errors = (object)[];
 
 		$sut->preventEmailChange($errors, null, $user);
 		$this->assertEquals('test@company.it', $_POST['email']);
@@ -191,10 +191,10 @@ class PreventEmailChangeTest extends BasicTest
 	 */
 	public function ADI_670_disablePreventEmailChange_ifUserParameterIsMissing()
 	{
-		$errors = (object)array();
+		$errors = (object)[];
 		$user = (object)array('missing_ID' => -1);
 
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::expectFilterNotAdded('send_password_change_email', '__return_false');
 
@@ -206,7 +206,7 @@ class PreventEmailChangeTest extends BasicTest
 	 */
 	public function addMissingEmailAddressToPOST_ReturnBecauseAdmin()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$userId = 1;
 		$samaccountname = "testUser";
@@ -237,7 +237,7 @@ class PreventEmailChangeTest extends BasicTest
 	 */
 	public function addMissingEmailAddressToPOST_ReturnBecauseNoSamaccountname()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$userId = 1;
 
@@ -263,7 +263,7 @@ class PreventEmailChangeTest extends BasicTest
 	 */
 	public function addMissingEmailAddressToPost()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$user = (object)array(
 			'ID' => 1,

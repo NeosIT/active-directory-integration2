@@ -2,7 +2,8 @@
 
 namespace Dreitier\Nadi\Ui\Menu;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
+use Dreitier\Test\CallableMock;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use Dreitier\WordPress\Multisite\View\Page\Page;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -20,7 +21,7 @@ class MenuAdapterStub extends MenuAdapter
 	}
 }
 
-class MenuAdapterTest extends BasicTest
+class MenuAdapterTest extends BasicTestCase
 {
 	/**
 	 * @var Provider
@@ -45,7 +46,7 @@ class MenuAdapterTest extends BasicTest
 	 *
 	 * @return MenuAdapter|MockObject
 	 */
-	private function sut($methods = null)
+	private function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(MenuAdapterStub::class)
 			->setConstructorArgs(
@@ -53,7 +54,7 @@ class MenuAdapterTest extends BasicTest
 					$this->optionProvider
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -62,13 +63,13 @@ class MenuAdapterTest extends BasicTest
 	 */
 	public function addHelpTab_addsCorrectHelpTabToScreen()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->optionProvider->expects($this->once())
 			->method('getAll')
 			->willReturn(array('domain_controllers' => array('detail' => 'detail', 'title' => 'title')));
 
-		$screen = $this->createMockWithMethods('BlueprintClass', array('add_help_tab'));
+		$screen = $this->getMockBuilder(MockedScreen::class)->getMock();
 
 		\WP_Mock::userFunction('get_current_screen', array(
 			'return' => $screen,
@@ -76,7 +77,7 @@ class MenuAdapterTest extends BasicTest
 
 		$screen->expects($this->once())
 			->method('add_help_tab')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(
 					array(
 						'id' => 'domain_controllers',
@@ -84,7 +85,7 @@ class MenuAdapterTest extends BasicTest
 						'content' => '<p>' . 'detail' . '</p>',
 					),
 				)
-			);
+			));
 
 		$sut->addHelpTab();
 	}
@@ -117,7 +118,7 @@ class MenuAdapterTest extends BasicTest
 		$permission = null;
 		$callbackMethodName = 'renderAdmin';
 
-		$page = $this->getMockBuilder(Page::class)->setMethods(array(
+		$page = $this->getMockBuilder(Page::class)->onlyMethods(array(
 			'getTitle', 'getSlug', 'wpAjaxSlug',
 		))->getMock();
 
@@ -136,4 +137,9 @@ class MenuAdapterTest extends BasicTest
 
 		$this->invokeMethod($sut, 'addSubMenu', array($menuSlug, $permission, $page, $callbackMethodName));
 	}
+}
+
+class MockedScreen
+{
+	public function add_help_tab() {}
 }

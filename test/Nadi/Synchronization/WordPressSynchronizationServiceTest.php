@@ -11,7 +11,7 @@ use Dreitier\Nadi\User\Helper;
 use Dreitier\Nadi\User\Manager;
 use Dreitier\Nadi\User\Persistence\Repository;
 use Dreitier\Nadi\User\User;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -21,7 +21,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class WordPressSynchronizationServiceTest extends BasicTest
+class WordPressSynchronizationServiceTest extends BasicTestCase
 {
 	/* @var Connection | MockObject */
 	private $ldapConnection;
@@ -66,7 +66,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 *
 	 * @return WordPressSynchronizationService| MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(WordPressSynchronizationService::class)
 			->setConstructorArgs(
@@ -79,7 +79,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 					$this->roleManager,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -127,7 +127,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 			->method('logNumberOfUsers')
 			->with($users);
 
-		$usernames = array();
+		$usernames = [];
 		$call = -1;
 
 		$sut->expects($this->exactly(3))
@@ -203,7 +203,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 		);
 
 		$users = array('a', 'b', 'c');
-		$modifiedUsers = array();
+		$modifiedUsers = [];
 
 		$sut->expects($this->once())
 			->method('prepareForSync')
@@ -237,7 +237,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 			->with(Options::SYNC_TO_WORDPRESS_ENABLED)
 			->willReturn(false);
 
-		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
+		$actual = $this->invokeMethod($sut, 'prepareForSync', []);
 		$this->assertEquals(false, $actual);
 
 	}
@@ -251,11 +251,11 @@ class WordPressSynchronizationServiceTest extends BasicTest
 
 		$this->configuration->expects($this->exactly(3))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::SYNC_TO_WORDPRESS_ENABLED),
 				array(Options::SYNC_TO_WORDPRESS_USER),
 				array(Options::SYNC_TO_WORDPRESS_PASSWORD)
-			)
+			))
 			->will($this->onConsecutiveCalls(
 				true,
 				'user',
@@ -270,7 +270,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 			->with('user', 'password')
 			->willReturn(false);
 
-		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
+		$actual = $this->invokeMethod($sut, 'prepareForSync', []);
 		$this->assertEquals(false, $actual);
 	}
 
@@ -283,11 +283,11 @@ class WordPressSynchronizationServiceTest extends BasicTest
 
 		$this->configuration->expects($this->exactly(3))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::SYNC_TO_WORDPRESS_ENABLED),
 				array(Options::SYNC_TO_WORDPRESS_USER),
 				array(Options::SYNC_TO_WORDPRESS_PASSWORD)
-			)
+			))
 			->will($this->onConsecutiveCalls(
 				true,
 				'user',
@@ -309,7 +309,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 			->method('isUsernameInDomain')
 			->willReturn(true);
 
-		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
+		$actual = $this->invokeMethod($sut, 'prepareForSync', []);
 		$this->assertEquals(true, $actual);
 	}
 
@@ -323,11 +323,11 @@ class WordPressSynchronizationServiceTest extends BasicTest
 
 		$this->configuration->expects($this->exactly(3))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::SYNC_TO_WORDPRESS_ENABLED),
 				array(Options::SYNC_TO_WORDPRESS_USER),
 				array(Options::SYNC_TO_WORDPRESS_PASSWORD)
-			)
+			))
 			->will($this->onConsecutiveCalls(
 				true,
 				'user',
@@ -346,7 +346,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 			->method('isUsernameInDomain')
 			->willReturn(false);
 
-		$actual = $this->invokeMethod($sut, 'prepareForSync', array());
+		$actual = $this->invokeMethod($sut, 'prepareForSync', []);
 		$this->assertEquals(false, $actual);
 	}
 
@@ -380,7 +380,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 			'k2' => 'ad1',
 			'k3' => 'ad2',
 		);
-		$actual = $this->invokeMethod($sut, 'findSynchronizableUsers', array());
+		$actual = $this->invokeMethod($sut, 'findSynchronizableUsers', []);
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -427,7 +427,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$this->assertEquals(0, $sut->userAccountControl(array()));
+		$this->assertEquals(0, $sut->userAccountControl([]));
 	}
 
 	/**
@@ -596,7 +596,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 		$sut->expects($this->once())
 			->method('getElapsedTime');
 
-		$this->invokeMethod($sut, 'logNumberOfUsers', array(array()));
+		$this->invokeMethod($sut, 'logNumberOfUsers', array([]));
 	}
 
 	/**
@@ -604,7 +604,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function checkAccountRestrictions_itDisablesTheWordPressAccount_whenActiveDirectoryUserDoesNotExist()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunction__();
 
 		$adiUser = new User(PrincipalResolver::createCredentials("username"), new Attributes());
@@ -686,12 +686,11 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function synchronizeUser_itFindsLdapAttributesOfSAMAccountName()
 	{
-		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
-			'resolveLdapAttributes'));
+		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
 
 		$this->attributeService->expects($this->once())
 			->method('resolveLdapAttributes')
-			->willReturn(new Attributes(array(),
+			->willReturn(new Attributes([],
 				array(
 					'userprincipalname' => 'username@test.ad',
 					'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
@@ -707,13 +706,12 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function synchronizeUser_itUpdatesUserPrincipalName()
 	{
-		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
-			'resolveLdapAttributes'));
+		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
 
 		$credentials = PrincipalResolver::createCredentials("username");
 		$this->attributeService->expects($this->once())
 			->method('resolveLdapAttributes')
-			->willReturn(new Attributes(array(),
+			->willReturn(new Attributes([],
 				array(
 					'userprincipalname' => 'username@test.ad',
 					'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
@@ -730,14 +728,14 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function synchronizeUser_withSynchronizeDisabledAccounts_theAccountRestrictionsAreChecked()
 	{
-		$sut = $this->sut(array('checkAccountRestrictions', 'resolveLdapAttributes', 'createOrUpdateUser'));
+		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
 
 		$credentials = PrincipalResolver::createCredentials("username");
 		$adiUser = new User($credentials, new Attributes());
 
 		$this->attributeService->expects($this->once())
 			->method('resolveLdapAttributes')
-			->willReturn(new Attributes(array(), array(
+			->willReturn(new Attributes([], array(
 				'userprincipalname' => 'username@test.ad',
 				'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
 			)));
@@ -746,10 +744,10 @@ class WordPressSynchronizationServiceTest extends BasicTest
 
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::SYNC_TO_WORDPRESS_DISABLE_USERS),
 				array(Options::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS)
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				true,
 				false
@@ -769,15 +767,14 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function synchronizeUser_withoutSynchronizeDisabledAccounts_theUserIsCreated()
 	{
-		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
-			'resolveLdapAttributes'));
+		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
 
 		$credentials = PrincipalResolver::createCredentials("username");
 		$adiUser = new User($credentials, new Attributes());
 
 		$this->attributeService->expects($this->once())
 			->method('resolveLdapAttributes')
-			->willReturn(new Attributes(array(),
+			->willReturn(new Attributes([],
 				array(
 					'userprincipalname' => 'username@test.ad',
 					'objectguid' => '123',
@@ -788,10 +785,10 @@ class WordPressSynchronizationServiceTest extends BasicTest
 
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::SYNC_TO_WORDPRESS_DISABLE_USERS),
 				array(Options::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS)
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				true,
 				false
@@ -819,15 +816,14 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function synchronizeUser_afterCreateOrUpdate_theAccountStatusIsSynchronized()
 	{
-		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
-			'resolveLdapAttributes'));
+		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
 
 		$credentials = PrincipalResolver::createCredentials("username");
 		$adiUser = new User($credentials, new Attributes());
 
 		$this->attributeService->expects($this->once())
 			->method('resolveLdapAttributes')
-			->willReturn(new Attributes(array(), array(
+			->willReturn(new Attributes([], array(
 				'userprincipalname' => 'username@test.ad',
 				'objectguid' => '123',
 				'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
@@ -837,10 +833,10 @@ class WordPressSynchronizationServiceTest extends BasicTest
 
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::SYNC_TO_WORDPRESS_DISABLE_USERS),
 				array(Options::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS)
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				true,
 				false
@@ -872,15 +868,14 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function synchronizeUser_itAddsDomainSid()
 	{
-		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
-			'resolveLdapAttributes'));
+		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
 
 		$credentials = PrincipalResolver::createCredentials("username");
 		$adiUser = new User($credentials, new Attributes());
 
 		$this->attributeService->expects($this->once())
 			->method('resolveLdapAttributes')
-			->willReturn(new Attributes(array(),
+			->willReturn(new Attributes([],
 				array(
 					'userprincipalname' => 'username@test.ad',
 					'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013',
@@ -891,10 +886,10 @@ class WordPressSynchronizationServiceTest extends BasicTest
 
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::SYNC_TO_WORDPRESS_DISABLE_USERS),
 				array(Options::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS)
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				true,
 				false
@@ -924,12 +919,11 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function ADI_145_synchronizeUser_itCallsFilter_nextadi_sync_ad2wp_filter_user_before_synchronize()
 	{
-		$sut = $this->sut(array('disableUserWithoutValidGuid', 'checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
-			'resolveLdapAttributes'));
+		$sut = $this->sut(['disableUserWithoutValidGuid', 'checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
 
 		$credentials = PrincipalResolver::createCredentials("username");
 		$adiUser = $this->createMock(User::class);
-		$ldapAttributes = new Attributes(array(), array('objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'));
+		$ldapAttributes = new Attributes([], array('objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'));
 		$modifiedAdiUser = $this->createMock(User::class);
 
 		$this->behave($this->userManager, "createAdiUser", $adiUser);
@@ -957,12 +951,11 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function ADI_145_synchronizeUser_itCallsAction_nextadi_sync_wp2ad_after_user_synchronize()
 	{
-		$sut = $this->sut(array('disableUserWithoutValidGuid', 'checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
-			'resolveLdapAttributes'));
+		$sut = $this->sut(['disableUserWithoutValidGuid', 'checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
 
 		$credentials = PrincipalResolver::createCredentials("username");
 		$adiUser = $this->createMock(User::class);
-		$ldapAttributes = new Attributes(array(),
+		$ldapAttributes = new Attributes([],
 			array(
 				'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
 			));
@@ -990,14 +983,14 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function ADI_223_synchronizeUser_withDoNotSynchronizeDisabledAccounts_skipDisabledUsers()
 	{
-		$sut = $this->sut(array('checkAccountRestrictions', 'findLdapAttributesOfUser', 'createOrUpdateUser', 'isAccountDisabled'));
+		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'isAccountDisabled']);
 
 		$credentials = PrincipalResolver::createCredentials("username");
 		$adiUser = new User($credentials, new Attributes());
 
 		$this->attributeService->expects($this->once())
 			->method('resolveLdapAttributes')
-			->willReturn(new Attributes(array(),
+			->willReturn(new Attributes([],
 				array(
 					'userprincipalname' => 'username@test.ad',
 					'objectsid' => 'S-1-5-21-3623811015-3361044348-30300820-1013'
@@ -1007,10 +1000,10 @@ class WordPressSynchronizationServiceTest extends BasicTest
 
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::SYNC_TO_WORDPRESS_DISABLE_USERS),
 				array(Options::SYNC_TO_WORDPRESS_IMPORT_DISABLED_USERS)
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				true,
 				false
@@ -1030,13 +1023,12 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function synchronizeUser_itSetsDomainSidOnlyIfUserIsPresent_gh141()
 	{
-		$sut = $this->sut(array('checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus',
-			'resolveLdapAttributes'));
+		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
 
 		$credentials = PrincipalResolver::createCredentials("username");
 		$this->attributeService->expects($this->once())
 			->method('resolveLdapAttributes')
-			->willReturn(new Attributes(array(),
+			->willReturn(new Attributes([],
 				array(
 					'userprincipalname' => '',
 					'objectsid' => ''
@@ -1059,7 +1051,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 		$ldapAttributes = array('cn' => array('value'));
 
 		$adiUser = $this->createMock(User::class);
-		$this->behave($adiUser, 'getLdapAttributes', new Attributes($ldapAttributes, array()));
+		$this->behave($adiUser, 'getLdapAttributes', new Attributes($ldapAttributes, []));
 		$this->behave($adiUser, 'getId', 666);
 		$this->behave($adiUser, 'getUserLogin', 'username@test.ad');
 
@@ -1091,7 +1083,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 		$ldapAttributes = array('cn' => array('value'));
 
 		$adiUser = $this->createMock(User::class);
-		$this->behave($adiUser, 'getLdapAttributes', new Attributes($ldapAttributes, array()));
+		$this->behave($adiUser, 'getLdapAttributes', new Attributes($ldapAttributes, []));
 		$this->behave($adiUser, 'getId', 666);
 		$this->behave($adiUser, 'getUserLogin', 'username@test.ad');
 
@@ -1122,7 +1114,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function createOrUpdateUser_itDelegatesToCreate_whenUserDoesNotExist()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$adiUser = $this->createMock(User::class);
 		$this->behave($adiUser, 'getId', 0);
@@ -1147,7 +1139,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function createOrUpdateUser_itDelegatesToUpdate_whenUserDoesNotExist()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$adiUser = $this->createMock(User::class);
 		$this->behave($adiUser, 'getId', 666);
@@ -1172,7 +1164,7 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function createOrUpdateUser_itReturnsMinusOne_whenDelegateFailed()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$adiUser = $this->createMock(User::class);
 		$this->behave($adiUser, 'getId', 666);
@@ -1251,10 +1243,10 @@ class WordPressSynchronizationServiceTest extends BasicTest
 	 */
 	public function disableUserWithoutValidGuid_withValidGuid()
 	{
-		$ldapAttributes = new Attributes(array(), array('objectguid' => '123'));
+		$ldapAttributes = new Attributes([], array('objectguid' => '123'));
 		$credentials = PrincipalResolver::createCredentials('username', 'password');
 
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$sut->disableUserWithoutValidGuid($ldapAttributes, $credentials);
 	}

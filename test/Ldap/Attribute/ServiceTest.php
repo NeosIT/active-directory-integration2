@@ -7,7 +7,7 @@ use Dreitier\Ldap\Attributes;
 use Dreitier\Ldap\Connection;
 use Dreitier\Ldap\UserQuery;
 use Dreitier\Nadi\Authentication\PrincipalResolver;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -16,7 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class ServiceTest extends BasicTest
+class ServiceTest extends BasicTestCase
 {
 	/* @var Repository|MockObject $configuration */
 	private $attributeRepository;
@@ -51,7 +51,7 @@ class ServiceTest extends BasicTest
 	 *
 	 * @return Service|MockObject
 	 */
-	public function sut($methods)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Service::class)
 			->setConstructorArgs(
@@ -60,7 +60,7 @@ class ServiceTest extends BasicTest
 					$this->attributeRepository,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -69,7 +69,7 @@ class ServiceTest extends BasicTest
 	 */
 	public function parseLdapResponse_adResponseContainsNameAndValue_returnArrayWithNameAndValue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$attributeNames = array(
 			'cn',
@@ -109,7 +109,7 @@ class ServiceTest extends BasicTest
 
 		$sut->expects($this->exactly(3))
 			->method('findLdapAttributesOfUser')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array($this->callback(function (UserQuery $q) use ($userQuery) {
 					return $q->getPrincipal() == 'guid' && $q->isGuid();
 				})),
@@ -119,7 +119,7 @@ class ServiceTest extends BasicTest
 				array($this->callback(function (UserQuery $q) use ($userQuery) {
 					return $q->getPrincipal() == 'sam' && !$q->isGuid();
 				})),
-			)
+			))
 			->willReturn($expected);
 
 		$actual = $sut->resolveLdapAttributes($userQuery);
@@ -295,7 +295,7 @@ class ServiceTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('findLdapCustomAttributeOfUser')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 			// TODO
 				array($this->callback(function (UserQuery $userQuery) use ($upn) {
 					return $userQuery->getPrincipal() == $upn;
@@ -303,7 +303,7 @@ class ServiceTest extends BasicTest
 				array($this->callback(function (UserQuery $userQuery) use ($sAMAccountName) {
 					return $userQuery->getPrincipal() == $sAMAccountName;
 				}), $attribute)
-			)
+			))
 			->will(
 				$this->onConsecutiveCalls(
 					false,

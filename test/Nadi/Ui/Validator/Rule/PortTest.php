@@ -3,7 +3,7 @@
 namespace Dreitier\Nadi\Ui\Validator\Rule;
 
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -14,7 +14,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @access
  */
-class PortTest extends BasicTest
+class PortTest extends BasicTestCase
 {
 	const VALIDATION_MESSAGE = 'Port has to be numeric and in the range from 0 - 65535.';
 
@@ -34,7 +34,7 @@ class PortTest extends BasicTest
 	 *
 	 * @return Port|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Port::class)
 			->setConstructorArgs(
@@ -42,7 +42,7 @@ class PortTest extends BasicTest
 					self::VALIDATION_MESSAGE
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -51,7 +51,7 @@ class PortTest extends BasicTest
 	 */
 	public function validate_withWrongRange_returnString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validate(
 			123456789,

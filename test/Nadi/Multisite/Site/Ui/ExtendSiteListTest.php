@@ -2,7 +2,7 @@
 
 namespace Dreitier\Nadi\Multisite\Site\Ui;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\BlogConfigurationRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileRepository;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -11,7 +11,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
  * @access private
  */
-class ExtendSiteListTest extends BasicTest
+class ExtendSiteListTest extends BasicTestCase
 {
 	/* @var BlogConfigurationRepository | MockObject */
 	private $blogConfigurationRepository;
@@ -36,7 +36,7 @@ class ExtendSiteListTest extends BasicTest
 	 *
 	 * @return ExtendSiteList | MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(ExtendSiteList::class)
 			->setConstructorArgs(
@@ -45,7 +45,7 @@ class ExtendSiteListTest extends BasicTest
 					$this->profileRepository,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -54,7 +54,7 @@ class ExtendSiteListTest extends BasicTest
 	 */
 	public function register_itAddsFilter()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::expectFilterAdded('wpmu_blogs_columns', array($sut, 'addColumns'), 10, 1);
 		\WP_Mock::expectActionAdded('manage_sites_custom_column', array($sut, 'addContent'), 1, 2);
@@ -67,10 +67,10 @@ class ExtendSiteListTest extends BasicTest
 	 */
 	public function addColumn_itAddsTheAdiProfileColumn()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunction__();
 
-		$actual = $sut->addColumns(array());
+		$actual = $sut->addColumns([]);
 
 		$this->assertTrue(isset($actual[ExtendSiteList::ADI_PROFILE_COLUMN]));
 	}
@@ -81,7 +81,7 @@ class ExtendSiteListTest extends BasicTest
 	 */
 	public function addContent_outputsProfileName()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->blogConfigurationRepository->expects($this->once())
 			->method('isDefaultProfileUsed')
@@ -109,7 +109,7 @@ class ExtendSiteListTest extends BasicTest
 	 */
 	public function addContent_withDefaultProfileUsage_outputsDefaultProfileMessage()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunction__();
 
 		$this->blogConfigurationRepository->expects($this->once())
@@ -138,7 +138,7 @@ class ExtendSiteListTest extends BasicTest
 	 */
 	public function addContent_withNoProfile_outputsNone()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunction__();
 
 		$this->blogConfigurationRepository->expects($this->once())

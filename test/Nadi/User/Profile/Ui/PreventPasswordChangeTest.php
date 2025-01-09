@@ -4,7 +4,7 @@ namespace Dreitier\Nadi\User\Profile\Ui;
 
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\User\Manager;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 use WP_Mock;
@@ -13,7 +13,7 @@ use WP_Mock;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class PreventPasswordChangeTest extends BasicTest
+class PreventPasswordChangeTest extends BasicTestCase
 {
 	/* @var Service | MockObject */
 	private $configuration;
@@ -35,7 +35,7 @@ class PreventPasswordChangeTest extends BasicTest
 	}
 
 	/* @return PreventPasswordChange| MockObject */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(PreventPasswordChange::class)
 			->setConstructorArgs(
@@ -44,7 +44,7 @@ class PreventPasswordChangeTest extends BasicTest
 					$this->userManager
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -53,7 +53,7 @@ class PreventPasswordChangeTest extends BasicTest
 	 */
 	public function register_localPasswordChangeNotAllowed()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::expectFilterAdded('show_password_fields', array($sut, 'showPasswordFields'), 10, 2);
 
@@ -65,7 +65,7 @@ class PreventPasswordChangeTest extends BasicTest
 	 */
 	public function isPasswordChangeEnabled_delegatesToconfiguration()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -80,7 +80,7 @@ class PreventPasswordChangeTest extends BasicTest
 	 */
 	public function showPasswordFields_usesParentSetting_ifNoActiveDirectoryAccountIsGiven()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$wpUser = (object)array('ID' => 666);
 

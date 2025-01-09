@@ -7,7 +7,7 @@ use Dreitier\AdLdap\AdLdap;
 use Dreitier\Ldap\Connection;
 use Dreitier\Ldap\ConnectionDetails;
 use Dreitier\Nadi\User\Persistence\Repository;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Util;
 use Dreitier\WordPress\Multisite\Configuration\Service;
@@ -30,7 +30,7 @@ class AbstractSynchronizationServiceStub extends AbstractSynchronizationService
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class AbstractSynchronizationServiceTest extends BasicTest
+class AbstractSynchronizationServiceTest extends BasicTestCase
 {
 	/* @var Service | MockObject */
 	private $configuration;
@@ -72,7 +72,7 @@ class AbstractSynchronizationServiceTest extends BasicTest
 	 *
 	 * @return AbstractSynchronizationServiceStub|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(AbstractSynchronizationServiceStub::class)
 			->setConstructorArgs(
@@ -82,7 +82,7 @@ class AbstractSynchronizationServiceTest extends BasicTest
 					$this->attributeService
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -95,10 +95,10 @@ class AbstractSynchronizationServiceTest extends BasicTest
 
 		$this->internalNative->expects($this->exactly(2))
 			->method('iniGet')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array('max_execution_time'),
 				array('max_execution_time')
-			)
+			))
 			->will($this->onConsecutiveCalls(
 				"5000",
 				'18000'
@@ -161,7 +161,7 @@ class AbstractSynchronizationServiceTest extends BasicTest
 		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
 		$context = new Context([$domainSid]);
 
-		$sut = $this->sut(array('isVerifiedDomainMember', 'findActiveDirectoryUsers'));
+		$sut = $this->sut(array('findActiveDirectoryUsers'));
 
 		$users = array(
 			0 => new \WP_User()
@@ -198,7 +198,7 @@ class AbstractSynchronizationServiceTest extends BasicTest
 		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
 		$context = new Context([$domainSid]);
 
-		$sut = $this->sut(array('isVerifiedDomainMember'));
+		$sut = $this->sut();
 
 		$users = array(
 			0 => new \WP_User(),
@@ -271,7 +271,7 @@ class AbstractSynchronizationServiceTest extends BasicTest
 		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
 		$context = new Context([$domainSid]);
 
-		$sut = $this->sut(array('isVerifiedDomainMember'));
+		$sut = $this->sut();
 
 		$binarySid = array(
 			0 => array(
@@ -307,7 +307,7 @@ class AbstractSynchronizationServiceTest extends BasicTest
 		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
 		$context = new Context([$domainSid]);
 
-		$sut = $this->sut(array('isVerifiedDomainMember'));
+		$sut = $this->sut();
 
 		$binarySid = array(
 			0 => array(
@@ -344,7 +344,7 @@ class AbstractSynchronizationServiceTest extends BasicTest
 		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
 		$context = new Context([$domainSid]);
 
-		$sut = $this->sut(array('isVerifiedDomainMember'));
+		$sut = $this->sut();
 
 		$users = array(
 			0 => new \WP_User(),

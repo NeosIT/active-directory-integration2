@@ -9,11 +9,11 @@ use Dreitier\Ldap\UserQuery;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\LoginState;
 use Dreitier\Nadi\Role\Mapping;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Nadi\Authentication\Credentials;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class LoginSucceededServiceTest extends BasicTest
+class LoginSucceededServiceTest extends BasicTestCase
 {
 	/** @var LoginState|MockObject $loginState */
 	private $loginState = null;
@@ -52,7 +52,7 @@ class LoginSucceededServiceTest extends BasicTest
 	 *
 	 * @return LoginSucceededService|MockObject
 	 */
-	public function sut($methods = null, $simulated = false)
+	public function sut(array $methods = [], bool $simulated = false)
 	{
 		return $this->getMockBuilder(LoginSucceededService::class)
 			->setConstructorArgs(
@@ -63,7 +63,7 @@ class LoginSucceededServiceTest extends BasicTest
 					$this->configuration,
 					$simulated ? null : $this->userManager,
 				)
-			)->setMethods($methods)
+			)->onlyMethods($methods)
 			->getMock();
 
 	}
@@ -204,7 +204,7 @@ class LoginSucceededServiceTest extends BasicTest
 	{
 		$credentials = new Credentials();
 		$filteredAttrs = array('samaccountname' => 'john.doe');
-		$expectedLdapAttrs = new Attributes(array(), $filteredAttrs);
+		$expectedLdapAttrs = new Attributes([], $filteredAttrs);
 		$sut = $this->sut();
 
 		$this->loginState->expects($this->once())
@@ -242,7 +242,7 @@ class LoginSucceededServiceTest extends BasicTest
 
 		$credentials = new Credentials();
 		$filteredAttrs = array('samaccountname' => 'john.doe', 'objectsid' => $userSid);
-		$expectedLdapAttrs = new Attributes(array(), $filteredAttrs);
+		$expectedLdapAttrs = new Attributes([], $filteredAttrs);
 
 		$adiUserCreds = new Credentials('john.doe@test.ad');
 		$adiUserCreds->setUpnUsername('jdo');
@@ -306,7 +306,7 @@ class LoginSucceededServiceTest extends BasicTest
 		$credentials = new Credentials();
 		$filteredAttrs = array('samaccountname' => 'john.doe', 'objectsid' => $userSid);
 
-		$expectedLdapAttrs = new Attributes(array(), $filteredAttrs);
+		$expectedLdapAttrs = new Attributes([], $filteredAttrs);
 
 		$adiUserCreds = new Credentials('john.doe@test.ad');
 		$adiUserCreds->setUpnUsername('jdo');
@@ -369,7 +369,7 @@ class LoginSucceededServiceTest extends BasicTest
 
 		$credentials = new Credentials();
 		$filteredAttrs = array('samaccountname' => 'john.doe', 'objectsid' => $userSid);
-		$expectedLdapAttrs = new Attributes(array(), $filteredAttrs);
+		$expectedLdapAttrs = new Attributes([], $filteredAttrs);
 
 		$adiUserCreds = new Credentials('john.doe@test.ad');
 		$adiUserCreds->setUpnUsername('jdo');
@@ -440,7 +440,7 @@ class LoginSucceededServiceTest extends BasicTest
 			->method('getUsername')
 			->willReturn('jdo');
 
-		$sut = $this->sut(null, true);
+		$sut = $this->sut(simulated: true);
 
 		$actual = $sut->createUser($adiUser);
 
@@ -485,10 +485,10 @@ class LoginSucceededServiceTest extends BasicTest
 
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				[Options::AUTO_UPDATE_USER],
 				[Options::AUTO_UPDATE_PASSWORD]
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				true,
 				true
@@ -531,10 +531,10 @@ class LoginSucceededServiceTest extends BasicTest
 
 		$this->configuration->expects($this->exactly(2))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				[Options::AUTO_UPDATE_USER],
 				[Options::AUTO_UPDATE_PASSWORD]
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				false,
 				false

@@ -4,13 +4,13 @@ namespace Dreitier\Nadi\Ui;
 
 use Dreitier\Ldap\Attribute\Description;
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class OptionsTest extends BasicTest
+class OptionsTest extends BasicTestCase
 {
 
 	/* @var Description */

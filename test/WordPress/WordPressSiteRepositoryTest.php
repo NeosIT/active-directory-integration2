@@ -1,13 +1,13 @@
 <?php
 namespace Dreitier\WordPress;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class WordPressSiteRepositoryTest extends BasicTest
+class WordPressSiteRepositoryTest extends BasicTestCase
 {
     public function setUp() : void
     {
@@ -19,30 +19,6 @@ class WordPressSiteRepositoryTest extends BasicTest
         global $wp_version;
         unset($wp_version);
         parent::tearDown();
-    }
-
-    /**
-     * @test
-     */
-    public function getSites_withWordPress4_6_shouldCallGetSites() {
-        global $wp_version;
-        $wp_version = '4.6';
-
-        $expected = array('blog_id' => 1);
-
-        $site = $this->createMockWithMethods(\BlueprintClass::class, array('to_array'));
-        $site->expects($this->once())
-            ->method('to_array')
-            ->willReturn($expected);
-
-        \WP_Mock::userFunction('get_sites', array(
-                'times'  => 1,
-                'return' => array($site))
-        );
-
-        // call function get_sites();
-        $actual = WordPressSiteRepository::getSites();
-        $this->assertEquals(array($expected), $actual);
     }
 
     /**

@@ -1,39 +1,39 @@
 {
-  "require-dev": {
-	"10up/wp_mock": "1.0.1",
-	"phpunit/phpunit": "9.6.20",
-	"overtrue/phplint": "^2.3",
-	"brianhenryie/strauss": "^0.11.1",
-    "php-mock/php-mock-phpunit": "^2.10"
-  },
-  "require": {
-	"twig/twig": "3.18.0",
-	"symfony/polyfill-mbstring": "1.20",
-	"defuse/php-encryption": "2.0.3",
-	"monolog/monolog": "^2.8.0"
-  },
-  "scripts": {
-	"strauss": [
-	  "vendor/bin/strauss"
-	],
-	"twig-patcher": [
-	  "php twig-patcher.php"
-	],
-	"post-install-cmd": [
-	  "@strauss",
-	  "@twig-patcher"
-	],
-	"post-update-cmd": [
-	  "@strauss",
-	  "@twig-patcher"
-	]
-  },
-  "extra": {
-	"strauss": {
-	  "target_directory": "vendor-repackaged",
-	  "namespace_prefix": "Dreitier\\Nadi\\Vendor",
-	  "classmap_prefix": "Dreitier_Nadi_Vendor_",
-	  "constant_prefix": "DREITIER_NADI_VENDOR_"
+	"require-dev": {
+		"10up/wp_mock": "1.0.1",
+		"phpunit/phpunit": "10.5.40 as 9.6.20",
+		"overtrue/phplint": "^2.3",
+		"brianhenryie/strauss": "^0.11.1",
+		"php-mock/php-mock-phpunit": "^2.10"
+	},
+	"require": {
+		"twig/twig": "3.18.0",
+		"symfony/polyfill-mbstring": "1.20",
+		"defuse/php-encryption": "2.0.3",
+		"monolog/monolog": "^2.8.0"
+	},
+	"scripts": {
+		"strauss": [
+			"vendor/bin/strauss"
+		],
+		"twig-patcher": [
+			"php twig-patcher.php"
+		],
+		"post-install-cmd": [
+			"@strauss",
+			"@twig-patcher"
+		],
+		"post-update-cmd": [
+			"@strauss",
+			"@twig-patcher"
+		]
+	},
+	"extra": {
+		"strauss": {
+			"target_directory": "vendor-repackaged",
+			"namespace_prefix": "Dreitier\\Nadi\\Vendor",
+			"classmap_prefix": "Dreitier_Nadi_Vendor_",
+			"constant_prefix": "DREITIER_NADI_VENDOR_"
+		}
 	}
-  }
 }

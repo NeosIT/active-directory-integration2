@@ -3,7 +3,7 @@
 namespace Dreitier\Nadi\Ui\Validator\Rule;
 
 use Dreitier\Nadi\Role\Manager;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -14,7 +14,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @access
  */
-class DisallowInvalidWordPressRolesTest extends BasicTest
+class DisallowInvalidWordPressRolesTest extends BasicTestCase
 {
 	const VALIDATION_MESSAGE = 'Validation failed!';
 	const VALIDATION_MESSAGE_2 = 'Validation 2 failed!';
@@ -34,7 +34,7 @@ class DisallowInvalidWordPressRolesTest extends BasicTest
 	 *
 	 * @return DisallowInvalidWordPressRoles|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(DisallowInvalidWordPressRoles::class)
 			->setConstructorArgs(
@@ -42,7 +42,7 @@ class DisallowInvalidWordPressRolesTest extends BasicTest
 					array(self::VALIDATION_MESSAGE, self::VALIDATION_MESSAGE_2)
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -57,7 +57,7 @@ class DisallowInvalidWordPressRolesTest extends BasicTest
 			->method('isOnNetworkDashboard')
 			->willReturn(true);
 
-		$actual = $sut->validate('', array());
+		$actual = $sut->validate('', []);
 
 		$this->assertTrue($actual);
 	}
@@ -75,9 +75,9 @@ class DisallowInvalidWordPressRolesTest extends BasicTest
 
 		$sut->expects($this->once())
 			->method('getWpRoles')
-			->willReturn(array());
+			->willReturn([]);
 
-		$actual = $sut->validate('', array());
+		$actual = $sut->validate('', []);
 
 		$this->assertTrue($actual);
 	}
@@ -97,7 +97,7 @@ class DisallowInvalidWordPressRolesTest extends BasicTest
 			->method('getWpRoles')
 			->willReturn(array(Manager::ROLE_SUPER_ADMIN));
 
-		$actual = $sut->validate('', array());
+		$actual = $sut->validate('', []);
 
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
@@ -113,7 +113,7 @@ class DisallowInvalidWordPressRolesTest extends BasicTest
 			->method('isOnNetworkDashboard')
 			->willReturn(false);
 
-		$actual = $sut->validate('role=super admin;', array());
+		$actual = $sut->validate('role=super admin;', []);
 
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}

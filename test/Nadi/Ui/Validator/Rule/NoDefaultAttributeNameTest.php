@@ -2,11 +2,11 @@
 
 namespace Dreitier\Nadi\Ui\Validator\Rule;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class NoDefaultAttributeNameTest extends BasicTest
+class NoDefaultAttributeNameTest extends BasicTestCase
 {
 	/** @var string */
 	private $invalidTestString = 'givenname:string:next_ad_int_samaccountname:first name:true:true:true';
@@ -28,11 +28,11 @@ class NoDefaultAttributeNameTest extends BasicTest
 	 *
 	 * @return NoDefaultAttributeName|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(NoDefaultAttributeName::class)
 			->setConstructorArgs(array('test'))
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 

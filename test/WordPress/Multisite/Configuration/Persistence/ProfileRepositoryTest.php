@@ -3,7 +3,7 @@
 namespace Dreitier\WordPress\Multisite\Configuration\Persistence;
 
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use Dreitier\WordPress\WordPressRepository;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -14,7 +14,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author  Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class ProfileRepositoryTest extends BasicTest
+class ProfileRepositoryTest extends BasicTestCase
 {
 	/* @var ProfileConfigurationRepository|MockObject $profileConfigurationRepository */
 	private $profileConfigurationRepository;
@@ -48,7 +48,7 @@ class ProfileRepositoryTest extends BasicTest
 	 *
 	 * @return ProfileRepository|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(ProfileRepository::class)
 			->setConstructorArgs(
@@ -59,7 +59,7 @@ class ProfileRepositoryTest extends BasicTest
 					$this->optionProvider,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -123,7 +123,7 @@ class ProfileRepositoryTest extends BasicTest
 	 */
 	public function findAllIDs_singleSite_returnEmptyArray()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
@@ -131,7 +131,7 @@ class ProfileRepositoryTest extends BasicTest
 		));
 
 		$actual = $sut->findAllIds();
-		$this->assertEquals(array(), $actual);
+		$this->assertEquals([], $actual);
 	}
 
 	/**
@@ -139,7 +139,7 @@ class ProfileRepositoryTest extends BasicTest
 	 */
 	public function findAllIDs_multiSite_returnAllProfileIds()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('is_multisite', array(
 			'times' => 1,
@@ -213,7 +213,7 @@ class ProfileRepositoryTest extends BasicTest
 	 */
 	public function insert_searchUnusedProfileId_createNewProfile()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('get_site_option', array(
 			'args' => array('next_ad_int_p_n_1', false),
@@ -267,10 +267,10 @@ class ProfileRepositoryTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('getOptionNameByMapping')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::PROFILE_NAME, 1),
 				array('show', 1)
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				'name',
 				false
@@ -309,10 +309,10 @@ class ProfileRepositoryTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('getOptionNameByMapping')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(Options::PROFILE_NAME, 1),
 				array('show', 1)
-			)
+			))
 			->willReturnOnConsecutiveCalls(
 				'name',
 				false
@@ -381,7 +381,7 @@ class ProfileRepositoryTest extends BasicTest
 	 */
 	public function updateName_delegateToMethod_updateProfileName()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('update_site_option', array(
 			'args' => array('next_ad_int_p_n_5', 'new name'),
@@ -398,7 +398,7 @@ class ProfileRepositoryTest extends BasicTest
 	 */
 	public function updateDescription_delegateToMethod_updateProfileDescription()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('update_site_option', array(
 			'args' => array('next_ad_int_p_d_5', 'new description'),
@@ -415,7 +415,7 @@ class ProfileRepositoryTest extends BasicTest
 	 */
 	public function delete_delegateToMethod_deleteProfileAndDependencies()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('delete_site_option', array(
 			'args' => array('next_ad_int_p_n_5'),

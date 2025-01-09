@@ -2,14 +2,14 @@
 
 namespace Dreitier\WordPress\Multisite\Option;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use ReflectionClass;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class TypeTest extends BasicTest
+class TypeTest extends BasicTestCase
 {
 	/**
 	 * @test

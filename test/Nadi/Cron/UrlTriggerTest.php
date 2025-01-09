@@ -5,7 +5,7 @@ namespace Dreitier\Nadi\Cron;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\Synchronization\ActiveDirectorySynchronizationService;
 use Dreitier\Nadi\Synchronization\WordPressSynchronizationService;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -15,7 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class UrlTriggerTest extends BasicTest
+class UrlTriggerTest extends BasicTestCase
 {
 	/* @var Service|MockObject $configuration
 	 */
@@ -45,7 +45,7 @@ class UrlTriggerTest extends BasicTest
 	 *
 	 * @return UrlTrigger|MockObject
 	 */
-	public function sut($methods)
+	public function sut(array $methods = [])
 	{
 		$class = UrlTrigger::class;
 		$constructor = array(
@@ -62,7 +62,7 @@ class UrlTriggerTest extends BasicTest
 	 */
 	public function register_registerMethod_checkMethodIsRegistered()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::expectActionAdded('init', array($sut, 'httpRequestEntryPoint'));
 
@@ -174,7 +174,7 @@ class UrlTriggerTest extends BasicTest
 	 */
 	public function getSyncMode_wrongTask_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$post = array('adi-taska' => '');
 
@@ -187,7 +187,7 @@ class UrlTriggerTest extends BasicTest
 	 */
 	public function getSyncMode_syncToWordpressTask_return1()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$post = array('next_ad_int-task' => 'sync-to-wordpress');
 
@@ -200,7 +200,7 @@ class UrlTriggerTest extends BasicTest
 	 */
 	public function getSyncMode_syncToAd_return2()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$post = array('next_ad_int-task' => 'sync-to-ad');
 
@@ -245,7 +245,7 @@ class UrlTriggerTest extends BasicTest
 	 */
 	public function dispatchAction_withBulkMode1_dispatchTosyncToWordpress()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->syncToWordPress->expects($this->once())
 			->method('synchronize')
@@ -262,7 +262,7 @@ class UrlTriggerTest extends BasicTest
 	 */
 	public function dispatchAction_withBulkMode2_dispatchToSyncBack()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->syncToWordPress->expects($this->never())
 			->method('synchronize');

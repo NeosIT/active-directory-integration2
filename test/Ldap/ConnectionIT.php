@@ -12,7 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class ConnectionIT extends \Dreitier\Test\BasicIntegrationTest
+class ConnectionIT extends \Dreitier\Test\BasicIntegrationTestCase
 {
 	/* @var Service | MockObject */
 	private $configuration;

@@ -17,7 +17,8 @@ use Dreitier\Nadi\Ui\Validator\Rule\NoDefaultAttributeName;
 use Dreitier\Nadi\Ui\Validator\Rule\Port;
 use Dreitier\Nadi\Ui\Validator\Rule\SelectValueValid;
 use Dreitier\Nadi\Ui\Validator\Rule\WordPressMetakeyConflict;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
+use Dreitier\Util\Validator\Result;
 use Dreitier\Util\Validator\Rule\Conditional;
 use Dreitier\Util\Validator\Rule\NotEmptyOrWhitespace;
 use Dreitier\Util\Validator\Rule\PositiveNumericOrZero;
@@ -33,7 +34,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class NadiMultisiteConfigurationPageTest extends BasicTest
+class NadiMultisiteConfigurationPageTest extends BasicTestCase
 {
 	/* @var TwigContainer |MockObject */
 	private $twigContainer;
@@ -71,7 +72,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 	 */
 	public function getTitle()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunctionEsc_html__();
 
 		$expectedTitle = 'Profile options';
@@ -85,7 +86,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 	 *
 	 * @return NadiMultisiteConfigurationPage|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(NadiMultisiteConfigurationPage::class)
 			->setConstructorArgs(
@@ -97,7 +98,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 					$this->configuration,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -106,7 +107,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 	 */
 	public function getSlug()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$expectedReturn =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'profile_options';
 		$returnedValue = $sut->getSlug();
@@ -119,7 +120,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 	 */
 	public function wpAjaxSlug()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$expectedReturn =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'profile_options';
 		$returnedValue = $sut->wpAjaxSlug();
@@ -207,7 +208,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 	 */
 	public function loadJavaScriptAdmin()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'profile_options';
 
 		\WP_Mock::userFunction(
@@ -235,7 +236,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'angular.min',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/angular.min.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -283,7 +284,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_util_array',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/utils/array.util.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -294,7 +295,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_util_value',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/utils/value.util.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -306,7 +307,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_app_module',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/app.module.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -317,7 +318,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_app_config',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/app.nadi.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -329,7 +330,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_service_browser',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/browser.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -341,7 +342,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_service_template',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/template.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -353,7 +354,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_service_notification',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/notification.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -365,7 +366,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_service_persistence',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/services/persistence.service.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -377,7 +378,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_shared_service_list',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/shared/services/list.service.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -388,7 +389,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_service_data',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/services/data.service.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -401,7 +402,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_profile',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/profile.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -413,7 +414,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_delete',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/delete.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -425,7 +426,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_ajax',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/ajax.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -437,7 +438,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_general',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/general.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -448,7 +449,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_environment',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/environment.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -459,7 +460,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_user',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/user.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -470,7 +471,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_password',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/credential.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -481,7 +482,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_permission',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/permission.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -492,7 +493,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_security',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/security.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -503,7 +504,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_sso',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/sso.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -514,7 +515,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_attributes',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/attributes.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -525,7 +526,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_sync_to_ad',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/sync-to-ad.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -536,7 +537,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_sync_to_wordpress',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/sync-to-wordpress.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -547,7 +548,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_profile_options_controller_logging',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/controllers/logging.controller.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -559,7 +560,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_blog_options_model',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/app/profile-options/models/profile.model.js',
-					array(),
+					[],
 					NadiMultisiteConfigurationPage::VERSION_PROFILE_CONFIGURATION_JS,
 				),
 				'times' => 1,
@@ -596,7 +597,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -608,7 +609,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'ng-notify',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/ng-notify.min.css',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -620,7 +621,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'selectizecss',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/selectize.css',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -632,7 +633,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'alertify.min',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/alertify.min.css',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -644,7 +645,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_bootstrap_min_js',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/bootstrap.min.js',
-					array(),
+					[],
 					Ui::VERSION_PAGE_JS,
 				),
 				'times' => 1,
@@ -656,7 +657,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 				'args' => array(
 					'next_ad_int_bootstrap_min_css',
 					NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/bootstrap.min.css',
-					array(),
+					[],
 					Ui::VERSION_CSS,
 				),
 				'times' => 1,
@@ -709,7 +710,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$result = $this->invokeMethod($sut, 'routeRequest', array('does-not-exist', array()));
+		$result = $this->invokeMethod($sut, 'routeRequest', array('does-not-exist', []));
 
 		$this->assertFalse($result);
 	}
@@ -817,7 +818,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 			'message' => 'The configuration was saved successfully.',
 			'type' => 'success',
 			'isMessage' => true,
-			'additionalInformation' => array(),
+			'additionalInformation' => [],
 		);
 
 		$expected = array(
@@ -851,7 +852,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 
 		$fakeValidator->expects($this->once())
 			->method('getValidationResult')
-			->willReturn(array());
+			->willReturn([]);
 
 		$result = $this->invokeMethod($sut, 'persistProfileOptionsValues', array($data));
 
@@ -888,19 +889,19 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 			0 => 'Error'
 		);
 
-		$fakeValidator = $this->createAnonymousMock(array('containsErrors', 'getValidationResult'));
+		$fakeValidationResult = $this->getMockBuilder(Result::class)->getMock();
 
 		$this->mockFunction__();
 
 		$sut->expects($this->once())
 			->method('validate')
-			->willReturn($fakeValidator);
+			->willReturn($fakeValidationResult);
 
-		$fakeValidator->expects($this->once())
+		$fakeValidationResult->expects($this->once())
 			->method('containsErrors')
 			->willReturn(true);
 
-		$fakeValidator->expects($this->once())
+		$fakeValidationResult->expects($this->once())
 			->method('getValidationResult')
 			->willReturn(array('Error'));
 
@@ -1008,7 +1009,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTest
 	public function persistDomainSidForProfile_itSavesBlogOptions()
 	{
 		$sut = $this->sut();
-		$data = array();
+		$data = [];
 
 		$this->profileConfigurationController->expects($this->once())
 			->method('saveProfileOptions')

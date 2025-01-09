@@ -9,7 +9,7 @@ use Dreitier\Nadi\Authentication\Credentials;
 use Dreitier\Nadi\Authentication\PrincipalResolver;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\Role\Mapping;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\WordPressErrorException;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -18,7 +18,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class ManagerTest extends BasicTest
+class ManagerTest extends BasicTestCase
 {
 	/* @var Service|MockObject */
 	private $configuration;
@@ -78,7 +78,7 @@ class ManagerTest extends BasicTest
 	 *
 	 * @return Manager|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		$r = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs(
@@ -92,7 +92,7 @@ class ManagerTest extends BasicTest
 					$this->userRepository,
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 
 		return $r;
@@ -141,7 +141,7 @@ class ManagerTest extends BasicTest
 
 		$userGuid = 'e16d5d9c-xxxx-xxxx-9b8b-969fdf4b2702';
 
-		$attributes = new Attributes(array(), array('objectguid' => $userGuid));
+		$attributes = new Attributes([], array('objectguid' => $userGuid));
 		$sut = $this->sut();
 
 		$this->roleManager->expects($this->once())
@@ -164,7 +164,7 @@ class ManagerTest extends BasicTest
 		$wpUser->ID = 1;
 		$wpUser->user_login = 'username';
 
-		$ldapAttributes = new Attributes(array(), array('samAccountName' => 'username', 'objectguid' => '666-666'));
+		$ldapAttributes = new Attributes([], array('samAccountName' => 'username', 'objectguid' => '666-666'));
 		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
 
 		$this->userRepository->expects($this->once())
@@ -186,7 +186,7 @@ class ManagerTest extends BasicTest
 	public function GH_188_createAdiUser_itFallsbackToLocalUserResolver()
 	{
 		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
-		$ldapAttributes = new Attributes(array(), array('samAccountName' => 'username', 'objectguid' => '666-666'));
+		$ldapAttributes = new Attributes([], array('samAccountName' => 'username', 'objectguid' => '666-666'));
 
 		$sut = $this->sut(array('createDefaultLocalUserResolver'));
 		$localUserResolver = $this->createMock(LocalUserResolver::class);
@@ -246,7 +246,7 @@ class ManagerTest extends BasicTest
 	public function createAdiUser_itCopiesCredentialValues()
 	{
 		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
-		$sut = $this->sut(array('findByUsername'));
+		$sut = $this->sut();
 		$ldapAttributes = new Attributes();
 
 		$actual = $sut->createAdiUser($credentials, $ldapAttributes);
@@ -299,7 +299,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function create_itUpdatesThePassword()
 	{
-		$sut = $this->sut(array('checkDuplicateEmail', 'update'));
+		$sut = $this->sut(array('update'));
 
 		$adiUser = $this->createMock(User::class);
 		$credentials = $this->createMock(Credentials::class);
@@ -333,7 +333,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function create_itUsesUserPrincipalNameAsUserLogin_whenAppendSuffixToNewUserIsEnabled()
 	{
-		$sut = $this->sut(array('checkDuplicateEmail', 'update', 'appendSuffixToNewUser'));
+		$sut = $this->sut(array('update'));
 
 		$adiUser = $this->createMock(User::class);
 		$credentials = $this->createMock(Credentials::class);
@@ -343,7 +343,6 @@ class ManagerTest extends BasicTest
 		$this->behave($credentials, 'getPassword', 'password');
 		$this->behave($credentials, 'getUserPrincipalName', 'userPrincipalName');
 
-		$this->behave($sut, 'appendSuffixToNewUser', true);
 		$this->behave($adiUser, 'getLdapAttributes', new Attributes());
 		$this->behave($this->userRepository, 'create', 100);
 
@@ -363,7 +362,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function create_itChecksForDuplicateMail()
 	{
-		$sut = $this->sut(array('handleEmailAddressOfUser', 'update', 'appendSuffixToNewUser'));
+		$sut = $this->sut(array('handleEmailAddressOfUser', 'update'));
 
 		$adiUser = $this->createMock(User::class);
 		$credentials = $this->createMock(Credentials::class);
@@ -371,7 +370,7 @@ class ManagerTest extends BasicTest
 
 		$this->behave($adiUser, 'getCredentials', $credentials);
 		$this->behave($credentials, 'getPassword', 'password');
-		$this->behave($adiUser, 'getLdapAttributes', new Attributes(array(), $ldapAttributes));
+		$this->behave($adiUser, 'getLdapAttributes', new Attributes([], $ldapAttributes));
 		$this->behave($credentials, 'getUserPrincipalName', 'userprincipalname');
 		$this->behave($this->userRepository, 'create', 100);
 
@@ -396,7 +395,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function create_itUpdatesTheAdiUsersId()
 	{
-		$sut = $this->sut(array('checkDuplicateEmail', 'update', 'appendSuffixToNewUser'));
+		$sut = $this->sut(array('update'));
 
 		$adiUser = $this->createMock(User::class);
 		$credentials = $this->createMock(Credentials::class);
@@ -578,7 +577,7 @@ class ManagerTest extends BasicTest
 		));
 
 		$rawLdapAttributes = array('cn' => array('common_name'));
-		$ldapAttributes = new Attributes(array(), $rawLdapAttributes);
+		$ldapAttributes = new Attributes([], $rawLdapAttributes);
 
 		$adiUser = $this->createMock(User::class);
 		$credentials = $this->createMock(Credentials::class);
@@ -799,14 +798,14 @@ class ManagerTest extends BasicTest
 	{
 		$sut = $this->sut();
 
-		$adiUser = $this->createMockWithMethods(User::class, array('getId', 'getUsername'));
+		$adiUser = $this->getMockBuilder(User::class)
+			->disableOriginalConstructor()
+			->onlyMethods(array('getId'))
+			->getMock();
+
 		$adiUser->expects($this->once())
 			->method('getId')
 			->willReturn(1);
-
-		$adiUser->expects($this->never())
-			->method('getUsername')
-			->willReturn('hugo');
 
 		$this->exceptionUtil->shouldReceive('processWordPressError')
 			->never();
@@ -842,7 +841,7 @@ class ManagerTest extends BasicTest
 		);
 
 		$credentials = PrincipalResolver::createCredentials('username');
-		$adiUser = new User($credentials, new Attributes(array(), $attributes));
+		$adiUser = new User($credentials, new Attributes([], $attributes));
 		$adiUser->setRoleMapping($roleMapping);
 		$adiUser->setId($userId);
 
@@ -964,7 +963,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function filterEmptyAttributes_withUserMetaEmptyOverwriteFalse_filtersAttributesWithEmptyValues()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$telephonenumber = new Attribute();
 		$telephonenumber->setType('string');
@@ -989,7 +988,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function filterEmptyAttributes_withUserMetaEmptyOverwriteTrue_doesNotFiltersAttributesWithEmptyValues()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$telephonenumber = new Attribute();
 		$telephonenumber->setType('string');
@@ -1014,7 +1013,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function updateEmail_withInvalidEmail_doesNotTriggerAnyRepositoryMethods()
 	{
-		$sut = $this->sut(array('getEmailForUpdate'));
+		$sut = $this->sut();
 
 		$adiUser = $this->createMock(User::class);
 
@@ -1644,7 +1643,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function isNAdiUser_userIsNAdiUser_SamAndUpnSet_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$wpUser = (object)(array('ID' => 6));
 
@@ -1669,7 +1668,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function isNAdiUser_userIsNoNAdiUser_NoSamOrUpnSet_returnFalse()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$wpUser = (object)(array('ID' => 6));
 
@@ -1694,7 +1693,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function isNAdiUser_userIsNAdiUser_samAccountNameSet_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$wpUser = (object)(array('ID' => 6));
 
@@ -1719,7 +1718,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function isNAdiUser_userIsNAdiUser_userPrincipalNameSet_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$wpUser = (object)(array('ID' => 6));
 

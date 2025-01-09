@@ -2,14 +2,14 @@
 
 namespace Dreitier\Nadi\User\Meta\Persistence;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @access private
  */
-class RepositoryTest extends BasicTest
+class RepositoryTest extends BasicTestCase
 {
 	public function setUp(): void
 	{
@@ -26,7 +26,7 @@ class RepositoryTest extends BasicTest
 	 */
 	public function find_delegatesCallToWordPressFunction()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('get_user_meta', array(
 			'args' => array(1, 'metaKey', false),
@@ -43,7 +43,7 @@ class RepositoryTest extends BasicTest
 	 */
 	public function create_delegatesCallToWordPressFunction()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('add_user_meta', array(
 			'args' => array(1, 'metaKey', 'metaValue'),
@@ -60,7 +60,7 @@ class RepositoryTest extends BasicTest
 	 */
 	public function update_delegatesCallToWordPressFunction()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('update_user_meta', array(
 			'args' => array(1, 'metaKey', 'metaValue'),
@@ -77,7 +77,7 @@ class RepositoryTest extends BasicTest
 	 */
 	public function delete_delegatesCallToWordPressFunction()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('delete_user_meta', array(
 			'args' => array(1, 'metaKey'),
@@ -103,11 +103,11 @@ class RepositoryTest extends BasicTest
 
 		$sut->expects($this->exactly(3))
 			->method('update')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(1, 'next_ad_int_user_disabled', true),
 				array(1, 'next_ad_int_user_disabled_reason', 'reason'),
 				array(1, 'next_ad_int_user_disabled_email', 'user_email')
-			);
+			));
 
 		$sut->disableUser($wpUser, 'reason');
 	}
@@ -124,10 +124,10 @@ class RepositoryTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('update')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(1, 'next_ad_int_user_disabled', false),
 				array(1, 'next_ad_int_user_disabled_reason', '')
-			);
+			));
 
 		$sut->expects($this->once())
 			->method('delete')
@@ -160,11 +160,11 @@ class RepositoryTest extends BasicTest
 	 *
 	 * @return Repository|MockObject
 	 */
-	private function sut($methods)
+	private function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Repository::class)
-			->setConstructorArgs(array())
-			->setMethods($methods)
+			->setConstructorArgs([])
+			->onlyMethods($methods)
 			->getMock();
 	}
 }

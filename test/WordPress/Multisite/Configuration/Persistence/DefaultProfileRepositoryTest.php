@@ -2,14 +2,14 @@
 
 namespace Dreitier\WordPress\Multisite\Configuration\Persistence;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author  Sebastian Weinert <swe@neos-it.de>
  * @access private
  */
-class DefaultProfileRepositoryTest extends BasicTest
+class DefaultProfileRepositoryTest extends BasicTestCase
 {
 	public function setUp(): void
 	{
@@ -26,11 +26,11 @@ class DefaultProfileRepositoryTest extends BasicTest
 	 *
 	 * @return DefaultProfileRepository|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(DefaultProfileRepository::class)
-			->setConstructorArgs(array())
-			->setMethods($methods)
+			->setConstructorArgs([])
+			->onlyMethods($methods)
 			->getMock();
 	}
 

@@ -3,7 +3,7 @@
 namespace Dreitier\Nadi\Authentication\SingleSignOn;
 
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 
 /**
  *
@@ -14,7 +14,7 @@ use Dreitier\Test\BasicTest;
  *
  * @access
  */
-class VariableTest extends BasicTest
+class VariableTest extends BasicTestCase
 {
 	/**
 	 * @test

@@ -16,8 +16,10 @@ use PHPUnit\Framework\TestCase;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-abstract class BasicTest extends TestCase
+class BasicTestCase extends TestCase
 {
+	use PHPUnitHelper;
+
 	public static function setUpBeforeClass(): void
 	{
 		NadiLog::$isTestmode = true;
@@ -73,7 +75,7 @@ abstract class BasicTest extends TestCase
 		return $this->getMockBuilder($className)
 			->disableOriginalConstructor()
 			->disableProxyingToOriginalMethods()
-			->setMethods($methods)
+			->addMethods($methods)
 			->getMock();
 	}
 
@@ -130,7 +132,7 @@ abstract class BasicTest extends TestCase
 	public function createAnonymousMock($methods)
 	{
 		return $this->getMockBuilder('stdClass')
-			->setMethods($methods)
+			->addMethods($methods)
 			->getMock();
 	}
 
@@ -147,7 +149,7 @@ abstract class BasicTest extends TestCase
 	{
 		return $this->getMockBuilder($class)
 			->setConstructorArgs($constructor)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -160,7 +162,7 @@ abstract class BasicTest extends TestCase
 	 *
 	 * @return mixed
 	 */
-	protected function invokeMethod(&$object, $methodName, $parameters = array())
+	protected function invokeMethod(&$object, $methodName, $parameters = [])
 	{
 		$reflector = new \ReflectionClass(get_class($object));
 		$method = $reflector->getMethod($methodName);
@@ -175,7 +177,7 @@ abstract class BasicTest extends TestCase
 	 * @param       $name
 	 * @param array $parameters
 	 */
-	protected function mockWordpressFunction($name, $parameters = array())
+	protected function mockWordpressFunction($name, $parameters = [])
 	{
 		\WP_Mock::userFunction($name, $parameters);
 	}

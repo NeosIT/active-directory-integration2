@@ -2,7 +2,7 @@
 
 namespace Dreitier\Nadi;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Util;
 use Dreitier\WordPress\Multisite\Ui\Actions;
@@ -13,7 +13,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class RequirementsTest extends BasicTest
+class RequirementsTest extends BasicTestCase
 {
 	/* @var Native|\Mockery\MockInterface */
 	private $internalNative;
@@ -436,13 +436,13 @@ class RequirementsTest extends BasicTest
 	 *
 	 * @return Requirements|MockObject
 	 */
-	private function sut($methods = null)
+	private function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Requirements::class)
 			->setConstructorArgs(
-				array()
+				[]
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace Dreitier\Nadi\Ui\Validator\Rule;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -13,7 +13,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @access
  */
-class AttributeMappingNullTest extends BasicTest
+class AttributeMappingNullTest extends BasicTestCase
 {
 
 	const VALIDATION_MESSAGE = 'Ad Attribute / Data Type / WordPress Attribute cannot be empty!';
@@ -34,7 +34,7 @@ class AttributeMappingNullTest extends BasicTest
 	 *
 	 * @return  AttributeMappingNull|MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder( AttributeMappingNull::class)
 			->setConstructorArgs(
@@ -42,7 +42,7 @@ class AttributeMappingNullTest extends BasicTest
 					self::VALIDATION_MESSAGE
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -51,7 +51,7 @@ class AttributeMappingNullTest extends BasicTest
 	 */
 	public function validate_withAdAttributeUndefined_returnString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validate(
 			"undefined:string:testWordpressAttribute1:testDescription:0:0:0;testAdAttribute1:string:testWordpressAttribute1:testDescription:0:0:0",
@@ -66,7 +66,7 @@ class AttributeMappingNullTest extends BasicTest
 	 */
 	public function validate_withWordPressAttributeUndefined_returnString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validate(
 			"testAdAttribute1:string:undefined:testDescription:0:0:0;testAdAttribute2:string:testWordpressAttribute1:testDescription:0:0:0",
@@ -81,7 +81,7 @@ class AttributeMappingNullTest extends BasicTest
 	 */
 	public function validate_withWordPressAttributeEmpty_returnString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validate(
 			"testAdAttribute1:string::testDescription:0:0:0;testAdAttribute2:string:testWordpressAttribute1:testDescription:0:0:0",
@@ -96,7 +96,7 @@ class AttributeMappingNullTest extends BasicTest
 	 */
 	public function validate_withWordPressAttributeDefaultValue_returnString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validate(
 			"testAdAttribute1:string:next_ad_int_:testDescription:0:0:0;testAdAttribute2:string:testWordpressAttribute1:testDescription:0:0:0",
@@ -111,7 +111,7 @@ class AttributeMappingNullTest extends BasicTest
 	 */
 	public function validate_withTypeUndefined_returnString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validate(
 			"testAdAttribute1:undefined:WordPressAttribut1:testDescription:0:0:0;testAdAttribute2:string:testWordpressAttribute1:testDescription:0:0:0",
@@ -126,7 +126,7 @@ class AttributeMappingNullTest extends BasicTest
 	 */
 	public function validate_withTypeEmpty_returnString()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validate(
 			"testAdAttribute1::WordPressAttribut1:testDescription:0:0:0;testAdAttribute2:string:testWordpressAttribute1:testDescription:0:0:0",
@@ -142,7 +142,7 @@ class AttributeMappingNullTest extends BasicTest
 	 */
 	public function validate_withoutConflict_returnTrue()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$actual = $sut->validate(
 			"testAdAttribute1:string:testWordpressAttribute1:testDescription:0:0:0;testAdAttribute2:string:testWordpressAttribute2:testDescription:0:0:0",

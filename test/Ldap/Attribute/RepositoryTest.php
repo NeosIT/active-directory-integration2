@@ -3,7 +3,7 @@
 namespace Dreitier\Ldap\Attribute;
 
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 
@@ -11,7 +11,7 @@ use Dreitier\WordPress\Multisite\Configuration\Service;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class RepositoryTest extends BasicTest
+class RepositoryTest extends BasicTestCase
 {
 	/* @var Service|MockObject $configuration */
 	private $configuration;
@@ -22,7 +22,7 @@ class RepositoryTest extends BasicTest
 
 		$this->configuration = $this->getMockBuilder(Service::class)
 			->disableOriginalConstructor()
-			->setMethods(array('getOptionValue'))
+			->onlyMethods(array('getOptionValue'))
 			->getMock();
 	}
 
@@ -31,11 +31,11 @@ class RepositoryTest extends BasicTest
 		\WP_Mock::tearDown();
 	}
 
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Repository::class)
 			->setConstructorArgs(array($this->configuration))
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -44,7 +44,7 @@ class RepositoryTest extends BasicTest
 	 */
 	public function getCustomAttributeDefinitions_withCorrectString_returnParsedArray()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$string = 'attributeName1:string:next_ad_int_lastName:description:true:true:true' . ";"
 			. 'attributeName2:string:next_ad_int_lastName:description:true:true:true';
@@ -81,7 +81,7 @@ class RepositoryTest extends BasicTest
 	 */
 	public function getCustomAttributeDefinitions_withInvalidString_returnEmptyArray()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$string = '';
 		$this->configuration->expects($this->once())
@@ -90,7 +90,7 @@ class RepositoryTest extends BasicTest
 			->willReturn($string);
 
 		$actual = $sut->getCustomAttributeDefinitions();
-		$this->assertEquals(array(), $actual);
+		$this->assertEquals([], $actual);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class RepositoryTest extends BasicTest
 	 */
 	public function getCustomAttributeDefinitions_calledMethodTwice_returnParsedArrayFromCache()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$string = 'attributeName1:string:next_ad_int_lastName:description:true:true:true';
 		$this->configuration->expects($this->once())
@@ -163,7 +163,7 @@ class RepositoryTest extends BasicTest
 
 		$sut->expects($this->once())
 			->method('createDefaultAttributes')
-			->with(array())
+			->with([])
 			->willReturn($default);
 
 		$sut->expects($this->once())
@@ -193,7 +193,7 @@ class RepositoryTest extends BasicTest
 
 		$sut->expects($this->once())
 			->method('createDefaultAttributes')
-			->with(array())
+			->with([])
 			->willReturn($default);
 
 		$sut->expects($this->once())
@@ -371,7 +371,7 @@ class RepositoryTest extends BasicTest
 
 		$sut->expects($this->any())
 			->method('createAttribute')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(null, 'cn'),
 				array(null, 'givenname'),
 				array(null, 'sn'),
@@ -384,7 +384,7 @@ class RepositoryTest extends BasicTest
 				array(null, 'objectguid'),
 				array(null, 'domainsid'),
 				array(null, 'objectsid'),
-			)
+			))
 			->will(
 				$this->onConsecutiveCalls(
 					new Attribute(),
@@ -432,7 +432,7 @@ class RepositoryTest extends BasicTest
 
 		$sut->expects($this->any())
 			->method('createAttribute')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array(null, 'cn'),
 				array(null, 'givenname'),
 				array(null, 'sn'),
@@ -445,7 +445,7 @@ class RepositoryTest extends BasicTest
 				array(null, 'objectguid'),
 				array(null, 'domainsid'),
 				array(null, 'objectsid')
-			)
+			))
 			->will(
 				$this->onConsecutiveCalls(
 					new Attribute(),
@@ -492,7 +492,7 @@ class RepositoryTest extends BasicTest
 	 */
 	public function createAttribute_returnObject()
 	{
-		$sut = $this->sut(array('getViewableAttributeDefinitions'));
+		$sut = $this->sut();
 		$this->mockFunction__();
 
 		$attribute = array(
@@ -520,7 +520,7 @@ class RepositoryTest extends BasicTest
 		$sut = $this->sut();
 		$this->mockFunction__();
 
-		$result = $sut->createAttribute(array(), 'objectguid');
+		$result = $sut->createAttribute([], 'objectguid');
 
 		$this->assertEquals('next_ad_int_objectguid', $result->getMetakey());
 	}
@@ -620,7 +620,7 @@ class RepositoryTest extends BasicTest
 	 */
 	public function convertAttributeMapping_returnArray()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$attributeString = "testAdAttribute:string:testWordPressMetakey:description:true:true:true;";
 

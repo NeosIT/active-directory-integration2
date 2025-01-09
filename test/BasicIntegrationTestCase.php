@@ -11,7 +11,7 @@ use Dreitier\Ldap\ConnectionDetails;
  * @author Danny Meißner <dme@neos-it.de>
  * @access
  */
-abstract class BasicIntegrationTest extends BasicTest
+class BasicIntegrationTestCase extends BasicTestCase
 {
 	// AD Connection Details
 	/* @var Connection $connectionDetails */
@@ -268,7 +268,7 @@ abstract class BasicIntegrationTest extends BasicTest
 	 */
 	protected function createSyncToWordpressItUsersAttributes($numberOfUsers)
 	{
-		$attributeCollector = array();
+		$attributeCollector = [];
 
 		for ($i = 0; $i < $numberOfUsers; $i++) {
 			$attributes = $this->attributes;

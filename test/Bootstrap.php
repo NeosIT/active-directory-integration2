@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 		public function __construct()
 		{
 			$this->value = func_get_args();
-			$this->errors = array();
+			$this->errors = [];
 		}
 
 		public function getConstructorArgs()
@@ -138,13 +138,6 @@ if (!defined('ABSPATH')) {
 	{
 
 	}
-
-	// now we can mock this empty class instead of creating a mock from an non existing class
-	// this is a workaround for a bug https://github.com/sebastianbergmann/phpunit-mock-objects/issues/321
-	class BlueprintClass
-	{
-
-	}
 }
 
 // these three functions are copied from wp-includes/formatting.php
@@ -181,5 +174,7 @@ ini_set("memory_limit", "2G");
 require_once __DIR__ . '/../autoload.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
-require_once NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . "/test/BasicTest.php";
-require_once NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . "/test/BasicIntegrationTest.php";
+require_once NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . "/test/PHPUnitHelper.php";
+require_once NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . "/test/CallableMock.php";
+require_once NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . "/test/BasicTestCase.php";
+require_once NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH . "/test/BasicIntegrationTestCase.php";

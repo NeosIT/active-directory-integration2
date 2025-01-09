@@ -2,10 +2,11 @@
 
 namespace Dreitier\Util;
 
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
+use Dreitier\Test\CallableMock;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class UninstallerTest extends BasicTest
+class UninstallerTest extends BasicTestCase
 {
 	public function setUp(): void
 	{
@@ -24,10 +25,10 @@ class UninstallerTest extends BasicTest
 	/**
 	 * @return Uninstaller| MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Uninstaller::class)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -41,7 +42,7 @@ class UninstallerTest extends BasicTest
 			'options' => 'wp_options'
 		);
 
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		\WP_Mock::userFunction('is_multisite', array(
 				'times' => 1,
@@ -87,13 +88,13 @@ class UninstallerTest extends BasicTest
 	public function deleteAllEntriesFromTable_shouldExecuteSQLQuery()
 	{
 		global $wpdb;
-		$wpdb = $this->createMockWithMethods('BlueprintClass', array('query'));
+		$wpdb = $this->createMock(CallableMock::class);
 
 		$sut = $this->sut();
 
 		$wpdb->expects($this->once())
-			->method('query')
-			->with("DELETE FROM wp_options WHERE option_name LIKE 'next_ad_int_%';");
+			->method('__call')
+			->with("query", ["DELETE FROM wp_options WHERE option_name LIKE 'next_ad_int_%';"]);
 
 		$sut->deleteAllEntriesFromTable('wp_options', 'option_name');
 	}
@@ -121,9 +122,10 @@ class UninstallerTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('deleteAllEntriesFromTable')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array('wp_options', 'option_name'),
-				array('wp_usermeta', 'meta_key'));
+				array('wp_usermeta', 'meta_key'))
+			);
 
 		$sut->removePluginSettings();
 	}
@@ -152,11 +154,12 @@ class UninstallerTest extends BasicTest
 
 		$sut->expects($this->exactly(4))
 			->method('deleteAllEntriesFromTable')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array('wp_options', 'option_name'),
 				array('wp_2_options', 'option_name'),
 				array('wp_sitemeta', 'meta_key'),
-				array('wp_usermeta', 'meta_key'));
+				array('wp_usermeta', 'meta_key'))
+			);
 
 		$sut->removePluginSettings();
 	}

@@ -11,7 +11,7 @@ use Dreitier\Nadi\LoginState;
 use Dreitier\Nadi\Role\Mapping;
 use Dreitier\Nadi\User\LoginSucceededService;
 use Dreitier\Nadi\User\Manager;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -19,7 +19,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Tobias Hellmann <the@neos-it.de>
  * @access private
  */
-class LoginServiceTest extends BasicTest
+class LoginServiceTest extends BasicTestCase
 {
 	/* @var Service|MockObject $configuration */
 	private $configuration;
@@ -59,7 +59,7 @@ class LoginServiceTest extends BasicTest
 	/**
 	 * @return LoginService|MockObject
 	 */
-	public function sut($methods = null, $simulated = false)
+	public function sut(array $methods = [], bool $simulated = false)
 	{
 		return $this->getMockBuilder(LoginService::class)
 			->setConstructorArgs(
@@ -72,7 +72,7 @@ class LoginServiceTest extends BasicTest
 					$this->loginSucceededService
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -148,7 +148,7 @@ class LoginServiceTest extends BasicTest
 		$sut->expects($this->never())
 			->method('authenticateAtActiveDirectory');
 
-		$actual = $sut->tryAuthenticatableSuffixes($credentials, array());
+		$actual = $sut->tryAuthenticatableSuffixes($credentials, []);
 		$this->assertFalse($actual);
 	}
 
@@ -206,7 +206,7 @@ class LoginServiceTest extends BasicTest
 	 */
 	public function createAuthentication_itCreatesANewInstance()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$credentials = $sut->buildCredentials('username', 'password');
 
@@ -218,7 +218,7 @@ class LoginServiceTest extends BasicTest
 	 */
 	public function requiresActiveDirectoryAuthentication_returnsFalse_ifEmpty()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$returnedValue = $sut->requiresActiveDirectoryAuthentication('');
 		$this->assertFalse($returnedValue);
@@ -407,7 +407,7 @@ class LoginServiceTest extends BasicTest
 	 */
 	public function authenticateAtActiveDirectory_itReturnsFalse_whenAuthenticationFails()
 	{
-		$sut = $this->sut(array('bruteForceProtection', 'refreshBruteForceProtectionStatusForUser'));
+		$sut = $this->sut();
 
 		$username = 'testUser';
 		$suffix = "@company.it";
@@ -432,7 +432,7 @@ class LoginServiceTest extends BasicTest
 	 */
 	public function authenticateAtActiveDirectory_itReturnsTrue_whenAuthenticationSucceeds()
 	{
-		$sut = $this->sut(array('bruteForceProtection', 'refreshBruteForceProtectionStatusForUser'));
+		$sut = $this->sut();
 
 		$username = 'testUser';
 		$suffix = "@company.it";
@@ -440,7 +440,7 @@ class LoginServiceTest extends BasicTest
 		$userGuid = 'e16d5d9c-xxxx-xxxx-9b8b-969fdf4b2702';
 
 		$roleMapping = new Mapping("username");
-		$attributes = new Attributes(array(), array('objectguid' => $userGuid));
+		$attributes = new Attributes([], array('objectguid' => $userGuid));
 
 		$this->ldapConnection->expects($this->once())
 			->method('connect')
@@ -585,7 +585,7 @@ class LoginServiceTest extends BasicTest
 		$objectguid = 'cc07cacc-5d9d-fa40-a9fb-3a4d50a172b0';
 		$credentials = new Credentials($samaccountName, 'secret');
 		$filteredAttributes = array('samaccountname' => $samaccountName, 'objectguid' => $objectguid);
-		$expectedLdapAttributes = new Attributes(array(), $filteredAttributes);
+		$expectedLdapAttributes = new Attributes([], $filteredAttributes);
 
 		$sut = $this->sut(array('updateCredentials'));
 

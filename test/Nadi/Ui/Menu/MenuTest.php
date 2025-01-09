@@ -7,7 +7,7 @@ use Dreitier\Nadi\Synchronization\Ui\SyncToActiveDirectoryPage;
 use Dreitier\Nadi\Synchronization\Ui\SyncToWordPressPage;
 use Dreitier\Nadi\Ui\ConnectivityTestPage;
 use Dreitier\Nadi\Ui\NadiSingleSiteConfigurationPage;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -18,7 +18,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class MenuTest extends BasicTest
+class MenuTest extends BasicTestCase
 {
 	/* @var Service $configuration */
 	private $configuration;
@@ -57,7 +57,7 @@ class MenuTest extends BasicTest
 	 *
 	 * @return Menu|MockObject
 	 */
-	private function sut($methods = null)
+	private function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Menu::class)
 			->setConstructorArgs(
@@ -70,7 +70,7 @@ class MenuTest extends BasicTest
 					$this->syncToActiveDirectoryPage
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -79,7 +79,7 @@ class MenuTest extends BasicTest
 	 */
 	public function register_itAddsTheMenus()
 	{
-		$sut = $this->sut(array('addAjaxListeners'));
+		$sut = $this->sut(array('addAjaxListener'));
 
 		\WP_Mock::expectActionAdded('admin_menu', array($sut, 'registerMenu'));
 
@@ -95,8 +95,8 @@ class MenuTest extends BasicTest
 
 		$sut->expects($this->exactly(1))
 			->method('addAjaxListener')
-			->withConsecutive(array(
-				$this->nadiSingleSiteConfigurationPage
+			->with(...self::withConsecutive(
+				[$this->nadiSingleSiteConfigurationPage]
 			));
 
 		$sut->register();
@@ -107,7 +107,7 @@ class MenuTest extends BasicTest
 	 */
 	public function registerMenu_addsMenusToWordPress()
 	{
-		$sut = $this->sut(array('addSubMenu', 'blogOption'));
+		$sut = $this->sut(array('addSubMenu'));
 		$this->mockFunctionEsc_html__();
 
 		$this->nadiSingleSiteConfigurationPage->expects($this->once())
@@ -136,17 +136,17 @@ class MenuTest extends BasicTest
 	 */
 	public function registerMenu_whenShowTestAuthentication_itEnablesTestAuthentication()
 	{
-		$sut = $this->sut(array('addSubMenu', 'blogOption'));
+		$sut = $this->sut(array('addSubMenu'));
 		$this->mockFunction__();
 		$this->mockFunctionEsc_html__();
 
 		$this->configuration->expects($this->exactly(3))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				[Options::SHOW_MENU_TEST_AUTHENTICATION],
 				[Options::SHOW_MENU_SYNC_TO_AD],
 				[Options::SHOW_MENU_SYNC_TO_WORDPRESS]
-			)
+			))
 			->willReturn(
 				true,
 				false,
@@ -163,10 +163,10 @@ class MenuTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('addSubMenu')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array('next_ad_int_slug', 'manage_options', $this->nadiSingleSiteConfigurationPage, 'renderAdmin'),
 				array('next_ad_int_slug', 'manage_options', $this->connectivityTestPage, 'renderAdmin')
-			);
+			));
 
 		$sut->registerMenu();
 	}
@@ -177,16 +177,16 @@ class MenuTest extends BasicTest
 	 */
 	public function registerMenu_whenShowSyncToAD_itEnablesSyncToAD()
 	{
-		$sut = $this->sut(array('addSubMenu', 'blogOption'));
+		$sut = $this->sut(array('addSubMenu'));
 		$this->mockFunctionEsc_html__();
 
 		$this->configuration->expects($this->exactly(3))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				[Options::SHOW_MENU_TEST_AUTHENTICATION],
 				[Options::SHOW_MENU_SYNC_TO_AD],
 				[Options::SHOW_MENU_SYNC_TO_WORDPRESS]
-			)
+			))
 			->willReturn(
 				false,
 				true,
@@ -203,10 +203,10 @@ class MenuTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('addSubMenu')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array('next_ad_int_slug', 'manage_options', $this->nadiSingleSiteConfigurationPage, 'renderAdmin'),
 				array('next_ad_int_slug', 'manage_options', $this->syncToActiveDirectoryPage, 'renderAdmin')
-			);
+			));
 
 		$sut->registerMenu();
 	}
@@ -217,16 +217,16 @@ class MenuTest extends BasicTest
 	 */
 	public function registerMenu_whenShowSyncToWordPress_itEnablesSyncToWordPress()
 	{
-		$sut = $this->sut(array('addSubMenu', 'blogOption'));
+		$sut = $this->sut(array('addSubMenu'));
 		$this->mockFunctionEsc_html__();
 
 		$this->configuration->expects($this->exactly(3))
 			->method('getOptionValue')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				[Options::SHOW_MENU_TEST_AUTHENTICATION],
 				[Options::SHOW_MENU_SYNC_TO_AD],
 				[Options::SHOW_MENU_SYNC_TO_WORDPRESS]
-			)
+			))
 			->willReturn(
 				false,
 				false,
@@ -243,10 +243,10 @@ class MenuTest extends BasicTest
 
 		$sut->expects($this->exactly(2))
 			->method('addSubMenu')
-			->withConsecutive(
+			->with(...self::withConsecutive(
 				array('next_ad_int_slug', 'manage_options', $this->nadiSingleSiteConfigurationPage, 'renderAdmin'),
 				array('next_ad_int_slug', 'manage_options', $this->syncToWordPressPage, 'renderAdmin')
-			);
+			));
 
 		$sut->registerMenu();
 	}

@@ -6,7 +6,7 @@ use Dreitier\ActiveDirectory\Context;
 use Dreitier\AdLdap\AdLdap;
 use Dreitier\Ldap\Connection;
 use Dreitier\Nadi\Configuration\Options;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Util;
 use Dreitier\WordPress\Multisite\Configuration\Service;
@@ -16,7 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
  * @access private
  */
-class ManagerTest extends BasicTest
+class ManagerTest extends BasicTestCase
 {
 	/* @var Service|MockObject $configuration */
 	private $configuration;
@@ -44,8 +44,7 @@ class ManagerTest extends BasicTest
 		$this->ldapConnection = $this->getMockBuilder(Connection::class)
 			->setConstructorArgs(array($this->configuration, $this->activeDirectoryContext))
 			->getMock();
-
-		$this->ldapConnection->method('getAdLdap')->willReturn($this->adLdap);
+		$this->behave($this->ldapConnection, 'getAdLdap', $this->adLdap);
 
 		// mock away our internal php calls
 		$this->native = $this->createMockedNative();
@@ -63,11 +62,11 @@ class ManagerTest extends BasicTest
 	 *
 	 * @return Manager|MockObject
 	 */
-	public function sut($methods)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(Manager::class)
 			->setConstructorArgs(array($this->configuration, $this->ldapConnection))
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -76,7 +75,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function createRoleMapping_looksupSecurityGroups()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->adLdap->expects($this->once())
 			->method("user_groups")
@@ -92,7 +91,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function isInAuthorizationGroup_itReturnsFalse_ifHeIsNotMemberOfAuthorizationGroup()
 	{
-		$sut = $this->sut(array('getAdLdap', 'isUserInGroup'));
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -112,7 +111,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function isInAuthorizationGroup_itReturnsTrue_ifHeIsMemberOfOneAuthorizationGroup()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -133,7 +132,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function ADI248_whenAuthorizationGroupIsEmpty_itIsNotPossibleToAuthorize()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -156,9 +155,9 @@ class ManagerTest extends BasicTest
 		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles'));
 
 		$roleMapping = new Mapping("username");
-		$roleMapping->setWordPressRoles(array());
+		$roleMapping->setWordPressRoles([]);
 
-		$wpUser = $this->createAnonymousMock(array());
+		$wpUser = $this->createAnonymousMock([]);
 		$wpUser->ID = 1;
 
 		$sut->expects($this->once())
@@ -175,7 +174,7 @@ class ManagerTest extends BasicTest
 	{
 		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles', 'isMemberOfRoleEquivalentGroups'));
 
-		$wpUser = $this->createAnonymousMock(array());
+		$wpUser = $this->createAnonymousMock([]);
 		$wpUser->ID = 1;
 
 		$sut->expects($this->once())
@@ -192,7 +191,7 @@ class ManagerTest extends BasicTest
 			->willReturn(false);
 
 		$roleMapping = new Mapping("username");
-		$roleMapping->setWordPressRoles(array());
+		$roleMapping->setWordPressRoles([]);
 
 		$sut->expects($this->once())
 			->method('updateRoles')
@@ -209,7 +208,7 @@ class ManagerTest extends BasicTest
 	{
 		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles'));
 
-		$wpUser = $this->createAnonymousMock(array());
+		$wpUser = $this->createAnonymousMock([]);
 		$wpUser->ID = 1;
 		$wpUser->roles = array('subscriber');
 		$wpUser->user_login = 'username';
@@ -248,9 +247,9 @@ class ManagerTest extends BasicTest
 			->willReturn(array('security-group' => 'wordpress-role'));
 
 		$roleMapping = new Mapping("username");
-		$roleMapping->setWordPressRoles(array());
+		$roleMapping->setWordPressRoles([]);
 
-		$wpUser = $this->createAnonymousMock(array());
+		$wpUser = $this->createAnonymousMock([]);
 		$wpUser->ID = 1;
 		$wpUser->user_login = 'username';
 
@@ -261,7 +260,7 @@ class ManagerTest extends BasicTest
 
 		$sut->expects($this->once())
 			->method('updateRoles')
-			->with($wpUser, array(), true);
+			->with($wpUser, [], true);
 
 		$sut->synchronizeRoles($wpUser, $roleMapping, false);
 	}
@@ -275,17 +274,17 @@ class ManagerTest extends BasicTest
 
 		$sut->expects($this->once())
 			->method('getRoleEquivalentGroups')
-			->willReturn(array());
+			->willReturn([]);
 
 		$roleMapping = new Mapping("username");
-		$roleMapping->setWordPressRoles(array());
+		$roleMapping->setWordPressRoles([]);
 
-		$wpUser = $this->createAnonymousMock(array());
+		$wpUser = $this->createAnonymousMock([]);
 		$wpUser->ID = 1;
 
 		$sut->expects($this->once())
 			->method('updateRoles')
-			->with($wpUser, array(), false);
+			->with($wpUser, [], false);
 
 		$sut->synchronizeRoles($wpUser, $roleMapping, false);
 	}
@@ -306,7 +305,7 @@ class ManagerTest extends BasicTest
 		$roleMapping = new Mapping("username");
 		$roleMapping->setWordPressRoles(array('wordpress-role', 'wordpress-role2'));
 
-		$wpUser = $this->createAnonymousMock(array());
+		$wpUser = $this->createAnonymousMock([]);
 		$wpUser->ID = 1;
 
 		$this->configuration->expects($this->once())
@@ -326,7 +325,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function updateRoles_itDoesNotSetRole_ifCleanExistingRolesIsDisabled()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$wpUser = $this->createAnonymousMock(array('set_role', 'add_role'));
 		$wpUser->user_login = 'username';
 
@@ -346,7 +345,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function updateRoles_itReleasesExistingRoles_ifCleanExistingRolesIsEnabled()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$wpUser = $this->createAnonymousMock(array('set_role', 'add_role'));
 		$wpUser->user_login = 'username';
 
@@ -366,7 +365,7 @@ class ManagerTest extends BasicTest
 	 */
 	public function getRoleEquivalentGrous_returnsTheMapping()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
@@ -459,7 +458,7 @@ class ManagerTest extends BasicTest
 		$this->native->expects($this->never())
 			->method('isFileAvailable');
 
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->invokeMethod($sut, 'loadMultisiteFunctions');
 	}
@@ -483,7 +482,7 @@ class ManagerTest extends BasicTest
 			->method('includeOnce')
 			->with(ABSPATH . 'wp-admin/includes/ms.php');
 
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$this->invokeMethod($sut, 'loadMultisiteFunctions');
 	}

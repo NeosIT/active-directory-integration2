@@ -8,14 +8,14 @@ use Dreitier\Nadi\Cron\UrlTrigger;
 use Dreitier\Nadi\Multisite\Site\Ui\ExtendSiteList;
 use Dreitier\Nadi\Multisite\Ui\MultisiteMenu;
 use Dreitier\Nadi\User\Manager;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
  * @access private
  */
-class DependenciesTest extends BasicTest
+class DependenciesTest extends BasicTestCase
 {
 	/**
 	 * @test

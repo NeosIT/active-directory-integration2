@@ -6,7 +6,7 @@ use Dreitier\Ldap\Connection;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\User\LoginSucceededService;
 use Dreitier\Nadi\User\Manager;
-use Dreitier\Test\BasicTest;
+use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Ui;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
@@ -18,7 +18,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @author Danny Meißner <dme@neos-it.de>
  * @access private
  */
-class ConnectivityTestPageTest extends BasicTest
+class ConnectivityTestPageTest extends BasicTestCase
 {
 	/* @var TwigContainer|MockObject */
 	private $twigContainer;
@@ -67,7 +67,7 @@ class ConnectivityTestPageTest extends BasicTest
 	 */
 	public function getTitle()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$this->mockFunctionEsc_html__();
 
 		$expectedTitle = 'Test authentication';
@@ -80,7 +80,7 @@ class ConnectivityTestPageTest extends BasicTest
 	 *
 	 * @return ConnectivityTestPage| MockObject
 	 */
-	public function sut($methods = null)
+	public function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(ConnectivityTestPage::class)
 			->setConstructorArgs(
@@ -94,7 +94,7 @@ class ConnectivityTestPageTest extends BasicTest
 					$this->loginSucceededService
 				)
 			)
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
@@ -103,7 +103,7 @@ class ConnectivityTestPageTest extends BasicTest
 	 */
 	public function getSlug()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$expectedReturn =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'test_connection';
 		$returnedValue = $sut->getSlug();
@@ -166,26 +166,26 @@ class ConnectivityTestPageTest extends BasicTest
 	 */
 	public function loadJavaScriptAdmin()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 		$hook =NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . 'test_connection';
 
 		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
-				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', array(), Ui::VERSION_CSS),
+				'args' => array('next_ad_int',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/next_ad_int.css', [], Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
 		\WP_Mock::userFunction(
 			'wp_enqueue_style', array(
-				'args' => array('next_ad_int_bootstrap_min_css',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/bootstrap.min.css', array(), Ui::VERSION_CSS),
+				'args' => array('next_ad_int_bootstrap_min_css',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/css/bootstrap.min.css', [], Ui::VERSION_CSS),
 				'times' => 1,
 			)
 		);
 
 		\WP_Mock::userFunction(
 			'wp_enqueue_script', array(
-				'args' => array('next_ad_int_bootstrap_min_js',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/bootstrap.min.js', array(), Ui::VERSION_PAGE_JS),
+				'args' => array('next_ad_int_bootstrap_min_js',NEXT_ACTIVE_DIRECTORY_INTEGRATION_URL . '/js/libraries/bootstrap.min.js', [], Ui::VERSION_PAGE_JS),
 				'times' => 1,
 			)
 		);
@@ -198,7 +198,7 @@ class ConnectivityTestPageTest extends BasicTest
 	 */
 	public function processData_withEscapedCharacter_unescapeThem()
 	{
-		$sut = $this->sut(array('printSystemEnvironment', 'connectToActiveDirectory', 'collectInformation'));
+		$sut = $this->sut(array('collectInformation'));
 		$collectInformationResult = array('output' => 'Test', 'authentication_result' => new \WP_User());
 
 		$_POST['username'] = 'test\User'; // should be addslashes('test\User');
@@ -233,7 +233,7 @@ class ConnectivityTestPageTest extends BasicTest
 	 */
 	public function processData_withValidCredentials_returnsTrue()
 	{
-		$sut = $this->sut(array('printSystemEnvironment', 'connectToActiveDirectory', 'collectInformation'));
+		$sut = $this->sut(array('collectInformation'));
 		$collectInformationResult = array('output' => 'Test', 'authentication_result' => true);
 
 		$_POST['username'] = 'john.doe';
@@ -265,7 +265,7 @@ class ConnectivityTestPageTest extends BasicTest
 	 */
 	public function processData_withMissingOrInvalidNonce_dies()
 	{
-		$sut = $this->sut(array('printSystemEnvironment', 'connectToActiveDirectory', 'collectInformation'));
+		$sut = $this->sut(array('collectInformation'));
 
 		$_POST['username'] = 'john.doe';
 		$_POST['password'] = 'secret';
@@ -339,7 +339,7 @@ class ConnectivityTestPageTest extends BasicTest
 	 */
 	public function processData_returnEmptyArray()
 	{
-		$sut = $this->sut(null);
+		$sut = $this->sut();
 
 		$returnedCache = $sut->processData();
 
