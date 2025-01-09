@@ -28,10 +28,12 @@ class Util
 	 */
 	public static function isOnNetworkDashboard()
 	{
+		$referer = $_SERVER['HTTP_REFERER'] ?? '';
+
 		// network admin + ajax requests
 		// see: https://core.trac.wordpress.org/ticket/22589
 		if (defined('DOING_AJAX') && DOING_AJAX && is_multisite()
-			&& preg_match('#^' . network_admin_url() . '#i', $_SERVER['HTTP_REFERER'])
+			&& preg_match('#^' . network_admin_url() . '#i', $referer)
 		) {
 			return true;
 		}
