@@ -126,7 +126,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
-= UNRELEASED =
+= 3.1.8 =
 * CHANGED: WordPress 6.7.1 compatibility has been checked
 * FIXED: Dependencies updated like PHPUnit (#201)
 * FIXED: E_WARNING "Undefined array key 'HTTP_REFERER'" (#206)
