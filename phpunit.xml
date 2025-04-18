@@ -1,43 +1,19 @@
-<phpunit
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/3.7/phpunit.xsd"
-        backupGlobals="true"
-        backupStaticAttributes="false"
-        bootstrap="test/Bootstrap.php"
-        cacheTokens="false"
-        colors="false"
-        convertErrorsToExceptions="true"
-        convertNoticesToExceptions="true"
-        convertWarningsToExceptions="true"
-        forceCoversAnnotation="false"
-        processIsolation="false"
-        stopOnError="false"
-        stopOnFailure="false"
-        stopOnIncomplete="false"
-        stopOnSkipped="false"
-        timeoutForSmallTests="1"
-        timeoutForMediumTests="10"
-        timeoutForLargeTests="60"
-        verbose="false"
-        beStrictAboutTestsThatDoNotTestAnything="false"
-        defaultTestSuite="unit"
-        >
-    <php>
-        <ini name="display_errors" value="true" />
-    </php>
-    <logging>
-        <log type="coverage-html" target="./build/coverage"/>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="coverage-crap4j" target="build/logs/crap4j.xml"/>
-        <log type="junit" target="build/logs/junit.xml" />
-    </logging>
-    <testsuites>
-        <testsuite name="unit">
-            <directory>test</directory>
-        </testsuite>
-        <testsuite name="integration">
-            <directory>./test/Ldap/ConnectionIT.php</directory>
-            <directory>./test/Role/ManagerIT.php</directory>
-        </testsuite>
-    </testsuites>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" backupGlobals="true" bootstrap="test/Bootstrap.php" colors="false" processIsolation="false" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" timeoutForSmallTests="1" timeoutForMediumTests="10" timeoutForLargeTests="60" beStrictAboutTestsThatDoNotTestAnything="false" defaultTestSuite="unit" cacheDirectory=".phpunit.cache" backupStaticProperties="false" requireCoverageMetadata="false">
+  <php>
+    <ini name="display_errors" value="true"/>
+  </php>
+  <logging>
+    <junit outputFile="build/logs/junit.xml"/>
+  </logging>
+  <testsuites>
+    <testsuite name="unit">
+      <directory>test</directory>
+    </testsuite>
+    <testsuite name="integration">
+      <directory>./test/Ldap/ConnectionIT.php</directory>
+      <directory>./test/Role/ManagerIT.php</directory>
+    </testsuite>
+  </testsuites>
+  <source/>
 </phpunit>
