@@ -84,7 +84,7 @@ abstract class MenuAdapter
 	 *
 	 * @return array
 	 */
-	function generateHelpTabEntry($option, $optionName)
+	protected function generateHelpTabEntry($option, $optionName)
 	{
 		$title = ArrayUtil::get(Attribute::TITLE, $option, '');
 		$detail = ArrayUtil::get(Attribute::DETAIL, $option, '');
@@ -108,7 +108,7 @@ abstract class MenuAdapter
 	 *
 	 * @return bool|false|string
 	 */
-	function addSubMenu($mainMenuSlug, $permission, $page, $callbackMethodName)
+	public function addSubMenu($mainMenuSlug, $permission, $page, $callbackMethodName)
 	{
 		if (!$page instanceof Page) {
 			return false;

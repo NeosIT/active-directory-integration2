@@ -127,6 +127,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* FIXED: Lazy loading of option descriptions/title to prevent E_NOTICEs in WordPress 6.8 with debugging enabled (#209)
 
 = 3.1.9 =
 * CHANGED: WordPress 6.8 compatibility has been checked

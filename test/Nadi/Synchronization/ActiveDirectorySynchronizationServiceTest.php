@@ -492,7 +492,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 
 		$this->configuration->expects($this->once())
 			->method('getOptionValue')
-			->with(Options ::SYNC_TO_AD_ENABLED)
+			->with(Options::SYNC_TO_AD_ENABLED)
 			->willReturn(true);
 
 		$this->assertTrue($sut->isEnabled());

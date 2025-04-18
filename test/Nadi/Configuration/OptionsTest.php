@@ -1,6 +1,6 @@
 <?php
 
-namespace Dreitier\Nadi\Ui;
+namespace Dreitier\Nadi\Configuration;
 
 use Dreitier\Ldap\Attribute\Description;
 use Dreitier\Nadi\Configuration\Options;
@@ -39,7 +39,7 @@ class OptionsTest extends BasicTestCase
 	{
 		$this->mockFunction__();
 		$option = $this->sut->get('port');
-		$this->assertTrue(is_array($option));
+		$this->assertTrue(is_object($option));
 		$this->assertEquals('Port', $option['title']);
 		$this->assertEquals('number', $option['type']);
 		$this->assertEquals('Port on which the Active Directory listens. Unencrypted LDAP or STARTTLS use port 389. LDAPS listens on port 636.', $option['description']);

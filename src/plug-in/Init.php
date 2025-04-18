@@ -131,10 +131,14 @@ class Init
 	 * @issue #204
 	 * @return void
 	 */
-	public function _init() {
+	public function _init()
+	{
 		// load internationalization (i18n)
-		load_plugin_textdomain('next-active-directory-integration', false,
-			plugin_basename(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH) . '/languages');
+		load_plugin_textdomain(
+			'next-active-directory-integration',
+			false,
+			plugin_basename(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PLUGIN_PATH) . '/languages'
+		);
 	}
 
 	/**
