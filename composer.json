@@ -7,6 +7,7 @@
 		"php-mock/php-mock-phpunit": "^2.10"
 	},
 	"require": {
+		"php": ">=8",
 		"twig/twig": "3.18.0",
 		"symfony/polyfill-mbstring": "1.20",
 		"defuse/php-encryption": "2.0.3",

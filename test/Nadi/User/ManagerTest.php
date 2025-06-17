@@ -1037,9 +1037,10 @@ class ManagerTest extends BasicTestCase
 	 */
 	public function updateEmail_notUpdatesEmail_whenAlreadyAssignedToUser()
 	{
-		$sut = $this->sut(array('handleEmailAddressOfUser'));
+		$sut = $this->sut([]);
 
 		$email = 'test@test.com';
+		$this->wpUser->ID = 555;
 		$this->wpUser->user_email = $email;
 
 		$adiUser = $this->createMock(User::class);
@@ -1047,30 +1048,31 @@ class ManagerTest extends BasicTestCase
 			->method('getId')
 			->willReturn(1);
 
-		\WP_Mock::userFunction('is_email', array(
-			'args' => array($email),
+		\WP_Mock::userFunction('is_email', [
+			'args' => [$email],
 			'times' => 1,
-			'return' => true,
-		));
+			'return' => TRUE,
+		]);
 
 		$this->userRepository->expects($this->once())
 			->method('findById')
 			->with(1)
 			->willReturn($this->wpUser);
 
-		$sut->expects($this->once())
-			->method('handleEmailAddressOfUser')
-			->with($this->wpUser, $email)
-			->willReturn($email);
+		$this->userRepository->expects($this->once())
+			->method('isEmailExisting')
+			->with($email)
+			->willReturn(TRUE);
 
 		$this->userRepository->expects($this->once())
-			->method('findById')
-			->with(1);
+			->method('findByEmail')
+			->with($email)
+			->willReturn($this->wpUser);
 
 		$this->userRepository->expects($this->never())
 			->method('updateEmail');
 
-		$this->invokeMethod($sut, 'updateEmail', array($adiUser, $email));
+		$this->invokeMethod($sut, 'updateEmail', [$adiUser, $email]);
 	}
 
 	/**
@@ -1127,7 +1129,7 @@ class ManagerTest extends BasicTestCase
 		$this->userRepository->expects($this->once())
 			->method('isEmailExisting')
 			->with($preferredEmail)
-			->willReturn(false);
+			->willReturn(FALSE);
 
 		$this->userRepository->expects($this->never())
 			->method('findByEmail')
@@ -1142,7 +1144,7 @@ class ManagerTest extends BasicTestCase
 	/**
 	 * @test
 	 */
-	public function handleEmailAddressOfUser_returnsPreferredEmail_whenEmailAlreadyBelongsToOwner()
+	public function handleEmailAddressOfUser_returnsFalse_whenEmailAlreadyBelongsToOwner()
 	{
 		$sut = $this->sut();
 		$preferredEmail = 'test@test.com';
@@ -1150,17 +1152,17 @@ class ManagerTest extends BasicTestCase
 		$this->userRepository->expects($this->once())
 			->method('isEmailExisting')
 			->with($preferredEmail)
-			->willReturn(true);
+			->willReturn(TRUE);
 
 		$this->userRepository->expects($this->once())
 			->method('findByEmail')
 			->with($preferredEmail)
 			->willReturn($this->wpUser);
 
-		$actual = $this->invokeMethod($sut, 'handleEmailAddressOfUser', array($this->wpUser, $preferredEmail));
+		$actual = $this->invokeMethod($sut, 'handleEmailAddressOfUser', [$this->wpUser, $preferredEmail]);
 		$this->assertFalse(defined('WP_IMPORTING'));
 
-		$this->assertEquals($preferredEmail, $actual);
+		$this->assertEquals(FALSE, $actual);
 	}
 
 	/**
@@ -1176,7 +1178,7 @@ class ManagerTest extends BasicTestCase
 		$this->userRepository->expects($this->once())
 			->method('isEmailExisting')
 			->with($preferredEmail)
-			->willReturn(true);
+			->willReturn(TRUE);
 
 		$this->userRepository->expects($this->once())
 			->method('findByEmail')
@@ -1190,7 +1192,7 @@ class ManagerTest extends BasicTestCase
 
 		$this->assertFalse(defined('WP_IMPORTING'));
 
-		$actual = $this->invokeMethod($sut, 'handleEmailAddressOfUser', array($this->wpUser, 'test@test.com'));
+		$actual = $this->invokeMethod($sut, 'handleEmailAddressOfUser', [$this->wpUser, 'test@test.com']);
 		$this->assertTrue(defined('WP_IMPORTING'));
 
 

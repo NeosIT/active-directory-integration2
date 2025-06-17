@@ -959,26 +959,48 @@ class AdLdap
 		return ($group_array);
 	}
 
+	/**
+	 * Return LDAP data as paginated entries
+	 * It is compatible with PHP >= 8.x.
+	 * @see https://github.com/NeosIT/active-directory-integration2/issues/211
+	 * @param array $filter
+	 * @param array $attributes
+	 * @return array
+	 */
 	private function _ldap_get_paginated_entries($filter, $attributes)
 	{
 		$r = [];
 		$cookie = '';
 
 		do {
-    		$result = $this->_ldap_search(
-        		$this->_base_dn, $filter, $attributes, 0, 0, 0, LDAP_DEREF_NEVER,
-        		[['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => ['size' => 500, 'cookie' => $cookie]]]
-    		);
+			$result = $this->_ldap_search(
+				$this->_base_dn, 
+				$filter, 
+				$attributes,
+				0 /* attributes only */, 
+				0 /* sizelimit */,
+				0 /* timelimit */,
+				LDAP_DEREF_NEVER,[
+					[
+						'oid' => LDAP_CONTROL_PAGEDRESULTS, 
+						'value' => [
+							// AD's default is 1000 entries per page, so 750 should be a good compromise
+							'size' => 750, 
+							'cookie' => $cookie
+						]
+					]
+				]
+			);
 
 			if (self::operation_failed($result)) {
 				// if ldap_search failed, we don't have a valid search result for _ldap_parse_result
 				break;
 			}
-			
+
 			ldap_parse_result($this->_conn, $result, $errcode, $matcheddn, $errmsg, $referrals, $controls);
-    
+
 			// To keep the example short errors are not tested
-    		$entries = $this->_ldap_get_entries($result);
+			$entries = $this->_ldap_get_entries($result);
 
 			if (self::operation_failed($entries)) {
 				return false;
@@ -992,9 +1014,10 @@ class AdLdap
 			} else {
 				$cookie = '';
 			}
-    	// Empty cookie means last page
-		} while (strlen($cookie) > 0);
 		
+		// if cookie is not empty, there is still more to proces; continue with next page
+		} while (strlen($cookie) > 0);
+
 		$r['count'] = count($r) - 1; // Set a new count value !important!
 
 		return $r;
@@ -1195,11 +1218,9 @@ class AdLdap
 		if ($fields === NULL) {
 			$fields = array("member", "memberof", "cn", "description", "distinguishedname", "objectcategory", "samaccountname");
 		}
-		// Ìs attributes always 'cn'?
-		$attributes = ['cn'];
 
-		//A new method has been introduced as ldap_control_paged* is deprecated.
-		$entries = $this->_ldap_get_paginated_entries($filter, $attributes);
+		// use paginated return of data
+		$entries = $this->_ldap_get_paginated_entries($filter, $fields);
 
 		return ($entries);
 	}
