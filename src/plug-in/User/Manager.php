@@ -568,7 +568,9 @@ class Manager
 		$userId = $user->getId();
 		$wpUser = $this->userRepository->findById($userId);
 
-		if ($email !== ($userEmail = $this->handleEmailAddressOfUser($wpUser, $email))) {
+		if (FALSE !== ($userEmail = $this->handleEmailAddressOfUser($wpUser, $email))) {
+			$this->logger->debug("Updating email address of user '$userId' to '$userEmail'");
+
 			// current email and new email differs
 			$this->userRepository->updateEmail($userId, $userEmail);
 		}
@@ -586,7 +588,7 @@ class Manager
 	 * @issue ADI-691
 	 * @param \WP_User $wpUser |null
 	 * @param $preferredEmail
-	 * @return string email address to use
+	 * @return false|string email address to use
 	 * @throws WordPressErrorException If duplicate email is set to PREVENT but email does already exist or any other state is matched
 	 */
 	public function handleEmailAddressOfUser($wpUser, $preferredEmail)
@@ -601,9 +603,9 @@ class Manager
 		// ---
 
 		$ownerOfPreferredEmail = $this->userRepository->findByEmail($preferredEmail);
-		// if the owner of the email it the user to change, the email update will succeed
+		// if the owner of the email is the user to change, we don't have to do any email update
 		if ($wpUser != null && ($wpUser->ID == $ownerOfPreferredEmail->ID)) {
-			return $preferredEmail;
+			return false;
 		}
 
 		// ---
