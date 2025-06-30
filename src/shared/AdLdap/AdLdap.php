@@ -960,6 +960,70 @@ class AdLdap
 	}
 
 	/**
+	 * Return LDAP data as paginated entries
+	 * It is compatible with PHP >= 8.x.
+	 * @see https://github.com/NeosIT/active-directory-integration2/issues/211
+	 * @param array $filter
+	 * @param array $attributes
+	 * @return array
+	 */
+	private function _ldap_get_paginated_entries($filter, $attributes)
+	{
+		$r = [];
+		$cookie = '';
+
+		do {
+			$result = $this->_ldap_search(
+				$this->_base_dn, 
+				$filter, 
+				$attributes,
+				0 /* attributes only */, 
+				0 /* sizelimit */,
+				0 /* timelimit */,
+				LDAP_DEREF_NEVER,[
+					[
+						'oid' => LDAP_CONTROL_PAGEDRESULTS, 
+						'value' => [
+							// AD's default is 1000 entries per page, so 750 should be a good compromise
+							'size' => 750, 
+							'cookie' => $cookie
+						]
+					]
+				]
+			);
+
+			if (self::operation_failed($result)) {
+				// if ldap_search failed, we don't have a valid search result for _ldap_parse_result
+				break;
+			}
+
+			ldap_parse_result($this->_conn, $result, $errcode, $matcheddn, $errmsg, $referrals, $controls);
+
+			// To keep the example short errors are not tested
+			$entries = $this->_ldap_get_entries($result);
+
+			if (self::operation_failed($entries)) {
+				return false;
+			}
+
+			$r = array_merge($r, $entries);
+
+			if (isset($controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'])) {
+				// You need to pass the cookie from the last call to the next one
+				$cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'];
+			} else {
+				$cookie = '';
+			}
+		
+		// if cookie is not empty, there is still more to proces; continue with next page
+		} while (strlen($cookie) > 0);
+
+		$r['count'] = count($r) - 1; // Set a new count value !important!
+
+		return $r;
+	}
+
+	/**
 	 * Get group members by primaryGroupID
 	 * Use this to get all users of for example "Domain Users"
 	 * @param integer $pgid
@@ -976,54 +1040,9 @@ class AdLdap
 		}
 
 		$filter = "(&(objectCategory=user)(primarygroupid=" . $pgid . "))";
+		$attributes = ['cn'];
 
-		// Let's use paging if available
-		// #127: PHP 7.4 compatibility; ldap_control_paged* is deprecated
-		if (function_exists('ldap_control_paged_result')) {
-
-			$pageSize = 500;
-			$cookie = '';
-			$users = array();
-			$users_page = array();
-
-			do {
-				@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
-
-				$sr = $this->_ldap_search($this->_base_dn, $filter, array('dn'));
-
-				if (self::operation_failed($sr)) {
-					// if ldap_search failed, we don't have a valid search result for ldap_control_paged_result_response
-					break;
-				}
-
-				$users_page = $this->_ldap_get_entries($sr);
-
-				if (self::operation_failed($users_page)) {
-					return false;
-				}
-
-				$users = array_merge($users, $users_page);
-				@ldap_control_paged_result_response($this->_conn, $sr, $cookie);
-
-
-			} while ($cookie !== null && $cookie != '');
-
-			$users['count'] = count($users) - 1; // Set a new count value !important!
-
-			@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
-
-		} else {
-
-			// Non-Paged version
-			$sr = $this->_ldap_search($this->_base_dn, $filter, array('dn'));
-
-			// @see #166
-			if (self::operation_failed($sr)) {
-				return (false);
-			}
-
-			$users = $this->_ldap_get_entries($sr);
-		}
+		$users = $this->_ldap_get_paginated_entries($filter, $attributes);
 
 		if (self::operation_failed($users)) {
 			return (false);
@@ -1200,42 +1219,8 @@ class AdLdap
 			$fields = array("member", "memberof", "cn", "description", "distinguishedname", "objectcategory", "samaccountname");
 		}
 
-		// Let's use paging if available
-		// #127: PHP 7.4 compatibility; ldap_control_paged* is deprecated
-		if (function_exists('ldap_control_paged_result')) {
-
-			$pageSize = 500;
-			$cookie = '';
-			$entries = array();
-			$entries_page = array();
-
-			do {
-				@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie);
-
-				$sr = $this->_ldap_search($this->_base_dn, $filter, $fields);
-
-				if (self::operation_failed($sr)) {
-					break;
-				}
-
-				$entries_page = $this->_ldap_get_entries($sr);
-
-				if (self::operation_failed($entries_page)) {
-					return (false);
-				}
-
-				$entries = array_merge($entries, $entries_page);
-				@ldap_control_paged_result_response($this->_conn, $sr, $cookie);
-
-			} while ($cookie !== null && $cookie != '');
-
-			$entries['count'] = count($entries) - 1; // Set a new count value !important!
-
-			@ldap_control_paged_result($this->_conn, $pageSize, true, $cookie); // RESET is important
-
-		} else {
-			$entries = $this->_ldap_search_and_retrieve($this->_base_dn, $filter, $fields);
-		}
+		// use paginated return of data
+		$entries = $this->_ldap_get_paginated_entries($filter, $fields);
 
 		return ($entries);
 	}

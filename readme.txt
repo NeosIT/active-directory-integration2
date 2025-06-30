@@ -127,6 +127,7 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* FIXED: Restore paginated user sync support for PHP >= 8.0 (#211)
 * FIXED: Field 'wp_users.users_email' does not get updated even if settings therefore are enabled (#213)
 
 = 3.1.10 =
