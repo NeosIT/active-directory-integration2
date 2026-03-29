@@ -3,6 +3,7 @@
 namespace Dreitier\Nadi\User\Meta\Persistence;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -21,9 +22,7 @@ class RepositoryTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function find_delegatesCallToWordPressFunction()
 	{
 		$sut = $this->sut();
@@ -38,9 +37,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals('meta_value', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function create_delegatesCallToWordPressFunction()
 	{
 		$sut = $this->sut();
@@ -55,9 +52,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals(1, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function update_delegatesCallToWordPressFunction()
 	{
 		$sut = $this->sut();
@@ -72,9 +67,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals(1, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function delete_delegatesCallToWordPressFunction()
 	{
 		$sut = $this->sut();
@@ -89,9 +82,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function disableUser_triggersCorrectMethods()
 	{
 		$sut = $this->sut(array('update'));
@@ -112,9 +103,7 @@ class RepositoryTest extends BasicTestCase
 		$sut->disableUser($wpUser, 'reason');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function enableUser_triggersCorrectMethods()
 	{
 		$sut = $this->sut(array('update', 'delete'));
@@ -136,9 +125,7 @@ class RepositoryTest extends BasicTestCase
 		$sut->enableUser($wpUser);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isUserDisabled_returnsExpectedResult()
 	{
 		$sut = $this->sut(array('find'));

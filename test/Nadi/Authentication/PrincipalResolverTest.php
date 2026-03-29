@@ -3,6 +3,7 @@
 namespace Dreitier\Nadi\Authentication;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
@@ -22,9 +23,7 @@ class PrincipalResolverTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function detectNetbiosName_returnsNetbiosPart()
 	{
 		$r = PrincipalResolver::detectNetbiosName('domain\sAMAccountName');
@@ -32,9 +31,7 @@ class PrincipalResolverTest extends BasicTestCase
 		$this->assertEquals('DOMAIN', $r);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function detectNetbiosName_whenDomainPartIsMissing_itReturnsNull()
 	{
 		$r = PrincipalResolver::detectNetbiosName('sAMAccountName');
@@ -42,9 +39,7 @@ class PrincipalResolverTest extends BasicTestCase
 		$this->assertEquals(null, $r);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function detectUserPrincipalParts_returnsUpnNameAndSuffix()
 	{
 		$r = PrincipalResolver::detectUserPrincipalParts('upn@upnsuffix');
@@ -53,9 +48,7 @@ class PrincipalResolverTest extends BasicTestCase
 		$this->assertEquals('upnsuffix', $r[1]);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function detectUserPrincipalParts_whenInvalidUpnFormat_itReturnsNull()
 	{
 		$r = PrincipalResolver::detectUserPrincipalParts('upn_invalid_upnsuffix');
@@ -63,9 +56,7 @@ class PrincipalResolverTest extends BasicTestCase
 		$this->assertEquals(null, $r);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function suggestSamaccountName_whenUpnFormat_itReturnsUserPrincipalName()
 	{
 		$r = PrincipalResolver::suggestSamaccountName('upn@upn_suffix');
@@ -73,9 +64,7 @@ class PrincipalResolverTest extends BasicTestCase
 		$this->assertEquals('upn', $r);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function suggestSamaccountName_whenNetbiosFormat_itReturnsUsername()
 	{
 		$r = PrincipalResolver::suggestSamaccountName('domain\user');
@@ -83,9 +72,7 @@ class PrincipalResolverTest extends BasicTestCase
 		$this->assertEquals('user', $r);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function forNewPrincipalResolvers_withUpnFormat_upnHasPrecdencesOverSamAccountName()
 	{
 		$r = new PrincipalResolver('upn@upnsuffix');
@@ -96,9 +83,7 @@ class PrincipalResolverTest extends BasicTestCase
 		$this->assertEquals('upn', $r->getSAMAccountName());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function forNewPrincipalResolvers_withNetbiosFormat_userPrincipalNameIsIdenticalToUpn()
 	{
 		$r = new PrincipalResolver('domain\user');
@@ -109,9 +94,7 @@ class PrincipalResolverTest extends BasicTestCase
 		$this->assertEquals('user', $r->getSAMAccountName());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function forNewPrincipalResolvers_withPlainFormat_userPrincipalNameIsIdenticalToUpn()
 	{
 		$r = new PrincipalResolver('any_principal');
@@ -122,9 +105,7 @@ class PrincipalResolverTest extends BasicTestCase
 		$this->assertEquals('any_principal', $r->getSAMAccountName());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createCredentials_hasExpectedValues()
 	{
 		$r = PrincipalResolver::createCredentials('upn@upnsuffix', 'password');

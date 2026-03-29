@@ -5,6 +5,7 @@ namespace Dreitier\Nadi\Configuration;
 use Dreitier\Ldap\Attribute\Description;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
@@ -13,9 +14,9 @@ use Dreitier\Test\BasicTestCase;
 class OptionTest extends BasicTestCase
 {
 	/**
-	 * @test
 	 * @since #209
 	 */
+	#[Test]
 	public function GH_209_optionAttributes_allowLazyLoadingOfDescriptionAndTitle()
 	{
 		$title = 'some title';
@@ -31,9 +32,9 @@ class OptionTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @since #209
 	 */
+	#[Test]
 	public function GH_209_optionAttributes_canBeStillConfiguredAsStringsOrArrays()
 	{
 		$validSelectOptions = ['value'];
@@ -49,9 +50,9 @@ class OptionTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @since #209
 	 */
+	#[Test]
 	public function GH_209_optionAttributes_areImmutable()
 	{
 		$sut = Option::make([

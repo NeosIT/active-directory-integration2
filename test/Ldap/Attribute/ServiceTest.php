@@ -8,6 +8,7 @@ use Dreitier\Ldap\Connection;
 use Dreitier\Ldap\UserQuery;
 use Dreitier\Nadi\Authentication\PrincipalResolver;
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -38,7 +39,7 @@ class ServiceTest extends BasicTestCase
 		$this->attributeRepository = $this->createMock(Repository::class);
 		$this->ldapConnection = $this->createMock(Connection::class);
 
-		$this->adLdap = parent::createMock(AdLdap::class);
+		$this->adLdap = $this->createMock(AdLdap::class);
 	}
 
 	public function tearDown(): void
@@ -64,9 +65,7 @@ class ServiceTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function parseLdapResponse_adResponseContainsNameAndValue_returnArrayWithNameAndValue()
 	{
 		$sut = $this->sut();
@@ -90,9 +89,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function resolveLdapAttributes_triggersNecessaryMethods()
 	{
 		$sut = $this->sut(array('findLdapAttributesOfUser'));
@@ -127,9 +124,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getLdapAttribute_withArrayElementCount_removeArrayElementCount()
 	{
 		$attributeValues = array(
@@ -143,9 +138,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals('AlbeTrem4', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getLdapAttribute_withMultipleValues_returnConcatenatedValues()
 	{
 		$attributeValues = array(
@@ -161,9 +154,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getLdapAttribute_withSingleValue_returnValue()
 	{
 		$attributeValues = array(
@@ -174,9 +165,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals('Hugo68', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getLdapAttribute_wrongAttributeName_returnEmptyString()
 	{
 		$attributeValues = array(
@@ -187,9 +176,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals('', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getLdapValue_withList_delegateToRightMethod()
 	{
 		$metaObject = new Attribute();
@@ -209,9 +196,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getLdapValue_withString_returnArrayWithString()
 	{
 		$metaObject = new Attribute();
@@ -226,9 +211,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($adResponse['metaKey'], $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getLdapValue_withEmptyValue_returnArrayWithSpace()
 	{
 		$metaObject = new Attribute();
@@ -243,9 +226,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals(array(' '), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getLdapValue_withNonArrayResult_returnArrayWithResult()
 	{
 		$metaObject = new Attribute();
@@ -260,9 +241,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals(array($adResponse['metaKey']), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getObjectSid_itReturnsObjectSidOfUsername()
 	{
 		$sut = $this->sut(array('findLdapCustomAttributeOfUser'));
@@ -280,9 +259,9 @@ class ServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-412
 	 */
+	#[Test]
 	public function resolveLdapCustomAttribute_whenUserPrincipalNameReturnsNothing_itUsesSamaccountName()
 	{
 		$sut = $this->sut(array('findLdapCustomAttributeOfUser'));
@@ -304,20 +283,18 @@ class ServiceTest extends BasicTestCase
 					return $userQuery->getPrincipal() == $sAMAccountName;
 				}), $attribute)
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					false,
-					'value'
-				)
+			->willReturn(
+				false,
+				'value'
 			);
 
 		$this->assertEquals('value', $sut->resolveLdapCustomAttribute($userQuery, $attribute));
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-412
 	 */
+	#[Test]
 	public function findLdapCustomAttributeOfUser_whenAttributeIsAvailable_itReturnsValue()
 	{
 		$userQuery = UserQuery::forPrincipal('username');
@@ -341,9 +318,9 @@ class ServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-145
 	 */
+	#[Test]
 	public function ADI_145_findLdapAttributesOfUser_itCallsFilter_nextadi_ldap_filter_synchronizable_attributes()
 	{
 		$userQuery = UserQuery::forPrincipal('username');

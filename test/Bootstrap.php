@@ -132,6 +132,9 @@ if (!defined('ABSPATH')) {
 		{
 			$this->data['ID'] = $expected;
 		}
+
+		public function add_role(... $args) {}
+		public function set_role(... $args) {}
 	}
 
 	class WP_MS_Sites_List_Table

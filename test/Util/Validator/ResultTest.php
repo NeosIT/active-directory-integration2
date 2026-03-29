@@ -3,6 +3,7 @@
 namespace Dreitier\Util\Validator;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -33,9 +34,7 @@ class ResultTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isValid_returnFalse()
 	{
 		$sut = $this->sut();
@@ -49,9 +48,7 @@ class ResultTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isValid_returnTrue()
 	{
 		$sut = $this->sut();

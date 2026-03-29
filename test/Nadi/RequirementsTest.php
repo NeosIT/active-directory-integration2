@@ -7,6 +7,7 @@ use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Util;
 use Dreitier\WordPress\Multisite\Ui\Actions;
 use Dreitier\WordPress\WordPressSiteRepository;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -35,9 +36,7 @@ class RequirementsTest extends BasicTestCase
 		Util::native(null);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function check_itSucceeds()
 	{
 		$sut = $this->sut(array(
@@ -91,9 +90,7 @@ class RequirementsTest extends BasicTestCase
 		$this->assertTrue($sut->check($showErrors, $includeActivationCheck = false));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function check_itPreventsSiteActivation_whenIncludeActivationCheckIsEnabled()
 	{
 		$sut = $this->sut(array('requireWordPressVersion', 'requireLdap', 'requireMbstring', 'requireOpenSSL', 'preventTooManySites', 'preventSiteActivation', 'deactivateDeprecatedVersion'));
@@ -111,9 +108,7 @@ class RequirementsTest extends BasicTestCase
 		$this->assertTrue($sut->check($showErrors, $includeActivationCheck = true));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function check_itDeactivatesAdi_ifRequirementsNotMet()
 	{
 		$sut = $this->sut(array('requireWordPressVersion'));
@@ -136,9 +131,7 @@ class RequirementsTest extends BasicTestCase
 		$this->assertFalse($sut->check($showErrors));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function requireWordPressVersion_itSucceeds()
 	{
 		$sut = $this->sut();
@@ -151,9 +144,7 @@ class RequirementsTest extends BasicTestCase
 		$sut->requireWordPressVersion(true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function requireWordPressVersion_itFails_ifVersionIsTooOld()
 	{
 		$sut = $this->sut();
@@ -172,9 +163,7 @@ class RequirementsTest extends BasicTestCase
 		$sut->requireWordPressVersion(true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function requireLdap_itFails_ifExtensionIsNotLoaded()
 	{
 		$sut = $this->sut();
@@ -194,9 +183,7 @@ class RequirementsTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function requireLdap_itSucceeds()
 	{
 		$sut = $this->sut();
@@ -210,9 +197,7 @@ class RequirementsTest extends BasicTestCase
 		$sut->requireLdap(true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function requireMbstring_itFails_ifExtensionIsNotLoaded()
 	{
 		$sut = $this->sut();
@@ -231,9 +216,7 @@ class RequirementsTest extends BasicTestCase
 		$sut->requireMbstring(true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function requireMbstring_itSucceeds()
 	{
 		$sut = $this->sut();
@@ -247,9 +230,7 @@ class RequirementsTest extends BasicTestCase
 		$sut->requireMbstring(true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function requireOpenSSL_itFails_ifExtensionIsNotLoaded()
 	{
 		$sut = $this->sut();
@@ -268,9 +249,7 @@ class RequirementsTest extends BasicTestCase
 		$sut->requireOpenSSL(true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function requireOpenSSL_itSucceeds()
 	{
 		$sut = $this->sut();
@@ -284,9 +263,7 @@ class RequirementsTest extends BasicTestCase
 		$sut->requireOpenSSL(true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function preventTooManySites_itFails_ifIsLargeNetwork()
 	{
 		$sut = $this->sut();
@@ -304,9 +281,7 @@ class RequirementsTest extends BasicTestCase
 		$sut->preventTooManySites(true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function preventTooManySites_itSucceeds()
 	{
 		$sut = $this->sut();
@@ -319,9 +294,7 @@ class RequirementsTest extends BasicTestCase
 		$sut->preventTooManySites(true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function preventSiteActivation_itFails_ifActivationIsInSite()
 	{
 		$sut = $this->sut();
@@ -340,9 +313,7 @@ class RequirementsTest extends BasicTestCase
 		$sut->preventSiteActivation(true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function preventSiteActivation_itSucceeds()
 	{
 		$sut = $this->sut();
@@ -355,9 +326,7 @@ class RequirementsTest extends BasicTestCase
 		$sut->preventSiteActivation(true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function registerPostActivation_showsDeprecationMessage()
 	{
 		$sut = $this->sut(array('isPluginInstalled'));
@@ -374,9 +343,7 @@ class RequirementsTest extends BasicTestCase
 		$sut->registerPostActivation();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function deactivateDeprecatedVersion_itDeactivatesPreviousVersion_ifActive()
 	{
 		$sut = $this->sut();
@@ -404,9 +371,9 @@ class RequirementsTest extends BasicTestCase
 
 
 	/**
-	 * @test
 	 * @issue #179
 	 */
+	#[Test]
 	public function GH_179_ifPhpVersionIsNotAvailable_pluginIsDeactivated()
 	{
 		$sut = $this->sut();

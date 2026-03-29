@@ -11,6 +11,7 @@ use Dreitier\Nadi\LoginState;
 use Dreitier\Nadi\Role\Mapping;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Nadi\Authentication\Credentials;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class LoginSucceededServiceTest extends BasicTestCase
@@ -68,9 +69,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_willRegisterExpectedFilter()
 	{
 		$sut = $this->sut();
@@ -90,9 +89,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateOrCreateAfterSuccessfulLogin_willApplyExpectedFilter()
 	{
 		$sut = $this->sut();
@@ -106,9 +103,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateOrCreateUser_withUnauthenticatedState_returnsFalse()
 	{
 		$wpUser = new Credentials();
@@ -127,9 +122,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateOrCreateUser_withFailedAuthorizationState_returnsFalse()
 	{
 		$wpUser = new Credentials();
@@ -148,9 +141,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateOrCreateUser_withExistingUser_returnsUser()
 	{
 		$wpUser = new \WP_User();
@@ -169,9 +160,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertEquals($wpUser, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateOrCreateUser_withValidCredentials_noLdapAttributes_returnsFalse()
 	{
 		$credentials = new Credentials();
@@ -197,9 +186,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateOrCreateUser_withValidCredentials_preCreateStatusFalse_returnsFalse()
 	{
 		$credentials = new Credentials();
@@ -232,9 +219,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateOrCreateUser_withValidCredentials_errorUpdatingWpUser_returnsWpError()
 	{
 		$userSid = 'S-1-5-21-7623811015-3361044348-030300820-1013';
@@ -295,9 +280,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertEquals($expectedError, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateOrCreateUser_withValidCredentials_errorCreatingWpUser_returnsWpError()
 	{
 		$userSid = 'S-1-5-21-7623811015-3361044348-030300820-1013';
@@ -359,9 +342,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertEquals($expectedError, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateOrCreateUser_withValidCredentials_returnsExpected()
 	{
 		$userSid = 'S-1-5-21-7623811015-3361044348-030300820-1013';
@@ -428,17 +409,11 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertEquals($expectedWpUser, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createUser_withValidAdiUser_withSimulatedLogin_returnsFalse()
 	{
 		/** @var User|MockObject $adiUser */
-		$adiUser = $this->createMockWithMethods(User::class, array('getUsername'));
-
-		$adiUser->expects($this->once())
-			->method('getUsername')
-			->willReturn('jdo');
+		$adiUser = $this->createMock(User::class);
 
 		$sut = $this->sut(simulated: true);
 
@@ -447,13 +422,11 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createUser_withValidAdiUser_returnsWpUser()
 	{
 		/** @var User|MockObject $adiUser */
-		$adiUser = $this->createMockWithMethods(User::class, array('getUsername'));
+		$adiUser = $this->createMock(User::class);
 
 		$this->userManager->expects($this->once())
 			->method('create')
@@ -467,9 +440,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertEquals(new \WP_User(), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateUser_withAutoUpdatePassword_withAutoUpdateUser_returnsExpectedWpUser()
 	{
 		$credentials = new Credentials();
@@ -510,9 +481,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertEquals($expectedWpUser, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateUser_withoutAutoUpdatePassword_withoutAutoUpdateUser_returnsExpectedWpUser()
 	{
 		$credentials = new Credentials();
@@ -572,9 +541,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertEquals($expectedWpUser, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkUserEnabled_withWpError_returnsWpError()
 	{
 		$wpError = $this->createMock(\WP_Error::class);
@@ -585,9 +552,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertEquals($wpError, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkUserEnabled_withDisabledUser_returnsWpError()
 	{
 		$wpUserId = 332;
@@ -618,9 +583,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertEquals('user_disabled', $actual->get_error_message());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkUserEnabled_withValidUser_returnsWpUser()
 	{
 		$wpUserId = 332;
@@ -639,9 +602,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertEquals($wpUser, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function beforeCreateOrUpdateUser_returnsTrue()
 	{
 		$credentials = new Credentials();
@@ -650,9 +611,7 @@ class LoginSucceededServiceTest extends BasicTestCase
 		$this->assertTrue($this->sut()->beforeCreateOrUpdateUser($credentials, $attributes));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function afterCreateOrUpdateUser_returnsWpUser()
 	{
 		$credentials = $this->createMock(Credentials::class);

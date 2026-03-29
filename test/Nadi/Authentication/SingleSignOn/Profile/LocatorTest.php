@@ -8,6 +8,7 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Util;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class LocatorTest extends BasicTestCase
@@ -54,8 +55,8 @@ class LocatorTest extends BasicTestCase
 
 	/**
 	 * @since 2.2.0
-	 * @test
 	 */
+	#[Test]
 	public function locate_delegatesToNetbios_ifNotEmpty()
 	{
 		$sut = $this->sut(array('findBestConfigurationMatchForProfile'));
@@ -77,8 +78,8 @@ class LocatorTest extends BasicTestCase
 
 	/**
 	 * @since 2.2.0
-	 * @test
 	 */
+	#[Test]
 	public function locate_delegatesToKerberos_ifSet()
 	{
 		$sut = $this->sut(array('findBestConfigurationMatchForProfile'));
@@ -100,8 +101,8 @@ class LocatorTest extends BasicTestCase
 
 	/**
 	 * @since 2.2.0
-	 * @test
 	 */
+	#[Test]
 	public function locate_delegatesToUserPrincipalName_ifKerberosNotFound()
 	{
 		$sut = $this->sut(array('findBestConfigurationMatchForProfile'));
@@ -127,9 +128,7 @@ class LocatorTest extends BasicTestCase
 		$this->assertEquals($actual->getProfile(), $profileMatch);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findBestConfigurationMatchForProfile_withoutProfile_itReturnsNull()
 	{
 		$sut = $this->sut(array('findSsoEnabledProfiles'));
@@ -142,9 +141,7 @@ class LocatorTest extends BasicTestCase
 		$this->assertNull($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findBestConfigurationMatchForProfile_withoutCorrespondingProfileForSuffix_itReturnsProfileWithoutSuffixSet()
 	{
 		$sut = $this->sut(array('findSsoEnabledProfiles'));
@@ -169,9 +166,7 @@ class LocatorTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findBestConfigurationMatchForProfile_withCorrespondingProfileForSuffix_itReturnsCorrectProfile()
 	{
 		$sut = $this->sut(array('findSsoEnabledProfiles'));
@@ -196,9 +191,7 @@ class LocatorTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function normalizeSuffix_withoutSuffix_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -210,9 +203,7 @@ class LocatorTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function normalizeSuffix_withExistingSuffix_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -223,9 +214,7 @@ class LocatorTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getProfilesWithOptionValue_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -241,9 +230,7 @@ class LocatorTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getProfilesWithoutOptionValue_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -258,9 +245,7 @@ class LocatorTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findSsoEnabledProfiles_returnsProfilesWithSsoEnabled()
 	{
 		$sut = $this->sut();
@@ -295,9 +280,7 @@ class LocatorTest extends BasicTestCase
 		$this->assertCount(1, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findSsoEnabledProfiles_noProfilesFound_returnsEmpty()
 	{
 		$sut = $this->sut();

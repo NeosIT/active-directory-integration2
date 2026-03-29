@@ -2,6 +2,7 @@
 namespace Dreitier\AdLdap;
 
 use Dreitier\Test\PHPUnitHelper;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -30,15 +31,10 @@ class AdLdapTest extends TestCase
 		return $r;
 	}
 
-	public function setUp(): void
-	{
-		parent::setUp();
-	}
-
 	/**
-	 * @test
 	 * @issue #153
 	 */
+	#[Test]
 	public function GH_153_inADForestTheUpperDNsAreSearched_whenResolvingTheConfiguration()
 	{
 		// - if base DN is set to DC=sub,DC=test,DC=ad
@@ -90,9 +86,9 @@ class AdLdapTest extends TestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #153
 	 */
+	#[Test]
 	public function GH_153_inSingleDomain_theNetbiosConfigurationIsReturned()
 	{
 		$baseDn = 'DC=test,DC=ad';
@@ -130,18 +126,18 @@ class AdLdapTest extends TestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #153
 	 */
+	#[Test]
 	public function sanitizeDistinguishedName() {
 		$sut = $this->sut();
 		$this->assertEquals("dc=test,dc=ad", $sut->sanitizeDistinguishedName("DC=test,DC=ad "));
 	}
 
 	/**
-	 * @test
 	 * @issue #198
 	 */
+	#[Test]
 	public function buildConnectionUrl_returnsDefault389_whenNoPortIsSet() {
 		$sut = $this->sut();
 
@@ -149,9 +145,9 @@ class AdLdapTest extends TestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #198
 	 */
+	#[Test]
 	public function buildConnectionUrl_returnsPort555_ifSpecified() {
 		$sut = $this->sut(options: ['ad_port' => 555]);
 
@@ -159,9 +155,9 @@ class AdLdapTest extends TestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #198
 	 */
+	#[Test]
 	public function buildConnectionUrl_returnsLapsWithDefault636_ifSpecified() {
 		$sut = $this->sut(options: ['use_ssl' => true]);
 
@@ -169,9 +165,9 @@ class AdLdapTest extends TestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #198
 	 */
+	#[Test]
 	public function buildConnectionUrl_returnsLapsWithCustomPort_ifSpecified() {
 		$sut = $this->sut(options: ['use_ssl' => true, 'ad_port' => 555]);
 
@@ -179,9 +175,9 @@ class AdLdapTest extends TestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #198
 	 */
+	#[Test]
 	public function GH_198_deprecated_ldap_connect_method_signature_isNoLongerUsed() {
 		$sut = new AdLdapTestAdapter();
 		$sut->set_domain_controllers(['host']);

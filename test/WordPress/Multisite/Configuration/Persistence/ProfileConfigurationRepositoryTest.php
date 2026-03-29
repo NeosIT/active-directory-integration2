@@ -8,6 +8,7 @@ use Dreitier\WordPress\Multisite\Option\Attribute;
 use Dreitier\WordPress\Multisite\Option\Encryption;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use Dreitier\WordPress\Multisite\Option\Sanitizer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ProfileConfigurationRepositoryTest extends BasicTestCase
@@ -53,9 +54,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findRawValueSanitized_optionMustBeDecrypted_returnDecryptedValue()
 	{
 		$sut = $this->sut(array('findRawValue'));
@@ -79,9 +78,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('encrypted', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findRawValueSanitized_optionMustBeSanitized_returnSanitizedValue()
 	{
 		$sut = $this->sut(array('findRawValue'));
@@ -102,9 +99,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('a@b.de', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findRawValueSanitized_optionMustBeDecryptedAndSanitize_returnValue()
 	{
 		$sut = $this->sut(array('findRawValue'));
@@ -129,9 +124,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('a@b.de', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findRawValue_delegateToWordPressMethod_returnOptionValue()
 	{
 		$sut = $this->sut(array('createUniqueOptionName'));
@@ -152,9 +145,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('389', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistValueSanitized_optionMustBeSanitized_persistValue()
 	{
 		$sut = $this->sut(array('persistValue'));
@@ -175,9 +166,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistSanitized_optionMustBeEncrypted_persistValue()
 	{
 		$sut = $this->sut(array('persistValue'));
@@ -201,9 +190,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistSanitized_optionMustBeSanitizedAndEncrypted_persistValue()
 	{
 		$sut = $this->sut(array('persistValue'));
@@ -229,9 +216,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistValue_delegateToWordPressFunction_returnOptionValue()
 	{
 		$sut = $this->sut(array('createUniqueOptionName'));
@@ -251,9 +236,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function deleteValue_delegateToWordPressFunction_deleteOptionValue()
 	{
 		$sut = $this->sut(array('createUniqueOptionName'));
@@ -273,9 +256,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('389', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findPermissionSanitized_validPermission_returnOptionPermission()
 	{
 		$sut = $this->sut(array('findPermission'));
@@ -289,9 +270,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(2, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findPermissionSanitized_invalidPermission_returnDefaultPermission()
 	{
 		$sut = $this->sut(array('findPermission'));
@@ -305,9 +284,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(3, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findPermission_delegateToWordPressFunction_returnOptionPermission()
 	{
 		$sut = $this->sut(array('createUniqueOptionName'));
@@ -327,9 +304,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('389', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistPermissionSanitized_validPermission_persistOptionPermission()
 	{
 		$sut = $this->sut(array('persistPermission'));
@@ -343,9 +318,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistPermissionSanitized_invalidPermission_doNothing()
 	{
 		$sut = $this->sut(array('persistPermission'));
@@ -357,9 +330,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistPermission_delegateToWordPressFunction_persistOptionPermission()
 	{
 		$sut = $this->sut(array('createUniqueOptionName'));
@@ -379,9 +350,7 @@ class ProfileConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function deletePermission_delegateToWordPressFunction_deleteOptionPermission()
 	{
 		$sut = $this->sut(array('createUniqueOptionName'));

@@ -6,6 +6,7 @@ use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileConfigurationRepository;
 use Dreitier\WordPress\Multisite\Option\Provider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -49,9 +50,7 @@ class ProfileConfigurationControllerTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveProfileOptions_withErrorOnSave_returnsErrorMessage()
 	{
 		$sut = $this->sut(array('saveProfileOptionsInternal'));
@@ -73,9 +72,7 @@ class ProfileConfigurationControllerTest extends BasicTestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveProfileOptions_withSuccessOnSave_returnsSuccessMessage()
 	{
 		$sut = $this->sut(array('saveProfileOptionsInternal'));
@@ -96,9 +93,7 @@ class ProfileConfigurationControllerTest extends BasicTestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveProfileOptions_triggersSaveProfileOptionsInternalMethod()
 	{
 		$sut = $this->sut(array('saveProfileOptionsInternal'));
@@ -127,9 +122,7 @@ class ProfileConfigurationControllerTest extends BasicTestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveProfileOptionsInternal_executeSaveOptions()
 	{
 		$sut = $this->sut(array('persistOption', 'validateOption'));
@@ -154,9 +147,7 @@ class ProfileConfigurationControllerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'saveProfileOptionsInternal', array($options, 5));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateOption_metadataEmpty_returnFalse()
 	{
 		$sut = $this->sut();
@@ -170,9 +161,7 @@ class ProfileConfigurationControllerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateOption_optionPermissionNotSet()
 	{
 		$sut = $this->sut();
@@ -185,9 +174,7 @@ class ProfileConfigurationControllerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateOption_optionValueNotSet()
 	{
 		$sut = $this->sut();
@@ -200,9 +187,7 @@ class ProfileConfigurationControllerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateOption_metadataNotEmpty_returnTrue()
 	{
 		$sut = $this->sut();

@@ -10,6 +10,7 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Ui;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -62,9 +63,7 @@ class ConnectivityTestPageTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getTitle()
 	{
 		$sut = $this->sut();
@@ -98,9 +97,7 @@ class ConnectivityTestPageTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSlug()
 	{
 		$sut = $this->sut();
@@ -111,9 +108,7 @@ class ConnectivityTestPageTest extends BasicTestCase
 		$this->assertEquals($expectedReturn, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function renderAdmin()
 	{
 		$sut = $this->sut(array('render'));
@@ -161,9 +156,7 @@ class ConnectivityTestPageTest extends BasicTestCase
 		$sut->renderAdmin();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadJavaScriptAdmin()
 	{
 		$sut = $this->sut();
@@ -193,9 +186,7 @@ class ConnectivityTestPageTest extends BasicTestCase
 		$sut->loadAdminScriptsAndStyle($hook);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processData_withEscapedCharacter_unescapeThem()
 	{
 		$sut = $this->sut(array('collectInformation'));
@@ -228,9 +219,7 @@ class ConnectivityTestPageTest extends BasicTestCase
 		$this->assertTrue($actual['status']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processData_withValidCredentials_returnsTrue()
 	{
 		$sut = $this->sut(array('collectInformation'));
@@ -260,9 +249,7 @@ class ConnectivityTestPageTest extends BasicTestCase
 		$this->assertFalse($actual['status']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processData_withMissingOrInvalidNonce_dies()
 	{
 		$sut = $this->sut(array('collectInformation'));
@@ -289,9 +276,7 @@ class ConnectivityTestPageTest extends BasicTestCase
 		$sut->processData();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function collectInformation_performsSystemDetection_returnsExpectedArray()
 	{
 		$username = 'john.doe';
@@ -317,9 +302,7 @@ class ConnectivityTestPageTest extends BasicTestCase
 		$this->assertEquals($actual['authentication_result'], $expected);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function detectSystemEnvironment_hasRelevantInformation()
 	{
 		$sut = $this->sut();
@@ -334,9 +317,7 @@ class ConnectivityTestPageTest extends BasicTestCase
 		$this->assertEquals('adLDAP', $actual[5][0]);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processData_returnEmptyArray()
 	{
 		$sut = $this->sut();
@@ -348,9 +329,7 @@ class ConnectivityTestPageTest extends BasicTestCase
 
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function detectSupportData_withLicense_returnArray()
 	{
 		$sut = $this->sut();
@@ -388,9 +367,7 @@ class ConnectivityTestPageTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function detectSupportData_withoutLicense_returnArray()
 	{
 		$sut = $this->sut();

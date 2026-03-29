@@ -6,6 +6,7 @@ use Dreitier\Nadi\Ui\NadiMultisiteConfigurationPage;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use Dreitier\WordPress\Multisite\Ui\BlogProfileRelationshipPage;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -53,9 +54,7 @@ class MultisiteMenuTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_itAddsTheMenus()
 	{
 		$sut = $this->sut();
@@ -65,9 +64,7 @@ class MultisiteMenuTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_itAddsTheAjaxListeners()
 	{
 		$sut = $this->sut(array('addAjaxListener'));
@@ -82,9 +79,7 @@ class MultisiteMenuTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function registerMenu_addsMenusToWordPress()
 	{
 		$sut = $this->sut(array('addSubMenu'));
@@ -115,9 +110,7 @@ class MultisiteMenuTest extends BasicTestCase
 		$sut->registerMenu();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadScriptsAndStyle_itloadsAllJavaScriptAndCssFilesFromNecessaryPages()
 	{
 		$sut = $this->sut();

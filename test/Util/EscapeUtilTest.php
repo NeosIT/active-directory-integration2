@@ -3,6 +3,7 @@
 namespace Dreitier\Util;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
@@ -10,9 +11,7 @@ use Dreitier\Test\BasicTestCase;
  */
 class EscapeUtilTest extends BasicTestCase
 {
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function escapeHarmfulHtml_withHarmfulTag_removeHarmfulTag()
 	{
 		$raw = 'hi<iframe src="http://www.w3schools.com"></iframe>';
@@ -23,9 +22,7 @@ class EscapeUtilTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function escapeHarmfulHtml_withMultipleHarmfulTags_removeAll()
 	{
 		$raw = 'hi<iframe></iframe><applet></applet><script></script><style></style><link><a></a><form></form>' .
@@ -38,9 +35,7 @@ class EscapeUtilTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function escapeHarmfulHtml_withHarmlessTag_keepHarmlessTag()
 	{
 		$raw = '<strong>hi</strong>';
@@ -51,9 +46,7 @@ class EscapeUtilTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function escapeHarmfulHtml_withArray_escapeStringsInArrray()
 	{
 		$raw = array(

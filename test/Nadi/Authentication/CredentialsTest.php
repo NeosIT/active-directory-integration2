@@ -3,6 +3,7 @@
 namespace Dreitier\Nadi\Authentication;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
@@ -21,9 +22,7 @@ class CredentialsTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function __construct_itSetsLoginAndPassword()
 	{
 		$sut = new Credentials('LOGIN', 'password');
@@ -32,9 +31,7 @@ class CredentialsTest extends BasicTestCase
 		$this->assertEquals('password', $sut->getPassword());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function setLogin_itUpdatesUserPrincipalName()
 	{
 		$sut = new Credentials('login', 'password');
@@ -47,9 +44,9 @@ class CredentialsTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-389
 	 */
+	#[Test]
 	public function setNetbiosName_itUpdatesNetbiosName()
 	{
 		$sut = new Credentials('upn', 'password');
@@ -60,9 +57,7 @@ class CredentialsTest extends BasicTestCase
 		$this->assertEquals('NETBIOS', $sut->getNetbiosName());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function setUserPrincipalName_itUpdatesUpnUsernameAndUpnSuffix()
 	{
 		$sut = new Credentials('upn', 'password');

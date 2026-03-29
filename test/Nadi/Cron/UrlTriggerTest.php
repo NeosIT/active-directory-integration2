@@ -7,6 +7,7 @@ use Dreitier\Nadi\Synchronization\ActiveDirectorySynchronizationService;
 use Dreitier\Nadi\Synchronization\WordPressSynchronizationService;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -57,9 +58,7 @@ class UrlTriggerTest extends BasicTestCase
 		return parent::createMockedObject($class, $constructor, $methods);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_registerMethod_checkMethodIsRegistered()
 	{
 		$sut = $this->sut();
@@ -69,9 +68,7 @@ class UrlTriggerTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function httpRequestEntryPoint_storeValuesInPost_delegateWithPostValues_returnJsonSuccessTrue()
 	{
 		$sut = $this->sut(array('processHttpRequest'));
@@ -91,9 +88,7 @@ class UrlTriggerTest extends BasicTestCase
 		$sut->httpRequestEntryPoint();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function httpRequestEntryPoint_storeValuesInPost_delegateWithPostValues_returnJsonSuccessFalse()
 	{
 		$sut = $this->sut(array('processHttpRequest'));
@@ -113,9 +108,7 @@ class UrlTriggerTest extends BasicTestCase
 		$sut->httpRequestEntryPoint();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processHttpRequest_withWrongBulkMode_skipMethod()
 	{
 		$sut = $this->sut(array('getSyncMode', 'validateAuthCode'));
@@ -128,9 +121,7 @@ class UrlTriggerTest extends BasicTestCase
 		$sut->processHttpRequest($post);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processHttpRequest_withWrongAuthCode_skipMethod()
 	{
 		$sut = $this->sut(array('getSyncMode', 'validateAuthCode', 'dispatchAction'));
@@ -148,9 +139,7 @@ class UrlTriggerTest extends BasicTestCase
 		$sut->processHttpRequest($post);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processHttpRequest_withCorrectAuthCode_dispatchMethod()
 	{
 		$sut = $this->sut(array('getSyncMode', 'validateAuthCode', 'dispatchAction'));
@@ -169,9 +158,7 @@ class UrlTriggerTest extends BasicTestCase
 		$sut->processHttpRequest($post);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSyncMode_wrongTask_returnFalse()
 	{
 		$sut = $this->sut();
@@ -182,9 +169,7 @@ class UrlTriggerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSyncMode_syncToWordpressTask_return1()
 	{
 		$sut = $this->sut();
@@ -195,9 +180,7 @@ class UrlTriggerTest extends BasicTestCase
 		$this->assertEquals(1, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSyncMode_syncToAd_return2()
 	{
 		$sut = $this->sut();
@@ -208,9 +191,7 @@ class UrlTriggerTest extends BasicTestCase
 		$this->assertEquals(2, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateAuthCode_withWrongAuthCode_returnFalse()
 	{
 		$sut = $this->sut(array('output'));
@@ -224,9 +205,7 @@ class UrlTriggerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateAuthCode_withCorrectAuthCode_returnTrue()
 	{
 		$sut = $this->sut(array('output'));
@@ -240,9 +219,7 @@ class UrlTriggerTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function dispatchAction_withBulkMode1_dispatchTosyncToWordpress()
 	{
 		$sut = $this->sut();
@@ -257,9 +234,7 @@ class UrlTriggerTest extends BasicTestCase
 		$sut->dispatchAction(22222, 1);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function dispatchAction_withBulkMode2_dispatchToSyncBack()
 	{
 		$sut = $this->sut();

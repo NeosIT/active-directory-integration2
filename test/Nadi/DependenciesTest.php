@@ -9,6 +9,7 @@ use Dreitier\Nadi\Multisite\Site\Ui\ExtendSiteList;
 use Dreitier\Nadi\Multisite\Ui\MultisiteMenu;
 use Dreitier\Nadi\User\Manager;
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -18,9 +19,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 class DependenciesTest extends BasicTestCase
 {
 	/**
-	 * @test
 	 * @issue #176
 	 */
+	#[Test]
 	public function GH_176_showSingleSignOnLink_class_isMissing()
 	{
 		$dependencies = new Dependencies();

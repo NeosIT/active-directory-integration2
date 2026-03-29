@@ -3,6 +3,7 @@
 namespace Dreitier\ActiveDirectory;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
@@ -21,18 +22,14 @@ class SidTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function of_returnsNull_withInvalidSid()
 	{
 		$sut = Sid::of('some-string');
 		$this->assertNull($sut);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function aSidString_canBeConverted()
 	{
 		$sid = 'S-1-5-21-2127521184-1604012920-1887927527-72713';
@@ -42,9 +39,7 @@ class SidTest extends BasicTestCase
 		$this->assertEquals('010500000000000515000000A065CF7E784B9B5FE77C8770091C0100', $sut->getHex());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function aSidHex_canBeConverted()
 	{
 		$sid = '010500000000000515000000A065CF7E784B9B5FE77C8770091C0100';
@@ -55,9 +50,7 @@ class SidTest extends BasicTestCase
 		$this->assertEquals(hex2bin($sid), $sut->getBinary());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function aSidBinary_canBeConverted()
 	{
 		$hex = '010500000000000515000000A065CF7E784B9B5FE77C8770091C0100';
@@ -69,9 +62,7 @@ class SidTest extends BasicTestCase
 		$this->assertEquals($sid, $sut->getBinary());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getDomainPart_returnsPartOnly()
 	{
 		$sid = 'S-1-5-21-2127521184-1604012920-1887927527-72713';

@@ -3,6 +3,7 @@
 namespace Dreitier\WordPress\Multisite\Ui\Table;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -27,7 +28,7 @@ class ProfileAssignmentTest extends BasicTestCase
 	 *
 	 * @return ProfileAssignment|MockObject
 	 */
-	public function sut(array $methods = [])
+	private function sut(array $methods = [])
 	{
 		return $this->getMockBuilder(ProfileAssignment::class)
 			->disableOriginalConstructor()
@@ -35,9 +36,7 @@ class ProfileAssignmentTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_itAddsFilter()
 	{
 		$sut = $this->sut();
@@ -47,9 +46,7 @@ class ProfileAssignmentTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getColumns_returnsExpectedColumns()
 	{
 		$sut = $this->sut();
@@ -70,9 +67,7 @@ class ProfileAssignmentTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getBulkActions_returnsEmptyArray()
 	{
 		$sut = $this->sut();
@@ -82,9 +77,7 @@ class ProfileAssignmentTest extends BasicTestCase
 		$this->assertEquals(0, count($result));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function columnCb_containsCorrectLabelAndInputElements()
 	{
 		$sut = $this->sut();
@@ -115,9 +108,9 @@ class ProfileAssignmentTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @outputBuffering disabled
 	 */
+	#[Test]
 	public function addContent_outputsSiteName()
 	{
 		global $wp_version;
@@ -140,9 +133,9 @@ class ProfileAssignmentTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-419
-	 * @test
 	 * @outputBuffering disabled
 	 */
+	#[Test]
 	public function ADI_419_addContent_itUses_get_site_whenRunningWordPress4_7OrLater()
 	{
 		global $wp_version;

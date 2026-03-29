@@ -5,6 +5,7 @@ namespace Dreitier\Nadi\Ui\Validator\Rule;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -46,9 +47,7 @@ class PortTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withWrongRange_returnString()
 	{
 		$sut = $this->sut();

@@ -5,6 +5,7 @@ namespace Dreitier\Util\Validator\Rule;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -46,9 +47,7 @@ class NumericTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withString_returnString()
 	{
 		$sut = $this->sut();
@@ -61,9 +60,7 @@ class NumericTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withNumeric_returnTrue()
 	{
 		$sut = $this->sut();
@@ -76,9 +73,7 @@ class NumericTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNegative_withNegativeNumeric_returnTrue()
 	{
 		$sut = $this->sut();
@@ -88,9 +83,7 @@ class NumericTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNegative_withPositiveNumeric_returnFalse()
 	{
 		$sut = $this->sut();
@@ -101,9 +94,7 @@ class NumericTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isPositive_withPositiveNumeric_returnTrue()
 	{
 		$sut = $this->sut();
@@ -113,9 +104,7 @@ class NumericTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isPositive_withNegativeNumeric_returnFalse()
 	{
 		$sut = $this->sut();
@@ -125,9 +114,7 @@ class NumericTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isFloat_withFloatNumeric_returnTrue()
 	{
 		$sut = $this->sut();
@@ -137,9 +124,7 @@ class NumericTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isFloat_withoutFloatNumeric_returnFalse()
 	{
 		$sut = $this->sut();
@@ -149,9 +134,7 @@ class NumericTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isZero_withZero_returnTrue()
 	{
 		$sut = $this->sut();
@@ -161,9 +144,7 @@ class NumericTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isZero_withNumeric_returnTrue()
 	{
 		$sut = $this->sut();

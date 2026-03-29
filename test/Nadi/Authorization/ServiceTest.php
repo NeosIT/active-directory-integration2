@@ -7,6 +7,7 @@ use Dreitier\Nadi\LoginState;
 use Dreitier\Nadi\Role\Mapping;
 use Dreitier\Nadi\User\Manager;
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -63,9 +64,7 @@ class ServiceTest extends BasicTestCase
 
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authorizationIsNever_ifUserHasNotBeenPreviouslyAuthenticated()
 	{
 		$r = $this->sut()->checkAuthorizationRequired(null);
@@ -73,9 +72,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertFalse($r);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authorizationIsNeverRequiredForAdmins()
 	{
 		$wpAdmin = new \WP_User();
@@ -86,18 +83,16 @@ class ServiceTest extends BasicTestCase
 		$this->assertFalse($r);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkAuthorizationRequired_withValidCredentials_returnsTrue()
 	{
 		$this->assertTrue($this->sut()->checkAuthorizationRequired(new Credentials()));
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-673
 	 */
+	#[Test]
 	public function register_willRegisterExpectedFilter()
 	{
 		$sut = $this->sut();
@@ -109,9 +104,9 @@ class ServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-673
 	 */
+	#[Test]
 	public function authorizeAfterAuthentication_willApplyExpectedFilter()
 	{
 		$credentials = new Credentials();
@@ -125,9 +120,9 @@ class ServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-673
 	 */
+	#[Test]
 	public function isUserInAuthorizationGroup()
 	{
 		$credentials = new Credentials();
@@ -140,9 +135,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expectedResult, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isUserInAuthorizationGroup_withValidCredentials_authorizeByGroupsDisabled_returnsExpected()
 	{
 		$credentials = new Credentials();
@@ -157,9 +150,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($credentials, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isUserInAuthorizationGroup_withInvalidCredentials_returnsExpected()
 	{
 		$credentials = new \WP_Error();
@@ -172,9 +163,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($credentials, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isUserInAuthorizationGroup_withValidCredentials_missingGuid_returnsExpected()
 	{
 		$credentials = new Credentials();
@@ -192,9 +181,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($credentials, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isUserInAuthorizationGroup_withValidCredentials_notAuthenticated_returnsExpected()
 	{
 		$credentials = new Credentials();
@@ -212,9 +199,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($credentials, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isUserInAuthorizationGroup_withValidCredentials_userNotInAuthGroup_returnsExpected()
 	{
 		$credentials = new Credentials();
@@ -243,9 +228,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertTrue($actual instanceof \WP_Error);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isUserInAuthorizationGroup_withValidCredentials_userInAuthGroup_returnsExpected()
 	{
 		$credentials = new Credentials();

@@ -7,6 +7,7 @@ use Dreitier\Ldap\Attribute\Service;
 use Dreitier\Ldap\Connection;
 use Dreitier\Ldap\ConnectionDetails;
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -60,9 +61,7 @@ class VerificationServiceTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function verifyActiveDirectoryDomain_whenConnected_itReturnsObjectSid()
 	{
 		$sut = $this->sut(array('getCustomAttributeService'));
@@ -109,9 +108,7 @@ class VerificationServiceTest extends BasicTestCase
 		$sut->findActiveDirectoryDomainSid($data);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getCustomAttributeService_returnLdapAttributeService()
 	{
 		$sut = $this->sut();

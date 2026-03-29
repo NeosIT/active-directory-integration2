@@ -9,6 +9,7 @@ use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Option\Attribute;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use Dreitier\WordPress\Multisite\Option\Sanitizer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -71,9 +72,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAllSanitized_getValuesForAllOptions_delegateToMethod()
 	{
 		$sut = $this->sut(array('findSanitizedValue'));
@@ -88,9 +87,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('support_license_key', $actual[Options::SUPPORT_LICENSE_KEY]);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAllSanitized_invalidOptionName_returnNull()
 	{
 		$sut = $this->sut();
@@ -98,9 +95,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(null, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findSanitized_withProfileHandledOption_returnValue()
 	{
 		$sut = $this->sut(array('isOptionHandledByProfile', 'findProfileId', 'findRawValue'));
@@ -129,9 +124,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('profile-password!', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findSanitized_optionIsPassword_returnValue()
 	{
 		$sut = $this->sut(array('findRawValue', 'findProfileId', 'isOptionHandledByProfile'));
@@ -161,9 +154,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('password!', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findSanitized_optionMustBeSanitized_returnValue()
 	{
 		$sut = $this->sut(array('findRawValue', 'findProfileId', 'isOptionHandledByProfile'));
@@ -190,9 +181,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('hi', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findSanitized_passwordMustBeSanitized_returnValue()
 	{
 		$sut = $this->sut(array('findRawValue', 'isOptionHandledByProfile', 'findProfileId'));
@@ -225,9 +214,9 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 
 	/**
 	 * In this case, a site without a profile returns the profile id "-1" and *not* NULL or null
-	 * @test
 	 * @issue #140
 	 */
+	#[Test]
 	public function findSanitizedValue_anOptionForANonProfileMustNotBeDefaultedToAProfileConfiguration_gh140()
 	{
 		$sut = $this->sut(array('findRawValue', 'isOptionHandledByProfile', 'findProfileId'));
@@ -255,9 +244,10 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 
 	/**
 	 * If an option has not been set, findRawValue returns NULL. Our check for a missing option does not use the === operator but ==.
-	 * @test
+
 	 * @issue #140
 	 */
+	#[Test]
 	public function findSanitizedValue_anEmptyButSetOptionMustNotBeHandledByProfile_gh140()
 	{
 		$sut = $this->sut(array('findRawValue', 'isOptionHandledByProfile', 'findProfileId'));
@@ -282,9 +272,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$actual = $sut->findSanitizedValue(5, $key);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isOptionHandledByProfile_withEditableOption_returnsFalse()
 	{
 		$sut = $this->sut(array('findProfileId'));
@@ -306,9 +294,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isOptionHandledByProfile_withNonEditableOption_returnsTrue()
 	{
 		$sut = $this->sut(array('findProfileId'));
@@ -330,9 +316,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function find_singleSite_returnOptionValue()
 	{
 		$sut = $this->sut(array('getOptionName'));
@@ -361,9 +345,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function find_multiSite_returnBlogOptionValue()
 	{
 		$sut = $this->sut(array('getOptionName'));
@@ -392,9 +374,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistSanitized_invalidOptionName_returnNull()
 	{
 		$sut = $this->sut();
@@ -403,9 +383,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(null, $value);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistSanitized_optionMustBeSanitized_persistValue()
 	{
 		$sut = $this->sut(array('persist'));
@@ -426,9 +404,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('sanitized', $value);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistSanitized_optionMustBeEncrypted_persistValue()
 	{
 		$sut = $this->sut(array('persist'));
@@ -452,9 +428,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('--encrypted--', $value);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistSanitized_optionMustBeSanitizedAndEncrypted_persistValue()
 	{
 		$sut = $this->sut(array('persist'));
@@ -480,9 +454,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('--encrypted--', $value);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persist_singleSite_persistOptionValue()
 	{
 		$sut = $this->sut(array('getOptionName'));
@@ -511,9 +483,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('value', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persist_multiSite_persistBlogOptionValue()
 	{
 		$sut = $this->sut(array('getOptionName'));
@@ -542,9 +512,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals('value', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isDefaultProfileUsed_withProfile_returnFalse()
 	{
 		$sut = $this->sut(array('findRawValue'));
@@ -563,9 +531,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isDefaultProfileUsed_withDefaultProfileFalse_returnFalse()
 	{
 		$sut = $this->sut(array('findRawValue'));
@@ -584,9 +550,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isDefaultProfileUsed_withDefaultProfileNone_returnFalse()
 	{
 		$sut = $this->sut(array('findRawValue'));
@@ -605,9 +569,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isDefaultProfileUsed_withDefaultProfile_returnTrue()
 	{
 		$sut = $this->sut(array('findRawValue'));
@@ -626,9 +588,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findProfileId_delegateToMethod_returnProfileId()
 	{
 		$sut = $this->sut(array('findRawValue'));
@@ -645,9 +605,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals($value, 10);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findProfileId_withDefaultProfile_returnDefaultProfileId()
 	{
 		$sut = $this->sut(array('findRawValue'));
@@ -665,9 +623,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals($value, 5);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateProfileId_delegateToMethod_returnProfileId()
 	{
 		$sut = $this->sut(array('persist'));
@@ -681,9 +637,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(666, $value);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function delete_singleSite_deleteOptionValue()
 	{
 		$sut = $this->sut(array('getOptionName'));
@@ -712,9 +666,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function delete_multiSite_deleteBlogOptionValue()
 	{
 		$sut = $this->sut(array('getOptionName'));
@@ -741,9 +693,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function deleteProfileAssociations_delegateToMethod_returnProfileId()
 	{
 		$sut = $this->sut(array('findRawValue', 'delete', 'getSites'));
@@ -767,7 +717,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 				array(1, BlogConfigurationRepository::PROFILE_ID),
 				array(3, BlogConfigurationRepository::PROFILE_ID)
 			))
-			->will($this->onConsecutiveCalls(7, 9));
+			->willReturn(7, 9);
 
 		$sut->expects($this->once())
 			->method('delete')
@@ -776,9 +726,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->invokeMethod($sut, 'deleteProfileAssociations', array(9));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSites_multiSite_returnDummy()
 	{
 		$sut = $this->sut();
@@ -808,9 +756,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals($sites, $sut->getSites());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSites_singleSite_returnSites()
 	{
 		$sut = $this->sut();
@@ -830,9 +776,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persist_updateOption_withOptionExistsMultisite()
 	{
 		$this->mockFunction__();
@@ -870,9 +814,7 @@ class BlogConfigurationRepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persist_createOption_withOptionDoesNotExistsMultisite()
 	{
 		$this->mockFunction__();

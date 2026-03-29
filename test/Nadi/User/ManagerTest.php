@@ -12,6 +12,7 @@ use Dreitier\Nadi\Role\Mapping;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\WordPressErrorException;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -98,9 +99,7 @@ class ManagerTest extends BasicTestCase
 		return $r;
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findById_itDelegatesToRepository()
 	{
 		$sut = $this->sut();
@@ -115,9 +114,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals($this->wpUser, $user);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isDisabled_itDelegatesToRepository()
 	{
 		$sut = $this->sut();
@@ -132,9 +129,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAdiUser_itMapsRoles()
 	{
 		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
@@ -152,10 +147,10 @@ class ManagerTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue NADIS-98, ADI-688
 	 * @since 2.1.9
 	 */
+	#[Test]
 	public function createAdiUser_itFindsUserByObjectGuid()
 	{
 		$sut = $this->sut(['createDefaultLocalUserResolver']);
@@ -181,8 +176,8 @@ class ManagerTest extends BasicTestCase
 
 	/**
 	 * @issue #188
-	 * @test
 	 */
+	#[Test]
 	public function GH_188_createAdiUser_itFallsbackToLocalUserResolver()
 	{
 		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
@@ -206,8 +201,8 @@ class ManagerTest extends BasicTestCase
 
 	/**
 	 * @issue #188
-	 * @test
 	 */
+	#[Test]
 	public function GH_188_createAdiUser_itDiscardsUserWithNonMatchingGuids()
 	{
 		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
@@ -240,9 +235,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(null, $actual->getId());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAdiUser_itCopiesCredentialValues()
 	{
 		$credentials = PrincipalResolver::createCredentials("username@test.ad", "password");
@@ -266,8 +259,8 @@ class ManagerTest extends BasicTestCase
 
 	/**
 	 * @issue #188
-	 * @test
 	 */
+	#[Test]
 	public function GH_188_createDefaultLocalUserResolver_withoutLdapAttribute_noLdapResolverIsPresent()
 	{
 		$sut = $this->sut();
@@ -281,8 +274,8 @@ class ManagerTest extends BasicTestCase
 
 	/**
 	 * @issue #188
-	 * @test
 	 */
+	#[Test]
 	public function GH_188_createDefaultLocalUserResolver_itHasLdapResolverIfLdapAttributesArePresent()
 	{
 		$sut = $this->sut();
@@ -294,9 +287,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(4, sizeof($r->getResolvers()));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function create_itUpdatesThePassword()
 	{
 		$sut = $this->sut(array('update'));
@@ -328,9 +319,7 @@ class ManagerTest extends BasicTestCase
 		$sut->create($adiUser);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function create_itUsesUserPrincipalNameAsUserLogin_whenAppendSuffixToNewUserIsEnabled()
 	{
 		$sut = $this->sut(array('update'));
@@ -357,9 +346,7 @@ class ManagerTest extends BasicTestCase
 		$sut->create($adiUser);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function create_itChecksForDuplicateMail()
 	{
 		$sut = $this->sut(array('handleEmailAddressOfUser', 'update'));
@@ -390,9 +377,7 @@ class ManagerTest extends BasicTestCase
 		$sut->create($adiUser);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function create_itUpdatesTheAdiUsersId()
 	{
 		$sut = $this->sut(array('update'));
@@ -416,9 +401,7 @@ class ManagerTest extends BasicTestCase
 		$sut->create($adiUser);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function create_itUpdatesTheDataAfterCreation()
 	{
 		$sut = $this->sut(array('update'));
@@ -443,9 +426,9 @@ class ManagerTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-145
 	 */
+	#[Test]
 	public function create_itTriggersCustomHook_user_after_create()
 	{
 		$sut = $this->sut(array('update'));
@@ -467,9 +450,7 @@ class ManagerTest extends BasicTestCase
 		$sut->create($adiUser, false, true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function appendSuffixToNewUser_itReturnsOptionValueAsBoolean()
 	{
 		$sut = $this->sut();
@@ -481,9 +462,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertTrue($sut->useSamAccountNameForNewUsers());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function update_itDisablesEmailNotification()
 	{
 		$sut = $this->sut(array(
@@ -507,9 +486,7 @@ class ManagerTest extends BasicTestCase
 		$sut->update($adiUser);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function update_itRequiresAnExistingUser()
 	{
 		$sut = $this->sut(array(
@@ -534,9 +511,7 @@ class ManagerTest extends BasicTestCase
 		$sut->update($adiUser);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function update_itUpdatesTheWordPressAccount()
 	{
 		$sut = $this->sut(array(
@@ -561,9 +536,7 @@ class ManagerTest extends BasicTestCase
 		$sut->update($adiUser);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function update_itWritesTheUserMetaData()
 	{
 		$sut = $this->sut(array(
@@ -592,9 +565,7 @@ class ManagerTest extends BasicTestCase
 		$sut->update($adiUser, false, true /* writeUserMeta */);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function update_itUpdatesTheAccountSuffix()
 	{
 		$sut = $this->sut(array(
@@ -621,9 +592,7 @@ class ManagerTest extends BasicTestCase
 		$sut->update($adiUser);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function update_itUpdatesTheEmailAddress()
 	{
 		$sut = $this->sut(array(
@@ -656,9 +625,7 @@ class ManagerTest extends BasicTestCase
 		$sut->update($adiUser);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function update_itUpdatesThePassword_failed()
 	{
 		$sut = $this->sut(array(
@@ -686,9 +653,7 @@ class ManagerTest extends BasicTestCase
 		$sut->update($adiUser, true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function update_itReturnsTheUpdatedUser()
 	{
 		$sut = $this->sut(array(
@@ -718,9 +683,9 @@ class ManagerTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-145
 	 */
+	#[Test]
 	public function update_itTriggersCustomHook_user_before_update()
 	{
 		$sut = $this->sut(array(
@@ -744,9 +709,9 @@ class ManagerTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-145
 	 */
+	#[Test]
 	public function update_itTriggersCustomHook_user_after_update()
 	{
 		$sut = $this->sut(array(
@@ -776,9 +741,7 @@ class ManagerTest extends BasicTestCase
 		$sut->update($adiUser);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function assertUserExisting_itThrowsException_whenUserIdIsNull()
 	{
 		$sut = $this->sut();
@@ -791,9 +754,7 @@ class ManagerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'assertUserExisting', array($adiUser));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function assertUserExisting_withUserIdSet_shouldNotThrowException()
 	{
 		$sut = $this->sut();
@@ -813,9 +774,7 @@ class ManagerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'assertUserExisting', array($adiUser));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function disableEmailNotification_addsCorrectWordPressFilter()
 	{
 		$sut = $this->sut();
@@ -826,9 +785,7 @@ class ManagerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'disableEmailNotification');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateWordPressAccount_iiUpdatesAccountInformation()
 	{
 		$sut = $this->sut(array('updateUserRoles', 'updateSAMAccountName'));
@@ -872,9 +829,7 @@ class ManagerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'updateWordPressAccount', array($adiUser));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateUserRoles_itDelegatesToRoleManager()
 	{
 		$sut = $this->sut();
@@ -893,9 +848,7 @@ class ManagerTest extends BasicTestCase
 		$sut->updateUserRoles(1, $roleMapping);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateUserMetaDataFromActiveDirectory_filtersValues()
 	{
 		$sut = $this->sut(array('filterDisallowedAttributes', 'filterEmptyAttributes'));
@@ -931,9 +884,7 @@ class ManagerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'updateUserMetaDataFromActiveDirectory', array(1, $ldapAttributes));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function filterDisallowedAttributes_itFiltersAttributes_whenNotPresentInWhiteList()
 	{
 		$sut = $this->sut();
@@ -958,9 +909,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals($ldapAttributes['telephonenumber'], $actual['telephonenumber']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function filterEmptyAttributes_withUserMetaEmptyOverwriteFalse_filtersAttributesWithEmptyValues()
 	{
 		$sut = $this->sut();
@@ -983,9 +932,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(0, count($actual));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function filterEmptyAttributes_withUserMetaEmptyOverwriteTrue_doesNotFiltersAttributesWithEmptyValues()
 	{
 		$sut = $this->sut();
@@ -1008,9 +955,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(1, count($actual));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateEmail_withInvalidEmail_doesNotTriggerAnyRepositoryMethods()
 	{
 		$sut = $this->sut();
@@ -1032,9 +977,7 @@ class ManagerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'updateEmail', array($adiUser, 'test@test.com'));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateEmail_notUpdatesEmail_whenAlreadyAssignedToUser()
 	{
 		$sut = $this->sut([]);
@@ -1075,9 +1018,7 @@ class ManagerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'updateEmail', [$adiUser, $email]);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateEmail_doesTriggerUpdateRepositoryMethods_whenEmailMustBeSetToNewAddress()
 	{
 		$sut = $this->sut(array('handleEmailAddressOfUser'));
@@ -1118,9 +1059,7 @@ class ManagerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'updateEmail', array($adiUser, $email));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function handleEmailAddressOfUser_returnsPreferredEmail_whenEmailDoesNotExist()
 	{
 		$sut = $this->sut();
@@ -1141,9 +1080,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals($preferredEmail, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function handleEmailAddressOfUser_returnsFalse_whenEmailAlreadyBelongsToOwner()
 	{
 		$sut = $this->sut();
@@ -1165,9 +1102,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(FALSE, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function handleEmailAddressOfUser_returnsPreferredEmail_evenIfItIsAlreadyInUse_whenDuplicateEmailPreventionIsAllow()
 	{
 		$sut = $this->sut();
@@ -1199,9 +1134,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals($preferredEmail, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function handleEmailAddressOfUser_throwsException_whenDuplicateEmailPreventionIsPrevent()
 	{
 		$sut = $this->sut();
@@ -1233,9 +1166,7 @@ class ManagerTest extends BasicTestCase
 		$actual = $this->invokeMethod($sut, 'handleEmailAddressOfUser', array($this->wpUser, 'test@test.com'));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function handleEmailAddressOfUser_createsNewEmail_whenDuplicateEmailPreventionIsCreate()
 	{
 		$sut = $this->sut();
@@ -1266,9 +1197,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals($expectedResult, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function handleEmailAddressOfUser_throwsGenericException_whenStateMachineStateIsUnknown()
 	{
 		$sut = $this->sut();
@@ -1301,9 +1230,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createNewEmailForExistingAddress_itCreatesEmail_whenUserHasBeenJustCreated()
 	{
 		$sut = $this->sut();
@@ -1323,9 +1250,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals($expectedResult, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createNewEmailForExistingAddress_itCreatesEmail_whenUserHasNoEmail()
 	{
 		$sut = $this->sut();
@@ -1345,9 +1270,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals($expectedResult, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createNewEmailForExistingAddress_itUsesPreferredEmail_asFallback()
 	{
 		$sut = $this->sut();
@@ -1366,9 +1289,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals($preferredEmail, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function hasActiveDirectoryAccount_acceptsUsername()
 	{
 		$sut = $this->sut();
@@ -1389,9 +1310,7 @@ class ManagerTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function hasActiveDirectoryAccount_acceptsWpUserObject()
 	{
 		$sut = $this->sut();
@@ -1411,9 +1330,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertTrue($sut->hasActiveDirectoryAccount($this->wpUser));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function hasActiveDirectoryAccount_acceptsWpUserId()
 	{
 		$sut = $this->sut();
@@ -1434,9 +1351,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertTrue($sut->hasActiveDirectoryAccount(666));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function enable_withEmptyUserEmailAndStoredEmail_restoreEmail()
 	{
 		$sut = $this->sut();
@@ -1467,9 +1382,7 @@ class ManagerTest extends BasicTestCase
 		$sut->enable($userId);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function enable_withUserEmailNotEmpty_doNotRestoreEmail()
 	{
 		$sut = $this->sut();
@@ -1501,9 +1414,9 @@ class ManagerTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-145
 	 */
+	#[Test]
 	public function ADI_145_enable_itCallsAction_next_ad_int_user_after_enable()
 	{
 		$sut = $this->sut();
@@ -1537,9 +1450,7 @@ class ManagerTest extends BasicTestCase
 		$sut->enable($userId);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function disable_disablesUserAndRemovesEmail()
 	{
 		$sut = $this->sut();
@@ -1565,9 +1476,9 @@ class ManagerTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-145
 	 */
+	#[Test]
 	public function ADI_145_disable_itCallsAction_next_ad_int_user_after_disable()
 	{
 		$sut = $this->sut();
@@ -1586,9 +1497,7 @@ class ManagerTest extends BasicTestCase
 		$sut->disable($userId, $reason);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function migratePreviousVersion_itUpdatesOldSamAccountNames()
 	{
 		$sut = $this->sut();
@@ -1613,9 +1522,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(1, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function migratePreviousVersion_itIgnoresSamAccountName_whenAlreadyMigrated()
 	{
 		$sut = $this->sut();
@@ -1640,9 +1547,7 @@ class ManagerTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNAdiUser_userIsNAdiUser_SamAndUpnSet_returnTrue()
 	{
 		$sut = $this->sut();
@@ -1665,9 +1570,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNAdiUser_userIsNoNAdiUser_NoSamOrUpnSet_returnFalse()
 	{
 		$sut = $this->sut();
@@ -1690,9 +1593,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNAdiUser_userIsNAdiUser_samAccountNameSet_returnTrue()
 	{
 		$sut = $this->sut();
@@ -1715,9 +1616,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNAdiUser_userIsNAdiUser_userPrincipalNameSet_returnTrue()
 	{
 		$sut = $this->sut();
@@ -1741,9 +1640,9 @@ class ManagerTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #188
 	 */
+	#[Test]
 	public function GH_188_maybeUpdateObjectGuidIfMissing_whenLocalGuidIsPresent_noUpdateOccurs()
 	{
 		$userId = 555;
@@ -1760,9 +1659,9 @@ class ManagerTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #188
 	 */
+	#[Test]
 	public function GH_188_maybeUpdateObjectGuidIfMissing_whenLdapGuidIsNotPresent_noUpdateOccurs()
 	{
 		$userId = 555;
@@ -1779,9 +1678,9 @@ class ManagerTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #188
 	 */
+	#[Test]
 	public function GH_188_maybeUpdateObjectGuidIfMissing_whenLocalGuidIsMissingAndLdapGuidIsPresent_itUpdatesLocalObjectGuid()
 	{
 		$userId = 555;

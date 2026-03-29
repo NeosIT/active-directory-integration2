@@ -3,6 +3,7 @@
 namespace Dreitier\Util;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
@@ -10,9 +11,7 @@ use Dreitier\Test\BasicTestCase;
  */
 class ArrayUtilTest extends BasicTestCase
 {
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function get_returnsValueFromArray_ifKeyExistsInArray()
 	{
 		$expected = 'value';
@@ -24,9 +23,7 @@ class ArrayUtilTest extends BasicTestCase
 		$this->assertSame($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function get_returnsFallback_ifKeyDoesNotExistInArray()
 	{
 		$expected = 'value';
@@ -38,9 +35,7 @@ class ArrayUtilTest extends BasicTestCase
 		$this->assertSame($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function containsIgnoreCase_itIgnoresCase()
 	{
 		$actual = ArrayUtil::containsIgnoreCase('hello', array('HeLlO', 'WoRlD'));
@@ -48,9 +43,7 @@ class ArrayUtilTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function compareKey_returnsTrue_ifValuesAreEqual()
 	{
 		$key = 'key';
@@ -62,9 +55,7 @@ class ArrayUtilTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function compareKey_returnsFalse_ifValuesAreNotEqual()
 	{
 		$array = array('key' => 'value');
@@ -76,9 +67,7 @@ class ArrayUtilTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function filter_withPreserveKeysFalse_returnsExpectedResult()
 	{
 		$array = array('key1' => 1, 'key2' => 2, 'key3' => 3);
@@ -91,9 +80,7 @@ class ArrayUtilTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function filter_withPreserveKeysTrue_returnsExpectedResult()
 	{
 		$array = array('key1' => 1, 'key2' => 2, 'key3' => 3);
@@ -106,9 +93,7 @@ class ArrayUtilTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findFirstOrDefault_withoutElementsAndWithoutDefault_returnsNull()
 	{
 		$actual = ArrayUtil::findFirstOrDefault([]);
@@ -116,9 +101,7 @@ class ArrayUtilTest extends BasicTestCase
 		$this->assertNull($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findFirstOrDefault_withoutElementsAndWithDefault_returnsDefault()
 	{
 		$actual = ArrayUtil::findFirstOrDefault([], false);
@@ -126,9 +109,7 @@ class ArrayUtilTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findFirstOrDefault_withElement_returnsElement()
 	{
 		$actual = ArrayUtil::findFirstOrDefault(array('test'));
@@ -136,9 +117,7 @@ class ArrayUtilTest extends BasicTestCase
 		$this->assertEquals('test', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findFirstOrDefault_withMultipleElements_returnsFirstElement()
 	{
 		$actual = ArrayUtil::findFirstOrDefault(array('hello', 'world'));

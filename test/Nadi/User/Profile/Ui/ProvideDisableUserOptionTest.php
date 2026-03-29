@@ -6,6 +6,7 @@ use Dreitier\Nadi\User\Manager;
 use Dreitier\Nadi\Vendor\Twig\Environment;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -54,9 +55,7 @@ class ProvideDisableUserOptionTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register()
 	{
 		$sut = $this->sut(array('addOption'));
@@ -68,9 +67,7 @@ class ProvideDisableUserOptionTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addOption_userHasNotPermission()
 	{
 		$sut = $this->sut();
@@ -86,9 +83,7 @@ class ProvideDisableUserOptionTest extends BasicTestCase
 		$sut->addOption(null);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addOption_returnBecauseAdmin()
 	{
 		$sut = $this->sut();
@@ -109,9 +104,7 @@ class ProvideDisableUserOptionTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addOption_disableUserShowMessage()
 	{
 		$sut = $this->sut();
@@ -166,9 +159,7 @@ class ProvideDisableUserOptionTest extends BasicTestCase
 		$sut->addOption($user);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveOption_blockUser()
 	{
 		$sut = $this->sut();
@@ -224,9 +215,7 @@ class ProvideDisableUserOptionTest extends BasicTestCase
 		$this->assertEquals('test@company.it', $_POST['email']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveOption_unblockUser()
 	{
 		$sut = $this->sut();

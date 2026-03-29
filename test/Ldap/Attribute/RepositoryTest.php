@@ -4,6 +4,7 @@ namespace Dreitier\Ldap\Attribute;
 
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 
@@ -39,9 +40,7 @@ class RepositoryTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getCustomAttributeDefinitions_withCorrectString_returnParsedArray()
 	{
 		$sut = $this->sut();
@@ -76,9 +75,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getCustomAttributeDefinitions_withInvalidString_returnEmptyArray()
 	{
 		$sut = $this->sut();
@@ -93,9 +90,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals([], $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getCustomAttributeDefinitions_calledMethodTwice_returnParsedArrayFromCache()
 	{
 		$sut = $this->sut();
@@ -122,9 +117,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getAttributeNames_delegateToOtherMethod_returnArrayWithAttributeNames()
 	{
 		$sut = $this->sut(array('getWhitelistedAttributes'));
@@ -145,9 +138,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getWhitelistedAttributes_callOnce_checkDelegatedMethods()
 	{
 		$sut = $this->sut(array('createDefaultAttributes', 'createCustomAttributes'));
@@ -175,9 +166,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($all, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getWhitelistedAttributes_callTwice_returnValueFromCache()
 	{
 		$sut = $this->sut(array('createDefaultAttributes', 'createCustomAttributes'));
@@ -206,9 +195,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($all, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function filterWhitelistedAttributes_filterForAll_returnAllMetaObjects()
 	{
 		$sut = $this->sut(array('getWhitelistedAttributes'));
@@ -233,9 +220,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expects, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function filterWhitelistedAttributes_filterForShowFalse_returnAllNonViewableMetaObjects()
 	{
 		$sut = $this->sut(array('getWhitelistedAttributes'));
@@ -259,9 +244,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expects, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function filterWhitelistedAttributes_filterForShowTrue_returnAllViewableMetaObjects()
 	{
 		$sut = $this->sut(array('getWhitelistedAttributes'));
@@ -285,9 +268,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expects, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createCustomAttributes_delegateToMethod_returnExpectedResult()
 	{
 		$sut = $this->sut(array('getCustomAttributeDefinitions', 'createAttribute'));
@@ -319,9 +300,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createCustomAttributes_withNonEmptyArray_returnArrayWithValues()
 	{
 		$sut = $this->sut(array('getCustomAttributeDefinitions', 'createAttribute'));
@@ -358,9 +337,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createDefaultAttributes_delegateToMethod_returnExpectedResult()
 	{
 		$sut = $this->sut(array('createAttribute'));
@@ -385,21 +362,19 @@ class RepositoryTest extends BasicTestCase
 				array(null, 'domainsid'),
 				array(null, 'objectsid'),
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute()
-				)
+			->willReturn(
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute()
 			);
 
 		$expected = array(
@@ -421,9 +396,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createDefaultAttributes_withNonEmptyArray_returnArrayWithValues()
 	{
 		$sut = $this->sut(array('getCustomAttributeDefinitions', 'createAttribute'));
@@ -446,21 +419,19 @@ class RepositoryTest extends BasicTestCase
 				array(null, 'domainsid'),
 				array(null, 'objectsid')
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute(),
-					new Attribute()
-				)
+			->willReturn(
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute(),
+				new Attribute()
 			);
 
 		$param = array(
@@ -487,9 +458,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAttribute_returnObject()
 	{
 		$sut = $this->sut();
@@ -512,9 +481,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual->isViewable());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAttribute_withEmptyAttribute_returnsMetaKeyWithPrefixAndAttributeName()
 	{
 		$sut = $this->sut();
@@ -525,9 +492,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals('next_ad_int_objectguid', $result->getMetakey());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function resolveType_trimString_returnTrimmedString()
 	{
 		$array = array(
@@ -540,9 +505,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals('bool', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function resolveType_sanitizeKnownType_returnKnownType()
 	{
 		$array = array(
@@ -555,9 +518,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals('integer', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function resolveType_sanitizeUnknownType_returnString()
 	{
 		$array = array(
@@ -570,9 +531,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals('string', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function resolveWordPressAttribute_returnWordPressAttribute()
 	{
 		$array = array(
@@ -585,9 +544,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals("testWordPressAttribute", $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function resolveSyncToAd_returnTrue()
 	{
 		$array = array(
@@ -600,9 +557,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function resolveViewInUserProfile_returnTrue()
 	{
 		$array = array(
@@ -615,9 +570,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function convertAttributeMapping_returnArray()
 	{
 		$sut = $this->sut();
@@ -639,9 +592,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkAttributeNamesForConflict_withConflict_returnTrue()
 	{
 		$attributeString = "testAdAttribute:string:testWordPressMetakey:description:true:true:true;testAdAttribute:string:testWordPressMetakey:description:true:true:true";
@@ -649,9 +600,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkAttributeNamesForConflict_withoutConflict_returnfalse()
 	{
 		$attributeString = "testAdAttribute:string:testWordPressMetakey:description:true:true:true;testAdAttribute2:string:testWordPressMetakey:description:true:true:true;";
@@ -660,9 +609,7 @@ class RepositoryTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function lookupDescription_withDescription_returnDescription()
 	{
 		$array = array(
@@ -675,9 +622,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals('description', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function lookupDescription_withoutDescription_returnDefaultDescription()
 	{
 		$this->mockFunction__();
@@ -692,9 +637,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals('metaKey', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSyncableAttributes_returnsOnlySyncables()
 	{
 		$sut = $this->sut(array('getWhitelistedAttributes'));
@@ -712,9 +655,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals(array('mail' => $attributeMail), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getDefaultAttributeMetaKeys_returnsExpectedResult()
 	{
 		$expected = array(
@@ -737,9 +678,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAllBinaryAttributes_returnsExpectedResult()
 	{
 		$expected = array('objectguid');

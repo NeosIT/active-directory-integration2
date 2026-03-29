@@ -10,6 +10,7 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Session\SessionHandler;
 use Dreitier\Util\Util;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -57,9 +58,7 @@ class ValidatorTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateLdapConnection_withOpenConnection_doesNotThrowsException()
 	{
 		$sut = $this->sut();
@@ -71,9 +70,7 @@ class ValidatorTest extends BasicTestCase
 		$sut->validateLdapConnection($ldapConnection);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateLdapConnection_withClosedConnection_throwsException()
 	{
 		$sut = $this->sut();
@@ -87,9 +84,7 @@ class ValidatorTest extends BasicTestCase
 		$sut->validateLdapConnection($ldapConnection);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateUser_withValidUser_doesNotThrowException()
 	{
 		$user = $this->createWpUserMock();
@@ -98,9 +93,7 @@ class ValidatorTest extends BasicTestCase
 		$sut->validateUser($user);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateUser_withInvalidUser_throwsException()
 	{
 		$sut = $this->sut();
@@ -110,9 +103,7 @@ class ValidatorTest extends BasicTestCase
 		$sut->validateUser(false);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateProfile_withProfile_doesNotThrowException()
 	{
 		$sut = $this->sut(array('getSessionHandler'));
@@ -121,9 +112,7 @@ class ValidatorTest extends BasicTestCase
 		$sut->validateProfile($profile);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateProfile_withoutProfile_throwsException()
 	{
 		$sut = $this->sut(array('getSessionHandler'));
@@ -134,9 +123,7 @@ class ValidatorTest extends BasicTestCase
 		$sut->validateProfile($profile);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateAuthenticationState_withoutFailedAuthentication_doesNotThrowException()
 	{
 		$credentials = PrincipalResolver::createCredentials('max@test.ad');
@@ -152,9 +139,7 @@ class ValidatorTest extends BasicTestCase
 		$sut->validateAuthenticationState($credentials);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateAuthenticationState_withFailedAuthentication_throwsException()
 	{
 		$credentials = PrincipalResolver::createCredentials('max@test.ad');
@@ -172,9 +157,7 @@ class ValidatorTest extends BasicTestCase
 		$sut->validateAuthenticationState($credentials);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateLogoutState_withUserLoggedIn_doesNotThrowException()
 	{
 		$sut = $this->sut(array('getSessionHandler'));
@@ -189,9 +172,7 @@ class ValidatorTest extends BasicTestCase
 		$sut->validateLogoutState();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateLogoutState_withUserLoggedOut_throwsException()
 	{
 		$sut = $this->sut(array('getSessionHandler'));
@@ -208,9 +189,7 @@ class ValidatorTest extends BasicTestCase
 		$sut->validateLogoutState();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateUrl_notOnLogout_doesNotThrowException()
 	{
 		$sut = $this->sut();
@@ -218,9 +197,7 @@ class ValidatorTest extends BasicTestCase
 		$sut->validateUrl();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateUrl_onLogout_throwsException()
 	{
 		$_GET['action'] = 'logout';
@@ -231,9 +208,7 @@ class ValidatorTest extends BasicTestCase
 		$sut->validateUrl();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function throwAuthenticationException_throwsCorrectException()
 	{
 		$message = 'This is an exception.';

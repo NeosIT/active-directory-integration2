@@ -3,6 +3,7 @@
 namespace Dreitier\WordPress\Multisite\Option;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use ReflectionClass;
 
 /**
@@ -11,9 +12,8 @@ use ReflectionClass;
  */
 class TypeTest extends BasicTestCase
 {
-	/**
-	 * @test
-	 */
+
+	#[Test]
 	public function checkConstantsValue()
 	{
 		$sut = new ReflectionClass(Type::class);

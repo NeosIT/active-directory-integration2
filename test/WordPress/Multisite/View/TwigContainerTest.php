@@ -11,6 +11,7 @@ use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileConfigurationR
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileRepository;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Option\Provider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -62,9 +63,7 @@ class TwigContainerTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_registersNecessaryTwigFilters()
 	{
 		$sut = $this->sut();
@@ -75,9 +74,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertNotEmpty($twig->getFilter('var_dump'));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_registersNecessaryTwigFiltersWithCorrectCallback()
 	{
 		$sut = $this->sut();
@@ -88,9 +85,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals('var_dump', $twig->getFilter('var_dump')->getCallable());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_registersNecessaryTwigFunctions()
 	{
 		$sut = $this->sut();
@@ -116,9 +111,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertNotNull($twig->getFunction('findProfileDescription'));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_registersNecessaryTwigFunctionsWithCorrectCallback()
 	{
 		$sut = $this->sut();
@@ -161,9 +154,7 @@ class TwigContainerTest extends BasicTestCase
 		);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isOptionGroupVisible_MultisiteOnlyTrueAndOnNetworkDashboardTrue_returnsTrue()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard'));
@@ -179,9 +170,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isOptionGroupVisible_MultisiteOnlyTrueAndOnNetworkDashboardFalse_returnsFalse()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard'));
@@ -197,9 +186,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isOptionGroupVisible_MultisiteOnlyFalseAndOnNetworkDashboardTrue_returnsTrue()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard'));
@@ -215,9 +202,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isOptionGroupVisible_MultisiteOnlyFalseAndOnNetworkDashboardFalse_returnsTrue()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard'));
@@ -233,9 +218,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getOptionValue_withProfileId_returnProfileValue()
 	{
 		$sut = $this->sut();
@@ -249,9 +232,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals('389', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getOptionValue_withNoPermission_returnFalse()
 	{
 		$sut = $this->sut();
@@ -278,9 +259,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getOptionValue_withPermission_returnBlogValue()
 	{
 		$sut = $this->sut(array('getPermissionForOptionAndBlog'));
@@ -306,9 +285,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals('389', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isOptionDisabled_withProfileId_returnFalse()
 	{
 		$sut = $this->sut();
@@ -317,9 +294,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isOptionDisabled_withPermission_returnFalse()
 	{
 		$sut = $this->sut(array('getPermissionForOptionAndBlog'));
@@ -335,9 +310,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isOptionDisabled_withoutPermission_returnTrue()
 	{
 		$sut = $this->sut(array('getPermissionForOptionAndBlog'));
@@ -351,9 +324,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getPermissionForOptionAndBlog_getBlogId_returnPermission()
 	{
 		$sut = $this->sut();
@@ -381,9 +352,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals(2, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getOptionPermission_withoutProfileId_getProfileOption()
 	{
 		$sut = $this->sut();
@@ -411,9 +380,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals(2, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getOptionPermission_withProfileId_getProfileOption()
 	{
 		$sut = $this->sut();
@@ -430,9 +397,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals(2, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getBlogName_withoutBlogId_delegateToGetOption()
 	{
 		$sut = $this->sut();
@@ -448,9 +413,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals('testBlogName', $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getBlogName_notMultisite_delegateToGetOption()
 	{
 		$sut = $this->sut();
@@ -473,9 +436,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals('testBlogName', $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getBlogName_withBlogId_delegateToGetBlogOption()
 	{
 		$sut = $this->sut();
@@ -497,9 +458,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals('testBlogName', $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getProfileIdOfBlog()
 	{
 		$sut = $this->sut();
@@ -513,9 +472,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals(1, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSites_isMultisite_returnSites()
 	{
 		$sut = $this->sut();
@@ -553,9 +510,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals($sites, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSites_noMultisite_returnDefaultArray()
 	{
 		$sut = $this->sut();
@@ -583,9 +538,7 @@ class TwigContainerTest extends BasicTestCase
 		$this->assertEquals($sites, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getTwig()
 	{
 		$sut = $this->sut(array('register'));

@@ -5,6 +5,7 @@ namespace Dreitier\Nadi\Multisite\Site\Ui;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\BlogConfigurationRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileRepository;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -49,9 +50,7 @@ class ExtendSiteListTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_itAddsFilter()
 	{
 		$sut = $this->sut();
@@ -62,9 +61,7 @@ class ExtendSiteListTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addColumn_itAddsTheAdiProfileColumn()
 	{
 		$sut = $this->sut();
@@ -76,9 +73,9 @@ class ExtendSiteListTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @outputBuffering disabled
 	 */
+	#[Test]
 	public function addContent_outputsProfileName()
 	{
 		$sut = $this->sut();
@@ -104,9 +101,9 @@ class ExtendSiteListTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @outputBuffering disabled
 	 */
+	#[Test]
 	public function addContent_withDefaultProfileUsage_outputsDefaultProfileMessage()
 	{
 		$sut = $this->sut();
@@ -133,9 +130,9 @@ class ExtendSiteListTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @outputBuffering disabled
 	 */
+	#[Test]
 	public function addContent_withNoProfile_outputsNone()
 	{
 		$sut = $this->sut();

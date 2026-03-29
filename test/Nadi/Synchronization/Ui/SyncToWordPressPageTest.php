@@ -9,6 +9,7 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Ui;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -60,9 +61,7 @@ class SyncToWordPressPageTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getTitle()
 	{
 		$sut = $this->sut();
@@ -72,9 +71,7 @@ class SyncToWordPressPageTest extends BasicTestCase
 		$this->assertEquals('Sync to WordPress', $returnedTitle);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSlug()
 	{
 		$sut = $this->sut();
@@ -84,9 +81,7 @@ class SyncToWordPressPageTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function renderAdmin_validCapability_delegateToMethod()
 	{
 		$sut = $this->sut(array('checkCapability', 'processData', 'display'));
@@ -161,9 +156,7 @@ class SyncToWordPressPageTest extends BasicTestCase
 		$sut->renderAdmin();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadJavaScriptAdmin_validHook_enqueueScript()
 	{
 		$sut = $this->sut();
@@ -429,9 +422,7 @@ class SyncToWordPressPageTest extends BasicTestCase
 		$sut->loadAdminScriptsAndStyle($hook);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadJavaScriptAdmin_invalidHook_doNothing()
 	{
 		$sut = $this->sut();
@@ -444,9 +435,7 @@ class SyncToWordPressPageTest extends BasicTestCase
 		$sut->loadAdminScriptsAndStyle($hook);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processData_invalidPost_returnEmptyArray()
 	{
 		$sut = $this->sut();
@@ -457,9 +446,7 @@ class SyncToWordPressPageTest extends BasicTestCase
 		$this->assertEquals([], $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processData_invalidNonce_callWpDie()
 	{
 		$sut = $this->sut();
@@ -482,9 +469,7 @@ class SyncToWordPressPageTest extends BasicTestCase
 		$sut->processData($post);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processData_validNonce_returnResult()
 	{
 		$sut = $this->sut();
@@ -518,9 +503,7 @@ class SyncToWordPressPageTest extends BasicTestCase
 
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxSlug_getAjaxSlug_returnAjaxSlug()
 	{
 		$sut = $this->sut();

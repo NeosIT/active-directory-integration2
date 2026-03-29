@@ -5,6 +5,7 @@ namespace Dreitier\WordPress\Multisite\Ui;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\BlogConfigurationRepository;
 use Dreitier\WordPress\Multisite\Option\Provider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -51,9 +52,7 @@ class BlogConfigurationControllerTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveBlogOptions_withoutErrors_returnsSuccessMessage()
 	{
 		$sut = $this->sut(array('saveBlogOptionsInternal'));
@@ -71,9 +70,7 @@ class BlogConfigurationControllerTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveBlogOptions_withErrors_returnsSuccessMessage()
 	{
 		$sut = $this->sut(array('saveBlogOptionsInternal'));
@@ -91,9 +88,7 @@ class BlogConfigurationControllerTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveBlogOptions_delegatesCallTosaveBlogOptionsInternal()
 	{
 		$sut = $this->sut(array('saveBlogOptionsInternal'));
@@ -117,9 +112,7 @@ class BlogConfigurationControllerTest extends BasicTestCase
 		$sut->saveBlogOptions($options);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveBlogOptionsInternal_delegateCorrectly()
 	{
 		$sut = $this->sut(array('validateOption', 'persistOption'));
@@ -142,11 +135,11 @@ class BlogConfigurationControllerTest extends BasicTestCase
 				array('port', array('option_value' => 'stuff')),
 				array('tls', array('option_value' => 'true')),
 				array('base_dn', array('option_value' => '127.0.0.1'))
-			))->will($this->onConsecutiveCalls(
+			))->willReturn(
 				true,
 				false,
 				true
-			));
+			);
 
 		$sut->expects($this->exactly(2))
 			->method('persistOption')
@@ -158,9 +151,7 @@ class BlogConfigurationControllerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'saveBlogOptionsInternal', array($options));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateOption_optionIsNull_returnFalse()
 	{
 		$sut = $this->sut();
@@ -169,9 +160,7 @@ class BlogConfigurationControllerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateOption_noMetadata_returnFalse()
 	{
 		$sut = $this->sut();
@@ -183,9 +172,7 @@ class BlogConfigurationControllerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 
 	public function persistOption_withMetadata_persist()
 	{

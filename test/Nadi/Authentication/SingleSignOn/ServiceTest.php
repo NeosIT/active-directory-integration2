@@ -19,6 +19,7 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Session\SessionHandler;
 use Dreitier\Util\Util;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ServiceTest extends BasicTestCase
@@ -108,9 +109,7 @@ class ServiceTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authenticate_withoutUsername_returnFalse()
 	{
 		$sut = $this->sut();
@@ -125,9 +124,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authenticate_userLoggedIn_returnFalse()
 	{
 		$sut = $this->sut();
@@ -142,9 +139,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function clearAuthenticationState_withGetParameter_doesClearSessionValues()
 	{
 		$_GET['reauth'] = 'sso';
@@ -165,9 +160,7 @@ class ServiceTest extends BasicTestCase
 		$this->invokeMethod($sut, 'clearAuthenticationState');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function clearAuthenticationState_withoutGetParameter_doesNotClearSessionValues()
 	{
 		$sut = $this->sut(array('getSessionHandler'));
@@ -187,9 +180,7 @@ class ServiceTest extends BasicTestCase
 		$this->invokeMethod($sut, 'clearAuthenticationState');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findUsername_returnsExpectedUsername()
 	{
 		$sut = $this->sut();
@@ -207,9 +198,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findUsername_withDownLevelLogonName_unescapeEscapedUsername()
 	{
 		$sut = $this->sut();
@@ -227,9 +216,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function openLdapConnection_withValidConnection_doesNotThrowException()
 	{
 		$profile = [];
@@ -245,9 +232,7 @@ class ServiceTest extends BasicTestCase
 		$this->invokeMethod($sut, 'openLdapConnection', array($profile));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function openLdapConnection_withoutConnection_throwsException()
 	{
 		$profile = [];
@@ -270,9 +255,9 @@ class ServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * Check authenticateAtActiveDirectory overwrite comment
 	 */
+	#[Test]
 	public function tryAuthenticatableSuffixes_delegatesToParent()
 	{
 		$sut = $this->sut(array('postAuthentication'));
@@ -287,9 +272,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($credentials, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createConnectionDetailsFromProfile_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -318,9 +301,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function detectAuthenticatableSuffixes_validSuffixes_returnsSuffixITself()
 	{
 		$suffix = 'test.ad';
@@ -333,9 +314,7 @@ class ServiceTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function logout_setsFlagForManualLogout()
 	{
 		$sut = $this->sut(array('getSessionHandler'));
@@ -349,9 +328,7 @@ class ServiceTest extends BasicTestCase
 		$sut->logout();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_registersNecessaryHooks()
 	{
 		$sut = $this->sut();
@@ -391,9 +368,7 @@ class ServiceTest extends BasicTestCase
 		);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loginUser_doesTriggerWordPressFunctions()
 	{
 		$user = $this->createWpUserMock();
@@ -406,9 +381,9 @@ class ServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #160
 	 */
+	#[Test]
 	public function GH_160_loginUser_callsAction_loginSucceededDoRedirect()
 	{
 		$user = $this->createWpUserMock();
@@ -422,8 +397,8 @@ class ServiceTest extends BasicTestCase
 
 	/**
 	 * @issue #160
-	 * @test
 	 */
+	#[Test]
 	public function doRedirect_sendsSafeRedirect()
 	{
 		$user = $this->createWpUserMock();
@@ -443,9 +418,7 @@ class ServiceTest extends BasicTestCase
 		$this->invokeMethod($sut, 'doRedirect', array($user, false));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSessionHandler_returnsSessionHandlerInstance()
 	{
 		$sut = $this->sut();
@@ -455,9 +428,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertInstanceOf(SessionHandler::class, $sessionHandler);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authenticate_userNotAuthenticated_authenticationFails_itReturnsFalse()
 	{
 		$sut = $this->sut(array('findUsername', 'getSessionHandler', 'clearAuthenticationState', 'delegateAuth', 'parentAuthenticate'));
@@ -514,9 +485,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authenticate_withNoUsername_returnFalse()
 	{
 		$sut = $this->sut(array('findUsername'));
@@ -532,8 +501,8 @@ class ServiceTest extends BasicTestCase
 
 	/**
 	 * @since 2.2.0
-	 * @test
 	 */
+	#[Test]
 	public function delegateAuth_firesHook()
 	{
 		$sut = $this->sut(array('openLdapConnection', 'updateCredentials'));
@@ -567,8 +536,8 @@ class ServiceTest extends BasicTestCase
 	/**
 	 * @since 2.3.2
 	 * @issue #152
-	 * @test
 	 */
+	#[Test]
 	public function GH_152_delegateAuthThrowsException_ifProfileCannotBeFound()
 	{
 		$sut = $this->sut(array('openLdapConnection', 'updateCredentials'));
@@ -597,9 +566,7 @@ class ServiceTest extends BasicTestCase
 		$sut->delegateAuth($credentials, $this->ssoValidation);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authenticate_withExceptionDuringLogout_itReturnFalse()
 	{
 		$username = 'username@company.local';
@@ -636,9 +603,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authenticate_withExceptionDuringAuthentication_itReturnFalse()
 	{
 		$username = 'username@company.local';
@@ -676,9 +641,9 @@ class ServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-418
 	 */
+	#[Test]
 	public function ADI_418_createRedirectUri_itUsesEnvironmentVar_REDIRECT_URL_asDefault()
 	{
 		$sut = $this->sut();
@@ -691,9 +656,9 @@ class ServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-418
 	 */
+	#[Test]
 	public function ADI_418_createRedirectUri_itUsesWordPressVar_redirect_to_over_REDIRECT_URL()
 	{
 		$user = $this->createWpUserMock();
@@ -708,9 +673,9 @@ class ServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #142
 	 */
+	#[Test]
 	public function GH_142_authenticate_skips_if_auth_form_login_requires_ad_authentication_returns_false()
 	{
 		$sut = $this->sut(array('findUsername', 'getSessionHandler', 'clearAuthenticationState', 'delegateAuth', 'parentAuthenticate'));

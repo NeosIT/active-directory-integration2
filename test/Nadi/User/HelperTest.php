@@ -7,6 +7,7 @@ use Dreitier\Nadi\Authentication\PrincipalResolver;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -33,9 +34,7 @@ class HelperTest extends BasicTestCase
 		\WP_Mock::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getEnrichedUserData_withAutoUpdateDescriptionFalseAndDisplayNameEmpty_returnsExceptedResult()
 	{
 		$sut = $this->sut(array('getDisplayName'));
@@ -72,9 +71,7 @@ class HelperTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getAccountSuffix_returnSuffix()
 	{
 		$sut = $this->sut();
@@ -86,9 +83,7 @@ class HelperTest extends BasicTestCase
 		$this->assertEquals($expectedReturn, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getUserAccountSuffix_returnEmptyString()
 	{
 		$sut = $this->sut();
@@ -100,9 +95,7 @@ class HelperTest extends BasicTestCase
 		$this->assertEquals($expectedReturn, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createPassword_handlesDataCorrectly()
 	{
 		$sut = $this->sut(array('isRandomGeneratePassword', 'getRandomPassword'));
@@ -121,9 +114,7 @@ class HelperTest extends BasicTestCase
 		$this->assertEquals('new-password', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isRandomGeneratePassword_withSyncToWordPressFalseAndNoRandomPasswordFalse_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -137,9 +128,7 @@ class HelperTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isRandomGeneratePassword_withSyncToWordPressFalseAndNoRandomPasswordTrue_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -153,9 +142,7 @@ class HelperTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isRandomGeneratePassword_withSyncToWordPressTrueAndNoRandomPasswordFalse_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -169,9 +156,7 @@ class HelperTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isRandomGeneratePassword_withSyncToWordPressTrueAndNoRandomPasswordTrue_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -185,9 +170,7 @@ class HelperTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getPassword_withGenerateRandomPasswordFalse_returnsDefaultPassword()
 	{
 		$sut = $this->sut();
@@ -198,9 +181,7 @@ class HelperTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getDisplayNameFromUserAttributeValues_returnUsernameIfEmptyOrSamaAccountName()
 	{
 		$sut = $this->sut();
@@ -218,9 +199,7 @@ class HelperTest extends BasicTestCase
 		$this->assertEquals($expectedUsername, $actualUsername);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getDisplayNameFromUserAttributeValues_generateWantedDisplayName()
 	{
 		$sut = $this->sut();
@@ -243,9 +222,7 @@ class HelperTest extends BasicTestCase
 		$this->assertEquals($expectedUsername, $actualUsername);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getDisplayNameFromUserAttributeValues_returnUsernameIfDisplayNameEmpty()
 	{
 		$sut = $this->sut();
@@ -263,9 +240,7 @@ class HelperTest extends BasicTestCase
 		$this->assertEquals($expectedUsername, $actualUsername);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createUniqueEmailAddress()
 	{
 		$sut = $this->sut();
@@ -286,9 +261,7 @@ class HelperTest extends BasicTestCase
 		$this->assertEquals($expectedEmail, $email);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createUniqueEmailAddress_withExistingEmail()
 	{
 		$sut = $this->sut();

@@ -13,6 +13,7 @@ use Dreitier\Nadi\User\Persistence\Repository;
 use Dreitier\Nadi\User\User;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -83,9 +84,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronize_itReturnsFalse_whenErrorsOccured()
 	{
 		$sut = $this->sut(array('prepareForSync'));
@@ -98,9 +97,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronize_itReturnsTrue_whenMultipleUsersAreSynchronized()
 	{
 		$sut = $this->sut(
@@ -132,12 +129,12 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 
 		$sut->expects($this->exactly(3))
 			->method('synchronizeUser')
-			->will($this->returnCallback(function (Credentials $credentials) use (&$usernames, &$call
+			->willReturnCallback(function (Credentials $credentials) use (&$usernames, &$call
 			) {
 				$usernames[] = $credentials->getSAMAccountName();
 
 				return $call++;
-			}));
+			});
 
 		$sut->expects($this->once())
 			->method('finishSynchronization')
@@ -148,9 +145,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals($users, $usernames);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronize_catchesException_whenErrorsOccured()
 	{
 		$sut = $this->sut(
@@ -189,9 +184,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function ADI_145_synchronize_itCallsFilter_nextadi_sync_ad2wp_filter_synchronizable_users()
 	{
 		$sut = $this->sut(
@@ -224,9 +217,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function prepareForSync_syncIsDisabled_returnFalse()
 	{
 		$sut = $this->sut();
@@ -242,9 +233,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function prepareForSync_connectionNotEstablished_returnFalse()
 	{
 		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime'));
@@ -256,11 +245,11 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 				array(Options::SYNC_TO_WORDPRESS_USER),
 				array(Options::SYNC_TO_WORDPRESS_PASSWORD)
 			))
-			->will($this->onConsecutiveCalls(
+			->willReturn(
 				true,
 				'user',
 				'password'
-			));
+			);
 
 		$sut->expects($this->once())
 			->method('startTimer');
@@ -274,9 +263,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function prepareForSync_syncIsEnabled_returnTrue()
 	{
 		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime', 'isUsernameInDomain'));
@@ -288,11 +275,11 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 				array(Options::SYNC_TO_WORDPRESS_USER),
 				array(Options::SYNC_TO_WORDPRESS_PASSWORD)
 			))
-			->will($this->onConsecutiveCalls(
+			->willReturn(
 				true,
 				'user',
 				'password'
-			));
+			);
 
 		$sut->expects($this->once())
 			->method('startTimer');
@@ -315,8 +302,8 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-235
-	 * @test
 	 */
+	#[Test]
 	public function prepareForSync_whenUsernameIsNotInDomain_itReturnsFalse()
 	{
 		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime', 'isUsernameInDomain'));
@@ -328,11 +315,11 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 				array(Options::SYNC_TO_WORDPRESS_USER),
 				array(Options::SYNC_TO_WORDPRESS_PASSWORD)
 			))
-			->will($this->onConsecutiveCalls(
+			->willReturn(
 				true,
 				'user',
 				'password'
-			));
+			);
 
 		$sut->expects($this->once())
 			->method('startTimer');
@@ -350,9 +337,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findSynchronizableUsers_iReturnsMergedActiveDirectoryAndWordPressUsers()
 	{
 		$sut = $this->sut(array('findActiveDirectoryUsernames', 'convertActiveDirectoryUsers'));
@@ -384,9 +369,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function convertActiveDirectoryUsers_returnsExpectedFormat()
 	{
 		$sut = $this->sut();
@@ -410,9 +393,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function userAccountControl_withNullArgument_itReturnsZero()
 	{
 		$sut = $this->sut();
@@ -420,9 +401,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(0, $sut->userAccountControl(null));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function userAccountControl_withEmptyAttributes_itReturnsZero()
 	{
 		$sut = $this->sut();
@@ -430,9 +409,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(0, $sut->userAccountControl([]));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function userAccountControl_withMissingKey_itReturnsZero()
 	{
 		$sut = $this->sut();
@@ -440,9 +417,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(0, $sut->userAccountControl(array('k' => 'v')));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function userAccountControl_withNonArrayOfUseraccountcontrolAttribute_itReturnsZero()
 	{
 		$sut = $this->sut();
@@ -450,9 +425,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(0, $sut->userAccountControl(array('useraccountcontrol' => 'v')));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function userAccountControl_withUseraccountcontrolSet_itReturnsValue()
 	{
 		$sut = $this->sut();
@@ -460,9 +433,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(512, $sut->userAccountControl(array('useraccountcontrol' => array(512))));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNormalAccount_returnsTrue_ifSet()
 	{
 		$sut = $this->sut();
@@ -472,9 +443,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNormalAccount_returnsFalse_ifInterdomainTrustAccFlagSet()
 	{
 		$sut = $this->sut();
@@ -484,9 +453,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNormalAccount_returnsFalse_ifWorkstationTrustAccFlagSet()
 	{
 		$sut = $this->sut();
@@ -496,9 +463,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNormalAccount_returnsFalse_ifServerTrustAccFlagSet()
 	{
 		$sut = $this->sut();
@@ -508,9 +473,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNormalAccount_returnsFalse_ifMnsLogonAccountFlagSet()
 	{
 		$sut = $this->sut();
@@ -520,9 +483,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNormalAccount_returnsFalse_ifUacContainsMultipleForbiddenFlags()
 	{
 		$sut = $this->sut();
@@ -532,9 +493,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isNormalAccount_returnsFalse_ifPartialSecretsAccountFlagSet()
 	{
 		$sut = $this->sut();
@@ -545,9 +504,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isSmartCardRequired_returnsTrue_ifSet()
 	{
 		$sut = $this->sut();
@@ -555,9 +512,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertTrue($sut->isSmartCardRequired(WordPressSynchronizationService::UF_SMARTCARD_REQUIRED));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isAccountDisabled_returnsTrue_ifSet()
 	{
 		$sut = $this->sut();
@@ -565,9 +520,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertTrue($sut->isAccountDisabled(WordPressSynchronizationService::UF_ACCOUNT_DISABLE));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function GH_151_isAccountDisabled_throwsTypeError_withPHP81()
 	{
 		set_error_handler(
@@ -578,17 +531,16 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		);
 
 		$sut = $this->sut();
+		restore_error_handler();
+		restore_exception_handler();
 		$this->expectException(\TypeError::class);
 		// regex is required because error messages changed from PHP 7.4 ("must be of THE type int") to PHP >=8.0 ("must be of type int")
 		$this->expectExceptionMessageMatches('/must be of( the)? type int, string given/');
 		$this->assertFalse($sut->isAccountDisabled(""));
 
-		restore_error_handler();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function logNumberOfUsers_getElapsedTime_logMessages()
 	{
 		$sut = $this->sut(array('getElapsedTime'));
@@ -599,9 +551,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->invokeMethod($sut, 'logNumberOfUsers', array([]));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkAccountRestrictions_itDisablesTheWordPressAccount_whenActiveDirectoryUserDoesNotExist()
 	{
 		$sut = $this->sut();
@@ -618,9 +568,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkAccountRestrictions_itDisablesTheWordPressAccount_whenActiveDirectoryAccountIsNotNormal()
 	{
 		$sut = $this->sut(array('isNormalAccount'));
@@ -639,9 +587,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkAccountRestrictions_itDisablesTheWordPressAccount_whenActiveDirectoryAccountRequiresSmartCard()
 	{
 		$sut = $this->sut(array('isNormalAccount', 'isSmartCardRequired'));
@@ -662,9 +608,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkAccountRestrictions_itPasses_whenRestrictionsAreFulfilled()
 	{
 		$sut = $this->sut(array('isNormalAccount', 'isSmartCardRequired'));
@@ -681,9 +625,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeUser_itFindsLdapAttributesOfSAMAccountName()
 	{
 		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
@@ -701,9 +643,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$sut->synchronizeUser(PrincipalResolver::createCredentials("username"), 'guid');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeUser_itUpdatesUserPrincipalName()
 	{
 		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
@@ -723,9 +663,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals("username@test.ad", $credentials->getUserPrincipalName());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeUser_withSynchronizeDisabledAccounts_theAccountRestrictionsAreChecked()
 	{
 		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
@@ -762,9 +700,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(1, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeUser_withoutSynchronizeDisabledAccounts_theUserIsCreated()
 	{
 		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
@@ -811,9 +747,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(-1, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeUser_afterCreateOrUpdate_theAccountStatusIsSynchronized()
 	{
 		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
@@ -864,8 +798,8 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-235
-	 * @test
 	 */
+	#[Test]
 	public function synchronizeUser_itAddsDomainSid()
 	{
 		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
@@ -915,8 +849,8 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-145
-	 * @test
 	 */
+	#[Test]
 	public function ADI_145_synchronizeUser_itCallsFilter_nextadi_sync_ad2wp_filter_user_before_synchronize()
 	{
 		$sut = $this->sut(['disableUserWithoutValidGuid', 'checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
@@ -947,8 +881,8 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-145
-	 * @test
 	 */
+	#[Test]
 	public function ADI_145_synchronizeUser_itCallsAction_nextadi_sync_wp2ad_after_user_synchronize()
 	{
 		$sut = $this->sut(['disableUserWithoutValidGuid', 'checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
@@ -979,8 +913,8 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-223
-	 * @test
 	 */
+	#[Test]
 	public function ADI_223_synchronizeUser_withDoNotSynchronizeDisabledAccounts_skipDisabledUsers()
 	{
 		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'isAccountDisabled']);
@@ -1019,8 +953,8 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 
 	/**
 	 * @issue #141
-	 * @test
 	 */
+	#[Test]
 	public function synchronizeUser_itSetsDomainSidOnlyIfUserIsPresent_gh141()
 	{
 		$sut = $this->sut(['checkAccountRestrictions', 'createOrUpdateUser', 'synchronizeAccountStatus']);
@@ -1040,9 +974,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals("username", $credentials->getUserPrincipalName());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeAccountStatus_ifAccountIsDisabled_theUserIsDisabled()
 	{
 		$sut = $this->sut(array('userAccountControl', 'isAccountDisabled'));
@@ -1073,9 +1005,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeAccountStatus_ifAccountIsEnabled_theUserIsEnabled()
 	{
 		$sut = $this->sut(array('userAccountControl', 'isAccountDisabled'));
@@ -1109,9 +1039,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createOrUpdateUser_itDelegatesToCreate_whenUserDoesNotExist()
 	{
 		$sut = $this->sut();
@@ -1134,9 +1062,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(0 /* create */, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createOrUpdateUser_itDelegatesToUpdate_whenUserDoesNotExist()
 	{
 		$sut = $this->sut();
@@ -1159,9 +1085,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(1 /* update */, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createOrUpdateUser_itReturnsMinusOne_whenDelegateFailed()
 	{
 		$sut = $this->sut();
@@ -1183,9 +1107,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(-1 /* error */, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function finishSynchronization_getElapsedTime_logMessages()
 	{
 		$sut = $this->sut(array('getElapsedTime'));
@@ -1196,9 +1118,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->invokeMethod($sut, 'finishSynchronization', array(3, 1, 6));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function disableUserWithoutValidGuid_withNullGuid()
 	{
 
@@ -1238,9 +1158,7 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(1, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function disableUserWithoutValidGuid_withValidGuid()
 	{
 		$ldapAttributes = new Attributes([], array('objectguid' => '123'));
@@ -1253,8 +1171,8 @@ class WordPressSynchronizationServiceTest extends BasicTestCase
 
 	/**
 	 * @issue #132
-	 * @test
 	 */
+	#[Test]
 	public function GH_132_TypeError_withPHP8_0()
 	{
 		$sut = $this->sut();

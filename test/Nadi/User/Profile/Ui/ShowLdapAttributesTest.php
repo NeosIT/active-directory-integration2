@@ -9,6 +9,7 @@ use Dreitier\Nadi\Vendor\Twig\Environment;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -76,9 +77,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_AddAction()
 	{
 		$sut = $this->sut();
@@ -90,9 +89,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addUserAttributesToOwnProfile()
 	{
 		$sut = $this->sut(array('extendProfile'));
@@ -104,9 +101,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$sut->extendOwnProfile($user);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addUserAttributesToForeignProfile()
 	{
 		$sut = $this->sut(array('extendProfile'));
@@ -118,9 +113,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$sut->extendForeignProfile($user);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function extendProfile_doNotShow()
 	{
 		$sut = $this->sut(array("createAttributeViewModel"));
@@ -156,9 +149,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$sut->extendProfile($user, null);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function extendProfile_rendersView()
 	{
 		$sut = $this->sut(array('isShowAttributesEnabled', 'createViewModel'));
@@ -191,9 +182,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$sut->extendProfile($wpUser, true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createViewModel_createsData()
 	{
 		$attributes = [];
@@ -230,9 +219,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$this->assertEquals($attributes, $actual['attributes']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createViewModel_containsSynchronizationUnavailableErrorMessage()
 	{
 		$attributes = [];
@@ -259,9 +246,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$this->assertEquals('ERR', $actual['adi_synchronization_error_message']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createViewModel_containsRequirementForEnteringPassword()
 	{
 		$attributes = [];
@@ -286,9 +271,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$this->assertTrue($actual['require_password']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAttributesViewModel_delegatesToCreateAttributeViewModel()
 	{
 		$sut = $this->sut(array('createAttributeViewModel'));
@@ -305,9 +288,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$this->assertEquals($actual['mail'], true);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAttributeViewModel_withMetakey()
 	{
 		$sut = $this->sut();
@@ -334,9 +315,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$this->assertEquals('', $value['description']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAttributeViewModel_withoutMetakey()
 	{
 		$sut = $this->sut();
@@ -359,9 +338,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$this->assertEquals('', $value['value']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAttributeViewModel_withDescription()
 	{
 		$sut = $this->sut();
@@ -386,9 +363,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$this->assertEquals('do stuff', $value['description']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAttributeViewModel_withoutDescription()
 	{
 		$sut = $this->sut();
@@ -413,9 +388,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$this->assertEquals('', $value['description']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAttributeViewModel_withTypeList()
 	{
 		$sut = $this->sut();
@@ -432,9 +405,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$this->assertEquals('textarea', $value['outputType']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAttributeViewModel_withTypeString()
 	{
 		$sut = $this->sut();
@@ -451,9 +422,7 @@ class ShowLdapAttributesTest extends BasicTestCase
 		$this->assertEquals('text', $value['outputType']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAttributeViewModel_withoutTypeList()
 	{
 		$sut = $this->sut();

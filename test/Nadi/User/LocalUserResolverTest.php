@@ -14,6 +14,7 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\WordPressErrorException;
 use Hoa\Protocol\Bin\Resolve;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -37,9 +38,7 @@ class LocalUserResolverTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function add_addsResolver()
 	{
 		$sut = $this->sut();
@@ -49,9 +48,7 @@ class LocalUserResolverTest extends BasicTestCase
 		$this->assertEquals(1, sizeof($sut->getResolvers()));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function resolve_returnsFirstResolverMatch()
 	{
 		$expect = new \WP_User();

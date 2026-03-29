@@ -3,6 +3,7 @@
 namespace Dreitier\WordPress\Multisite\Configuration\Persistence;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -34,9 +35,7 @@ class DefaultProfileRepositoryTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findProfileId_noProfileExists_returnsMinusOne()
 	{
 		$sut = $this->sut(array('getProfileOptionName'));
@@ -55,9 +54,7 @@ class DefaultProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals(-1, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findProfileId_profileExists_returnsProfileId()
 	{
 		$sut = $this->sut(array('getProfileOptionName'));
@@ -76,9 +73,7 @@ class DefaultProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals(5, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveProfileId_triggerWordPressFunction()
 	{
 		$sut = $this->sut(array('getProfileOptionName'));
@@ -95,9 +90,7 @@ class DefaultProfileRepositoryTest extends BasicTestCase
 		$sut->saveProfileId(5);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getProfileOptionName_returnsCorrectOptionName()
 	{
 		$sut = $this->sut();

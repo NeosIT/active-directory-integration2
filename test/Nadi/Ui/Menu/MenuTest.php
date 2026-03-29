@@ -10,6 +10,7 @@ use Dreitier\Nadi\Ui\NadiSingleSiteConfigurationPage;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Option\Provider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -74,9 +75,7 @@ class MenuTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_itAddsTheMenus()
 	{
 		$sut = $this->sut(array('addAjaxListener'));
@@ -86,9 +85,7 @@ class MenuTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_itAddsTheAjaxListeners()
 	{
 		$sut = $this->sut(array('addAjaxListener'));
@@ -102,9 +99,7 @@ class MenuTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function registerMenu_addsMenusToWordPress()
 	{
 		$sut = $this->sut(array('addSubMenu'));
@@ -131,9 +126,7 @@ class MenuTest extends BasicTestCase
 		$sut->registerMenu();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function registerMenu_whenShowTestAuthentication_itEnablesTestAuthentication()
 	{
 		$sut = $this->sut(array('addSubMenu'));
@@ -172,9 +165,7 @@ class MenuTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function registerMenu_whenShowSyncToAD_itEnablesSyncToAD()
 	{
 		$sut = $this->sut(array('addSubMenu'));
@@ -212,9 +203,7 @@ class MenuTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function registerMenu_whenShowSyncToWordPress_itEnablesSyncToWordPress()
 	{
 		$sut = $this->sut(array('addSubMenu'));
@@ -251,9 +240,7 @@ class MenuTest extends BasicTestCase
 		$sut->registerMenu();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadScriptsAndStyle_loadsAllJavaScriptAndCssFilesFromNecessaryPages()
 	{
 		$sut = $this->sut();

@@ -5,6 +5,7 @@ namespace Dreitier\Nadi\Ui\Validator\Rule;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class DefaultEmailDomainTest extends BasicTestCase
@@ -38,9 +39,8 @@ class DefaultEmailDomainTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+
+	#[Test]
 	public function validate_withEmailConflict_returnString()
 	{
 		$sut = $this->sut();
@@ -50,9 +50,8 @@ class DefaultEmailDomainTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
+
 	public function validate_withoutConflict_returnTrue()
 	{
 		// TODO Code anpassen damit als default email domain normales suffix angegeben werden kann (z.b. "@test.ad")

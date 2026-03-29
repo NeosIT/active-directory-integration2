@@ -4,6 +4,7 @@ namespace Dreitier\Nadi\Authentication\SingleSignOn;
 
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  *
@@ -16,9 +17,7 @@ use Dreitier\Test\BasicTestCase;
  */
 class VariableTest extends BasicTestCase
 {
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getValues_returnsExpectedResult()
 	{
 		$expected = array(

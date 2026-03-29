@@ -6,6 +6,7 @@ use Dreitier\Nadi\Authentication\PrincipalResolver;
 use Dreitier\Nadi\User\User;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\WordPressErrorException;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -29,9 +30,7 @@ class RepositoryTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findById_delegatesCallToInternalMethod()
 	{
 		$sut = $this->sut(array('findByKey'));
@@ -48,9 +47,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findByUsername_delegatesCallToInternalMethod()
 	{
 		$sut = $this->sut(array('findByKey'));
@@ -67,9 +64,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findByEmail_delegatesCallToInternalMethod()
 	{
 		$sut = $this->sut(array('findByKey'));
@@ -86,9 +81,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findByKey_delegatesCallToWordPressFunction()
 	{
 		$sut = $this->sut([]);
@@ -106,9 +99,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findByMetaKey_delegatesCallToWordPressFunction()
 	{
 		$sut = $this->sut();
@@ -125,9 +116,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findByMetaKey_itIgnoresMetaValue_ifValueIsNull()
 	{
 		$sut = $this->sut();
@@ -144,9 +133,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findUserMeta_delegatesCallToWordPressFunction()
 	{
 		$sut = $this->sut();
@@ -163,9 +150,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateMetaKey_delegatesCallToWordPressFunction()
 	{
 		$sut = $this->sut();
@@ -177,9 +162,7 @@ class RepositoryTest extends BasicTestCase
 		$sut->updateMetaKey(1, 'key', 'value');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findBySAMAccountName_withoutUser_returnsFalse()
 	{
 		$sut = $this->sut(array('findByMetaKey'));
@@ -189,9 +172,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findBySAMAccountName_withUser_returnsUser()
 	{
 		$sut = $this->sut(array('findByMetaKey'));
@@ -208,9 +189,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals($wpUser, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateSAMAccountName_delegatesCallToInternalMethod()
 	{
 		$sut = $this->sut(array('updateMetaKey'));
@@ -222,9 +201,7 @@ class RepositoryTest extends BasicTestCase
 		$sut->updateSAMAccountName(1, 'sam');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findByObjectGuid_withoutUser_returnsFalse()
 	{
 		$sut = $this->sut(array('findByMetaKey'));
@@ -234,9 +211,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findByObjectGuid_withUser_returnsUser()
 	{
 		$sut = $this->sut(array('findByMetaKey'));
@@ -254,9 +229,9 @@ class RepositoryTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-702
 	 */
+	#[Test]
 	public function findByObjectGuid_withEmptyGuid_itReturnsFalse()
 	{
 		$sut = $this->sut(array('findByMetaKey'));
@@ -269,9 +244,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isEmailExisting_delegatesCallToFindByEmailMethod()
 	{
 		$sut = $this->sut(array('findByEmail'));
@@ -283,9 +256,7 @@ class RepositoryTest extends BasicTestCase
 		$sut->isEmailExisting('test@test.com');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isEmailExisting_returnsTrueIfUserIsExisting()
 	{
 		$sut = $this->sut(array('findByEmail'));
@@ -302,9 +273,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isEmailExisting_returnsFalseIfUserIsNotExisting()
 	{
 		$sut = $this->sut(array('findByEmail'));
@@ -319,9 +288,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateEmail_delegatesToInternalUpdatePropertyMethod()
 	{
 		$sut = $this->sut(array('updateProperty'));
@@ -333,9 +300,7 @@ class RepositoryTest extends BasicTestCase
 		$sut->updateEmail(1, 'test@test.com');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updatePassword_delegatesToInternalUpdatePropertyMethod()
 	{
 		$sut = $this->sut(array('updateProperty'));
@@ -347,9 +312,7 @@ class RepositoryTest extends BasicTestCase
 		$sut->updatePassword(1, 'password');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateProperty_doesNotTriggerWordPressErrorPart()
 	{
 		$sut = $this->sut(array('findById'));
@@ -375,9 +338,7 @@ class RepositoryTest extends BasicTestCase
 		$this->invokeMethod($sut, 'updateProperty', array(1, 'user_email', 'test@test.com'));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateProperty_doesTriggerWordPressErrorPart()
 	{
 		$sut = $this->sut(array('findById'));
@@ -412,9 +373,7 @@ class RepositoryTest extends BasicTestCase
 		$this->invokeMethod($sut, 'updateProperty', array(1, 'user_email', 'test@test.com'));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function create_withErrorOnCreation_throwsException()
 	{
 		$email = 'john.doe@test.ad';
@@ -446,9 +405,7 @@ class RepositoryTest extends BasicTestCase
 		$sut->create($adiUser, $email);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function create_itReturnsResult()
 	{
 		$email = 'john.doe@test.ad';
@@ -479,9 +436,7 @@ class RepositoryTest extends BasicTestCase
 		$this->assertEquals(1, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function update_itReturnswithErrorOnUpdate_returnsErrorObject()
 	{
 		$sut = $this->sut();

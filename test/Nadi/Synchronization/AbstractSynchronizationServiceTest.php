@@ -11,6 +11,7 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Util;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
@@ -86,9 +87,7 @@ class AbstractSynchronizationServiceTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function increaseExecutionTime_whenSettingIsInsufficient_itSetsMaxExecutionTime()
 	{
 		$sut = $this->sut();
@@ -99,10 +98,10 @@ class AbstractSynchronizationServiceTest extends BasicTestCase
 				array('max_execution_time'),
 				array('max_execution_time')
 			))
-			->will($this->onConsecutiveCalls(
+			->willReturn(
 				"5000",
 				'18000'
-			));
+			);
 
 		$this->internalNative->expects($this->once())
 			->method("iniSet")
@@ -112,9 +111,7 @@ class AbstractSynchronizationServiceTest extends BasicTestCase
 
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function connectToLdap_itReturnsConnectionAfterCheck()
 	{
 		$sut = $this->sut();
@@ -136,9 +133,7 @@ class AbstractSynchronizationServiceTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findActiveDirectoryUsernames_itIgnoresNonDomainMember()
 	{
 		$sut = $this->sut(array('findActiveDirectoryUsers'));
@@ -153,9 +148,7 @@ class AbstractSynchronizationServiceTest extends BasicTestCase
 		$this->assertTrue(sizeof($actual) === 0);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findActiveDirectoryUsernames_itReturnsDomainMember()
 	{
 		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
@@ -190,9 +183,7 @@ class AbstractSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findActiveDirectoryUsers_itOnlyReturnsDomainMembers()
 	{
 		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
@@ -263,9 +254,7 @@ class AbstractSynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isUsernameInDomain_itReturnsTrue_whenUserIsVerifiedDomainMember()
 	{
 		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
@@ -299,9 +288,7 @@ class AbstractSynchronizationServiceTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isUsernameInDomain_itReturnsFalse_whenUserIsNotInDomain()
 	{
 		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';
@@ -337,8 +324,8 @@ class AbstractSynchronizationServiceTest extends BasicTestCase
 
 	/**
 	 * @issue #138
-	 * @test
 	 */
+	#[Test]
 	public function findActiveDirectoryUsers_breaksWhenDomainSidIsEmtpy_gh138()
 	{
 		$domainSid = 'S-1-5-21-3623811015-3361044348-30300820';

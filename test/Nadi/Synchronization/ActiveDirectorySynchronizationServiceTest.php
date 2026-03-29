@@ -8,6 +8,7 @@ use Dreitier\Ldap\Connection;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -63,9 +64,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronize_succeeds()
 	{
 		$sut = $this->sut(array('prepareForSync', 'getUsers', 'synchronizeUser', 'finishSynchronization'));
@@ -99,9 +98,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function ADI_145_synchronize_itCallsFilter_next_ad_int_sync_wp2ad_filter_synchronizable_users()
 	{
 		$sut = $this->sut(array('prepareForSync', 'getUsers', 'synchronizeUser', 'finishSynchronization'));
@@ -136,9 +133,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function prepareForSync_syncToAdIsDisabled_returnFalse()
 	{
 		$sut = $this->sut(array('isEnabled'));
@@ -152,9 +147,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function prepareForSync_whenUsernameIsNotInDomain_itReturnFalse()
 	{
 		$sut = $this->sut(array('isEnabled', 'getServiceAccountUsername', 'getServiceAccountPassword', 'connectToAdLdap', 'isUsernameInDomain'));
@@ -186,9 +179,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function prepareForSync_connectionNotEstablished_returnFalse()
 	{
 		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime', 'isEnabled'));
@@ -209,9 +200,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function prepareForSync_syncToAdIsEnabled_returnTrue()
 	{
 		$sut = $this->sut(array('startTimer', 'connectToAdLdap', 'increaseExecutionTime', 'isEnabled', 'getServiceAccountUsername', 'getServiceAccountPassword', 'isUsernameInDomain'));
@@ -247,9 +236,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getUsers_withEmptyArray_returnFalse()
 	{
 		$sut = $this->sut(array('findActiveDirectoryUsers'));
@@ -263,9 +250,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(0, sizeof($actual));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getUsers_withNonEmptyArray_returnArray()
 	{
 		$sut = $this->sut(array('findActiveDirectoryUsers'));
@@ -282,9 +267,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeUser_withAttributes_syncUser()
 	{
 		$sut = $this->sut(array('findAttributesOfUser'));
@@ -311,9 +294,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeUser_withAttributeValueEmpty_syncUser()
 	{
 		$sut = $this->sut(array('findAttributesOfUser'));
@@ -343,9 +324,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function ADI_145_synchronizeUser_itCallsFilter_nextadi_sync_wp2ad_filter_synchronizable_attributes()
 	{
 		$sut = $this->sut(array('findAttributesOfUser'));
@@ -377,9 +356,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function ADI_145_synchronizeUser_itCallsAction_nextadi_sync_wp2ad_after_user_synchronize()
 	{
 		$sut = $this->sut(array('findAttributesOfUser'));
@@ -408,9 +385,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAttributesOfUser_onlyReturnsAttributesAvailableInWordPress()
 	{
 		$sut = $this->sut();
@@ -429,9 +404,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(array('mail' => 'mail@test.ad'), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function finishSynchronisation_logElapsedTime_doNothing()
 	{
 		$sut = $this->sut(array('getElapsedTime'));
@@ -443,9 +416,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isSynchronizable_delegatesToFindActiveDirectoryUsers()
 	{
 		$sut = $this->sut(array('findActiveDirectoryUsers'));
@@ -457,9 +428,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals(true, $sut->isSynchronizable(666));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function hasActiveDirectoryAttributeEditPermission_itReturnTrue_ifOwnProfileShouldBeEdited()
 	{
 		$sut = $this->sut();
@@ -467,9 +436,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertTrue($sut->hasActiveDirectoryAttributeEditPermission(true));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function hasActiveDirectoryAttributeEditPermission_itReturnTrue_ifAnotherProfileShouldBeEdited_andUserIsAdmin()
 	{
 		$sut = $this->sut();
@@ -483,9 +450,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertTrue($sut->hasActiveDirectoryAttributeEditPermission(false));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isEnabled_delegatesToConfiguration()
 	{
 		$sut = $this->sut();
@@ -498,9 +463,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertTrue($sut->isEnabled());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getServiceAccountUsername_delegatesToConfiguration()
 	{
 		$sut = $this->sut();
@@ -513,9 +476,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals('username', $sut->getServiceAccountUsername());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getServiceAccountPassword_delegatesToConfiguration()
 	{
 		$sut = $this->sut();
@@ -528,9 +489,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		$this->assertEquals('password', $sut->getServiceAccountPassword());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function assertSynchronizationAvailable_throwsExceptionIfDisabled()
 	{
 		$sut = $this->sut(array('isEnabled'));
@@ -548,9 +507,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		}
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function assertSynchronizationAvailable_throwsExceptionIfUserIsNotSynchronizable()
 	{
 		$sut = $this->sut(array('isEnabled', 'isSynchronizable'));
@@ -573,9 +530,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		}
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function assertSynchronizationAvailable_throwsExceptionIfEditingAForeignProfile_withoutServiceAccount()
 	{
 		$sut = $this->sut(array('isEnabled', 'isSynchronizable', 'isServiceAccountEnabled'));
@@ -603,9 +558,7 @@ class ActiveDirectorySynchronizationServiceTest extends BasicTestCase
 		}
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isEditable_checksAvailabilityOfSynchronization()
 	{
 		$sut = $this->sut(array('hasActiveDirectoryAttributeEditPermission', 'assertSynchronizationAvailable'));

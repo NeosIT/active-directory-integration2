@@ -14,6 +14,7 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\WordPressErrorException;
 use Hoa\Protocol\Bin\Resolve;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -34,8 +35,8 @@ class ResolveLocalUserTest extends BasicTestCase
 
 	/**
 	 * @issue #188
-	 * @test
 	 */
+	#[Test]
 	public function GH_188_aNonWpUser_isTransformedToNull()
 	{
 		$sut = new ResolveLocalUser('principal', fn($principal) => false);

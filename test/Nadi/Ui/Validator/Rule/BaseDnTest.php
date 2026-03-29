@@ -1,16 +1,18 @@
 <?php
+
 namespace Dreitier\Nadi\Ui\Validator\Rule;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class BaseDnTest extends BasicTestCase
 {
 	/**
-	 * @test
 	 * @issue #216
 	 */
+	#[Test]
 	public function validate_worksWithDefaultBaseDn()
 	{
 		$errMsg = "ERRROR";
@@ -21,9 +23,9 @@ class BaseDnTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #216
 	 */
+	#[Test]
 	public function validate_failsIfWhitespaceIsPresentAtTheBeginning()
 	{
 		$errMsg = "ERRROR";

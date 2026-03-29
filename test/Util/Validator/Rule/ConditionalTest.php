@@ -3,6 +3,7 @@
 namespace Dreitier\Util\Validator\Rule;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ConditionalTest extends BasicTestCase
@@ -35,9 +36,7 @@ class ConditionalTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withConditionsTrue_executesAllRules()
 	{
 		$value = '';
@@ -64,9 +63,7 @@ class ConditionalTest extends BasicTestCase
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withFirstRuleInvalid_doesNotExecuteOtherRules()
 	{
 		$value = '';
@@ -93,9 +90,7 @@ class ConditionalTest extends BasicTestCase
 		$this->assertEquals('Test', $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withConditionsFalse_returnsTrue()
 	{
 		$sut = $this->sut(array('areConditionsTrue'));
@@ -107,9 +102,7 @@ class ConditionalTest extends BasicTestCase
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function areConditionsTrue_withoutFalseCondition_returnTrue()
 	{
 		$sut = $this->sut();
@@ -127,9 +120,7 @@ class ConditionalTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function areConditionsTrue_withFalseCondition_returnFalse()
 	{
 		$sut = $this->sut();
@@ -147,9 +138,7 @@ class ConditionalTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function areConditionsTrue_withBlogConfigurationData_returnTrue()
 	{
 		$sut = $this->sut();

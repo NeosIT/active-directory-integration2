@@ -6,6 +6,7 @@ use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\LoginState;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -33,9 +34,7 @@ class PasswordValidationServiceTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function overridePasswordCheck_isAdmin()
 	{
 		$sut = $this->sut();
@@ -66,9 +65,7 @@ class PasswordValidationServiceTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function overridePasswordCheck_isAuthorized()
 	{
 		$sut = $this->sut();
@@ -80,9 +77,7 @@ class PasswordValidationServiceTest extends BasicTestCase
 		$this->assertEquals(true, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function overridePasswordCheck_localPasswordCheckFallbackActivated()
 	{
 		$sut = $this->sut();
@@ -105,9 +100,7 @@ class PasswordValidationServiceTest extends BasicTestCase
 
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function overridePasswordCheck_localPasswordCheckFallbackDeactivated()
 	{
 		$sut = $this->sut();
@@ -128,9 +121,7 @@ class PasswordValidationServiceTest extends BasicTestCase
 		$this->assertFalse($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function overridePasswordCheck_LocalPasswordCheck()
 	{
 		$sut = $this->sut();

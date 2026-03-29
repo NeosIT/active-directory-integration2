@@ -5,6 +5,7 @@ namespace Dreitier\Util\Session;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Util;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use WPChill\DownloadMonitor\Shop\Session\Session;
 
@@ -46,9 +47,7 @@ class SessionHandlerTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getInstance_startSession()
 	{
 		$sut = $this->sut();
@@ -63,9 +62,7 @@ class SessionHandlerTest extends BasicTestCase
 		$sut->getInstance(null);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getInstance_dontStartSession()
 	{
 		$sut = $this->sut();
@@ -80,9 +77,7 @@ class SessionHandlerTest extends BasicTestCase
 		$sut->getInstance(null);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function setValue_withKeyAndValue()
 	{
 		$key = 'testKey';
@@ -100,9 +95,7 @@ class SessionHandlerTest extends BasicTestCase
 		$this->assertEquals($_SESSION[$key], $value);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getValue_withKey_returnValue()
 	{
 		$key = 'testKey';
@@ -120,9 +113,7 @@ class SessionHandlerTest extends BasicTestCase
 		$this->assertEquals('value', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getValue_withKey_returnDefault()
 	{
 		$key = 'testKey';
@@ -139,9 +130,7 @@ class SessionHandlerTest extends BasicTestCase
 		$this->assertEquals('defaultValue', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function clearValue_withKey_unsetKey()
 	{
 		$key = 'testKey';

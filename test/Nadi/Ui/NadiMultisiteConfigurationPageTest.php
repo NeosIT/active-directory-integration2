@@ -28,6 +28,7 @@ use Dreitier\WordPress\Multisite\Ui\BlogConfigurationController;
 use Dreitier\WordPress\Multisite\Ui\ProfileConfigurationController;
 use Dreitier\WordPress\Multisite\Ui\ProfileController;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -67,9 +68,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getTitle()
 	{
 		$sut = $this->sut();
@@ -102,9 +101,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSlug()
 	{
 		$sut = $this->sut();
@@ -115,9 +112,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($expectedReturn, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxSlug()
 	{
 		$sut = $this->sut();
@@ -128,9 +123,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($expectedReturn, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function renderNetwork()
 	{
 		$sut = $this->sut(array('display'));
@@ -203,9 +196,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		$sut->renderNetwork();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadJavaScriptAdmin()
 	{
 		$sut = $this->sut();
@@ -667,9 +658,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		$sut->loadNetworkScriptsAndStyle($hook);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxListener_delegatesCallToRouteRequestMethod()
 	{
 		$sut = $this->sut(array('renderJson', 'routeRequest'));
@@ -703,9 +692,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		$sut->wpAjaxListener();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function routeRequest_withoutExistingSubAction_returnsFalse()
 	{
 		$sut = $this->sut();
@@ -715,9 +702,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function routeRequest_withExistingSubAction_delegatesCallToCorrectMethod()
 	{
 		$sut = $this->sut(array('saveProfile'));
@@ -733,9 +718,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals('test', $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveProfile_validatesDataAndDelegatesCallToProfileController()
 	{
 		$sut = $this->sut(array('validate'));
@@ -757,9 +740,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals('test', $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function removeProfile_delegatesCallToProfileController()
 	{
 		$sut = $this->sut();
@@ -776,9 +757,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals('test', $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getProfileOptionsValues_delegatesCallToConfigurationService()
 	{
 		$sut = $this->sut();
@@ -795,9 +774,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals('test', $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistProfileOptionsValues_delegatesCallToProfileConfigurationController()
 	{
 		$sut = $this->sut(array('validate', 'saveProfile'));
@@ -831,7 +808,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 			),
 		);
 
-		$fakeValidator = $this->createAnonymousMock(array('containsErrors', 'getValidationResult'));
+		$fakeValidator = $this->createMock(Result::class);
 
 		$sut->expects($this->once())
 			->method('validate')
@@ -859,9 +836,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistProfileOptionsValues_delegatesCallGetErrorMessage()
 	{
 		$sut = $this->sut(array('validate', 'saveProfile'));
@@ -910,9 +885,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadProfiles_delegatesCallToNecessaryControllers()
 	{
 		$sut = $this->sut(array('getPermission'));
@@ -972,9 +945,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getValidator_hasRequiredValidations()
 	{
 		$sut = $this->sut();
@@ -1003,9 +974,7 @@ class NadiMultisiteConfigurationPageTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistDomainSidForProfile_itSavesBlogOptions()
 	{
 		$sut = $this->sut();

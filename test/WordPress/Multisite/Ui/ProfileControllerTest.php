@@ -7,6 +7,7 @@ use Dreitier\WordPress\Multisite\Configuration\Persistence\BlogConfigurationRepo
 use Dreitier\WordPress\Multisite\Configuration\Persistence\DefaultProfileRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileRepository;
 use Mockery\Mock;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -53,9 +54,7 @@ class ProfileControllerTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAll_delegatesCallToRepository()
 	{
 		$sut = $this->sut();
@@ -71,6 +70,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertEquals($data, $result);
 	}
 
+	#[Test]
 	public function findAllProfileAssociations_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -93,9 +93,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertEquals($expected, $reuslt);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateType_withoutType_returnsFalse()
 	{
 		$sut = $this->sut();
@@ -105,9 +103,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateType_withType_returnsTrue()
 	{
 		$sut = $this->sut();
@@ -117,9 +113,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveProfile_withEmptyName_returnsFalse()
 	{
 		$sut = $this->sut(array('saveProfileInternal'));
@@ -132,9 +126,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveProfile_withNameAndNoErrors_returnsSuccessfulMessage()
 	{
 		$sut = $this->sut(array('saveProfileInternal'));
@@ -154,9 +146,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertEquals(1, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveProfileInternal_withNewProfile_delegatesCallToProfileRepositoryInsertProfileData()
 	{
 		$sut = $this->sut();
@@ -177,9 +167,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertEquals(1, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveProfileInternal_withExistingProfile_delegatesCallToProfileRepositoryUpdateProfileData()
 	{
 		$sut = $this->sut();
@@ -200,9 +188,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertEquals(1, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addProfile()
 	{
 		$sut = $this->sut();
@@ -220,9 +206,7 @@ class ProfileControllerTest extends BasicTestCase
 		$sut->addProfile($data);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function deleteProfile()
 	{
 		$sut = $this->sut();
@@ -234,9 +218,7 @@ class ProfileControllerTest extends BasicTestCase
 		$sut->deleteProfile(123);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function deleteProfile_withEmptyId_returnsFalse()
 	{
 		$sut = $this->sut();
@@ -250,9 +232,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function deleteProfile_withErrorOnDelete_returnsErrorMessage()
 	{
 		$sut = $this->sut();
@@ -275,9 +255,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function deleteProfile_withSuccessOnDelete_returnsSuccessMessage()
 	{
 		$sut = $this->sut();
@@ -299,9 +277,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function changeProfile_withValidData_updateNameAndDescription()
 	{
 		$sut = $this->sut(array('validateId', 'validateName', 'validateDescription'));
@@ -339,9 +315,7 @@ class ProfileControllerTest extends BasicTestCase
 		$sut->changeProfile($data);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateName_withoutName_returnsFalse()
 	{
 		$sut = $this->sut();
@@ -351,9 +325,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateName_withName_returnsTrue()
 	{
 		$sut = $this->sut();
@@ -363,9 +335,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateDescription_withoutDescription_returnsFalse()
 	{
 		$sut = $this->sut();
@@ -375,9 +345,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateDescription_withDescription_returnsTrue()
 	{
 		$sut = $this->sut();
@@ -387,9 +355,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateId_withoutId_returnsFalse()
 	{
 		$sut = $this->sut();
@@ -399,9 +365,7 @@ class ProfileControllerTest extends BasicTestCase
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateId_withoutId_returnsTrue()
 	{
 		$sut = $this->sut();

@@ -38,48 +38,6 @@ class BasicTestCase extends TestCase
 	}
 
 	/**
-	 * Create a mocked object using the phpunit MockBuilder.
-	 * This method ignores the constructor and will not delegate call to real methods.
-	 *
-	 * @param $className
-	 *
-	 * @return MockObject
-	 */
-	public function createMock($className): MockObject
-	{
-		if (!class_exists($className) && !interface_exists($className)) {
-			echo "You create a new class/interface '$className'. Be careful.";
-		}
-
-		return $this->getMockBuilder($className)
-			->disableOriginalConstructor()
-			->disableProxyingToOriginalMethods()
-			->getMock();
-	}
-
-	/**
-	 * Create a mocked object using the phpunit MockBuilder.
-	 * This method ignores the constructor and will not delegate call to real methods.
-	 * Furthermore you can add mocked method to this object with the param methods.
-	 *
-	 * @param $className
-	 *
-	 * @return MockObject
-	 */
-	public function createMockWithMethods($className, $methods)
-	{
-		if (!class_exists($className) && !interface_exists($className)) {
-			echo "You create a new class/interface '$className'. Be careful.";
-		}
-
-		return $this->getMockBuilder($className)
-			->disableOriginalConstructor()
-			->disableProxyingToOriginalMethods()
-			->addMethods($methods)
-			->getMock();
-	}
-
-	/**
 	 * Simple expected exception behaviour.
 	 *
 	 * @param $exception
@@ -120,20 +78,6 @@ class BasicTestCase extends TestCase
 			->method($method)
 			->with($with)
 			->willReturn($will);
-	}
-
-	/**
-	 * Create an anonymous mock which can be fully customized
-	 *
-	 * @param array|null $methods
-	 *
-	 * @return MockObject
-	 */
-	public function createAnonymousMock($methods)
-	{
-		return $this->getMockBuilder('stdClass')
-			->addMethods($methods)
-			->getMock();
 	}
 
 	/**

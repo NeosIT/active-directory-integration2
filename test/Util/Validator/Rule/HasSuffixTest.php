@@ -4,6 +4,7 @@ namespace Dreitier\Util\Validator\Rule;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class HasSuffixTest extends BasicTestCase
@@ -37,9 +38,7 @@ class HasSuffixTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withEmptyMessage_returnTrue()
 	{
 		$sut = $this->sut();
@@ -49,9 +48,7 @@ class HasSuffixTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_returnMessage()
 	{
 		$sut = $this->sut();
@@ -61,9 +58,7 @@ class HasSuffixTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_returnTrue()
 	{
 		$sut = $this->sut();
@@ -73,9 +68,7 @@ class HasSuffixTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getMsg()
 	{
 		$sut = $this->sut();

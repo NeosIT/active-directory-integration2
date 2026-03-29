@@ -4,6 +4,7 @@ namespace Dreitier\Nadi\Ui\Validator\Rule;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class NoDefaultAttributeNameTest extends BasicTestCase
@@ -36,9 +37,7 @@ class NoDefaultAttributeNameTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withoutDefaultAttributes_returnsTrue()
 	{
 		$sut = $this->sut();
@@ -48,9 +47,7 @@ class NoDefaultAttributeNameTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withDefaultAttributes_returnsMessage()
 	{
 		$sut = $this->sut();

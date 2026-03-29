@@ -4,6 +4,7 @@ namespace Dreitier\Util\Validator;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Validator\Rule\HasSuffix;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -36,9 +37,7 @@ class ValidatorTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_returnResult()
 	{
 		$expected = new Result();

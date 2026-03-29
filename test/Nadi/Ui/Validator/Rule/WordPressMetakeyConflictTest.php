@@ -5,6 +5,7 @@ namespace Dreitier\Nadi\Ui\Validator\Rule;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -46,9 +47,7 @@ class WordPressMetakeyConflictTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withConflict_returnString()
 	{
 		$sut = $this->sut();
@@ -61,9 +60,7 @@ class WordPressMetakeyConflictTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withoutConflict_returnTrue()
 	{
 		$sut = $this->sut();

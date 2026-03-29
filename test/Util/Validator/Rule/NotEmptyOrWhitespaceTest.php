@@ -5,6 +5,7 @@ namespace Dreitier\Util\Validator\Rule;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -46,9 +47,7 @@ class NotEmptyOrWhitespaceTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withEmptyString_returnString()
 	{
 		$sut = $this->sut();
@@ -61,9 +60,7 @@ class NotEmptyOrWhitespaceTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withWhitespaceOnly_returnString()
 	{
 		$sut = $this->sut();
@@ -76,9 +73,7 @@ class NotEmptyOrWhitespaceTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withWhitespacesAndLetters_returnTrue()
 	{
 		$sut = $this->sut();
@@ -91,9 +86,7 @@ class NotEmptyOrWhitespaceTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withLettersOnly_returnTrue()
 	{
 		$sut = $this->sut();

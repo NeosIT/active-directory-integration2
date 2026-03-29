@@ -3,6 +3,9 @@
 namespace Dreitier\WordPress;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Christopher Klein <ckl@dreitier.com>
@@ -14,11 +17,11 @@ class WordPressErrorExceptionTest extends BasicTestCase
 	 * This test has to be run in a separate process:
 	 * WordPressErrorException is already mocked through other tests when running the whole testsuite.
 	 *
-	 * @test
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 * @issue #178
 	 */
+	#[Test]
+	#[RunInSeparateProcess]
+	#[PreserveGlobalState(false)]
 	public function GH_178_processWordPressError_doesNotResultInClassNotFoundException()
 	{
 		$error = new \WP_Error("fail", "fail");

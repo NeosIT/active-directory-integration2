@@ -6,6 +6,7 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\Test\CallableMock;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use Dreitier\WordPress\Multisite\View\Page\Page;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -58,9 +59,7 @@ class MenuAdapterTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addHelpTab_addsCorrectHelpTabToScreen()
 	{
 		$sut = $this->sut();
@@ -90,9 +89,7 @@ class MenuAdapterTest extends BasicTestCase
 		$sut->addHelpTab();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addSubMenu_returnsFalse_ifPageIsNoInstanceOfPageInterface()
 	{
 		$sut = $this->sut();
@@ -104,9 +101,7 @@ class MenuAdapterTest extends BasicTestCase
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addSubMenu_addsSubMenuPage_ifPageIsInstanceOfPageInterface()
 	{
 		$sut = $this->sut();

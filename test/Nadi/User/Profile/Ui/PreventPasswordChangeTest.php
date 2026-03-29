@@ -6,6 +6,7 @@ use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\User\Manager;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use WP_Mock;
 
@@ -48,9 +49,7 @@ class PreventPasswordChangeTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_localPasswordChangeNotAllowed()
 	{
 		$sut = $this->sut();
@@ -60,9 +59,7 @@ class PreventPasswordChangeTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isPasswordChangeEnabled_delegatesToconfiguration()
 	{
 		$sut = $this->sut();
@@ -75,9 +72,7 @@ class PreventPasswordChangeTest extends BasicTestCase
 		$this->assertTrue($sut->isPasswordChangeEnabled());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function showPasswordFields_usesParentSetting_ifNoActiveDirectoryAccountIsGiven()
 	{
 		$sut = $this->sut();
@@ -92,9 +87,7 @@ class PreventPasswordChangeTest extends BasicTestCase
 		$this->assertTrue($sut->showPasswordFields(true, $wpUser));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function showPasswordFields_itReturnsAdiSetting_ifActiveDirectoryAccountIsGiven()
 	{
 		$sut = $this->sut(array('isPasswordChangeEnabled'));

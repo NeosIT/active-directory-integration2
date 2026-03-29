@@ -5,6 +5,7 @@ namespace Dreitier\Nadi\Configuration;
 use Dreitier\Ldap\Attribute\Description;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
@@ -31,10 +32,7 @@ class OptionsTest extends BasicTestCase
 		\WP_Mock::tearDown();
 	}
 
-	/**
-	 * @test
-	 * tests the retrieve process of OptionMetaData for a specific given option
-	 */
+	#[Test]
 	public function getOptionMetaData()
 	{
 		$this->mockFunction__();
@@ -47,10 +45,7 @@ class OptionsTest extends BasicTestCase
 		$this->assertEquals(array(0 => 'integerRange', 1 => 0, 2 => 65535), $option['sanitizer']);
 	}
 
-	/**
-	 * @test
-	 * retrieves the optionMetaData of all Options
-	 */
+	#[Test]
 	public function getOptionsMetaData()
 	{
 		$getOptionsMetaDataContainer = $this->sut->getAll();

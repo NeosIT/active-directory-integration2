@@ -3,6 +3,9 @@
 namespace Dreitier\Util;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
@@ -22,9 +25,7 @@ class EncryptionTest extends BasicTestCase
 		$this->encryptionHandler = new Encryption();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function encrypt_encryptPlainText()
 	{
 		$plainText = 'AD-Password';
@@ -35,8 +36,8 @@ class EncryptionTest extends BasicTestCase
 
 	/**
 	 * testing plaintext encryption and decryption on plaintext example
-	 * @test
 	 */
+	#[Test]
 	public function encrypt_encryptAndDecryptPlainText()
 	{
 		$plaintext = 'testtesttest';
@@ -46,9 +47,7 @@ class EncryptionTest extends BasicTestCase
 		$this->assertEquals($decryptedPlainText, $plaintext);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function encrypt_encryptSamePlainTextTwice_encrytedTextsWillBeDifferent()
 	{
 		$plainText = 'plain';
@@ -62,9 +61,9 @@ class EncryptionTest extends BasicTestCase
 	const ENCRYPTED_STRING_WITHOUT_AUTH_SALT = 'def502001be3090326b042e65abae8f8be685c2729fc31ceb03992eb2453bfe41e130f52a8b0640aa63335b4a24174ec438e707f24313b1b8250955664993ebc6f9889b918ed95a0fe646970396774fe23e530fe0f680b1133f6655dd80bc4';
 
 	/**
-	 * @test
 	 * @see https://github.com/NeosIT/active-directory-integration2/issues/164
 	 */
+	#[Test]
 	public function decrypt_decryptEncryptedText()
 	{
 		$expected = self::UNENCRYPTED_STRING;
@@ -79,11 +78,11 @@ class EncryptionTest extends BasicTestCase
 	/**
 	 * This test runs in a separate process to not interfere with already defined constants in previous tests (GH_173...)
 	 *
-	 * @test
 	 * @issue #164
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
+	#[Test]
+	#[RunInSeparateProcess]
+	#[PreserveGlobalState(false)]
 	public function GH_164_when_AUTH_SALT_isPresent_itIsUsedToDecrypt()
 	{
 		// AUTH_SALT has been removed from PHPUnit bootstrapping
@@ -101,11 +100,11 @@ class EncryptionTest extends BasicTestCase
 	/**
 	 * This test runs in a separate process to not interfere with already defined constants in previous tests (GH_164...)
 	 *
-	 * @test
 	 * @issue #173
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
 	 */
+	#[Test]
+	#[RunInSeparateProcess]
+	#[PreserveGlobalState(false)]
 	public function GH_173_when_NEXT_ACTIVE_DIRECTORY_INTEGRATION_ENCRYPTION_KEY_isPresent_itHasPrecedenceOver_AUTH_SALT()
 	{
 		// assume, that AUTH_SALT has been defined
@@ -121,9 +120,7 @@ class EncryptionTest extends BasicTestCase
 		$this->assertEquals($expected, $plainText);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function decrypt_withModifiedEncryptedText_returnFalse()
 	{
 		$encryptedText = 'modified';
@@ -132,9 +129,7 @@ class EncryptionTest extends BasicTestCase
 		$this->assertEquals(false, $plainText);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function decrypt_emptyEncryptedText_returnFalse()
 	{
 		$plainText = $this->encryptionHandler->decrypt('');

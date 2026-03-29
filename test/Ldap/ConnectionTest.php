@@ -11,6 +11,7 @@ use Dreitier\Util\Util;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Option\Encryption;
 use Dreitier\AdLdap\AdLdap;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -64,9 +65,7 @@ class ConnectionTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function connect_createConnection_doNothing()
 	{
 		$sut = $this->sut(array('createConfiguration', 'createAdLdap', 'getAdLdap'));
@@ -96,9 +95,7 @@ class ConnectionTest extends BasicTestCase
 		$sut->connect($connectionDetails);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createConfiguration_returnsConfiguration()
 	{
 		$sut = $this->sut(array('getBaseDn', 'getDomainControllers', 'getAdPort', 'getUseTls', 'getUseSsl', 'getNetworkTimeout', 'getAllowSelfSigned'));
@@ -149,8 +146,8 @@ class ConnectionTest extends BasicTestCase
 	/**
 	 * @since 2.1.13
 	 * @issue ADI-713
-	 * @test
 	 */
+	#[Test]
 	public function ADI_713_register_userInfo_hookIsRegistered()
 	{
 		$sut = $this->sut();
@@ -159,9 +156,7 @@ class ConnectionTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getBaseDn_withCustomValue_returnCustomValue()
 	{
 		$sut = $this->sut();
@@ -173,9 +168,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals('custom', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getBaseDn_withoutCustomValue_returnDefaultValue()
 	{
 		$sut = $this->sut();
@@ -191,9 +184,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals('default', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getDomainControllers_withCustomValue_returnCustomValue()
 	{
 		$sut = $this->sut();
@@ -205,9 +196,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(array('custom', 'custom2'), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getDomainControllers_withoutCustomValue_returnDefaultValue()
 	{
 		$sut = $this->sut();
@@ -223,9 +212,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(array('default'), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getAdPort_withCustomValue_returnCustomValue()
 	{
 		$sut = $this->sut();
@@ -237,9 +224,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals('custom', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getAdPort_withoutCustomValue_returnDefaultValue()
 	{
 		$sut = $this->sut();
@@ -255,9 +240,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals('default', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getUseTls_withCustomValue_returnCustomValue()
 	{
 		$sut = $this->sut();
@@ -269,9 +252,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getUseTls_withoutCustomValue_returnDefaultValue()
 	{
 		$sut = $this->sut(array('getEncryption'));
@@ -284,9 +265,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getNetworkTimeout_withCustomValue_returnCustomValue()
 	{
 		$sut = $this->sut();
@@ -298,9 +277,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(5, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getNetworkTimeout_withoutCustomValue_returnDefaultValue()
 	{
 		$sut = $this->sut();
@@ -316,9 +293,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals('default', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getAdLDAP_withAdLdap()
 	{
 		$sut = $this->sut();
@@ -329,9 +304,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertTrue($actual instanceof adLDAP);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isConnected_noConnectionEstablished_returnFalse()
 	{
 		$sut = $this->sut();
@@ -341,9 +314,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isConnected_connectionEstablished_returnTrue()
 	{
 		$sut = $this->sut();
@@ -352,9 +323,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authenticateUser_success_returnTrue()
 	{
 		$sut = $this->sut(array('getAdLdap'));
@@ -372,9 +341,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authenticateUser_unsuccessful_returnFalse()
 	{
 		$sut = $this->sut(array('getAdLdap'));
@@ -392,9 +359,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAttributesOfUser_processAdInformation_returnAttributes()
 	{
 		$sut = $this->sut(array('getAdLdap'));
@@ -434,8 +399,8 @@ class ConnectionTest extends BasicTestCase
 	/**
 	 * @issue ADI-713
 	 * @since 2.1.13
-	 * @test
 	 */
+	#[Test]
 	public function ADI_713_mapUserInfo_returnsFirstMatch_ifOneIsFound()
 	{
 		$userQuery = UserQuery::forPrincipal("username");
@@ -450,8 +415,8 @@ class ConnectionTest extends BasicTestCase
 	/**
 	 * @issue ADI-713
 	 * @since 2.1.13
-	 * @test
 	 */
+	#[Test]
 	public function ADI_713_mapUserInfo_returnsFalse_ifMultipleAreFound()
 	{
 		$userQuery = UserQuery::forPrincipal("username");
@@ -463,9 +428,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function modifyUserWithoutSchema_emptyAttributes_returnFalse()
 	{
 		$sut = $this->sut();
@@ -485,9 +448,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function modifyUserWithoutSchema_throwException_returnFalse()
 	{
 		$sut = $this->sut(array('getAdLdap'));
@@ -515,9 +476,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function modifyUserWithoutSchema_emptyResponse_returnFalse()
 	{
 		$sut = $this->sut(array('getAdLdap'));
@@ -545,9 +504,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function modifyUserWithoutSchema_successfulChange_returnTrue()
 	{
 		$sut = $this->sut(array('getAdLdap'));
@@ -575,9 +532,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkPorts_fsockopenIsDeactivated_returnFalse()
 	{
 		$sut = $this->sut();
@@ -591,9 +546,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkPorts_fsockopenIsAvailable_delegateToMethod()
 	{
 		$sut = $this->sut(array('checkPort'));
@@ -609,11 +562,9 @@ class ConnectionTest extends BasicTestCase
 				array(Options::DOMAIN_CONTROLLERS),
 				array(Options::PORT)
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					'127.0.0.1;localhost',
-					80
-				)
+			->willReturn(
+				'127.0.0.1;localhost',
+				80
 			);
 
 		$sut->expects($this->exactly(2))
@@ -622,19 +573,15 @@ class ConnectionTest extends BasicTestCase
 				array('127.0.0.1', 80, 2),
 				array('localhost', 80, 2)
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					false,
-					true
-				)
+			->willReturn(
+				false,
+				true
 			);
 
 		$sut->checkPorts();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkPort_fsockopenNotAvailable_returnFalse()
 	{
 		$sut = $this->sut();
@@ -649,9 +596,7 @@ class ConnectionTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkPort_unsuccessfulResponse_returnFalse()
 	{
 		$sut = $this->sut();
@@ -670,9 +615,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function checkPort_successfulResponse_returnTrue()
 	{
 		$sut = $this->sut();
@@ -695,9 +638,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getLastUsedDC()
 	{
 		$sut = $this->sut(array('getAdLdap'));
@@ -714,9 +655,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals('dc', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAllMembersOfGroups_delegateToMethod_returnMembers()
 	{
 		$sut = $this->sut(array('findAllMembersOfGroup', 'filterDomainMembers'));
@@ -742,11 +681,9 @@ class ConnectionTest extends BasicTestCase
 				array('groupA'),
 				array('groupB')
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					$groupA,
-					$groupB
-				)
+			->willReturn(
+				$groupA,
+				$groupB
 			);
 
 		$sut->expects($this->exactly(2))
@@ -755,20 +692,16 @@ class ConnectionTest extends BasicTestCase
 				array($groupA),
 				array($groupB)
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					$groupA,
-					$groupB
-				)
+			->willReturn(
+				$groupA,
+				$groupB
 			);
 
 		$actual = $sut->findAllMembersOfGroups('groupA;groupB');
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function filterDomainMembers_itConvertsArrayIntoAssociativeArray()
 	{
 		$sut = $this->sut(array('getAdLdap'));
@@ -799,11 +732,9 @@ class ConnectionTest extends BasicTestCase
 				array('a'),
 				array('b')
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					$userInfoA,
-					$userInfoB
-				)
+			->willReturn(
+				$userInfoA,
+				$userInfoB
 			);
 
 		$this->activeDirectoryContext->expects($this->exactly(2))
@@ -816,11 +747,9 @@ class ConnectionTest extends BasicTestCase
 					return $sid->getFormatted() == 'S-1-5-21-3623811015-3361044348-30300820-666';
 				}), false),
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					true,
-					false /* wrong SID */
-				)
+			->willReturn(
+				true,
+				false /* wrong SID */
 			);
 
 		$actual = $sut->filterDomainMembers(array('a', 'b'));
@@ -829,9 +758,9 @@ class ConnectionTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #186
 	 */
+	#[Test]
 	public function GH_186_filterDomainMembers_canDealWithNullSids()
 	{
 		$sut = $this->sut(array('getAdLdap'));
@@ -853,10 +782,8 @@ class ConnectionTest extends BasicTestCase
 			->with(...self::withConsecutive(
 				array('a'),
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					$userInfoA
-				)
+			->willReturn(
+				$userInfoA
 			);
 
 		$this->activeDirectoryContext->expects($this->exactly(1))
@@ -866,10 +793,8 @@ class ConnectionTest extends BasicTestCase
 					return $sid == null;
 				}), false)
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					true
-				)
+			->willReturn(
+				true
 			);
 
 		$actual = $sut->filterDomainMembers(array('a'));
@@ -877,9 +802,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(array('a' => 'a'), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAllMembersOfGroup_getMembersOfPrimaryGroupId_returnMembers()
 	{
 		$sut = $this->sut(array('getAdLdap'));
@@ -901,9 +824,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAllMembersOfGroup_getMembersOfGroupName_returnMembers()
 	{
 		$sut = $this->sut(array('getAdLdap'));
@@ -931,9 +852,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAllMembersOfGroup_throwException_returnFalse()
 	{
 		$sut = $this->sut(array('getAdLdap'));
@@ -956,9 +875,7 @@ class ConnectionTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAllMembersOfGroup_groupMembersNotAnArray_returnFalse()
 	{
 		$sut = $this->sut(array('getAdLdap'));

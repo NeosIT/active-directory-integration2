@@ -30,6 +30,7 @@ use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Ui;
 use Dreitier\WordPress\Multisite\Ui\BlogConfigurationController;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -57,9 +58,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getTitle()
 	{
 		$sut = $this->sut();
@@ -87,9 +86,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSlug()
 	{
 		$sut = $this->sut();
@@ -100,9 +97,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($expectedReturn, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxSlug()
 	{
 		$sut = $this->sut();
@@ -113,9 +108,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($expectedReturn, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function renderAdmin()
 	{
 		$sut = $this->sut(array('display'));
@@ -163,9 +156,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$sut->renderAdmin();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadAdminScriptsAndStyle()
 	{
 		$sut = $this->sut();
@@ -596,9 +587,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$sut->loadAdminScriptsAndStyle($hook);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxListener_withEscapedCharacter_unescapeTheseCharacter()
 	{
 		$sut = $this->sut(array('renderJson', 'routeRequest', 'currentUserHasCapability'));
@@ -637,9 +626,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$sut->wpAjaxListener();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxListener()
 	{
 		$sut = $this->sut(array('renderJson', 'routeRequest', 'currentUserHasCapability'));
@@ -678,9 +665,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$sut->wpAjaxListener();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxListener_EmptyData()
 	{
 		$sut = $this->sut();
@@ -698,9 +683,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$sut->wpAjaxListener();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxListener_NoPermission()
 	{
 		$sut = $this->sut();
@@ -724,9 +707,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$sut->wpAjaxListener();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function routeRequest_withoutExistingMapping_returnsFalse()
 	{
 		$sut = $this->sut();
@@ -736,9 +717,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function routeRequest_withExistingMapping_triggersMethod()
 	{
 		$sut = $this->sut(array(NadiSingleSiteConfigurationPage::SUB_ACTION_GENERATE_AUTHCODE));
@@ -752,9 +731,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->invokeMethod($sut, 'routeRequest', array($subAction, []));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getAllOptionValues_withPermissionLowerThanBlogAdmin_removesValuesFromResult()
 	{
 		$sut = $this->sut();
@@ -797,9 +774,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		), $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function generateNewAuthCode_returnsNewAuthCode()
 	{
 		$sut = $this->sut();
@@ -811,9 +786,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertNotEmpty($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistOptionsValues_validatesData()
 	{
 		$sut = $this->sut(array('validate'));
@@ -836,9 +809,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistOptionsValues_withInsufficientPermission_removesDataBeforeSave()
 	{
 		$sut = $this->sut(array('validate'));
@@ -859,9 +830,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->invokeMethod($sut, 'persistOptionsValues', array(array('data' => array('test' => 'test'))));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withoutValidationErrors_rendersErrors()
 	{
 		$sut = $this->sut(array('getValidator', 'validateWithValidator'));
@@ -882,9 +851,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->invokeMethod($sut, 'validate', array($data));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getValidator_hasRequiredValidations()
 	{
 		$sut = $this->sut();
@@ -912,9 +879,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertInstanceOf(BaseDnWarn::class, $rules[Options::BASE_DN][1]);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistDomainSid_itSavesBlogOptions()
 	{
 		$sut = $this->sut();
@@ -929,9 +894,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function verifyAdConnection_withValidData_returnsSuccess()
 	{
 		$data = array('option' => 'someValue');
@@ -962,9 +925,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($actual, array('status_success' => 1234));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function verifyAdConnection_withInvalidData_returnsErrors()
 	{
 		$data = array('option' => 'someValue');
@@ -993,9 +954,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($actual, array('option' => array(Type::ERROR => 'Some error message')));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function verifyInternal_withValidData_returnsSuccess()
 	{
 		$data = array('option' => 'someValue');
@@ -1040,9 +999,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($actual, array('verification_successful_sid' => $expectedSid, 'verification_successful_netbios' => $expectedNetBiosName));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function verifyInternal_cantFindDomainSid_returnsError()
 	{
 		$data = array('option' => 'someValue');
@@ -1058,9 +1015,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($actual, array("verification_error" => "Verification failed! Please check your logfile for further information."));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function prepareDomainSid_withValidDomainSid_returnsSuccess()
 	{
 		$domainSid = 'S-1-22-3-4-4567890-12345678';
@@ -1075,9 +1030,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function prepareDomainSid_withInvalidDomainSid_returnsError()
 	{
 		$domainSid = null;
@@ -1090,9 +1043,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getDomainSidForPersistence_returnsValidArray()
 	{
 		$domainSid = 'S-1-23-4-567890-123456';
@@ -1103,9 +1054,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($actual, array("domain_sid" => $domainSid));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getVerificationValidator_hasRequiredValidators()
 	{
 		$sut = $this->sut();
@@ -1122,9 +1071,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertInstanceOf(NotEmptyOrWhitespace::class, $rules[Options::DOMAIN_CONTROLLERS][0]);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addBaseDnValidators_hasRequiredValidators()
 	{
 		$sut = $this->sut();
@@ -1138,9 +1085,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertInstanceOf(BaseDnWarn::class, $rules[Options::BASE_DN][1]);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function prepareNetBiosName_validName_returnsNetBiosName()
 	{
 		$sut = $this->sut(array('getNetBiosNameForPersistence'));
@@ -1158,9 +1103,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($actual, $expectedNetBiosData);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function prepareNetBiosName_noNetBiosName_returnsFalse()
 	{
 		$sut = $this->sut(array('getNetBiosNameForPersistence'));
@@ -1175,9 +1118,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($actual, false);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getNetBiosNameForPersistence_returnsValidArray()
 	{
 		$netBiosName = 'TEST';
@@ -1188,9 +1129,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($actual, array("netbios_name" => $netBiosName));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function persistNetBiosName_calls_saveBlogOptions()
 	{
 		$sut = $this->sut();
@@ -1206,9 +1145,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateVerification_calls_validateWithValidator()
 	{
 		$sut = $this->sut(array('getVerificationValidator', 'validateWithValidator'));
@@ -1232,9 +1169,7 @@ class NadiSingleSiteConfigurationPageTest extends BasicTestCase
 		$this->assertEquals($actual, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateWithValidator_calls_givenValidator_validateMethod()
 	{
 		$sut = $this->sut(array('validate'));

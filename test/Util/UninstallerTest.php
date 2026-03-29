@@ -4,6 +4,7 @@ namespace Dreitier\Util;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Test\CallableMock;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class UninstallerTest extends BasicTestCase
@@ -32,9 +33,7 @@ class UninstallerTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getAllOptionTables_withSingleSite_returnDefaultTable()
 	{
 		global $wpdb;
@@ -53,9 +52,7 @@ class UninstallerTest extends BasicTestCase
 		$this->assertEquals($expected, array('wp_options'));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getAllOptionTables_withMultiSite_returnAllTables()
 	{
 		global $wpdb;
@@ -82,9 +79,7 @@ class UninstallerTest extends BasicTestCase
 		$this->assertEquals($expected, array('wp_options', 'wp_2_options', 'wp_3_options', 'wp_4_options'));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function deleteAllEntriesFromTable_shouldExecuteSQLQuery()
 	{
 		global $wpdb;
@@ -99,9 +94,7 @@ class UninstallerTest extends BasicTestCase
 		$sut->deleteAllEntriesFromTable('wp_options', 'option_name');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function removePluginSettings_fromSingleSite_callMethodsInRightOrder()
 	{
 		global $wpdb;
@@ -130,9 +123,7 @@ class UninstallerTest extends BasicTestCase
 		$sut->removePluginSettings();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function removePluginSettings_fromMultiSite_callMethodsInRightOrder()
 	{
 		global $wpdb;

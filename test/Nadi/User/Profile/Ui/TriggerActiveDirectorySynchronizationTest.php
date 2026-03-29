@@ -10,6 +10,7 @@ use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Nadi\Synchronization\ActiveDirectorySynchronizationService;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -60,9 +61,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_addsWordPressHooks()
 	{
 		$sut = $this->sut();
@@ -73,9 +72,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateForeignProfile_delegatesToUpdateProfile()
 	{
 		$sut = $this->sut(array('updateProfile'));
@@ -88,9 +85,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$this->assertTrue($sut->updateForeignProfile(666));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateOwnProfile_delegatesToUpdateProfile()
 	{
 		$sut = $this->sut(array('updateProfile'));
@@ -103,9 +98,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$this->assertTrue($sut->updateOwnProfile(666));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateProfile_triggersUpdateWordPressProfile()
 	{
 		$sut = $this->sut(array('updateWordPressProfile', 'triggerSyncToActiveDirectory'));
@@ -136,9 +129,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$this->assertTrue($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateProfile_withEscapedCharacters_unescapeThem()
 	{
 		$userId = 1;
@@ -177,9 +168,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$this->assertEquals('ad-user updated', $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateProfile_triggersSynchronizationToActiveDirectory()
 	{
 		$userId = 1;
@@ -215,9 +204,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$this->assertEquals('ad-user updated', $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateWordPressProfile_triggers_update_user_meta()
 	{
 		$sut = $this->sut();
@@ -249,9 +236,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$sut->updateWordPressProfile($userId, $data);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createLdapConnectionDetails_withServiceAccount_returnConnectionDetails()
 	{
 		$sut = $this->sut();
@@ -279,9 +264,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$this->assertEquals($r, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createLdapConnectionDetails_withoutCustomPassword_returnNull()
 	{
 		$sut = $this->sut();
@@ -309,9 +292,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$this->assertNull($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createLdapConnectionDetails_withCustomPassword_returnConnectionDetails()
 	{
 		$sut = $this->sut();
@@ -347,9 +328,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$this->assertEquals($r, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function triggerSyncToActiveDirectory_usesTheCustomPassword()
 	{
 		$sut = $this->sut(array('createLdapConnectionDetails'));
@@ -372,9 +351,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function triggerSyncToActiveDirectory_startsSynchronization()
 	{
 		$sut = $this->sut(array('createLdapConnectionDetails'));
@@ -403,9 +380,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function triggerSyncToActiveDirectory_withUseServiceAccountAndNoCredentials_returnFalse()
 	{
 		$sut = $this->sut(array('createLdapConnectionDetails'));
@@ -422,12 +397,10 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 				array(Options::SYNC_TO_AD_GLOBAL_USER),
 				array(Options::SYNC_TO_AD_GLOBAL_PASSWORD)
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					true,
-					"",
-					""
-				)
+			->willReturn(
+				true,
+				"",
+				""
 			);
 
 		\WP_Mock::userFunction('get_userdata', array(
@@ -450,9 +423,7 @@ class TriggerActiveDirectorySynchronizationTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function generateError()
 	{
 		$errors = array(

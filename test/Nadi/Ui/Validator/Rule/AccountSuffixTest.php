@@ -5,6 +5,7 @@ namespace Dreitier\Nadi\Ui\Validator\Rule;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class AccountSuffixTest extends BasicTestCase
@@ -38,9 +39,7 @@ class AccountSuffixTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withSingleEmailConflict_returnString()
 	{
 		$sut = $this->sut();
@@ -50,9 +49,7 @@ class AccountSuffixTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withSingleEmail_returnTrue()
 	{
 		$sut = $this->sut();
@@ -62,9 +59,7 @@ class AccountSuffixTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withEmailListConflict_returnString()
 	{
 		$sut = $this->sut();
@@ -74,9 +69,7 @@ class AccountSuffixTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withEmailList_returntrue()
 	{
 		$sut = $this->sut();

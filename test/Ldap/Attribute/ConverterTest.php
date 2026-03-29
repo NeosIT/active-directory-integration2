@@ -2,6 +2,7 @@
 namespace Dreitier\Ldap\Attribute;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
@@ -19,9 +20,7 @@ class ConverterTest extends BasicTestCase
 		\WP_Mock::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function formatAttributeValue_string()
 	{
 		$stringTestReturn = Converter::formatAttributeValue('string', 555);
@@ -29,9 +28,7 @@ class ConverterTest extends BasicTestCase
 		$this->assertTrue(is_string($stringTestReturn));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function formatAttributeValue_integer()
 	{
 		$integerTestReturn = Converter::formatAttributeValue('integer', 55.5);
@@ -39,9 +36,7 @@ class ConverterTest extends BasicTestCase
 		$this->assertTrue(is_integer($integerTestReturn));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function formatAttributeValue_boolean()
 	{
 		$boolTestReturn = Converter::formatAttributeValue('bool', '0');
@@ -49,9 +44,7 @@ class ConverterTest extends BasicTestCase
 		$this->assertTrue(is_bool($boolTestReturn));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function formatAttributeValue_time_utcTime()
 	{
 		$value = "20160131113515"; // 31.01.2016 11:35:15
@@ -84,9 +77,7 @@ class ConverterTest extends BasicTestCase
 		$this->assertEquals($expected, Converter::formatAttributeValue('time', $value));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function formatAttributeValue_time_localTime()
 	{
 		$value = "20160131113515Z"; // 31.01.2016 11:35:15
@@ -127,9 +118,7 @@ class ConverterTest extends BasicTestCase
 		$this->assertEquals($expected, Converter::formatAttributeValue('time', $value));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function formatAttributeValue_timestamp()
 	{
 		$fileTime = 130987999470000000;
@@ -173,9 +162,7 @@ class ConverterTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function formatAttributeValue_octet()
 	{
 		$octetTest = "This is a test String";
@@ -186,9 +173,7 @@ class ConverterTest extends BasicTestCase
 		$this->assertTrue(is_string($octetTestReturn));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function formatAttributeValue_cn_returnCnWithEscapedComma()
 	{
 		$cnTest = "CN=Ellen\,Bogen, OU=EDV, OU=Benutzer, DC=faq-o-matic, DC=net";
@@ -198,9 +183,7 @@ class ConverterTest extends BasicTestCase
 		$this->assertTrue(is_string($cnTestReturn));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function formatAttributeValue_cn_returnCn()
 	{
 		$cnTest = "CN=Ellen Bogen, OU=EDV, OU=Benutzer, DC=faq-o-matic, DC=net";
@@ -210,9 +193,7 @@ class ConverterTest extends BasicTestCase
 		$this->assertTrue(is_string($cnTestReturn));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function formatAttributeValue_invalidCn_returnEmptyString()
 	{
 		$cnTest = "invalid";
@@ -262,8 +243,8 @@ class ConverterTest extends BasicTestCase
 
 	/**
 	 * @issue #184
-	 * @test
 	 */
+	#[Test]
 	public function GH_184_regressPHP8_formatTimestampCanConvertAnEmptyString() {
 		$this->setupMocksFor_regressPHP8_formatTimestamp();
 		$sut = Converter::formatAttributeValue('timestamp', '');
@@ -271,8 +252,8 @@ class ConverterTest extends BasicTestCase
 
 	/**
 	 * @issue #184
-	 * @test
 	 */
+	#[Test]
 	public function GH_184_regressPHP8_formatTimestampCanConvertANonEmptyString() {
 		$this->setupMocksFor_regressPHP8_formatTimestamp();
 		$sut = Converter::formatAttributeValue('timestamp', 'some string');

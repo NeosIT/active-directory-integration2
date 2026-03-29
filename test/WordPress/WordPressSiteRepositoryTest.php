@@ -2,6 +2,7 @@
 namespace Dreitier\WordPress;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
@@ -9,11 +10,6 @@ use Dreitier\Test\BasicTestCase;
  */
 class WordPressSiteRepositoryTest extends BasicTestCase
 {
-    public function setUp() : void
-    {
-        parent::setUp();
-    }
-
     public function tearDown() : void
     {
         global $wp_version;
@@ -21,9 +17,7 @@ class WordPressSiteRepositoryTest extends BasicTestCase
         parent::tearDown();
     }
 
-    /**
-     * @test
-     */
+	#[Test]
     public function getSites_withWordPress4_5_shouldCallWpGetSites() {
         global $wp_version;
         $wp_version = '4.5.3';
@@ -44,8 +38,8 @@ class WordPressSiteRepositoryTest extends BasicTestCase
 
     /**
      * @issue ADI-419
-     * @test
      */
+	#[Test]
     public function ADI_419_getSite_withWordPress4_6_itShouldCallGetBlogDetails() {
         global $wp_version;
         $wp_version = '4.6';
@@ -66,8 +60,8 @@ class WordPressSiteRepositoryTest extends BasicTestCase
 
     /**
      * @issue ADI-419
-     * @test
      */
+	#[Test]
     public function ADI_419_getSite_withWordPress4_7_itShouldCallGetSite() {
         global $wp_version;
         $wp_version = '4.7';

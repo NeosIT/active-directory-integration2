@@ -8,6 +8,7 @@ use Dreitier\WordPress\Multisite\Configuration\Persistence\DefaultProfileReposit
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileRepository;
 use Dreitier\WordPress\WordPressRepository;
 use Mockery\Mock;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -62,9 +63,7 @@ class BlogProfileRelationshipControllerTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveDefaultProfile_withExistingProfile_delegatesCallToRepository()
 	{
 		$sut = $this->sut(array('validateProfile'));
@@ -85,9 +84,7 @@ class BlogProfileRelationshipControllerTest extends BasicTestCase
 		$sut->saveDefaultProfile(1);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveDefaultProfile_withoutExistingProfile_doesNotDelegateCallToRepository()
 	{
 		$sut = $this->sut(array('validateProfile'));
@@ -108,9 +105,7 @@ class BlogProfileRelationshipControllerTest extends BasicTestCase
 		$sut->saveDefaultProfile(1);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveBlogProfileAssociations_withExistingBlogAndProfileId()
 	{
 		$sut = $this->sut(array('validateBlog', 'validateProfile', 'getSites'));
@@ -150,9 +145,7 @@ class BlogProfileRelationshipControllerTest extends BasicTestCase
 		$sut->saveBlogProfileAssociations('3', array('2'));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateBlog_withNotExistingBlogId_returnFalse()
 	{
 		$sut = $this->sut();
@@ -169,9 +162,7 @@ class BlogProfileRelationshipControllerTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validateProfile_withNotExistingProfileId_returnFalse()
 	{
 		$sut = $this->sut();

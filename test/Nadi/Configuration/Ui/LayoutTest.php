@@ -4,6 +4,7 @@ namespace Dreitier\Nadi\Configuration\Ui;
 
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
@@ -22,9 +23,7 @@ class LayoutTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getOptionsGrouping_isArray()
 	{
 		$this->mockFunction__();
@@ -32,9 +31,7 @@ class LayoutTest extends BasicTestCase
 		$this->assertTrue(is_array($optionsGrouping));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getOptionGrouping_arrayNotEmpty()
 	{
 		$this->mockFunction__();
@@ -44,9 +41,7 @@ class LayoutTest extends BasicTestCase
 		$this->assertTrue(!empty($optionsGrouping));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getOptionsGrouping_checkStructure()
 	{
 		$this->mockFunction__();

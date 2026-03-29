@@ -6,6 +6,7 @@ use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Util;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -39,9 +40,7 @@ class ExtendUserListTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_showUserStatusFalse()
 	{
 		$sut = $this->sut();
@@ -71,9 +70,7 @@ class ExtendUserListTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_itAddsFilters()
 	{
 		$sut = $this->sut();
@@ -89,9 +86,7 @@ class ExtendUserListTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addColumns()
 	{
 		$sut = $this->sut();
@@ -108,9 +103,7 @@ class ExtendUserListTest extends BasicTestCase
 		$this->assertEquals($filledColumns, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addColumns_withCrmPeActivated()
 	{
 		$sut = $this->sut(array('__columnManagedByCrmPe'));
@@ -137,9 +130,7 @@ class ExtendUserListTest extends BasicTestCase
 		$this->assertEquals($filledColumns, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addContent_rendersAdiUser()
 	{
 		$sut = $this->sut(array('renderIsAdiUserColumn'));
@@ -152,9 +143,7 @@ class ExtendUserListTest extends BasicTestCase
 		$this->assertEquals('EXP', $sut->addContent('', $sut->__columnIsAdiUser(), 666));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addContent_rendersDisabledReason()
 	{
 		$sut = $this->sut(array('renderDisabledColumn'));
@@ -167,9 +156,7 @@ class ExtendUserListTest extends BasicTestCase
 		$this->assertEquals('EXP', $sut->addContent('', $sut->__columnUserDisabled(), 666));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function renderUsernameColumn_itAddsPlaceholder()
 	{
 		$sut = $this->sut();
@@ -189,9 +176,7 @@ class ExtendUserListTest extends BasicTestCase
 		$this->assertEquals($expected, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function renderUsernameColumn_itAddsAnEmptyString()
 	{
 		$sut = $this->sut();
@@ -212,9 +197,7 @@ class ExtendUserListTest extends BasicTestCase
 		$this->assertEquals($expected, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function renderDisabledColumn_itShowsDisablingReason()
 	{
 		$sut = $this->sut();
@@ -242,9 +225,7 @@ class ExtendUserListTest extends BasicTestCase
 		$this->assertEquals($expected, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function renderManagedByCrmPeColumn_itShowsIfPremiumExtensionCRMIsEnabled()
 	{
 		$sut = $this->sut(array('__columnManagedByCrmPe'));
@@ -271,9 +252,7 @@ class ExtendUserListTest extends BasicTestCase
 		$this->assertEquals($expected, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function renderDisabledColumn_itShowEmptyString()
 	{
 		$sut = $this->sut();
@@ -301,9 +280,7 @@ class ExtendUserListTest extends BasicTestCase
 		$this->assertEquals($expected, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addContent_noCase_doNotAlterValuesFromOtherColumns()
 	{
 		$sut = $this->sut();

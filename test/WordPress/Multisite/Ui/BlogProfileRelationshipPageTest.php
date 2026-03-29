@@ -6,6 +6,7 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Ui;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
 use Mockery\Mock;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -33,9 +34,7 @@ class BlogProfileRelationshipPageTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getTitle()
 	{
 		$sut = $this->sut();
@@ -64,9 +63,7 @@ class BlogProfileRelationshipPageTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSlug()
 	{
 		$sut = $this->sut();
@@ -77,9 +74,7 @@ class BlogProfileRelationshipPageTest extends BasicTestCase
 		$this->assertEquals($expectedReturn, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxSlug()
 	{
 		$sut = $this->sut();
@@ -90,9 +85,7 @@ class BlogProfileRelationshipPageTest extends BasicTestCase
 		$this->assertEquals($expectedReturn, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function renderNetwork()
 	{
 		$sut = $this->sut(array('display'));
@@ -128,9 +121,7 @@ class BlogProfileRelationshipPageTest extends BasicTestCase
 		$sut->renderNetwork();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadJavaScriptAdmin()
 	{
 		$sut = $this->sut();
@@ -158,9 +149,7 @@ class BlogProfileRelationshipPageTest extends BasicTestCase
 		$sut->loadNetworkScriptsAndStyle($hook);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxListener()
 	{
 		$sut = $this->sut(array('saveBlogProfileAssociations', 'saveDefaultProfile'));
@@ -196,9 +185,7 @@ class BlogProfileRelationshipPageTest extends BasicTestCase
 		$sut->wpAjaxListener();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxListener_noData()
 	{
 		$sut = $this->sut();
@@ -215,9 +202,7 @@ class BlogProfileRelationshipPageTest extends BasicTestCase
 		$sut->wpAjaxListener();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxListener_noPermission()
 	{
 		$sut = $this->sut();
@@ -242,9 +227,7 @@ class BlogProfileRelationshipPageTest extends BasicTestCase
 		$sut->wpAjaxListener();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveBlogProfileAssociations_noData_doesNotTriggerController()
 	{
 		$sut = $this->sut();
@@ -257,9 +240,7 @@ class BlogProfileRelationshipPageTest extends BasicTestCase
 		$this->invokeMethod($sut, 'saveBlogProfileAssociations', array($data));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveBlogProfileAssociations_withData_doesTriggerController()
 	{
 		$sut = $this->sut();
@@ -276,9 +257,7 @@ class BlogProfileRelationshipPageTest extends BasicTestCase
 		$this->invokeMethod($sut, 'saveBlogProfileAssociations', array($data));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveDefaultProfile_noData_doesNotTriggerController()
 	{
 		$sut = $this->sut();
@@ -291,9 +270,7 @@ class BlogProfileRelationshipPageTest extends BasicTestCase
 		$this->invokeMethod($sut, 'saveDefaultProfile', array($data));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function saveDefaultProfile_withData_doesTriggerController()
 	{
 		$sut = $this->sut();

@@ -13,6 +13,7 @@ use Dreitier\Nadi\User\LoginSucceededService;
 use Dreitier\Nadi\User\Manager;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -76,9 +77,7 @@ class LoginServiceTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authenticate_itSkips_ifNoActiveDirectoryAuthenticationIsRequired()
 	{
 		$sut = $this->sut(
@@ -102,9 +101,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authenticate_itTriesAuthenticatableSuffixes_ifAuthenticationIsRequired()
 	{
 		$sut = $this->sut(
@@ -137,9 +134,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function tryAuthenticatableSuffixes_itReturnsFalse_ifNoSuffixIsGiven()
 	{
 		$sut = $this->sut(array('authenticateAtActiveDirectory'));
@@ -152,9 +147,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertFalse($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function tryAuthenticatableSuffixes_itExecutesPostAuthentication_ifAuthenticationSucceeds()
 	{
 		$sut = $this->sut(array(
@@ -180,8 +173,8 @@ class LoginServiceTest extends BasicTestCase
 
 	/**
 	 * @since 2.2.0
-	 * @test
 	 */
+	#[Test]
 	public function updateCredentials_setsRelevantPrincipals()
 	{
 		$sut = $this->sut();
@@ -201,9 +194,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertEquals($attributes['objectguid'], $credentials->getObjectGuid());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createAuthentication_itCreatesANewInstance()
 	{
 		$sut = $this->sut();
@@ -213,9 +204,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertNotNull($credentials);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function requiresActiveDirectoryAuthentication_returnsFalse_ifEmpty()
 	{
 		$sut = $this->sut();
@@ -224,9 +213,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertFalse($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function requiresActiveDirectoryAuthentication_returnsFalse_ifAdmin()
 	{
 		$sut = $this->sut(array('getWordPressUser'));
@@ -245,9 +232,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertFalse($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function requiresActiveDirectoryAuthentication_itReturnsFalse_whenUsernameIsExcluded()
 	{
 		$sut = $this->sut(array('getWordPressUser', 'isUsernameExcludedFromAuthentication'));
@@ -265,9 +250,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertFalse($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function requiresActiveDirectoryAuthentication_returnsTrue_ifNormalUser()
 	{
 		$sut = $this->sut(array('getWordPressUser', 'isUsernameExcludedFromAuthentication'));
@@ -283,9 +266,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertTrue($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isUsernameExcludedFromAuthentication_itReturnsTrue_whenUserIsExcluded()
 	{
 		$sut = $this->sut();
@@ -301,8 +282,8 @@ class LoginServiceTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-304
-	 * @test
 	 */
+	#[Test]
 	public function ADI_304_isUsernameExcludedFromAuthentication_itReturnsTrue_whenUserIsExcludedCaseInsensitive()
 	{
 		$sut = $this->sut();
@@ -316,9 +297,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertTrue($sut->isUsernameExcludedFromAuthentication('userb'));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isUsernameExcludedFromAuthentication_itReturnsFalse_whenUserIsNotExcluded()
 	{
 		$sut = $this->sut();
@@ -331,9 +310,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertFalse($sut->isUsernameExcludedFromAuthentication('userC'));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function detectAuthenticatableSuffixes_itReturnsDefaultSuffixes_whenNoSuffixIsGiven()
 	{
 		$sut = $this->sut();
@@ -349,9 +326,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertEquals(array('@home.de', '@test.ad'), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function detectAuthenticatableSuffixes_itReturnsGivenSuffix_ifNoDefaultSuffixesAreGiven()
 	{
 		$sut = $this->sut();
@@ -367,9 +342,9 @@ class LoginServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-716
 	 */
+	#[Test]
 	public function ADI_716()
 	{
 		$sut = $this->sut();
@@ -384,9 +359,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertEquals(array('@domain.tld'), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function detectAuthenticatableSuffixes_itReturnsDefaultSuffixes_whenSuffixIsNotRegistered()
 	{
 		$sut = $this->sut();
@@ -402,9 +375,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertEquals(array('@test.ad', '@domain.tld'), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authenticateAtActiveDirectory_itReturnsFalse_whenAuthenticationFails()
 	{
 		$sut = $this->sut();
@@ -427,9 +398,7 @@ class LoginServiceTest extends BasicTestCase
 		$this->assertEquals(false, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function authenticateAtActiveDirectory_itReturnsTrue_whenAuthenticationSucceeds()
 	{
 		$sut = $this->sut();
@@ -458,8 +427,8 @@ class LoginServiceTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-367
-	 * @test
 	 */
+	#[Test]
 	public function ADI_367_xmlrpcMustBeSecured_whenAllowXmlRpcLoginIsDisabled()
 	{
 		$sut = $this->sut();
@@ -484,8 +453,8 @@ class LoginServiceTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-367
-	 * @test
 	 */
+	#[Test]
 	public function ADI_367_xmlrpcIsAllowed_whenOptionIsConfigured()
 	{
 		$sut = $this->sut();
@@ -509,8 +478,8 @@ class LoginServiceTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-367
-	 * @test
 	 */
+	#[Test]
 	public function ADI_367_authenticate_checksXmlRpcAccess()
 	{
 		$sut = $this->sut(
@@ -531,9 +500,9 @@ class LoginServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-673
 	 */
+	#[Test]
 	public function getWordPressUser_withValidLogin_returnsExpectedWpUser()
 	{
 		$login = 'john.doe';
@@ -554,9 +523,9 @@ class LoginServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-673
 	 */
+	#[Test]
 	public function getWordPressUser_withInvalidLogin_returnsFalse()
 	{
 		$login = 'john.doe';
@@ -576,9 +545,9 @@ class LoginServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-673
 	 */
+	#[Test]
 	public function postAuthentication_withValidCredentials_authenticationSuccess_returnsCredentials()
 	{
 		$samaccountName = 'john.doe';
@@ -606,9 +575,9 @@ class LoginServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-673
 	 */
+	#[Test]
 	public function postAuthentication_withInvalidCredentials_returnsFalse()
 	{
 		$samaccountName = 'john.doe';
@@ -632,9 +601,9 @@ class LoginServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-673
 	 */
+	#[Test]
 	public function register_withoutLostPasswordRecovery_willAddExpectedFilter()
 	{
 		$sut = $this->sut();
@@ -651,9 +620,9 @@ class LoginServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-673
 	 */
+	#[Test]
 	public function register_withLostPasswordRecovery_willAddExpectedFilters()
 	{
 		$sut = $this->sut();
@@ -670,9 +639,9 @@ class LoginServiceTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue #142
 	 */
+	#[Test]
 	public function register_adds_filter_next_ad_int_auth_form_login_requires_ad_authentication()
 	{
 		$sut = $this->sut();

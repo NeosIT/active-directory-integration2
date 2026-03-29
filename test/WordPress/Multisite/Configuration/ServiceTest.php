@@ -7,6 +7,7 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\BlogConfigurationRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileConfigurationRepository;
 use Dreitier\WordPress\Multisite\Configuration\Persistence\ProfileRepository;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -56,9 +57,7 @@ class ServiceTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAllProfiles_withGivenOptionNames_usesOnlyGivenOptions()
 	{
 		$sut = $this->sut(array('getProfileOptionsValues'));
@@ -101,9 +100,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAllProfiles_withEmptyOptionNames_usesAllOptions()
 	{
 		$sut = $this->sut(array('getProfileOptionsValues'));
@@ -146,9 +143,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getOption_withoutBlogId_requestBlogId()
 	{
 		$sut = $this->sut(array('getProfileOptionValue', 'getValue', 'getPermission'));
@@ -169,9 +164,7 @@ class ServiceTest extends BasicTestCase
 		$sut->getOption('port', null);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getOption_withBlogId_delegateToMethods()
 	{
 		$sut = $this->sut(array('getProfileOptionValue', 'getValue', 'getPermission'));
@@ -192,11 +185,10 @@ class ServiceTest extends BasicTestCase
 				array(Options::DOMAIN_SID, 44),
 				array(Options::PORT, 44)
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					'',
-					'689'
-				));
+			->willReturn(
+				'',
+				'689'
+			);
 
 		$sut->expects($this->once())
 			->method('getPermission')
@@ -218,9 +210,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getOptionWithCache()
 	{
 		$sut = $this->sut(array('getProfileOptionValue', 'getValue', 'getPermission'));
@@ -241,11 +231,10 @@ class ServiceTest extends BasicTestCase
 				array(Options::DOMAIN_SID, 44),
 				array(Options::PORT, 44)
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					'',
-					'689'
-				));
+			->willReturn(
+				'',
+				'689'
+			);
 
 		$sut->expects($this->once())
 			->method('getPermission')
@@ -269,9 +258,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $actualWithCache);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getProfileOptionValue_singleSite_returnNull()
 	{
 		$sut = $this->sut();
@@ -285,9 +272,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals(null, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getProfileOptionValue_multisite_returnProfileOptions()
 	{
 		$sut = $this->sut();
@@ -317,9 +302,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($profileOption, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getValue_optionPermissionEqual3_returnBlogOptionValue()
 	{
 		$sut = $this->sut();
@@ -328,9 +311,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals('389', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getValue_optionPermissionEqual1_returnProfileOptionValue()
 	{
 		$sut = $this->sut();
@@ -339,9 +320,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals('999', $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getPermission_multiSite_returnPermission()
 	{
 		$sut = $this->sut();
@@ -360,9 +339,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals(1, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getPermission_singleSite_returnPermission()
 	{
 		$sut = $this->sut();
@@ -376,9 +353,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals(3, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addProfileInformation_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -400,9 +375,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isEnvironmentOption_whenCheckingEnvironmentOption_itReturnsTrue()
 	{
 		$sut = $this->sut();
@@ -411,9 +384,7 @@ class ServiceTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isEnvironmentOption_whenCheckingNonEnvironmentOption_itReturnsFalse()
 	{
 		$sut = $this->sut();

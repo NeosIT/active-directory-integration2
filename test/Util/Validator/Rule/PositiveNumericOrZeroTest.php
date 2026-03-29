@@ -5,6 +5,7 @@ namespace Dreitier\Util\Validator\Rule;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -47,9 +48,7 @@ class PositiveNumericOrZeroTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withPositiveNumeric_returnTrue()
 	{
 		$sut = $this->sut();
@@ -62,9 +61,7 @@ class PositiveNumericOrZeroTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withZero_returnTrue()
 	{
 		$sut = $this->sut();
@@ -77,9 +74,7 @@ class PositiveNumericOrZeroTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withNegativeNumeric_returnString()
 	{
 		$sut = $this->sut();

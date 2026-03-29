@@ -3,6 +3,7 @@
 namespace Dreitier\Util;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
@@ -10,9 +11,7 @@ use Dreitier\Test\BasicTestCase;
  */
 class StringUtilTest extends BasicTestCase
 {
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function split_removesCarriageReturnAndSplitsStringByNewLines()
 	{
 		$string = "This \r\n is \r\n a \r\n test \r\n string.";
@@ -31,8 +30,8 @@ class StringUtilTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-248
-	 * @test
 	 */
+	#[Test]
 	public function ADI248_splitNonEmpty_onlyReturnsNonEmptyLines()
 	{
 		$string = "  ; ; test ";
@@ -45,8 +44,8 @@ class StringUtilTest extends BasicTestCase
 
 	/**
 	 * This has been added as a possible regression test.
-	 * @test
 	 */
+	#[Test]
 	public function splitNonEmpty_whenHavingNoSeparator_itReturnsOneElement()
 	{
 		$string = "KRB.REALM=upn-suffix1.ad";
@@ -54,9 +53,7 @@ class StringUtilTest extends BasicTestCase
 		$this->assertEquals([$string], $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function splitText_withUnixLineBreaks_returnLinesInArray()
 	{
 		$string = 'abba' . "\n" . 'cddc' . "\n";
@@ -70,9 +67,7 @@ class StringUtilTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function splitText_withWindowLineBreaks_returnLinesInArray()
 	{
 		$string = 'abba' . "\r\n" . 'cddc' . "\n\r" . 'effe';
@@ -87,9 +82,7 @@ class StringUtilTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function splitText_withBeginningWhitespaces_returnTrimmedValues()
 	{
 		$string = '  a bba  ';
@@ -102,9 +95,7 @@ class StringUtilTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function splitText_withEmptyLines_returnNotEmptyLines()
 	{
 		$string = "\n" . 'abba' . "\n" . '     ' . "\n" . '' . "\n" . 'cddc';
@@ -118,9 +109,7 @@ class StringUtilTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function objectSidToDomainSid_itReturnsDomainSidOfObject()
 	{
 		$objectSid = "S-1-5-21-0000000000-0000000000-0000000000-1234";
@@ -131,9 +120,7 @@ class StringUtilTest extends BasicTestCase
 		$this->assertEquals($expected, $domainSid);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isEmptyOrWhitespace_withText_returnsTrue()
 	{
 		$string = 'Test';
@@ -143,9 +130,7 @@ class StringUtilTest extends BasicTestCase
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isEmptyOrWhitespace_withEmptyString_returnsTrue()
 	{
 		$string = '';
@@ -155,9 +140,7 @@ class StringUtilTest extends BasicTestCase
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isEmptyOrWhitespace_withWhitespaceOnly_returnsTrue()
 	{
 		$string = '    ';
@@ -167,9 +150,7 @@ class StringUtilTest extends BasicTestCase
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function startsWith_withNeedleAtStart_returnsTrue()
 	{
 		$string = 'This is a text.';
@@ -179,9 +160,7 @@ class StringUtilTest extends BasicTestCase
 		$this->assertTrue($result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function startsWith_withNeedleInTheMiddle_returnsFalse()
 	{
 		$string = 'This is a text.';
@@ -193,8 +172,8 @@ class StringUtilTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-420
-	 * @test
 	 */
+	#[Test]
 	public function ADI_420_firstChars_whenBooleanIsPassed_itReturnsBoolean()
 	{
 
@@ -204,8 +183,8 @@ class StringUtilTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-420
-	 * @test
 	 */
+	#[Test]
 	public function ADI_420_firstChars_itReturnsTheFirstPart_whenMaxCharsArgumentIsUsed()
 	{
 		$chars = 10;
@@ -216,8 +195,8 @@ class StringUtilTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-420
-	 * @test
 	 */
+	#[Test]
 	public function ADI_420_firstChars_itReturnsByteInfo()
 	{
 		$chars = 5;

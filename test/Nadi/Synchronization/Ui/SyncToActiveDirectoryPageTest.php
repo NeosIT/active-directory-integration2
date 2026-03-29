@@ -9,6 +9,7 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
 use Dreitier\WordPress\Multisite\Ui;
 use Dreitier\WordPress\Multisite\View\TwigContainer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -60,9 +61,7 @@ class SyncToActiveDirectoryPageTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getTitle_escapeTitle_returnTitle()
 	{
 		$sut = $this->sut();
@@ -72,9 +71,7 @@ class SyncToActiveDirectoryPageTest extends BasicTestCase
 		$this->assertEquals('Sync to AD', $returnedTitle);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getSlug_concat_returnSlug()
 	{
 		$sut = $this->sut();
@@ -83,9 +80,7 @@ class SyncToActiveDirectoryPageTest extends BasicTestCase
 		$this->assertEquals(NEXT_ACTIVE_DIRECTORY_INTEGRATION_PREFIX . SyncToActiveDirectoryPage::SLUG, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function wpAjaxSlug_findSlug_returnNull()
 	{
 		$sut = $this->sut();
@@ -94,9 +89,7 @@ class SyncToActiveDirectoryPageTest extends BasicTestCase
 		$this->assertEquals(SyncToActiveDirectoryPage::AJAX_SLUG, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getCapability_getValueFromConstant_returnCapability()
 	{
 		$sut = $this->sut();
@@ -105,9 +98,7 @@ class SyncToActiveDirectoryPageTest extends BasicTestCase
 		$this->assertEquals(SyncToActiveDirectoryPage::CAPABILITY, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function renderAdmin_withCorrectCapability_delegateToMethod()
 	{
 		$sut = $this->sut(array('display', 'currentUserHasCapability'));
@@ -181,9 +172,7 @@ class SyncToActiveDirectoryPageTest extends BasicTestCase
 		$sut->renderAdmin();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadJavaScriptAdmin_validHook_enqeueScript()
 	{
 		$sut = $this->sut();
@@ -450,9 +439,7 @@ class SyncToActiveDirectoryPageTest extends BasicTestCase
 		$sut->loadAdminScriptsAndStyle($hook);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadJavaScriptAdmin_invalidHook_doNothing()
 	{
 		$sut = $this->sut();
@@ -465,9 +452,7 @@ class SyncToActiveDirectoryPageTest extends BasicTestCase
 		$sut->loadAdminScriptsAndStyle($hook);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processData_withInvalidPost_returnEmptyArray()
 	{
 		$sut = $this->sut();
@@ -476,9 +461,7 @@ class SyncToActiveDirectoryPageTest extends BasicTestCase
 		$this->assertEquals([], $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processData_invalidNonce_callWpDie()
 	{
 		$sut = $this->sut();
@@ -504,9 +487,7 @@ class SyncToActiveDirectoryPageTest extends BasicTestCase
 		$sut->processData($post);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function processData_validNonce_callSyncToAd()
 	{
 		$sut = $this->sut();

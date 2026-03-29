@@ -5,6 +5,7 @@ namespace Dreitier\Nadi\Ui\Validator\Rule;
 use Dreitier\Nadi\Role\Manager;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -46,9 +47,7 @@ class DisallowInvalidWordPressRolesTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_onNetworkDashboard_returnsTrue()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard'));
@@ -62,9 +61,7 @@ class DisallowInvalidWordPressRolesTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withoutSuperAdminRole_returnsTrue()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard', 'getWpRoles'));
@@ -82,9 +79,7 @@ class DisallowInvalidWordPressRolesTest extends BasicTestCase
 		$this->assertTrue($actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withSuperAdminRoleInBlogConfig_returnsMessage()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard', 'getWpRoles'));
@@ -102,9 +97,7 @@ class DisallowInvalidWordPressRolesTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withInvalidString_returnsMessage()
 	{
 		$sut = $this->sut(array('isOnNetworkDashboard'));
@@ -118,9 +111,7 @@ class DisallowInvalidWordPressRolesTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getWpRoles_withEmptyString_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -130,9 +121,7 @@ class DisallowInvalidWordPressRolesTest extends BasicTestCase
 		$this->assertCount(0, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getWpRoles_withOneRoleMapping_returnsExpectedResult()
 	{
 		$sut = $this->sut();

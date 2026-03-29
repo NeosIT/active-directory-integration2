@@ -10,7 +10,9 @@ use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Internal\Native;
 use Dreitier\Util\Util;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
+use WP_User;
 
 /**
  * @author Christopher Klein <ckl[at]dreitier[dot]com>
@@ -70,9 +72,7 @@ class ManagerTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function createRoleMapping_looksupSecurityGroups()
 	{
 		$sut = $this->sut();
@@ -86,9 +86,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(array('A', 'B'), $actual->getSecurityGroups());
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isInAuthorizationGroup_itReturnsFalse_ifHeIsNotMemberOfAuthorizationGroup()
 	{
 		$sut = $this->sut();
@@ -106,9 +104,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(false, $value);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function isInAuthorizationGroup_itReturnsTrue_ifHeIsMemberOfOneAuthorizationGroup()
 	{
 		$sut = $this->sut();
@@ -128,8 +124,8 @@ class ManagerTest extends BasicTestCase
 
 	/**
 	 * @issue ADI-248
-	 * @test
 	 */
+	#[Test]
 	public function ADI248_whenAuthorizationGroupIsEmpty_itIsNotPossibleToAuthorize()
 	{
 		$sut = $this->sut();
@@ -147,9 +143,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(true, $value);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeRoles_loadsWordPressRoles()
 	{
 		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles'));
@@ -157,7 +151,7 @@ class ManagerTest extends BasicTestCase
 		$roleMapping = new Mapping("username");
 		$roleMapping->setWordPressRoles([]);
 
-		$wpUser = $this->createAnonymousMock([]);
+		$wpUser = $this->createMock(WP_User::class);
 		$wpUser->ID = 1;
 
 		$sut->expects($this->once())
@@ -167,14 +161,12 @@ class ManagerTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeRoles_onUserCreation_withoutREGsTheDefaultRoleSubscriberIsUsed()
 	{
 		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles', 'isMemberOfRoleEquivalentGroups'));
 
-		$wpUser = $this->createAnonymousMock([]);
+		$wpUser = $this->createMock(WP_User::class);
 		$wpUser->ID = 1;
 
 		$sut->expects($this->once())
@@ -201,14 +193,12 @@ class ManagerTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeRoles_onUserCreation_withREGs_assignRoles()
 	{
 		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles'));
 
-		$wpUser = $this->createAnonymousMock([]);
+		$wpUser = $this->createMock(WP_User::class);
 		$wpUser->ID = 1;
 		$wpUser->roles = array('subscriber');
 		$wpUser->user_login = 'username';
@@ -235,9 +225,7 @@ class ManagerTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeRoles_onUserUpdate_withREGsAndUserHasNoRole_noRolesAreSet()
 	{
 		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles'));
@@ -249,7 +237,7 @@ class ManagerTest extends BasicTestCase
 		$roleMapping = new Mapping("username");
 		$roleMapping->setWordPressRoles([]);
 
-		$wpUser = $this->createAnonymousMock([]);
+		$wpUser = $this->createMock(WP_User::class);
 		$wpUser->ID = 1;
 		$wpUser->user_login = 'username';
 
@@ -265,9 +253,7 @@ class ManagerTest extends BasicTestCase
 		$sut->synchronizeRoles($wpUser, $roleMapping, false);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeRoles_onUserUpdate_withoutREGs_allOldRolesArePreserved()
 	{
 		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles'));
@@ -279,7 +265,7 @@ class ManagerTest extends BasicTestCase
 		$roleMapping = new Mapping("username");
 		$roleMapping->setWordPressRoles([]);
 
-		$wpUser = $this->createAnonymousMock([]);
+		$wpUser = $this->createMock(WP_User::class);
 		$wpUser->ID = 1;
 
 		$sut->expects($this->once())
@@ -290,9 +276,7 @@ class ManagerTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function synchronizeRoles_setRolesIfPresent()
 	{
 		$sut = $this->sut(array('getRoleEquivalentGroups', 'updateRoles', 'loadWordPressRoles'));
@@ -305,7 +289,7 @@ class ManagerTest extends BasicTestCase
 		$roleMapping = new Mapping("username");
 		$roleMapping->setWordPressRoles(array('wordpress-role', 'wordpress-role2'));
 
-		$wpUser = $this->createAnonymousMock([]);
+		$wpUser = $this->createMock(\WP_User::class);
 		$wpUser->ID = 1;
 
 		$this->configuration->expects($this->once())
@@ -320,13 +304,11 @@ class ManagerTest extends BasicTestCase
 		$sut->synchronizeRoles($wpUser, $roleMapping, false);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateRoles_itDoesNotSetRole_ifCleanExistingRolesIsDisabled()
 	{
 		$sut = $this->sut();
-		$wpUser = $this->createAnonymousMock(array('set_role', 'add_role'));
+		$wpUser = $this->createMock(\WP_User::class);
 		$wpUser->user_login = 'username';
 
 		$wpUser->expects($this->never())
@@ -340,13 +322,11 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateRoles_itReleasesExistingRoles_ifCleanExistingRolesIsEnabled()
 	{
 		$sut = $this->sut();
-		$wpUser = $this->createAnonymousMock(array('set_role', 'add_role'));
+		$wpUser = $this->createMock(\WP_User::class);
 		$wpUser->user_login = 'username';
 
 		$wpUser->expects($this->once())
@@ -360,9 +340,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getRoleEquivalentGrous_returnsTheMapping()
 	{
 		$sut = $this->sut();
@@ -378,9 +356,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals('wp-role', $actual['ad-group']);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getMappedWordPressRoles_returnsTheMapping()
 	{
 		$sut = $this->sut(array('getRoleEquivalentGroups'));
@@ -399,20 +375,16 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals('C', $actual[1]);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function roleConstants_haveCorrectValues()
 	{
 		$this->assertEquals('super admin', Manager::ROLE_SUPER_ADMIN);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateRoles_handlesSuperAdminRoleDifferent()
 	{
-		$wpUser = $this->createMockWithMethods(\WP_User::class, array('add_role'));
+		$wpUser = $this->createMock(\WP_User::class);
 		$wpUser->user_login = 'username';
 		$roles = array(Manager::ROLE_SUPER_ADMIN);
 
@@ -424,9 +396,7 @@ class ManagerTest extends BasicTestCase
 		$sut->updateRoles($wpUser, $roles, false);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function grantSuperAdminRole_loadsMultisiteFunctions()
 	{
 		$wpUser = $this->createMock(\WP_User::class);
@@ -445,9 +415,7 @@ class ManagerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'grantSuperAdminRole', array($wpUser));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadMultisiteFunctions_withFunctionAvailable_returns()
 	{
 		$this->native->expects($this->once())
@@ -463,9 +431,7 @@ class ManagerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'loadMultisiteFunctions');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function loadMultisiteFunctions_withoutFunctionAvailable_checksForFileAndImportsIt()
 	{
 		$this->native->expects($this->once())
@@ -487,9 +453,7 @@ class ManagerTest extends BasicTestCase
 		$this->invokeMethod($sut, 'loadMultisiteFunctions');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getRoles_inSingleSite_removesSuperAdminFromRoles()
 	{
 		\WP_Mock::userFunction('is_multisite', array(
@@ -509,9 +473,7 @@ class ManagerTest extends BasicTestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getRoles_inMultiSite_containsAllRoles()
 	{
 		\WP_Mock::userFunction('is_multisite', array(

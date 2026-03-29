@@ -3,6 +3,7 @@
 namespace Dreitier\WordPress\Multisite\Option;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -21,9 +22,7 @@ class SanitizerTest extends BasicTestCase
 		\WP_Mock::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_boolean_checkString()
 	{
 		$sut = $this->sut();
@@ -55,9 +54,7 @@ class SanitizerTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_boolean_checkNumber()
 	{
 		$sut = $this->sut();
@@ -70,9 +67,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertFalse($sut->sanitize(0, $params, []));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_boolean_checkSpecialValues()
 	{
 		$sut = $this->sut();
@@ -86,9 +81,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertFalse($sut->sanitize(null, $params, []));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_integer()
 	{
 		$sut = $this->sut();
@@ -117,9 +110,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals(666, $sut->sanitize(array('a' => 'b'), $params, $metadata));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_email_withCorrectEmail()
 	{
 		$sut = $this->sut();
@@ -150,9 +141,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals('a@b.de', $sut->sanitize('   a@b.de! ', $params, $metadata));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_email_withInvalidEmailAndDefaultValue()
 	{
 		$sut = $this->sut();
@@ -183,9 +172,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals('aa@bb.com', $sut->sanitize('   ab.de! ', $params, $metadata));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_email_withInvalidEmailAndNoDefaultValue()
 	{
 		$sut = $this->sut();
@@ -214,9 +201,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals(null, $sut->sanitize('   ab.de! ', $params, $metadata));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_integerRange_noBorder()
 	{
 		$sut = $this->sut();
@@ -233,9 +218,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals(300, $sut->sanitize('300', $params, $metadata));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_integerRange_leftBorder()
 	{
 		$sut = $this->sut();
@@ -257,9 +240,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals(999, $sut->sanitize('-50', $params, $metadata));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_integerRange_rightBorder()
 	{
 		$sut = $this->sut();
@@ -282,9 +263,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals(666, $sut->sanitize('9000', $params, $metadata));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_integerRange_leftAndRightBorders()
 	{
 		$sut = $this->sut();
@@ -312,9 +291,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals(155, $sut->sanitize("9000", $params, $metadata));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_accumulation()
 	{
 		$sut = $this->sut();
@@ -333,9 +310,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals('1;2;1;666', $output);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_valueAssignment()
 	{
 		$sut = $this->sut();
@@ -401,9 +376,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals('oh no', $sut->sanitize(' aAa=  ', array('valueAssignment'), $metadata));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_selection()
 	{
 		$sut = $this->sut();
@@ -421,9 +394,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals('Kaugummi', $sut->sanitize('Donuts', array('selection'), $metadata));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_custom()
 	{
 		$sut = $this->sut();
@@ -435,9 +406,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals($expected, $sut->sanitize($expected, array('custom'), $expected));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_authcode_weakAuthCode_generateNewAuthCode()
 	{
 		$sut = $this->sut();
@@ -451,9 +420,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals('xahFwxtHSx5kMjCfTzTL', $sut->sanitize('weakpassword', array('authcode'), [], true));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_authcode_nonString_generateNewAuthCode()
 	{
 		$sut = $this->sut();
@@ -467,9 +434,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals('xahFwxtHSx5kMjCfTzTL', $sut->sanitize(999, array('authcode'), [], true));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_authcode_onlyReadValue_returnOldAuthCode()
 	{
 		$sut = $this->sut();
@@ -483,9 +448,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals(999, $sut->sanitize(999, array('authcode'), [], false));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_authcode_strongAuthcode_returnOldAuthCode()
 	{
 		$sut = $this->sut();
@@ -501,9 +464,7 @@ class SanitizerTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_arrayBelowOneReturnFalse()
 	{
 		$sut = $this->sut();
@@ -515,9 +476,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertFalse($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function sanitize_checkCalledMethod()
 	{
 		$sut = $this->sut(array('string'));
@@ -533,9 +492,7 @@ class SanitizerTest extends BasicTestCase
 		$sut->sanitize($value, array('string', true, false, true), $optionData);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function boolean_StringReturnFalse()
 	{
 		$sut = $this->sut();
@@ -545,9 +502,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertFalse($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function boolean_StringReturnTrue()
 	{
 		$sut = $this->sut();
@@ -557,9 +512,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertTrue($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function boolean_NumericReturnFalse()
 	{
 		$sut = $this->sut();
@@ -569,9 +522,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertFalse($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function boolean_NumericReturnTrue()
 	{
 		$sut = $this->sut();
@@ -581,9 +532,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertTrue($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function boolean_BoolReturnValue()
 	{
 		$sut = $this->sut();
@@ -597,9 +546,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertFalse($returnedValueFalse);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function integer_returnInteger()
 	{
 		$sut = $this->sut();
@@ -610,9 +557,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals($value, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function integer_returnDefaultValue()
 	{
 		$sut = $this->sut();
@@ -624,9 +569,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals(42, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function integer_returnNull()
 	{
 		$sut = $this->sut();
@@ -638,9 +581,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertNull($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function string_returnDefaultValue()
 	{
 		$sut = $this->sut();
@@ -654,9 +595,7 @@ class SanitizerTest extends BasicTestCase
 
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function string_returnValue()
 	{
 		$sut = $this->sut();
@@ -669,9 +608,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals('someValue', $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function email_returnDefault()
 	{
 		$sut = $this->sut();
@@ -698,9 +635,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals('test@company.it', $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function email_returnValue()
 	{
 		$sut = $this->sut();
@@ -727,9 +662,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals('test@company.it', $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function integerRange_returnValue()
 	{
 		$sut = $this->sut();
@@ -742,9 +675,7 @@ class SanitizerTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function integerRange_returnDefault()
 	{
 		$sut = $this->sut();
@@ -756,9 +687,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals(20, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function integerRange_returnNull()
 	{
 		$sut = $this->sut();
@@ -770,9 +699,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertNull($returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function accumulation_returnResult()
 	{
 		$sut = $this->sut(array('sanitize'));
@@ -787,21 +714,17 @@ class SanitizerTest extends BasicTestCase
 				array('somethingNew', null, null),
 				array('somethingOld', null, null)
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					'something',
-					'somethingNew',
-					'somethingOld'
-				)
+			->willReturn(
+				'something',
+				'somethingNew',
+				'somethingOld'
 			);
 
 		$returnedValue = $sut->accumulation($value, $userParams, $optionData);
 		$this->assertEquals("something;somethingNew;somethingOld", $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function valueAssignment_returnLeftEqualsRight()
 	{
 		$sut = $this->sut(array('string'));
@@ -815,11 +738,9 @@ class SanitizerTest extends BasicTestCase
 				array('something', array(false, true), null),
 				array('somethingNew', array(true, true), null)
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					'something',
-					'somethingNew'
-				)
+			->willReturn(
+				'something',
+				'somethingNew'
 			);
 
 		$expectedReturn = 'something=somethingNew';
@@ -829,9 +750,7 @@ class SanitizerTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function valueAssignment_returnDefault()
 	{
 		$sut = $this->sut();
@@ -846,9 +765,7 @@ class SanitizerTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function valueAssignment_returnDefaultReasonLeftOrRightEmptyString()
 	{
 		$sut = $this->sut(array('string', 'getDefaultValue'));
@@ -862,11 +779,9 @@ class SanitizerTest extends BasicTestCase
 				array('something', array(false, true), null),
 				array('somethingNew', array(true, true), null)
 			))
-			->will(
-				$this->onConsecutiveCalls(
-					'',
-					''
-				)
+			->willReturn(
+				'',
+				''
 			);
 
 		$sut->expects($this->once())
@@ -880,9 +795,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals($expectedReturn, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function selection_returnValue()
 	{
 		$sut = $this->sut();
@@ -895,9 +808,7 @@ class SanitizerTest extends BasicTestCase
 		$this->assertEquals($value, $returnedValue);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function selection_returnDefaultValue()
 	{
 		$sut = $this->sut();

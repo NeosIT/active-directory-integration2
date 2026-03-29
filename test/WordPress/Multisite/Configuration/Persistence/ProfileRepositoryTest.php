@@ -6,6 +6,7 @@ use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Option\Provider;
 use Dreitier\WordPress\WordPressRepository;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -63,9 +64,7 @@ class ProfileRepositoryTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getProfileOption_returnsExpectedResult()
 	{
 		$sut = $this->sut();
@@ -75,9 +74,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals('next_ad_int_p_n_1', $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function getOptionNameByMapping_withMapping_returnsMappedName()
 	{
 		$sut = $this->sut();
@@ -90,9 +87,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals('next_ad_int_p_n_1', $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAll_returnsExpectedResult()
 	{
 		$sut = $this->sut(array('findAllIDs', 'findName'));
@@ -118,9 +113,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAllIDs_singleSite_returnEmptyArray()
 	{
 		$sut = $this->sut();
@@ -134,9 +127,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals([], $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAllIDs_multiSite_returnAllProfileIds()
 	{
 		$sut = $this->sut();
@@ -159,9 +150,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals(array('1', '2'), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findName_triggersCorrectMethods()
 	{
 		$sut = $this->sut(array('getProfileOption'));
@@ -183,9 +172,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals('name', $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findDescription_triggersCorrectMethods()
 	{
 		$sut = $this->sut(array('getProfileOption'));
@@ -208,9 +195,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals('desc', $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function insert_searchUnusedProfileId_createNewProfile()
 	{
 		$sut = $this->sut();
@@ -240,9 +225,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$sut->insert('p-name', 'p-description');
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function insertProfileData_triggersCorrectMethods()
 	{
 		$sut = $this->sut(array('getProfileOption', 'getOptionNameByMapping'));
@@ -295,9 +278,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals(1, $result);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateProfileData_triggersCorrectMethods()
 	{
 		$sut = $this->sut(array('getOptionNameByMapping'));
@@ -335,9 +316,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$sut->updateProfileData($data, 1);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function insertDefaultProfile_noProfilesExist_createDefaultProfile()
 	{
 		$sut = $this->sut(array('findAll', 'insert'));
@@ -359,9 +338,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function insertDefaultProfile_profilesExist_doNothing()
 	{
 		$sut = $this->sut(array('findAll'));
@@ -376,9 +353,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals(false, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateName_delegateToMethod_updateProfileName()
 	{
 		$sut = $this->sut();
@@ -393,9 +368,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function updateDescription_delegateToMethod_updateProfileDescription()
 	{
 		$sut = $this->sut();
@@ -410,9 +383,7 @@ class ProfileRepositoryTest extends BasicTestCase
 		$this->assertEquals(true, $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function delete_delegateToMethod_deleteProfileAndDependencies()
 	{
 		$sut = $this->sut();

@@ -3,6 +3,7 @@
 namespace Dreitier\Ldap\Attribute;
 
 use Dreitier\Test\BasicTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @author Tobias Hellmann <the@neos-it.de>
@@ -22,9 +23,7 @@ class DescriptionTest extends BasicTestCase
 		parent::tearDown();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAll_callMethodForTheFirstTime_returnExpectedDescriptions()
 	{
 		$descriptions = Description::findAll();
@@ -33,9 +32,7 @@ class DescriptionTest extends BasicTestCase
 		$this->assertEquals(38, sizeof($descriptions));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function findAll_callMethodForTheSecondTime_returnExpectedDescriptions()
 	{
 		Description::findAll();
@@ -45,18 +42,14 @@ class DescriptionTest extends BasicTestCase
 		$this->assertEquals(38, sizeof($descriptions));
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function find_withExistingAttribute_returnExpectedDescription()
 	{
 		$description = Description::find('cn', '');
 		$this->assertEquals('Common Name', $description);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function find_withNoDefaultAdAttribute_withCustomDescription_returnCustomDescription()
 	{
 		$attribute = Description::find('nadi_customAttribute', 'customAttributeDescription');

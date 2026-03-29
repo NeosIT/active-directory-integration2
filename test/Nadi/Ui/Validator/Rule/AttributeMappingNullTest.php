@@ -4,6 +4,7 @@ namespace Dreitier\Nadi\Ui\Validator\Rule;
 
 use Dreitier\Test\BasicTestCase;
 use Dreitier\Util\Message\Type;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -46,9 +47,7 @@ class AttributeMappingNullTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withAdAttributeUndefined_returnString()
 	{
 		$sut = $this->sut();
@@ -61,9 +60,7 @@ class AttributeMappingNullTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withWordPressAttributeUndefined_returnString()
 	{
 		$sut = $this->sut();
@@ -76,9 +73,7 @@ class AttributeMappingNullTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withWordPressAttributeEmpty_returnString()
 	{
 		$sut = $this->sut();
@@ -91,9 +86,7 @@ class AttributeMappingNullTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withWordPressAttributeDefaultValue_returnString()
 	{
 		$sut = $this->sut();
@@ -106,9 +99,7 @@ class AttributeMappingNullTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withTypeUndefined_returnString()
 	{
 		$sut = $this->sut();
@@ -121,9 +112,7 @@ class AttributeMappingNullTest extends BasicTestCase
 		$this->assertEquals(array(Type::ERROR => self::VALIDATION_MESSAGE), $actual);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withTypeEmpty_returnString()
 	{
 		$sut = $this->sut();
@@ -137,9 +126,7 @@ class AttributeMappingNullTest extends BasicTestCase
 	}
 
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function validate_withoutConflict_returnTrue()
 	{
 		$sut = $this->sut();

@@ -5,6 +5,7 @@ namespace Dreitier\Nadi\User\Profile\Ui;
 use Dreitier\Nadi\Configuration\Options;
 use Dreitier\Test\BasicTestCase;
 use Dreitier\WordPress\Multisite\Configuration\Service;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -44,9 +45,7 @@ class PreventEmailChangeTest extends BasicTestCase
 			->getMock();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_returnBecauseForbidden()
 	{
 		$sut = $this->sut();
@@ -59,9 +58,7 @@ class PreventEmailChangeTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function register_addActions()
 	{
 		$sut = $this->sut();
@@ -78,9 +75,7 @@ class PreventEmailChangeTest extends BasicTestCase
 		$sut->register();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function disableEmailField_echoExecuted()
 	{
 		$sut = $this->sut();
@@ -108,9 +103,7 @@ class PreventEmailChangeTest extends BasicTestCase
 		ob_end_clean();
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function disableEmailField_echoNotExecuted()
 	{
 		$sut = $this->sut();
@@ -135,9 +128,7 @@ class PreventEmailChangeTest extends BasicTestCase
 		$sut->disableEmailField($user);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 
 	public function preventEmailChange()
 	{
@@ -186,9 +177,9 @@ class PreventEmailChangeTest extends BasicTestCase
 	}
 
 	/**
-	 * @test
 	 * @issue ADI-670
 	 */
+	#[Test]
 	public function ADI_670_disablePreventEmailChange_ifUserParameterIsMissing()
 	{
 		$errors = (object)[];
@@ -201,9 +192,7 @@ class PreventEmailChangeTest extends BasicTestCase
 		$sut->preventEmailChange($errors, null, $user);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addMissingEmailAddressToPOST_ReturnBecauseAdmin()
 	{
 		$sut = $this->sut();
@@ -232,9 +221,7 @@ class PreventEmailChangeTest extends BasicTestCase
 		$sut->addMissingEmailAddressToPOST($userId);
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addMissingEmailAddressToPOST_ReturnBecauseNoSamaccountname()
 	{
 		$sut = $this->sut();
@@ -258,9 +245,7 @@ class PreventEmailChangeTest extends BasicTestCase
 
 	}
 
-	/**
-	 * @test
-	 */
+	#[Test]
 	public function addMissingEmailAddressToPost()
 	{
 		$sut = $this->sut();
