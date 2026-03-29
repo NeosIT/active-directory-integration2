@@ -47,8 +47,11 @@ class BaseDn extends RuleAdapter
 			return $this->getMsg();
 		}
 
+		// #216: Use 'count' item to determine last numeric index; order of items has been changed with PHP 8.5
+		$totalParts = $dns['count'];
+
 		// last part of DN must be a domain controller object
-		$lastObject = end($dns);
+		$lastObject = $dns[$totalParts - 1];
 
 		// make lowercase for further comparison
 		$lastObject = strtolower($lastObject);
