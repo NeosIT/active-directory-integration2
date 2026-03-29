@@ -126,6 +126,8 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
+= UNRELEASED =
+
 = 3.2.2 =
 * FIXED: Validation of Base DNs with PHP 8.5 fails with PPH 8.5 (#216)
 * CHANGED: Minimum supported PHP version is now 8.2
