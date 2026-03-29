@@ -38,6 +38,7 @@ jobs:
         version: ${{ matrix.phpunit }}
         php_extensions: ldap mbstring
         configuration: phpunit.xml
+        test_suffix: Test.php
 
   release:
     runs-on: ubuntu-latest
