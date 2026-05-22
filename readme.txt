@@ -129,6 +129,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 = 3.2.3 =
 * CHANGED: WordPress 6.9 compatibility has been checked
 * CHANGED: Minimum supported WordPress version is now 6.0
+* CHANGED: Update to twig/twig:3.26.0
 
 = 3.2.2 =
 * FIXED: Validation of Base DNs with PHP 8.5 fails with PPH 8.5 (#216)
