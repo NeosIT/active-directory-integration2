@@ -1,8 +1,8 @@
 ﻿=== Next Active Directory Integration ===
 Contributors: dreitier,dreitierci,schakko,neosit
 Tags: authentication, active directory, ldap, windows, sso
-Requires at least: 5.6
-Tested up to: 6.9
+Requires at least: 6.0
+Tested up to: 7.0
 Stable tag: REPLACE_VERSION_BY_CI
 License: GPLv3
 Donate link: https://active-directory-wp.com
@@ -52,7 +52,7 @@ As an owner of a valid support plan you have access to the following premium ext
 
 = Requirements =
 
-* WordPress since 5.6
+* WordPress since 6.0
 * PHP >= 8.2
 * LDAP support
 * OpenSSL Support for TLS (recommended)
@@ -81,7 +81,7 @@ Please read the [FAQ](https://docs.active-directory-wp.com/FAQ/index.html) of ou
 == Installation ==
 
 = Requirements =
-To install Next Active Directory Integration you need at least WordPress 5.6 and PHP 8.2.
+To install Next Active Directory Integration you need at least WordPress 6.0 and PHP 8.2.
 
 Although only tested with Apache 2.2 and 2.4 *NADI* should work with all other common web servers like nginx and IIS.
 
@@ -127,6 +127,8 @@ It is __not__ possible to activate *NADI* for a site inside a network.
 For detailed information you can visit the official [GitHub repository of Next Active Directory Integration](https://github.com/NeosIT/active-directory-integration2)
 
 = UNRELEASED =
+* CHANGED: WordPress 6.9 compatibility has been checked
+* CHANGED: Minimum supported WordPress version is now 6.0
 
 = 3.2.2 =
 * FIXED: Validation of Base DNs with PHP 8.5 fails with PPH 8.5 (#216)
