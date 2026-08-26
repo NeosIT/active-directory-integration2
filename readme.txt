@@ -128,6 +128,7 @@ For detailed information you can visit the official [GitHub repository of Next A
 
 = UNRELEASED =
 * CHANGED: WordPress 7.1 compatibility has been checked
+* CHANGED: Update to twig/twig:3.28.0
 
 = 3.2.3 =
 * CHANGED: WordPress 7.0 compatibility has been checked
